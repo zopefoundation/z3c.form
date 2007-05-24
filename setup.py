@@ -15,14 +15,42 @@
 
 $Id$
 """
+import os
 from setuptools import setup, find_packages
+
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
+chapters = '\n'.join(
+    [read('src', 'z3c', 'form', name)
+    for name in ('README.txt',
+                 'form.txt',
+                 'subform.txt',
+                 'field.txt',
+                 'button.txt',
+                 'zcml.txt',
+                 'validator.txt',
+                 'widget.txt',
+                 'action.txt',
+                 'value.txt',
+                 'datamanager.txt',
+                 'converter.txt',
+                 'term.txt',
+                 'util.txt')])
 
 setup (
     name='z3c.form',
-    version='1.0c2',
+    version='1.0.0',
     author = "Stephan Richter, Roger Ineichen and the Zope Community",
     author_email = "zope3-dev@zope.org",
     description = "An advanced form and widget framework for Zope 3",
+    long_description=(
+        read('README.txt')
+        + '\n' +
+        'Detailed Documentation\n'
+        '**********************\n'
+        + '\n' + chapters
+        ),
     license = "ZPL 2.1",
     keywords = "zope3 form widget",
     classifiers = [

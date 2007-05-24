@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="z3c.form">
+
+  <adapter
+      factory=".textarea.TextAreaFieldWidget"
+      for="zope.schema.interfaces.IASCII
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".textarea.TextAreaFieldWidget"
+      for="zope.schema.interfaces.IText
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      mode="display"
+      widget="z3c.form.interfaces.ITextAreaWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="textarea_display.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ITextAreaWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="textarea_input.pt"
+      />
+
+</configure>

@@ -1,0 +1,100 @@
+==============
+CheckBoxWidget
+==============
+
+Note: the checkbox widget isn't registered for a field by default. You can use
+the widgetFactory argument of a IField object if you construct fields or
+set the custom widget factory on selected fields later.
+
+The CheckBoxWidget renders a checkbox input type field e.g.
+<input type="checkbox" />
+
+  >>> from zope.interface.verify import verifyClass
+  >>> from zope.app.form.interfaces import IInputWidget
+  >>> from z3c.form import interfaces
+  >>> from z3c.form.browser import checkbox
+
+The TextWidget is a widget:
+
+  >>> verifyClass(interfaces.IWidget, checkbox.CheckBoxWidget)
+  True
+
+The widget can render a input field only by adapting a request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+  >>> widget = checkbox.CheckBoxWidget(request)
+
+Set a name for the widget:
+
+  >>> widget.name = u'foo'
+
+Such a field provides IWidget:
+
+  >>> interfaces.IWidget.providedBy(widget)
+  True
+
+We also need to register the template for at least the widget and request:
+
+  >>> import os.path
+  >>> import zope.interface
+  >>> from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> import z3c.form.browser
+  >>> import z3c.form.widget
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'checkbox_input.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='input')
+
+If we render the widget we get an emtpy output:
+
+  >>> print widget.render()
+
+Let's provide some values for this widget. We can do this by defining a source
+providing ITerms. This source uses descriminators wich will fit for our setup.
+
+  >>> import zope.schema.interfaces
+  >>> from zope.schema.vocabulary import SimpleVocabulary
+  >>> import z3c.form.term
+  >>> class MyTerms(z3c.form.term.ChoiceTerms):
+  ...     def __init__(self, context, request, form, field, widget):
+  ...         self.terms = SimpleVocabulary.fromValues(['yes', 'no'])
+  >>> zope.component.provideAdapter(z3c.form.term.BoolTerms,
+  ...     adapts=(zope.interface.Interface,
+  ...             interfaces.IFormLayer, zope.interface.Interface,
+  ...             zope.interface.Interface, interfaces.ICheckBoxWidget))
+
+Now let's try if we get widget values:
+
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="option">
+    <input type="checkbox" id="foo.0" name="foo:list"
+           class="checkBoxWidget" value="yes" />
+   <span class="label">yes</span>
+  </span><span class="option">
+    <input type="checkbox" id="foo.1" name="foo:list"
+           class="checkBoxWidget" value="no" />
+   <span class="label">no</span>
+  </span>
+
+
+If we set the value for the widget to ``yes``, we can se that the checkbox field
+get rendered with a checked flag:
+
+  >>> widget.value = 'yes'
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="option">
+    <input type="checkbox" id="foo.0" name="foo:list"
+           class="checkBoxWidget" value="yes"
+           checked="checked" />
+   <span class="label">yes</span>
+  </span><span class="option">
+    <input type="checkbox" id="foo.1" name="foo:list"
+           class="checkBoxWidget" value="no" />
+   <span class="label">no</span>
+  </span>

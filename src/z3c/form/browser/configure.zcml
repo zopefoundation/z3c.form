@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="z3c.form">
+
+  <include file="checkbox.zcml" />
+  <include file="file.zcml" />
+  <include file="orderedselect.zcml" />
+  <include file="password.zcml" />
+  <include file="radio.zcml" />
+  <include file="select.zcml" />
+  <include file="submit.zcml" />
+  <include file="text.zcml" />
+  <include file="textarea.zcml" />
+
+</configure>

@@ -1,0 +1,13 @@
+<textarea
+    id="" name="" class="" cols="" rows=""
+    tabindex="" disabled="" readonly="" accesskey=""
+    tal:attributes="id view/id;
+                    name view/name;
+                    class view/css;
+                    cols view/cols;
+                    rows view/rows;
+                    tabindex view/tabindex;
+                    disabled view/disabled;
+                    readonly view/readonly;
+                    accesskey view/accesskey;"
+    tal:content="view/value" />

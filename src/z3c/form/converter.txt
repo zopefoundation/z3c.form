@@ -1,0 +1,299 @@
+==============
+Data Converter
+==============
+
+The data converter is the component that converts an internal data value as
+described by a field to an external value as required by a widget and vice
+versa. The goal of the converter is to avoid field and widget proliferation
+solely to handle different types of values. The purpose of fields is to
+describe internal data types and structures and that of widgets to provide one
+particular mean of input.
+
+The only two discriminators for the converter are the field and the widget.
+
+Let's look at the ``Int`` field to ``TextWidget`` converter as an example:
+
+  >>> import zope.schema
+  >>> age = zope.schema.Int(
+  ...     __name__='age',
+  ...     title=u'Age',
+  ...     min=0)
+
+  >>> from z3c.form.testing import TestRequest
+  >>> from z3c.form import widget
+  >>> text = widget.Widget(TestRequest())
+
+  >>> from z3c.form import converter
+  >>> conv = converter.FieldDataConverter(age, text)
+
+The converter can now convert any integer to a the value the test widget deals
+with, which is an ASCII string:
+
+  >>> conv.toWidgetValue(34)
+  u'34'
+
+When the missing value is passed in, an empty string should be returned:
+
+  >>> conv.toWidgetValue(age.missing_value)
+  u''
+
+Of course, values can also be converted from a widget value to field value:
+
+  >>> conv.toFieldValue('34')
+  34
+
+Of course, trying to convert a non-integer string representation fails in a
+conversion error:
+
+  >>> conv.toFieldValue('3.4')
+  Traceback (most recent call last):
+  ...
+  ValueError: invalid literal for int(): 3.4
+
+Also, the conversion to the field value also validates the data; in this case
+negative values are not allowed:
+
+  >>> conv.toFieldValue('-34')
+  Traceback (most recent call last):
+  ...
+  TooSmall: (-34, 0)
+
+That's pretty much the entire API. When dealing with converters within the
+component architecture, everything is a little bit simpler. So let's register
+the converter:
+
+  >>> import zope.component
+  >>> zope.component.provideAdapter(converter.FieldDataConverter)
+
+Once we ensure that our widget is a text widget, we can lookup the adapter:
+
+  >>> import zope.interface
+  >>> from z3c.form import interfaces
+  >>> zope.interface.alsoProvides(text, interfaces.ITextWidget)
+
+  >>> zope.component.getMultiAdapter((age, text), interfaces.IDataConverter)
+  <DataConverter from Int to Widget>
+
+For field-widgets there is a helper adapter that makes the lookup even
+simpler:
+
+  >>> zope.component.provideAdapter(converter.FieldWidgetDataConverter)
+
+After converting our simple widget to a field widget,
+
+  >>> fieldtext = widget.FieldWidget(age, text)
+
+we can now lookup the data converter adapter just by the field widget itself:
+
+  >>> interfaces.IDataConverter(fieldtext)
+  <DataConverter from Int to Widget>
+
+
+Date Data Converter
+-------------------
+
+Since the ``Date`` field does not provide ``IFromUnicode``, we have to provide
+a custom data converter. This default one is not very sophisticated and is
+inteded for use with the text widget:
+
+  >>> date = zope.schema.Date()
+
+  >>> ddc = converter.DateDataConverter(date, text)
+  >>> ddc
+  <DataConverter from Date to Widget>
+
+Dates are simply converted to ISO format:
+
+  >>> import datetime
+  >>> bday = datetime.date(1980, 1, 25)
+
+  >>> ddc.toWidgetValue(bday)
+  u'1980-01-25'
+
+The converter only knows how to convert this particular format back to a
+datetime value:
+
+  >>> ddc.toFieldValue(u'1980-01-25')
+  datetime.date(1980, 1, 25)
+
+
+Time Data Converter
+-------------------
+
+Since the ``Time`` field does not provide ``IFromUnicode``, we have to provide
+a custom data converter. This default one is not very sophisticated and is
+inteded for use with the text widget:
+
+  >>> time = zope.schema.Time()
+
+  >>> tdc = converter.TimeDataConverter(time, text)
+  >>> tdc
+  <DataConverter from Time to Widget>
+
+Dates are simply converted to ISO format:
+
+  >>> noon = datetime.time(12, 0, 0)
+
+  >>> tdc.toWidgetValue(noon)
+  u'12:00:00'
+
+The converter only knows how to convert this particular format back to a
+datetime value:
+
+  >>> tdc.toFieldValue(u'12:00:00')
+  datetime.time(12, 0)
+
+
+Datetime Data Converter
+-----------------------
+
+Since the ``Datetime`` field does not provide ``IFromUnicode``, we have to
+provide a custom data converter. This default one is not very sophisticated
+and is inteded for use with the text widget:
+
+  >>> dtField = zope.schema.Datetime()
+
+  >>> dtdc = converter.DatetimeDataConverter(dtField, text)
+  >>> dtdc
+  <DataConverter from Datetime to Widget>
+
+Dates are simply converted to ISO format:
+
+  >>> bdayNoon = datetime.datetime(1980, 1, 25, 12, 0, 0)
+
+  >>> dtdc.toWidgetValue(bdayNoon)
+  u'1980-01-25 12:00:00'
+
+The converter only knows how to convert this particular format back to a
+datetime value:
+
+  >>> dtdc.toFieldValue(u'1980-01-25 12:00:00')
+  datetime.datetime(1980, 1, 25, 12, 0)
+
+
+Timedelta Data Converter
+------------------------
+
+Since the ``Timedelta`` field does not provide ``IFromUnicode``, we have to
+provide a custom data converter. This default one is not very sophisticated
+and is inteded for use with the text widget:
+
+  >>> timedelta = zope.schema.Timedelta()
+
+  >>> tddc = converter.TimedeltaDataConverter(timedelta, text)
+  >>> tddc
+  <DataConverter from Timedelta to Widget>
+
+Dates are simply converted to ISO format:
+
+  >>> allOnes = datetime.timedelta(1, 3600+60+1)
+
+  >>> tddc.toWidgetValue(allOnes)
+  u'1 day, 1:01:01'
+
+The converter only knows how to convert this particular format back to a
+datetime value:
+
+  >>> tddc.toFieldValue(u'1 day, 1:01:01')
+  datetime.timedelta(1, 3661)
+
+
+Sequence Data Converter
+-----------------------
+
+For widgets and fields that work with choices of a sequence, a special data
+converter is required that works with terms. A prime example is a choice
+field. Before we can use the converter, we have to register the terms adapter:
+
+  >>> from z3c.form import term
+  >>> zope.component.provideAdapter(term.ChoiceTerms)
+
+Let's now create a choice field and a widget:
+
+  >>> from zope.schema.vocabulary import SimpleVocabulary
+
+  >>> gender = zope.schema.Choice(
+  ...     vocabulary = SimpleVocabulary([
+  ...              SimpleVocabulary.createTerm(0, 'm', u'male'),
+  ...              SimpleVocabulary.createTerm(1, 'f', u'female'),
+  ...              ]) )
+
+  >>> from z3c.form import widget
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+
+We now use the field and widget to instantiate the converter:
+
+  >>> sdv = converter.SequenceDataConverter(gender, seqWidget)
+
+We can now convert a real value to a widget value, which will be the term's
+token:
+
+  >>> sdv.toWidgetValue(0)
+  ['m']
+
+The result is always a sequence, since sequence widgets only deal collections
+of values. Of course, we can convert the widget value back to an internal
+value:
+
+  >>> sdv.toFieldValue(['m'])
+  0
+
+Sometimes a field is not required. In those cases, the value can be the
+missing value of the field:
+
+  >>> gender.missing_value = 'missing'
+
+  >>> sdv.toWidgetValue(gender.missing_value)
+  ['--NOVALUE--']
+
+Similarly, if "no value" has been specified in the widget, the missing value
+of the field is returned:
+
+  >>> sdv.toFieldValue([u'--NOVALUE--'])
+  'missing'
+
+Collection Sequence Data Converter
+----------------------------------
+
+For widgets and fields that work with a sequence of choices, another data
+converter is required that works with terms. A prime example is a list
+field. Before we can use the converter, we have to register the terms adapter:
+
+  >>> from z3c.form import term
+  >>> zope.component.provideAdapter(term.CollectionTerms)
+
+Let's now create a set field and a widget:
+
+  >>> genders = zope.schema.List(value_type=gender)
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+
+We now use the field and widget to instantiate the converter:
+
+  >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
+
+We can now convert a real value to a widget value, which will be the term's
+token:
+
+  >>> csdv.toWidgetValue([0])
+  ['m']
+
+The result is always a sequence, since sequence widgets only deal collections
+of values. Of course, we can convert the widget value back to an internal
+value:
+
+  >>> csdv.toFieldValue(['m'])
+  [0]
+
+For some field, like the ``Set``, the collection type is a tuple. Sigh. In
+these cases we use the last entry in the tuple as the type to use:
+
+  >>> genders = zope.schema.Set(value_type=gender)
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+
+  >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
+
+  >>> csdv.toWidgetValue(set([0]))
+  ['m']
+
+  >>> csdv.toFieldValue(['m'])
+  set([0])

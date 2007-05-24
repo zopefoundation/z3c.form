@@ -1,0 +1,18 @@
+<i tal:condition="view/status" tal:content="view/status" />
+<ul tal:condition="view/widgets/errors">
+  <li tal:repeat="error view/widgets/errors">
+    <tal:block replace="error/widget/label"
+    />: <tal:block replace="structure error/render" />
+  </li>
+</ul>
+<div class="row" tal:repeat="widget view/widgets/values">
+  <b tal:condition="widget/error"
+     tal:content="structure widget/error/render"
+  /><label for=""
+         tal:attributes="for widget/name"
+         tal:content="widget/label" />
+  <input type="text" tal:replace="structure widget/render"
+/></div>
+<div class="action" tal:repeat="action view/actions/values">
+  <input type="submit" tal:replace="structure action/render"
+/></div>

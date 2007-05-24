@@ -1,0 +1,30 @@
+<span class="option"
+      tal:repeat="item view/items">
+  <input type="checkbox" id="" name="" class="" 
+         alt="" title="" tabindex="" disabled="" readonly="" accesskey="" value="" checked="checked"
+         tal:condition="item/checked"
+         tal:attributes="id item/id;
+                         name item/name;
+                         class view/css;
+                         alt view/alt;
+                         title view/title;
+                         tabindex view/tabindex;
+                         disabled view/disabled;
+                         readonly view/readonly;
+                         accesskey view/accesskey;
+                         value item/value" 
+  /><input type="checkbox" id="" name="" class="" 
+         alt="" title="" tabindex="" disabled="" readonly="" accesskey="" value=""
+         tal:condition="not:item/checked"
+         tal:attributes="id item/id;
+                         name item/name;
+                         class view/css;
+                         alt view/alt;
+                         title view/title;
+                         tabindex view/tabindex;
+                         disabled view/disabled;
+                         readonly view/readonly;
+                         accesskey view/accesskey;
+                         value item/value" />
+ <span class="label" tal:content="item/label">Label</span>
+</span>

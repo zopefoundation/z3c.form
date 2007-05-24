@@ -1,0 +1,420 @@
+=======
+Widgets
+=======
+
+Widgets are small UI components that accept and process the textual user
+input. The only responsibility of a widget is to represent a value to the
+user, allow it to be modified and then return a new value. Good examples of
+widgets include the Qt widgets and HTML widgets. The widget is not responsible
+for converting its value to the desired internal value or validate the
+incoming data. These resposnibilities are passed data converters and
+validators, respecitively.
+
+There are several problems that can be identified in the original Zope 3 widget
+implementation located at ``zope.app.form``.
+
+(1) Field Dependence -- Widgets are always views of fields. While this might
+    be a correct choice for a high-level API, it is fundamentally wrong. It
+    disallows us to use widgets without defining fields. This also couples
+    certain pieces of information too tightly to the field, especially, value
+    retrieval from and storage to the context, validation and raw data
+    conversion.
+
+(2) Form Dependence -- While widgets do not have to be located within a form,
+    they are usually tightly coupled to it. It is very difficult to use
+    widgets outside the context of a form.
+
+(3) Traversability -- Widgets cannot be traversed, which means that they
+    cannot interact easily using Javascript. This is not a fundamental
+    problem, but simply a lack of the current design to recognize that small
+    UI components must also be traversable and thus have a URI.
+
+(4) Customizability -- A consequence of issue (1) is that widgets are not
+    customizable enough. Implementing real-world projects has shown that
+    widgets often want a very fine-grained ability to customize values. A
+    prime example is the label. Because the label of a widget is retrieved
+    from the field title, it is impossible to provide an alternative label for
+    a widget. While the label could be changed from the form, this would
+    require rewriting the entire form to change a label. Instead, we often
+    endde up writing cusom schemas.
+
+(5) Flexbility -- Oftentimes it is desired to have one widget, but multiple
+    styles of representation. For example, in one scenario the widget uses a
+    plain HTML widget and in another a fancy JavaScript widget is used. The
+    current implementation makes it very hard to provide alternative styles
+    for a widget.
+
+
+Creating and Using Simple Widgets
+---------------------------------
+
+When using the widget API by itself, the simplest way to use it is to just
+instantiate it using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> from z3c.form import widget
+  >>> request = TestRequest()
+  >>> age = widget.Widget(request)
+
+In this case we instantiated a generic widget. A full set of simple
+browser-based widgets can be found in the ``browser/`` package. Since no
+helper components are around to fill the attributes of the widget, we have to
+do it by hand:
+
+  >>> age.name = 'age'
+  >>> age.label = u'Age'
+  >>> age.value = '39'
+
+The most important attributes are the "name" and the "value". The name is used
+to identify the widget within the form. The value is either the value to be
+manipulated or the default value. The value must be provided in the form the
+widget needs it. It is the responsibility of a data converter to convert
+between the widget value and the desired internal value.
+
+Before we can render the widget, we have to register a template for the
+widget. The first step is to define the template:
+
+  >>> import tempfile
+  >>> textWidgetTemplate = tempfile.mktemp('text.pt')
+  >>> open(textWidgetTemplate, 'w').write('''\
+  ... <input type="text" name="" value=""
+  ...        tal:attributes="name view/name; value view/value;" />\
+  ... ''')
+
+Next, we have to create a template factory for the widget:
+
+  >>> from z3c.form.widget import WidgetTemplateFactory
+  >>> factory = WidgetTemplateFactory(
+  ...     textWidgetTemplate, widget=widget.Widget)
+
+The first argument, which is also required, is the path to the template
+file. An optional ``content_type`` keyword argument allows the developer to
+specify the output content type, usually "text/html". Then there are five
+keyword arguments that specify the discriminators of the template:
+
+* ``context`` -- This is the context in which the widget is displayed. In a
+  simple widget like the one we have now, the context is ``None``.
+
+* ``request`` -- This discriminator allows you to specify the type of request
+  for which the widget will be available. In our case this would be a browser
+  request. Note that browser requests can be further broken into layer, so you
+  could also specify a layer interface here.
+
+* ``view`` -- This is the view from which the widget is used. The simple
+  widget at hand, does not have a view associated with it though.
+
+* ``field`` -- This is the field for which the widget provides a
+  representation. Again, this simple widget does not use a field, so it is
+  ``None``.
+
+* ``widget`` -- This is the widget itself. With this discriminator you can
+  specify for which type of widget you are providing a template.
+
+We can now register the template factory. The name of the factory is the mode
+of the widget. By default, there are two widget modes: "input" and
+"display". However, since the mode is just a string, one can develop other
+kinds of modes as needed for a project. The default mode is "input":
+
+  >>> from z3c.form import interfaces
+  >>> age.mode is interfaces.INPUT_MODE
+  True
+
+  >>> import zope.component
+  >>> zope.component.provideAdapter(factory, name=interfaces.INPUT_MODE)
+
+Once everything is set up, the widget is updated and then rendered:
+
+  >>> age.update()
+  >>> print age.render()
+  <input type="text" name="age" value="39" />
+
+If a value is found in the request, it takes precedence, since the user
+entered the value:
+
+  >>> age.request = TestRequest(form={'age': '25'})
+  >>> age.update()
+  >>> print age.render()
+  <input type="text" name="age" value="25" />
+
+However, there is an option to turn off all request data:
+
+  >>> age.value = '39'
+  >>> age.ignoreRequest = True
+  >>> age.update()
+  >>> print age.render()
+  <input type="text" name="age" value="39" />
+
+
+Creating and Using Field Widgets
+--------------------------------
+
+An extended form of the widget allows fields to control several of the
+widget's properties. Let's create a field first:
+
+  >>> ageField = zope.schema.Int(
+  ...     __name__ = u'age',
+  ...     title = u'Age',
+  ...     min = 0,
+  ...     max = 130)
+
+We can now use our simple widget and create a field widget from it:
+
+  >>> ageWidget = widget.FieldWidget(ageField, age)
+
+Such a widget provides ``IFieldWidget``:
+
+  >>> interfaces.IFieldWidget.providedBy(ageWidget)
+  True
+
+Of course, this is more commonly done using an adapter. Commonly those
+adapters look like this:
+
+  >>> @zope.component.adapter(zope.schema.Int, TestRequest)
+  ... @zope.interface.implementer(interfaces.IFieldWidget)
+  ... def IntWidget(field, request):
+  ...     return widget.FieldWidget(field, widget.Widget(request))
+
+  >>> zope.component.provideAdapter(IntWidget)
+  >>> ageWidget = zope.component.getMultiAdapter((ageField, request),
+  ...     interfaces.IFieldWidget)
+
+Now we just have to update and render the widget:
+
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" />
+
+There is no initial value for the widget, since there is no value in the
+request and the field does not provide a default. Let's now give our field a
+default value and see what happens:
+
+  >>> ageField.default = 30
+  >>> ageWidget.update()
+  Traceback (most recent call last):
+  ...
+  TypeError: ('Could not adapt', <Widget u'age'>,
+              <InterfaceClass z3c.form.interfaces.IDataConverter>)
+
+In order for the widget to be able to take the field's default value and use
+it to provide an initial value the widget, we need to provide a data converter
+that defines how to convert from the field value to the widget value.
+
+  >>> from z3c.form import converter
+  >>> zope.component.provideAdapter(converter.FieldWidgetDataConverter)
+  >>> zope.component.provideAdapter(converter.FieldDataConverter)
+
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="30" />
+
+Again, the request value is honored above everything else:
+
+  >>> ageWidget.request = TestRequest(form={'age': '25'})
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="25" />
+
+
+Creating and Using Context Widgets
+----------------------------------
+
+When widgets represent an attribute value of an object, then this object must
+be set as the context of the widget:
+
+  >>> class Person(object):
+  ...     age = 45
+
+  >>> ageWidget.context = Person()
+  >>> zope.interface.alsoProvides(ageWidget, interfaces.IContextAware)
+
+The result is that the context value takes over precendence over the default
+value:
+
+  >>> ageWidget.request = TestRequest()
+  >>> ageWidget.update()
+  Traceback (most recent call last):
+  ...
+  ComponentLookupError: ((...), <InterfaceClass ...IDataManager>, u'')
+
+This call fails because the widget does not know how to extract the value from
+the context. Registering a data manager for the widget does the trick:
+
+  >>> from z3c.form import datamanager
+  >>> zope.component.provideAdapter(datamanager.AttributeField)
+
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="45" />
+
+The context can be explicitely ignored, making the widget display the default
+value again:
+
+  >>> ageWidget.ignoreContext = True
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="30" />
+
+Again, the request value is honored above everything else:
+
+  >>> ageWidget.request = TestRequest(form={'age': '25'})
+  >>> ageWidget.ignoreContext = False
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="25" />
+
+
+Dynamically Changing Attribute Values
+-------------------------------------
+
+Once widgets are used within a framework, it is very tedious to write Python
+code to adjust certain attributes, even though hooks exist. The easiest way to
+change those attribute values is actually to provide an adapter that provides
+the custom value.
+
+We can create a custom label for the age widget:
+
+  >>> AgeLabel = widget.StaticWidgetAttribute(
+  ...     u'Current Age',
+  ...     context=None, request=None, view=None, field=ageField, widget=None)
+
+Clearly, this code deos not require us to touch the orginal form and widget
+code, given that we have enough control over the selection. In the example
+above, all the selection discriminators are listed for demonstration
+purposes. Of course, the label in this case can be created as follows:
+
+  >>> AgeLabel = widget.StaticWidgetAttribute(u'Current Age', field=ageField)
+
+Much better, isn't it? Initially the label is the title of the field:
+
+  >>> ageWidget.label
+  u'Age'
+
+Let's now simply register the label as a named adapter; the name is the name
+of the attribute to change:
+
+  >>> zope.component.provideAdapter(AgeLabel, name='label')
+
+Asking the widget for the label now will return the newly registered label:
+
+  >>> ageWidget.update()
+  >>> ageWidget.label
+  u'Current Age'
+
+Of course, simply setting the label or changing the label extraction via a
+sub-class are other options you might want to consider. Furthermore, you
+could also create a computed attribute value or implement your own component.
+
+Overriding any other attribtue, such as ``required``, is done in the same
+way. If any widget provides new attributes, they are also overridable this
+way. For example, the selection widget defines a label for the option that no
+value was selected. We often want to override this, because the German
+translation sucks or the wording is often too generic.
+
+Overriding the default value is somewhat special due to the complexity of
+obtaining the value. So let's register one now:
+
+  >>> AgeDefault = widget.StaticWidgetAttribute(50, field=ageField)
+  >>> zope.component.provideAdapter(AgeDefault, name="default")
+
+Let's now instantiate, update and render the widget to see the default value:
+
+  >>> ageWidget = zope.component.getMultiAdapter((ageField, request),
+  ...     interfaces.IFieldWidget)
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="50" />
+
+
+Sequence Widget
+---------------
+
+A common use case in user interfaces is to ask the user to select one or more
+items from a set of options/choices. The ``widget`` module provides a basic
+widget implementation to support this use case.
+
+The options available for selections are known as terms. Initially, there are
+no terms:
+
+  >>> request = TestRequest()
+  >>> seqWidget = widget.SequenceWidget(request)
+  >>> seqWidget.name = 'seq'
+
+  >>> seqWidget.terms is None
+  True
+
+There are two ways terms can be added, either manually or via an
+adapter. Those term objects must provide ``ITerms``. There is no simple
+default implementation, so we have to provide one ourselves:
+
+  >>> from zope.schema import vocabulary
+  >>> class Terms(vocabulary.SimpleVocabulary):
+  ...     zope.interface.implements(interfaces.ITerms)
+  ...     def getValue(self, token):
+  ...         return self.getTermByToken(token).value
+
+  >>> terms = Terms(
+  ...   [Terms.createTerm(1, 'v1', u'Value 1'),
+  ...    Terms.createTerm(2, 'v2', u'Value 2'),
+  ...    Terms.createTerm(3, 'v3', u'Value 3')])
+  >>> seqWidget.terms = terms
+
+Once the ``terms`` attribute is set, updating the widgets does not change the
+terms:
+
+  >>> seqWidget.update()
+  >>> [term.value for term in seqWidget.terms]
+  [1, 2, 3]
+
+The value of a sequence widget is a tuple/list of term tokens. When extracting
+values from the request, the values must be valid tokens, otherwise the
+default value is returned:
+
+  >>> seqWidget.request = TestRequest(form={'seq': ['v1']})
+  >>> seqWidget.extract()
+  ['v1']
+
+  >>> seqWidget.request = TestRequest(form={'seq': ['v4']})
+  >>> seqWidget.extract()
+  <NOVALUE>
+
+  >>> seqWidget.request = TestRequest(form={'seq-empty-marker': '1'})
+  >>> seqWidget.extract()
+  []
+
+Since the value of the widget is a tuple of tokens, when displaying the
+values, they have to be converted to the title of the term:
+
+  >>> seqWidget.value = ('v1', 'v2')
+  >>> seqWidget.displayValue
+  [u'Value 1', u'Value 2']
+
+To demonstrate how the terms is automatically chosen by a widget, we should
+instantiate a field widget. Let's do this with a choice field:
+
+  >>> seqField = zope.schema.Choice(
+  ...     title=u'Sequence Field',
+  ...     vocabulary=terms)
+
+Let's now create the field widget:
+
+  >>> seqWidget = widget.FieldWidget(seqField, widget.SequenceWidget(request))
+  >>> seqWidget.terms
+
+The terms should be available as soon as the widget is updated:
+
+  >>> seqWidget.update()
+  Traceback (most recent call last):
+  ...
+  ComponentLookupError: ((...), <InterfaceClass ...ITerms>, u'')
+
+This failed, because we did not register an adapter for the terms yet. After
+the adapter is registered, everything should work as expected:
+
+  >>> from z3c.form import term
+  >>> zope.component.provideAdapter(term.ChoiceTerms)
+
+  >>> seqWidget.update()
+  >>> seqWidget.terms
+  <z3c.form.term.ChoiceTerms object at ...>
+
+So that's it. Everything else is the same from then on.

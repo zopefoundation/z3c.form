@@ -1,0 +1,13 @@
+<input type="file" id="" name="" class="" size="" alt="" title=""
+       tabindex="" disabled="" readonly="" accesskey="" maxlength=""
+       tal:attributes="id view/id;
+                       name view/name;
+					   class view/css;
+                       title view/title;
+                       alt view/alt;
+                       tabindex view/tabindex;
+                       disabled view/disabled;
+                       readonly view/readonly;
+                       accesskey view/accesskey;
+                       maxlength view/maxlength;
+                       size view/size" />

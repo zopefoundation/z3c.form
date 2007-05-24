@@ -1,0 +1,40 @@
+digraph WidgetComponents {
+  Widgets -> FieldWidget [
+      color="blue", label="contains", fontcolor="blue"];
+  Widgets -> ErrorViewSnippet [
+      label="errors\n[list of]", fontname="Courier", fontsize="11"];
+  Widgets -> ManagerValidator [
+      color="red", label="uses", fontcolor="red"];
+  ManagerValidator -> ValidationError [
+      color="red", label="causes", fontcolor="red"];
+  FieldWidget -> SchemaField [
+      label="field", fontname="Courier", fontsize="11"];
+  FieldWidget -> DataConverter [
+      color="red", label="uses", fontcolor="red"];
+  DataConverter -> ValidationError [
+      color="red", label="causes", fontcolor="red"];
+  FieldWidget -> DataManager [
+      color="red", label="uses", fontcolor="red"];
+  FieldWidget -> Validator [
+      color="red", label="uses", fontcolor="red"];
+  Validator -> ValidationError [
+      color="red", label="causes", fontcolor="red"];
+  ErrorViewSnippet -> ValidationError [
+      label="error", fontname="Courier", fontsize="11"];
+  FieldWidget -> ErrorViewSnippet [
+      label="error", fontname="Courier", fontsize="11"];
+
+  FieldWidget -> Widget [
+      arrowhead="onormal", fontname="Courier", fontsize="11"];
+
+  SequenceWidget -> FieldWidget [
+      arrowhead="onormal", fontname="Courier", fontsize="11"];
+  SequenceWidget -> Terms [
+      label="terms", fontname="Courier", fontsize="11"];
+
+  SchemaField [
+      label="zope.schema\nField"];
+
+  {rank=same; ManagerValidator; Widgets;}
+  {rank=same; Widget; SequenceWidget; FieldWidget;}
+}

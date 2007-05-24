@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="z3c.form">
+
+  <adapter
+      factory=".select.SelectFieldWidget"
+      />
+
+  <adapter
+      factory=".select.CollectionSelectFieldWidget"
+      />
+
+  <adapter
+      factory=".select.CollectionChoiceSelectFieldWidget"
+      />
+
+  <z3c:widgetTemplate
+      mode="display"
+      widget="z3c.form.interfaces.ISelectWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="select_display.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ISelectWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="select_input.pt"
+      />
+
+</configure>

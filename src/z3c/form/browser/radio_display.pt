@@ -1,0 +1,4 @@
+<tal:block tal:repeat="value view/displayValue"
+  ><tal:block replace="value"
+  /><tal:block condition="not:repeat/value/end">, </tal:block
+></tal:block>

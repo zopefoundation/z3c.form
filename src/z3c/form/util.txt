@@ -1,0 +1,48 @@
+=============================
+Utility Functions and Classes
+=============================
+
+This file documents the utility functiona and classes that are otherwise not
+tested.
+
+  >>> from z3c.form import util
+
+
+``getWidgetById(form, id)`` Function
+------------------------------------
+
+Given a form and a widget id, this function extracts the widget for you. First
+we need to create a properly developed form:
+
+  >>> import zope.interface
+  >>> import zope.schema
+
+  >>> class IPerson(zope.interface.Interface):
+  ...     name = zope.schema.TextLine(title=u'Name')
+
+  >>> from z3c.form import form, field
+  >>> class AddPerson(form.AddForm):
+  ...     fields = field.Fields(IPerson)
+
+  >>> from z3c.form import testing
+  >>> testing.setupFormDefaults()
+
+  >>> addPerson = AddPerson(None, testing.TestRequest())
+  >>> addPerson.update()
+
+We can now ask for the widget:
+
+  >>> util.getWidgetById(addPerson, 'form.widgets.name')
+  <TextWidget 'form.widgets.name'>
+
+The widget id can be split into a prefix and a widget name. The id must always
+start with the correct prefix, otherwise a value error is raised:
+
+  >>> util.getWidgetById(addPerson, 'myform.widgets.name')
+  Traceback (most recent call last):
+  ...
+  ValueError: Id 'myform.widgets.name' must start with prefix 'form.widgets.'
+
+If the widget is not found but the prefix is correct, ``None`` is returned:
+
+  >>> util.getWidgetById(addPerson, 'form.widgets.myname')

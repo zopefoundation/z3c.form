@@ -1,0 +1,4 @@
+<div class="error">
+  <img src="alert.png" alt="Alert" />
+  <span tal:content="view/message">Error</span>
+</div>

@@ -1,0 +1,47 @@
+digraph FormComponents {
+  nodesep=0.5;
+  ranksep=0.9;
+  Fields -> Widgets [
+      color="red", label="creates", fontcolor="red"];
+  Fields -> Field [
+      color="blue", label="contains", fontcolor="blue"];
+  Widgets -> Widget [
+      color="blue", label="contains", fontcolor="blue"];
+  Buttons -> Button [
+      color="blue", label="contains", fontcolor="blue"];
+  Actions -> Action [
+      color="blue", label="contains", fontcolor="blue"];
+  Handlers -> Handler [
+      color="blue", label="contains", fontcolor="blue"];
+
+  Form -> Fields [
+      label="fields", fontname="Courier", fontsize="11"];
+  Form -> Widgets [
+      label="widgets", fontname="Courier", fontsize="11"];
+  Form -> Buttons [
+      label="buttons", fontname="Courier", fontsize="11"];
+  Form -> Actions [
+      label="actions", fontname="Courier", fontsize="11"];
+  Form -> Handlers [
+      label="handlers", fontname="Courier", fontsize="11"];
+
+  Buttons -> Actions [
+      color="red", label="creates", fontcolor="red"];
+  Actions -> Handler [
+      color="red", label="uses", fontcolor="red"];
+
+  EditForm -> Form [arrowhead="onormal"];
+  AddForm -> Form [arrowhead="onormal"];
+
+  // Reverse the order, so that layout is still sane
+  Button -> Action [
+      label="field", fontname="Courier", fontsize="11",
+      arrowhead="none", arrowtail="normal"];
+  Field -> Widget [
+      label="field\n[Field.field]", fontname="Courier", fontsize="11",
+      arrowhead="none", arrowtail="normal"];
+
+  {rank=same; Fields; Widgets; Buttons; Actions; Handlers;}
+  {rank=same; Field; Widget; Action; Button; Handler;}
+
+}

@@ -1,0 +1,6 @@
+<html>
+  <body>
+    <div class="row" tal:repeat="widget view/widgets/values">
+      <span tal:replace="structure widget/render" /></div>
+  </body>
+</html>

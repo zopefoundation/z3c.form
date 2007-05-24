@@ -1,0 +1,8 @@
+<input type="submit" id="" name="" class="" value=""
+       accesskey=""
+       tal:attributes="id view/id;
+                       name view/name;
+                       class view/css;
+                       value view/value;
+                       accesskey view/accesskey;
+                       " />

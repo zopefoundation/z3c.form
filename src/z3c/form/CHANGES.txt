@@ -1,0 +1,20 @@
+=======
+CHANGES
+=======
+
+- Added named vocabulary lookup in ChoiceTerms and CollectionTerms
+
+- Implemented support for FileUpload in FileWidget
+
+- Added helper for handling FileUpload. You can find this helpers in 
+  z3c.form.util:
+  
+  def extractContentType(form, id):
+      """Knows how to extract a filename if a IBytes/IFileWidget was used."""
+
+  def extractFileName(form, id, cleanup=True):
+      """Knows how to extract a filename if a IBytes/IFileWidget was used.
+
+      Uploads from win/IE need some cleanup because the filename includes also 
+      the path. cleanUp=True will do this for you.
+      """

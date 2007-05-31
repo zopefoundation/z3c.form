@@ -27,3 +27,6 @@ Add explicit difference between error and confirmation message e.g.
 
 Notes from Roger
 ----------------
+
+- Define all widget attributes for the different widgets in the interfaces 
+  as fields

@@ -198,6 +198,48 @@ datetime value:
   datetime.timedelta(1, 3661)
 
 
+Bytes Data Converter
+--------------------
+
+Since the ``Bytes`` field can contain a FileUpload object, we have to make
+sure we can convert FileUpload objects to bytes too.
+
+  >>> bytes = zope.schema.Bytes()
+
+  >>> bdc = converter.BytesDataConverter(bytes, text)
+  >>> bdc
+  <DataConverter from Bytes to Widget>
+
+Bytes are converted to unicode:
+
+  >>> simple = 'foobar'
+  >>> bdc.toFieldValue(simple)
+  u'foobar'
+
+The converter can also convert FileUpload objects. Setup a fields storage 
+stub...
+
+  >>> class FieldStorageStub:
+  ...     def __init__(self, file):
+  ...         self.file = file
+  ...         self.headers = {}
+  ...         self.filename = 'foo.bar'
+
+build a FileUpload...
+
+  >>> import cStringIO
+  >>> from zope.publisher.browser import FileUpload
+  >>> myfile = cStringIO.StringIO('File upload contents.')
+  >>> aFieldStorage = FieldStorageStub(myfile)
+  >>> myUpload = FileUpload(aFieldStorage)
+
+and try to convert:
+
+  >>> bdc.toFieldValue(myUpload)
+  'File upload contents.'
+
+
+
 Sequence Data Converter
 -----------------------
 

@@ -20,7 +20,9 @@ import datetime
 import zope.interface
 import zope.component
 import zope.schema
+import zope.publisher.browser
 
+from z3c.form.i18n import MessageFactory as _
 from z3c.form import interfaces
 
 
@@ -102,6 +104,44 @@ class TimedeltaDataConverter(FieldDataConverter):
         seconds = [int(part)*60**(2-n)
                    for n, part in enumerate(timeString.split(':'))]
         return datetime.timedelta(days, sum(seconds))
+
+
+class BytesDataConverter(FieldDataConverter):
+    """A special data converter for bytes, supporting also FileUpload. 
+    
+    Since IBytes represents a file upload too, this converter can handle 
+    zope.publisher.browser.FileUpload object as given value.
+    """
+    zope.component.adapts(
+        zope.schema.interfaces.IBytes, interfaces.IWidget)
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        if value is None or value == '':
+            return self.context.missing_value
+
+        if isinstance(value, zope.publisher.browser.FileUpload):
+            # By default a IBytes field is used for get a file upload widget.
+            # But interfaces extending IBytes do not use file upload widgets.
+            # Any way if we get a FileUpload object, we'll convert it.
+            # We also store the additional FileUpload values on the widget 
+            # before we loose them.
+            self.widget.headers = value.headers
+            self.widget.filename = value.filename
+            try:
+                seek = value.seek
+                read = value.read
+            except AttributeError, e:
+                raise ValueError(_('Bytes data is not a file object'), e)
+            else:
+                seek(0)
+                data = read()
+                if data or getattr(value, 'filename', ''):
+                    return data
+                else:
+                    return self.context.missing_value
+        else:
+            return unicode(value)
 
 
 class SequenceDataConverter(FieldDataConverter):

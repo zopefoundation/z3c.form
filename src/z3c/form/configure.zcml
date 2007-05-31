@@ -46,6 +46,9 @@
       factory=".converter.TimedeltaDataConverter"
       />
   <adapter
+      factory=".converter.BytesDataConverter"
+      />
+  <adapter
       factory=".converter.SequenceDataConverter"
       />
   <adapter

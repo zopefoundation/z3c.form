@@ -63,3 +63,33 @@ If nothing is found in the request, the default is returned:
   >>> widget.update()
   >>> widget.extract()
   <NOVALUE>
+
+Make also sure that we can handle FileUpload objects given form a file upload.
+
+  >>> import cStringIO
+  >>> from zope.publisher.browser import FileUpload
+
+Let's define a FieldStorage stub:
+
+  >>> class FieldStorageStub:
+  ...     def __init__(self, file):
+  ...         self.file = file
+  ...         self.headers = {}
+  ...         self.filename = 'foo.bar'
+
+Now build a FileUpload:
+
+  >>> myfile = cStringIO.StringIO('File upload contents.')
+  >>> aFieldStorage = FieldStorageStub(myfile)
+  >>> myUpload = FileUpload(aFieldStorage)
+
+  >>> widget.request = TestRequest(form={'widget.name': myUpload})
+  >>> widget.update()
+  >>> widget.extract()
+  <zope.publisher.browser.FileUpload object at ...>
+
+If we render them, we get a regular file upload widget:
+
+  >>> print widget.render()
+  <input type="file" id="widget.id" name="widget.name"
+         class="fileWidget" />

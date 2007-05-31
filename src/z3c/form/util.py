@@ -19,6 +19,7 @@ __docformat__ = "reStructuredText"
 import re
 import types
 import zope.interface
+import zope.contenttype
 
 from z3c.form import interfaces
 
@@ -75,6 +76,34 @@ def getWidgetById(form, id):
         raise ValueError("Id %r must start with prefix %r" %(id, prefix))
     shortName = id[len(prefix):]
     return form.widgets.get(shortName, None)
+
+
+def extractContentType(form, id):
+    """Knows how to extract a filename if a IBytes/IFileWidget was used."""
+    widget = getWidgetById(form, id)
+    return zope.contenttype.guess_content_type(widget.filename)[0]
+
+
+def extractFileName(form, id, cleanup=True):
+    """Knows how to extract a filename if a IBytes/IFileWidget was used.
+    
+    Uploads from win/IE need some cleanup because the filename includes also 
+    the path. cleanUp=True will do this for you.
+    """
+    widget = getWidgetById(form, id)
+    if cleanup:
+        # we try to use a better file name. Uploads from win/IE need some 
+        # cleanup because the filename includes also the path.
+        path = widget.filename.split('.')
+        if len(path) > 1:
+            postfix = path.pop(-1)
+            # now remove the rest of the path
+            pathStr = path.pop(-1)
+            cleanFileName = pathStr.split('\\')[-1]
+            cleanFileName = cleanFileName.split('/')[-1]
+            filename = cleanFileName +'.'+ postfix
+        return filename
+    return widget.filename
 
 
 class Manager(object):

@@ -2,6 +2,16 @@
 CHANGES
 =======
 
+Version 1.2.0 (5/30/2007)
+-------------------------
+
+- Added ability to change the button action title using an IValue adapter.
+
+Version 1.1.0 (5/30/2007)
+-------------------------
+
+- Added compatibility for Zope 3.3 and thus Zope 2.10.
+
 
 Version 1.0.0 (5/24/2007)
 -------------------------

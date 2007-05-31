@@ -23,8 +23,17 @@ import zope.schema
 
 from zope.interface import adapter
 from zope.schema.fieldproperty import FieldProperty
-from z3c.form import action, interfaces, util
+from z3c.form import action, interfaces, util, value
 from z3c.form.browser import submit
+
+
+StaticButtonActionAttribute = value.StaticValueCreator(
+    discriminators = ('form', 'request', 'content', 'button', 'manager')
+    )
+ComputedButtonActionAttribute = value.ComputedValueCreator(
+    discriminators = ('form', 'request', 'content', 'button', 'manager')
+    )
+
 
 class Button(zope.schema.Field):
     """A simple button in a form."""
@@ -213,6 +222,12 @@ class ButtonActions(action.Actions):
                 continue
             fullName = prefix + name
             buttonAction = ButtonAction(self.request, button, fullName)
+            # Look up a potential custom title for the action.
+            title = zope.component.queryMultiAdapter(
+                (self.form, self.request, self.content, button, self),
+                interfaces.IValue, name='title')
+            if title is not None:
+                buttonAction.title = title.get()
             self._data_keys.append(name)
             self._data_values.append(buttonAction)
             self._data[name] = buttonAction

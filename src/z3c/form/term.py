@@ -62,7 +62,7 @@ class ChoiceTerms(Terms):
         self.form = form
         self.field = field
         self.widget = widget
-        self.terms = field.vocabulary
+        self.terms = field.bind(self.context).vocabulary
 
 
 class BoolTerms(Terms):
@@ -102,4 +102,4 @@ class CollectionTerms(Terms):
         self.form = form
         self.field = field
         self.widget = widget
-        self.terms = field.value_type.vocabulary
+        self.terms = field.value_type.bind(self.context).vocabulary

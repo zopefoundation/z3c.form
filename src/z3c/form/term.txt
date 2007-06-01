@@ -84,6 +84,35 @@ The first terms implementation is for ``Choice`` fields:
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
 
+Sometimes choice fields only specify a vocabulary name and the actual
+vocabulary is looked up at run time.
+
+  >>> ratingField2 = zope.schema.Choice(
+  ...     title=u'Rating',
+  ...     vocabulary='Ratings')
+
+Initially we get an error because the "Ratings" vocabulary is not defined:
+
+  >>> terms = term.ChoiceTerms(None, None, None, ratingField2, None)
+  Traceback (most recent call last):
+  ...
+  VocabularyRegistryError: unknown vocabulary: 'Ratings'
+
+Let's now register the vocabulary under this name:
+
+  >>> def RatingsVocabulary(obj):
+  ...     return ratings
+
+  >>> from zope.schema import vocabulary
+  >>> vr = vocabulary.getVocabularyRegistry()
+  >>> vr.register('Ratings', RatingsVocabulary)
+
+We should now be able to get all terms as before:
+
+  >>> terms = term.ChoiceTerms(None, None, None, ratingField2, None)
+  >>> [entry.title for entry in terms]
+  [u'bad', u'okay', u'good']
+
 A similar terms implementation exists for a ``Bool`` field:
 
   >>> truthField = zope.schema.Bool()

@@ -62,7 +62,9 @@ class ChoiceTerms(Terms):
         self.form = form
         self.field = field
         self.widget = widget
-        self.terms = field.bind(self.context).vocabulary
+        if field.vocabulary is None:
+            field = field.bind(context)
+        self.terms = field.vocabulary
 
 
 class BoolTerms(Terms):

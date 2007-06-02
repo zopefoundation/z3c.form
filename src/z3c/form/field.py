@@ -135,6 +135,36 @@ class Fields(util.SelectionManager):
             self._data[name] = form_field
 
 
+    def select(self, *names, **kwargs):
+        """See interfaces.IFields"""
+        prefix = kwargs.pop('prefix', None)
+        interface = kwargs.pop('interface', None)
+        assert len(kwargs) == 0
+        if prefix:
+            names = [util.expandPrefix(prefix) + name for name in names]
+        mapping = self
+        if interface is not None:
+            mapping = dict([(field.field.__name__, field)
+                            for field in self.values()
+                            if field.field.interface is interface])
+        return self.__class__(*[mapping[name] for name in names])
+
+
+    def omit(self, *names, **kwargs):
+        """See interfaces.IFields"""
+        prefix = kwargs.pop('prefix', None)
+        interface = kwargs.pop('interface', None)
+        assert len(kwargs) == 0
+        if prefix:
+            names = [util.expandPrefix(prefix) + name for name in names]
+        fields = [field for field in self.values()]
+        return self.__class__(
+            *[field for name, field in self.items()
+              if not ((name in names and interface is None) or
+                      (field.field.interface is interface and
+                       field.field.__name__ in names)) ])
+
+
 class FieldWidgets(util.Manager):
     """Widget manager for IFieldWidget."""
 

@@ -82,6 +82,52 @@ Changing the order is simply a matter of changing the selction order:
   >>> manager.keys()
   ['country', 'name']
 
+Selecting a field becomes a little bit more tricky, when field names
+overlap. For example, let's say that a person can be adapted to a pet:
+
+  >>> class IPet(zope.interface.Interface):
+  ...      id = zope.schema.TextLine(
+  ...          title=u'Id')
+  ...
+  ...      name = zope.schema.TextLine(
+  ...          title=u'Name')
+
+The pet field(s) can only be added to the fields manager with a prefix:
+
+  >>> manager += field.Fields(IPet, prefix='pet')
+  >>> manager.keys()
+  ['country', 'name', 'pet.id', 'pet.name']
+
+When selecting fields, this prefix has to be used:
+
+  >>> manager = manager.select('name', 'pet.name')
+  >>> manager.keys()
+  ['name', 'pet.name']
+
+However, sometimes it is tedious to specify the prefix together with the
+field; for example here:
+
+  >>> manager = field.Fields(IPerson).select('name')
+  >>> manager += field.Fields(IPet, prefix='pet').select('pet.name', 'pet.id')
+  >>> manager.keys()
+  ['name', 'pet.name', 'pet.id']
+
+It is easier to specify the prefix as an afterthought:
+
+  >>> manager = field.Fields(IPerson).select('name')
+  >>> manager += field.Fields(IPet, prefix='pet').select(
+  ...     'name', 'id', prefix='pet')
+  >>> manager.keys()
+  ['name', 'pet.name', 'pet.id']
+
+Alternatively, you can specify the interface:
+
+  >>> manager = field.Fields(IPerson).select('name')
+  >>> manager += field.Fields(IPet, prefix='pet').select(
+  ...     'name', 'id', interface=IPet)
+  >>> manager.keys()
+  ['name', 'pet.name', 'pet.id']
+
 Sometimes it is easier to simply omit a set of fields instead of selecting all
 the ones you want:
 
@@ -90,8 +136,30 @@ the ones you want:
   >>> manager.keys()
   ['name', 'country']
 
+Again, you cansolve nameconflicts using the fullprefixed name, ...
+
+  >>> manager = field.Fields(IPerson).omit('country')
+  >>> manager += field.Fields(IPet, prefix='pet')
+  >>> manager.omit('pet.id').keys()
+  ['id', 'name', 'pet.name']
+
+the prefix keyword argument, or
+
+  >>> manager = field.Fields(IPerson).omit('country')
+  >>> manager += field.Fields(IPet, prefix='pet')
+  >>> manager.omit('id', prefix='pet').keys()
+  ['id', 'name', 'pet.name']
+
+the interface:
+
+  >>> manager = field.Fields(IPerson).omit('country')
+  >>> manager += field.Fields(IPet, prefix='pet')
+  >>> manager.omit('id', interface=IPet).keys()
+  ['id', 'name', 'pet.name']
+
 You can also add two field managers together:
 
+  >>> manager = field.Fields(IPerson).select('name', 'country')
   >>> manager2 = field.Fields(IPerson).select('id')
   >>> (manager + manager2).keys()
   ['name', 'country', 'id']

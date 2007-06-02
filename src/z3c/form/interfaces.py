@@ -165,6 +165,21 @@ class IField(zope.interface.Interface):
 class IFields(ISelectionManager):
     """IField manager."""
 
+    def select(prefix=None, interface=None, *names):
+        """Return a modified instance with an ordered subset of items.
+
+        This extension to the ``ISelectionManager`` allows for handling cases
+        with name-conflicts better by separating field selection and prefix
+        specification.
+        """
+
+    def omit(prefix=None, interface=None, *names):
+        """Return a modified instance omitting given items.
+
+        This extension to the ``ISelectionManager`` allows for handling cases
+        with name-conflicts better by separating field selection and prefix
+        specification.
+        """
 
 # ----[ Data Managers ]------------------------------------------------------
 

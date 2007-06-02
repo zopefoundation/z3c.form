@@ -5,6 +5,14 @@ CHANGES
 Version 1.3.0 (5/31/2007)
 -------------------------
 
+- Documentation: Integrated English language and content review improvements
+  by Roy Mathew in ``form.txt``.
+
+- Feature: The ``IFields`` class' ``select()`` and ``omit()`` method now
+  support two ketword arguments "prefix" and "interface" that allow the
+  selection and omission of prefixed fields and still specify the short
+  name. Thanks to Nikolay Kim for the idea.
+
 - Bug: When fields only had a vocabulary name, the choice terms adaptation
   would fail, since the field was not bound. This has now been corrected.
 

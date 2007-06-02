@@ -2,11 +2,10 @@
 Forms
 =====
 
-The purpose of this package, of course, is the development forms in a simple
-as possible way and still providing all the hooks to do customization at any
-level as required by our real-world use cases. Thus, once the system is setup
-with all its default registrations, it should be trivial to develop a new
-form.
+The purpose of this package is the development forms in as simple as possible
+a way, that still provides all the hooks to do customization at any level as
+required by our real-world use cases. Thus, once the system is set up with all
+its default registrations, it should be trivial to develop a new form.
 
 The strategy of this document is to provide the most common, and thus
 simplest, case first and then demonstrate the available customization
@@ -88,7 +87,7 @@ __Note__:
     NotImplementedError
 
 
-Thus let's now create a wroking add form:
+Thus let's now create a working add form:
 
   >>> class PersonAddForm(form.AddForm):
   ...
@@ -114,14 +113,14 @@ to add a new person object there. For this add form, of course, the context is
 now the root folder:
 
   >>> request = TestRequest()
-  >>> add = PersonAddForm(root, request)
+  >>> addForm = PersonAddForm(root, request)
 
 Since forms are not necessarily pages -- in fact often they are not -- they
 must not have a ``__call__`` method that does all the processing and rendering
 at once. Instead, this form embraces the update/render pattern. Thus, we first
 call the ``update()`` method.
 
-  >>> add.update()
+  >>> addForm.update()
 
 Actually a lot of things happen during this stage. Let me step through it one
 by one pointing out the effects.
@@ -134,18 +133,18 @@ The default widget manager knows to look for the ``fields`` attribute in the
 form, since it implements ``IFieldsForm``:
 
   >>> from z3c.form import interfaces
-  >>> interfaces.IFieldsForm.providedBy(add)
+  >>> interfaces.IFieldsForm.providedBy(addForm)
   True
 
 The widget manager is then stored in the ``widgets`` attribute as promised by
 the ``IForm`` interface:
 
-  >>> add.widgets
+  >>> addForm.widgets
   <z3c.form.field.FieldWidgets object at ...>
 
 The widget manager will have three widgets, one for each field:
 
-  >>> add.widgets.keys()
+  >>> addForm.widgets.keys()
   ['name', 'gender', 'age']
 
 When the widget manager updates itself, several sub-tasks are processed. The
@@ -170,7 +169,7 @@ Widget Creation
 So first it instantiates the widget with the field. During the process,
 several pieces of information are transferred from the field to the widget:
 
-  >>> age = add.widgets['age']
+  >>> age = addForm.widgets['age']
 
   # field.title -> age.label
   >>> age.label
@@ -186,14 +185,15 @@ process.
 Widget Value
 ~~~~~~~~~~~~
 
-The next step is to determine the the value that should be displayed by the
-widget. There are three places where the value could come from:
+The next step is to determine the value that should be displayed by the
+widget. There are three places where the value could come from (shown in the
+order they are looked up):
 
-* The field's default value.
-* The request, in case a form has not been submitted or an error occurred.
-* The context of the form, which represents the displayed content.
+1. The field's default value.
+2. The content of the form, which represents the displayed data.
+3. The request, in case a form has not been submitted or an error occurred.
 
-Since we are currently building an add form, the only the first two places are
+Since we are currently building an add form, only the first two places are
 effective. And since we do not have anything in the request, the value should
 be the field's default value or be empty.
 
@@ -239,17 +239,18 @@ remain as set before.
 Find an action manager, update and execute it
 ---------------------------------------------
 
-After all widgets have been setup correctly, the actions are setup. By
-default, the form machinery uses the button declaration on the form to create
-its actions. For the add form, an add button is defined by default, so that we
-did not need to create our own. Thus, there should be one action:
+After all widgets have been instantiated and the ``update()`` method has been
+called successfully, the actions are set up. By default, the form machinery
+uses the button declaration on the form to create its actions. For the add
+form, an add button is defined by default, so that we did not need to create
+our own. Thus, there should be one action:
 
-  >>> len(add.actions)
+  >>> len(addForm.actions)
   1
 
 The add button is an action and a widget at the same time:
 
-  >>> addAction = add.actions['add']
+  >>> addAction = addForm.actions['add']
   >>> addAction.title
   u'Add'
   >>> addAction.value
@@ -275,11 +276,11 @@ very simple template as part of this test:
   ...     form.template = viewpagetemplatefile.BoundPageTemplate(
   ...         viewpagetemplatefile.ViewPageTemplateFile(
   ...             'simple_edit.pt', os.path.dirname(tests.__file__)), form)
-  >>> addTemplate(add)
+  >>> addTemplate(addForm)
 
 Let's now render the page:
 
-  >>> print add.render()
+  >>> print addForm.render()
   <html>
     <body>
       <form action=".">
@@ -327,8 +328,8 @@ the form with the "Add" button, the person should be added to the root folder:
   ...     'form.buttons.add': u'Add'}
   ...     )
 
-  >>> add = PersonAddForm(root, request)
-  >>> add.update()
+  >>> addForm = PersonAddForm(root, request)
+  >>> addForm.update()
 
   >>> sorted(root)
   [u'Stephan Richter']
@@ -354,25 +355,22 @@ pointing out the error.
   ...     'form.buttons.add': u'Add'}
   ...     )
 
-  >>> add = PersonAddForm(root, request)
-  >>> add.update()
+  >>> addForm = PersonAddForm(root, request)
+  >>> addForm.update()
 
 The widget manager and the widget causing the error should have an error
 message:
 
-  >>> [error for error in add.widgets.errors]
+  >>> [error for error in addForm.widgets.errors]
   [<ErrorViewSnippet for RequiredMissing>]
 
-  >>> add.widgets['name'].error
+  >>> addForm.widgets['name'].error
   <ErrorViewSnippet for RequiredMissing>
 
 Let's now render the form:
 
-  >>> from z3c.form import testing
-  >>> add.template = viewpagetemplatefile.BoundPageTemplate(
-  ...     viewpagetemplatefile.ViewPageTemplateFile(
-  ...         testing.getPath('../tests/simple_edit.pt'), ''), add)
-  >>> print add.render()
+  >>> addTemplate(addForm)
+  >>> print addForm.render()
   <html>
     <body>
       <i>There were some errors.</i>
@@ -424,16 +422,16 @@ Let's now also provide a negative age, which is not possible either:
   ...     'form.buttons.add': u'Add'}
   ...     )
 
-  >>> add = PersonAddForm(root, request)
-  >>> add.update()
+  >>> addForm = PersonAddForm(root, request)
+  >>> addForm.update()
 
-  >>> [(view.widget.label, view) for view in add.widgets.errors]
+  >>> [(view.widget.label, view) for view in addForm.widgets.errors]
   [(u'Name', <ErrorViewSnippet for RequiredMissing>),
    (u'Age', <ErrorViewSnippet for TooSmall>)]
 
 But the errror message for a negative age is too generic:
 
-  >>> print add.widgets['age'].error.render()
+  >>> print addForm.widgets['age'].error.render()
   <div class="error">Value is too small</div>
 
 It would be better to say that negative values are disallowed. So let's
@@ -452,9 +450,9 @@ register a new error view snippet for the ``TooSmall`` error:
 
   >>> zope.component.provideAdapter(TooSmallView)
 
-  >>> add = PersonAddForm(root, request)
-  >>> add.update()
-  >>> print add.widgets['age'].error.render()
+  >>> addForm = PersonAddForm(root, request)
+  >>> addForm.update()
+  >>> print addForm.widgets['age'].error.render()
   <div class="error">The value cannot be a negative number.</div>
 
 
@@ -464,22 +462,22 @@ Additional Form Attributes and API
 Since we are talking about HTML forms here, add and edit forms support all
 relevant FORM element attributes as attributes on the class.
 
-  >>> add.method
+  >>> addForm.method
   'post'
-  >>> add.enctype
+  >>> addForm.enctype
   'multipart/form-data'
-  >>> add.acceptCharset
-  >>> add.accept
+  >>> addForm.acceptCharset
+  >>> addForm.accept
 
 The ``action`` attribute is computed. By default it is the current URL:
 
-  >>> add.action
+  >>> addForm.action
   'http://127.0.0.1'
 
 The name is also computed. By default it takes the prefix and removes any
 trailing ".".
 
-  >>> add.name
+  >>> addForm.name
   'form'
 
 The template can then use those attributes, if it likes to. Since we are
@@ -487,8 +485,8 @@ talking about templates, in this example we set the template manual, but if no
 template is specified, the system tries to find an adapter. Initially, there
 is no adapter, so rendering the form fails:
 
-  >>> add.template = None
-  >>> add.render()
+  >>> addForm.template = None
+  >>> addForm.render()
   Traceback (most recent call last):
   ...
   ComponentLookupError: ((...), <InterfaceClass ...IPageTemplate>, u'')
@@ -501,14 +499,14 @@ The form module provides a simple component to create template factories:
 
 Now the factory will be used to provide a template:
 
-  >>> print add.render()
+  >>> print addForm.render()
   <html>
   ...
   </html>
 
 Since a form can also be used as a page itself, it is callable:
 
-  >>> print add()
+  >>> print addForm()
   <html>
   ...
   </html>
@@ -533,10 +531,10 @@ So let's change the label of the name widget from "Name" to "Full Name":
 
 When the form renders, the label should be changed:
 
-  >>> add = PersonAddForm(root, TestRequest())
-  >>> addTemplate(add)
-  >>> add.update()
-  >>> print add.render()
+  >>> addForm = PersonAddForm(root, TestRequest())
+  >>> addTemplate(addForm)
+  >>> addForm.update()
+  >>> print addForm.render()
   <html>
   ...
   <div class="row">
@@ -556,7 +554,7 @@ the add form. As always, the goal is to not touch the core implementation of
 the code, but make those changes externally.
 
 Adding a button/action is a little bit more involved than changing a value,
-because you have to isnert the additional action and customize the action
+because you have to insert the additional action and customize the action
 handler. Based on your needs of flexibility, multiple approaches could be
 chosen. Here we demonstrate the simplest one.
 
@@ -582,8 +580,8 @@ After registering the new action manager,
 
 the add form should display a cancel button:
 
-  >>> add.update()
-  >>> print add.render()
+  >>> addForm.update()
+  >>> print addForm.render()
   <html>
   ...
   <div class="action">
@@ -620,10 +618,10 @@ we can press the cancel button and we will be forwarded:
 
   >>> request = TestRequest(form={'form.buttons.cancel': u'Cancel'})
 
-  >>> add = PersonAddForm(root, request)
-  >>> addTemplate(add)
-  >>> add.update()
-  >>> add.render()
+  >>> addForm = PersonAddForm(root, request)
+  >>> addTemplate(addForm)
+  >>> addForm.update()
+  >>> addForm.render()
   ''
 
   >>> request.response.getStatus()
@@ -649,13 +647,13 @@ since all actions are completely automatic:
 
 We can use the created person from the successful addition above.
 
-  >>> edit = PersonEditForm(root[u'Stephan Richter'], TestRequest())
+  >>> editForm = PersonEditForm(root[u'Stephan Richter'], TestRequest())
 
 After adding a template, we can look at the form:
 
-  >>> addTemplate(edit)
-  >>> edit.update()
-  >>> print edit.render()
+  >>> addTemplate(editForm)
+  >>> editForm.update()
+  >>> print editForm.render()
   <html>
     <body>
       <form action=".">
@@ -706,10 +704,10 @@ Let's now submit the form having some invalid data.
   ...     'form.buttons.apply': u'Apply'}
   ...     )
 
-  >>> edit = PersonEditForm(root[u'Stephan Richter'], request)
-  >>> addTemplate(edit)
-  >>> edit.update()
-  >>> print edit.render()
+  >>> editForm = PersonEditForm(root[u'Stephan Richter'], request)
+  >>> addTemplate(editForm)
+  >>> editForm.update()
+  >>> print editForm.render()
   <html>
     <body>
       <i>There were some errors.</i>
@@ -764,10 +762,10 @@ Let's now resubmit the form with valid data, so the data should be updated.
   ...     'form.buttons.apply': u'Apply'}
   ...     )
 
-  >>> edit = PersonEditForm(root[u'Stephan Richter'], request)
-  >>> addTemplate(edit)
-  >>> edit.update()
-  >>> print edit.render()
+  >>> editForm = PersonEditForm(root[u'Stephan Richter'], request)
+  >>> addTemplate(editForm)
+  >>> editForm.update()
+  >>> print editForm.render()
   <html>
   ...
   <i>Data successfully updated.</i>
@@ -794,10 +792,10 @@ When submitting the form without any changes, the form will tell you so.
   ...     'form.buttons.apply': u'Apply'}
   ...     )
 
-  >>> edit = PersonEditForm(root[u'Stephan Richter'], request)
-  >>> addTemplate(edit)
-  >>> edit.update()
-  >>> print edit.render()
+  >>> editForm = PersonEditForm(root[u'Stephan Richter'], request)
+  >>> addTemplate(editForm)
+  >>> editForm.update()
+  >>> print editForm.render()
   <html>
   ...
   <i>No changes were applied.</i>
@@ -809,7 +807,7 @@ Changing Status Messages
 
 Depending on the project, it is often desirable to change the status messages
 to fit the application. In ``zope.formlib`` this was hard to do, since the
-messages were burried within fairly complex methods that one did not want to
+messages were buried within fairly complex methods that one did not want to
 touch. In this package all those messages are exposed as form attributes.
 
 There are three messages for the edit form:
@@ -823,9 +821,9 @@ There are three messages for the edit form:
 
 Let's now change the ``noChangesMessage``:
 
-  >>> edit.noChangesMessage = u'No changes were detected in the form data.'
-  >>> edit.update()
-  >>> print edit.render()
+  >>> editForm.noChangesMessage = u'No changes were detected in the form data.'
+  >>> editForm.update()
+  >>> print editForm.render()
   <html>
   ...
   <i>No changes were detected in the form data.</i>
@@ -857,10 +855,10 @@ The only step the developer has to complete is to re-implement the form's
 
 We can now use the form as usual:
 
-  >>> edit = PersonDictEditForm(None, TestRequest())
-  >>> addTemplate(edit)
-  >>> edit.update()
-  >>> print edit.render()
+  >>> editForm = PersonDictEditForm(None, TestRequest())
+  >>> addTemplate(editForm)
+  >>> editForm.update()
+  >>> print editForm.render()
   <html>
     <body>
       <form action=".">
@@ -872,7 +870,7 @@ We can now use the form as usual:
         </div>
         <div class="row">
           <label for="form.widgets.gender">Gender</label>
-          <select id="form.widgets.gender" name="form.widgets.gender:list" 
+          <select id="form.widgets.gender" name="form.widgets.gender:list"
                   class="selectWidget" size="1">
             <option id="form.widgets.gender.novalue"
                     value="--NOVALUE--">no value</option>
@@ -906,8 +904,8 @@ the dictionary:
   ...     'form.widgets.age': u'5',
   ...     'form.buttons.apply': u'Apply'}
   ...     )
-  >>> edit = PersonDictEditForm(None, request)
-  >>> edit.update()
+  >>> editForm = PersonDictEditForm(None, request)
+  >>> editForm.update()
 
   >>> from zope.testing.doctestunit import pprint
   >>> pprint(personDict)
@@ -983,7 +981,7 @@ Let's now derive a form from the base form:
   >>> DerivedForm.handlers
   <Handlers [<Handler for <Button 'cancel' u'Cancel'>>]>
 
-The obvious method to "inherit" the base form's information os to copy it
+The obvious method to "inherit" the base form's information is to copy it
 over:
 
   >>> class DerivedForm(BaseForm):
@@ -1050,10 +1048,10 @@ turn that off:
 Custom widget factories
 -----------------------
 
-Another important part of a form is, that we can use custom widgets. We can do
+Another important part of a form is that we can use custom widgets. We can do
 this in a form by defining a widget factory for a field. We can get the field
-by get them from the fields collection e.g. fields['foo']. Which means, we can
-define new widget factories by defining fields['foo'].widgetFactory = MyWidget.
+from the fields collection e.g. ``fields['foo']``. This means, we can define
+new widget factories by defining ``fields['foo'].widgetFactory = MyWidget``.
 Let's show a sample and define a custom widget:
 
   >>> from z3c.form.browser import text
@@ -1061,20 +1059,20 @@ Let's show a sample and define a custom widget:
   ...     """My new widget."""
   ...     css = u'MyCSS'
 
-No we can define a field widget factory:
+Now we can define a field widget factory:
 
   >>> def MyFieldWidget(field, request):
   ...     """IFieldWidget factory for MyWidget."""
   ...     return widget.FieldWidget(field, MyWidget(request))
 
-We register the MyWidget in a form like:
+We register the ``MyWidget`` in a form like:
 
   >>> class MyEditForm(form.EditForm):
   ...
   ...     fields = field.Fields(IPerson)
   ...     fields['name'].widgetFactory = MyFieldWidget
 
-We can see, that the custom widget get used in the rendered form:
+We can see that the custom widget gets used in the rendered form:
 
   >>> myEdit = MyEditForm(root[u'Stephan Richter'], TestRequest())
   >>> addTemplate(myEdit)

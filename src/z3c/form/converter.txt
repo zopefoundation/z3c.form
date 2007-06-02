@@ -280,19 +280,26 @@ value:
   >>> sdv.toFieldValue(['m'])
   0
 
-Sometimes a field is not required. In those cases, the value can be the
-missing value of the field:
+Sometimes a field is not required. In those cases, the internalvalue is the
+missing value of the field. The converter interprets that as no value being
+selected:
 
   >>> gender.missing_value = 'missing'
 
   >>> sdv.toWidgetValue(gender.missing_value)
-  ['--NOVALUE--']
+  []
 
-Similarly, if "no value" has been specified in the widget, the missing value
+If "no value" has been specified in the widget, the missing value
 of the field is returned:
 
   >>> sdv.toFieldValue([u'--NOVALUE--'])
   'missing'
+
+An empty list will also cause the missing value to be returned:
+
+  >>> sdv.toFieldValue([])
+  'missing'
+
 
 Collection Sequence Data Converter
 ----------------------------------

@@ -80,6 +80,7 @@ Bool
            class="radioWidget" value="no" />
    <span class="label">no</span>
   </span>
+  <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
@@ -104,6 +105,7 @@ For the boolean, the checkbox widget can be used as well:
            class="checkBoxWidget" value="no" />
     <span class="label">no</span>
   </span>
+  <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()

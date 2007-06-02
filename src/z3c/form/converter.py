@@ -107,9 +107,9 @@ class TimedeltaDataConverter(FieldDataConverter):
 
 
 class BytesDataConverter(FieldDataConverter):
-    """A special data converter for bytes, supporting also FileUpload. 
-    
-    Since IBytes represents a file upload too, this converter can handle 
+    """A special data converter for bytes, supporting also FileUpload.
+
+    Since IBytes represents a file upload too, this converter can handle
     zope.publisher.browser.FileUpload object as given value.
     """
     zope.component.adapts(
@@ -124,7 +124,7 @@ class BytesDataConverter(FieldDataConverter):
             # By default a IBytes field is used for get a file upload widget.
             # But interfaces extending IBytes do not use file upload widgets.
             # Any way if we get a FileUpload object, we'll convert it.
-            # We also store the additional FileUpload values on the widget 
+            # We also store the additional FileUpload values on the widget
             # before we loose them.
             self.widget.headers = value.headers
             self.widget.filename = value.filename
@@ -153,10 +153,9 @@ class SequenceDataConverter(FieldDataConverter):
     def toWidgetValue(self, value):
         """Convert from Python bool to HTML representation."""
         widget = self.widget
-        # if the value is the missing value, then the widget's "noValueToken"
-        # is returned
+        # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
-            return [widget.noValueToken]
+            return []
         # Look up the term in the terms
         terms = zope.component.getMultiAdapter(
             (widget.context, widget.request, widget.form, self.field, widget),
@@ -166,7 +165,7 @@ class SequenceDataConverter(FieldDataConverter):
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         widget = self.widget
-        if value[0] == widget.noValueToken:
+        if not len(value) or value[0] == widget.noValueToken:
             return self.field.missing_value
         terms = zope.component.getMultiAdapter(
             (widget.context, widget.request, widget.form, self.field, widget),

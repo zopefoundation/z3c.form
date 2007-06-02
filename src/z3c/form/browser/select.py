@@ -50,7 +50,7 @@ class SelectWidget(widget.SequenceWidget):
                 'id': self.id + '.novalue',
                 'value': self.noValueToken,
                 'content': self.noValueMessage,
-                'selected': self.noValueToken in self.value
+                'selected': self.value == []
                 })
         for count, term in enumerate(self.terms):
             selected = self.isSelected(term)

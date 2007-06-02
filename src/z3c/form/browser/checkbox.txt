@@ -49,9 +49,10 @@ We also need to register the template for at least the widget and request:
   ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
   ...     IPageTemplate, name='input')
 
-If we render the widget we get an emtpy output:
+If we render the widget we only get the empty marker:
 
   >>> print widget.render()
+  <input name="foo-empty-marker" type="hidden" value="1" />
 
 Let's provide some values for this widget. We can do this by defining a source
 providing ITerms. This source uses descriminators wich will fit for our setup.
@@ -80,10 +81,10 @@ Now let's try if we get widget values:
            class="checkBoxWidget" value="no" />
    <span class="label">no</span>
   </span>
+  <input name="foo-empty-marker" type="hidden" value="1" />
 
-
-If we set the value for the widget to ``yes``, we can se that the checkbox field
-get rendered with a checked flag:
+If we set the value for the widget to ``yes``, we can se that the checkbox
+field get rendered with a checked flag:
 
   >>> widget.value = 'yes'
   >>> widget.update()
@@ -98,3 +99,4 @@ get rendered with a checked flag:
            class="checkBoxWidget" value="no" />
    <span class="label">no</span>
   </span>
+  <input name="foo-empty-marker" type="hidden" value="1" />

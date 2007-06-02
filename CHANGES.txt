@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-Version 1.3.0 (5/31/2007)
+Version 1.3.0 (6/??/2007)
 -------------------------
 
 - Documentation: Integrated English language and content review improvements
@@ -12,6 +12,10 @@ Version 1.3.0 (5/31/2007)
   support two ketword arguments "prefix" and "interface" that allow the
   selection and omission of prefixed fields and still specify the short
   name. Thanks to Nikolay Kim for the idea.
+
+- Bug: When required selections where not selected in radio and checkbox 
+  widgets, then the conversion did not behave correctly. This also 
+  revealed some issues with the converter code that have been fixed now.
 
 - Bug: When fields only had a vocabulary name, the choice terms adaptation
   would fail, since the field was not bound. This has now been corrected.

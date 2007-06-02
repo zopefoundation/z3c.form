@@ -250,9 +250,11 @@ class FieldWidgets(util.Manager):
         data = {}
         self.errors = ()
         for name, widget in self.items():
-            raw = widget.extract(widget.field.missing_value)
+            raw = widget.extract()
+            value = widget.field.missing_value
             try:
-                value = interfaces.IDataConverter(widget).toFieldValue(raw)
+                if raw is not interfaces.NOVALUE:
+                    value = interfaces.IDataConverter(widget).toFieldValue(raw)
                 zope.component.getMultiAdapter(
                     (self.content,
                      self.request,

@@ -160,7 +160,7 @@ class AddForm(Form):
 
     def updateWidgets(self):
         self.widgets = zope.component.getMultiAdapter(
-            (self, self.request, self.context), interfaces.IWidgets)
+            (self, self.request, self.getContent()), interfaces.IWidgets)
         self.widgets.ignoreContext = True
         self.widgets.update()
 

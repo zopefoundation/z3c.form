@@ -47,14 +47,14 @@ class SelectWidget(widget.SequenceWidget):
         self.items = []
         if not self.required and self.multiple is None:
             self.items.append({
-                'id': self.id + '.novalue',
+                'id': self.id + '-novalue',
                 'value': self.noValueToken,
                 'content': self.noValueMessage,
                 'selected': self.value == []
                 })
         for count, term in enumerate(self.terms):
             selected = self.isSelected(term)
-            id = '%s.%i' % (self.id, count)
+            id = '%s-%i' % (self.id, count)
             content = term.token
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 content = translate(

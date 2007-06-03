@@ -12,7 +12,7 @@
         <b tal:condition="widget/error"
            tal:content="structure widget/error/render"
         /><label for=""
-               tal:attributes="for widget/name"
+               tal:attributes="for widget/id"
                tal:content="widget/label" />
         <input type="text" tal:replace="structure widget/render"
       /></div>

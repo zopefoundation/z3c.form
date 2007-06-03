@@ -1,7 +1,7 @@
 <span class="option"
       tal:repeat="item view/items">
-  <input type="radio" id="" name="" class="" 
-         alt="" title="" tabindex="" disabled="" readonly="" accesskey="" value="" checked="checked"
+  <input type="radio" id="" name="" class="" alt="" title="" tabindex=""
+         disabled="" readonly="" accesskey="" value="" checked="checked"
          tal:condition="item/checked"
          tal:attributes="id item/id;
                          name item/name;
@@ -12,9 +12,9 @@
                          disabled view/disabled;
                          readonly view/readonly;
                          accesskey view/accesskey;
-                         value item/value" 
-  /><input type="radio" id="" name="" class="" 
-         alt="" title="" tabindex="" disabled="" readonly="" accesskey="" value=""
+                         value item/value"
+  /><input type="radio" id="" name="" class="" alt="" title="" tabindex=""
+         disabled="" readonly="" accesskey="" value=""
          tal:condition="not:item/checked"
          tal:attributes="id item/id;
                          name item/name;

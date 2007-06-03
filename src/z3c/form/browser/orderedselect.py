@@ -35,7 +35,7 @@ class OrderedSelectWidget(widget.SequenceWidget):
     selectedItems = ()
 
     def getItem(self, term, count=0):
-        id = '%s.%i' % (self.id, count)
+        id = '%s-%i' % (self.id, count)
         content = term.token
         if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
             content = translate(

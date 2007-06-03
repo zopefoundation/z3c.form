@@ -107,37 +107,37 @@ Let's now instantiate the form and render it:
     <body>
       <form action=".">
         <div class="row">
-          <label for="car.widgets.model">Model</label>
-          <input type="text" id="car.widgets.model"
+          <label for="car-widgets-model">Model</label>
+          <input type="text" id="car-widgets-model"
                  name="car.widgets.model" class="textWidget" value="Nissan" />
         </div>
         <div class="row">
-          <label for="car.widgets.make">Make</label>
-          <input type="text" id="car.widgets.make"
+          <label for="car-widgets-make">Make</label>
+          <input type="text" id="car-widgets-make"
                  name="car.widgets.make" class="textWidget" value="Sentra" />
         </div>
         <fieldset>
           <legend>Owner</legend>
           <div class="row">
-            <label for="owner.widgets.name">Name</label>
-            <input type="text" id="owner.widgets.name"
+            <label for="owner-widgets-name">Name</label>
+            <input type="text" id="owner-widgets-name"
                    name="owner.widgets.name" class="textWidget"
                    value="Stephan Richter" />
           </div>
           <div class="row">
-            <label for="owner.widgets.license">License</label>
-            <input type="text" id="owner.widgets.license"
+            <label for="owner-widgets-license">License</label>
+            <input type="text" id="owner-widgets-license"
                    name="owner.widgets.license" class="textWidget"
                    value="MA-1231FW97" />
           </div>
           <div class="action">
-            <input type="submit" id="owner.buttons.apply"
+            <input type="submit" id="owner-buttons-apply"
                    name="owner.buttons.apply" class="submitWidget"
                    value="Apply" />
           </div>
         </fieldset>
         <div class="action">
-          <input type="submit" id="car.buttons.apply"
+          <input type="submit" id="car-buttons-apply"
                  name="car.buttons.apply" class="submitWidget"
                  value="Apply" />
         </div>
@@ -176,14 +176,14 @@ Also, the form should say that the data of the owner has changed:
     <body>
       <form action=".">
         <div class="row">
-          <label for="car.widgets.model">Model</label>
-          <input type="text" id="car.widgets.model"
+          <label for="car-widgets-model">Model</label>
+          <input type="text" id="car-widgets-model"
                  name="car.widgets.model" class="textWidget"
                  value="BMW" />
         </div>
         <div class="row">
-          <label for="car.widgets.make">Make</label>
-          <input type="text" id="car.widgets.make"
+          <label for="car-widgets-make">Make</label>
+          <input type="text" id="car-widgets-make"
                  name="car.widgets.make" class="textWidget"
                  value="325" />
         </div>
@@ -191,25 +191,25 @@ Also, the form should say that the data of the owner has changed:
           <legend>Owner</legend>
           <i>Data successfully updated.</i>
           <div class="row">
-            <label for="owner.widgets.name">Name</label>
-            <input type="text" id="owner.widgets.name"
+            <label for="owner-widgets-name">Name</label>
+            <input type="text" id="owner-widgets-name"
                    name="owner.widgets.name" class="textWidget"
                    value="Stephan Richter" />
           </div>
           <div class="row">
-            <label for="owner.widgets.license">License</label>
-            <input type="text" id="owner.widgets.license"
+            <label for="owner-widgets-license">License</label>
+            <input type="text" id="owner-widgets-license"
                    name="owner.widgets.license" class="textWidget"
                    value="MA-97097A87" />
           </div>
           <div class="action">
-            <input type="submit" id="owner.buttons.apply"
+            <input type="submit" id="owner-buttons-apply"
                    name="owner.buttons.apply" class="submitWidget"
                    value="Apply" />
           </div>
         </fieldset>
         <div class="action">
-          <input type="submit" id="car.buttons.apply"
+          <input type="submit" id="car-buttons-apply"
                  name="car.buttons.apply" class="submitWidget"
                  value="Apply" />
         </div>
@@ -287,31 +287,31 @@ Rendering the form works as before:
     <body>
       <form action=".">
         <div class="row">
-          <label for="car.widgets.model">Model</label>
-          <input type="text" id="car.widgets.model" name="car.widgets.model"
+          <label for="car-widgets-model">Model</label>
+          <input type="text" id="car-widgets-model" name="car.widgets.model"
                  class="textWidget" value="BMW" />
         </div>
         <div class="row">
-          <label for="car.widgets.make">Make</label>
-          <input type="text" id="car.widgets.make" name="car.widgets.make"
+          <label for="car-widgets-make">Make</label>
+          <input type="text" id="car-widgets-make" name="car.widgets.make"
                  class="textWidget" value="325" />
         </div>
         <fieldset>
           <legend>Owner</legend>
           <div class="row">
-            <label for="owner.widgets.name">Name</label>
-            <input type="text" id="owner.widgets.name" name="owner.widgets.name"
+            <label for="owner-widgets-name">Name</label>
+            <input type="text" id="owner-widgets-name" name="owner.widgets.name"
                    class="textWidget" value="Stephan Richter" />
           </div>
           <div class="row">
-            <label for="owner.widgets.license">License</label>
-            <input type="text" id="owner.widgets.license"
+            <label for="owner-widgets-license">License</label>
+            <input type="text" id="owner-widgets-license"
                    name="owner.widgets.license" class="textWidget" 
                    value="MA-97097A87" />
           </div>
         </fieldset>
         <div class="action">
-          <input type="submit" id="car.buttons.apply"
+          <input type="submit" id="car-buttons-apply"
                  name="car.buttons.apply" class="submitWidget"
                  value="Apply" />
         </div>
@@ -379,33 +379,33 @@ Let's look at the rendered form:
       <form action=".">
         <div class="row">
           <b><div class="error">Constraint not satisfied</div>
-          </b><label for="car.widgets.model">Model</label>
-          <input type="text" id="car.widgets.model"
+          </b><label for="car-widgets-model">Model</label>
+          <input type="text" id="car-widgets-model"
                  name="car.widgets.model" class="textWidget" value="Volvo " />
         </div>
         <div class="row">
-          <label for="car.widgets.make">Make</label>
-          <input type="text" id="car.widgets.make"
+          <label for="car-widgets-make">Make</label>
+          <input type="text" id="car-widgets-make"
          name="car.widgets.make" class="textWidget" value="450" />
         </div>
         <fieldset>
           <legend>Owner</legend>
           <i>Data successfully updated.</i>
           <div class="row">
-            <label for="owner.widgets.name">Name</label>
-            <input type="text" id="owner.widgets.name"
+            <label for="owner-widgets-name">Name</label>
+            <input type="text" id="owner-widgets-name"
                  name="owner.widgets.name" class="textWidget"
                  value="Stephan Richter" />
           </div>
           <div class="row">
-            <label for="owner.widgets.license">License</label>
-            <input type="text" id="owner.widgets.license"
+            <label for="owner-widgets-license">License</label>
+            <input type="text" id="owner-widgets-license"
                  name="owner.widgets.license" class="textWidget"
                  value="MA-991723FDG" />
           </div>
         </fieldset>
         <div class="action">
-          <input type="submit" id="car.buttons.apply"
+          <input type="submit" id="car-buttons-apply"
                  name="car.buttons.apply" class="submitWidget"
                  value="Apply" />
         </div>

@@ -201,7 +201,7 @@ class ButtonAction(action.Action, submit.SubmitWidget, zope.location.Location):
 
     @property
     def id(self):
-        return self.name
+        return self.name.replace('.', '-')
 
 
 class ButtonActions(action.Actions):

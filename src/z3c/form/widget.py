@@ -196,7 +196,8 @@ def FieldWidget(field, widget):
         zope.interface.alsoProvides(widget, interfaces.IFieldWidget)
     # Initial values are set. They can be overridden while updating the widget
     # itself later on.
-    widget.name = widget.id = field.__name__
+    widget.name = field.__name__
+    widget.id = field.__name__.replace('.', '-')
     widget.label = field.title
     widget.required = field.required
     return widget

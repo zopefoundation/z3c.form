@@ -20,9 +20,10 @@ The widget can render a input field only by adapting a request:
   >>> request = TestRequest()
   >>> widget = radio.RadioWidget(request)
 
-Set a name for the widget:
+Set a name and id for the widget:
 
-  >>> widget.name = u'foo'
+  >>> widget.id = u'widget-id'
+  >>> widget.name = u'widget.name'
 
 Such a field provides IWidget:
 
@@ -47,7 +48,7 @@ We also need to register the template for at least the widget and request:
 If we render the widget we only get the empty marker:
 
   >>> print widget.render()
-  <input name="foo-empty-marker" type="hidden" value="1" />
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
 
 Let's provide some values for this widget. We can do this by defining a source
 providing ITerms. This source uses descriminators wich will fit for our setup.
@@ -68,15 +69,15 @@ Now let's try if we get widget values:
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
-    <input type="radio" id="foo.0" name="foo:list"
+    <input type="radio" id="widget-id-0" name="widget.name:list"
            class="radioWidget" value="yes" />
    <span class="label">yes</span>
   </span><span class="option">
-    <input type="radio" id="foo.1" name="foo:list"
+    <input type="radio" id="widget-id-1" name="widget.name:list"
            class="radioWidget" value="no" />
    <span class="label">no</span>
   </span>
-  <input name="foo-empty-marker" type="hidden" value="1" />
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
 
 If we set the value for the widget to ``yes``, we can se that the radio field
 get rendered with a checked flag:
@@ -85,12 +86,12 @@ get rendered with a checked flag:
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
-    <input type="radio" id="foo.0" name="foo:list"
+    <input type="radio" id="widget-id-0" name="widget.name:list"
            class="radioWidget" value="yes" checked="checked" />
    <span class="label">yes</span>
   </span><span class="option">
-    <input type="radio" id="foo.1" name="foo:list"
+    <input type="radio" id="widget-id-1" name="widget.name:list"
            class="radioWidget" value="no" />
    <span class="label">no</span>
   </span>
-  <input name="foo-empty-marker" type="hidden" value="1" />
+  <input name="widget.name-empty-marker" type="hidden" value="1" />

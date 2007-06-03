@@ -26,7 +26,7 @@ The widget can be instantiated only using the request:
 
 Before rendering the widget, one has to set the name and id of the widget:
 
-  >>> widget.id = u'widget.id'
+  >>> widget.id = u'widget-id'
   >>> widget.name = u'widget.name'
 
 We also need to register the template for at least the widget and request:
@@ -44,7 +44,7 @@ We also need to register the template for at least the widget and request:
 If we render the widget we get an emtpy widget:
 
   >>> print widget.render()
-  <select id="widget.id" name="widget.name:list"
+  <select id="widget-id" name="widget.name:list"
           class="selectWidget" size="1">
   </select>
   <input name="widget.name-empty-marker" type="hidden"
@@ -68,12 +68,12 @@ Now let's try if we get widget values:
 
   >>> widget.update()
   >>> print widget.render()
-  <select id="widget.id" name="widget.name:list" 
+  <select id="widget-id" name="widget.name:list"
           class="selectWidget" size="1">
-  <option id="widget.id.novalue" value="--NOVALUE--">no value</option>
-  <option id="widget.id.0" value="a">a</option>
-  <option id="widget.id.1" value="b">b</option>
-  <option id="widget.id.2" value="c">c</option>
+  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-0" value="a">a</option>
+  <option id="widget-id-1" value="b">b</option>
+  <option id="widget-id-2" value="c">c</option>
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
@@ -82,12 +82,12 @@ If we select item "b", then it should be selected:
   >>> widget.value = ['b']
   >>> widget.update()
   >>> print widget.render()
-  <select id="widget.id" name="widget.name:list" 
+  <select id="widget-id" name="widget.name:list"
           class="selectWidget" size="1">
-  <option id="widget.id.novalue" value="--NOVALUE--">no value</option>
-  <option id="widget.id.0" value="a">a</option>
-  <option id="widget.id.1" value="b" selected="selected">b</option>
-  <option id="widget.id.2" value="c">c</option>
+  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-0" value="a">a</option>
+  <option id="widget-id-1" value="b" selected="selected">b</option>
+  <option id="widget-id-2" value="c">c</option>
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 

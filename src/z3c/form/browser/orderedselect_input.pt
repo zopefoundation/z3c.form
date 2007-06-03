@@ -32,14 +32,14 @@ function moveItems(from, to)
 // move item from "from" selection to "to" selection
 function from2to(name)
   {
-  moveItems(name+".from", name+".to");
+  moveItems(name+"-from", name+"-to");
   copyDataForSubmit(name);
   }
 
 // move item from "to" selection back to "from" selection
 function to2from(name)
   {
-  moveItems(name+".to", name+".from");
+  moveItems(name+"-to", name+"-from");
   copyDataForSubmit(name);
   }
 
@@ -63,7 +63,7 @@ function swapFields(a, b)
 function moveUp(name)
   {
   // shortcuts for selection field
-  var toSel = document.getElementById(name+".to");
+  var toSel = document.getElementById(name+"-to");
 
   if (toSel.selectedIndex == -1)
       selectionError();
@@ -81,7 +81,7 @@ function moveUp(name)
 function moveDown(name)
   {
     // shortcuts for selection field
-    var toSel = document.getElementById(name+".to");
+    var toSel = document.getElementById(name+"-to");
 
     if (toSel.selectedIndex == -1) {
         selectionError();
@@ -101,8 +101,8 @@ function moveDown(name)
 function copyDataForSubmit(name)
   {
   // shortcuts for selection field and hidden data field
-  var toSel = document.getElementById(name+".to");
-  var toDataContainer = document.getElementById(name+".toDataContainer");
+  var toSel = document.getElementById(name+"-to");
+  var toDataContainer = document.getElementById(name+"-toDataContainer");
 
   // delete all child nodes (--> complete content) of "toDataContainer" span
   while (toDataContainer.hasChildNodes())
@@ -142,7 +142,7 @@ function selectionError()
     <td>
       <select id="from" name="from" size="5" multiple=""
           tal:attributes="name string:${view/name}.from;
-                          id string:${view/name}.from">
+                          id string:${view/id}-from">
         <option tal:repeat="entry view/items"
                 tal:attributes="value entry/value"
                 tal:content="entry/content" i18n:translate=""/>
@@ -151,18 +151,18 @@ function selectionError()
     <td>
       <button name="from2toButton" type="button" value=" -&gt;"
           onclick="javascript:from2to()"
-          tal:attributes="onClick string:javascript:from2to('${view/name}')"
+          tal:attributes="onClick string:javascript:from2to('${view/id}')"
           >&nbsp;-&gt;</button>
       <br />
       <button name="to2fromButton" type="button" value="&lt;- "
           onclick="javascript:to2from()"
-          tal:attributes="onClick string:javascript:to2from('${view/name}')"
+          tal:attributes="onClick string:javascript:to2from('${view/id}')"
           >&lt;-&nbsp;</button>
     </td>
     <td>
       <select id="to" name="to" size="5" multiple=""
           tal:attributes="name string:${view/name}.to;
-                          id string:${view/name}.to">
+                          id string:${view/id}-to">
         <option tal:repeat="entry view/selectedItems"
                 tal:attributes="value entry/value"
                 tal:content="entry/content" i18n:translate=""/>
@@ -170,11 +170,11 @@ function selectionError()
       <input name="foo-empty-marker" type="hidden"
         tal:attributes="name string:${view/name}-empty-marker"/>
       <span id="toDataContainer"
-            tal:attributes="id string:${view/name}.toDataContainer">
+            tal:attributes="id string:${view/id}-toDataContainer">
         <script type="text/javascript" tal:content="string:
-          copyDataForSubmit('${view/name}');">
+          copyDataForSubmit('${view/id}');">
           // initial copying of field "field.to" --> "field"
-          copyDataForSubmit("<i tal:replace="${view/name}"/>");
+          copyDataForSubmit("<i tal:replace="${view/id}"/>");
         </script>
       </span>
     </td>
@@ -182,13 +182,13 @@ function selectionError()
       <button
           name="upButton" type="button" value="^"
           onclick="javascript:moveUp()"
-          tal:attributes="onClick string:javascript:moveUp('${view/name}')"
+          tal:attributes="onClick string:javascript:moveUp('${view/id}')"
           >^</button>
       <br />
       <button
           name="downButton" type="button" value="v"
           onclick="javascript:moveDown()"
-          tal:attributes="onClick string:javascript:moveDown('${view/name}')"
+          tal:attributes="onClick string:javascript:moveDown('${view/id}')"
           >v</button>
     </td>
   </tr>

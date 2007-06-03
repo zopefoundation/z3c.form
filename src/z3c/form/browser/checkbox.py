@@ -47,7 +47,7 @@ class CheckBoxWidget(widget.SequenceWidget):
         self.items = []
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
-            id = '%s.%i' % (self.name, count)
+            id = '%s-%i' % (self.id, count)
             label = term.token
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 label = translate(term.title, context=self.request,

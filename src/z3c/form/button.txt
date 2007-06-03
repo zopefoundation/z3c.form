@@ -78,7 +78,7 @@ A button action is also a submit widget. The attributes translate as follows:
 
   >>> apply.value == apply.title
   True
-  >>> apply.id == apply.name
+  >>> apply.id == apply.name.replace('.', '-')
   True
 
 Next we want to display our button actions. To be able to do this, we have to
@@ -98,7 +98,7 @@ A widget template has many discriminators: context, request, view, field, and
 widget. We can now render each action:
 
   >>> print actions['apply'].render()
-  <input type="submit" id="form.buttons.apply"
+  <input type="submit" id="form-buttons-apply"
          name="form.buttons.apply" class="submitWidget"
          value="Apply" />
 

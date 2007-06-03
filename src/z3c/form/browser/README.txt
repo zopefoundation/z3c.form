@@ -72,11 +72,11 @@ Bool
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
-    <input type="radio" id="bar.0" name="bar:list"
+    <input type="radio" id="foo-0" name="bar:list"
            class="radioWidget" value="yes" checked="checked" />
    <span class="label">yes</span>
   </span><span class="option">
-    <input type="radio" id="bar.1" name="bar:list"
+    <input type="radio" id="foo-1" name="bar:list"
            class="radioWidget" value="no" />
    <span class="label">no</span>
   </span>
@@ -96,12 +96,12 @@ For the boolean, the checkbox widget can be used as well:
 
   >>> print widget.render()
   <span class="option">
-    <input type="checkbox" id="bar.0" name="bar:list"
+    <input type="checkbox" id="foo-0" name="bar:list"
            class="checkBoxWidget" value="yes"
            checked="checked" />
     <span class="label">yes</span>
   </span><span class="option">
-    <input type="checkbox" id="bar.1" name="bar:list"
+    <input type="checkbox" id="foo-1" name="bar:list"
            class="checkBoxWidget" value="no" />
     <span class="label">no</span>
   </span>
@@ -170,8 +170,8 @@ Choice
   >>> print widget.render()
   <select id="foo" name="bar:list" class="selectWidget" 
           size="1">
-    <option id="foo.0" value="yes" selected="selected">Yes</option>
-    <option id="foo.1" value="no">No</option>
+    <option id="foo-0" value="yes" selected="selected">Yes</option>
+    <option id="foo-1" value="no">No</option>
   </select>
   <input name="bar-empty-marker" type="hidden" value="1" />
 
@@ -275,10 +275,10 @@ FrozenSet
   >>> print widget.render()
   <select id="foo" name="bar:list" class="selectWidget" 
           multiple="multiple" size="5">
-    <option id="foo.0" value="1" selected="selected">1</option>
-    <option id="foo.1" value="2">2</option>
-    <option id="foo.2" value="3" selected="selected">3</option>
-    <option id="foo.3" value="4">4</option>
+    <option id="foo-0" value="1" selected="selected">1</option>
+    <option id="foo-1" value="2">2</option>
+    <option id="foo-2" value="3" selected="selected">3</option>
+    <option id="foo-3" value="4">4</option>
   </select>
   <input name="bar-empty-marker" type="hidden" value="1" />
 
@@ -333,7 +333,7 @@ List
   <table border="0" class="ordered-selection-field">
     <tr>
       <td>
-        <select id="bar.from" name="bar.from" size="5"
+        <select id="foo-from" name="bar.from" size="5"
                 multiple="">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -344,29 +344,29 @@ List
       <td>
         <button name="from2toButton" type="button"
                 value=" -&gt;"
-                onclick="javascript:from2to('bar')">&nbsp;-&gt;</button>
+                onclick="javascript:from2to('foo')">&nbsp;-&gt;</button>
         <br />
         <button name="to2fromButton" type="button"
                 value="&lt;- "
-                onclick="javascript:to2from('bar')">&lt;-&nbsp;</button>
+                onclick="javascript:to2from('foo')">&lt;-&nbsp;</button>
       </td>
       <td>
-        <select id="bar.to" name="bar.to" size="5" multiple="">
+        <select id="foo-to" name="bar.to" size="5" multiple="">
           <option value="1">1</option>
           <option value="3">3</option>
         </select>
         <input name="bar-empty-marker" type="hidden" />
-        <span id="bar.toDataContainer">
+        <span id="foo-toDataContainer">
           <script type="text/javascript">
-            copyDataForSubmit('bar');</script>
+            copyDataForSubmit('foo');</script>
         </span>
       </td>
       <td>
         <button name="upButton" type="button" value="^"
-                onclick="javascript:moveUp('bar')">^</button>
+                onclick="javascript:moveUp('foo')">^</button>
         <br />
         <button name="downButton" type="button" value="v"
-                onclick="javascript:moveDown('bar')">v</button>
+                onclick="javascript:moveDown('foo')">v</button>
       </td>
     </tr>
   </table>
@@ -409,10 +409,10 @@ Set
   >>> print widget.render()
   <select id="foo" name="bar:list" class="selectWidget" 
           multiple="multiple"  size="5">
-    <option id="foo.0" value="1" selected="selected">1</option>
-    <option id="foo.1" value="2">2</option>
-    <option id="foo.2" value="3" selected="selected">3</option>
-    <option id="foo.3" value="4">4</option>
+    <option id="foo-0" value="1" selected="selected">1</option>
+    <option id="foo-1" value="2">2</option>
+    <option id="foo-2" value="3" selected="selected">3</option>
+    <option id="foo-3" value="4">4</option>
   </select>
   <input name="bar-empty-marker" type="hidden" value="1" />
 
@@ -512,7 +512,7 @@ Tuple
   <table border="0" class="ordered-selection-field">
     <tr>
       <td>
-        <select id="bar.from" name="bar.from" size="5"
+        <select id="foo-from" name="bar.from" size="5"
                 multiple="">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -523,29 +523,29 @@ Tuple
       <td>
         <button name="from2toButton" type="button"
                 value=" -&gt;"
-                onclick="javascript:from2to('bar')">&nbsp;-&gt;</button>
+                onclick="javascript:from2to('foo')">&nbsp;-&gt;</button>
         <br />
         <button name="to2fromButton" type="button"
                 value="&lt;- "
-                onclick="javascript:to2from('bar')">&lt;-&nbsp;</button>
+                onclick="javascript:to2from('foo')">&lt;-&nbsp;</button>
       </td>
       <td>
-        <select id="bar.to" name="bar.to" size="5" multiple="">
+        <select id="foo-to" name="bar.to" size="5" multiple="">
           <option value="1">1</option>
           <option value="3">3</option>
         </select>
         <input name="bar-empty-marker" type="hidden" />
-        <span id="bar.toDataContainer">
+        <span id="foo-toDataContainer">
           <script type="text/javascript">
-            copyDataForSubmit('bar');</script>
+            copyDataForSubmit('foo');</script>
         </span>
       </td>
       <td>
         <button name="upButton" type="button" value="^"
-                onclick="javascript:moveUp('bar')">^</button>
+                onclick="javascript:moveUp('foo')">^</button>
         <br />
         <button name="downButton" type="button" value="v"
-                onclick="javascript:moveDown('bar')">v</button>
+                onclick="javascript:moveDown('foo')">v</button>
       </td>
     </tr>
   </table>

@@ -26,7 +26,7 @@ The widget can be instantiated only using the request:
 
 Before rendering the widget, one has to set the name and id of the widget:
 
-  >>> widget.id = u'widget.id'
+  >>> widget.id = u'widget-id'
   >>> widget.name = u'widget.name'
 
 We also need to register the template for at least the widget and request:
@@ -50,35 +50,35 @@ If we render the widget we get an emtpy widget:
   <table border="0" class="ordered-selection-field">
     <tr>
       <td>
-        <select id="widget.name.from" name="widget.name.from"
+        <select id="widget-id-from" name="widget.name.from"
                 size="5" multiple="">
         </select>
       </td>
       <td>
         <button name="from2toButton" type="button"
                 value=" -&gt;"
-                onclick="javascript:from2to('widget.name')">&nbsp;-&gt;</button>
+                onclick="javascript:from2to('widget-id')">&nbsp;-&gt;</button>
         <br />
         <button name="to2fromButton" type="button"
                 value="&lt;- "
-                onclick="javascript:to2from('widget.name')">&lt;-&nbsp;</button>
+                onclick="javascript:to2from('widget-id')">&lt;-&nbsp;</button>
       </td>
       <td>
-        <select id="widget.name.to" name="widget.name.to"
+        <select id="widget-id-to" name="widget.name.to"
                 size="5" multiple="">
         </select>
         <input name="widget.name-empty-marker" type="hidden" />
-        <span id="widget.name.toDataContainer">
+        <span id="widget-id-toDataContainer">
           <script type="text/javascript">
-            copyDataForSubmit('widget.name');</script>
+            copyDataForSubmit('widget-id');</script>
         </span>
       </td>
       <td>
         <button name="upButton" type="button" value="^"
-                onclick="javascript:moveUp('widget.name')">^</button>
+                onclick="javascript:moveUp('widget-id')">^</button>
         <br />
         <button name="downButton" type="button" value="v"
-                onclick="javascript:moveDown('widget.name')">v</button>
+                onclick="javascript:moveDown('widget-id')">v</button>
       </td>
     </tr>
   </table>
@@ -112,7 +112,7 @@ Now let's try if we get widget values:
   <table border="0" class="ordered-selection-field">
     <tr>
       <td>
-        <select id="widget.name.from" name="widget.name.from"
+        <select id="widget-id-from" name="widget.name.from"
                 size="5" multiple="">
           <option value="a">A</option>
           <option value="b">B</option>
@@ -134,7 +134,7 @@ If we select item "b", then it should be selected:
   <table border="0" class="ordered-selection-field">
     <tr>
       <td>
-        <select id="widget.name.from" name="widget.name.from"
+        <select id="widget-id-from" name="widget.name.from"
                 size="5" multiple="">
           <option value="a">A</option>
           <option value="b">B</option>
@@ -143,14 +143,14 @@ If we select item "b", then it should be selected:
       </td>
       ...
       <td>
-        <select id="widget.name.to" name="widget.name.to"
+        <select id="widget-id-to" name="widget.name.to"
                 size="5" multiple="">
           <option value="b">B</option>
         </select>
         <input name="widget.name-empty-marker" type="hidden" />
-        <span id="widget.name.toDataContainer">
+        <span id="widget-id-toDataContainer">
           <script type="text/javascript">
-            copyDataForSubmit('widget.name');</script>
+            copyDataForSubmit('widget-id');</script>
         </span>
       </td>
       ...

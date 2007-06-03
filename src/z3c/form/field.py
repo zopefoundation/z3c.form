@@ -225,7 +225,7 @@ class FieldWidgets(util.Manager):
             # Step 2: Set the prefix for the widget
             shortName = field.__name__
             widget.name = prefix + shortName
-            widget.id = prefix + shortName
+            widget.id = (prefix + shortName).replace('.', '-')
             # Step 3: Set the context
             widget.context = self.content
             zope.interface.alsoProvides(widget, interfaces.IContextAware)

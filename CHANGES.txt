@@ -13,6 +13,19 @@ Version 1.3.0 (6/??/2007)
   selection and omission of prefixed fields and still specify the short
   name. Thanks to Nikolay Kim for the idea.
 
+- Feature: HTML element ids containing dots are not very good, because 
+  then the "element#id" CSS selector does not work and at least in 
+  Firefox the attribute selector ("element[attr=value]") does not work 
+  for the id either. Converted the codebase to use dashes in ids instead.
+
+- Bug/Feature: The IWidgets component is now an adapter of the form 
+  content and not the form context. This guarantees that vocabulary
+  factories receive a context that is actually useful.
+
+- Bug: Fix a slightly incorrect implementation. It did not cause any harm in 
+  real-world forms, but made unit testing much harder, since an API 
+  expectation was not met correctly.
+
 - Bug: When required selections where not selected in radio and checkbox 
   widgets, then the conversion did not behave correctly. This also 
   revealed some issues with the converter code that have been fixed now.

@@ -381,12 +381,27 @@ default value is returned:
   >>> seqWidget.extract()
   []
 
+If the no-value token has been selected, it is returned without further
+verification:
+
+  >>> seqWidget.request = TestRequest(form={'seq': [seqWidget.noValueToken]})
+  >>> seqWidget.extract()
+  ['--NOVALUE--']
+
 Since the value of the widget is a tuple of tokens, when displaying the
 values, they have to be converted to the title of the term:
 
   >>> seqWidget.value = ('v1', 'v2')
   >>> seqWidget.displayValue
   [u'Value 1', u'Value 2']
+
+When input forms are directly switched to display forms within the same
+request, it can happen that the value contains the "--NOVALUE--" token
+entry. This entry should be silently ignored:
+
+  >>> seqWidget.value = (seqWidget.noValueToken,)
+  >>> seqWidget.displayValue
+  []
 
 To demonstrate how the terms is automatically chosen by a widget, we should
 instantiate a field widget. Let's do this with a choice field:

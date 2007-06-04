@@ -155,6 +155,9 @@ class SequenceWidget(Widget):
     def displayValue(self):
         value = []
         for token in self.value:
+            # Ignore no value entries. They are in the request only.
+            if token == self.noValueToken:
+                continue
             term = self.terms.getTermByToken(token)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 value.append(translate(

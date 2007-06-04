@@ -42,6 +42,13 @@ Of course, values can also be converted from a widget value to field value:
   >>> conv.toFieldValue('34')
   34
 
+An empty string means simply that the value is missing and the missing value
+of the field is returned:
+
+  >>> age.missing_value = -1
+  >>> conv.toFieldValue('')
+  -1
+
 Of course, trying to convert a non-integer string representation fails in a
 conversion error:
 

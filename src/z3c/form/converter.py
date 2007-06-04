@@ -44,6 +44,8 @@ class FieldDataConverter(object):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
+        if value == u'':
+            return self.field.missing_value
         return self.field.fromUnicode(value)
 
     def __repr__(self):

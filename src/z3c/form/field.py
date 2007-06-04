@@ -215,31 +215,35 @@ class FieldWidgets(util.Manager):
         prefix += util.expandPrefix(self.prefix)
         # Walk through each field, making a widget out of it
         for field in self.form.fields.values():
-            # Step 1: Get the widget for the given field.
-            factory = field.widgetFactory.get(self.mode)
+            # Step 1: Determine the mode of the widget.
+            mode = field.mode
+            if mode is None:
+                mode = self.mode
+            # Step 2: Get the widget for the given field.
+            factory = field.widgetFactory.get(mode)
             if factory is not None:
                 widget = factory(field.field, self.request)
             else:
                 widget = zope.component.getMultiAdapter(
                     (field.field, self.request), interfaces.IFieldWidget)
-            # Step 2: Set the prefix for the widget
+            # Step 3: Set the prefix for the widget
             shortName = field.__name__
             widget.name = prefix + shortName
             widget.id = (prefix + shortName).replace('.', '-')
-            # Step 3: Set the context
+            # Step 4: Set the context
             widget.context = self.content
             zope.interface.alsoProvides(widget, interfaces.IContextAware)
-            # Step 4: Set the form
+            # Step 5: Set the form
             widget.form = self.form
             zope.interface.alsoProvides(widget, interfaces.IFormAware)
-            # Step 5: Set some variables
+            # Step 6: Set some variables
             widget.ignoreContext = self.ignoreContext
             widget.ignoreRequest = self.ignoreRequest
-            # Step 6: Set the mode of the widget
-            widget.mode = self.mode
-            # Step 7: Update the widget
+            # Step 7: Set the mode of the widget
+            widget.mode = mode
+            # Step 8: Update the widget
             widget.update()
-            # Step 8: Add the widget to the manager
+            # Step 9: Add the widget to the manager
             self._data_keys.append(shortName)
             self._data_values.append(widget)
             self._data[shortName] = widget

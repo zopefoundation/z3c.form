@@ -452,6 +452,23 @@ All widgets will also assume the mode of the manager:
   >>> manager['lastName'].mode
   'display'
 
+The exception is when some fields specifically desire a different mode. In
+this case, the last name will inherit the mode from the widget manager, while
+the first name will want to use a display wdget:
+
+  >>> addPerson.fields = field.Fields(IPerson).select('lastName')
+  >>> addPerson.fields += field.Fields(
+  ...     IPerson, mode=interfaces.DISPLAY_MODE).select('firstName')
+
+  >>> manager.mode = interfaces.INPUT_MODE
+  >>> manager.update()
+
+  >>> manager['lastName'].mode
+  'input'
+  >>> manager['firstName'].mode
+  'display'
+
+
 Besides managing widgets, the widget manager also controls the process of
 extracting and validating extracted data. Let's start with the validation
 first, which only validates the data as a whole, assuming each individual
@@ -461,6 +478,9 @@ Before we can use the method, we have to register a "manager validator":
 
   >>> from z3c.form import validator
   >>> zope.component.provideAdapter(validator.InvariantsValidator)
+
+  >>> addPerson.fields = field.Fields(IPerson)
+  >>> manager.update()
 
   >>> manager.validate(
   ...     {'firstName': u'Stephan', 'lastName': u'Richter'})

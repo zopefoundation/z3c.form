@@ -22,6 +22,20 @@ Version 1.3.0 (6/??/2007)
   content and not the form context. This guarantees that vocabulary
   factories receive a context that is actually useful.
 
+- Bug: The mode selection made during the field layout creation 
+  was not honored and the widget manager always overrode the 
+  options providing its value. Now the mode specified in the 
+  field is more important than the one from the widget manager.
+
+- Bug: It sometimes happens that the sequence widget has the 
+  no-value token as one element. This caused ``displayValue()`` to 
+  fail, since it tried to find a term for it. For now we simply 
+  ignore the no-value token.
+
+- Bug: Fixed the converter when the incoming value is an 
+  empty string. An empty string really means that we have no value  
+  and it is thus missing, returning the missing value.
+
 - Bug: Fix a slightly incorrect implementation. It did not cause any harm in 
   real-world forms, but made unit testing much harder, since an API 
   expectation was not met correctly.

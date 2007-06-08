@@ -22,6 +22,7 @@ import zope.interface
 import zope.contenttype
 
 from z3c.form import interfaces
+from z3c.i18n import MessageFactory as _
 
 
 _identifier = re.compile('[A-Za-z][a-zA-Z0-9_]*$')
@@ -84,25 +85,24 @@ def extractContentType(form, id):
     return zope.contenttype.guess_content_type(widget.filename)[0]
 
 
-def extractFileName(form, id, cleanup=True):
+def extractFileName(form, id, cleanup=True, allowEmtpyPostFix=False):
     """Knows how to extract a filename if a IBytes/IFileWidget was used.
     
     Uploads from win/IE need some cleanup because the filename includes also 
     the path. cleanUp=True will do this for you.
     """
     widget = getWidgetById(form, id)
+    if not allowEmtpyPostFix or cleanup:
+        # we need to strip out the path part even if we not reomve them later,
+        # because we just need ot check the filename extension
+        cleanFileName = widget.filename.split('\\')[-1]
+        cleanFileName = cleanFileName.split('/')[-1]
+        dottedParts = cleanFileName.split('.')
+    if not allowEmtpyPostFix:
+        if len(dottedParts) <= 1:
+            raise ValueError(_('Missing filename extension.'))
     if cleanup:
-        # we try to use a better file name. Uploads from win/IE need some 
-        # cleanup because the filename includes also the path.
-        path = widget.filename.split('.')
-        if len(path) > 1:
-            postfix = path.pop(-1)
-            # now remove the rest of the path
-            pathStr = path.pop(-1)
-            cleanFileName = pathStr.split('\\')[-1]
-            cleanFileName = cleanFileName.split('/')[-1]
-            filename = cleanFileName +'.'+ postfix
-        return filename
+        return cleanFileName
     return widget.filename
 
 

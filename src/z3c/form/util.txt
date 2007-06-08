@@ -46,3 +46,138 @@ start with the correct prefix, otherwise a value error is raised:
 If the widget is not found but the prefix is correct, ``None`` is returned:
 
   >>> util.getWidgetById(addPerson, 'form.widgets.myname')
+
+
+extractFileName
+---------------
+
+Test the filename extraction method:
+
+  >>> class IDocument(zope.interface.Interface):
+  ...     data = zope.schema.Bytes(title=u'Data')
+
+Define a widgets stub and a upload widget stub class and setup them as a 
+faked form:
+
+  >>> class FileUploadWidgetStub(object):
+  ...     def __init__(self):
+  ...         self.filename = None
+
+  >>> class WidgetsStub(object):
+  ...     def __init__(self):
+  ...         self.data = FileUploadWidgetStub()
+  ...         self.prefix = 'widgets.'
+  ...     def get(self, name, default):
+  ...         return self.data
+
+  >>> class FileUploadFormStub(form.AddForm):
+  ...     def __init__(self):
+  ...         self.widgets = WidgetsStub()
+  ... 
+  ...     def setFakeFileName(self, filename):
+  ...         self.widgets.data.filename = filename
+
+Now we can setup the stub form. Note this form is just a fake it's not a real 
+implementation. We just provide a form like class which simulates the 
+FileUpload object in the a widget. See z3c.form.browser.file.txt for a real
+file upload test uscase:
+
+  >>> uploadForm = FileUploadFormStub()
+  >>> uploadForm.setFakeFileName('foo.txt')
+
+And extract the filename
+
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  'foo.txt'
+
+Test a unicode filename:
+
+  >>> uploadForm.setFakeFileName(u'foo.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  u'foo.txt'
+
+Test a windows IE uploaded filename:
+
+  >>> uploadForm.setFakeFileName(u'D:\\some\\folder\\foo.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  u'foo.txt'
+
+Test another filename:
+
+  >>> uploadForm.setFakeFileName(u'D:/some/folder/foo.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  u'foo.txt'
+
+Test another filename:
+
+  >>> uploadForm.setFakeFileName(u'/tmp/folder/foo.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  u'foo.txt'
+
+Test special characters in filename, e.g. dots:
+
+  >>> uploadForm.setFakeFileName(u'/tmp/foo.bar.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  u'foo.bar.txt'
+
+Test some other special characters in filename:
+
+  >>> uploadForm.setFakeFileName(u'/tmp/foo-bar.v.0.1.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  u'foo-bar.v.0.1.txt'
+
+Test special characters in file path of filename:
+
+  >>> uploadForm.setFakeFileName(u'/tmp-v.1.0/foo-bar.v.0.1.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  u'foo-bar.v.0.1.txt'
+
+Test optional keyword arguments. But remember it's hard for Zope to guess the 
+content type for filenames without extensions:
+
+  >>> uploadForm.setFakeFileName(u'minimal')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
+  ...     allowEmtpyPostFix=True)
+  u'minimal'
+
+  >>> uploadForm.setFakeFileName(u'/tmp/minimal')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
+  ...     allowEmtpyPostFix=True)
+  u'minimal'
+
+  >>> uploadForm.setFakeFileName(u'D:\\some\\folder\\minimal')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
+  ...     allowEmtpyPostFix=True)
+  u'minimal'
+
+There will be a ValueError if we get a empty filename by default:
+
+  >>> uploadForm.setFakeFileName(u'/tmp/minimal')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
+  Traceback (most recent call last):
+  ...
+  ValueError: Missing filename extension.
+
+We also can skip removing a path from a upload. Note only IE will upload a
+path in a upload ``<input type="file" ...>`` field:
+
+  >>> uploadForm.setFakeFileName(u'/tmp/foo.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
+  u'/tmp/foo.txt'
+
+  >>> uploadForm.setFakeFileName(u'/tmp-v.1.0/foo-bar.v.0.1.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
+  u'/tmp-v.1.0/foo-bar.v.0.1.txt'
+
+  >>> uploadForm.setFakeFileName(u'D:\\some\\folder\\foo.txt')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
+  u'D:\\some\\folder\\foo.txt'
+
+And missing filename extensions are also not allowed by deafault if we skip
+the filename:
+
+  >>> uploadForm.setFakeFileName(u'/tmp/minimal')
+  >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
+  Traceback (most recent call last):
+  ...
+  ValueError: Missing filename extension.

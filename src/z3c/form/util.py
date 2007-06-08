@@ -89,7 +89,10 @@ def extractFileName(form, id, cleanup=True, allowEmtpyPostFix=False):
     """Knows how to extract a filename if a IBytes/IFileWidget was used.
     
     Uploads from win/IE need some cleanup because the filename includes also 
-    the path. cleanUp=True will do this for you.
+    the path. The option cleanup=True will do this for you. The option 
+    allowEmtpyPostFix allows to pass filename without extensions. By default
+    this option is set to False and will raise a ValueError if a filename 
+    doesn't contain a extension.
     """
     widget = getWidgetById(form, id)
     if not allowEmtpyPostFix or cleanup:

@@ -108,14 +108,14 @@ class TimedeltaDataConverter(FieldDataConverter):
         return datetime.timedelta(days, sum(seconds))
 
 
-class BytesDataConverter(FieldDataConverter):
+class FileUploadDataConverter(FieldDataConverter):
     """A special data converter for bytes, supporting also FileUpload.
 
     Since IBytes represents a file upload too, this converter can handle
     zope.publisher.browser.FileUpload object as given value.
     """
     zope.component.adapts(
-        zope.schema.interfaces.IBytes, interfaces.IWidget)
+        zope.schema.interfaces.IBytes, interfaces.IFileWidget)
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""

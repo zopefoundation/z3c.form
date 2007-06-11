@@ -205,17 +205,19 @@ datetime value:
   datetime.timedelta(1, 3661)
 
 
-Bytes Data Converter
---------------------
+FileUpload Data Converter
+-------------------------
 
 Since the ``Bytes`` field can contain a FileUpload object, we have to make
 sure we can convert FileUpload objects to bytes too.
 
+  >>> import z3c.form.browser.file
+  >>> fileWidget = z3c.form.browser.file.FileWidget(TestRequest())
   >>> bytes = zope.schema.Bytes()
 
-  >>> bdc = converter.BytesDataConverter(bytes, text)
+  >>> bdc = converter.FileUploadDataConverter(bytes, fileWidget)
   >>> bdc
-  <DataConverter from Bytes to Widget>
+  <DataConverter from Bytes to FileWidget>
 
 Bytes are converted to unicode:
 
@@ -245,6 +247,34 @@ and try to convert:
   >>> bdc.toFieldValue(myUpload)
   'File upload contents.'
 
+
+Bytes Data Converter
+--------------------
+
+The IBytes field uses a file upload widget which uses a file upload data 
+converter. This requires that we test the IBytes converter for normal IWidget.
+Note that IBytes always will get a FileUpload widget, if you need to use a
+text field for bytes, you have to register a custom widget using the 
+widgetFactory attribute of the z3c.form.interfaces.IField.
+
+  >>> bytes = zope.schema.Bytes()
+
+  >>> fdc = converter.FieldDataConverter(bytes, text)
+  >>> fdc
+  <DataConverter from Bytes to Widget>
+
+BytesLine are simply converted to string:
+
+  >>> value = 'foobar'
+
+  >>> fdc.toWidgetValue(value)
+  u'foobar'
+
+The converter only knows how to convert this particular format back to a
+datetime value:
+
+  >>> fdc.toFieldValue(u'foobar')
+  'foobar'
 
 
 Sequence Data Converter

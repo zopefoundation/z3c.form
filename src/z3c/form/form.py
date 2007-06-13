@@ -34,6 +34,10 @@ from z3c.form.i18n import MessageFactory as _
 def applyChanges(form, content, data):
     changed = False
     for name, field in form.fields.items():
+        # If the field is not in the data, then go on to the next one
+        if name not in data:
+            continue
+        # Get the datamanager and get the original value
         dm = zope.component.getMultiAdapter(
             (content, field.field), interfaces.IDataManager)
         oldValue = dm.get()
@@ -42,6 +46,7 @@ def applyChanges(form, content, data):
             dm.set(data[name])
             changed = True
     return changed
+
 
 def extends(*args, **kwargs):
     frame = sys._getframe(1)
@@ -162,6 +167,7 @@ class AddForm(Form):
         self.widgets = zope.component.getMultiAdapter(
             (self, self.request, self.getContent()), interfaces.IWidgets)
         self.widgets.ignoreContext = True
+        self.widgets.ignoreReadonly = True
         self.widgets.update()
 
     def create(self, data):

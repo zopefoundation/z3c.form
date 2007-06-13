@@ -22,6 +22,11 @@ Before we can start writing forms, we must have the content to work with:
   >>> import zope.schema
   >>> class IPerson(zope.interface.Interface):
   ...
+  ...     id = zope.schema.TextLine(
+  ...         title=u'ID',
+  ...         readonly=True,
+  ...         required=True)
+  ...
   ...     name = zope.schema.TextLine(
   ...         title=u'Name',
   ...         required=True)
@@ -41,11 +46,13 @@ Before we can start writing forms, we must have the content to work with:
   >>> from zope.schema.fieldproperty import FieldProperty
   >>> class Person(object):
   ...     zope.interface.implements(IPerson)
+  ...     id = FieldProperty(IPerson['id'])
   ...     name = FieldProperty(IPerson['name'])
   ...     gender = FieldProperty(IPerson['gender'])
   ...     age = FieldProperty(IPerson['age'])
   ...
-  ...     def __init__(self, name, gender=None, age=None):
+  ...     def __init__(self, id, name, gender=None, age=None):
+  ...         self.id = id
   ...         self.name = name
   ...         if gender:
   ...             self.gender = gender
@@ -97,7 +104,7 @@ Thus let's now create a working add form:
   ...         return Person(**data)
   ...
   ...     def add(self, object):
-  ...         self.context[object.name] = object
+  ...         self.context[object.id] = object
   ...
   ...     def nextURL(self):
   ...         return 'index.html'
@@ -145,7 +152,7 @@ the ``IForm`` interface:
 The widget manager will have three widgets, one for each field:
 
   >>> addForm.widgets.keys()
-  ['name', 'gender', 'age']
+  ['id', 'name', 'gender', 'age']
 
 When the widget manager updates itself, several sub-tasks are processed. The
 manager goes through each field, trying to create a fully representative
@@ -218,7 +225,7 @@ might depend on several factors:
 
 * The permission to the content's data value
 * The manual ``mode`` flag in the field
-* The ``read_only`` flag in the schema field
+* The ``readonly`` flag in the schema field
 
 
 Widget Attribute Values
@@ -285,6 +292,11 @@ Let's now render the page:
     <body>
       <form action=".">
         <div class="row">
+          <label for="form-widgets-id">ID</label>
+          <input type="text" id="form-widgets-id"
+                 name="form.widgets.id" class="textWidget" value="" />
+        </div>
+        <div class="row">
           <label for="form-widgets-name">Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
                  class="textWidget" value="" />
@@ -322,6 +334,7 @@ Let's now fill the request with all the right values so that upon submitting
 the form with the "Add" button, the person should be added to the root folder:
 
   >>> request = TestRequest(form={
+  ...     'form.widgets.id': u'srichter',
   ...     'form.widgets.name': u'Stephan Richter',
   ...     'form.widgets.gender': ['male'],
   ...     'form.widgets.age': u'20',
@@ -332,8 +345,10 @@ the form with the "Add" button, the person should be added to the root folder:
   >>> addForm.update()
 
   >>> sorted(root)
-  [u'Stephan Richter']
-  >>> stephan = root[u'Stephan Richter']
+  [u'srichter']
+  >>> stephan = root[u'srichter']
+  >>> stephan.id
+  u'srichter'
   >>> stephan.name
   u'Stephan Richter'
   >>> stephan.gender
@@ -350,6 +365,7 @@ add form should not complete with the addition, but return with the add form
 pointing out the error.
 
   >>> request = TestRequest(form={
+  ...     'form.widgets.id': u'srichter',
   ...     'form.widgets.gender': ['male'],
   ...     'form.widgets.age': u'23',
   ...     'form.buttons.add': u'Add'}
@@ -380,6 +396,11 @@ Let's now render the form:
         </li>
       </ul>
       <form action=".">
+        <div class="row">
+          <label for="form-widgets-id">ID</label>
+          <input type="text" id="form-widgets-id"
+                 name="form.widgets.id" class="textWidget" value="srichter" />
+        </div>
         <div class="row">
           <b><div class="error">Required input is missing.</div>
           </b><label for="form-widgets-name">Name</label>
@@ -417,6 +438,7 @@ Note that the values of the field are now extracted from the request.
 Let's now also provide a negative age, which is not possible either:
 
   >>> request = TestRequest(form={
+  ...     'form.widgets.id': u'srichter',
   ...     'form.widgets.gender': ['male'],
   ...     'form.widgets.age': u'-5',
   ...     'form.buttons.add': u'Add'}
@@ -647,7 +669,7 @@ since all actions are completely automatic:
 
 We can use the created person from the successful addition above.
 
-  >>> editForm = PersonEditForm(root[u'Stephan Richter'], TestRequest())
+  >>> editForm = PersonEditForm(root[u'srichter'], TestRequest())
 
 After adding a template, we can look at the form:
 
@@ -657,6 +679,10 @@ After adding a template, we can look at the form:
   <html>
     <body>
       <form action=".">
+        <div class="row">
+            <label for="form-widgets-id">ID</label>
+            srichter
+        </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
@@ -704,7 +730,7 @@ Let's now submit the form having some invalid data.
   ...     'form.buttons.apply': u'Apply'}
   ...     )
 
-  >>> editForm = PersonEditForm(root[u'Stephan Richter'], request)
+  >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print editForm.render()
@@ -717,6 +743,10 @@ Let's now submit the form having some invalid data.
         </li>
       </ul>
       <form action=".">
+        <div class="row">
+            <label for="form-widgets-id">ID</label>
+            srichter
+        </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
@@ -762,7 +792,7 @@ Let's now resubmit the form with valid data, so the data should be updated.
   ...     'form.buttons.apply': u'Apply'}
   ...     )
 
-  >>> editForm = PersonEditForm(root[u'Stephan Richter'], request)
+  >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print editForm.render()
@@ -771,7 +801,7 @@ Let's now resubmit the form with valid data, so the data should be updated.
   <i>Data successfully updated.</i>
   ...
 
-  >>> stephan = root[u'Stephan Richter']
+  >>> stephan = root[u'srichter']
   >>> stephan.name
   u'Claudia Richter'
   >>> stephan.gender
@@ -792,7 +822,7 @@ When submitting the form without any changes, the form will tell you so.
   ...     'form.buttons.apply': u'Apply'}
   ...     )
 
-  >>> editForm = PersonEditForm(root[u'Stephan Richter'], request)
+  >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print editForm.render()
@@ -848,7 +878,7 @@ data manager for dictionaries is available:
 The only step the developer has to complete is to re-implement the form's
 ``getContent()`` method to return the dictionary:
 
-  >>> personDict = {'name': u'Roger Ineichen'}
+  >>> personDict = {'id': u'rineichen', 'name': u'Roger Ineichen'}
   >>> class PersonDictEditForm(PersonEditForm):
   ...     def getContent(self):
   ...         return personDict
@@ -862,6 +892,10 @@ We can now use the form as usual:
   <html>
     <body>
       <form action=".">
+        <div class="row">
+          <label for="form-widgets-id">ID</label>
+          rineichen
+        </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
           <input type="text" id="form-widgets-name"
@@ -911,6 +945,7 @@ the dictionary:
   >>> pprint(personDict)
   {'age': 5,
    'gender': 'male',
+   'id': u'rineichen',
    'name': u'Jesse Ineichen'}
 
 
@@ -929,6 +964,9 @@ Creating a display form is simple; just instantiate, update and render it:
   >>> print display.render()
   <html>
     <body>
+      <div class="row">
+        srichter
+      </div>
       <div class="row">
         Claudia Richter
       </div>
@@ -1074,7 +1112,7 @@ We register the ``MyWidget`` in a form like:
 
 We can see that the custom widget gets used in the rendered form:
 
-  >>> myEdit = MyEditForm(root[u'Stephan Richter'], TestRequest())
+  >>> myEdit = MyEditForm(root[u'srichter'], TestRequest())
   >>> addTemplate(myEdit)
   >>> myEdit.update()
   >>> print myEdit.render()

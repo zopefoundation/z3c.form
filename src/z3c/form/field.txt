@@ -316,6 +316,12 @@ definitions and create widgets for them. Thus, let's create a schema first:
   ...     """The last name is too short."""
 
   >>> class IPerson(zope.interface.Interface):
+  ...     id = zope.schema.TextLine(
+  ...         title=u'ID',
+  ...         description=u"The person's ID.",
+  ...         readonly=True,
+  ...         required=True)
+  ...
   ...     lastName = zope.schema.TextLine(
   ...         title=u'Last Name',
   ...         description=u"The person's last name.",
@@ -388,7 +394,7 @@ Other than usual mappings in Python, the widget manager's widgets are always
 in a particular order:
 
   >>> manager.keys()
-  ['lastName', 'firstName']
+  ['id', 'lastName', 'firstName']
 
 Let's make sure that all enumerable mapping functions work correctly:
 
@@ -412,18 +418,20 @@ Let's make sure that all enumerable mapping functions work correctly:
   False
 
   >>> [key for key in manager]
-  ['lastName', 'firstName']
+  ['id', 'lastName', 'firstName']
 
   >>> manager.values()
-  [<Widget 'form.widgets.lastName'>,
+  [<Widget 'form.widgets.id'>,
+   <Widget 'form.widgets.lastName'>,
    <Widget 'form.widgets.firstName'>]
 
   >>> manager.items()
-  [('lastName', <Widget 'form.widgets.lastName'>),
+  [('id', <Widget 'form.widgets.id'>),
+   ('lastName', <Widget 'form.widgets.lastName'>),
    ('firstName', <Widget 'form.widgets.firstName'>)]
 
   >>> len(manager)
-  2
+  3
 
 When a widget is added to the widget manager, it is located:
 
@@ -441,7 +449,7 @@ All widgets created by this widget manager are context aware:
   >>> lname.context is context
   True
 
-All widgets will also assume the mode of the manager:
+By default, all widgets will also assume the mode of the manager:
 
    >>> manager['lastName'].mode
    'input'
@@ -452,9 +460,25 @@ All widgets will also assume the mode of the manager:
   >>> manager['lastName'].mode
   'display'
 
-The exception is when some fields specifically desire a different mode. In
-this case, the last name will inherit the mode from the widget manager, while
-the first name will want to use a display wdget:
+The exception is when some fields specifically desire a different mode. In the
+first case, all "readonly" fields will be shown in display mode:
+
+  >>> manager.mode = interfaces.INPUT_MODE
+  >>> manager.update()
+
+  >>> manager['id'].mode
+  'display'
+
+An exception is made when the flag, "ignoreReadonly" is set:
+
+  >>> manager.ignoreReadonly = True
+  >>> manager.update()
+
+  >>> manager['id'].mode
+  'input'
+
+In the second case, the last name will inherit the mode from the widget
+manager, while the first name will want to use a display wdget:
 
   >>> addPerson.fields = field.Fields(IPerson).select('lastName')
   >>> addPerson.fields += field.Fields(
@@ -467,7 +491,6 @@ the first name will want to use a display wdget:
   'input'
   >>> manager['firstName'].mode
   'display'
-
 
 Besides managing widgets, the widget manager also controls the process of
 extracting and validating extracted data. Let's start with the validation
@@ -524,13 +547,16 @@ When all goes well, the data dictionary is complete and the error collection
 empty:
 
   >>> request = TestRequest(form={
+  ...     'form.widgets.id': u'srichter',
   ...     'form.widgets.firstName': u'Stephan',
   ...     'form.widgets.lastName': u'Richter'})
   >>> manager = field.FieldWidgets(addPerson, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager.extract()
-  ({'lastName': u'Richter', 'firstName': u'Stephan'}, ())
+
+  >>> from zope.testing.doctestunit import pprint
+  >>> pprint(manager.extract())
+  ({'firstName': u'Stephan', 'lastName': u'Richter'}, ())
 
 Since all errors are immediately converted to error view snippets, we have to
 provide the adapter from a validation error to an error view snippet first:
@@ -542,7 +568,7 @@ Let's now cause a widget-level error by not submitting the required last
 name:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan'})
+  ...     'form.widgets.firstName': u'Stephan', 'form.widgets.id': u'srichter'})
   >>> manager = field.FieldWidgets(addPerson, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
@@ -552,6 +578,7 @@ name:
 Finally, let's ensure that invariant failures are also caught:
 
   >>> request = TestRequest(form={
+  ...     'form.widgets.id': u'srichter',
   ...     'form.widgets.firstName': u'Stephan',
   ...     'form.widgets.lastName': u'Richter-Richter'})
   >>> manager = field.FieldWidgets(addPerson, request, context)

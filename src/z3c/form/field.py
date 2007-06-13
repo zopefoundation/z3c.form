@@ -177,6 +177,7 @@ class FieldWidgets(util.Manager):
     errors = ()
     ignoreContext = False
     ignoreRequest = False
+    ignoreReadonly = False
 
     def __init__(self, form, request, content):
         super(FieldWidgets, self).__init__()
@@ -218,7 +219,10 @@ class FieldWidgets(util.Manager):
             # Step 1: Determine the mode of the widget.
             mode = field.mode
             if mode is None:
-                mode = self.mode
+                if field.field.readonly and not self.ignoreReadonly:
+                    mode = interfaces.DISPLAY_MODE
+                else:
+                    mode = self.mode
             # Step 2: Get the widget for the given field.
             factory = field.widgetFactory.get(mode)
             if factory is not None:
@@ -254,6 +258,8 @@ class FieldWidgets(util.Manager):
         data = {}
         self.errors = ()
         for name, widget in self.items():
+            if widget.mode == interfaces.DISPLAY_MODE:
+                continue
             raw = widget.extract()
             value = widget.field.missing_value
             try:

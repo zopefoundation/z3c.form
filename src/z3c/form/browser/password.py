@@ -33,5 +33,5 @@ class PasswordWidget(text.TextWidget):
 @zope.component.adapter(zope.schema.interfaces.IPassword, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def PasswordFieldWidget(field, request):
-    """IFieldWidget factory for TextWidget."""
+    """IFieldWidget factory for IPasswordWidget."""
     return widget.FieldWidget(field, PasswordWidget(request))

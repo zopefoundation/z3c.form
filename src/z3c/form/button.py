@@ -221,7 +221,12 @@ class ButtonActions(action.Actions):
             if button.condition is not None and not button.condition(self.form):
                 continue
             fullName = prefix + name
-            buttonAction = ButtonAction(self.request, button, fullName)
+            # Look up a button action factory
+            buttonAction = zope.component.queryMultiAdapter(
+                (self.request, button, fullName), interfaces.IFieldWidget)
+            # if one is not found, use the default
+            if buttonAction is None:
+                buttonAction = ButtonAction(self.request, button, fullName)
             # Look up a potential custom title for the action.
             title = zope.component.queryMultiAdapter(
                 (self.form, self.request, self.content, button, self),

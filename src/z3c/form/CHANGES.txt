@@ -2,6 +2,23 @@
 CHANGES
 =======
 
+- Added missing_value support to data/time converters
+
+- Changed registration of file upload data converter. Register 
+  FileUploadDataConverter for IBytes/IFileWidget. This will force to use the 
+  data converter only for IFileWidget and not for IBytes at all. IBytes/IWidget
+  uses by default the FieldDataConverter.
+
+  What does this mean:
+  If you need to use a text area widget for IBytes, you have to register a 
+  custom widget in the form because the default widget for IBytes is a file 
+  upload widget. You can do this by simply set:
+
+  ``fields['foobar'].widgetFactory = TextWidget``
+
+- Fix extractFileName method, now it doesn't remove dots from a filename
+  Added a couple tests for extractFileName
+
 - Added named vocabulary lookup in ChoiceTerms and CollectionTerms
 
 - Implemented support for FileUpload in FileWidget

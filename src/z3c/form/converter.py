@@ -68,6 +68,8 @@ class DateDataConverter(FieldDataConverter):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
+        if value == u'':
+            return self.field.missing_value
         return datetime.date(*[int(part) for part in value.split('-')])
 
 
@@ -78,6 +80,8 @@ class TimeDataConverter(FieldDataConverter):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
+        if value == u'':
+            return self.field.missing_value
         return datetime.time(*[int(part) for part in value.split(':')])
 
 
@@ -88,6 +92,8 @@ class DatetimeDataConverter(FieldDataConverter):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
+        if value == u'':
+            return self.field.missing_value
         dateString, timeString = value.split(' ')
         dt = [int(part) for part in dateString.split('-')]
         dt += [int(part) for part in timeString.split(':')]
@@ -101,6 +107,8 @@ class TimedeltaDataConverter(FieldDataConverter):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
+        if value == u'':
+            return self.field.missing_value
         daysString, crap, timeString = value.split(' ')
         days = int(daysString)
         seconds = [int(part)*60**(2-n)
@@ -120,7 +128,7 @@ class FileUploadDataConverter(FieldDataConverter):
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         if value is None or value == '':
-            return self.context.missing_value
+            return self.field.missing_value
 
         if isinstance(value, zope.publisher.browser.FileUpload):
             # By default a IBytes field is used for get a file upload widget.
@@ -141,7 +149,7 @@ class FileUploadDataConverter(FieldDataConverter):
                 if data or getattr(value, 'filename', ''):
                     return data
                 else:
-                    return self.context.missing_value
+                    return self.field.missing_value
         else:
             return unicode(value)
 

@@ -28,6 +28,7 @@ from z3c.form.i18n import MessageFactory as _
 
 INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
+HIDDEN_MODE = 'hidden'
 
 class NOVALUE(object):
     def __repr__(self):

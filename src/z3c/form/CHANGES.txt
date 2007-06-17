@@ -2,6 +2,13 @@
 CHANGES
 =======
 
+- Added support for ``hidden`` fields. You can now use the ``hidden`` mode
+  for widgets which should get rendered as <input type="hidden" />. Note;
+  There is only a hidden widget template registered for ITextWidget. We have to
+  define more hidden widgets for sequence etc. Also make sure you use the new 
+  formui templates which will avoid rendering labels for hidden widgets or
+  adjust your custom form macros.
+
 - Added missing_value support to data/time converters
 
 - Changed registration of file upload data converter. Register 

@@ -1122,3 +1122,36 @@ We can see that the custom widget gets used in the rendered form:
          name="form.widgets.name" class="MyCSS"
          value="Claudia Richter" />
   ...
+
+
+Hidden fields
+-------------
+
+Another important part of a form is that we can generate hidden widgets. We can 
+do this in a form by defining a widget mode. We can do this by override the
+setUpWidgets method.
+
+  >>> class HiddenFieldEditForm(form.EditForm):
+  ...
+  ...     fields = field.Fields(IPerson)
+  ...     fields['name'].widgetFactory = MyFieldWidget
+  ...     
+  ...     def updateWidgets(self):
+  ...         super(HiddenFieldEditForm, self).updateWidgets()
+  ...         self.widgets['age'].mode = interfaces.HIDDEN_MODE
+
+We can see that the widget gets rendered as hidden:
+
+  >>> hiddenEdit = HiddenFieldEditForm(root[u'srichter'], TestRequest())
+  >>> addTemplate(hiddenEdit)
+  >>> hiddenEdit.update()
+  >>> print hiddenEdit.render()
+  <html>...
+  <input type="text" id="form-widgets-name"
+         name="form.widgets.name" class="MyCSS"
+         value="Claudia Richter" />
+  ...
+  <input type="hidden" id="form-widgets-age"
+         name="form.widgets.age" class="hiddenWidget"
+         value="27" />
+  ...

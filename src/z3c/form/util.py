@@ -72,10 +72,12 @@ def expandPrefix(prefix):
 
 def getWidgetById(form, id):
     """Get a widget by it's rendered DOM element id."""
+    # convert the id to a name
+    name = id.replace('-', '.')
     prefix = form.prefix + form.widgets.prefix
-    if not id.startswith(prefix):
-        raise ValueError("Id %r must start with prefix %r" %(id, prefix))
-    shortName = id[len(prefix):]
+    if not name.startswith(prefix):
+        raise ValueError("Name %r must start with prefix %r" %(name, prefix))
+    shortName = name[len(prefix):]
     return form.widgets.get(shortName, None)
 
 

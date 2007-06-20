@@ -32,20 +32,21 @@ we need to create a properly developed form:
 
 We can now ask for the widget:
 
-  >>> util.getWidgetById(addPerson, 'form.widgets.name')
+  >>> util.getWidgetById(addPerson, 'form-widgets-name')
   <TextWidget 'form.widgets.name'>
 
 The widget id can be split into a prefix and a widget name. The id must always
 start with the correct prefix, otherwise a value error is raised:
 
-  >>> util.getWidgetById(addPerson, 'myform.widgets.name')
+  >>> util.getWidgetById(addPerson, 'myform-widgets-name')
   Traceback (most recent call last):
   ...
-  ValueError: Id 'myform.widgets.name' must start with prefix 'form.widgets.'
+  ValueError: Name 'myform.widgets.name' must start with prefix 'form.widgets.'
 
 If the widget is not found but the prefix is correct, ``None`` is returned:
 
-  >>> util.getWidgetById(addPerson, 'form.widgets.myname')
+  >>> util.getWidgetById(addPerson, 'form-widgets-myname') is None
+  True
 
 
 extractFileName

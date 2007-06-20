@@ -63,6 +63,31 @@ actions:
   >>> actions['apply']
   <ButtonAction 'form.buttons.apply' u'Apply'>
 
+It is possible to customize how a button is transformed into an action
+by registering an adapter for the request and the button that provides
+IFieldWidget.
+
+  >>> import zope.component
+  >>> from zope.publisher.interfaces.browser import IBrowserRequest
+  >>> class CustomButtonAction(button.ButtonAction):
+  ...     """Custom Button Action Class."""
+  ...     zope.interface.implements(interfaces.IFieldWidget)
+  ...     zope.component.adapts(IBrowserRequest, interfaces.IButton)
+  ...
+  ...     def __init__(self, request, field):
+  ...         super(CustomButtonAction, self).__init__(request, field, None)
+
+  >>> zope.component.provideAdapter(CustomButtonAction,
+  ...                    (IBrowserRequest,interfaces.IButton),
+  ...                    interfaces.IFieldWidget)
+
+Now if we rerun update we will get this other ButtonAction
+implementation.
+
+  >>> actions.update()
+  >>> actions['apply']
+  <CustomButtonAction 'form.buttons.apply' u'Apply'>
+
 Button actions are locations:
 
   >>> apply = actions['apply']

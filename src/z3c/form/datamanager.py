@@ -20,8 +20,7 @@ __docformat__ = "reStructuredText"
 import zope.interface
 import zope.component
 import zope.schema
-from zope.security.checker import canAccess
-from zope.security.checker import canWrite
+from zope.security.checker import canAccess, canWrite, Proxy
 
 from z3c.form import interfaces
 
@@ -40,13 +39,20 @@ class AttributeField(DataManager):
         self.context = context
         self.field = field
 
-    def get(self, default=interfaces.NOVALUE):
+    def get(self):
         """See z3c.form.interfaces.IDataManager"""
         # get the right adapter or context
         context = self.context
         if self.field.interface is not None:
             context = self.field.interface(context)
-        return getattr(context, self.field.__name__, default)
+        return getattr(context, self.field.__name__)
+
+    def query(self, default=interfaces.NOVALUE):
+        """See z3c.form.interfaces.IDataManager"""
+        try:
+            return self.get()
+        except AttributeError:
+            return default
 
     def set(self, value):
         """See z3c.form.interfaces.IDataManager"""
@@ -62,12 +68,15 @@ class AttributeField(DataManager):
 
     def canAccess(self):
         """See z3c.form.interfaces.IDataManager"""
-        return canAccess(self.context, self.field.__name__)
+        if isinstance(self.context, Proxy):
+            return canAccess(self.context, self.field.__name__)
+        return True
 
     def canWrite(self):
         """See z3c.form.interfaces.IDataManager"""
-        return canWrite(self.context, self.field.__name__)
-
+        if isinstance(self.context, Proxy):
+            return canWrite(self.context, self.field.__name__)
+        return True
 
 class DictionaryField(DataManager):
     """Dictionary field."""
@@ -80,7 +89,11 @@ class DictionaryField(DataManager):
         self.data = data
         self.field = field
 
-    def get(self, default=interfaces.NOVALUE):
+    def get(self):
+        """See z3c.form.interfaces.IDataManager"""
+        return self.data[self.field.__name__]
+
+    def query(self, default=interfaces.NOVALUE):
         """See z3c.form.interfaces.IDataManager"""
         return self.data.get(self.field.__name__, default)
 

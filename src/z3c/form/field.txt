@@ -343,22 +343,27 @@ Next we need a form that specifies the fields to be added:
 
   >>> from z3c.form import field
 
-  >>> class AddPerson(object):
+  >>> class PersonForm(object):
   ...     prefix = 'form.'
   ...     fields = field.Fields(IPerson)
-  >>> addPerson = AddPerson()
+  >>> personForm = PersonForm()
 
-For more details on how to define fields within a form, see ``field.txt``. We
+For more details on how to define fields within a form, see ``form.txt``. We
 can now create the fields widget manager. It's discriminators are the form for
 which the widgets are created, the request, and the context that is being
-manipulated. Since we are developing an add-form the context is ``None``.
+manipulated. In the simplest case the context is ``None`` and ignored, as it
+is true for an add form.
 
   >>> from z3c.form.testing import TestRequest
   >>> request = TestRequest()
   >>> context = object()
 
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
+
+
+Widget Mapping
+~~~~~~~~~~~~~~
 
 The main resposibility of the manager is to provide the ``IEnumerableMapping``
 interface and an ``update()`` method. Initially the mapping, going from widget
@@ -433,6 +438,10 @@ Let's make sure that all enumerable mapping functions work correctly:
   >>> len(manager)
   3
 
+
+Properties of widgets within a manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 When a widget is added to the widget manager, it is located:
 
   >>> lname = manager['lastName']
@@ -448,6 +457,10 @@ All widgets created by this widget manager are context aware:
   True
   >>> lname.context is context
   True
+
+
+Determination of the widget mode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, all widgets will also assume the mode of the manager:
 
@@ -480,8 +493,8 @@ An exception is made when the flag, "ignoreReadonly" is set:
 In the second case, the last name will inherit the mode from the widget
 manager, while the first name will want to use a display wdget:
 
-  >>> addPerson.fields = field.Fields(IPerson).select('lastName')
-  >>> addPerson.fields += field.Fields(
+  >>> personForm.fields = field.Fields(IPerson).select('lastName')
+  >>> personForm.fields += field.Fields(
   ...     IPerson, mode=interfaces.DISPLAY_MODE).select('firstName')
 
   >>> manager.mode = interfaces.INPUT_MODE
@@ -491,6 +504,83 @@ manager, while the first name will want to use a display wdget:
   'input'
   >>> manager['firstName'].mode
   'display'
+
+In a third case, the widget will be shown in display mode, if the attribute of
+the context is not writable. Clearly this can never occur in add forms, since
+there the context is ignored, but is an important use case in edit forms.
+
+Thus we need an implementation of the ``IPerson`` interface including some
+security declarations:
+
+  >>> from zope.security import checker
+
+  >>> class Person(object):
+  ...     zope.interface.implements(IPerson)
+  ...
+  ...     def __init__(self, firstName, lastName):
+  ...         self.id = firstName[0].lower() + lastName.lower()
+  ...         self.firstName = firstName
+  ...         self.lastName = lastName
+
+  >>> PersonChecker = checker.Checker(
+  ...     get_permissions = {'id': checker.CheckerPublic,
+  ...                        'firstName': checker.CheckerPublic,
+  ...                        'lastName': checker.CheckerPublic},
+  ...     set_permissions = {'firstName': 'test.Edit',
+  ...                        'lastName': checker.CheckerPublic}
+  ...     )
+
+  >>> srichter = checker.ProxyFactory(
+  ...     Person(u'Stephan', u'Richter'), PersonChecker)
+
+In this case, the last name is always editable but for the first name the user
+will need the edit "test.Edit" permission.
+
+We also need to register the data manager and setup a new security policy:
+
+  >>> from z3c.form import datamanager
+  >>> zope.component.provideAdapter(datamanager.AttributeField)
+
+  >>> from zope.security import management
+  >>> from z3c.form import testing
+  >>> management.endInteraction()
+  >>> newPolicy = testing.SimpleSecurityPolicy()
+  >>> oldpolicy = management.setSecurityPolicy(newPolicy)
+  >>> management.newInteraction()
+
+Now we can create the widget manager:
+
+  >>> personForm = PersonForm()
+  >>> request = TestRequest()
+  >>> manager = field.FieldWidgets(personForm, request, srichter)
+
+After updating the widget manager, the fields are available as widgets, the
+first name being in display and the last name is input mode:
+
+  >>> manager.update()
+  >>> manager['id'].mode
+  'display'
+  >>> manager['firstName'].mode
+  'display'
+  >>> manager['lastName'].mode
+  'input'
+
+However, explicitely overriding the mode in the field declaration, overrides
+this selection for you:
+
+  >>> personForm.fields['firstName'].mode = interfaces.INPUT_MODE
+
+  >>> manager.update()
+  >>> manager['id'].mode
+  'display'
+  >>> manager['firstName'].mode
+  'input'
+  >>> manager['lastName'].mode
+  'input'
+
+
+Data extraction and validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Besides managing widgets, the widget manager also controls the process of
 extracting and validating extracted data. Let's start with the validation
@@ -502,7 +592,7 @@ Before we can use the method, we have to register a "manager validator":
   >>> from z3c.form import validator
   >>> zope.component.provideAdapter(validator.InvariantsValidator)
 
-  >>> addPerson.fields = field.Fields(IPerson)
+  >>> personForm.fields = field.Fields(IPerson)
   >>> manager.update()
 
   >>> manager.validate(
@@ -524,12 +614,12 @@ interface:
 
   >>> name = zope.schema.TextLine(__name__='name')
 
-  >>> class PersonForm(object):
+  >>> class PersonNameForm(object):
   ...     prefix = 'form.'
   ...     fields = field.Fields(name)
-  >>> personForm = PersonForm()
+  >>> personNameForm = PersonNameForm()
 
-  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager = field.FieldWidgets(personNameForm, request, context)
 
 In this case, the widget manager's ``validate()`` method should simply ignore
 the field and not try to look up any invariants:
@@ -550,7 +640,7 @@ empty:
   ...     'form.widgets.id': u'srichter',
   ...     'form.widgets.firstName': u'Stephan',
   ...     'form.widgets.lastName': u'Richter'})
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
 
@@ -569,7 +659,7 @@ name:
 
   >>> request = TestRequest(form={
   ...     'form.widgets.firstName': u'Stephan', 'form.widgets.id': u'srichter'})
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
   >>> manager.extract()
@@ -581,7 +671,7 @@ Finally, let's ensure that invariant failures are also caught:
   ...     'form.widgets.id': u'srichter',
   ...     'form.widgets.firstName': u'Stephan',
   ...     'form.widgets.lastName': u'Richter-Richter'})
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
   >>> data, errors = manager.extract()
@@ -600,7 +690,7 @@ declaration.
 Let's have a look at the default form first. Initially, the standard
 registered widgets are used:
 
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.update()
 
   >>> manager['firstName']
@@ -616,11 +706,11 @@ Now we would like to have our own custom input widget:
 
 It can be simply assigned as follows:
 
-  >>> addPerson.fields['firstName'].widgetFactory = CustomInputWidgetFactory
+  >>> personForm.fields['firstName'].widgetFactory = CustomInputWidgetFactory
 
 Now this widget should be used instead of the registered default one:
 
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.update()
   >>> manager['firstName']
   <CustomInputWidget 'form.widgets.firstName'>
@@ -629,7 +719,7 @@ In the background the widget factory assignment really just registered the
 default factory for in the ``WidgetFactories`` object, which manages the
 custom widgets for all modes. Now all modes show this input widget:
 
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.mode = interfaces.DISPLAY_MODE
   >>> manager.update()
   >>> manager['firstName']
@@ -643,12 +733,12 @@ However, we can also register a specific widget for the display mode:
   >>> def CustomDisplayWidgetFactory(field, request):
   ...     return widget.FieldWidget(field, CustomDisplayWidget(request))
 
-  >>> addPerson.fields['firstName']\
+  >>> personForm.fields['firstName']\
   ...     .widgetFactory[interfaces.DISPLAY_MODE] = CustomDisplayWidgetFactory
 
 Now the display mode should produce the custom display widget, ...
 
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.mode = interfaces.DISPLAY_MODE
   >>> manager.update()
   >>> manager['firstName']
@@ -656,7 +746,7 @@ Now the display mode should produce the custom display widget, ...
 
 ... while the input mode still shows the default custom input widget:
 
-  >>> manager = field.FieldWidgets(addPerson, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.mode = interfaces.INPUT_MODE
   >>> manager.update()
   >>> manager['firstName']
@@ -664,7 +754,7 @@ Now the display mode should produce the custom display widget, ...
 
 The widgets factories component,
 
-  >>> factories = addPerson.fields['firstName'].widgetFactory
+  >>> factories = personForm.fields['firstName'].widgetFactory
   >>> factories
   {'display': <function CustomDisplayWidgetFactory at ...>}
 

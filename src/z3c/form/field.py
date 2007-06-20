@@ -217,12 +217,18 @@ class FieldWidgets(util.Manager):
         # Walk through each field, making a widget out of it
         for field in self.form.fields.values():
             # Step 1: Determine the mode of the widget.
-            mode = field.mode
-            if mode is None:
-                if field.field.readonly and not self.ignoreReadonly:
+            mode = self.mode
+            if field.mode is not None:
+                mode = field.mode
+            elif field.field.readonly and not self.ignoreReadonly:
                     mode = interfaces.DISPLAY_MODE
-                else:
-                    mode = self.mode
+            elif not self.ignoreContext:
+                # If we do not have enough permissions to write to the
+                # attribute, then switch to display mode.
+                dm = zope.component.getMultiAdapter(
+                    (self.content, field.field), interfaces.IDataManager)
+                if not dm.canWrite():
+                    mode = interfaces.DISPLAY_MODE
             # Step 2: Get the widget for the given field.
             factory = field.widgetFactory.get(mode)
             if factory is not None:

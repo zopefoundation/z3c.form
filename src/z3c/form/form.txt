@@ -878,7 +878,8 @@ data manager for dictionaries is available:
 The only step the developer has to complete is to re-implement the form's
 ``getContent()`` method to return the dictionary:
 
-  >>> personDict = {'id': u'rineichen', 'name': u'Roger Ineichen'}
+  >>> personDict = {'id': u'rineichen', 'name': u'Roger Ineichen',
+  ...               'gender': None, 'age': None}
   >>> class PersonDictEditForm(PersonEditForm):
   ...     def getContent(self):
   ...         return personDict
@@ -907,7 +908,7 @@ We can now use the form as usual:
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="selectWidget" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--">no value</option>
+                    value="--NOVALUE--" selected="selected">no value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
           </select>

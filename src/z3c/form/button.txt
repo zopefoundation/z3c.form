@@ -88,8 +88,8 @@ implementation.
   >>> actions['apply']
   <CustomButtonAction 'form.buttons.apply' u'Apply'>
 
-Alternatively, modify customize an individual button by setting its
-actionFactory attribute.
+Alternatively, you can customize an individual button by setting its
+``actionFactory`` attribute.
 
   >>> def customButtonActionFactory(request, field):
   ...     print "Just to let you know, this is a custom button."
@@ -103,7 +103,7 @@ actionFactory attribute.
   >>> actions['apply'].css
   'happy'
 
-But lets not digress to much and get rid of this customization
+But let's not digress too much and get rid of this customization
 
   >>> form.buttons['apply'].actionFactory = None
   >>> actions.update()

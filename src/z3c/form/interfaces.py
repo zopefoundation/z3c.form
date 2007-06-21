@@ -466,6 +466,13 @@ class IButton(zope.schema.interfaces.IField):
         max_length=1,
         required=False)
 
+    actionFactory = zope.schema.Field(
+        title=_('Action Factory'),
+        description=_('The action factory.'),
+        required=False,
+        default=None,
+        missing_value=None)
+
 
 class IButtons(ISelectionManager):
     """Button manager."""

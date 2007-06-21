@@ -40,6 +40,7 @@ class Button(zope.schema.Field):
     zope.interface.implements(interfaces.IButton)
 
     accessKey = FieldProperty(interfaces.IButton['accessKey'])
+    actionFactory = FieldProperty(interfaces.IButton['actionFactory'])
 
     def __init__(self, *args, **kwargs):
         # Provide some shortcut ways to specify the name
@@ -222,13 +223,17 @@ class ButtonActions(action.Actions):
                 continue
             fullName = prefix + name
             # Look up a button action factory
-            buttonAction = zope.component.queryMultiAdapter(
-                (self.request, button), interfaces.IFieldWidget)
-            if buttonAction is not None:
+            if button.actionFactory is not None:
+                buttonAction = button.actionFactory(self.request, button)
                 buttonAction.name = fullName
-            # if one is not found, use the default
             else:
-                buttonAction = ButtonAction(self.request, button, fullName)
+                buttonAction = zope.component.queryMultiAdapter(
+                    (self.request, button), interfaces.IFieldWidget)
+                if buttonAction is not None:
+                    buttonAction.name = fullName
+                    # if one is not found, use the default
+                else:
+                    buttonAction = ButtonAction(self.request, button, fullName)
             # Look up a potential custom title for the action.
             title = zope.component.queryMultiAdapter(
                 (self.form, self.request, self.content, button, self),

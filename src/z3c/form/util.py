@@ -22,7 +22,7 @@ import zope.interface
 import zope.contenttype
 
 from z3c.form import interfaces
-from z3c.i18n import MessageFactory as _
+from z3c.form.i18n import MessageFactory as _
 
 
 _identifier = re.compile('[A-Za-z][a-zA-Z0-9_]*$')

@@ -168,7 +168,7 @@ declaration might be ignored. The following reasons come to mind:
 * No widget is created, if the data is not accessible in the content.
 * A custom widget manager has been registered to particularly ignore a field.
 
-In this simple case, all fields will be converted to widgets.
+In our simple test case, all fields will be converted to widgets.
 
 Widget Creation
 ~~~~~~~~~~~~~~~
@@ -200,7 +200,7 @@ order they are looked up):
 2. The content of the form, which represents the displayed data.
 3. The request, in case a form has not been submitted or an error occurred.
 
-Since we are currently building an add form, only the first two places are
+Since we are currently building an add form, the second place is not
 effective. And since we do not have anything in the request, the value should
 be the field's default value or be empty.
 
@@ -476,6 +476,13 @@ register a new error view snippet for the ``TooSmall`` error:
   >>> addForm.update()
   >>> print addForm.widgets['age'].error.render()
   <div class="error">The value cannot be a negative number.</div>
+
+Note: The ``adapts()`` call might look very strange initially. However, an
+error view snippet is an adapter that requires 6 input objects -- error,
+request, widget, field, form, content. By specifying only the error, we tell
+the system that we do not care about the other discriminators, which then can
+be anything. I could also have used ``zope.interface.Interface`` instead,
+which would be equivalent.
 
 
 Additional Form Attributes and API

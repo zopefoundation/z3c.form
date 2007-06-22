@@ -82,24 +82,24 @@ def getWidgetById(form, id):
 
 
 def extractContentType(form, id):
-    """Knows how to extract a filename if a IBytes/IFileWidget was used."""
+    """Extract the content type of the widget with the given id."""
     widget = getWidgetById(form, id)
     return zope.contenttype.guess_content_type(widget.filename)[0]
 
 
 def extractFileName(form, id, cleanup=True, allowEmtpyPostFix=False):
-    """Knows how to extract a filename if a IBytes/IFileWidget was used.
+    """Extract the filename of the widget with the given id.
 
     Uploads from win/IE need some cleanup because the filename includes also
-    the path. The option cleanup=True will do this for you. The option
-    allowEmtpyPostFix allows to pass filename without extensions. By default
-    this option is set to False and will raise a ValueError if a filename
-    doesn't contain a extension.
+    the path. The option ``cleanup=True`` will do this for you. The option
+    ``allowEmtpyPostFix`` allows to have a filename without extensions. By
+    default this option is set to ``False`` and will raise a ``ValueError`` if
+    a filename doesn't contain a extension.
     """
     widget = getWidgetById(form, id)
     if not allowEmtpyPostFix or cleanup:
-        # we need to strip out the path part even if we not reomve them later,
-        # because we just need ot check the filename extension
+        # We need to strip out the path section even if we do not reomve them
+        # later, because we just need to check the filename extension.
         cleanFileName = widget.filename.split('\\')[-1]
         cleanFileName = cleanFileName.split('/')[-1]
         dottedParts = cleanFileName.split('.')

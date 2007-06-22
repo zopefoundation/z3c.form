@@ -38,16 +38,6 @@ chapters = '\n'.join(
                  'term.txt',
                  'util.txt')])
 
-print (
-        read('README.txt')
-        + '\n\n' +
-        'Detailed Documentation\n'
-        '**********************\n'
-        + '\n' + chapters +
-        + '\n\n' +
-        read('CHANGES.txt')
-        )
-
 setup (
     name='z3c.form',
     version='1.3.0',
@@ -59,7 +49,7 @@ setup (
         + '\n\n' +
         'Detailed Documentation\n'
         '**********************\n'
-        + '\n' + chapters +
+        + '\n' + chapters
         + '\n\n' +
         read('CHANGES.txt')
         ),

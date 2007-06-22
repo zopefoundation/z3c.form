@@ -5,9 +5,6 @@ TODO
 Framework
 ---------
 
-- When an attribute is not accessible, provide a nice error message.
-
-
 Documentation
 -------------
 
@@ -18,16 +15,6 @@ Samples
 Write some samples to show the power of the new widget and form framework.
 
 - Object name as an additional field in an add form
-
-- Complex CRUD
-
-  * sub-forms
-
-  * custom widgets (date)
-
-  * one widget manipulates multiple fields
-
-  * Non-ZODB storage
 
 
 Improvements

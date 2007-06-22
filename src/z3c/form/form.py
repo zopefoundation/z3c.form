@@ -199,17 +199,22 @@ class EditForm(Form):
             (self, self.request, self.getContent()), interfaces.IWidgets)
         self.widgets.update()
 
+    def applyChanges(self, data):
+        content = self.getContent()
+        changed = applyChanges(self, content, data)
+        if changed:
+            zope.event.notify(
+                zope.lifecycleevent.ObjectModifiedEvent(content))
+        return changed
+
     @button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):
         data, errors = self.widgets.extract()
         if errors:
             self.status = self.formErrorsMessage
             return
-        content = self.getContent()
-        changed = applyChanges(self, content, data)
+        changed = self.applyChanges(data)
         if changed:
-            zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content))
             self.status = self.successMessage
         else:
             self.status = self.noChangesMessage

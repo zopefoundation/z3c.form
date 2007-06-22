@@ -1,9 +1,14 @@
-====
-TODO
-====
+=====
+TODOS
+=====
 
 Framework
 ---------
+
+- There is only a hidden widget template registered for ``ITextWidget``. We
+  have to define more hidden widgets for sequence etc.
+
+
 
 Documentation
 -------------

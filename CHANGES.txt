@@ -2,11 +2,52 @@
 CHANGES
 =======
 
-Version 1.3.0 (6/??/2007)
+Version 1.3.0 (6/22/2007)
 -------------------------
 
-- Documentation: Integrated English language and content review improvements
-  by Roy Mathew in ``form.txt``.
+- Feature: In an edit form applying the data and generating all necessary
+  messages was all done within the "Apply" button handler. Now the actual task
+  of storing is factored out into a new method called "applyChanges(data)",
+  which returns whether the data has been changed. This is useful for forms
+  not dealing with objects.
+
+- Feature: Added support for ``hidden`` fields. You can now use the ``hidden``
+  mode for widgets which should get rendered as ``<input type="hidden"
+  />``.
+
+  Note: Make sure you use the new formui templates which will avoid rendering
+        labels for hidden widgets or adjust your custom form macros.
+
+- Feature: Added ``missing_value`` support to data/time converters
+
+- Feature: Added named vocabulary lookup in ``ChoiceTerms`` and
+  ``CollectionTerms``.
+
+- Implemented support for ``FileUpload`` in ``FileWidget``.
+
+  * Added helper for handling ``FileUpload`` widgets:
+
+    + ``extractContentType(form, id)
+
+      Extracts the content type if ``IBytes``/``IFileWidget`` was used.
+
+    + ``extractFileName(form, id, cleanup=True, allowEmtpyPostFix=False)``
+
+      Extracts a filename if ``IBytes``/``IFileWidget`` was used.
+
+      Uploads from win/IE need some cleanup because the filename includes also
+      the path. The option ``cleanup=True`` will do this for you. The option
+      ``allowEmtpyPostFix`` allows you to pass a filename without
+      extensions. By default this option is set to ``False`` and will raise a
+      ``ValueError`` if a filename doesn't contain an extension.
+
+  * Created afile upload data converter registered for
+    ``IBytes``/``IFileWidget`` ensuring that the converter will only be used
+    for fiel widgets. The file widget is now the default for the bytes
+    field. If you need to use a text area widget for ``IBytes``, you have to
+    register a custom widget in the form using::
+
+      fields['foobar'].widgetFactory = TextWidget
 
 - Feature: Originally, when an attribute access failed in Unauthorized or
   ForbiddenAttribute exceptions, they were ignored as if the attribute would
@@ -66,11 +107,16 @@ Version 1.3.0 (6/??/2007)
 - Bug: When fields only had a vocabulary name, the choice terms adaptation
   would fail, since the field was not bound. This has now been corrected.
 
+- Documentation: Integrated English language and content review improvements
+  by Roy Mathew in ``form.txt``.
+
+
 Version 1.2.0 (5/30/2007)
 -------------------------
 
 - Feature: Added ability to change the button action title using an ``IValue``
   adapter.
+
 
 Version 1.1.0 (5/30/2007)
 -------------------------

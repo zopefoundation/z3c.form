@@ -32,20 +32,21 @@ we need to create a properly developed form:
 
 We can now ask for the widget:
 
-  >>> util.getWidgetById(addPerson, 'form.widgets.name')
+  >>> util.getWidgetById(addPerson, 'form-widgets-name')
   <TextWidget 'form.widgets.name'>
 
 The widget id can be split into a prefix and a widget name. The id must always
 start with the correct prefix, otherwise a value error is raised:
 
-  >>> util.getWidgetById(addPerson, 'myform.widgets.name')
+  >>> util.getWidgetById(addPerson, 'myform-widgets-name')
   Traceback (most recent call last):
   ...
-  ValueError: Id 'myform.widgets.name' must start with prefix 'form.widgets.'
+  ValueError: Name 'myform.widgets.name' must start with prefix 'form.widgets.'
 
 If the widget is not found but the prefix is correct, ``None`` is returned:
 
-  >>> util.getWidgetById(addPerson, 'form.widgets.myname')
+  >>> util.getWidgetById(addPerson, 'form-widgets-myname') is None
+  True
 
 
 extractFileName
@@ -181,3 +182,43 @@ the filename:
   Traceback (most recent call last):
   ...
   ValueError: Missing filename extension.
+
+
+extractContentType
+------------------
+
+there s alos a method which is able to extract the content type for a given
+file upload. We can use the stub form form the previous test.
+
+  >>> uploadForm = FileUploadFormStub()
+  >>> uploadForm.setFakeFileName('foo.txt')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'text/plain'
+
+  >>> uploadForm.setFakeFileName('foo.gif')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'image/gif'
+
+  >>> uploadForm.setFakeFileName('foo.jpg')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'image/jpeg'
+
+  >>> uploadForm.setFakeFileName('foo.png')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'image/png'
+
+  >>> uploadForm.setFakeFileName('foo.tif')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'image/tiff'
+
+  >>> uploadForm.setFakeFileName('foo.doc')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'application/msword'
+
+  >>> uploadForm.setFakeFileName('foo.zip')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'application/zip'
+
+  >>> uploadForm.setFakeFileName('foo.unknown')
+  >>> util.extractContentType(uploadForm, 'form.widgets.data')
+  'text/x-unknown-content-type'

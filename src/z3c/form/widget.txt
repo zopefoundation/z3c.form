@@ -262,6 +262,49 @@ Again, the request value is honored above everything else:
   >>> print ageWidget.render()
   <input type="text" name="age" value="25" />
 
+But what happens if the object we are working on is securoty proxied? In
+particular, what happens, if the access to the attribute is denied. To see
+what happens, we have to create a proxied person:
+
+  >>> from zope.security import checker
+  >>> PersonChecker = checker.Checker({'age': 'Access'}, {'age': 'Edit'})
+
+  >>> ageWidget.request = TestRequest()
+  >>> ageWidget.context = checker.ProxyFactory(Person(), PersonChecker)
+
+After changing the security policy, ...
+
+  >>> from zope.security import management
+  >>> from z3c.form import testing
+  >>> management.endInteraction()
+  >>> newPolicy = testing.SimpleSecurityPolicy()
+  >>> oldPolicy = management.setSecurityPolicy(newPolicy)
+  >>> management.newInteraction()
+
+it is not possible anymore to update the widget:
+
+  >>> ageWidget.update()
+  Traceback (most recent call last):
+  ...
+  Unauthorized: (<Person object at ...>, 'age', 'Access')
+
+If no security declaration has been made at all, we get a
+``ForbiddenAttribute`` error:
+
+  >>> ageWidget.context = checker.ProxyFactory(Person(), checker.Checker({}))
+  >>> ageWidget.update()
+  Traceback (most recent call last):
+  ...
+  ForbiddenAttribute: ('age', <Person object at ...>)
+
+Let's clean up the setup:
+
+  >>> management.endInteraction()
+  >>> newPolicy = management.setSecurityPolicy(oldPolicy)
+  >>> management.newInteraction()
+
+  >>> ageWidget.context = Person()
+
 
 Dynamically Changing Attribute Values
 -------------------------------------

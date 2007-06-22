@@ -97,6 +97,10 @@ def setupFormDefaults():
         widget.WidgetTemplateFactory(getPath('text_display.pt'), 'text/html'),
         (None, None, None, None, interfaces.ITextWidget),
         IPageTemplate, name=interfaces.DISPLAY_MODE)
+    zope.component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('text_hidden.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ITextWidget),
+        IPageTemplate, name=interfaces.HIDDEN_MODE)
     # Radio Field Widget
     zope.component.provideAdapter(radio.RadioFieldWidget)
     zope.component.provideAdapter(

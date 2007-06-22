@@ -76,6 +76,11 @@ files. The documents are ordered in the way they should be read:
   The ``util`` module provides several helper functions and classes. The
   components not tested otherwise are explained in this file.
 
+- ``adding.txt`` [informative]
+
+   This module provides a base class for add forms that work with the
+   ``IAdding`` interface.
+
 
 Browser Documentation
 ---------------------

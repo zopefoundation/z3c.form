@@ -484,3 +484,125 @@ Final Note: With ``zope.formlib`` and ``zope.app.form`` people usually wrote
 complex object widgets to handle objects within forms. We never considered
 this a good way of programming, since one looses control over the layout too
 easily.
+
+
+Context less subform (for Mats) 
+-------------------------------
+
+Ok, that was easy. But what about write a form including a subform wihtout a 
+context? Let's show how we can write a form wihtout any concext using the
+sample above. Note, this sample for do not include actions which store the 
+form input. You can store the values like in any other forms using the forms
+widget method ``self.widgets.extract()`` which will return the form and subform
+input values. 
+
+  >>> from z3c.form.interfaces import IWidgets
+  >>> class OwnerAddForm(form.EditForm):
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_owneredit.pt', templatePath)
+  ...     fields = field.Fields(IOwner)
+  ...     prefix = 'owner'
+  ... 
+  ...     def updateWidgets(self):
+  ...         self.widgets = zope.component.getMultiAdapter(
+  ...             (self, self.request, self.getContent()), IWidgets)
+  ...         self.widgets.ignoreContext = True
+  ...         self.widgets.update()
+
+Next we define the car form, which has the owner form as a sub-form.
+
+  >>> class CarAddForm(form.EditForm):
+  ...     fields = field.Fields(ICar).select('model', 'make')
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_caredit.pt', templatePath)
+  ...     prefix = 'car'
+  ... 
+  ...     def updateWidgets(self):
+  ...         self.widgets = zope.component.getMultiAdapter(
+  ...             (self, self.request, self.getContent()), IWidgets)
+  ...         self.widgets.ignoreContext = True
+  ...         self.widgets.update()
+  ... 
+  ...     def update(self):
+  ...         self.owner = OwnerAddForm(None, self.request)
+  ...         self.owner.update()
+  ...         super(CarAddForm, self).update()
+
+Let's now instantiate the form and render it. but first setup a simple container
+which we can use for the add form context:
+
+  >>> class Container(object):
+  ...    """Simple context simulation a container."""
+  >>> container = Container()
+
+Setup a test request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+
+And render the form. As you can see, the widget get rendered withut any ``real``
+context.
+
+  >>> carForm = CarAddForm(container, request)
+  >>> carForm.update()
+  >>> print carForm.render()
+  <html>
+  <body>
+  <form action=".">
+    <div class="row">
+      <label for="car-widgets-model">Model</label>
+      <input type="text" id="car-widgets-model"
+           name="car.widgets.model" class="textWidget" value="" />
+    </div>
+    <div class="row">
+      <label for="car-widgets-make">Make</label>
+      <input type="text" id="car-widgets-make"
+           name="car.widgets.make" class="textWidget" value="" />
+    </div>
+    <fieldset>
+    <legend>Owner</legend>
+    <div class="row">
+      <label for="owner-widgets-name">Name</label>
+      <input type="text" id="owner-widgets-name"
+           name="owner.widgets.name" class="textWidget" value="" />
+    </div>
+    <div class="row">
+      <label for="owner-widgets-license">License</label>
+      <input type="text" id="owner-widgets-license"
+           name="owner.widgets.license" class="textWidget"
+           value="" />
+    </div>
+    <div class="action">
+      <input type="submit" id="owner-buttons-apply"
+           name="owner.buttons.apply" class="submitWidget"
+           value="Apply" />
+    </div>
+    </fieldset>
+    <div class="action">
+      <input type="submit" id="car-buttons-apply"
+           name="car.buttons.apply" class="submitWidget"
+           value="Apply" />
+    </div>
+  </form>
+  </body>
+  </html>
+
+Let's show how we can extract input values of the form and subform. First give
+them some input:
+
+  >>> request = TestRequest(form={
+  ...     'car.widgets.model': u'Ford',
+  ...     'car.widgets.make': u'F150',
+  ...     'owner.widgets.name': u'Stephan Richter',
+  ...     'owner.widgets.license': u'MA-991723FDG',
+  ...     })
+  >>> carForm = CarAddForm(container, request)
+  >>> carForm.update()
+
+Now get the form values. This is normaly done in a action handler:
+
+  >>> carForm.widgets.extract()
+  ({'model': u'Ford', 'make': u'F150'}, ())
+
+  >>> carForm.owner.widgets.extract()
+  ({'name': u'Stephan Richter', 'license': u'MA-991723FDG'}, ())

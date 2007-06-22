@@ -168,7 +168,7 @@ declaration might be ignored. The following reasons come to mind:
 * No widget is created, if the data is not accessible in the content.
 * A custom widget manager has been registered to particularly ignore a field.
 
-In this simple case, all fields will be converted to widgets.
+In our simple test case, all fields will be converted to widgets.
 
 Widget Creation
 ~~~~~~~~~~~~~~~
@@ -200,7 +200,7 @@ order they are looked up):
 2. The content of the form, which represents the displayed data.
 3. The request, in case a form has not been submitted or an error occurred.
 
-Since we are currently building an add form, only the first two places are
+Since we are currently building an add form, the second place is not
 effective. And since we do not have anything in the request, the value should
 be the field's default value or be empty.
 
@@ -476,6 +476,13 @@ register a new error view snippet for the ``TooSmall`` error:
   >>> addForm.update()
   >>> print addForm.widgets['age'].error.render()
   <div class="error">The value cannot be a negative number.</div>
+
+Note: The ``adapts()`` call might look very strange initially. However, an
+error view snippet is an adapter that requires 6 input objects -- error,
+request, widget, field, form, content. By specifying only the error, we tell
+the system that we do not care about the other discriminators, which then can
+be anything. I could also have used ``zope.interface.Interface`` instead,
+which would be equivalent.
 
 
 Additional Form Attributes and API
@@ -878,7 +885,8 @@ data manager for dictionaries is available:
 The only step the developer has to complete is to re-implement the form's
 ``getContent()`` method to return the dictionary:
 
-  >>> personDict = {'id': u'rineichen', 'name': u'Roger Ineichen'}
+  >>> personDict = {'id': u'rineichen', 'name': u'Roger Ineichen',
+  ...               'gender': None, 'age': None}
   >>> class PersonDictEditForm(PersonEditForm):
   ...     def getContent(self):
   ...         return personDict
@@ -907,7 +915,7 @@ We can now use the form as usual:
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="selectWidget" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--">no value</option>
+                    value="--NOVALUE--" selected="selected">no value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
           </select>
@@ -1121,4 +1129,37 @@ We can see that the custom widget gets used in the rendered form:
   <input type="text" id="form-widgets-name"
          name="form.widgets.name" class="MyCSS"
          value="Claudia Richter" />
+  ...
+
+
+Hidden fields
+-------------
+
+Another important part of a form is that we can generate hidden widgets. We can 
+do this in a form by defining a widget mode. We can do this by override the
+setUpWidgets method.
+
+  >>> class HiddenFieldEditForm(form.EditForm):
+  ...
+  ...     fields = field.Fields(IPerson)
+  ...     fields['name'].widgetFactory = MyFieldWidget
+  ...     
+  ...     def updateWidgets(self):
+  ...         super(HiddenFieldEditForm, self).updateWidgets()
+  ...         self.widgets['age'].mode = interfaces.HIDDEN_MODE
+
+We can see that the widget gets rendered as hidden:
+
+  >>> hiddenEdit = HiddenFieldEditForm(root[u'srichter'], TestRequest())
+  >>> addTemplate(hiddenEdit)
+  >>> hiddenEdit.update()
+  >>> print hiddenEdit.render()
+  <html>...
+  <input type="text" id="form-widgets-name"
+         name="form.widgets.name" class="MyCSS"
+         value="Claudia Richter" />
+  ...
+  <input type="hidden" id="form-widgets-age"
+         name="form.widgets.age" class="hiddenWidget"
+         value="27" />
   ...

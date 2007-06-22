@@ -1,0 +1,121 @@
+=========================
+Add Forms for ``IAdding``
+=========================
+
+While using ``IAdding``-based add forms is strongly discouraged by this
+package due to performance and code complexity concerns, there is still the
+need for add forms based on IAdding, especially when one wants to extend the
+default ZMI and use the add menu.
+
+Before we get started, we need to register a bunch of form-related components:
+
+  >>> from z3c.form import testing
+  >>> testing.setupFormDefaults()
+
+Let's first create a content component:
+
+  >>> import zope.interface
+  >>> import zope.schema
+  >>> class IPerson(zope.interface.Interface):
+  ...
+  ...     name = zope.schema.TextLine(
+  ...         title=u'Name',
+  ...         required=True)
+
+  >>> from zope.schema.fieldproperty import FieldProperty
+  >>> class Person(object):
+  ...     zope.interface.implements(IPerson)
+  ...     name = FieldProperty(IPerson['name'])
+  ...
+  ...     def __init__(self, name):
+  ...         self.name = name
+  ...
+  ...     def __repr__(self):
+  ...         return '<%s %r>' %(self.__class__.__name__, self.name)
+
+Next we need a container to which we wish to add the person:
+
+  >>> from zope.app.container import btree
+  >>> people = btree.BTreeContainer()
+
+When creating and adding a new object using the ``IAdding`` API, the container
+is adapted to ``IAdding`` view:
+
+  >>> request = testing.TestRequest()
+
+  >>> from zope.app.container.browser.adding import Adding
+  >>> adding = Adding(people, request)
+  >>> adding
+  <zope.app.container.browser.adding.Adding object at ...>
+
+To be able to create a person using ``IAdding``, we need to create an add form
+for it now:
+
+  >>> import os
+  >>> from zope.app.pagetemplate import viewpagetemplatefile
+  >>> from z3c.form import tests, field
+  >>> from z3c.form.adding import AddForm
+
+  >>> class AddPersonForm(AddForm):
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_edit.pt', os.path.dirname(tests.__file__))
+  ...
+  ...     fields = field.Fields(IPerson)
+  ...
+  ...     def create(self, data):
+  ...         return Person(**data)
+
+Besides the usual template and field declarations, one must also implement the
+``create()`` method. Note that the ``add()`` and ``nextURL()`` methods are
+implemented for you already in comparison to the default add form. After
+instantiating the form, ...
+
+  >>> add = AddPersonForm(adding, request)
+
+... we can now view the form:
+
+  >>> print add()
+  <html>
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-name">Name</label>
+          <input type="text" id="form-widgets-name"
+                 name="form.widgets.name" class="textWidget" value="" />
+        </div>
+        <div class="action">
+          <input type="submit" id="form-buttons-add"
+                 name="form.buttons.add" class="submitWidget" value="Add" />
+        </div>
+      </form>
+    </body>
+  </html>
+
+Once the form is filled out and the add button is clicked, ...
+
+  >>> request = testing.TestRequest(
+  ...     form={'form.widgets.name': u'Stephan', 'form.buttons.add': 1})
+
+  >>> adding = Adding(people, request)
+  >>> add = AddPersonForm(adding, request)
+  >>> add.update()
+
+... the person is added to the container:
+
+  >>> sorted(people.keys())
+  [u'Person']
+  >>> people['Person']
+  <Person u'Stephan'>
+
+When the add form is rendered, nothing is returned and only the redirect
+header is set to the next URL. For this to work, we need to setup the location
+root correctly:
+
+  >>> from zope.traversing.interfaces import IContainmentRoot
+  >>> zope.interface.alsoProvides(people, IContainmentRoot)
+
+  >>> add.render()
+  ''
+
+  >>> request.response.getHeader('Location')
+  'http://127.0.0.1/@@contents.html'

@@ -28,6 +28,7 @@ from z3c.form.i18n import MessageFactory as _
 
 INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
+HIDDEN_MODE = 'hidden'
 
 class NOVALUE(object):
     def __repr__(self):
@@ -465,13 +466,6 @@ class IButton(zope.schema.interfaces.IField):
         min_length=1,
         max_length=1,
         required=False)
-
-    actionFactory = zope.schema.Field(
-        title=_('Action Factory'),
-        description=_('The action factory.'),
-        required=False,
-        default=None,
-        missing_value=None)
 
 
 class IButtons(ISelectionManager):

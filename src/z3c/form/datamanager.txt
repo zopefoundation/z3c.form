@@ -43,6 +43,8 @@ field it is managing the data for.
   ...     name = zope.schema.TextLine(
   ...         title=u'Name',
   ...         default=u'<no name>')
+  ...     phone = zope.schema.TextLine(
+  ...         title=u'Phone')
 
   >>> class Person(object):
   ...     zope.interface.implements(IPerson)
@@ -57,9 +59,12 @@ We can now instantiate the data manager for Stephan's name:
   >>> nameDm = datamanager.AttributeField(stephan, IPerson['name'])
 
 The data manager consists of a few simple methods to accomplish its
-purpose. Getting the value is done using the ``get()`` method:
+purpose. Getting the value is done using the ``get()`` or ``query()`` method:
 
   >>> nameDm.get()
+  u'Stephan Richter'
+
+  >>> nameDm.query()
   u'Stephan Richter'
 
 The value can be set using ``set()``:
@@ -71,9 +76,32 @@ The value can be set using ``set()``:
   >>> stephan.name
   u'Stephan "Caveman" Richter'
 
+If an attribute is not available, ``get()`` fails and ``query()`` returns a
+default value:
+
+  >>> phoneDm = datamanager.AttributeField(stephan, IPerson['phone'])
+
+  >>> phoneDm.get()
+  Traceback (most recent call last):
+  ...
+  AttributeError: 'Person' object has no attribute 'phone'
+
+  >>> phoneDm.query()
+  <NOVALUE>
+  >>> phoneDm.query('nothing')
+  'nothing'
+
 A final feature that is supported by the data manager is the check whether a
-value can be accessed and written. To demonstrate the feature, we first have
-to provide security declarations for our person:
+value can be accessed and written. When the context is not security proxied,
+both, accessing and writing, is allowed:
+
+  >>> nameDm.canAccess()
+  True
+  >>> nameDm.canWrite()
+  True
+
+To demonstrate the behavior for a security-proxied component, we first have to
+provide security declarations for our person:
 
   >>> from zope.security.management import endInteraction
   >>> from zope.security.management import newInteraction
@@ -216,6 +244,11 @@ The datamanager can really only deal with dictionaries and no other types:
 Let's now access the name:
 
   >>> nameDm.get()
+  Traceback (most recent call last):
+  ...
+  KeyError: 'name'
+
+  >>> nameDm.query()
   <NOVALUE>
 
 Initially we get the default value (as specified in the field), since the

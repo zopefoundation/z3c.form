@@ -89,8 +89,8 @@ Version 1.3.0 (6/22/2007)
   from the widget manager.
 
 - Bug: It sometimes happens that the sequence widget has the no-value token as
-  one element. This caused ``displayValue()`` to   fail, since it tried to
-  find a term for it. For now we simply   ignore the no-value token.
+  one element. This caused ``displayValue()`` to fail, since it tried to find
+  a term for it. For now we simply ignore the no-value token.
 
 - Bug: Fixed the converter when the incoming value is an empty string. An
   empty string really means that we have no value and it is thus missing,

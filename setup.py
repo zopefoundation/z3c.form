@@ -16,10 +16,12 @@
 $Id$
 """
 import os
+import xml.sax.saxutils
 from setuptools import setup, find_packages
 
 def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    text = open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    return xml.sax.saxutils.escape(text)
 
 chapters = '\n'.join(
     [read('src', 'z3c', 'form', name)

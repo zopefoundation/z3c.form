@@ -1,0 +1,36 @@
+<html>
+  <body>
+    <i tal:condition="view/status" tal:content="view/status"/>
+    <ul tal:condition="view/widgets/errors"
+        metal:define-macro="errors">
+      <li tal:repeat="error view/widgets/errors">
+        <tal:block replace="error/widget/label"
+        />: <tal:block replace="structure error/render" />
+      </li>
+    </ul>
+    <form action=".">
+      <div class="row"
+           metal:define-macro="rows"
+           tal:repeat="widget view/widgets/values">
+        <b tal:condition="widget/error"
+           tal:content="structure widget/error/render"
+        /><label for=""
+               tal:attributes="for widget/id"
+               tal:content="widget/label" />
+        <input type="text" tal:replace="structure widget/render"
+      /></div>
+      <fieldgroup tal:condition="view/groups|nothing"
+                  tal:repeat="view view/groups">
+        <legend tal:condition="view/label"
+                tal:content="view/label">Label</legend>
+        <div metal:use-macro="template/macros/errors" />
+        <div metal:use-macro="template/macros/rows" />
+      </fieldgroup>
+      <div class="action"
+           tal:condition="view/actions|nothing"
+           tal:repeat="action view/actions/values">
+        <input type="submit" tal:replace="structure action/render"
+      /></div>
+    </form>
+  </body>
+</html>

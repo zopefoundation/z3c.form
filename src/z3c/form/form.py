@@ -77,17 +77,25 @@ class BaseForm(browser.BrowserPage):
     template = None
 
     def getContent(self):
+        '''See interfaces.IForm'''
         return self.context
 
     def updateWidgets(self):
+        '''See interfaces.IForm'''
         self.widgets = zope.component.getMultiAdapter(
             (self, self.request, self.getContent()), interfaces.IWidgets)
         self.widgets.update()
 
+    def extractData(self):
+        '''See interfaces.IForm'''
+        return self.widgets.extract()
+
     def update(self):
+        '''See interfaces.IForm'''
         self.updateWidgets()
 
     def render(self):
+        '''See interfaces.IForm'''
         # render content template
         if self.template is None:
             template = zope.component.getMultiAdapter((self, self.request),
@@ -154,7 +162,7 @@ class AddForm(Form):
 
     @button.buttonAndHandler(_('Add'), name='add')
     def handleAdd(self, action):
-        data, errors = self.widgets.extract()
+        data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
@@ -209,7 +217,7 @@ class EditForm(Form):
 
     @button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):
-        data, errors = self.widgets.extract()
+        data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return

@@ -27,6 +27,7 @@ chapters = '\n'.join(
     [read('src', 'z3c', 'form', name)
     for name in ('README.txt',
                  'form.txt',
+                 'group.txt',
                  'subform.txt',
                  'field.txt',
                  'button.txt',
@@ -42,7 +43,7 @@ chapters = '\n'.join(
 
 setup (
     name='z3c.form',
-    version='1.3.0',
+    version='1.4.0',
     author = "Stephan Richter, Roger Ineichen and the Zope Community",
     author_email = "zope3-dev@zope.org",
     description = "An advanced form and widget framework for Zope 3",

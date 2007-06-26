@@ -1,0 +1,425 @@
+===========
+Group Forms
+===========
+
+Group forms allow you to split up a form into several logical units without
+much overhead. To the parent form, groups should be only dealt with during
+coding and be transparent on the data extraction level.
+
+For the examples to work, we have to bring up most of the form framework:
+
+  >>> from z3c.form import testing
+  >>> testing.setupFormDefaults()
+
+So let's first define a complex content component that warrants setting up
+multiple groups:
+
+  >>> import zope.interface
+  >>> import zope.schema
+
+  >>> class IVehicleRegistration(zope.interface.Interface):
+  ...     firstName = zope.schema.TextLine(title=u'First Name')
+  ...     lastName = zope.schema.TextLine(title=u'Last Name')
+  ...
+  ...     license = zope.schema.TextLine(title=u'License')
+  ...     address = zope.schema.TextLine(title=u'Address')
+  ...
+  ...     model = zope.schema.TextLine(title=u'Model')
+  ...     make = zope.schema.TextLine(title=u'Make')
+  ...     year = zope.schema.Int(title=u'Year')
+
+  >>> class VehicleRegistration(object):
+  ...     zope.interface.implements(IVehicleRegistration)
+  ...
+  ...     def __init__(self, **kw):
+  ...         for name, value in kw.items():
+  ...             setattr(self, name, value)
+
+The schema above can be separated into basic, license, and car information,
+where the latter two will be placed into groups. First we create the two
+groups:
+
+  >>> from z3c.form import field, group
+
+  >>> class LicenseGroup(group.Group):
+  ...     label = u'License'
+  ...     fields = field.Fields(IVehicleRegistration).select(
+  ...         'license', 'address')
+
+  >>> class CarGroup(group.Group):
+  ...     label = u'Car'
+  ...     fields = field.Fields(IVehicleRegistration).select(
+  ...         'model', 'make', 'year')
+
+Most of the group is setup like any other (sub)form. Additionally, you can
+specify a label, which is a human-readable string that can be used for layout
+purposes.
+
+Let's now create an add form for the entire vehicle registration. In
+comparison to a regular add form, you only need to add the ``GroupForm`` as
+one of the base classes. The groups are specified in a simple tuple:
+
+  >>> import os
+  >>> from zope.app.pagetemplate import viewpagetemplatefile
+  >>> from z3c.form import form, tests
+
+  >>> class RegistrationAddForm(group.GroupForm, form.AddForm):
+  ...     fields = field.Fields(IVehicleRegistration).select(
+  ...         'firstName', 'lastName')
+  ...     groups = (LicenseGroup, CarGroup)
+  ...
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
+  ...
+  ...     def create(self, data):
+  ...         return VehicleRegistration(**data)
+  ...
+  ...     def add(self, object):
+  ...         self.getContent()['obj1'] = object
+  ...         return object
+
+
+Note: The order of the base classes is very important here. The ``GroupForm``
+class must be left of the ``AddForm`` class, because the ``GroupForm`` class
+overrides some methods of the ``AddForm`` class.
+
+Now we can instantiate the form:
+
+  >>> request = testing.TestRequest()
+
+  >>> add = RegistrationAddForm(None, request)
+  >>> add.update()
+
+After the form is updated the tuple of group classes is converted to group
+instances:
+
+  >>> add.groups
+  (<LicenseGroup object at ...>, <CarGroup object at ...>)
+
+We can now render the form:
+
+  >>> print add.render()
+  <html>
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-firstName">First Name</label>
+          <input type="text" id="form-widgets-firstName"
+         name="form.widgets.firstName" class="textWidget"
+         value="" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-lastName">Last Name</label>
+          <input type="text" id="form-widgets-lastName"
+         name="form.widgets.lastName" class="textWidget"
+         value="" />
+        </div>
+        <fieldgroup>
+          <legend>License</legend>
+          <div class="row">
+            <label for="form-widgets-license">License</label>
+            <input type="text" id="form-widgets-license"
+           name="form.widgets.license" class="textWidget"
+           value="" />
+          </div>
+          <div class="row">
+            <label for="form-widgets-address">Address</label>
+            <input type="text" id="form-widgets-address"
+           name="form.widgets.address" class="textWidget"
+           value="" />
+          </div>
+        </fieldgroup>
+        <fieldgroup>
+          <legend>Car</legend>
+          <div class="row">
+            <label for="form-widgets-model">Model</label>
+            <input type="text" id="form-widgets-model"
+           name="form.widgets.model" class="textWidget" value="" />
+          </div>
+          <div class="row">
+            <label for="form-widgets-make">Make</label>
+            <input type="text" id="form-widgets-make"
+           name="form.widgets.make" class="textWidget" value="" />
+          </div>
+          <div class="row">
+            <label for="form-widgets-year">Year</label>
+            <input type="text" id="form-widgets-year"
+                   name="form.widgets.year" class="textWidget" value="" />
+          </div>
+        </fieldgroup>
+        <div class="action">
+          <input type="submit" id="form-buttons-add"
+                 name="form.buttons.add" class="submitWidget"
+                 value="Add" />
+        </div>
+      </form>
+    </body>
+  </html>
+
+Let's now submit the form, but forgetting to enter the address:
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan',
+  ...     'form.widgets.lastName': u'Richter',
+  ...     'form.widgets.license': u'MA 40387',
+  ...     'form.widgets.model': u'BMW',
+  ...     'form.widgets.make': u'325',
+  ...     'form.widgets.year': u'2005',
+  ...     'form.buttons.add': u'Add'
+  ...     })
+
+  >>> add = RegistrationAddForm(None, request)
+  >>> add.update()
+  >>> print add.render()
+  <html>
+    <body>
+      <i>There were some errors.</i>
+      <form action=".">
+        ...
+        <fieldgroup>
+          <legend>License</legend>
+          <ul>
+            <li>
+              Address: <div class="error">Required input is missing.</div>
+            </li>
+          </ul>
+          ...
+        </fieldgroup>
+        ...
+      </form>
+    </body>
+  </html>
+
+As you can see, the template is clever enough to just report the errors at the
+top of the form, but still report the actual problem within the group. So what
+happens, if errors happen inside and outside a group?
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan',
+  ...     'form.widgets.license': u'MA 40387',
+  ...     'form.widgets.model': u'BMW',
+  ...     'form.widgets.make': u'325',
+  ...     'form.widgets.year': u'2005',
+  ...     'form.buttons.add': u'Add'
+  ...     })
+
+  >>> add = RegistrationAddForm(None, request)
+  >>> add.update()
+  >>> print add.render()
+  <html>
+    <body>
+      <i>There were some errors.</i>
+      <ul>
+        <li>
+          Last Name: <div class="error">Required input is missing.</div>
+        </li>
+      </ul>
+      <form action=".">
+        ...
+        <fieldgroup>
+          <legend>License</legend>
+          <ul>
+            <li>
+              Address: <div class="error">Required input is missing.</div>
+            </li>
+          </ul>
+          ...
+        </fieldgroup>
+        ...
+      </form>
+    </body>
+  </html>
+
+Let's now successfully complete the add form.
+
+  >>> from zope.app.container import btree
+  >>> context = btree.BTreeContainer()
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan',
+  ...     'form.widgets.lastName': u'Richter',
+  ...     'form.widgets.license': u'MA 40387',
+  ...     'form.widgets.address': u'10 Main St, Maynard, MA',
+  ...     'form.widgets.model': u'BMW',
+  ...     'form.widgets.make': u'325',
+  ...     'form.widgets.year': u'2005',
+  ...     'form.buttons.add': u'Add'
+  ...     })
+
+  >>> add = RegistrationAddForm(context, request)
+  >>> add.update()
+
+The object is now added to the container and all attributes should be set:
+
+  >>> reg = context['obj1']
+  >>> reg.firstName
+  u'Stephan'
+  >>> reg.lastName
+  u'Richter'
+  >>> reg.license
+  u'MA 40387'
+  >>> reg.address
+  u'10 Main St, Maynard, MA'
+  >>> reg.model
+  u'BMW'
+  >>> reg.make
+  u'325'
+  >>> reg.year
+  2005
+
+Let's now have a look at an edit form for the vehicle registration:
+
+  >>> class RegistrationEditForm(group.GroupForm, form.EditForm):
+  ...     fields = field.Fields(IVehicleRegistration).select(
+  ...         'firstName', 'lastName')
+  ...     groups = (LicenseGroup, CarGroup)
+  ...
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
+
+  >>> request = testing.TestRequest()
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+
+After updating the form, we can render the HTML:
+
+  >>> print edit.render()
+  <html>
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-firstName">First Name</label>
+          <input type="text" id="form-widgets-firstName"
+                 name="form.widgets.firstName" class="textWidget"
+                 value="Stephan" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-lastName">Last Name</label>
+          <input type="text" id="form-widgets-lastName"
+                 name="form.widgets.lastName" class="textWidget"
+                 value="Richter" />
+         </div>
+        <fieldgroup>
+          <legend>License</legend>
+          <div class="row">
+            <label for="form-widgets-license">License</label>
+            <input type="text" id="form-widgets-license"
+                   name="form.widgets.license" class="textWidget"
+                   value="MA 40387" />
+          </div>
+          <div class="row">
+            <label for="form-widgets-address">Address</label>
+            <input type="text" id="form-widgets-address"
+                   name="form.widgets.address" class="textWidget"
+                   value="10 Main St, Maynard, MA" />
+          </div>
+        </fieldgroup>
+        <fieldgroup>
+          <legend>Car</legend>
+          <div class="row">
+            <label for="form-widgets-model">Model</label>
+            <input type="text" id="form-widgets-model"
+                   name="form.widgets.model" class="textWidget"
+                   value="BMW" />
+          </div>
+          <div class="row">
+            <label for="form-widgets-make">Make</label>
+            <input type="text" id="form-widgets-make"
+                   name="form.widgets.make" class="textWidget"
+                   value="325" />
+          </div>
+          <div class="row">
+            <label for="form-widgets-year">Year</label>
+            <input type="text" id="form-widgets-year"
+                   name="form.widgets.year" class="textWidget"
+                   value="2005" />
+          </div>
+        </fieldgroup>
+        <div class="action">
+          <input type="submit" id="form-buttons-apply"
+                 name="form.buttons.apply" class="submitWidget"
+                 value="Apply" />
+        </div>
+      </form>
+    </body>
+  </html>
+
+The behavior when an error occurs is identical to that of the add form:
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan',
+  ...     'form.widgets.lastName': u'Richter',
+  ...     'form.widgets.license': u'MA 40387',
+  ...     'form.widgets.model': u'BMW',
+  ...     'form.widgets.make': u'325',
+  ...     'form.widgets.year': u'2005',
+  ...     'form.buttons.apply': u'Apply'
+  ...     })
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+  >>> print edit.render()
+  <html>
+    <body>
+      <i>There were some errors.</i>
+      <form action=".">
+        ...
+        <fieldgroup>
+          <legend>License</legend>
+          <ul>
+            <li>
+              Address: <div class="error">Required input is missing.</div>
+            </li>
+          </ul>
+          ...
+        </fieldgroup>
+        ...
+      </form>
+    </body>
+  </html>
+
+Let's now complete the form successfully:
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan',
+  ...     'form.widgets.lastName': u'Richter',
+  ...     'form.widgets.license': u'MA 4038765',
+  ...     'form.widgets.address': u'11 Main St, Maynard, MA',
+  ...     'form.widgets.model': u'Ford',
+  ...     'form.widgets.make': u'F150',
+  ...     'form.widgets.year': u'2006',
+  ...     'form.buttons.apply': u'Apply'
+  ...     })
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+
+The success message will be shown on the form, ...
+
+  >>> print edit.render()
+  <html>
+    <body>
+      <i>Data successfully updated.</i>
+      ...
+    </body>
+  </html>
+
+and the data is correctly updated:
+
+  >>> reg.firstName
+  u'Stephan'
+  >>> reg.lastName
+  u'Richter'
+  >>> reg.license
+  u'MA 4038765'
+  >>> reg.address
+  u'11 Main St, Maynard, MA'
+  >>> reg.model
+  u'Ford'
+  >>> reg.make
+  u'F150'
+  >>> reg.year
+  2006
+
+And that's 

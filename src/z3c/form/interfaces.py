@@ -582,10 +582,27 @@ class IForm(zope.interface.Interface):
         default=None,
         required=False)
 
+    def getContent():
+        '''Return the content to be displayed and/or edited.'''
+
+    def updateWidgets(self):
+        '''Update the widgets for the form.
+
+        This method is commonly called from the ``update()`` method and is
+        mainly meant to be a hook for subclasses.
+        '''
+
+    def extractData():
+        '''Extract the data of the form.'''
+
+    def update():
+        '''Update the form.'''
+
+    def render():
+        '''Render the form.'''
 
 class ISubForm(IForm):
     """A subform."""
-
 
 class IInputForm(zope.interface.Interface):
     """A form that is meant to process the input of the form controls."""
@@ -648,9 +665,6 @@ class IAddForm(IForm):
 class IEditForm(IForm):
     """A form to edit data of a component."""
 
-    def getContent():
-        """Return the content object to be modified."""
-
     def applyChanges(data):
         """Apply the changes to the content component."""
 
@@ -673,3 +687,20 @@ class IButtonForm(IForm):
         description=_('A button manager describing the buttons to be used for '
                       'the form.'),
         schema=IButtons)
+
+class IGroup(IForm):
+    """A group of fields/widgets within a form."""
+
+    label = zope.schema.TextLine(
+        title=u'Label',
+        description=u'A test describing the group. Commonly used for the UI.')
+
+
+class IGroupForm(object):
+    """A form that supports groups."""
+
+    groups = zope.schema.Tuple(
+        title=u'Groups',
+        description=(u'Initially a collection of group classes, which are '
+                     u'converted to group instances when the form is '
+                     u'updated.'))

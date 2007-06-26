@@ -12,6 +12,11 @@ files. The documents are ordered in the way they should be read:
   Describes the setup and usage of forms in the most common usages. Some
   details are provided to the structure of form components.
 
+- ``group.txt`` [must read]
+
+  This document describes how widget groups are implemented within this
+  package and how they can be used.
+
 - ``subform.txt`` [must read]
 
   Introduces the complexities surrounding sub-forms and details two classes of

@@ -306,7 +306,7 @@ Rendering the form works as before:
           <div class="row">
             <label for="owner-widgets-license">License</label>
             <input type="text" id="owner-widgets-license"
-                   name="owner.widgets.license" class="textWidget" 
+                   name="owner.widgets.license" class="textWidget"
                    value="MA-97097A87" />
           </div>
         </fieldset>
@@ -486,15 +486,15 @@ this a good way of programming, since one looses control over the layout too
 easily.
 
 
-Context less subform (for Mats) 
--------------------------------
+Context-free subforms
+---------------------
 
-Ok, that was easy. But what about write a form including a subform wihtout a 
+Ok, that was easy. But what about write a form including a subform wihtout a
 context? Let's show how we can write a form wihtout any concext using the
-sample above. Note, this sample for do not include actions which store the 
+sample above. Note, this sample for do not include actions which store the
 form input. You can store the values like in any other forms using the forms
-widget method ``self.widgets.extract()`` which will return the form and subform
-input values. 
+widget method ``self.widgets.extract()`` which will return the form and
+subform input values.
 
   >>> from z3c.form.interfaces import IWidgets
   >>> class OwnerAddForm(form.EditForm):
@@ -502,7 +502,7 @@ input values.
   ...         'simple_owneredit.pt', templatePath)
   ...     fields = field.Fields(IOwner)
   ...     prefix = 'owner'
-  ... 
+  ...
   ...     def updateWidgets(self):
   ...         self.widgets = zope.component.getMultiAdapter(
   ...             (self, self.request, self.getContent()), IWidgets)
@@ -516,13 +516,13 @@ Next we define the car form, which has the owner form as a sub-form.
   ...     template = viewpagetemplatefile.ViewPageTemplateFile(
   ...         'simple_caredit.pt', templatePath)
   ...     prefix = 'car'
-  ... 
+  ...
   ...     def updateWidgets(self):
   ...         self.widgets = zope.component.getMultiAdapter(
   ...             (self, self.request, self.getContent()), IWidgets)
   ...         self.widgets.ignoreContext = True
   ...         self.widgets.update()
-  ... 
+  ...
   ...     def update(self):
   ...         self.owner = OwnerAddForm(None, self.request)
   ...         self.owner.update()

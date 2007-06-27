@@ -571,6 +571,12 @@ class IForm(zope.interface.Interface):
                       'the form.'),
         schema=IWidgets)
 
+    label = zope.schema.TextLine(
+        title=_('Label'),
+        description=_('A human readable text desribing the form that can be '
+                      'used in the UI.'),
+        required=False)
+
     prefix = zope.schema.BytesLine(
         title=_('Prefix'),
         description=_('The prefix of the form used to uniquely identify it.'),
@@ -690,11 +696,6 @@ class IButtonForm(IForm):
 
 class IGroup(IForm):
     """A group of fields/widgets within a form."""
-
-    label = zope.schema.TextLine(
-        title=u'Label',
-        description=u'A test describing the group. Commonly used for the UI.')
-
 
 class IGroupForm(object):
     """A form that supports groups."""

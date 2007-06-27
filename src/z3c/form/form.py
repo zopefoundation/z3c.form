@@ -72,6 +72,7 @@ class BaseForm(browser.BrowserPage):
 
     fields = field.Fields()
 
+    label = None
     prefix = 'form.'
     status = ''
     template = None

@@ -22,8 +22,6 @@ from z3c.form import form, interfaces
 
 class Group(form.BaseForm):
 
-    label = None
-
     def __init__(self, context, request, parentForm):
         self.context = context
         self.request = request

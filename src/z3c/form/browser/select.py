@@ -38,6 +38,10 @@ class SelectWidget(widget.SequenceWidget):
 
     noValueMessage = _('no value')
 
+    # Internal attributes
+    _adapterValueAttributes = widget.SequenceWidget._adapterValueAttributes + \
+        ('noValueMessage',)
+
     def isSelected(self, term):
         return term.token in self.value
 

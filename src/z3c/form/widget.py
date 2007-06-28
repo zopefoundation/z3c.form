@@ -67,6 +67,9 @@ class Widget(zope.location.Location):
     form = None
     field = None
 
+    # Internal attributes
+    _adapterValueAttributes = ('label', 'name')
+
     def __init__(self, request):
         self.request = request
 
@@ -117,7 +120,7 @@ class Widget(zope.location.Location):
             converter = interfaces.IDataConverter(self)
             self.value = converter.toWidgetValue(value)
         # Step 2: Update selected attributes
-        for attrName in ('label', 'required'):
+        for attrName in self._adapterValueAttributes:
             value = zope.component.queryMultiAdapter(
                 (self.context, self.request, self.form, self.field, self),
                 interfaces.IValue, name=attrName)

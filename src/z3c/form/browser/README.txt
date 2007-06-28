@@ -189,11 +189,11 @@ Date
   >>> widget.update()
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="textWidget"
-         value="2007-04-01" />
+         value="07/04/01" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  2007-04-01
+  07/04/01
 
 
 Datetime
@@ -204,27 +204,27 @@ Datetime
   >>> widget.update()
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="textWidget"
-         value="2007-04-01 12:00:00" />
+         value="07/04/01 12:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  2007-04-01 12:00:00
+  07/04/01 12:00
 
 
 Decimal
 -------
 
   >>> import decimal
-  >>> field = zope.schema.Decimal(default=decimal.Decimal('12.87'))
+  >>> field = zope.schema.Decimal(default=decimal.Decimal('1265.87'))
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="textWidget"
-         value="12.87" />
+         value="1,265.87" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  12.87
+  1,265.87
 
 
 Dict
@@ -252,16 +252,16 @@ DottedName
 Float
 -----
 
-  >>> field = zope.schema.Float(default=12.8)
+  >>> field = zope.schema.Float(default=1265.8)
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="textWidget"
-         value="12.8" />
+         value="1,265.8" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  12.8
+  1,265.8
 
 
 FrozenSet
@@ -305,16 +305,16 @@ Id
 Int
 ---
 
-  >>> field = zope.schema.Int(default=12)
+  >>> field = zope.schema.Int(default=1200)
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="textWidget"
-         value="12" />
+         value="1,200" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  12
+  1,200
 
 
 List
@@ -428,7 +428,8 @@ SourceText
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <textarea id="foo" name="bar" class="textAreaWidget">&lt;source /&gt;</textarea>
+  <textarea id="foo" name="bar"
+            class="textAreaWidget">&lt;source /&gt;</textarea>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
@@ -474,11 +475,11 @@ Time
   >>> widget.update()
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="textWidget"
-         value="12:00:00" />
+         value="12:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  12:00:00
+  12:00
 
 
 Timedelta

@@ -34,6 +34,15 @@
       factory=".converter.FieldDataConverter"
       />
   <adapter
+      factory=".converter.IntegerDataConverter"
+      />
+  <adapter
+      factory=".converter.FloatDataConverter"
+      />
+  <adapter
+      factory=".converter.DecimalDataConverter"
+      />
+  <adapter
       factory=".converter.DateDataConverter"
       />
   <adapter

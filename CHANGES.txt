@@ -5,6 +5,12 @@ CHANGES
 Version 1.4.0 (??/??/2007)
 -------------------------
 
+- Feature: Internationalized data conversion for date, time, date/time,
+  integer, float and decimal. Now the locale data is used to format and parse
+  those data types to provide the bridge to text-based widgets. While those
+  features require the latest zope.i18n package, backward compatibility is
+  provided.
+
 - Feature: All forms now have an optional label that can be used by the UI.
 
 - Feature: Implemented groups within forms. Groups allow you to combine a set

@@ -26,6 +26,21 @@ Let's look at the ``Int`` field to ``TextWidget`` converter as an example:
   >>> from z3c.form import converter
   >>> conv = converter.FieldDataConverter(age, text)
 
+The field data converter is a generic data converter that can be used for all
+fields that implement ``IFromUnicode``. If, for example, a ``Date`` field
+-- which does not provide ``IFromUnicode`` -- is passed in, then a type error
+is raised:
+
+  >>> converter.FieldDataConverter(zope.schema.Date(), text)
+  Traceback (most recent call last):
+  ...
+  TypeError: Field must provide ``IFromUnicode``.
+
+However, the ``FieldDataConverter`` is registered for ``IField``, since many
+fields (like ``Decimal``) for which we want to create custom converters
+provide ``IFromUnicode`` more specifically than their characterizing interface
+(like ``IDecimal``).
+
 The converter can now convert any integer to a the value the test widget deals
 with, which is an ASCII string:
 
@@ -79,7 +94,7 @@ Once we ensure that our widget is a text widget, we can lookup the adapter:
   >>> zope.interface.alsoProvides(text, interfaces.ITextWidget)
 
   >>> zope.component.getMultiAdapter((age, text), interfaces.IDataConverter)
-  <DataConverter from Int to Widget>
+  <FieldDataConverter converts from Int to Widget>
 
 For field-widgets there is a helper adapter that makes the lookup even
 simpler:
@@ -93,7 +108,104 @@ After converting our simple widget to a field widget,
 we can now lookup the data converter adapter just by the field widget itself:
 
   >>> interfaces.IDataConverter(fieldtext)
-  <DataConverter from Int to Widget>
+  <FieldDataConverter converts from Int to Widget>
+
+
+Number Data Converters
+----------------------
+
+As hinted on above, the package provides a specific data converter for each of
+the three main numerical types: ``int``, ``float``, ``Decimal``. Specifically,
+those data converters support full localization of the number formatting.
+
+  >>> age = zope.schema.Int()
+  >>> intdc = converter.IntegerDataConverter(age, text)
+  >>> intdc
+  <IntegerDataConverter converts from Int to Widget>
+
+Since the age is so small, the formatting is trivial:
+
+  >>> intdc.toWidgetValue(34)
+  u'34'
+
+But if we increase the number, the grouping seprator will be used:
+
+  >>> intdc.toWidgetValue(3400)
+  u'3,400'
+
+An empty string is returned, if the missing value is passed in:
+
+  >>> intdc.toWidgetValue(None)
+  u''
+
+Of course, parsing these outputs again, works as well:
+
+  >>> intdc.toFieldValue(u'34')
+  34
+
+But if we increase the number, the grouping seprator will be used:
+
+  >>> intdc.toFieldValue(u'3,400')
+  3400
+
+Luckily our parser is somewhat forgiving, and even allows for missing group
+characters:
+
+  >>> intdc.toFieldValue(u'3400')
+  3400
+
+If an empty string is passed in, the missing value of the field is returned:
+
+  >>> intdc.toFieldValue(u'')
+
+Finally, if the input does not match at all, then a validation error is
+returned:
+
+  >>> intdc.toFieldValue(u'fff')
+  Traceback (most recent call last):
+  ...
+  FormatterValidationError:
+      ("Not a valid number for this pattern u'#,##0.###;-#,##0.###'.", u'fff')
+
+Let's now look at the float data converter.
+
+  >>> rating = zope.schema.Float()
+  >>> floatdc = converter.FloatDataConverter(rating, text)
+  >>> floatdc
+  <FloatDataConverter converts from Float to Widget>
+
+Again, you can format and parse values:
+
+  >>> floatdc.toWidgetValue(7.43)
+  u'7.43'
+  >>> floatdc.toWidgetValue(10239.43)
+  u'10,239.43'
+
+  >>> floatdc.toFieldValue(u'7.43')
+  7.4299999999999997
+  >>> floatdc.toFieldValue(u'10,239.43')
+  10239.43
+
+The decimal converter works like the other two before.
+
+  >>> money = zope.schema.Decimal()
+  >>> decimaldc = converter.DecimalDataConverter(money, text)
+  >>> decimaldc
+  <DecimalDataConverter converts from Decimal to Widget>
+
+Formatting and parsing should work just fine:
+
+  >>> import decimal
+
+  >>> decimaldc.toWidgetValue(decimal.Decimal('7.43'))
+  u'7.43'
+  >>> decimaldc.toWidgetValue(decimal.Decimal('10239.43'))
+  u'10,239.43'
+
+  >>> decimaldc.toFieldValue(u'7.43')
+  Decimal("7.43")
+  >>> decimaldc.toFieldValue(u'10,239.43')
+  Decimal("10239.43")
 
 
 Date Data Converter
@@ -107,7 +219,7 @@ inteded for use with the text widget:
 
   >>> ddc = converter.DateDataConverter(date, text)
   >>> ddc
-  <DataConverter from Date to Widget>
+  <DateDataConverter converts from Date to Widget>
 
 Dates are simply converted to ISO format:
 
@@ -115,19 +227,18 @@ Dates are simply converted to ISO format:
   >>> bday = datetime.date(1980, 1, 25)
 
   >>> ddc.toWidgetValue(bday)
-  u'1980-01-25'
+  u'80/01/25'
 
 The converter only knows how to convert this particular format back to a
 datetime value:
 
-  >>> ddc.toFieldValue(u'1980-01-25')
+  >>> ddc.toFieldValue(u'80/01/25')
   datetime.date(1980, 1, 25)
 
 By default the converter converts missing input to missin_input value:
 
   >>> ddc.toFieldValue(u'') is None
   True
-  
 
 
 Time Data Converter
@@ -141,19 +252,19 @@ inteded for use with the text widget:
 
   >>> tdc = converter.TimeDataConverter(time, text)
   >>> tdc
-  <DataConverter from Time to Widget>
+  <TimeDataConverter converts from Time to Widget>
 
 Dates are simply converted to ISO format:
 
   >>> noon = datetime.time(12, 0, 0)
 
   >>> tdc.toWidgetValue(noon)
-  u'12:00:00'
+  u'12:00'
 
 The converter only knows how to convert this particular format back to a
 datetime value:
 
-  >>> tdc.toFieldValue(u'12:00:00')
+  >>> tdc.toFieldValue(u'12:00')
   datetime.time(12, 0)
 
 By default the converter converts missing input to missin_input value:
@@ -173,19 +284,19 @@ and is inteded for use with the text widget:
 
   >>> dtdc = converter.DatetimeDataConverter(dtField, text)
   >>> dtdc
-  <DataConverter from Datetime to Widget>
+  <DatetimeDataConverter converts from Datetime to Widget>
 
 Dates are simply converted to ISO format:
 
   >>> bdayNoon = datetime.datetime(1980, 1, 25, 12, 0, 0)
 
   >>> dtdc.toWidgetValue(bdayNoon)
-  u'1980-01-25 12:00:00'
+  u'80/01/25 12:00'
 
 The converter only knows how to convert this particular format back to a
 datetime value:
 
-  >>> dtdc.toFieldValue(u'1980-01-25 12:00:00')
+  >>> dtdc.toFieldValue(u'80/01/25 12:00')
   datetime.datetime(1980, 1, 25, 12, 0)
 
 By default the converter converts missing input to missin_input value:
@@ -205,7 +316,7 @@ and is inteded for use with the text widget:
 
   >>> tddc = converter.TimedeltaDataConverter(timedelta, text)
   >>> tddc
-  <DataConverter from Timedelta to Widget>
+  <TimedeltaDataConverter converts from Timedelta to Widget>
 
 Dates are simply converted to ISO format:
 
@@ -238,7 +349,7 @@ sure we can convert FileUpload objects to bytes too.
 
   >>> fudc = converter.FileUploadDataConverter(bytes, fileWidget)
   >>> fudc
-  <DataConverter from Bytes to FileWidget>
+  <FileUploadDataConverter converts from Bytes to FileWidget>
 
 Bytes are converted to unicode:
 
@@ -246,7 +357,7 @@ Bytes are converted to unicode:
   >>> fudc.toFieldValue(simple)
   u'foobar'
 
-The converter can also convert FileUpload objects. Setup a fields storage 
+The converter can also convert FileUpload objects. Setup a fields storage
 stub...
 
   >>> class FieldStorageStub:
@@ -290,8 +401,8 @@ not able to uppload a file without a filename:
   >>> fudc.toFieldValue(myUpload) is None
   True
 
-There is also a ValueError if we don't get a seekable file from the FieldStorage 
-during the upload:
+There is also a ValueError if we don't get a seekable file from the
+FieldStorage during the upload:
 
   >>> myfile = ''
   >>> aFieldStorage = FieldStorageStub(myfile)
@@ -303,42 +414,11 @@ during the upload:
   ...
   ValueError: (u'Bytes data is not a file object', <...AttributeError...>)
 
+When the file upload widget is not used and a text-based widget is desired,
+then the regular field data converter will be chosen. Using a text widget,
+however, must be setup manually in the form with code like this::
 
-
-
-Bytes Data Converter
---------------------
-
-The IBytes field uses a file upload widget which uses a file upload data 
-converter. This requires that we test the IBytes converter for normal IWidget.
-Note that IBytes always will get a FileUpload widget, if you need to use a
-text input widget for bytes, you have to register a custom widget using the 
-widgetFactory attribute of the z3c.form.interfaces.IField. e.g.
-``fields['foobar'].widgetFactory = TextWidget``
-
-  >>> bytes = zope.schema.Bytes()
-
-  >>> fdc = converter.FieldDataConverter(bytes, text)
-  >>> fdc
-  <DataConverter from Bytes to Widget>
-
-BytesLine are simply converted to string:
-
-  >>> value = 'foobar'
-
-  >>> fdc.toWidgetValue(value)
-  u'foobar'
-
-The converter only knows how to convert this particular format back to a
-datetime value:
-
-  >>> fdc.toFieldValue(u'foobar')
-  'foobar'
-
-By default the converter converts missing input to missin_input value:
-
-  >>> fdc.toFieldValue(u'') is None
-  True
+  fields['bytesField'].widgetFactory = TextWidget
 
 
 Sequence Data Converter

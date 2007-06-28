@@ -17,6 +17,8 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 import datetime
+import decimal
+import zope.i18n.format
 import zope.interface
 import zope.component
 import zope.schema
@@ -26,15 +28,14 @@ from z3c.form.i18n import MessageFactory as _
 from z3c.form import interfaces
 
 
-class FieldDataConverter(object):
-    """A data converter using the field's ``fromUnicode()`` method."""
-    zope.component.adapts(
-        zope.schema.interfaces.IFromUnicode, interfaces.IWidget)
+class BaseDataConverter(object):
+    """A base implementation of the data converter."""
     zope.interface.implements(interfaces.IDataConverter)
 
     def __init__(self, field, widget):
         self.field = field
         self.widget = widget
+
 
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
@@ -49,8 +50,21 @@ class FieldDataConverter(object):
         return self.field.fromUnicode(value)
 
     def __repr__(self):
-        return '<DataConverter from %s to %s>' %(
-            self.field.__class__.__name__, self.widget.__class__.__name__)
+        return '<%s converts from %s to %s>' %(
+            self.__class__.__name__,
+            self.field.__class__.__name__,
+            self.widget.__class__.__name__)
+
+
+class FieldDataConverter(BaseDataConverter):
+    """A data converter using the field's ``fromUnicode()`` method."""
+    zope.component.adapts(
+        zope.schema.interfaces.IField, interfaces.IWidget)
+
+    def __init__(self, field, widget):
+        super(FieldDataConverter, self).__init__(field, widget)
+        if not zope.schema.interfaces.IFromUnicode.providedBy(field):
+            raise TypeError('Field must provide ``IFromUnicode``.')
 
 
 @zope.component.adapter(interfaces.IFieldWidget)
@@ -61,49 +75,114 @@ def FieldWidgetDataConverter(widget):
         (widget.field, widget), interfaces.IDataConverter)
 
 
-class DateDataConverter(FieldDataConverter):
+class FormatterValidationError(zope.schema.ValidationError):
+
+    def __init__(self, message, value):
+        zope.schema.ValidationError.__init__(self, message, value)
+        self.message = message
+
+    def doc(self):
+        return self.message
+
+class NumberDataConverter(BaseDataConverter):
+    """A general data converter for numbers."""
+
+    type = None
+
+    def __init__(self, field, widget):
+        super(NumberDataConverter, self).__init__(field, widget)
+        locale = self.widget.request.locale
+        self.formatter = locale.numbers.getFormatter('decimal')
+        self.formatter.type = self.type
+
+    def toWidgetValue(self, value):
+        """See interfaces.IDataConverter"""
+        if value is self.field.missing_value:
+            return u''
+        return self.formatter.format(value)
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        if value == u'':
+            return self.field.missing_value
+        try:
+            return self.formatter.parse(value)
+        except zope.i18n.format.NumberParseError, err:
+            raise FormatterValidationError(err.args[0], value)
+
+class IntegerDataConverter(NumberDataConverter):
+    """A data converter for integers."""
+    zope.component.adapts(
+        zope.schema.interfaces.IInt, interfaces.IWidget)
+    type = int
+
+class FloatDataConverter(NumberDataConverter):
+    """A data converter for integers."""
+    zope.component.adapts(
+        zope.schema.interfaces.IFloat, interfaces.IWidget)
+    type = float
+
+class DecimalDataConverter(NumberDataConverter):
+    """A data converter for integers."""
+    zope.component.adapts(
+        zope.schema.interfaces.IDecimal, interfaces.IWidget)
+    type = decimal.Decimal
+
+
+class CalendarDataConverter(BaseDataConverter):
+    """A special data converter for calendar-related values."""
+
+    type = None
+    length = 'short'
+
+    def __init__(self, field, widget):
+        super(CalendarDataConverter, self).__init__(field, widget)
+        locale = self.widget.request.locale
+        self.formatter = locale.dates.getFormatter(self.type, self.length)
+
+    def toWidgetValue(self, value):
+        """See interfaces.IDataConverter"""
+        if value is self.field.missing_value:
+            return u''
+        return self.formatter.format(value)
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        if value == u'':
+            return self.field.missing_value
+        try:
+            return self.formatter.parse(value)
+        except zope.i18n.format.DateTimeParseError, err:
+            raise FormatterValidationError(err.args[0], value)
+
+
+class DateDataConverter(CalendarDataConverter):
     """A special data converter for dates."""
     zope.component.adapts(
         zope.schema.interfaces.IDate, interfaces.IWidget)
+    type = 'date'
 
-    def toFieldValue(self, value):
-        """See interfaces.IDataConverter"""
-        if value == u'':
-            return self.field.missing_value
-        return datetime.date(*[int(part) for part in value.split('-')])
-
-
-class TimeDataConverter(FieldDataConverter):
+class TimeDataConverter(CalendarDataConverter):
     """A special data converter for times."""
     zope.component.adapts(
         zope.schema.interfaces.ITime, interfaces.IWidget)
+    type = 'time'
 
-    def toFieldValue(self, value):
-        """See interfaces.IDataConverter"""
-        if value == u'':
-            return self.field.missing_value
-        return datetime.time(*[int(part) for part in value.split(':')])
-
-
-class DatetimeDataConverter(FieldDataConverter):
+class DatetimeDataConverter(CalendarDataConverter):
     """A special data converter for datetimes."""
     zope.component.adapts(
         zope.schema.interfaces.IDatetime, interfaces.IWidget)
-
-    def toFieldValue(self, value):
-        """See interfaces.IDataConverter"""
-        if value == u'':
-            return self.field.missing_value
-        dateString, timeString = value.split(' ')
-        dt = [int(part) for part in dateString.split('-')]
-        dt += [int(part) for part in timeString.split(':')]
-        return datetime.datetime(*dt)
+    type = 'dateTime'
 
 
 class TimedeltaDataConverter(FieldDataConverter):
     """A special data converter for timedeltas."""
     zope.component.adapts(
         zope.schema.interfaces.ITimedelta, interfaces.IWidget)
+
+    def __init__(self, field, widget):
+        self.field = field
+        self.widget = widget
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
@@ -116,7 +195,7 @@ class TimedeltaDataConverter(FieldDataConverter):
         return datetime.timedelta(days, sum(seconds))
 
 
-class FileUploadDataConverter(FieldDataConverter):
+class FileUploadDataConverter(BaseDataConverter):
     """A special data converter for bytes, supporting also FileUpload.
 
     Since IBytes represents a file upload too, this converter can handle
@@ -154,7 +233,7 @@ class FileUploadDataConverter(FieldDataConverter):
             return unicode(value)
 
 
-class SequenceDataConverter(FieldDataConverter):
+class SequenceDataConverter(BaseDataConverter):
     """Basic data converter for ISequenceWidget."""
 
     zope.component.adapts(
@@ -183,7 +262,7 @@ class SequenceDataConverter(FieldDataConverter):
         return terms.getValue(value[0])
 
 
-class CollectionSequenceDataConverter(FieldDataConverter):
+class CollectionSequenceDataConverter(BaseDataConverter):
     """A special converter between collections and sequence widgets."""
 
     zope.component.adapts(

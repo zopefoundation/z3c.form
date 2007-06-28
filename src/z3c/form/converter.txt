@@ -167,6 +167,14 @@ returned:
   FormatterValidationError:
       ("Not a valid number for this pattern u'#,##0.###;-#,##0.###'.", u'fff')
 
+The formatter validation error derives from the regular validation error, but
+allows you to specify the message that is output when asked for the
+documentation:
+
+  >>> err = converter.FormatterValidationError(u'Something went wrong.', None)
+  >>> err.doc()
+  u'Something went wrong.'
+
 Let's now look at the float data converter.
 
   >>> rating = zope.schema.Float()
@@ -229,6 +237,11 @@ Dates are simply converted to ISO format:
   >>> ddc.toWidgetValue(bday)
   u'80/01/25'
 
+If the date is the missing value, an empty string is returned:
+
+  >>> ddc.toWidgetValue(None)
+  u''
+
 The converter only knows how to convert this particular format back to a
 datetime value:
 
@@ -240,6 +253,14 @@ By default the converter converts missing input to missin_input value:
   >>> ddc.toFieldValue(u'') is None
   True
 
+If the passed in string cannot be parsed, a formatter validation error is
+raised:
+
+  >>> ddc.toFieldValue(u'8.6.07')
+  Traceback (most recent call last):
+  ...
+  FormatterValidationError: ("The datetime string did not match the pattern
+                              u'yy/MM/dd'.", u'8.6.07')
 
 Time Data Converter
 -------------------

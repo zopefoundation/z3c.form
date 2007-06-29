@@ -35,12 +35,14 @@ class SelectWidget(widget.SequenceWidget):
     size = 1
     multiple = None
     items = ()
+    prompt = False
 
     noValueMessage = _('no value')
+    promptMessage = _('select a value ...')
 
     # Internal attributes
     _adapterValueAttributes = widget.SequenceWidget._adapterValueAttributes + \
-        ('noValueMessage',)
+        ('noValueMessage', 'promptMessage')
 
     def isSelected(self, term):
         return term.token in self.value
@@ -49,11 +51,14 @@ class SelectWidget(widget.SequenceWidget):
         """See z3c.form.interfaces.IWidget."""
         super(SelectWidget, self).update()
         self.items = []
-        if not self.required and self.multiple is None:
+        if (not self.required or self.prompt) and self.multiple is None:
+            message = self.noValueMessage
+            if self.prompt:
+                message = self.promptMessage
             self.items.append({
                 'id': self.id + '-novalue',
                 'value': self.noValueToken,
-                'content': self.noValueMessage,
+                'content': message,
                 'selected': self.value == []
                 })
         for count, term in enumerate(self.terms):

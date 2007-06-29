@@ -352,6 +352,39 @@ class ISequenceWidget(IWidget):
 class ISelectWidget(ISequenceWidget):
     """Select widget with ITerms option."""
 
+    size = zope.schema.Int(
+        title=_('Size'),
+        description=_('Determines how many options are shown at once.'),
+        default=1)
+
+    multiple = zope.schema.Bool(
+        title=_('Multiple'),
+        description=_('A flag, when set, allows for multiple values to be '
+                      'selected.'),
+        default=False)
+
+    prompt = zope.schema.Bool(
+        title=_('Prompt'),
+        description=_('A flag, when set, enables a choice explicitely '
+                      'requesting the user to choose a value.'),
+        default=False)
+
+    items = zope.schema.Tuple(
+        title=_('Items'),
+        description=_('A collection of dictionaries containing all pieces of '
+                      'information for renderiing. The following keys must '
+                      'be in each dictionary: id, value, content, selected'))
+
+    noValueMessage = zope.schema.Text(
+        title=_('No-Value Message'),
+        description=_('A human-readable text that is displayed to refer the '
+                      'missing value.'))
+
+    promptMessage = zope.schema.Text(
+        title=_('Prompt Message'),
+        description=_('A human-readable text that is displayed to refer the '
+                      'missing value.'))
+
 class IOrderedSelectWidget(ISequenceWidget):
     """Ordered Select widget with ITerms option."""
 

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-Version 1.4.0 (??/??/2007)
+Version 1.4.0 (6/29/2007)
 -------------------------
 
 - Feature: The select widget grew a new ``prompt`` flag, which allows you to
@@ -10,7 +10,7 @@ Version 1.4.0 (??/??/2007)
   (even for required fields). When set, the prompt message is shown. Such a
   prompt as option is common in Web-UIs.
 
-- Feature: Allow "no value message" of select widgets to be dynamilcally
+- Feature: Allow "no value message" of select widgets to be dynamically
   changed using an attribute value adapter.
 
 - Feature: Internationalized data conversion for date, time, date/time,

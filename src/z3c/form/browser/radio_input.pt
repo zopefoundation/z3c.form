@@ -26,7 +26,10 @@
                          readonly view/readonly;
                          accesskey view/accesskey;
                          value item/value" />
- <span class="label" tal:content="item/label">Label</span>
+  <label for=""
+         tal:attributes="for item/id">
+    <span class="label" tal:content="item/label">Label</span>
+  </label>
 </span>
 <input name="field-empty-marker" type="hidden" value="1"
        tal:attributes="name string:${view/name}-empty-marker" />

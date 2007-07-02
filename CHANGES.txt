@@ -2,6 +2,12 @@
 CHANGES
 =======
 
+Version 1.5.0 (??/??/2007)
+-------------------------
+
+- Bug/Feature: Correctly create labels for radio button choices.
+
+
 Version 1.4.0 (6/29/2007)
 -------------------------
 

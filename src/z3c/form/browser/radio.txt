@@ -71,11 +71,15 @@ Now let's try if we get widget values:
   <span class="option">
     <input type="radio" id="widget-id-0" name="widget.name:list"
            class="radioWidget" value="yes" />
-   <span class="label">yes</span>
+    <label for="widget-id-0">
+      <span class="label">yes</span>
+    </label>
   </span><span class="option">
     <input type="radio" id="widget-id-1" name="widget.name:list"
            class="radioWidget" value="no" />
-   <span class="label">no</span>
+    <label for="widget-id-1">
+      <span class="label">no</span>
+    </label>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
@@ -88,10 +92,14 @@ get rendered with a checked flag:
   <span class="option">
     <input type="radio" id="widget-id-0" name="widget.name:list"
            class="radioWidget" value="yes" checked="checked" />
-   <span class="label">yes</span>
+    <label for="widget-id-0">
+      <span class="label">yes</span>
+    </label>
   </span><span class="option">
     <input type="radio" id="widget-id-1" name="widget.name:list"
            class="radioWidget" value="no" />
-   <span class="label">no</span>
+    <label for="widget-id-1">
+      <span class="label">no</span>
+    </label>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />

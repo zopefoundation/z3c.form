@@ -74,11 +74,15 @@ Bool
   <span class="option">
     <input type="radio" id="foo-0" name="bar:list"
            class="radioWidget" value="yes" checked="checked" />
-   <span class="label">yes</span>
+    <label for="foo-0">
+      <span class="label">yes</span>
+    </label>
   </span><span class="option">
     <input type="radio" id="foo-1" name="bar:list"
            class="radioWidget" value="no" />
-   <span class="label">no</span>
+    <label for="foo-1">
+      <span class="label">no</span>
+    </label>
   </span>
   <input name="bar-empty-marker" type="hidden" value="1" />
 

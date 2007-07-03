@@ -22,16 +22,17 @@ import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
 
-from z3c.form import interfaces, widget
+from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
-from z3c.form.browser.widget import HTMLSelectWidget
+from z3c.form.widget import SequenceWidget, FieldWidget
+from z3c.form.browser import widget
 
 
-class SelectWidget(HTMLSelectWidget, widget.SequenceWidget):
+class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Select widget implementation."""
     zope.interface.implementsOnly(interfaces.ISelectWidget)
 
-    css = u'selectWidget'
+    klass = u'selectWidget'
     items = ()
     prompt = False
 
@@ -39,7 +40,7 @@ class SelectWidget(HTMLSelectWidget, widget.SequenceWidget):
     promptMessage = _('select a value ...')
 
     # Internal attributes
-    _adapterValueAttributes = widget.SequenceWidget._adapterValueAttributes + \
+    _adapterValueAttributes = SequenceWidget._adapterValueAttributes + \
         ('noValueMessage', 'promptMessage')
 
     def isSelected(self, term):
@@ -48,6 +49,7 @@ class SelectWidget(HTMLSelectWidget, widget.SequenceWidget):
     def update(self):
         """See z3c.form.interfaces.IWidget."""
         super(SelectWidget, self).update()
+        widget.addFieldClass(self)
         self.items = []
         if (not self.required or self.prompt) and self.multiple is None:
             message = self.noValueMessage
@@ -75,7 +77,7 @@ class SelectWidget(HTMLSelectWidget, widget.SequenceWidget):
 @zope.interface.implementer(interfaces.IFieldWidget)
 def SelectFieldWidget(field, request):
     """IFieldWidget factory for SelectWidget."""
-    return widget.FieldWidget(field, SelectWidget(request))
+    return FieldWidget(field, SelectWidget(request))
 
 
 @zope.component.adapter(

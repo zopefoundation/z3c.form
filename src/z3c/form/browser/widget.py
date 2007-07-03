@@ -19,13 +19,14 @@ __docformat__ = "reStructuredText"
 import zope.interface
 from zope.schema.fieldproperty import FieldProperty
 
+from z3c.form.interfaces import IFieldWidget
 from z3c.form.browser import interfaces
 
 class HTMLFormElement(object):
     zope.interface.implements(interfaces.IHTMLFormElement)
 
     id = FieldProperty(interfaces.IHTMLFormElement['id'])
-    css = FieldProperty(interfaces.IHTMLFormElement['css'])
+    klass = FieldProperty(interfaces.IHTMLFormElement['klass'])
     style = FieldProperty(interfaces.IHTMLFormElement['style'])
     title = FieldProperty(interfaces.IHTMLFormElement['title'])
 
@@ -47,6 +48,13 @@ class HTMLFormElement(object):
     onfocus = FieldProperty(interfaces.IHTMLFormElement['onfocus'])
     onblur = FieldProperty(interfaces.IHTMLFormElement['onblur'])
     onchange = FieldProperty(interfaces.IHTMLFormElement['onchange'])
+
+    def addClass(self, klass):
+        """See interfaces.IHTMLFormElement"""
+        if not self.klass:
+            self.klass = klass
+        else:
+            self.klass += ' ' + klass
 
 
 class HTMLInputWidget(HTMLFormElement):
@@ -80,3 +88,13 @@ class HTMLSelectWidget(HTMLFormElement):
 
     multiple = FieldProperty(interfaces.IHTMLSelectWidget['multiple'])
     size = FieldProperty(interfaces.IHTMLSelectWidget['size'])
+
+
+def addFieldClass(widget):
+    """Add a class to the widget that is based on the field type name.
+
+    If the widget does not have field, then nothing is done.
+    """
+    if IFieldWidget.providedBy(widget):
+        klass = unicode(widget.field.__class__.__name__.lower() + '-field')
+        widget.addClass(klass)

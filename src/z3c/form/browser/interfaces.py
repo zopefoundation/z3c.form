@@ -30,7 +30,7 @@ class IHTMLCoreAttributes(zope.interface.Interface):
         required=False)
 
     # HTML "class" attribute; "class" is a keyword in Python.
-    css = zope.schema.TextLine(
+    klass = zope.schema.TextLine(
         title=u'Class',
         description=(u'This attribute assigns a class name or set of '
                      u'class names to an element. Any number of elements '
@@ -164,6 +164,12 @@ class IHTMLFormElement(IHTMLCoreAttributes,
                      u'input focus and its value has been modified since '
                      u'gaining focus.'),
         required=False)
+
+    def addClass(klass):
+        """Add a class to the HTML element.
+
+        The class must be added to the ``klass`` attribute.
+        """
 
 
 class IHTMLInputWidget(IHTMLFormElement):

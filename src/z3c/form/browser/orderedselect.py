@@ -22,11 +22,12 @@ import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
 
-from z3c.form import interfaces, widget
-from z3c.form.browser.widget import HTMLSelectWidget
+from z3c.form import interfaces
+from z3c.form.widget import SequenceWidget, FieldWidget
+from z3c.form.browser import widget
 
 
-class OrderedSelectWidget(HTMLSelectWidget, widget.SequenceWidget):
+class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Ordered-Select widget implementation."""
     zope.interface.implementsOnly(interfaces.IOrderedSelectWidget)
 
@@ -46,6 +47,7 @@ class OrderedSelectWidget(HTMLSelectWidget, widget.SequenceWidget):
     def update(self):
         """See z3c.form.interfaces.IWidget."""
         super(OrderedSelectWidget, self).update()
+        widget.addFieldClass(self)
         self.items = [
             self.getItem(term, count)
             for count, term in enumerate(self.terms)]
@@ -58,7 +60,7 @@ class OrderedSelectWidget(HTMLSelectWidget, widget.SequenceWidget):
 @zope.interface.implementer(interfaces.IFieldWidget)
 def OrderedSelectFieldWidget(field, request):
     """IFieldWidget factory for SelectWidget."""
-    return widget.FieldWidget(field, OrderedSelectWidget(request))
+    return FieldWidget(field, OrderedSelectWidget(request))
 
 @zope.component.adapter(
     zope.schema.interfaces.ISequence, interfaces.IFormLayer)

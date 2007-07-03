@@ -23,15 +23,16 @@ import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
 
-from z3c.form import interfaces, widget
-from z3c.form.browser.widget import HTMLInputWidget
+from z3c.form import interfaces
+from z3c.form.widget import SequenceWidget, FieldWidget
+from z3c.form.browser import widget
 
 
-class CheckBoxWidget(HTMLInputWidget, widget.SequenceWidget):
+class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
     """Input type checkbox widget implementation."""
     zope.interface.implementsOnly(interfaces.ICheckBoxWidget)
 
-    css = u'checkBoxWidget'
+    klass = u'checkBoxWidget'
     items = ()
 
     def isChecked(self, term):
@@ -40,6 +41,7 @@ class CheckBoxWidget(HTMLInputWidget, widget.SequenceWidget):
     def update(self):
         """See z3c.form.interfaces.IWidget."""
         super(CheckBoxWidget, self).update()
+        widget.addFieldClass(self)
         self.items = []
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
@@ -57,4 +59,4 @@ class CheckBoxWidget(HTMLInputWidget, widget.SequenceWidget):
 @zope.interface.implementer(interfaces.IFieldWidget)
 def CheckBoxFieldWidget(field, request):
     """IFieldWidget factory for CheckBoxWidget."""
-    return widget.FieldWidget(field, CheckBoxWidget(request))
+    return FieldWidget(field, CheckBoxWidget(request))

@@ -23,15 +23,16 @@ import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
 
-from z3c.form import interfaces, widget
-from z3c.form.browser.widget import HTMLInputWidget
+from z3c.form import interfaces
+from z3c.form.widget import SequenceWidget, FieldWidget
+from z3c.form.browser import widget
 
 
-class RadioWidget(HTMLInputWidget, widget.SequenceWidget):
+class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
     """Input type radio widget implementation."""
     zope.interface.implementsOnly(interfaces.IRadioWidget)
 
-    css = u'radioWidget'
+    klass = u'radioWidget'
     items = ()
 
     def isChecked(self, term):
@@ -40,6 +41,7 @@ class RadioWidget(HTMLInputWidget, widget.SequenceWidget):
     def update(self):
         """See z3c.form.interfaces.IWidget."""
         super(RadioWidget, self).update()
+        widget.addFieldClass(self)
         self.items = []
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
@@ -57,4 +59,4 @@ class RadioWidget(HTMLInputWidget, widget.SequenceWidget):
 @zope.interface.implementer(interfaces.IFieldWidget)
 def RadioFieldWidget(field, request):
     """IFieldWidget factory for RadioWidget."""
-    return widget.FieldWidget(field, RadioWidget(request))
+    return FieldWidget(field, RadioWidget(request))

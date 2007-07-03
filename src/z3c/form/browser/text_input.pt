@@ -2,7 +2,7 @@
        readonly="" alt="" tabindex="" accesskey="" size="" maxlength=""
        tal:attributes="id view/id;
                        name view/name;
-                       class view/css;
+                       class view/klass;
                        title view/title;
                        lang view/lang;
                        onclick view/onclick;

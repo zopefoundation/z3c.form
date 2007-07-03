@@ -62,7 +62,7 @@ class Widget(zope.location.Location):
     ignoreContext = False
     # See ``interfaces.IFormAware``
     form = None
-    # See ``interfaces.IFieldAware``
+    # See ``interfaces.IFieldWidget``
     field = None
 
     # Internal attributes

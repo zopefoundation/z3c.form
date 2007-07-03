@@ -2,7 +2,7 @@
        accesskey=""
        tal:attributes="id view/id;
                        name view/name;
-                       class view/css;
+                       class view/klass;
                        lang view/lang;
                        onclick view/onclick;
                        ondblclick view/ondblclick;

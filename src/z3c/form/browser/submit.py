@@ -20,20 +20,24 @@ import zope.component
 import zope.interface
 
 from z3c.form import interfaces, widget
-from z3c.form.browser.widget import HTMLInputWidget
+from z3c.form.widget import Widget, FieldWidget
+from z3c.form.browser import widget
 
 
-class SubmitWidget(HTMLInputWidget, widget.Widget):
+class SubmitWidget(widget.HTMLInputWidget, Widget):
     """A submit button of a form."""
     zope.interface.implementsOnly(interfaces.ISubmitWidget)
 
-    css = u'submitWidget'
+    klass = u'submitWidget'
 
+    def update(self):
+        super(SubmitWidget, self).update()
+        widget.addFieldClass(self)
 
 
 @zope.component.adapter(interfaces.IButton, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def SubmitFieldWidget(field, request):
-    submit = widget.FieldWidget(field, SubmitWidget(request))
+    submit = FieldWidget(field, SubmitWidget(request))
     submit.value = field.title
     return submit

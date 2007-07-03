@@ -1,7 +1,7 @@
 <select id="" name="" class="" tabindex="" disabled="" multiple="" size=""
         tal:attributes="id view/id;
                         name string:${view/name}:list;
-                        class view/css;
+                        class view/klass;
                         title view/title;
                         lang view/lang;
                         onclick view/onclick;

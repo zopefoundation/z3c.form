@@ -80,8 +80,8 @@ instantiating the form, ...
       <form action=".">
         <div class="row">
           <label for="form-widgets-name">Name</label>
-          <input type="text" id="form-widgets-name"
-                 name="form.widgets.name" class="textWidget" value="" />
+          <input type="text" id="form-widgets-name" name="form.widgets.name"
+                 class="textWidget textline-field" value="" />
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-add"

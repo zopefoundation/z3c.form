@@ -7,7 +7,7 @@
          tal:attributes="id item/id;
                          name item/name;
                          value item/value;
-                         class view/css;
+                         class view/klass;
                          title view/title;
                          lang view/lang;
                          onclick view/onclick;
@@ -35,7 +35,7 @@
          tal:attributes="id item/id;
                          name item/name;
                          value item/value;
-                         class view/css;
+                         class view/klass;
                          title view/title;
                          lang view/lang;
                          onclick view/onclick;

@@ -5,6 +5,15 @@ CHANGES
 Version 1.5.0 (??/??/2007)
 -------------------------
 
+- Feature: All ``IFieldWidget`` instances that are also HTML element widgets
+  now declare an additional CSS class of the form "<fieldtype.lower()>-field".
+
+- Feature: Added ``addClass()`` method to HTML element widgets, so that adding
+  a new CSS class is simpler.
+
+- Feature: Renamed "css" attribute of the widget to "klass", because the class
+  of an HTML element is a classification, not a CSS marker.
+
 - Feature: Reviewed all widget attributes. Added all available HTML attributes
   to the widgets.
 
@@ -168,4 +177,4 @@ Version 1.1.0 (5/30/2007)
 Version 1.0.0 (5/24/2007)
 -------------------------
 
-- Initial Releas
+- Initial Release

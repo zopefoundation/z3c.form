@@ -20,20 +20,24 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
-from z3c.form import interfaces, widget
-from z3c.form.browser.widget import HTMLTextInputWidget
+from z3c.form import interfaces
+from z3c.form.widget import Widget, FieldWidget
+from z3c.form.browser import widget
 
-class TextWidget(HTMLTextInputWidget, widget.Widget):
+class TextWidget(widget.HTMLTextInputWidget, Widget):
     """Input type text widget implementation."""
-
     zope.interface.implementsOnly(interfaces.ITextWidget)
 
-    css = u'textWidget'
+    klass = u'textWidget'
     value = u''
+
+    def update(self):
+        super(TextWidget, self).update()
+        widget.addFieldClass(self)
 
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def TextFieldWidget(field, request):
     """IFieldWidget factory for TextWidget."""
-    return widget.FieldWidget(field, TextWidget(request))
+    return FieldWidget(field, TextWidget(request))

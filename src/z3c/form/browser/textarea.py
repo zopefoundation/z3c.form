@@ -20,20 +20,25 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
-from z3c.form import interfaces, widget
-from z3c.form.browser.widget import HTMLTextAreaWidget
+from z3c.form import interfaces
+from z3c.form.widget import Widget, FieldWidget
+from z3c.form.browser import widget
 
 
-class TextAreaWidget(HTMLTextAreaWidget, widget.Widget):
+class TextAreaWidget(widget.HTMLTextAreaWidget, Widget):
     """Textarea widget implementation."""
     zope.interface.implementsOnly(interfaces.ITextAreaWidget)
 
-    css = u'textAreaWidget'
+    klass = u'textAreaWidget'
     value = u''
+
+    def update(self):
+        super(TextAreaWidget, self).update()
+        widget.addFieldClass(self)
 
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def TextAreaFieldWidget(field, request):
     """IFieldWidget factory for TextWidget."""
-    return widget.FieldWidget(field, TextAreaWidget(request))
+    return FieldWidget(field, TextAreaWidget(request))

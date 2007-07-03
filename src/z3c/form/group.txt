@@ -105,28 +105,28 @@ We can now render the form:
         <div class="row">
           <label for="form-widgets-firstName">First Name</label>
           <input type="text" id="form-widgets-firstName"
-         name="form.widgets.firstName" class="textWidget"
-         value="" />
+                 name="form.widgets.firstName" class="textWidget textline-field"
+                 value="" />
         </div>
         <div class="row">
           <label for="form-widgets-lastName">Last Name</label>
           <input type="text" id="form-widgets-lastName"
-         name="form.widgets.lastName" class="textWidget"
-         value="" />
+                 name="form.widgets.lastName" class="textWidget textline-field"
+                 value="" />
         </div>
         <fieldgroup>
           <legend>License</legend>
           <div class="row">
             <label for="form-widgets-license">License</label>
             <input type="text" id="form-widgets-license"
-           name="form.widgets.license" class="textWidget"
-           value="" />
+                   name="form.widgets.license" class="textWidget textline-field"
+                   value="" />
           </div>
           <div class="row">
             <label for="form-widgets-address">Address</label>
             <input type="text" id="form-widgets-address"
-           name="form.widgets.address" class="textWidget"
-           value="" />
+                   name="form.widgets.address" class="textWidget textline-field"
+                   value="" />
           </div>
         </fieldgroup>
         <fieldgroup>
@@ -134,17 +134,20 @@ We can now render the form:
           <div class="row">
             <label for="form-widgets-model">Model</label>
             <input type="text" id="form-widgets-model"
-           name="form.widgets.model" class="textWidget" value="" />
+                   name="form.widgets.model" class="textWidget textline-field"
+                   value="" />
           </div>
           <div class="row">
             <label for="form-widgets-make">Make</label>
             <input type="text" id="form-widgets-make"
-           name="form.widgets.make" class="textWidget" value="" />
+                   name="form.widgets.make" class="textWidget textline-field"
+                   value="" />
           </div>
           <div class="row">
             <label for="form-widgets-year">Year</label>
             <input type="text" id="form-widgets-year"
-                   name="form.widgets.year" class="textWidget" value="" />
+                   name="form.widgets.year" class="textWidget int-field"
+                   value="" />
           </div>
         </fieldgroup>
         <div class="action">
@@ -291,13 +294,13 @@ After updating the form, we can render the HTML:
         <div class="row">
           <label for="form-widgets-firstName">First Name</label>
           <input type="text" id="form-widgets-firstName"
-                 name="form.widgets.firstName" class="textWidget"
+                 name="form.widgets.firstName" class="textWidget textline-field"
                  value="Stephan" />
         </div>
         <div class="row">
           <label for="form-widgets-lastName">Last Name</label>
           <input type="text" id="form-widgets-lastName"
-                 name="form.widgets.lastName" class="textWidget"
+                 name="form.widgets.lastName" class="textWidget textline-field"
                  value="Richter" />
          </div>
         <fieldgroup>
@@ -305,13 +308,13 @@ After updating the form, we can render the HTML:
           <div class="row">
             <label for="form-widgets-license">License</label>
             <input type="text" id="form-widgets-license"
-                   name="form.widgets.license" class="textWidget"
+                   name="form.widgets.license" class="textWidget textline-field"
                    value="MA 40387" />
           </div>
           <div class="row">
             <label for="form-widgets-address">Address</label>
             <input type="text" id="form-widgets-address"
-                   name="form.widgets.address" class="textWidget"
+                   name="form.widgets.address" class="textWidget textline-field"
                    value="10 Main St, Maynard, MA" />
           </div>
         </fieldgroup>
@@ -320,19 +323,19 @@ After updating the form, we can render the HTML:
           <div class="row">
             <label for="form-widgets-model">Model</label>
             <input type="text" id="form-widgets-model"
-                   name="form.widgets.model" class="textWidget"
+                   name="form.widgets.model" class="textWidget textline-field"
                    value="BMW" />
           </div>
           <div class="row">
             <label for="form-widgets-make">Make</label>
             <input type="text" id="form-widgets-make"
-                   name="form.widgets.make" class="textWidget"
+                   name="form.widgets.make" class="textWidget textline-field"
                    value="325" />
           </div>
           <div class="row">
             <label for="form-widgets-year">Year</label>
             <input type="text" id="form-widgets-year"
-                   name="form.widgets.year" class="textWidget"
+                   name="form.widgets.year" class="textWidget int-field"
                    value="2005" />
           </div>
         </fieldgroup>
@@ -422,4 +425,4 @@ and the data is correctly updated:
   >>> reg.year
   2006
 
-And that's 
+And that's it!

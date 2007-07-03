@@ -143,7 +143,7 @@ function selectionError()
       <select id="from" name="from" size="5" multiple=""
           tal:attributes="name string:${view/name}.from;
                           id string:${view/id}-from;
-                          class view/css;
+                          class view/klass;
                           title view/title;
                           lang view/lang;
                           onclick view/onclick;
@@ -183,7 +183,7 @@ function selectionError()
       <select id="to" name="to" size="5" multiple=""
           tal:attributes="name string:${view/name}.to;
                           id string:${view/id}-to;
-                          class view/css;
+                          class view/klass;
                           title view/title;
                           lang view/lang;
                           onclick view/onclick;

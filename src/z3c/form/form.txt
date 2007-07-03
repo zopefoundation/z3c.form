@@ -294,17 +294,18 @@ Let's now render the page:
         <div class="row">
           <label for="form-widgets-id">ID</label>
           <input type="text" id="form-widgets-id"
-                 name="form.widgets.id" class="textWidget" value="" />
+                 name="form.widgets.id" class="textWidget textline-field"
+                 value="" />
         </div>
         <div class="row">
           <label for="form-widgets-name">Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
-                 class="textWidget" value="" />
+                 class="textWidget textline-field" value="" />
         </div>
         <div class="row">
           <label for="form-widgets-gender">Gender</label>
           <select id="form-widgets-gender" name="form.widgets.gender:list"
-                  class="selectWidget" size="1">
+                  class="selectWidget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
                     value="--NOVALUE--">no value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
@@ -316,7 +317,7 @@ Let's now render the page:
         <div class="row">
           <label for="form-widgets-age">Age</label>
           <input type="text" id="form-widgets-age" name="form.widgets.age"
-                 class="textWidget" value="20" />
+                 class="textWidget int-field" value="20" />
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-add" name="form.buttons.add"
@@ -399,18 +400,19 @@ Let's now render the form:
         <div class="row">
           <label for="form-widgets-id">ID</label>
           <input type="text" id="form-widgets-id"
-                 name="form.widgets.id" class="textWidget" value="srichter" />
+                 name="form.widgets.id" class="textWidget textline-field"
+                 value="srichter" />
         </div>
         <div class="row">
           <b><div class="error">Required input is missing.</div>
           </b><label for="form-widgets-name">Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
-                 class="textWidget" value="" />
+                 class="textWidget textline-field" value="" />
         </div>
         <div class="row">
           <label for="form-widgets-gender">Gender</label>
           <select id="form-widgets-gender" name="form.widgets.gender:list"
-                  class="selectWidget" size="1">
+                  class="selectWidget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
                     value="--NOVALUE--">no value</option>
             <option id="form-widgets-gender-0" value="male"
@@ -423,7 +425,7 @@ Let's now render the form:
         <div class="row">
           <label for="form-widgets-age">Age</label>
           <input type="text" id="form-widgets-age" name="form.widgets.age"
-                 class="textWidget" value="23" />
+                 class="textWidget int-field" value="23" />
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-add" name="form.buttons.add"
@@ -569,7 +571,7 @@ When the form renders, the label should be changed:
   <div class="row">
     <label for="form-widgets-name">Full Name</label>
     <input type="text" id="form-widgets-name" name="form.widgets.name"
-           class="textWidget" value="" />
+           class="textWidget textline-field" value="" />
   </div>
   ...
 
@@ -693,12 +695,12 @@ After adding a template, we can look at the form:
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
-                 class="textWidget" value="Stephan Richter" />
+                 class="textWidget textline-field" value="Stephan Richter" />
         </div>
         <div class="row">
           <label for="form-widgets-gender">Gender</label>
           <select id="form-widgets-gender" name="form.widgets.gender:list"
-                  class="selectWidget" size="1">
+                  class="selectWidget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
                     value="--NOVALUE--">no value</option>
             <option id="form-widgets-gender-0" value="male"
@@ -711,7 +713,7 @@ After adding a template, we can look at the form:
         <div class="row">
           <label for="form-widgets-age">Age</label>
           <input type="text" id="form-widgets-age" name="form.widgets.age"
-                 class="textWidget" value="20" />
+                 class="textWidget int-field" value="20" />
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-apply" name="form.buttons.apply"
@@ -757,12 +759,12 @@ Let's now submit the form having some invalid data.
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
-                 class="textWidget" value="Claudia Richter" />
+                 class="textWidget textline-field" value="Claudia Richter" />
         </div>
         <div class="row">
           <label for="form-widgets-gender">Gender</label>
           <select id="form-widgets-gender" name="form.widgets.gender:list"
-                  class="selectWidget" size="1">
+                  class="selectWidget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
                     value="--NOVALUE--">no value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
@@ -776,7 +778,7 @@ Let's now submit the form having some invalid data.
           <b><div class="error">The value cannot be a negative number.</div>
           </b><label for="form-widgets-age">Age</label>
           <input type="text" id="form-widgets-age" name="form.widgets.age"
-                 class="textWidget" value="-1" />
+                 class="textWidget int-field" value="-1" />
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-apply" name="form.buttons.apply"
@@ -907,13 +909,13 @@ We can now use the form as usual:
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
           <input type="text" id="form-widgets-name"
-         name="form.widgets.name" class="textWidget"
+                 name="form.widgets.name" class="textWidget textline-field"
          value="Roger Ineichen" />
         </div>
         <div class="row">
           <label for="form-widgets-gender">Gender</label>
           <select id="form-widgets-gender" name="form.widgets.gender:list"
-                  class="selectWidget" size="1">
+                  class="selectWidget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
                     value="--NOVALUE--" selected="selected">no value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
@@ -925,7 +927,8 @@ We can now use the form as usual:
         <div class="row">
           <label for="form-widgets-age">Age</label>
           <input type="text" id="form-widgets-age"
-                 name="form.widgets.age" class="textWidget" value="20" />
+                 name="form.widgets.age" class="textWidget int-field"
+                 value="20" />
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-apply"
@@ -1103,7 +1106,7 @@ Let's show a sample and define a custom widget:
   >>> from z3c.form.browser import text
   >>> class MyWidget(text.TextWidget):
   ...     """My new widget."""
-  ...     css = u'MyCSS'
+  ...     klass = u'MyCSS'
 
 Now we can define a field widget factory:
 
@@ -1127,7 +1130,7 @@ We can see that the custom widget gets used in the rendered form:
   ...
   <html...
   <input type="text" id="form-widgets-name"
-         name="form.widgets.name" class="MyCSS"
+         name="form.widgets.name" class="MyCSS textline-field"
          value="Claudia Richter" />
   ...
 
@@ -1135,7 +1138,7 @@ We can see that the custom widget gets used in the rendered form:
 Hidden fields
 -------------
 
-Another important part of a form is that we can generate hidden widgets. We can 
+Another important part of a form is that we can generate hidden widgets. We can
 do this in a form by defining a widget mode. We can do this by override the
 setUpWidgets method.
 
@@ -1143,7 +1146,7 @@ setUpWidgets method.
   ...
   ...     fields = field.Fields(IPerson)
   ...     fields['name'].widgetFactory = MyFieldWidget
-  ...     
+  ...
   ...     def updateWidgets(self):
   ...         super(HiddenFieldEditForm, self).updateWidgets()
   ...         self.widgets['age'].mode = interfaces.HIDDEN_MODE
@@ -1156,7 +1159,7 @@ We can see that the widget gets rendered as hidden:
   >>> print hiddenEdit.render()
   <html>...
   <input type="text" id="form-widgets-name"
-         name="form.widgets.name" class="MyCSS"
+         name="form.widgets.name" class="MyCSS textline-field"
          value="Claudia Richter" />
   ...
   <input type="hidden" id="form-widgets-age"

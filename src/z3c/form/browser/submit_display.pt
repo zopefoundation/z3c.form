@@ -1,5 +1,5 @@
-<input type="submit" id="" name="" class="" value="" disabled=""
+<input type="submit" id="" name="" class="" value="" disabled="disabled"
        tal:attributes="id view/id;
                        name view/name;
-                       class view/css;
+                       class view/klass;
                        value view/value" />

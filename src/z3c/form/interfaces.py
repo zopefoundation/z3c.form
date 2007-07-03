@@ -270,13 +270,10 @@ class ITerms(zope.interface.Interface):
 class IWidget(ILocation):
     """A widget within a form"""
 
-    template = zope.interface.Attribute('''The widget template''')
-
-    mode = zope.schema.BytesLine(
-        title=_('Mode'),
-        description=_('A widget mode.'),
-        required=True,
-        default=DISPLAY_MODE)
+    name = zope.schema.BytesLine(
+        title=_('Name'),
+        description=_('The name the widget is known under.'),
+        required=True)
 
     label = zope.schema.TextLine(
         title=_('Label'),
@@ -290,10 +287,17 @@ class IWidget(ILocation):
         '''),
         required=True)
 
+    mode = zope.schema.BytesLine(
+        title=_('Mode'),
+        description=_('A widget mode.'),
+        default=INPUT_MODE,
+        required=True)
+
     required = zope.schema.Bool(
         title=_('Required'),
         description=_('If true the widget should be displayed as required '
                       'input.'),
+        default=False,
         required=True)
 
     error = zope.schema.Field(
@@ -306,6 +310,8 @@ class IWidget(ILocation):
         title=_('Value'),
         description=_('The value that the widget represents.'),
         required=False)
+
+    template = zope.interface.Attribute('''The widget template''')
 
     ignoreRequest = zope.schema.Bool(
         title=_('Ignore Request'),
@@ -351,17 +357,6 @@ class ISequenceWidget(IWidget):
 
 class ISelectWidget(ISequenceWidget):
     """Select widget with ITerms option."""
-
-    size = zope.schema.Int(
-        title=_('Size'),
-        description=_('Determines how many options are shown at once.'),
-        default=1)
-
-    multiple = zope.schema.Bool(
-        title=_('Multiple'),
-        description=_('A flag, when set, allows for multiple values to be '
-                      'selected.'),
-        default=False)
 
     prompt = zope.schema.Bool(
         title=_('Prompt'),

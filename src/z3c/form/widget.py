@@ -24,6 +24,7 @@ import zope.schema.interfaces
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.i18n import translate
+from zope.schema.fieldproperty import FieldProperty
 
 from z3c.form import interfaces, util, value
 from z3c.form.i18n import MessageFactory as _
@@ -44,27 +45,24 @@ class Widget(zope.location.Location):
     zope.interface.implements(interfaces.IWidget)
 
     # widget specific attributes
-    label = u''
-    mode = interfaces.INPUT_MODE
-    required = False
-    ignoreRequest = False
-    ignoreContext = False
-    error = None
+    name = FieldProperty(interfaces.IWidget['name'])
+    label = FieldProperty(interfaces.IWidget['label'])
+    mode = FieldProperty(interfaces.IWidget['mode'])
+    required = FieldProperty(interfaces.IWidget['required'])
+    error = FieldProperty(interfaces.IWidget['error'])
+    value = FieldProperty(interfaces.IWidget['value'])
     template = None
-    value = None
+    ignoreRequest = FieldProperty(interfaces.IWidget['ignoreRequest'])
 
-    # html element attributes
-    id = u''
-    name = u''
-    title = None
-    css = None
-    tabindex = None
-    disabled = None
+    # The following attributes are for convenience. They are declared in
+    # extensions to the simple widget.
 
-    # this is only for a simpler handling, note that we offer interfaces
-    # for the following attributes, See IContextAware, IFormAware, IFieldWidget
+    # See ``interfaces.IContextAware``
     context = None
+    ignoreContext = False
+    # See ``interfaces.IFormAware``
     form = None
+    # See ``interfaces.IFieldAware``
     field = None
 
     # Internal attributes

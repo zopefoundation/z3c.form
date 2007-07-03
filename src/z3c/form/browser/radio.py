@@ -23,19 +23,15 @@ import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
 
-from z3c.form import interfaces
-from z3c.form import widget
+from z3c.form import interfaces, widget
+from z3c.form.browser.widget import HTMLInputWidget
 
 
-class RadioWidget(widget.SequenceWidget):
+class RadioWidget(HTMLInputWidget, widget.SequenceWidget):
     """Input type radio widget implementation."""
-
     zope.interface.implementsOnly(interfaces.IRadioWidget)
 
     css = u'radioWidget'
-    alt = None
-    readonly = None
-    accesskey = None
     items = ()
 
     def isChecked(self, term):

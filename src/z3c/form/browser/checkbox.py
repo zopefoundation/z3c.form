@@ -23,19 +23,15 @@ import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
 
-from z3c.form import interfaces
-from z3c.form import widget
+from z3c.form import interfaces, widget
+from z3c.form.browser.widget import HTMLInputWidget
 
 
-class CheckBoxWidget(widget.SequenceWidget):
+class CheckBoxWidget(HTMLInputWidget, widget.SequenceWidget):
     """Input type checkbox widget implementation."""
-
     zope.interface.implementsOnly(interfaces.ICheckBoxWidget)
 
     css = u'checkBoxWidget'
-    alt = None
-    readonly = None
-    accesskey = None
     items = ()
 
     def isChecked(self, term):

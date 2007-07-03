@@ -152,7 +152,7 @@ An extended form of the widget allows fields to control several of the
 widget's properties. Let's create a field first:
 
   >>> ageField = zope.schema.Int(
-  ...     __name__ = u'age',
+  ...     __name__ = 'age',
   ...     title = u'Age',
   ...     min = 0,
   ...     max = 130)
@@ -192,7 +192,7 @@ default value and see what happens:
   >>> ageWidget.update()
   Traceback (most recent call last):
   ...
-  TypeError: ('Could not adapt', <Widget u'age'>,
+  TypeError: ('Could not adapt', <Widget 'age'>,
               <InterfaceClass z3c.form.interfaces.IDataConverter>)
 
 In order for the widget to be able to take the field's default value and use

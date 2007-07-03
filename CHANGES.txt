@@ -5,7 +5,12 @@ CHANGES
 Version 1.5.0 (??/??/2007)
 -------------------------
 
+- Feature: Reviewed all widget attributes. Added all available HTML attributes
+  to the widgets.
+
 - Bug/Feature: Correctly create labels for radio button choices.
+
+- Bug: Added tests for textarea widget.
 
 
 Version 1.4.0 (6/29/2007)

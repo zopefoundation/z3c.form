@@ -28,8 +28,8 @@ also define a helper method for test the widgets:
   ...     request = TestRequest()
   ...     widget = zope.component.getMultiAdapter((field, request),
   ...         interfaces.IFieldWidget)
-  ...     widget.id = u'foo'
-  ...     widget.name = u'bar'
+  ...     widget.id = 'foo'
+  ...     widget.name = 'bar'
   ...     return widget
 
 
@@ -94,8 +94,8 @@ For the boolean, the checkbox widget can be used as well:
 
   >>> from z3c.form.browser import checkbox
   >>> widget = checkbox.CheckBoxFieldWidget(field, TestRequest())
-  >>> widget.id = u'foo'
-  >>> widget.name = u'bar'
+  >>> widget.id = 'foo'
+  >>> widget.name = 'bar'
   >>> widget.update()
 
   >>> print widget.render()
@@ -103,11 +103,15 @@ For the boolean, the checkbox widget can be used as well:
     <input type="checkbox" id="foo-0" name="bar:list"
            class="checkBoxWidget" value="yes"
            checked="checked" />
-    <span class="label">yes</span>
+    <label for="foo-0">
+      <span class="label">yes</span>
+    </label>
   </span><span class="option">
     <input type="checkbox" id="foo-1" name="bar:list"
            class="checkBoxWidget" value="no" />
-    <span class="label">no</span>
+    <label for="foo-1">
+      <span class="label">no</span>
+    </label>
   </span>
   <input name="bar-empty-marker" type="hidden" value="1" />
 
@@ -172,7 +176,7 @@ Choice
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <select id="foo" name="bar:list" class="selectWidget" 
+  <select id="foo" name="bar:list" class="selectWidget"
           size="1">
     <option id="foo-0" value="yes" selected="selected">Yes</option>
     <option id="foo-1" value="no">No</option>
@@ -277,7 +281,7 @@ FrozenSet
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <select id="foo" name="bar:list" class="selectWidget" 
+  <select id="foo" name="bar:list" class="selectWidget"
           multiple="multiple" size="5">
     <option id="foo-0" value="1" selected="selected">1</option>
     <option id="foo-1" value="2">2</option>
@@ -338,7 +342,7 @@ List
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="">
+                multiple="multiple">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -355,7 +359,7 @@ List
                 onclick="javascript:to2from('foo')">&lt;-&nbsp;</button>
       </td>
       <td>
-        <select id="foo-to" name="bar.to" size="5" multiple="">
+        <select id="foo-to" name="bar.to" size="5" multiple="multiple">
           <option value="1">1</option>
           <option value="3">3</option>
         </select>
@@ -411,7 +415,7 @@ Set
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <select id="foo" name="bar:list" class="selectWidget" 
+  <select id="foo" name="bar:list" class="selectWidget"
           multiple="multiple"  size="5">
     <option id="foo-0" value="1" selected="selected">1</option>
     <option id="foo-1" value="2">2</option>
@@ -518,7 +522,7 @@ Tuple
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="">
+                multiple="multiple">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -535,7 +539,7 @@ Tuple
                 onclick="javascript:to2from('foo')">&lt;-&nbsp;</button>
       </td>
       <td>
-        <select id="foo-to" name="bar.to" size="5" multiple="">
+        <select id="foo-to" name="bar.to" size="5" multiple="multiple">
           <option value="1">1</option>
           <option value="3">3</option>
         </select>

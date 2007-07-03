@@ -26,8 +26,8 @@ The widget can be instantiated only using the request:
 
 Before rendering the widget, one has to set the name and id of the widget:
 
-  >>> widget.id = u'widget-id'
-  >>> widget.name = u'widget.name'
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
 
 We also need to register the template for at least the widget and request:
 
@@ -51,7 +51,7 @@ If we render the widget we get an emtpy widget:
     <tr>
       <td>
         <select id="widget-id-from" name="widget.name.from"
-                size="5" multiple="">
+                size="5" multiple="multiple">
         </select>
       </td>
       <td>
@@ -65,7 +65,7 @@ If we render the widget we get an emtpy widget:
       </td>
       <td>
         <select id="widget-id-to" name="widget.name.to"
-                size="5" multiple="">
+                size="5" multiple="multiple">
         </select>
         <input name="widget.name-empty-marker" type="hidden" />
         <span id="widget-id-toDataContainer">
@@ -113,7 +113,7 @@ Now let's try if we get widget values:
     <tr>
       <td>
         <select id="widget-id-from" name="widget.name.from"
-                size="5" multiple="">
+                size="5" multiple="multiple">
           <option value="a">A</option>
           <option value="b">B</option>
           <option value="c">C</option>
@@ -135,7 +135,7 @@ If we select item "b", then it should be selected:
     <tr>
       <td>
         <select id="widget-id-from" name="widget.name.from"
-                size="5" multiple="">
+                size="5" multiple="multiple">
           <option value="a">A</option>
           <option value="b">B</option>
           <option value="c">C</option>
@@ -144,7 +144,7 @@ If we select item "b", then it should be selected:
       ...
       <td>
         <select id="widget-id-to" name="widget.name.to"
-                size="5" multiple="">
+                size="5" multiple="multiple">
           <option value="b">B</option>
         </select>
         <input name="widget.name-empty-marker" type="hidden" />

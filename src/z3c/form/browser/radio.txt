@@ -22,8 +22,8 @@ The widget can render a input field only by adapting a request:
 
 Set a name and id for the widget:
 
-  >>> widget.id = u'widget-id'
-  >>> widget.name = u'widget.name'
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
 
 Such a field provides IWidget:
 

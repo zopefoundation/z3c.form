@@ -24,16 +24,14 @@ from zope.i18n import translate
 
 from z3c.form import interfaces, widget
 from z3c.form.i18n import MessageFactory as _
+from z3c.form.browser.widget import HTMLSelectWidget
 
 
-class SelectWidget(widget.SequenceWidget):
+class SelectWidget(HTMLSelectWidget, widget.SequenceWidget):
     """Select widget implementation."""
-
     zope.interface.implementsOnly(interfaces.ISelectWidget)
 
     css = u'selectWidget'
-    size = 1
-    multiple = None
     items = ()
     prompt = False
 

@@ -76,12 +76,12 @@ and check them:
 Let's use the template within the widget.
 
   >>> print template(myWidget)
-  <input type="text" id="" name="" value="" />
+  <input type="text" value="" />
 
 We normly render the widget which returns the registered template.
 
   >>> print myWidget.render()
-  <input type="text" id="" name="" value="" />
+  <input type="text" value="" />
 
 If the template does not exist, then the widget directive should fail
 immediately:

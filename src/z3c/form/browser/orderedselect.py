@@ -23,14 +23,15 @@ import zope.schema.interfaces
 from zope.i18n import translate
 
 from z3c.form import interfaces, widget
+from z3c.form.browser.widget import HTMLSelectWidget
 
 
-class OrderedSelectWidget(widget.SequenceWidget):
+class OrderedSelectWidget(HTMLSelectWidget, widget.SequenceWidget):
     """Ordered-Select widget implementation."""
     zope.interface.implementsOnly(interfaces.IOrderedSelectWidget)
 
     size = 5
-    multiple = True
+    multiple = u'multiple'
     items = ()
     selectedItems = ()
 

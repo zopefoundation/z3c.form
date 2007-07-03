@@ -27,8 +27,8 @@ The widget can render a input field only by adapting a request:
 
 Set a name and id for the widget:
 
-  >>> widget.id = u'widget-id'
-  >>> widget.name = u'widget.name'
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
 
 Such a field provides IWidget:
 
@@ -56,7 +56,8 @@ If we render the widget we only get the empty marker:
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
 Let's provide some values for this widget. We can do this by defining a source
-providing ITerms. This source uses descriminators wich will fit for our setup.
+providing ``ITerms``. This source uses descriminators wich will fit for our
+setup.
 
   >>> import zope.schema.interfaces
   >>> from zope.schema.vocabulary import SimpleVocabulary
@@ -76,11 +77,15 @@ Now let's try if we get widget values:
   <span class="option">
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
            class="checkBoxWidget" value="yes" />
-   <span class="label">yes</span>
+    <label for="widget-id-0">
+      <span class="label">yes</span>
+    </label>
   </span><span class="option">
     <input type="checkbox" id="widget-id-1" name="widget.name:list"
            class="checkBoxWidget" value="no" />
-   <span class="label">no</span>
+    <label for="widget-id-1">
+      <span class="label">no</span>
+    </label>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
@@ -94,10 +99,14 @@ field get rendered with a checked flag:
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
            class="checkBoxWidget" value="yes"
            checked="checked" />
-   <span class="label">yes</span>
+    <label for="widget-id-0">
+      <span class="label">yes</span>
+    </label>
   </span><span class="option">
     <input type="checkbox" id="widget-id-1" name="widget.name:list"
            class="checkBoxWidget" value="no" />
-   <span class="label">no</span>
+    <label for="widget-id-1">
+      <span class="label">no</span>
+    </label>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />

@@ -21,22 +21,15 @@ import zope.interface
 import zope.schema.interfaces
 
 from z3c.form import interfaces, widget
+from z3c.form.browser.widget import HTMLTextInputWidget
 
-
-class TextWidget(widget.Widget):
+class TextWidget(HTMLTextInputWidget, widget.Widget):
     """Input type text widget implementation."""
 
     zope.interface.implementsOnly(interfaces.ITextWidget)
 
     css = u'textWidget'
-    size = None
     value = u''
-
-    # optional html attributes
-    alt = None
-    readonly = None
-    maxlength = None
-    accesskey = None
 
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)

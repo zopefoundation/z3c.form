@@ -21,21 +21,15 @@ import zope.interface
 import zope.schema.interfaces
 
 from z3c.form import interfaces, widget
+from z3c.form.browser.widget import HTMLTextAreaWidget
 
 
-class TextAreaWidget(widget.Widget):
+class TextAreaWidget(HTMLTextAreaWidget, widget.Widget):
     """Textarea widget implementation."""
-
     zope.interface.implementsOnly(interfaces.ITextAreaWidget)
 
     css = u'textAreaWidget'
-    cols = None
-    rows = None
     value = u''
-
-    # optional html attributes
-    readonly = None
-    accesskey = None
 
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)

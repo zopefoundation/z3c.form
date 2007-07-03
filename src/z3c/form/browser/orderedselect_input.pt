@@ -142,7 +142,27 @@ function selectionError()
     <td>
       <select id="from" name="from" size="5" multiple=""
           tal:attributes="name string:${view/name}.from;
-                          id string:${view/id}-from">
+                          id string:${view/id}-from;
+                          class view/css;
+                          title view/title;
+                          lang view/lang;
+                          onclick view/onclick;
+                          ondblclick view/ondblclick;
+                          onmousedown view/onmousedown;
+                          onmouseup view/onmouseup;
+                          onmouseover view/onmouseover;
+                          onmousemove view/onmousemove;
+                          onmouseout view/onmouseout;
+                          onkeypress view/onkeypress;
+                          onkeydown view/onkeydown;
+                          onkeyup view/onkeyup;
+                          disabled view/disabled;
+                          tabindex view/tabindex;
+                          onfocus view/onfocus;
+                          onblur view/onblur;
+                          onchange view/onchange;
+                          multiple view/multiple;
+                          size view/size">
         <option tal:repeat="entry view/items"
                 tal:attributes="value entry/value"
                 tal:content="entry/content" i18n:translate=""/>
@@ -162,7 +182,27 @@ function selectionError()
     <td>
       <select id="to" name="to" size="5" multiple=""
           tal:attributes="name string:${view/name}.to;
-                          id string:${view/id}-to">
+                          id string:${view/id}-to;
+                          class view/css;
+                          title view/title;
+                          lang view/lang;
+                          onclick view/onclick;
+                          ondblclick view/ondblclick;
+                          onmousedown view/onmousedown;
+                          onmouseup view/onmouseup;
+                          onmouseover view/onmouseover;
+                          onmousemove view/onmousemove;
+                          onmouseout view/onmouseout;
+                          onkeypress view/onkeypress;
+                          onkeydown view/onkeydown;
+                          onkeyup view/onkeyup;
+                          disabled view/disabled;
+                          tabindex view/tabindex;
+                          onfocus view/onfocus;
+                          onblur view/onblur;
+                          onchange view/onchange;
+                          multiple view/multiple;
+                          size view/size">
         <option tal:repeat="entry view/selectedItems"
                 tal:attributes="value entry/value"
                 tal:content="entry/content" i18n:translate=""/>

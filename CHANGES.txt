@@ -17,6 +17,12 @@ Version 1.5.0 (??/??/2007)
 - Feature: Reviewed all widget attributes. Added all available HTML attributes
   to the widgets.
 
+- Optimization: The terms for a sequence widget were looked up multiple times
+  among different components. The widget is now the canonical source for the
+  terms and other components, such as the converter uses them. This avoids
+  looking up the terms multiple times, which can be an expensive process for
+  some applications.
+
 - Bug/Feature: Correctly create labels for radio button choices.
 
 - Bug: Added tests for textarea widget.

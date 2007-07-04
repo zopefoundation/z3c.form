@@ -167,13 +167,17 @@ class SequenceWidget(Widget):
                 value.append(term.token)
         return value
 
-    def update(self):
-        """See z3c.form.interfaces.IWidget."""
-        # Create terms first, since we need them for the generic update.
+    def updateTerms(self):
         if self.terms is None:
             self.terms = zope.component.getMultiAdapter(
                 (self.context, self.request, self.form, self.field, self),
                 interfaces.ITerms)
+        return self.terms
+
+    def update(self):
+        """See z3c.form.interfaces.IWidget."""
+        # Create terms first, since we need them for the generic update.
+        self.updateTerms()
         super(SequenceWidget, self).update()
 
     def extract(self, default=interfaces.NOVALUE):

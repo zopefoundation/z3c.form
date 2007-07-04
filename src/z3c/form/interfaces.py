@@ -355,6 +355,14 @@ class ISequenceWidget(IWidget):
         description=_('A component that provides the options for selection.'),
         schema=ITerms)
 
+    def updateTerms():
+        """Update the widget's ``terms`` attribute and return the terms.
+
+        This method can be used by external components to get the terms
+        without having to worry whether they are already created or not.
+        """
+
+
 class ISelectWidget(ISequenceWidget):
     """Select widget with ITerms option."""
 

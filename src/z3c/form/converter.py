@@ -246,9 +246,7 @@ class SequenceDataConverter(BaseDataConverter):
         if value is self.field.missing_value:
             return []
         # Look up the term in the terms
-        terms = zope.component.getMultiAdapter(
-            (widget.context, widget.request, widget.form, self.field, widget),
-             interfaces.ITerms)
+        terms = widget.updateTerms()
         return [terms.getTerm(value).token]
 
     def toFieldValue(self, value):
@@ -256,10 +254,8 @@ class SequenceDataConverter(BaseDataConverter):
         widget = self.widget
         if not len(value) or value[0] == widget.noValueToken:
             return self.field.missing_value
-        terms = zope.component.getMultiAdapter(
-            (widget.context, widget.request, widget.form, self.field, widget),
-             interfaces.ITerms)
-        return terms.getValue(value[0])
+        terms = widget.updateTerms()
+        return widget.terms.getValue(value[0])
 
 
 class CollectionSequenceDataConverter(BaseDataConverter):
@@ -271,18 +267,16 @@ class CollectionSequenceDataConverter(BaseDataConverter):
     def toWidgetValue(self, value):
         """Convert from Python bool to HTML representation."""
         widget = self.widget
-        terms = zope.component.getMultiAdapter(
-            (widget.context, widget.request, widget.form, self.field, widget),
-             interfaces.ITerms)
-        return [terms.getTerm(entry).token for entry in value]
+        if not widget.terms:
+            widget.updateTerms()
+        return [widget.terms.getTerm(entry).token for entry in value]
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         widget = self.widget
-        terms = zope.component.getMultiAdapter(
-            (widget.context, widget.request, widget.form, self.field, widget),
-             interfaces.ITerms)
+        if not widget.terms:
+            widget.updateTerms()
         collectionType = self.field._type
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]
-        return collectionType([terms.getValue(token) for token in value])
+        return collectionType([widget.terms.getValue(token) for token in value])

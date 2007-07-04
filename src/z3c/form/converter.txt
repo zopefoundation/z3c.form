@@ -464,6 +464,7 @@ Let's now create a choice field and a widget:
 
   >>> from z3c.form import widget
   >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = gender
 
 We now use the field and widget to instantiate the converter:
 
@@ -517,6 +518,7 @@ Let's now create a set field and a widget:
 
   >>> genders = zope.schema.List(value_type=gender)
   >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders
 
 We now use the field and widget to instantiate the converter:
 
@@ -540,6 +542,7 @@ these cases we use the last entry in the tuple as the type to use:
 
   >>> genders = zope.schema.Set(value_type=gender)
   >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders
 
   >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
 

@@ -43,8 +43,8 @@ class HTMLFormElement(object):
     onkeydown = FieldProperty(interfaces.IHTMLFormElement['onkeydown'])
     onkeyup = FieldProperty(interfaces.IHTMLFormElement['onkeyup'])
 
-    disabled = FieldProperty(interfaces.IHTMLFormElement['onkeyup'])
-    tabindex = FieldProperty(interfaces.IHTMLFormElement['onkeyup'])
+    disabled = FieldProperty(interfaces.IHTMLFormElement['disabled'])
+    tabindex = FieldProperty(interfaces.IHTMLFormElement['tabindex'])
     onfocus = FieldProperty(interfaces.IHTMLFormElement['onfocus'])
     onblur = FieldProperty(interfaces.IHTMLFormElement['onblur'])
     onchange = FieldProperty(interfaces.IHTMLFormElement['onchange'])

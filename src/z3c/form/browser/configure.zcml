@@ -3,6 +3,7 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="z3c.form">
 
+  <include file="button.zcml" />
   <include file="checkbox.zcml" />
   <include file="file.zcml" />
   <include file="orderedselect.zcml" />

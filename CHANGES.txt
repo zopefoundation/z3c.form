@@ -5,6 +5,9 @@ CHANGES
 Version 1.5.0 (??/??/2007)
 -------------------------
 
+- Feature: Added button widget. While it is not very useful without
+  Javascript, it still belongs into this package for completion.
+
 - Feature: All ``IFieldWidget`` instances that are also HTML element widgets
   now declare an additional CSS class of the form "<fieldtype.lower()>-field".
 

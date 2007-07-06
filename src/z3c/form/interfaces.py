@@ -400,6 +400,9 @@ class IRadioWidget(ISequenceWidget):
 class ISubmitWidget(IWidget):
     """Submit widget."""
 
+class IButtonWidget(IWidget):
+    """Button widget."""
+
 class ITextAreaWidget(IWidget):
     """Text widget."""
 

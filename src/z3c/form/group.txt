@@ -152,7 +152,7 @@ We can now render the form:
         </fieldgroup>
         <div class="action">
           <input type="submit" id="form-buttons-add"
-                 name="form.buttons.add" class="submitWidget"
+                 name="form.buttons.add" class="submitWidget button-field"
                  value="Add" />
         </div>
       </form>
@@ -341,7 +341,7 @@ After updating the form, we can render the HTML:
         </fieldgroup>
         <div class="action">
           <input type="submit" id="form-buttons-apply"
-                 name="form.buttons.apply" class="submitWidget"
+                 name="form.buttons.apply" class="submitWidget button-field"
                  value="Apply" />
         </div>
       </form>

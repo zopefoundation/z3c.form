@@ -185,10 +185,11 @@ def buttonAndHandler(title, **kwargs):
 
 
 class ButtonAction(action.Action, submit.SubmitWidget, zope.location.Location):
-    zope.interface.implements(interfaces.IFieldWidget)
+    zope.interface.implements(interfaces.IButtonAction)
+    zope.component.adapts(interfaces.IFormLayer, interfaces.IButton)
 
-    def __init__(self, request, field, name):
-        action.Action.__init__(self, request, field.title, name)
+    def __init__(self, request, field):
+        action.Action.__init__(self, request, field.title)
         submit.SubmitWidget.__init__(self, request)
         self.field = field
 
@@ -213,33 +214,36 @@ class ButtonActions(action.Actions):
 
     def update(self):
         """See z3c.form.interfaces.IActions."""
-        # Create a unique prefix
+        # Create a unique prefix.
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.form.buttons.prefix)
+        # Walk through each field, making an action out of it.
         for name, button in self.form.buttons.items():
-            # Only create an action for the button, if the condition is
-            # fulfilled
+            # Step 1: Only create an action for the button, if the condition is
+            #         fulfilled.
             if button.condition is not None and not button.condition(self.form):
                 continue
-            fullName = prefix + name
-            # Look up a button action factory
+            # Step 2: Get the action for the given button.
             if button.actionFactory is not None:
                 buttonAction = button.actionFactory(self.request, button)
-                buttonAction.name = fullName
             else:
-                buttonAction = zope.component.queryMultiAdapter(
-                    (self.request, button), interfaces.IFieldWidget)
-                if buttonAction is not None:
-                    buttonAction.name = fullName
-                    # if one is not found, use the default
-                else:
-                    buttonAction = ButtonAction(self.request, button, fullName)
-            # Look up a potential custom title for the action.
+                buttonAction = zope.component.getMultiAdapter(
+                    (self.request, button), interfaces.IButtonAction)
+            # Step 3: Set the name on the button
+            fullName = prefix + name
+            buttonAction.name = fullName
+            # Step 4: Set any custom attribute values.
             title = zope.component.queryMultiAdapter(
                 (self.form, self.request, self.content, button, self),
                 interfaces.IValue, name='title')
             if title is not None:
                 buttonAction.title = title.get()
+            # Step 5: Set the form
+            buttonAction.form = self.form
+            zope.interface.alsoProvides(buttonAction, interfaces.IFormAware)
+            # Step 6: Update the new action
+            buttonAction.update()
+            # Step 7: Add the widget to the manager
             self._data_keys.append(name)
             self._data_values.append(buttonAction)
             self._data[name] = buttonAction

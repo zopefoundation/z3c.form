@@ -321,7 +321,7 @@ Let's now render the page:
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-add" name="form.buttons.add"
-                 class="submitWidget" value="Add" />
+                 class="submitWidget button-field" value="Add" />
         </div>
       </form>
     </body>
@@ -429,7 +429,7 @@ Let's now render the form:
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-add" name="form.buttons.add"
-                 class="submitWidget" value="Add" />
+                 class="submitWidget button-field" value="Add" />
         </div>
       </form>
     </body>
@@ -617,11 +617,11 @@ the add form should display a cancel button:
   ...
   <div class="action">
     <input type="submit" id="form-buttons-add" name="form.buttons.add"
-           class="submitWidget" value="Add" />
+           class="submitWidget button-field" value="Add" />
   </div>
   <div class="action">
     <input type="submit" id="form-buttons-cancel" name="form.buttons.cancel"
-           class="submitWidget" value="Cancel" />
+           class="submitWidget button-field" value="Cancel" />
   </div>
   ...
 
@@ -717,7 +717,7 @@ After adding a template, we can look at the form:
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-apply" name="form.buttons.apply"
-                 class="submitWidget" value="Apply" />
+                 class="submitWidget button-field" value="Apply" />
         </div>
       </form>
     </body>
@@ -782,7 +782,7 @@ Let's now submit the form having some invalid data.
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-apply" name="form.buttons.apply"
-                 class="submitWidget" value="Apply" />
+                 class="submitWidget button-field" value="Apply" />
         </div>
       </form>
     </body>
@@ -932,7 +932,7 @@ We can now use the form as usual:
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-apply"
-                 name="form.buttons.apply" class="submitWidget"
+                 name="form.buttons.apply" class="submitWidget button-field"
                  value="Apply" />
         </div>
       </form>

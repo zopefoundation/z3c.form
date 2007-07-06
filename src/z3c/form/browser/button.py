@@ -31,7 +31,8 @@ class ButtonWidget(widget.HTMLInputWidget, Widget):
     klass = u'buttonWidget'
 
     def update(self):
-        super(ButtonWidget, self).update()
+        # We do not need to use the widget's update method, because it is
+        # mostly about ectracting the value, which we do not need to do.
         widget.addFieldClass(self)
 
 

@@ -131,13 +131,13 @@ Let's now instantiate the form and render it:
           </div>
           <div class="action">
             <input type="submit" id="owner-buttons-apply"
-                   name="owner.buttons.apply" class="submitWidget"
+                   name="owner.buttons.apply" class="submitWidget button-field"
                    value="Apply" />
           </div>
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget"
+                 name="car.buttons.apply" class="submitWidget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -203,13 +203,13 @@ Also, the form should say that the data of the owner has changed:
           </div>
           <div class="action">
             <input type="submit" id="owner-buttons-apply"
-                   name="owner.buttons.apply" class="submitWidget"
+                   name="owner.buttons.apply" class="submitWidget button-field"
                    value="Apply" />
           </div>
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget"
+                 name="car.buttons.apply" class="submitWidget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -311,7 +311,7 @@ Rendering the form works as before:
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget"
+                 name="car.buttons.apply" class="submitWidget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -407,7 +407,7 @@ Let's look at the rendered form:
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget"
+                 name="car.buttons.apply" class="submitWidget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -578,13 +578,13 @@ context.
     </div>
     <div class="action">
       <input type="submit" id="owner-buttons-apply"
-           name="owner.buttons.apply" class="submitWidget"
+           name="owner.buttons.apply" class="submitWidget button-field"
            value="Apply" />
     </div>
     </fieldset>
     <div class="action">
       <input type="submit" id="car-buttons-apply"
-           name="car.buttons.apply" class="submitWidget"
+           name="car.buttons.apply" class="submitWidget button-field"
            value="Apply" />
     </div>
   </form>

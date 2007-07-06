@@ -5,6 +5,11 @@ CHANGES
 Version 1.5.0 (??/??/2007)
 -------------------------
 
+- Feature: Restructured the approach to customize button actions, by requiring
+  the adapter to provide a new interface ``IButtonAction``. Also, an adapter
+  is now provided by default, still allowing cusotmization using the usual
+  methods though.
+
 - Feature: Added button widget. While it is not very useful without
   Javascript, it still belongs into this package for completion.
 
@@ -27,6 +32,8 @@ Version 1.5.0 (??/??/2007)
   some applications.
 
 - Bug/Feature: Correctly create labels for radio button choices.
+
+- Bug: Button actions were never updated in the actions manager.
 
 - Bug: Added tests for textarea widget.
 

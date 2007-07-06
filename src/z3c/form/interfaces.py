@@ -450,7 +450,6 @@ class IWidgets(IManager):
         default=False,
         required=False)
 
-
     def update():
         """Setup widgets."""
 
@@ -458,6 +457,18 @@ class IWidgets(IManager):
         """Extract the values from the widgets and validate them.
         """
 
+
+class IFieldWidget(zope.interface.Interface):
+    """Offers a field attribute.
+
+    For advanced uses the widget will make decisions based on the field
+    it is rendered for.
+    """
+
+    field = zope.schema.Field(
+        title=_('Field'),
+        description=_('The schema field which the widget is representing.'),
+        required=True)
 
 # ----[ Actions ]------------------------------------------------------------
 
@@ -516,6 +527,10 @@ class IButton(zope.schema.interfaces.IField):
 
 class IButtons(ISelectionManager):
     """Button manager."""
+
+
+class IButtonAction(IAction, IWidget, IFieldWidget):
+    """Button action."""
 
 
 class IButtonHandlers(zope.interface.Interface):
@@ -586,19 +601,6 @@ class IFormAware(zope.interface.Interface):
     """
 
     form = zope.schema.Field()
-
-
-class IFieldWidget(zope.interface.Interface):
-    """Offers a field attribute.
-
-    For advanced uses the widget will make decisions based on the field
-    it is rendered for.
-    """
-
-    field = zope.schema.Field(
-        title=_('Field'),
-        description=_('The schema field which the widget is representing.'),
-        required=True)
 
 
 class IForm(zope.interface.Interface):

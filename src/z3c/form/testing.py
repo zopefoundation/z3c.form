@@ -136,6 +136,9 @@ def setupFormDefaults():
     # Adapter for providing terms to radio list and other widgets
     zope.component.provideAdapter(term.ChoiceTerms)
     zope.component.provideAdapter(term.BoolTerms)
+    # Adapter to create an action from a button
+    zope.component.provideAdapter(
+        button.ButtonAction, provides=interfaces.IButtonAction)
     # Adapter to use form.buttons to generate actions
     zope.component.provideAdapter(button.ButtonActions)
     # Adapter to use form.handlers to generate handle actions

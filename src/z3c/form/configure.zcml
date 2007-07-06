@@ -78,7 +78,11 @@
       factory=".term.BoolTerms"
       />
 
-  <!-- Action Managers and Handlers -->
+  <!-- Actions, Action Managers and Handlers -->
+  <adapter
+      factory=".button.ButtonAction"
+      provides=".interfaces.IButtonAction"
+      />
   <adapter
       factory=".button.ButtonActions"
       />

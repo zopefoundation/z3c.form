@@ -19,20 +19,15 @@ __docformat__ = "reStructuredText"
 import zope.component
 import zope.interface
 
-from z3c.form import interfaces, widget
-from z3c.form.widget import Widget, FieldWidget
-from z3c.form.browser import widget
+from z3c.form import interfaces
+from z3c.form.widget import FieldWidget
+from z3c.form.browser import button
 
 
-class SubmitWidget(widget.HTMLInputWidget, Widget):
+class SubmitWidget(button.ButtonWidget):
     """A submit button of a form."""
     zope.interface.implementsOnly(interfaces.ISubmitWidget)
-
     klass = u'submitWidget'
-
-    def update(self):
-        super(SubmitWidget, self).update()
-        widget.addFieldClass(self)
 
 
 @zope.component.adapter(interfaces.IButton, interfaces.IFormLayer)

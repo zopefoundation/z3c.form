@@ -48,8 +48,13 @@ that we first need a request and a form instance:
   >>> request = TestRequest()
   >>> form = Form()
 
+We also have to register a button action factory for the buttons:
+
+  >>> zope.component.provideAdapter(
+  ...     button.ButtonAction, provides=interfaces.IButtonAction)
+
 Action managers are instantiated using the form, request, and
-context/content. A special button-action-manager implementation is avaialble
+context/content. A special button-action-manager implementation is available
 in the ``button`` package:
 
   >>> actions = button.ButtonActions(form, request, None)
@@ -65,21 +70,15 @@ actions:
 
 It is possible to customize how a button is transformed into an action
 by registering an adapter for the request and the button that provides
-IFieldWidget.
+``IButtonAction``.
 
   >>> import zope.component
   >>> from zope.publisher.interfaces.browser import IBrowserRequest
   >>> class CustomButtonAction(button.ButtonAction):
   ...     """Custom Button Action Class."""
-  ...     zope.interface.implements(interfaces.IFieldWidget)
-  ...     zope.component.adapts(IBrowserRequest, interfaces.IButton)
-  ...
-  ...     def __init__(self, request, field):
-  ...         super(CustomButtonAction, self).__init__(request, field, None)
 
-  >>> zope.component.provideAdapter(CustomButtonAction,
-  ...                    (IBrowserRequest,interfaces.IButton),
-  ...                    interfaces.IFieldWidget)
+  >>> zope.component.provideAdapter(
+  ...     CustomButtonAction, provides=interfaces.IButtonAction)
 
 Now if we rerun update we will get this other ButtonAction
 implementation.
@@ -144,7 +143,7 @@ widget. We can now render each action:
 
   >>> print actions['apply'].render()
   <input type="submit" id="form-buttons-apply"
-         name="form.buttons.apply" class="submitWidget"
+         name="form.buttons.apply" class="submitWidget button-field"
          value="Apply" />
 
 So displaying is nice, but how do button handlers get executed? The action

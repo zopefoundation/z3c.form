@@ -85,7 +85,8 @@ instantiating the form, ...
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-add"
-                 name="form.buttons.add" class="submitWidget" value="Add" />
+                 name="form.buttons.add" class="submitWidget button-field"
+                 value="Add" />
         </div>
       </form>
     </body>

@@ -22,6 +22,7 @@ import zope.location
 import zope.schema.interfaces
 
 from z3c.form import interfaces, util
+from z3c.form.widget import AfterWidgetUpdateEvent
 
 
 def _initkw(keepReadOnly=(), omitReadOnly=False, **defaults):
@@ -253,6 +254,7 @@ class FieldWidgets(util.Manager):
             widget.mode = mode
             # Step 8: Update the widget
             widget.update()
+            zope.event.notify(AfterWidgetUpdateEvent(widget))
             # Step 9: Add the widget to the manager
             self._data_keys.append(shortName)
             self._data_values.append(widget)

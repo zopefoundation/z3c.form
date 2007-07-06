@@ -5,6 +5,9 @@ CHANGES
 Version 1.5.0 (??/??/2007)
 -------------------------
 
+- Feature: Added the concept of widget events and implemented a particular
+  "after widget update" event that is called right after a widget is updated.
+
 - Feature: Restructured the approach to customize button actions, by requiring
   the adapter to provide a new interface ``IButtonAction``. Also, an adapter
   is now provided by default, still allowing cusotmization using the usual

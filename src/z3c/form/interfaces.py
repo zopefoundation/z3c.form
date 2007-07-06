@@ -746,3 +746,18 @@ class IGroupForm(object):
         description=(u'Initially a collection of group classes, which are '
                      u'converted to group instances when the form is '
                      u'updated.'))
+
+
+# ----[ Events ]--------------------------------------------------------------
+
+
+class IWidgetEvent(zope.interface.Interface):
+    """A simple widget event."""
+
+    widget = zope.schema.Object(
+        title=_('Widget'),
+        description=_('The widget for which the event was created.'),
+        schema=IWidget)
+
+class IAfterWidgetUpdateEvent(IWidgetEvent):
+    """An event sent out after the widget was updated."""

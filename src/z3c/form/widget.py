@@ -228,3 +228,16 @@ class WidgetTemplateFactory(object):
 
     def __call__(self, context, request, view, field, widget):
         return self.template
+
+
+class WidgetEvent(object):
+    zope.interface.implements(interfaces.IWidgetEvent)
+
+    def __init__(self, widget):
+        self.widget = widget
+
+    def __repr__(self):
+        return '<%s %r>' %(self.__class__.__name__, self.widget)
+
+class AfterWidgetUpdateEvent(WidgetEvent):
+    zope.interface.implementsOnly(interfaces.IAfterWidgetUpdateEvent)

@@ -211,10 +211,10 @@ class FieldWidgets(util.Manager):
 
     def update(self):
         """See interfaces.IWidgets"""
-        # Create a unique prefix
+        # Create a unique prefix.
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.prefix)
-        # Walk through each field, making a widget out of it
+        # Walk through each field, making a widget out of it.
         for field in self.form.fields.values():
             # Step 1: Determine the mode of the widget.
             mode = self.mode

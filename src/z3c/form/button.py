@@ -17,6 +17,7 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 import sys
+import zope.event
 import zope.interface
 import zope.location
 import zope.schema
@@ -25,6 +26,7 @@ from zope.interface import adapter
 from zope.schema.fieldproperty import FieldProperty
 from z3c.form import action, interfaces, util, value
 from z3c.form.browser import submit
+from z3c.form.widget import AfterWidgetUpdateEvent
 
 
 StaticButtonActionAttribute = value.StaticValueCreator(
@@ -117,8 +119,6 @@ class Handlers(object):
     def getHandler(self, button):
         """See interfaces.IButtonHandlers"""
         buttonProvided = zope.interface.providedBy(button)
-        #if button.__class__.__name__ == 'SpecialButton':
-        #    import pdb; pdb.set_trace()
         return self._registry.lookup1(buttonProvided, interfaces.IButtonHandler)
 
     def copy(self):
@@ -242,6 +242,7 @@ class ButtonActions(action.Actions):
             zope.interface.alsoProvides(buttonAction, interfaces.IFormAware)
             # Step 6: Update the new action
             buttonAction.update()
+            zope.event.notify(AfterWidgetUpdateEvent(buttonAction))
             # Step 7: Add the widget to the manager
             self._data_keys.append(name)
             self._data_values.append(buttonAction)

@@ -215,14 +215,30 @@ button. Optionally, this can also be one of the follwoing keyword arguments:
   >>> button.Button(__name__='apply').__name__
   'apply'
 
-If no name is specified, the name will be assigned to the button. When it can
-it uses the title, otherwise a hexadecimal string is created:
+If no name is specified, the button will not have a name immediately, ...
 
   >>> button.Button(title=u'Apply').__name__
-  'apply'
-  >>> button.Button(title=u'Apply and more').__name__
-  '4170706c7920616e64206d6f7265'
+  ''
 
+because if the button is created within an interface, the name is assigned
+later:
+
+  >>> class IActions(zope.interface.Interface):
+  ...    apply = button.Button(title=u'Apply')
+
+  >>> IActions['apply'].__name__
+  'apply'
+
+However, once the button is added to a button manager, a name will be
+assigned:
+
+  >>> btns = button.Buttons(button.Button(title=u'Apply'))
+  >>> btns['apply'].__name__
+  'apply'
+
+  >>> btns = button.Buttons(button.Button(title=u'Apply and more'))
+  >>> btns['4170706c7920616e64206d6f7265'].__name__
+  '4170706c7920616e64206d6f7265'
 
 This declaration behaves identical to the one before:
 
@@ -474,8 +490,8 @@ or class:
 
 Now all special buttons should use that handler:
 
-  >>> button1 = SpecialButton(title=u'Button 1')
-  >>> button2 = SpecialButton(title=u'Button 2')
+  >>> button1 = SpecialButton(name='button1', title=u'Button 1')
+  >>> button2 = SpecialButton(name='button2', title=u'Button 2')
 
   >>> form.handlers.getHandler(button1)(form, None)
   'Special button action'
@@ -500,7 +516,7 @@ You can also add handlers objects:
 
   >>> handlers2 = button.Handlers()
 
-  >>> button3 = SpecialButton(title=u'Button 3')
+  >>> button3 = SpecialButton(name='button3', title=u'Button 3')
   >>> handlers2.addHandler(
   ...     button3, button.Handler(button3, None))
 
@@ -508,8 +524,8 @@ You can also add handlers objects:
   <Handlers
       [<Handler for <Button 'apply' u'Apply'>>,
        <Handler for <class 'SpecialButton'>>,
-       <Handler for <SpecialButton '427574746f6e2031' u'Button 1'>>,
-       <Handler for <SpecialButton '427574746f6e2033' u'Button 3'>>]>
+       <Handler for <SpecialButton 'button1' u'Button 1'>>,
+       <Handler for <SpecialButton 'button3' u'Button 3'>>]>
 
 However, adding other components is not supported:
 

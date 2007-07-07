@@ -36,6 +36,10 @@ Version 1.5.0 (??/??/2007)
 
 - Bug/Feature: Correctly create labels for radio button choices.
 
+- Bug: Buttons did not honor the name given by the schema, if created within
+  one, because we were too anxious to give buttons a name. Now name assignment
+  is delayed until the button is added to the button manager.
+
 - Bug: Button actions were never updated in the actions manager.
 
 - Bug: Added tests for textarea widget.

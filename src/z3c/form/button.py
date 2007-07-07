@@ -55,9 +55,6 @@ class Button(zope.schema.Field):
         self.condition = kwargs.pop('condition', None)
         # Initialize the button
         super(Button, self).__init__(*args, **kwargs)
-        # Make sure the button has a name by the time it is initialized.
-        if self.__name__ is '':
-            self.__name__ = util.createId(self.title)
 
     def __repr__(self):
         return '<%s %r %r>' %(
@@ -80,6 +77,8 @@ class Buttons(util.SelectionManager):
             elif self.managerInterface.providedBy(arg):
                 buttons += arg.items()
             elif interfaces.IButton.providedBy(arg):
+                if not arg.__name__:
+                    arg.__name__ = util.createId(arg.title)
                 buttons.append((arg.__name__, arg))
             else:
                 raise TypeError("Unrecognized argument type", arg)

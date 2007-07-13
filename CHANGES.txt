@@ -28,6 +28,9 @@ Version 1.5.0 (??/??/2007)
 - Feature: Reviewed all widget attributes. Added all available HTML attributes
   to the widgets.
 
+- Documentation: Removed mentioning of widget's "hint" attribute, since it
+  does not exist.
+
 - Optimization: The terms for a sequence widget were looked up multiple times
   among different components. The widget is now the canonical source for the
   terms and other components, such as the converter uses them. This avoids

@@ -235,7 +235,6 @@ As mentioned before, several widget attributes are optionally overridden when
 the widget updates itself:
 
 * label
-* hint
 * required
 * mode
 

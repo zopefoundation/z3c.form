@@ -551,3 +551,38 @@ these cases we use the last entry in the tuple as the type to use:
 
   >>> csdv.toFieldValue(['m'])
   set([0])
+
+Getting Terms
+~~~~~~~~~~~~~
+
+As an optimization of this converter, the converter actually does not look up
+the terms itself but uses the widget's ``terms`` attribute. If the terms are
+not yet retrieved, the converter will ask the widget to do so when in need.
+
+So let's see how this works when getting the widget value:
+
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders
+
+  >>> seqWidget.terms
+
+  >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
+  >>> csdv.toWidgetValue([0])
+  ['m']
+
+  >>> seqWidget.terms
+  <z3c.form.term.CollectionTerms object ...>
+
+The same is true when getting the field value:
+
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders
+
+  >>> seqWidget.terms
+
+  >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
+  >>> csdv.toFieldValue(['m'])
+  set([0])
+
+  >>> seqWidget.terms
+  <z3c.form.term.CollectionTerms object ...>

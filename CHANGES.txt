@@ -2,8 +2,11 @@
 CHANGES
 =======
 
-Version 1.5.0 (??/??/2007)
+Version 1.5.0 (7/18/2007)
 -------------------------
+
+- Feature: Added a span around values for widgets in display mode. This allows
+  for easier identification widget values in display mode.
 
 - Feature: Added the concept of widget events and implemented a particular
   "after widget update" event that is called right after a widget is updated.

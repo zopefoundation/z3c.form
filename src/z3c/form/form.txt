@@ -689,7 +689,9 @@ After adding a template, we can look at the form:
       <form action=".">
         <div class="row">
             <label for="form-widgets-id">ID</label>
-            srichter
+            <span id="form-widgets-id" class="textWidget textline-field">
+              srichter
+            </span>
         </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
@@ -753,7 +755,9 @@ Let's now submit the form having some invalid data.
       <form action=".">
         <div class="row">
             <label for="form-widgets-id">ID</label>
-            srichter
+            <span id="form-widgets-id" class="textWidget textline-field">
+              srichter
+            </span>
         </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
@@ -903,7 +907,9 @@ We can now use the form as usual:
       <form action=".">
         <div class="row">
           <label for="form-widgets-id">ID</label>
-          rineichen
+          <span id="form-widgets-id" class="textWidget textline-field">
+            rineichen
+          </span>
         </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
@@ -975,16 +981,25 @@ Creating a display form is simple; just instantiate, update and render it:
   <html>
     <body>
       <div class="row">
-        srichter
+        <span id="form-widgets-id" class="textWidget textline-field">
+          srichter
+        </span>
       </div>
       <div class="row">
-        Claudia Richter
+        <span id="form-widgets-name" class="textWidget textline-field">
+          Claudia Richter
+        </span>
       </div>
       <div class="row">
-        female
+        <span id="form-widgets-gender"
+              class="selectWidget choice-field">
+          <span class="selected-option">female</span>
+        </span>
       </div>
       <div class="row">
-        27
+        <span id="form-widgets-age" class="textWidget int-field">
+          27
+        </span>
       </div>
     </body>
   </html>

@@ -3,13 +3,13 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="z3c.form">
 
-  <!-- Note: the CheckBoxFieldWidget isn't registered by default 
-       If you like to use checkboxes you need to use them as custom widget 
+  <!-- Note: the CheckBoxFieldWidget isn't registered by default
+       If you like to use checkboxes you need to use them as custom widget
        factories directly in a form.
-       
+
        Because there is no need for a checkbox since we use select options
        for all kind of Set and ordered list widgets where the order is relevant.
-       
+
        Note: if you use List or Tuple of Choises, you get need a ordered widget
        if order doesn't matter, you should use a Set of Choice and you will
        get a multi select widget. -->

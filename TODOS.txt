@@ -27,10 +27,3 @@ Improvements
 
 Add explicit difference between error and confirmation message e.g.
 "There were some errors." and "No changes were applied."
-
-
-Notes from Roger
-----------------
-
-- Define all widget attributes for the different widgets in the interfaces 
-  as fields

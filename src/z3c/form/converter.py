@@ -88,6 +88,7 @@ class NumberDataConverter(BaseDataConverter):
     """A general data converter for numbers."""
 
     type = None
+    errorMessage = None
 
     def __init__(self, field, widget):
         super(NumberDataConverter, self).__init__(field, widget)
@@ -108,25 +109,28 @@ class NumberDataConverter(BaseDataConverter):
         try:
             return self.formatter.parse(value)
         except zope.i18n.format.NumberParseError, err:
-            raise FormatterValidationError(err.args[0], value)
+            raise FormatterValidationError(self.errorMessage, value)
 
 class IntegerDataConverter(NumberDataConverter):
     """A data converter for integers."""
     zope.component.adapts(
         zope.schema.interfaces.IInt, interfaces.IWidget)
     type = int
+    errorMessage = _('The entered value is not a valid integer literal.')
 
 class FloatDataConverter(NumberDataConverter):
     """A data converter for integers."""
     zope.component.adapts(
         zope.schema.interfaces.IFloat, interfaces.IWidget)
     type = float
+    errorMessage = _('The entered value is not a valid decimal literal.')
 
 class DecimalDataConverter(NumberDataConverter):
     """A data converter for integers."""
     zope.component.adapts(
         zope.schema.interfaces.IDecimal, interfaces.IWidget)
     type = decimal.Decimal
+    errorMessage = _('The entered value is not a valid decimal literal.')
 
 
 class CalendarDataConverter(BaseDataConverter):

@@ -165,7 +165,7 @@ returned:
   Traceback (most recent call last):
   ...
   FormatterValidationError:
-      ("Not a valid number for this pattern u'#,##0.###;-#,##0.###'.", u'fff')
+      (u'The entered value is not a valid integer literal.', u'fff')
 
 The formatter validation error derives from the regular validation error, but
 allows you to specify the message that is output when asked for the
@@ -194,6 +194,14 @@ Again, you can format and parse values:
   >>> floatdc.toFieldValue(u'10,239.43')
   10239.43
 
+The error message, however, is customized to the floating point:
+
+  >>> floatdc.toFieldValue(u'fff')
+  Traceback (most recent call last):
+  ...
+  FormatterValidationError:
+      (u'The entered value is not a valid decimal literal.', u'fff')
+
 The decimal converter works like the other two before.
 
   >>> money = zope.schema.Decimal()
@@ -214,6 +222,14 @@ Formatting and parsing should work just fine:
   Decimal("7.43")
   >>> decimaldc.toFieldValue(u'10,239.43')
   Decimal("10239.43")
+
+Again, the error message, is customized to the floating point:
+
+  >>> floatdc.toFieldValue(u'fff')
+  Traceback (most recent call last):
+  ...
+  FormatterValidationError:
+      (u'The entered value is not a valid decimal literal.', u'fff')
 
 
 Date Data Converter

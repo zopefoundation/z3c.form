@@ -2,6 +2,12 @@
 CHANGES
 =======
 
+Version 1.6.0 (?/??/2007)
+-------------------------
+
+- Feature: Provide more user-friendly error messages for number formatting.
+
+
 Version 1.5.0 (7/18/2007)
 -------------------------
 

@@ -136,7 +136,6 @@ class IErrorViewSnippet(zope.interface.Interface):
 class IField(zope.interface.Interface):
     """Field wrapping a schema field used in the form."""
 
-    # TODO: define this fields
     __name__ = zope.schema.TextLine(
         title=_('Title'),
         description=_('The name of the field within the form.'),
@@ -147,13 +146,26 @@ class IField(zope.interface.Interface):
         description=_('The schema field that is to be rendered.'),
         required=True)
 
-    prefix = zope.schema.Field()
+    prefix = zope.schema.Field(
+        title=_('Prefix'),
+        description=_('The prefix of the field used to avoid name clashes.'),
+        required=True)
 
-    mode = zope.schema.Field()
+    mode = zope.schema.Field(
+        title=_('Mode'),
+        description=_('The mode in which to render the widget for the field.'),
+        required=True)
 
-    interface = zope.schema.Field()
+    interface = zope.schema.Field(
+        title=_('Interface'),
+        description=_('The interface from which the field is coming.'),
+        required=True)
 
-    dataProvider = zope.schema.Field()
+    dataProvider = zope.schema.Field(
+        title=_('Data Provider'),
+        description=_('The component providing the data of the field for '
+                      'the widget.'),
+        required=True)
 
     widgetFactory = zope.schema.Field(
         title=_('Widget Factory'),
@@ -442,13 +454,19 @@ class IWidgets(IManager):
         title=_('Ignore Context'),
         description=_('If set the context is ignored to retrieve a value.'),
         default=False,
-        required=False)
+        required=True)
 
     ignoreRequest = zope.schema.Bool(
         title=_('Ignore Request'),
         description=_('If set the request is ignored to retrieve a value.'),
         default=False,
-        required=False)
+        required=True)
+
+    ignoreReadonly = zope.schema.Bool(
+        title=_('Ignore Readonly'),
+        description=_('If set then readonly fields will also be shown.'),
+        default=False,
+        required=True)
 
     def update():
         """Setup widgets."""
@@ -605,6 +623,29 @@ class IFormAware(zope.interface.Interface):
 
 class IForm(zope.interface.Interface):
     """Form"""
+
+    mode = zope.schema.Field(
+        title=_('Mode'),
+        description=_('The mode in which to render the widgets.'),
+        required=True)
+
+    ignoreContext = zope.schema.Bool(
+        title=_('Ignore Context'),
+        description=_('If set the context is ignored to retrieve a value.'),
+        default=False,
+        required=True)
+
+    ignoreRequest = zope.schema.Bool(
+        title=_('Ignore Request'),
+        description=_('If set the request is ignored to retrieve a value.'),
+        default=False,
+        required=True)
+
+    ignoreReadonly = zope.schema.Bool(
+        title=_('Ignore Readonly'),
+        description=_('If set then readonly fields will also be shown.'),
+        default=False,
+        required=True)
 
     widgets = zope.schema.Object(
         title=_('Widgets'),

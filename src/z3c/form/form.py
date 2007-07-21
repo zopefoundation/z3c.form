@@ -77,6 +77,11 @@ class BaseForm(browser.BrowserPage):
     status = ''
     template = None
 
+    mode = interfaces.INPUT_MODE
+    ignoreContext = False
+    ignoreRequest = False
+    ignoreReadonly = False
+
     def getContent(self):
         '''See interfaces.IForm'''
         return self.context
@@ -85,6 +90,10 @@ class BaseForm(browser.BrowserPage):
         '''See interfaces.IForm'''
         self.widgets = zope.component.getMultiAdapter(
             (self, self.request, self.getContent()), interfaces.IWidgets)
+        self.widgets.mode = self.mode
+        self.widgets.ignoreContext = self.ignoreContext
+        self.widgets.ignoreRequest = self.ignoreRequest
+        self.widgets.ignoreReadonly = self.ignoreReadonly
         self.widgets.update()
 
     def extractData(self):
@@ -107,12 +116,8 @@ class BaseForm(browser.BrowserPage):
 
 class DisplayForm(BaseForm):
 
-    def updateWidgets(self):
-        self.widgets = zope.component.getMultiAdapter(
-            (self, self.request, self.getContent()), interfaces.IWidgets)
-        self.widgets.mode = interfaces.DISPLAY_MODE
-        self.widgets.ignoreRequest = True
-        self.widgets.update()
+    mode = interfaces.DISPLAY_MODE
+    ignoreRequest = True
 
 
 class Form(BaseForm):
@@ -158,6 +163,9 @@ class AddForm(Form):
     """A field and button based add form."""
     zope.interface.implements(interfaces.IAddForm)
 
+    ignoreContext = True
+    ignoreReadonly = True
+
     _finishedAdd = False
     formErrorsMessage = _('There were some errors.')
 
@@ -171,13 +179,6 @@ class AddForm(Form):
         zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(obj))
         self.add(obj)
         self._finishedAdd = True
-
-    def updateWidgets(self):
-        self.widgets = zope.component.getMultiAdapter(
-            (self, self.request, self.getContent()), interfaces.IWidgets)
-        self.widgets.ignoreContext = True
-        self.widgets.ignoreReadonly = True
-        self.widgets.update()
 
     def create(self, data):
         raise NotImplementedError
@@ -202,11 +203,6 @@ class EditForm(Form):
     formErrorsMessage = _('There were some errors.')
     successMessage = _('Data successfully updated.')
     noChangesMessage = _('No changes were applied.')
-
-    def updateWidgets(self):
-        self.widgets = zope.component.getMultiAdapter(
-            (self, self.request, self.getContent()), interfaces.IWidgets)
-        self.widgets.update()
 
     def applyChanges(self, data):
         content = self.getContent()

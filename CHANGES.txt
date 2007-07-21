@@ -5,6 +5,10 @@ CHANGES
 Version 1.6.0 (?/??/2007)
 -------------------------
 
+- Feature: Exposed several attributes of the widget manager to the form for
+  convenience. The attributes are: mode, ignoreContext, ignoreRequest,
+  ignoreReadonly.
+
 - Feature: Provide more user-friendly error messages for number formatting.
 
 

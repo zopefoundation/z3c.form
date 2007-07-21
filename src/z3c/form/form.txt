@@ -1005,6 +1005,56 @@ Creating a display form is simple; just instantiate, update and render it:
   </html>
 
 
+Simple Form Customization
+-------------------------
+
+The form exposes several of the widget manager's attributes as attributes on
+the form. They are: ``mode``, ``ignoreContext``, ``ignoreRequest``, and
+``ignoreReadonly``.
+
+Here are the values for the display form we just created:
+
+  >>> display.mode
+  'display'
+  >>> display.ignoreContext
+  False
+  >>> display.ignoreRequest
+  True
+  >>> display.ignoreReadonly
+  False
+
+These values should be equal to the ones of the widget manager:
+
+  >>> display.widgets.mode
+  'display'
+  >>> display.widgets.ignoreContext
+  False
+  >>> display.widgets.ignoreRequest
+  True
+  >>> display.widgets.ignoreReadonly
+  False
+
+Now, if we change those values before updating the widgets, ...
+
+  >>> display.mode = interfaces.INPUT_MODE
+  >>> display.ignoreContext = True
+  >>> display.ignoreRequest = False
+  >>> display.ignoreReadonly = True
+
+... the widget manager will have the same values after updating the widgets:
+
+  >>> display.updateWidgets()
+
+  >>> display.widgets.mode
+  'input'
+  >>> display.widgets.ignoreContext
+  True
+  >>> display.widgets.ignoreRequest
+  False
+  >>> display.widgets.ignoreReadonly
+  True
+
+
 Extending Forms
 ---------------
 

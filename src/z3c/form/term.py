@@ -77,6 +77,11 @@ class BoolTerms(Terms):
         zope.schema.interfaces.IBool,
         interfaces.IWidget)
 
+    zope.interface.implementsOnly(interfaces.IBoolTerms)
+
+    trueLabel = _('yes')
+    falseLabel = _('no')
+
     def __init__(self, context, request, form, field, widget):
         self.context = context
         self.request = request
@@ -84,7 +89,7 @@ class BoolTerms(Terms):
         self.field = field
         self.widget = widget
         terms = [vocabulary.SimpleTerm(value, title, title=title)
-                 for title, value in [(_('yes'), True), (_('no'), False)]]
+                 for title, value in [(self.trueLabel, True), (self.falseLabel, False)]]
         self.terms = vocabulary.SimpleVocabulary(terms)
 
 

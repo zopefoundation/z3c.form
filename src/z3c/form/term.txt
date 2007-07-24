@@ -121,6 +121,17 @@ A similar terms implementation exists for a ``Bool`` field:
   >>> [entry.title for entry in terms]
   [u'yes', u'no']
 
+In case you don't like the choice of 'yes' and 'no' for the labels, we
+can subclass the ``BoolTerms`` class to control the display labels.
+
+  >>> class MyBoolTerms(term.BoolTerms):
+  ...   trueLabel = u'True'
+  ...   falseLabel = u'False'
+
+  >>> terms = MyBoolTerms(None, None, None, truthField, None)
+  >>> [entry.title for entry in terms]
+  [u'True', u'False']
+
 Finally, there is a terms adapter for all collections:
 
   >>> ratingsField = zope.schema.List(

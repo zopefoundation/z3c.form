@@ -276,6 +276,19 @@ class ITerms(zope.interface.Interface):
         LookupError is raised if there isn't a value in the source.
         """
 
+class IBoolTerms(ITerms):
+    """A specialization that handles boolean choices."""
+
+    trueLabel = zope.schema.TextLine(
+        title=_('True-value Label'),
+        description=_('The label for a true value of the Bool field.'),
+        required=True)
+
+    falseLabel = zope.schema.TextLine(
+        title=_('False-value Label'),
+        description=_('The label for a false value of the Bool field.'),
+        required=False)
+
 
 # ----[ Widgets ]------------------------------------------------------------
 

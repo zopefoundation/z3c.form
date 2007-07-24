@@ -88,8 +88,9 @@ class BoolTerms(Terms):
         self.form = form
         self.field = field
         self.widget = widget
-        terms = [vocabulary.SimpleTerm(value, title, title=title)
-                 for title, value in [(self.trueLabel, True), (self.falseLabel, False)]]
+        terms = [vocabulary.SimpleTerm(*args)
+                 for args in [(True, 'true', self.trueLabel),
+                              (False, 'false', self.falseLabel)]]
         self.terms = vocabulary.SimpleVocabulary(terms)
 
 

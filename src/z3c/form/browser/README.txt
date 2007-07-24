@@ -76,13 +76,13 @@ Bool
   >>> print widget.render()
   <span class="option">
     <input type="radio" id="foo-0" name="bar:list"
-           class="radioWidget bool-field" value="yes" checked="checked" />
+           class="radioWidget bool-field" value="true" checked="checked" />
     <label for="foo-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="radio" id="foo-1" name="bar:list"
-           class="radioWidget bool-field" value="no" />
+           class="radioWidget bool-field" value="false" />
     <label for="foo-1">
       <span class="label">no</span>
     </label>
@@ -106,14 +106,14 @@ For the boolean, the checkbox widget can be used as well:
   >>> print widget.render()
   <span class="option">
     <input type="checkbox" id="foo-0" name="bar:list"
-           class="checkBoxWidget bool-field" value="yes"
+           class="checkBoxWidget bool-field" value="true"
            checked="checked" />
     <label for="foo-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="checkbox" id="foo-1" name="bar:list"
-           class="checkBoxWidget bool-field" value="no" />
+           class="checkBoxWidget bool-field" value="false" />
     <label for="foo-1">
       <span class="label">no</span>
     </label>

@@ -76,13 +76,13 @@ Now let's try if we get widget values:
   >>> print widget.render()
   <span class="option">
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
-           class="checkBoxWidget" value="yes" />
+           class="checkBoxWidget" value="true" />
     <label for="widget-id-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="checkbox" id="widget-id-1" name="widget.name:list"
-           class="checkBoxWidget" value="no" />
+           class="checkBoxWidget" value="false" />
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>
@@ -92,19 +92,19 @@ Now let's try if we get widget values:
 If we set the value for the widget to ``yes``, we can se that the checkbox
 field get rendered with a checked flag:
 
-  >>> widget.value = 'yes'
+  >>> widget.value = 'true'
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
-           class="checkBoxWidget" value="yes"
+           class="checkBoxWidget" value="true"
            checked="checked" />
     <label for="widget-id-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="checkbox" id="widget-id-1" name="widget.name:list"
-           class="checkBoxWidget" value="no" />
+           class="checkBoxWidget" value="false" />
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>

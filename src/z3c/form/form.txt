@@ -221,11 +221,12 @@ fields are input fields:
   'input'
 
 Deciding which mode to use, however, might not be a trivial operation. It
-might depend on several factors:
+might depend on several factors (items listed later override earlier ones):
 
+* The global ``mode`` flag of the widget manager
 * The permission to the content's data value
-* The manual ``mode`` flag in the field
 * The ``readonly`` flag in the schema field
+* The ``mode`` flag in the field
 
 
 Widget Attribute Values
@@ -330,6 +331,11 @@ Let's now render the page:
 Submitting an add form successfully
 -----------------------------------
 
+Initially the root folder of the application is empty:
+
+  >>> sorted(root)
+  []
+
 Let's now fill the request with all the right values so that upon submitting
 the form with the "Add" button, the person should be added to the root folder:
 
@@ -377,8 +383,8 @@ pointing out the error.
 The widget manager and the widget causing the error should have an error
 message:
 
-  >>> [error for error in addForm.widgets.errors]
-  [<ErrorViewSnippet for RequiredMissing>]
+  >>> [(error.widget.__name__, error) for error in addForm.widgets.errors]
+  [('name', <ErrorViewSnippet for RequiredMissing>)]
 
   >>> addForm.widgets['name'].error
   <ErrorViewSnippet for RequiredMissing>
@@ -452,7 +458,7 @@ Let's now also provide a negative age, which is not possible either:
   [(u'Name', <ErrorViewSnippet for RequiredMissing>),
    (u'Age', <ErrorViewSnippet for TooSmall>)]
 
-But the errror message for a negative age is too generic:
+But the error message for a negative age is too generic:
 
   >>> print addForm.widgets['age'].error.render()
   <div class="error">Value is too small</div>
@@ -511,7 +517,7 @@ trailing ".".
   'form'
 
 The template can then use those attributes, if it likes to. Since we are
-talking about templates, in this example we set the template manual, but if no
+talking about templates, in this example we set the template manually, but if no
 template is specified, the system tries to find an adapter. Initially, there
 is no adapter, so rendering the form fails:
 
@@ -534,7 +540,8 @@ Now the factory will be used to provide a template:
   ...
   </html>
 
-Since a form can also be used as a page itself, it is callable:
+Since a form can also be used as a page itself, it is callable --
+invoking both the ``update()`` and ``render()`` methods:
 
   >>> print addForm()
   <html>

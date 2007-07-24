@@ -70,13 +70,13 @@ Now let's try if we get widget values:
   >>> print widget.render()
   <span class="option">
     <input type="radio" id="widget-id-0" name="widget.name:list"
-           class="radioWidget" value="yes" />
+           class="radioWidget" value="true" />
     <label for="widget-id-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="radio" id="widget-id-1" name="widget.name:list"
-           class="radioWidget" value="no" />
+           class="radioWidget" value="false" />
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>
@@ -86,18 +86,18 @@ Now let's try if we get widget values:
 If we set the value for the widget to ``yes``, we can se that the radio field
 get rendered with a checked flag:
 
-  >>> widget.value = 'yes'
+  >>> widget.value = 'true'
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
     <input type="radio" id="widget-id-0" name="widget.name:list"
-           class="radioWidget" value="yes" checked="checked" />
+           class="radioWidget" value="true" checked="checked" />
     <label for="widget-id-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="radio" id="widget-id-1" name="widget.name:list"
-           class="radioWidget" value="no" />
+           class="radioWidget" value="false" />
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>

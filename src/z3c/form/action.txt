@@ -16,7 +16,7 @@ full implementation.
 
 So we first have to build a simple implementation based on the ``Actions``
 manager base class which allows us to add actions. Note that the following
-implementation is for deomnstration purposes. If you want to see a real action
+implementation is for demonstration purposes. If you want to see a real action
 manager implementation, then have a look at ``ButtonActions``. Let's now
 implement our simple action manager:
 

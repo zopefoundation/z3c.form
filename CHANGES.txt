@@ -5,8 +5,14 @@ CHANGES
 Version 1.6.0 (?/??/2007)
 -------------------------
 
-- Feature: BoolTerms now expose the labels for the true and false values 
-  to the class. This makes it a matter of doing trivial sub-classing to 
+- Feature: The BoolTerms term tokens are now cosntants and stay the same, even
+  if the label has changed. The choice for the token is "true" and "false". By
+  default it used to be "yes" and "no", so you probably have to change some
+  unit tests. Functional tests are still okay, because you select by term
+  title.
+
+- Feature: BoolTerms now expose the labels for the true and false values
+  to the class. This makes it a matter of doing trivial sub-classing to
   change the labels for boolean terms.
 
 - Feature: Exposed several attributes of the widget manager to the form for
@@ -14,6 +20,9 @@ Version 1.6.0 (?/??/2007)
   ignoreReadonly.
 
 - Feature: Provide more user-friendly error messages for number formatting.
+
+- Documentation: While reviewing the ``form.txt`` with some people, several
+  unclear and incomplete statements were discovered and fixed.
 
 
 Version 1.5.0 (7/18/2007)

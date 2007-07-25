@@ -71,7 +71,7 @@ creation and adding mechanism.
 
 __Note__:
 
-  If it is not done, ``NotImplementedError``'s are raised:
+  If it is not done, ``NotImplementedError[s]`` are raised:
 
     >>> from z3c.form.testing import TestRequest
     >>> from z3c.form import form, field

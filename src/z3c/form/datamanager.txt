@@ -15,11 +15,11 @@ shortcomings:
 3. Finding the right content/model to modify is an implicit policy: Find an
    adapter for the field's schema and then set the value there.
 
-While implementing dome real-world projects, we noticed that this approach is
+While implementing some real-world projects, we noticed that this approach is
 too limiting and we often could not use the form framework when we wanted or
 had to jump through many hoops to make it work for us. For example, if we want
 to display a form to collect data that does not correspond to a set of content
-components, we was forced to not only write a schema for the form but also
+components, we were forced to not only write a schema for the form, but also
 implement that schema as a class. but all we wanted was a dictionary. For
 edit-form like tasks we often also had an initial dictionary, which we just
 wanted modified.

@@ -76,13 +76,13 @@ You can also select the fields that you would like to have:
   >>> manager.keys()
   ['name', 'country']
 
-Changing the order is simply a matter of changing the selction order:
+Changing the order is simply a matter of changing the selection order:
 
   >>> manager = manager.select('country', 'name')
   >>> manager.keys()
   ['country', 'name']
 
-Selecting a field becomes a little bit more tricky, when field names
+Selecting a field becomes a little bit more tricky when field names
 overlap. For example, let's say that a person can be adapted to a pet:
 
   >>> class IPet(zope.interface.Interface):
@@ -136,21 +136,21 @@ the ones you want:
   >>> manager.keys()
   ['name', 'country']
 
-Again, you cansolve nameconflicts using the fullprefixed name, ...
+Again, you can solve name conflicts using the full prefixed name:
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')
   >>> manager.omit('pet.id').keys()
   ['id', 'name', 'pet.name']
 
-the prefix keyword argument, or
+using the prefix keyword argument:
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')
   >>> manager.omit('id', prefix='pet').keys()
   ['id', 'name', 'pet.name']
 
-the interface:
+or, using the interface:
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')
@@ -164,14 +164,14 @@ You can also add two field managers together:
   >>> (manager + manager2).keys()
   ['name', 'country', 'id']
 
-But adding anything else to a field manager is not well defined:
+Adding anything else to a field manager is not well defined:
 
   >>> manager + 1
   Traceback (most recent call last):
   ...
   TypeError: unsupported operand type(s) for +: 'Fields' and 'int'
 
-You can also not make any additions that would cause a name conflict:
+You also cannot make any additions that would cause a name conflict:
 
   >>> manager + manager
   Traceback (most recent call last):
@@ -179,7 +179,7 @@ You can also not make any additions that would cause a name conflict:
   ValueError: ('Duplicate name', 'name')
 
 When creating a new form derived from another, you often want to keep existing
-fields and add new ones. In order no to change the super-form class, you need
+fields and add new ones. In order to not change the super-form class, you need
 to copy the field manager:
 
   >>> manager.keys()
@@ -191,7 +191,7 @@ to copy the field manager:
 More on the Constructor
 -----------------------
 
-But the constructor does not only accept schemas to be passed in. One can also
+The constructor does not only accept schemas to be passed in; one can also
 just pass in schema fields:
 
   >>> field.Fields(IPerson['name']).keys()
@@ -211,13 +211,13 @@ Adding a name helps:
   >>> field.Fields(email).keys()
   ['email']
 
-Or you can just pass in other field managers, which is the feature the add
+Or, you can just pass in other field managers, which is the feature that the add
 mechanism uses:
 
   >>> field.Fields(manager).keys()
   ['name', 'country']
 
-Last, but not least, the constructor also accepts form fields, which is used
+Last, but not least, the constructor also accepts form fields, which are used
 by ``select()`` and ``omit()``:
 
   >>> field.Fields(manager['name'], manager2['id']).keys()
@@ -349,7 +349,7 @@ Next we need a form that specifies the fields to be added:
   >>> personForm = PersonForm()
 
 For more details on how to define fields within a form, see ``form.txt``. We
-can now create the fields widget manager. It's discriminators are the form for
+can now create the fields widget manager. Its discriminators are the form for
 which the widgets are created, the request, and the context that is being
 manipulated. In the simplest case the context is ``None`` and ignored, as it
 is true for an add form.
@@ -376,8 +376,8 @@ id to widget value, is empty:
   >>> manager.keys()
   []
 
-Only by "updating" the manager, the widgets will become available. But before
-we can use the update method we have to register the ``IFieldWidget`` adapter
+Only by "updating" the manager, will the widgets become available; before we can
+use the update method, however, we have to register the ``IFieldWidget`` adapter
 for the ``ITextLine`` field:
 
   >>> from z3c.form import interfaces, widget
@@ -509,7 +509,7 @@ In a third case, the widget will be shown in display mode, if the attribute of
 the context is not writable. Clearly this can never occur in add forms, since
 there the context is ignored, but is an important use case in edit forms.
 
-Thus we need an implementation of the ``IPerson`` interface including some
+Thus, we need an implementation of the ``IPerson`` interface including some
 security declarations:
 
   >>> from zope.security import checker
@@ -533,8 +533,8 @@ security declarations:
   >>> srichter = checker.ProxyFactory(
   ...     Person(u'Stephan', u'Richter'), PersonChecker)
 
-In this case, the last name is always editable but for the first name the user
-will need the edit "test.Edit" permission.
+In this case the last name is always editable, but for the first name the user
+will need the edit ("test.Edit") permission.
 
 We also need to register the data manager and setup a new security policy:
 
@@ -565,7 +565,7 @@ first name being in display and the last name is input mode:
   >>> manager['lastName'].mode
   'input'
 
-However, explicitely overriding the mode in the field declaration, overrides
+However, explicitly overriding the mode in the field declaration overrides
 this selection for you:
 
   >>> personForm.fields['firstName'].mode = interfaces.INPUT_MODE

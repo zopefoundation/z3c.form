@@ -102,7 +102,7 @@ actionFactory attribute.
   >>> actions['apply'].css
   'happy'
 
-But lets not digress to much and get rid of this customization
+But let's not digress too much and get rid of this customization
 
   >>> form.buttons['apply'].actionFactory = None
   >>> actions.update()

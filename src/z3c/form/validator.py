@@ -78,10 +78,13 @@ class NoInputData(zope.interface.Invalid):
     """
 
 class Data(object):
+    zope.interface.implements(interfaces.IData)
 
-    def __init__(self, schema, data):
+    def __init__(self, schema, data, context):
         self._Data_data___ = data
         self._Data_schema___ = schema
+        zope.interface.alsoProvides(self, schema)
+        self.__context__ = context
 
     def __getattr__(self, name):
         schema = self._Data_schema___
@@ -122,7 +125,7 @@ class InvariantsValidator(object):
 
     def validate(self, data):
         """See interfaces.IManagerValidator"""
-        return self.validateObject(Data(self.schema, data))
+        return self.validateObject(Data(self.schema, data, self.context))
 
     def validateObject(self, object):
         errors = []

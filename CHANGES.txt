@@ -5,6 +5,9 @@ CHANGES
 Version 1.6.0 (?/??/2007)
 -------------------------
 
+- Feature: The validation data wrapper now knows about the context of the
+  validation, which provides a hook for invariants to access the environment.
+
 - Feature: The BoolTerms term tokens are now cosntants and stay the same, even
   if the label has changed. The choice for the token is "true" and "false". By
   default it used to be "yes" and "no", so you probably have to change some

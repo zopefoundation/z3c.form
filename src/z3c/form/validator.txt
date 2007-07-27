@@ -287,7 +287,8 @@ code above, there are some corner cases that need to be addressed.
 
 So let's start by creating a data object:
 
-  >>> data = validator.Data(IPerson, {'login': 'srichter', 'other': 1})
+  >>> context = object()
+  >>> data = validator.Data(IPerson, {'login': 'srichter', 'other': 1}, context)
 
 When we try to access a name that is not in the schema, we get an attribute
 error:
@@ -308,8 +309,18 @@ If the field found is a method, then a runtime error is raised:
   ...     def compute():
   ...         """Compute something."""
 
-  >>> data = validator.Data(IExtendedPerson, {'compute': 1})
+  >>> data = validator.Data(IExtendedPerson, {'compute': 1}, context)
   >>> data.compute
   Traceback (most recent call last):
   ...
   RuntimeError: ('Data value is not a schema field', 'compute')
+
+Finally, the context is available as attribute directly:
+
+  >>> data.__context__ is context
+  True
+
+It is used by the validators (especially invariant validators) to provide a
+context of validation, for example to look up a vocabulary or access the
+parent of an object. Note that the context will be different between add and
+edit forms.

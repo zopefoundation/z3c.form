@@ -83,6 +83,25 @@ class ISelectionManager(IManager):
 
 # ----[ Validators ]---------------------------------------------------------
 
+class IData(zope.interface.Interface):
+    """A proxy object for form data.
+
+    The object will make all keys within its data attribute available as
+    attributes. The schema that is represented by the data will be directly
+    provided by instances.
+    """
+
+    def __init__(schema, data, context):
+        """The data proxy is instantiated using the schema it represents, the
+        data fulfilling the schema and the context in which the data is
+        validated.
+        """
+
+    __context__ = zope.schema.Field(
+        title=_('Context'),
+        description=_('The context in which the data is validated.'),
+        required=True)
+
 class IValidator(zope.interface.Interface):
     """A validator for a particular value."""
 

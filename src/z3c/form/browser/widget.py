@@ -52,9 +52,15 @@ class HTMLFormElement(object):
     def addClass(self, klass):
         """See interfaces.IHTMLFormElement"""
         if not self.klass:
-            self.klass = klass
+            self.klass = unicode(klass)
         else:
-            self.klass += ' ' + klass
+            self.klass += u' ' + unicode(klass)
+
+    def update(self):
+        """See z3c.form.interfaces.IWidget"""
+        super(HTMLFormElement, self).update()
+        if self.required:
+            self.addClass('required')
 
 
 class HTMLInputWidget(HTMLFormElement):

@@ -76,13 +76,13 @@ Now let's try if we get widget values:
   >>> print widget.render()
   <span class="option">
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
-           class="checkBoxWidget" value="true" />
+           class="checkbox-widget" value="true" />
     <label for="widget-id-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="checkbox" id="widget-id-1" name="widget.name:list"
-           class="checkBoxWidget" value="false" />
+           class="checkbox-widget" value="false" />
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>
@@ -97,14 +97,14 @@ field get rendered with a checked flag:
   >>> print widget.render()
   <span class="option">
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
-           class="checkBoxWidget" value="true"
+           class="checkbox-widget" value="true"
            checked="checked" />
     <label for="widget-id-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="checkbox" id="widget-id-1" name="widget.name:list"
-           class="checkBoxWidget" value="false" />
+           class="checkbox-widget" value="false" />
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>

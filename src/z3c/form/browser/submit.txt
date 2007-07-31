@@ -45,14 +45,14 @@ If we render the widget we get a simple input element:
 
   >>> print widget.render()
   <input type="submit" id="widget.id" name="widget.name"
-         class="submitWidget" />
+         class="submit-widget" />
 
 Setting a value for the widget effectively changes the button label:
 
   >>> widget.value = 'Submit'
   >>> print widget.render()
   <input type="submit" id="widget.id" name="widget.name"
-         class="submitWidget" value="Submit" />
+         class="submit-widget" value="Submit" />
 
 
 Let's now make sure that we can extract user entered data from a widget:

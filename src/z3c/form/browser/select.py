@@ -32,7 +32,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Select widget implementation."""
     zope.interface.implementsOnly(interfaces.ISelectWidget)
 
-    klass = u'selectWidget'
+    klass = u'select-widget'
     items = ()
     prompt = False
 

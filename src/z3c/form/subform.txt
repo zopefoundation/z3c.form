@@ -109,35 +109,39 @@ Let's now instantiate the form and render it:
         <div class="row">
           <label for="car-widgets-model">Model</label>
           <input type="text" id="car-widgets-model" name="car.widgets.model"
-                 class="textWidget textline-field" value="Nissan" />
+                 class="text-widget required textline-field" value="Nissan" />
         </div>
         <div class="row">
           <label for="car-widgets-make">Make</label>
           <input type="text" id="car-widgets-make" name="car.widgets.make"
-                 class="textWidget textline-field" value="Sentra" />
+                 class="text-widget required textline-field" value="Sentra" />
         </div>
         <fieldset>
           <legend>Owner</legend>
           <div class="row">
             <label for="owner-widgets-name">Name</label>
             <input type="text" id="owner-widgets-name" name="owner.widgets.name"
-                   class="textWidget textline-field" value="Stephan Richter" />
+                   class="text-widget required textline-field"
+                   value="Stephan Richter" />
           </div>
           <div class="row">
             <label for="owner-widgets-license">License</label>
             <input type="text" id="owner-widgets-license"
                    name="owner.widgets.license"
-                   class="textWidget textline-field" value="MA-1231FW97" />
+                   class="text-widget required textline-field"
+                   value="MA-1231FW97" />
           </div>
           <div class="action">
             <input type="submit" id="owner-buttons-apply"
-                   name="owner.buttons.apply" class="submitWidget button-field"
+                   name="owner.buttons.apply"
+                   class="submit-widget button-field"
                    value="Apply" />
           </div>
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget button-field"
+                 name="car.buttons.apply"
+                 class="submit-widget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -177,13 +181,15 @@ Also, the form should say that the data of the owner has changed:
         <div class="row">
           <label for="car-widgets-model">Model</label>
           <input type="text" id="car-widgets-model"
-                 name="car.widgets.model" class="textWidget textline-field"
+                 name="car.widgets.model"
+                 class="text-widget required textline-field"
                  value="BMW" />
         </div>
         <div class="row">
           <label for="car-widgets-make">Make</label>
           <input type="text" id="car-widgets-make"
-                 name="car.widgets.make" class="textWidget textline-field"
+                 name="car.widgets.make"
+                 class="text-widget required textline-field"
                  value="325" />
         </div>
         <fieldset>
@@ -192,24 +198,28 @@ Also, the form should say that the data of the owner has changed:
           <div class="row">
             <label for="owner-widgets-name">Name</label>
             <input type="text" id="owner-widgets-name"
-                   name="owner.widgets.name" class="textWidget textline-field"
+                   name="owner.widgets.name"
+                   class="text-widget required textline-field"
                    value="Stephan Richter" />
           </div>
           <div class="row">
             <label for="owner-widgets-license">License</label>
             <input type="text" id="owner-widgets-license"
                    name="owner.widgets.license"
-                   class="textWidget textline-field" value="MA-97097A87" />
+                   class="text-widget required textline-field"
+                   value="MA-97097A87" />
           </div>
           <div class="action">
             <input type="submit" id="owner-buttons-apply"
-                   name="owner.buttons.apply" class="submitWidget button-field"
+                   name="owner.buttons.apply"
+                   class="submit-widget button-field"
                    value="Apply" />
           </div>
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget button-field"
+                 name="car.buttons.apply"
+                 class="submit-widget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -287,31 +297,39 @@ Rendering the form works as before:
       <form action=".">
         <div class="row">
           <label for="car-widgets-model">Model</label>
-          <input type="text" id="car-widgets-model" name="car.widgets.model"
-                 class="textWidget textline-field" value="BMW" />
+          <input type="text" id="car-widgets-model"
+                 name="car.widgets.model"
+                 class="text-widget required textline-field"
+                 value="BMW" />
         </div>
         <div class="row">
           <label for="car-widgets-make">Make</label>
-          <input type="text" id="car-widgets-make" name="car.widgets.make"
-                 class="textWidget textline-field" value="325" />
+          <input type="text" id="car-widgets-make"
+                 name="car.widgets.make"
+                 class="text-widget required textline-field"
+                 value="325" />
         </div>
         <fieldset>
           <legend>Owner</legend>
           <div class="row">
             <label for="owner-widgets-name">Name</label>
-            <input type="text" id="owner-widgets-name" name="owner.widgets.name"
-                   class="textWidget textline-field" value="Stephan Richter" />
+            <input type="text" id="owner-widgets-name"
+                   name="owner.widgets.name"
+                   class="text-widget required textline-field"
+                   value="Stephan Richter" />
           </div>
           <div class="row">
             <label for="owner-widgets-license">License</label>
             <input type="text" id="owner-widgets-license"
                    name="owner.widgets.license"
-                   class="textWidget textline-field" value="MA-97097A87" />
+                   class="text-widget required textline-field"
+                   value="MA-97097A87" />
           </div>
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget button-field"
+                 name="car.buttons.apply"
+                 class="submit-widget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -380,13 +398,15 @@ Let's look at the rendered form:
           <b><div class="error">Constraint not satisfied</div>
           </b><label for="car-widgets-model">Model</label>
           <input type="text" id="car-widgets-model"
-                 name="car.widgets.model" class="textWidget textline-field"
+                 name="car.widgets.model"
+                 class="text-widget required textline-field"
                  value="Volvo " />
         </div>
         <div class="row">
           <label for="car-widgets-make">Make</label>
           <input type="text" id="car-widgets-make"
-                 name="car.widgets.make" class="textWidget textline-field"
+                 name="car.widgets.make"
+                 class="text-widget required textline-field"
                  value="450" />
         </div>
         <fieldset>
@@ -395,19 +415,21 @@ Let's look at the rendered form:
           <div class="row">
             <label for="owner-widgets-name">Name</label>
             <input type="text" id="owner-widgets-name"
-                   name="owner.widgets.name" class="textWidget textline-field"
+                   name="owner.widgets.name"
+                   class="text-widget required textline-field"
                    value="Stephan Richter" />
           </div>
           <div class="row">
             <label for="owner-widgets-license">License</label>
             <input type="text" id="owner-widgets-license"
                    name="owner.widgets.license"
-                   class="textWidget textline-field" value="MA-991723FDG" />
+                   class="text-widget required textline-field"
+                   value="MA-991723FDG" />
           </div>
         </fieldset>
         <div class="action">
           <input type="submit" id="car-buttons-apply"
-                 name="car.buttons.apply" class="submitWidget button-field"
+                 name="car.buttons.apply" class="submit-widget button-field"
                  value="Apply" />
         </div>
       </form>
@@ -553,13 +575,15 @@ context.
     <div class="row">
       <label for="car-widgets-model">Model</label>
       <input type="text" id="car-widgets-model"
-             name="car.widgets.model" class="textWidget textline-field"
+             name="car.widgets.model"
+             class="text-widget required textline-field"
              value="" />
     </div>
     <div class="row">
       <label for="car-widgets-make">Make</label>
       <input type="text" id="car-widgets-make"
-             name="car.widgets.make" class="textWidget textline-field"
+             name="car.widgets.make"
+             class="text-widget required textline-field"
              value="" />
     </div>
     <fieldset>
@@ -567,24 +591,26 @@ context.
     <div class="row">
       <label for="owner-widgets-name">Name</label>
       <input type="text" id="owner-widgets-name"
-             name="owner.widgets.name" class="textWidget textline-field"
+             name="owner.widgets.name"
+             class="text-widget required textline-field"
              value="" />
     </div>
     <div class="row">
       <label for="owner-widgets-license">License</label>
       <input type="text" id="owner-widgets-license"
-           name="owner.widgets.license" class="textWidget textline-field"
+           name="owner.widgets.license"
+           class="text-widget required textline-field"
            value="" />
     </div>
     <div class="action">
       <input type="submit" id="owner-buttons-apply"
-           name="owner.buttons.apply" class="submitWidget button-field"
+           name="owner.buttons.apply" class="submit-widget button-field"
            value="Apply" />
     </div>
     </fieldset>
     <div class="action">
       <input type="submit" id="car-buttons-apply"
-           name="car.buttons.apply" class="submitWidget button-field"
+           name="car.buttons.apply" class="submit-widget button-field"
            value="Apply" />
     </div>
   </form>

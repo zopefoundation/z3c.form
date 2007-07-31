@@ -40,12 +40,12 @@ ASCII
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <textarea id="foo" name="bar" class="textAreaWidget ascii-field">This is
+  <textarea id="foo" name="bar" class="textarea-widget required ascii-field">This is
    ASCII.</textarea>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textAreaWidget ascii-field">
+  <span id="foo" class="textarea-widget required ascii-field">
     This is
    ASCII.
   </span>
@@ -58,12 +58,12 @@ ASCIILine
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget asciiline-field"
+  <input type="text" id="foo" name="bar" class="text-widget required asciiline-field"
          value="An ASCII line." />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget asciiline-field">
+  <span id="foo" class="text-widget required asciiline-field">
     An ASCII line.
   </span>
 
@@ -76,13 +76,13 @@ Bool
   >>> print widget.render()
   <span class="option">
     <input type="radio" id="foo-0" name="bar:list"
-           class="radioWidget bool-field" value="true" checked="checked" />
+           class="radio-widget required bool-field" value="true" checked="checked" />
     <label for="foo-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="radio" id="foo-1" name="bar:list"
-           class="radioWidget bool-field" value="false" />
+           class="radio-widget required bool-field" value="false" />
     <label for="foo-1">
       <span class="label">no</span>
     </label>
@@ -91,7 +91,7 @@ Bool
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="radioWidget bool-field">
+  <span id="foo" class="radio-widget required bool-field">
     <span class="selected-option">yes</span>
   </span>
 
@@ -106,14 +106,14 @@ For the boolean, the checkbox widget can be used as well:
   >>> print widget.render()
   <span class="option">
     <input type="checkbox" id="foo-0" name="bar:list"
-           class="checkBoxWidget bool-field" value="true"
+           class="checkbox-widget required bool-field" value="true"
            checked="checked" />
     <label for="foo-0">
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <input type="checkbox" id="foo-1" name="bar:list"
-           class="checkBoxWidget bool-field" value="false" />
+           class="checkbox-widget required bool-field" value="false" />
     <label for="foo-1">
       <span class="label">no</span>
     </label>
@@ -122,7 +122,7 @@ For the boolean, the checkbox widget can be used as well:
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="checkBoxWidget bool-field">
+  <span id="foo" class="checkbox-widget required bool-field">
     <span class="selected-option">yes</span>
   </span>
 
@@ -136,12 +136,12 @@ Button
   >>> widget.update()
   >>> print widget.render()
   <input type="submit" id="foo" name="bar"
-         class="submitWidget button-field" value="Press me!" />
+         class="submit-widget button-field" value="Press me!" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <input type="submit" id="foo" name="bar"
-         class="submitWidget button-field" value="Press me!"
+         class="submit-widget button-field" value="Press me!"
          disabled="disabled" />
 
 There exists an alternative widget for the button field, the button widget. It
@@ -155,12 +155,12 @@ is not used by default, but available for use:
   >>> widget.update()
   >>> print widget.render()
   <input type="button" id="foo" name="bar"
-         class="buttonWidget button-field" value="Press me!" />
+         class="button-widget button-field" value="Press me!" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <input type="button" id="foo" name="bar"
-         class="buttonWidget button-field" value="Press me!"
+         class="button-widget button-field" value="Press me!"
          disabled="disabled" />
 
 
@@ -172,11 +172,11 @@ Bytes
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="file" id="foo" name="bar" class="fileWidget bytes-field" />
+  <input type="file" id="foo" name="bar" class="file-widget required bytes-field" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> widget.render()
-  u'<span id="foo" class="fileWidget bytes-field">\n  \x08%\n\x1a\n</span>\n'
+  u'<span id="foo" class="file-widget required bytes-field">\n  \x08%\n\x1a\n</span>\n'
 
 
 BytesLine
@@ -186,12 +186,12 @@ BytesLine
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget bytesline-field"
+  <input type="text" id="foo" name="bar" class="text-widget required bytesline-field"
          value="A Bytes line." />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget bytesline-field">
+  <span id="foo" class="text-widget required bytesline-field">
     A Bytes line.
   </span>
 
@@ -207,7 +207,7 @@ Choice
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <select id="foo" name="bar:list" class="selectWidget choice-field"
+  <select id="foo" name="bar:list" class="select-widget required choice-field"
           size="1">
     <option id="foo-0" value="yes" selected="selected">Yes</option>
     <option id="foo-1" value="no">No</option>
@@ -216,7 +216,7 @@ Choice
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="selectWidget choice-field">
+  <span id="foo" class="select-widget required choice-field">
     <span class="selected-option">Yes</span>
   </span>
 
@@ -228,12 +228,12 @@ Date
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget date-field"
+  <input type="text" id="foo" name="bar" class="text-widget required date-field"
          value="07/04/01" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget date-field">
+  <span id="foo" class="text-widget required date-field">
     07/04/01
   </span>
 
@@ -245,12 +245,12 @@ Datetime
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget datetime-field"
+  <input type="text" id="foo" name="bar" class="text-widget required datetime-field"
          value="07/04/01 12:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget datetime-field">
+  <span id="foo" class="text-widget required datetime-field">
     07/04/01 12:00
   </span>
 
@@ -263,12 +263,12 @@ Decimal
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget decimal-field"
+  <input type="text" id="foo" name="bar" class="text-widget required decimal-field"
          value="1,265.87" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget decimal-field">
+  <span id="foo" class="text-widget required decimal-field">
     1,265.87
   </span>
 
@@ -287,12 +287,12 @@ DottedName
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget dottedname-field"
+  <input type="text" id="foo" name="bar" class="text-widget required dottedname-field"
          value="z3c.form" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget dottedname-field">
+  <span id="foo" class="text-widget required dottedname-field">
     z3c.form
   </span>
 
@@ -304,12 +304,12 @@ Float
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget float-field"
+  <input type="text" id="foo" name="bar" class="text-widget required float-field"
          value="1,265.8" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget float-field">
+  <span id="foo" class="text-widget required float-field">
     1,265.8
   </span>
 
@@ -323,7 +323,7 @@ FrozenSet
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <select id="foo" name="bar:list" class="selectWidget frozenset-field"
+  <select id="foo" name="bar:list" class="select-widget required frozenset-field"
           multiple="multiple" size="5">
     <option id="foo-0" value="1" selected="selected">1</option>
     <option id="foo-1" value="2">2</option>
@@ -334,7 +334,7 @@ FrozenSet
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="selectWidget frozenset-field">
+  <span id="foo" class="select-widget required frozenset-field">
     <span class="selected-option">1</span>,
     <span class="selected-option">3</span>
   </span>
@@ -347,12 +347,12 @@ Id
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget id-field"
+  <input type="text" id="foo" name="bar" class="text-widget required id-field"
          value="z3c.form" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget id-field">
+  <span id="foo" class="text-widget required id-field">
     z3c.form
   </span>
 
@@ -364,12 +364,12 @@ Int
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget int-field"
+  <input type="text" id="foo" name="bar" class="text-widget required int-field"
          value="1,200" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget int-field">
+  <span id="foo" class="text-widget required int-field">
     1,200
   </span>
 
@@ -391,7 +391,7 @@ List
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="multiple" class="list-field">
+                multiple="multiple" class="required list-field">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -409,7 +409,7 @@ List
       </td>
       <td>
         <select id="foo-to" name="bar.to" size="5"
-                multiple="multiple" class="list-field">
+                multiple="multiple" class="required list-field">
           <option value="1">1</option>
           <option value="3">3</option>
         </select>
@@ -431,7 +431,7 @@ List
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="list-field">
+  <span id="foo" class="required list-field">
     <span class="selected-option">1</span>,
     <span class="selected-option">3</span>
   </span>
@@ -452,11 +452,11 @@ Password
   >>> widget.update()
   >>> print widget.render()
   <input type="password" id="foo" name="bar"
-         class="passwordWidget password-field" />
+         class="password-widget required password-field" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="passwordWidget password-field">
+  <span id="foo" class="password-widget required password-field">
     mypwd
   </span>
 
@@ -470,7 +470,7 @@ Set
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <select id="foo" name="bar:list" class="selectWidget set-field"
+  <select id="foo" name="bar:list" class="select-widget required set-field"
           multiple="multiple"  size="5">
     <option id="foo-0" value="1" selected="selected">1</option>
     <option id="foo-1" value="2">2</option>
@@ -481,7 +481,7 @@ Set
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="selectWidget set-field">
+  <span id="foo" class="select-widget required set-field">
     <span class="selected-option">1</span>,
     <span class="selected-option">3</span>
   </span>
@@ -495,11 +495,11 @@ SourceText
   >>> widget.update()
   >>> print widget.render()
   <textarea id="foo" name="bar"
-            class="textAreaWidget sourcetext-field">&lt;source /&gt;</textarea>
+            class="textarea-widget required sourcetext-field">&lt;source /&gt;</textarea>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textAreaWidget sourcetext-field">
+  <span id="foo" class="textarea-widget required sourcetext-field">
     &lt;source /&gt;
   </span>
 
@@ -511,12 +511,12 @@ Text
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <textarea id="foo" name="bar" class="textAreaWidget text-field">Some
+  <textarea id="foo" name="bar" class="textarea-widget required text-field">Some
    Text.</textarea>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textAreaWidget text-field">
+  <span id="foo" class="textarea-widget required text-field">
     Some
     Text.
   </span>
@@ -529,12 +529,12 @@ TextLine
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget textline-field"
+  <input type="text" id="foo" name="bar" class="text-widget required textline-field"
          value="Some Text line." />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget textline-field">
+  <span id="foo" class="text-widget required textline-field">
     Some Text line.
   </span>
 
@@ -546,12 +546,12 @@ Time
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget time-field"
+  <input type="text" id="foo" name="bar" class="text-widget required time-field"
          value="12:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget time-field">
+  <span id="foo" class="text-widget required time-field">
     12:00
   </span>
 
@@ -563,12 +563,12 @@ Timedelta
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget timedelta-field"
+  <input type="text" id="foo" name="bar" class="text-widget required timedelta-field"
          value="3 days, 0:00:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget timedelta-field">
+  <span id="foo" class="text-widget required timedelta-field">
     3 days, 0:00:00
   </span>
 
@@ -590,7 +590,7 @@ Tuple
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="multiple" class="tuple-field">
+                multiple="multiple" class="required tuple-field">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -608,7 +608,7 @@ Tuple
       </td>
       <td>
         <select id="foo-to" name="bar.to" size="5"
-                multiple="multiple" class="tuple-field">
+                multiple="multiple" class="required tuple-field">
           <option value="1">1</option>
           <option value="3">3</option>
         </select>
@@ -630,7 +630,7 @@ Tuple
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="tuple-field">
+  <span id="foo" class="required tuple-field">
     <span class="selected-option">1</span>,
     <span class="selected-option">3</span>
   </span>
@@ -643,11 +643,11 @@ URI
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="textWidget uri-field"
+  <input type="text" id="foo" name="bar" class="text-widget required uri-field"
          value="http://zope.org" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textWidget uri-field">
+  <span id="foo" class="text-widget required uri-field">
     http://zope.org
   </span>

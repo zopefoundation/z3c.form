@@ -81,11 +81,11 @@ instantiating the form, ...
         <div class="row">
           <label for="form-widgets-name">Name</label>
           <input type="text" id="form-widgets-name" name="form.widgets.name"
-                 class="textWidget textline-field" value="" />
+                 class="text-widget required textline-field" value="" />
         </div>
         <div class="action">
           <input type="submit" id="form-buttons-add"
-                 name="form.buttons.add" class="submitWidget button-field"
+                 name="form.buttons.add" class="submit-widget button-field"
                  value="Add" />
         </div>
       </form>

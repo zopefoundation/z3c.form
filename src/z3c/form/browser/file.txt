@@ -45,7 +45,7 @@ If we render the widget we get a simple input element:
 
   >>> print widget.render()
   <input type="file" id="widget.id" name="widget.name"
-         class="fileWidget" />
+         class="file-widget" />
 
 Let's now make sure that we can extract user entered data from a widget:
 
@@ -92,4 +92,4 @@ If we render them, we get a regular file upload widget:
 
   >>> print widget.render()
   <input type="file" id="widget.id" name="widget.name"
-         class="fileWidget" />
+         class="file-widget" />

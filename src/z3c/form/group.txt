@@ -105,13 +105,15 @@ We can now render the form:
         <div class="row">
           <label for="form-widgets-firstName">First Name</label>
           <input type="text" id="form-widgets-firstName"
-                 name="form.widgets.firstName" class="textWidget textline-field"
+                 name="form.widgets.firstName"
+                 class="text-widget required textline-field"
                  value="" />
         </div>
         <div class="row">
           <label for="form-widgets-lastName">Last Name</label>
           <input type="text" id="form-widgets-lastName"
-                 name="form.widgets.lastName" class="textWidget textline-field"
+                 name="form.widgets.lastName"
+                 class="text-widget required textline-field"
                  value="" />
         </div>
         <fieldgroup>
@@ -119,13 +121,15 @@ We can now render the form:
           <div class="row">
             <label for="form-widgets-license">License</label>
             <input type="text" id="form-widgets-license"
-                   name="form.widgets.license" class="textWidget textline-field"
+                   name="form.widgets.license"
+                   class="text-widget required textline-field"
                    value="" />
           </div>
           <div class="row">
             <label for="form-widgets-address">Address</label>
             <input type="text" id="form-widgets-address"
-                   name="form.widgets.address" class="textWidget textline-field"
+                   name="form.widgets.address"
+                   class="text-widget required textline-field"
                    value="" />
           </div>
         </fieldgroup>
@@ -134,25 +138,28 @@ We can now render the form:
           <div class="row">
             <label for="form-widgets-model">Model</label>
             <input type="text" id="form-widgets-model"
-                   name="form.widgets.model" class="textWidget textline-field"
+                   name="form.widgets.model"
+                   class="text-widget required textline-field"
                    value="" />
           </div>
           <div class="row">
             <label for="form-widgets-make">Make</label>
             <input type="text" id="form-widgets-make"
-                   name="form.widgets.make" class="textWidget textline-field"
+                   name="form.widgets.make"
+                   class="text-widget required textline-field"
                    value="" />
           </div>
           <div class="row">
             <label for="form-widgets-year">Year</label>
             <input type="text" id="form-widgets-year"
-                   name="form.widgets.year" class="textWidget int-field"
+                   name="form.widgets.year"
+                   class="text-widget required int-field"
                    value="" />
           </div>
         </fieldgroup>
         <div class="action">
           <input type="submit" id="form-buttons-add"
-                 name="form.buttons.add" class="submitWidget button-field"
+                 name="form.buttons.add" class="submit-widget button-field"
                  value="Add" />
         </div>
       </form>
@@ -294,13 +301,15 @@ After updating the form, we can render the HTML:
         <div class="row">
           <label for="form-widgets-firstName">First Name</label>
           <input type="text" id="form-widgets-firstName"
-                 name="form.widgets.firstName" class="textWidget textline-field"
+                 name="form.widgets.firstName"
+                 class="text-widget required textline-field"
                  value="Stephan" />
         </div>
         <div class="row">
           <label for="form-widgets-lastName">Last Name</label>
           <input type="text" id="form-widgets-lastName"
-                 name="form.widgets.lastName" class="textWidget textline-field"
+                 name="form.widgets.lastName"
+                 class="text-widget required textline-field"
                  value="Richter" />
          </div>
         <fieldgroup>
@@ -308,13 +317,15 @@ After updating the form, we can render the HTML:
           <div class="row">
             <label for="form-widgets-license">License</label>
             <input type="text" id="form-widgets-license"
-                   name="form.widgets.license" class="textWidget textline-field"
+                   name="form.widgets.license"
+                   class="text-widget required textline-field"
                    value="MA 40387" />
           </div>
           <div class="row">
             <label for="form-widgets-address">Address</label>
             <input type="text" id="form-widgets-address"
-                   name="form.widgets.address" class="textWidget textline-field"
+                   name="form.widgets.address"
+                   class="text-widget required textline-field"
                    value="10 Main St, Maynard, MA" />
           </div>
         </fieldgroup>
@@ -323,25 +334,28 @@ After updating the form, we can render the HTML:
           <div class="row">
             <label for="form-widgets-model">Model</label>
             <input type="text" id="form-widgets-model"
-                   name="form.widgets.model" class="textWidget textline-field"
+                   name="form.widgets.model"
+                   class="text-widget required textline-field"
                    value="BMW" />
           </div>
           <div class="row">
             <label for="form-widgets-make">Make</label>
             <input type="text" id="form-widgets-make"
-                   name="form.widgets.make" class="textWidget textline-field"
+                   name="form.widgets.make"
+                   class="text-widget required textline-field"
                    value="325" />
           </div>
           <div class="row">
             <label for="form-widgets-year">Year</label>
             <input type="text" id="form-widgets-year"
-                   name="form.widgets.year" class="textWidget int-field"
+                   name="form.widgets.year"
+                   class="text-widget required int-field"
                    value="2005" />
           </div>
         </fieldgroup>
         <div class="action">
           <input type="submit" id="form-buttons-apply"
-                 name="form.buttons.apply" class="submitWidget button-field"
+                 name="form.buttons.apply" class="submit-widget button-field"
                  value="Apply" />
         </div>
       </form>

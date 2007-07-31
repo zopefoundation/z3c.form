@@ -5,6 +5,9 @@ CHANGES
 Version 1.6.0 (?/??/2007)
 -------------------------
 
+- Feature: When a widget is required, HTML-based widgets now declare a
+  "required" class.
+
 - Feature: The validation data wrapper now knows about the context of the
   validation, which provides a hook for invariants to access the environment.
 
@@ -23,6 +26,12 @@ Version 1.6.0 (?/??/2007)
   ignoreReadonly.
 
 - Feature: Provide more user-friendly error messages for number formatting.
+
+- Restructuring: The widget specific class name was in camel-case. A
+  converntion that later developed uses always dash-based naming of HTML/CSS
+  related variables. So for example, the class name "textWidget" is now
+  "text-widget". This change will most likely require some changes to your CSS
+  declarations!
 
 - Documentation: The text of ``field.txt`` has been reviewed linguistically.
 
@@ -130,7 +139,7 @@ Version 1.3.0 (6/22/2007)
 - Feature: Added named vocabulary lookup in ``ChoiceTerms`` and
   ``CollectionTerms``.
 
-- Implemented support for ``FileUpload`` in ``FileWidget``.
+- Feature: Implemented support for ``FileUpload`` in ``FileWidget``.
 
   * Added helper for handling ``FileUpload`` widgets:
 

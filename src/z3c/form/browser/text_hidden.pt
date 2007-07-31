@@ -1,4 +1,4 @@
-<input type="hidden" id="" name="" class="hiddenWidget" size="" alt="" title=""
+<input type="hidden" id="" name="" class="hidden-widget" size="" alt="" title=""
        tabindex="" disabled="" readonly="" accesskey="" maxlength="" value=""
        tal:attributes="id view/id;
                        name view/name;

@@ -143,7 +143,7 @@ widget. We can now render each action:
 
   >>> print actions['apply'].render()
   <input type="submit" id="form-buttons-apply"
-         name="form.buttons.apply" class="submitWidget button-field"
+         name="form.buttons.apply" class="submit-widget button-field"
          value="Apply" />
 
 So displaying is nice, but how do button handlers get executed? The action

@@ -28,7 +28,7 @@ class ButtonWidget(widget.HTMLInputWidget, Widget):
     """A simple button of a form."""
     zope.interface.implementsOnly(interfaces.IButtonWidget)
 
-    klass = u'buttonWidget'
+    klass = u'button-widget'
 
     def update(self):
         # We do not need to use the widget's update method, because it is

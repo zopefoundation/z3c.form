@@ -43,7 +43,7 @@ We also need to register the template for at least the widget and request:
 If we render the widget we get the HTML:
 
   >>> print widget.render()
-  <input type="text" class="textWidget" value="" />
+  <input type="text" class="text-widget" value="" />
 
 Adding some more attributes to the widget will make it display more:
 
@@ -52,5 +52,5 @@ Adding some more attributes to the widget will make it display more:
   >>> widget.value = u'value'
 
   >>> print widget.render()
-  <input type="text" id="id" name="name" class="textWidget"
+  <input type="text" id="id" name="name" class="text-widget"
          value="value" />

@@ -46,14 +46,14 @@ If we render the widget we get a simple input element:
 
   >>> print widget.render()
   <input type="button" id="widget.id" name="widget.name"
-         class="buttonWidget" />
+         class="button-widget" />
 
 Setting a value for the widget effectively changes the button label:
 
   >>> widget.value = 'Button'
   >>> print widget.render()
   <input type="button" id="widget.id" name="widget.name"
-         class="buttonWidget" value="Button" />
+         class="button-widget" value="Button" />
 
 
 Let's now make sure that we can extract user entered data from a widget:

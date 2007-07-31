@@ -28,7 +28,7 @@ class TextWidget(widget.HTMLTextInputWidget, Widget):
     """Input type text widget implementation."""
     zope.interface.implementsOnly(interfaces.ITextWidget)
 
-    klass = u'textWidget'
+    klass = u'text-widget'
     value = u''
 
     def update(self):

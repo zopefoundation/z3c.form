@@ -24,6 +24,8 @@ Version 1.6.0 (?/??/2007)
 
 - Feature: Provide more user-friendly error messages for number formatting.
 
+- Documentation: The text of ``field.txt`` has been reviewed linguistically.
+
 - Documentation: While reviewing the ``form.txt`` with some people, several
   unclear and incomplete statements were discovered and fixed.
 

@@ -136,14 +136,14 @@ the ones you want:
   >>> manager.keys()
   ['name', 'country']
 
-Again, you can solve name conflicts using the full prefixed name:
+Again, you can solve name conflicts using the full prefixed name, ...
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')
   >>> manager.omit('pet.id').keys()
   ['id', 'name', 'pet.name']
 
-using the prefix keyword argument:
+using the prefix keyword argument, ...
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')

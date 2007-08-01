@@ -27,9 +27,9 @@ Version 1.6.0 (?/??/2007)
 
 - Feature: Provide more user-friendly error messages for number formatting.
 
-- Restructuring: The widget specific class name was in camel-case. A
-  converntion that later developed uses always dash-based naming of HTML/CSS
-  related variables. So for example, the class name "textWidget" is now
+- Refactoring: The widget specific class name was in camel-case. A converntion
+  that later developed uses always dash-based naming of HTML/CSS related
+  variables. So for example, the class name "textWidget" is now
   "text-widget". This change will most likely require some changes to your CSS
   declarations!
 

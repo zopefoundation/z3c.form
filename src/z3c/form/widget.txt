@@ -501,10 +501,12 @@ updated, ...
   >>> afterUpdate
   <AfterWidgetUpdateEvent <Widget 'age'>>
 
-which provides another special itnerface:
+which provides another special interface:
 
   >>> interfaces.IAfterWidgetUpdateEvent.providedBy(afterUpdate)
   True
 
-This event should be used by widget-managing components and is not called
-internally by the widget's ``update()`` method.
+This event should be used by widget-managing components and is not created and
+sent out internally by the widget's ``update()`` method. The event was
+designed to provide an additional hook between updating the widget and
+rendering it.

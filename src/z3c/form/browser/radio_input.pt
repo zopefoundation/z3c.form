@@ -1,64 +1,64 @@
 <span class="option"
       tal:repeat="item view/items">
-  <input type="radio" id="" name="" class="" alt="" title=""
-         tabindex="" disabled="" readonly="" accesskey="" value=""
-         checked="checked"
-         tal:condition="item/checked"
-         tal:attributes="id item/id;
-                         name item/name;
-                         value item/value;
-                         class view/klass;
-                         title view/title;
-                         lang view/lang;
-                         onclick view/onclick;
-                         ondblclick view/ondblclick;
-                         onmousedown view/onmousedown;
-                         onmouseup view/onmouseup;
-                         onmouseover view/onmouseover;
-                         onmousemove view/onmousemove;
-                         onmouseout view/onmouseout;
-                         onkeypress view/onkeypress;
-                         onkeydown view/onkeydown;
-                         onkeyup view/onkeyup;
-                         disabled view/disabled;
-                         tabindex view/tabindex;
-                         onfocus view/onfocus;
-                         onblur view/onblur;
-                         onchange view/onchange;
-                         readonly view/readonly;
-                         alt view/alt;
-                         accesskey view/accesskey;
-                         onselect view/onselect"
-  /><input type="radio" id="" name="" class="" alt="" title="" tabindex=""
-           disabled="" readonly="" accesskey="" value=""
-         tal:condition="not:item/checked"
-         tal:attributes="id item/id;
-                         name item/name;
-                         value item/value;
-                         class view/klass;
-                         title view/title;
-                         lang view/lang;
-                         onclick view/onclick;
-                         ondblclick view/ondblclick;
-                         onmousedown view/onmousedown;
-                         onmouseup view/onmouseup;
-                         onmouseover view/onmouseover;
-                         onmousemove view/onmousemove;
-                         onmouseout view/onmouseout;
-                         onkeypress view/onkeypress;
-                         onkeydown view/onkeydown;
-                         onkeyup view/onkeyup;
-                         disabled view/disabled;
-                         tabindex view/tabindex;
-                         onfocus view/onfocus;
-                         onblur view/onblur;
-                         onchange view/onchange;
-                         readonly view/readonly;
-                         alt view/alt;
-                         accesskey view/accesskey;
-                         onselect view/onselect" />
   <label for=""
          tal:attributes="for item/id">
+    <input type="radio" id="" name="" class="" alt="" title=""
+           tabindex="" disabled="" readonly="" accesskey="" value=""
+           checked="checked"
+           tal:condition="item/checked"
+           tal:attributes="id item/id;
+                           name item/name;
+                           value item/value;
+                           class view/klass;
+                           title view/title;
+                           lang view/lang;
+                           onclick view/onclick;
+                           ondblclick view/ondblclick;
+                           onmousedown view/onmousedown;
+                           onmouseup view/onmouseup;
+                           onmouseover view/onmouseover;
+                           onmousemove view/onmousemove;
+                           onmouseout view/onmouseout;
+                           onkeypress view/onkeypress;
+                           onkeydown view/onkeydown;
+                           onkeyup view/onkeyup;
+                           disabled view/disabled;
+                           tabindex view/tabindex;
+                           onfocus view/onfocus;
+                           onblur view/onblur;
+                           onchange view/onchange;
+                           readonly view/readonly;
+                           alt view/alt;
+                           accesskey view/accesskey;
+                           onselect view/onselect"
+    /><input type="radio" id="" name="" class="" alt="" title="" tabindex=""
+             disabled="" readonly="" accesskey="" value=""
+           tal:condition="not:item/checked"
+           tal:attributes="id item/id;
+                           name item/name;
+                           value item/value;
+                           class view/klass;
+                           title view/title;
+                           lang view/lang;
+                           onclick view/onclick;
+                           ondblclick view/ondblclick;
+                           onmousedown view/onmousedown;
+                           onmouseup view/onmouseup;
+                           onmouseover view/onmouseover;
+                           onmousemove view/onmousemove;
+                           onmouseout view/onmouseout;
+                           onkeypress view/onkeypress;
+                           onkeydown view/onkeydown;
+                           onkeyup view/onkeyup;
+                           disabled view/disabled;
+                           tabindex view/tabindex;
+                           onfocus view/onfocus;
+                           onblur view/onblur;
+                           onchange view/onchange;
+                           readonly view/readonly;
+                           alt view/alt;
+                           accesskey view/accesskey;
+                           onselect view/onselect" />
     <span class="label" tal:content="item/label">Label</span>
   </label>
 </span>

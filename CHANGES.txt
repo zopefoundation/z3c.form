@@ -42,6 +42,13 @@ Version 1.6.0 (?/??/2007)
 - Documentation: While reviewing the ``form.txt`` with some people, several
   unclear and incomplete statements were discovered and fixed.
 
+- Bug (IE): In Internet Explorer, when a label for a radio input field is only
+  placed around the text describing the choice, then only the text is
+  surrounded by a dashed box. IE users reported this to be confusing, thus we
+  now place the label around the text and the input element so that both are
+  surrounded by the dashed border. In Firefox and KHTML (Safari) only the
+  radio button is surrounded all the time.
+
 - Bug: When extracting and validating data in the widget manager, invariant
   errors were not converted to error view snippets.
 

@@ -58,8 +58,8 @@ ASCIILine
   >>> widget = setupWidget(field)
   >>> widget.update()
   >>> print widget.render()
-  <input type="text" id="foo" name="bar" class="text-widget required asciiline-field"
-         value="An ASCII line." />
+  <input type="text" id="foo" name="bar"
+         class="text-widget required asciiline-field" value="An ASCII line." />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
@@ -75,15 +75,16 @@ Bool
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
-    <input type="radio" id="foo-0" name="bar:list"
-           class="radio-widget required bool-field" value="true" checked="checked" />
     <label for="foo-0">
+      <input type="radio" id="foo-0" name="bar:list"
+             class="radio-widget required bool-field" value="true"
+             checked="checked" />
       <span class="label">yes</span>
     </label>
   </span><span class="option">
-    <input type="radio" id="foo-1" name="bar:list"
-           class="radio-widget required bool-field" value="false" />
     <label for="foo-1">
+      <input type="radio" id="foo-1" name="bar:list"
+             class="radio-widget required bool-field" value="false" />
       <span class="label">no</span>
     </label>
   </span>

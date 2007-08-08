@@ -69,15 +69,15 @@ Now let's try if we get widget values:
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
-    <input type="radio" id="widget-id-0" name="widget.name:list"
-           class="radio-widget" value="true" />
     <label for="widget-id-0">
+      <input type="radio" id="widget-id-0" name="widget.name:list"
+             class="radio-widget" value="true" />
       <span class="label">yes</span>
     </label>
   </span><span class="option">
-    <input type="radio" id="widget-id-1" name="widget.name:list"
-           class="radio-widget" value="false" />
     <label for="widget-id-1">
+      <input type="radio" id="widget-id-1" name="widget.name:list"
+             class="radio-widget" value="false" />
       <span class="label">no</span>
     </label>
   </span>
@@ -90,15 +90,15 @@ get rendered with a checked flag:
   >>> widget.update()
   >>> print widget.render()
   <span class="option">
-    <input type="radio" id="widget-id-0" name="widget.name:list"
-           class="radio-widget" value="true" checked="checked" />
     <label for="widget-id-0">
+      <input type="radio" id="widget-id-0" name="widget.name:list"
+             class="radio-widget" value="true" checked="checked" />
       <span class="label">yes</span>
     </label>
   </span><span class="option">
-    <input type="radio" id="widget-id-1" name="widget.name:list"
-           class="radio-widget" value="false" />
     <label for="widget-id-1">
+      <input type="radio" id="widget-id-1" name="widget.name:list"
+             class="radio-widget" value="false" />
       <span class="label">no</span>
     </label>
   </span>

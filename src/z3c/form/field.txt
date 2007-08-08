@@ -675,10 +675,12 @@ Finally, let's ensure that invariant failures are also caught:
   >>> manager.ignoreContext = True
   >>> manager.update()
   >>> data, errors = manager.extract()
-  >>> errors[0].doc()
+  >>> errors[0].error.doc()
   'The last name is too short.'
 
-And that's all.
+Note that the errors coming from invariants are all error view snippets as
+well, just as it is the case for field-specific validation errors. And that's
+really all there is!
 
 
 Fields -- Custom Widget Factories

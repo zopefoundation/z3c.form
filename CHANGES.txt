@@ -5,6 +5,10 @@ CHANGES
 Version 1.6.0 (?/??/2007)
 -------------------------
 
+- Feature: A new ``InvalidErrorViewSnippet`` class provides an error view
+  snippet for ``zope.interface.Invalid`` exceptions, which are frequently used
+  for invariants.
+
 - Feature: When a widget is required, HTML-based widgets now declare a
   "required" class.
 
@@ -37,6 +41,12 @@ Version 1.6.0 (?/??/2007)
 
 - Documentation: While reviewing the ``form.txt`` with some people, several
   unclear and incomplete statements were discovered and fixed.
+
+- Bug: When extracting and validating data in the widget manager, invariant
+  errors were not converted to error view snippets.
+
+- Bug: When error view snippets were not widget-specific -- in other words,
+  the ``widget`` attribute was ``None`` -- rendering the template would fail.
 
 
 Version 1.5.0 (7/18/2007)

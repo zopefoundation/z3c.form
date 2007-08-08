@@ -145,6 +145,7 @@ def setupFormDefaults():
     zope.component.provideAdapter(button.ButtonActionHandler)
     # Error View(s)
     zope.component.provideAdapter(error.ErrorViewSnippet)
+    zope.component.provideAdapter(error.InvalidErrorViewSnippet)
     zope.component.provideAdapter(error.StandardErrorViewTemplate)
 
 def tearDown(test):

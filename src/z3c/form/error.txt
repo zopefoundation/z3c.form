@@ -166,3 +166,25 @@ Let's now render the snippet again:
   >>> errorView.update()
   >>> print errorView.render()
   <div class="error">The entered value is not valid.</div>
+
+
+Invalid Error View Snippets
+---------------------------
+
+When invariants are used, commonly the ``Invalid`` exception (from the
+``zope.interface`` package) is raised from within the invariant, if the
+invariant finds a problem. We need a special error view snippet for this class
+of errors:
+
+  >>> invalidError = zope.interface.Invalid(u'The data was invalid.')
+  >>> errorView = error.InvalidErrorViewSnippet(
+  ...     invalidError, TestRequest(), None, None, None, None)
+
+Since the same template as before is used, the error simply renders:
+
+  >>> errorView.update()
+  >>> print errorView.render()
+  <div class="error">The data was invalid.</div>
+
+As you can see, the first argument to the exception is used as the explanatory
+message of the error.

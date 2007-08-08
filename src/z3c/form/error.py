@@ -58,6 +58,9 @@ class ErrorViewSnippet(object):
         self.form = form
         self.content = content
 
+    def createMessage(self):
+        return self.error.doc()
+
     def update(self):
         value = zope.component.queryMultiAdapter(
             (self.context, self.request, self.widget,
@@ -66,7 +69,7 @@ class ErrorViewSnippet(object):
         if value is not None:
             self.message = value.get()
         else:
-            self.message = self.error.doc()
+            self.message = self.createMessage()
 
     def render(self):
         template = zope.component.getMultiAdapter(
@@ -83,15 +86,19 @@ class ValueErrorViewSnippet(ErrorViewSnippet):
     zope.component.adapts(
         ValueError, None, None, None, None, None)
 
-    message = _('The system could not process the given value.')
+    defaultMessage = _('The system could not process the given value.')
 
-    def update(self):
-        value = zope.component.queryMultiAdapter(
-            (self.context, self.request, self.widget,
-             self.field, self.form, self),
-            interfaces.IValue, name='message')
-        if value is not None:
-            self.message = value.get()
+    def createMessage(self):
+        return self.defaultMessage
+
+
+class InvalidErrorViewSnippet(ErrorViewSnippet):
+    """Error view snippet."""
+    zope.component.adapts(
+        zope.interface.Invalid, None, None, None, None, None)
+
+    def createMessage(self):
+        return self.error.args[0]
 
 
 class ErrorViewTemplateFactory(object):

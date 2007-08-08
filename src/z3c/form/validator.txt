@@ -257,7 +257,7 @@ discriminator generator again.
   ...     CustomValidator, schema=util.getSpecification(IPerson, force=True))
 
 Note: Of course we could have used the ``zope.component.adapts()`` function
-      from within the class, but I think it is too tediuos, since you have to
+      from within the class, but I think it is too tedious, since you have to
       specify all discriminators and not only the specific ones you are
       interested in.
 

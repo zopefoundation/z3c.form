@@ -4,8 +4,10 @@
     <ul tal:condition="view/widgets/errors"
         metal:define-macro="errors">
       <li tal:repeat="error view/widgets/errors">
-        <tal:block replace="error/widget/label"
-        />: <tal:block replace="structure error/render" />
+        <tal:block condition="error/widget">
+          <tal:block replace="error/widget/label" />:
+        </tal:block>
+        <tal:block replace="structure error/render" />
       </li>
     </ul>
     <form action=".">

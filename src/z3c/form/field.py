@@ -290,5 +290,10 @@ class FieldWidgets(util.Manager):
             else:
                 name = widget.__name__
                 data[name] = value
-        self.errors += self.validate(data)
+        for error in self.validate(data):
+            view = zope.component.getMultiAdapter(
+                (error, self.request, None, None, self.form, self.content),
+                interfaces.IErrorViewSnippet)
+            view.update()
+            self.errors += (view,)
         return data, self.errors

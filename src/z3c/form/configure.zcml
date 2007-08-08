@@ -97,6 +97,11 @@
       permission="zope.Public"
       />
   <adapter
+      factory=".error.InvalidErrorViewSnippet"
+      trusted="True"
+      permission="zope.Public"
+      />
+  <adapter
       factory=".error.ValueErrorViewSnippet"
       trusted="True"
       permission="zope.Public"

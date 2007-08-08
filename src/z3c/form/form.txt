@@ -42,6 +42,12 @@ Before we can start writing forms, we must have the content to work with:
   ...         min=0,
   ...         default=20,
   ...         required=False)
+  ...
+  ...     @zope.interface.invariant
+  ...     def ensureIdAndNameNotEuqal(person):
+  ...         if person.id == person.name:
+  ...             raise zope.interface.Invalid(
+  ...                 "The id and name cannot be the same.")
 
   >>> from zope.schema.fieldproperty import FieldProperty
   >>> class Person(object):
@@ -444,6 +450,37 @@ Let's now render the form:
   </html>
 
 Note that the values of the field are now extracted from the request.
+
+Another way to receive an error is by not fulfilling the invariants of the
+schema. In our case, the id and name cannot be the same. So let's provoke the
+error now, ...
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.id': u'Stephan',
+  ...     'form.widgets.name': u'Stephan',
+  ...     'form.widgets.gender': ['male'],
+  ...     'form.widgets.age': u'23',
+  ...     'form.buttons.add': u'Add'}
+  ...     )
+
+  >>> addForm = PersonAddForm(root, request)
+  >>> addTemplate(addForm)
+  >>> addForm.update()
+
+and see how the form looks like:
+
+  >>> print addForm.render()
+  <html>
+    <body>
+      <i>There were some errors.</i>
+      <ul>
+        <li>
+          <div class="error">The id and name cannot be the same.</div>
+        </li>
+      </ul>
+      ...
+    </body>
+  </html>
 
 Let's now also provide a negative age, which is not possible either:
 

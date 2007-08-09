@@ -44,7 +44,7 @@ Before we can start writing forms, we must have the content to work with:
   ...         required=False)
   ...
   ...     @zope.interface.invariant
-  ...     def ensureIdAndNameNotEuqal(person):
+  ...     def ensureIdAndNameNotEqual(person):
   ...         if person.id == person.name:
   ...             raise zope.interface.Invalid(
   ...                 "The id and name cannot be the same.")

@@ -5,6 +5,13 @@ CHANGES
 Version 1.6.0 (?/??/2007)
 -------------------------
 
+- Feature: The ``applyChanges()`` function now returns a dictionary of changes
+  (grouped by interface) instead of a boolean. This allows us to generate a
+  more detailed object-modified event. If no changes are applied, an empty
+  dictionary is returned. The new behavior is compatible with the old one, so
+  no changes to your code are required. (Thanks to Darryl Cousins for the
+  request and implementation.)
+
 - Feature: A new ``InvalidErrorViewSnippet`` class provides an error view
   snippet for ``zope.interface.Invalid`` exceptions, which are frequently used
   for invariants.

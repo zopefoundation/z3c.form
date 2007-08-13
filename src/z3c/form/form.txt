@@ -872,6 +872,42 @@ Let's now resubmit the form with valid data, so the data should be updated.
   >>> stephan.age
   27
 
+When an edit form is successfully committed, a detailed object-modified event
+is sent out telling the system about the changes. To see the error, let's
+create an event subscriber for object-modified events:
+
+  >>> eventlog = []
+  >>> import zope.lifecycleevent
+  >>> @zope.component.adapter(zope.lifecycleevent.ObjectModifiedEvent)
+  ... def logEvent(event):
+  ...     eventlog.append(event)
+  >>> zope.component.provideHandler(logEvent)
+
+Let's now submit the form again, successfully changing the age:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.name': u'Claudia Richter',
+  ...     'form.widgets.gender': ['female'],
+  ...     'form.widgets.age': u'29',
+  ...     'form.buttons.apply': u'Apply'}
+  ...     )
+
+  >>> editForm = PersonEditForm(root[u'srichter'], request)
+  >>> addTemplate(editForm)
+  >>> editForm.update()
+
+We can now look at the event:
+
+  >>> event = eventlog[-1]
+  >>> event
+  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+
+  >>> attrs = event.descriptions[0]
+  >>> attrs.interface
+  <InterfaceClass __builtin__.IPerson>
+  >>> attrs.attributes
+  ('age',)
+
 
 Successful Action with No Changes
 ---------------------------------
@@ -881,7 +917,7 @@ When submitting the form without any changes, the form will tell you so.
   >>> request = TestRequest(form={
   ...     'form.widgets.name': u'Claudia Richter',
   ...     'form.widgets.gender': ['female'],
-  ...     'form.widgets.age': u'27',
+  ...     'form.widgets.age': u'29',
   ...     'form.buttons.apply': u'Apply'}
   ...     )
 
@@ -1052,7 +1088,7 @@ Creating a display form is simple; just instantiate, update and render it:
       </div>
       <div class="row">
         <span id="form-widgets-age" class="text-widget int-field">
-          27
+          29
         </span>
       </div>
     </body>
@@ -1282,5 +1318,5 @@ We can see that the widget gets rendered as hidden:
   ...
   <input type="hidden" id="form-widgets-age"
          name="form.widgets.age" class="hidden-widget"
-         value="27" />
+         value="29" />
   ...

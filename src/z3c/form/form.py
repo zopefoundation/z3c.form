@@ -32,7 +32,7 @@ from z3c.form.i18n import MessageFactory as _
 
 
 def applyChanges(form, content, data):
-    changed = False
+    changes = {}
     for name, field in form.fields.items():
         # If the field is not in the data, then go on to the next one
         if name not in data:
@@ -44,8 +44,9 @@ def applyChanges(form, content, data):
         # Only update the data, if it is different
         if dm.get() != data[name]:
             dm.set(data[name])
-            changed = True
-    return changed
+            # Record the change using information required later
+            changes.setdefault(dm.field.interface, []).append(name)
+    return changes
 
 
 def extends(*args, **kwargs):
@@ -206,11 +207,18 @@ class EditForm(Form):
 
     def applyChanges(self, data):
         content = self.getContent()
-        changed = applyChanges(self, content, data)
-        if changed:
+        changes = applyChanges(self, content, data)
+        # ``changes`` is a dictionary; if empty, there were no changes
+        if changes:
+            # Construct change-descriptions for the object-modified event
+            descriptions = []
+            for interface, names in changes.items():
+                descriptions.append(
+                    zope.lifecycleevent.Attributes(interface, *names))
+            # Send out a detailed object-modified event
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content))
-        return changed
+                zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
+        return changes
 
     @button.buttonAndHandler(_('Apply'), name='apply')
     def handleApply(self, action):
@@ -218,8 +226,8 @@ class EditForm(Form):
         if errors:
             self.status = self.formErrorsMessage
             return
-        changed = self.applyChanges(data)
-        if changed:
+        changes = self.applyChanges(data)
+        if changes:
             self.status = self.successMessage
         else:
             self.status = self.noChangesMessage

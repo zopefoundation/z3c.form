@@ -28,7 +28,7 @@ from zope.security import checker
 from zope.app.testing import setup
 
 from z3c.form import browser, button, converter, datamanager, error, field
-from z3c.form import interfaces, term, validator, widget
+from z3c.form import form, interfaces, term, validator, widget
 from z3c.form.browser import radio, select, text
 
 
@@ -143,6 +143,8 @@ def setupFormDefaults():
     zope.component.provideAdapter(button.ButtonActions)
     # Adapter to use form.handlers to generate handle actions
     zope.component.provideAdapter(button.ButtonActionHandler)
+    # Subscriber handling action execution error events
+    zope.component.provideHandler(form.handleActionError)
     # Error View(s)
     zope.component.provideAdapter(error.ErrorViewSnippet)
     zope.component.provideAdapter(error.InvalidErrorViewSnippet)

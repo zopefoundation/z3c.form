@@ -89,6 +89,9 @@
   <adapter
       factory=".button.ButtonActionHandler"
       />
+  <subscriber
+      handler=".form.handleActionError"
+      />
 
   <!-- Error Views -->
   <adapter

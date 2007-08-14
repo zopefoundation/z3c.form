@@ -22,6 +22,30 @@ import zope.component
 from z3c.form import interfaces, util
 
 
+class ActionEvent(object):
+    zope.interface.implements(interfaces.IActionEvent)
+
+    def __init__(self, action):
+        self.action = action
+
+    def __repr__(self):
+        return '<%s for %r>' %(self.__class__.__name__, self.action)
+
+
+class ActionErrorOccurred(ActionEvent):
+    """An event telling the system that an error occurred during action
+    execution."""
+    zope.interface.implements(interfaces.IActionErrorEvent)
+
+    def __init__(self, action, error):
+        super(ActionErrorOccurred, self).__init__(action)
+        self.error = error
+
+
+class ActionSuccessful(ActionEvent):
+    """An event signalizing that an action has been successfully executed."""
+
+
 class Action(object):
     """Action class."""
 
@@ -66,13 +90,18 @@ class Actions(util.Manager):
 
     def execute(self):
         """See z3c.form.interfaces.IActions."""
-        adapter = None
         for action in self.executedActions:
-            adapter = zope.component.queryMultiAdapter(
+            handler = zope.component.queryMultiAdapter(
                 (self.form, self.request, self.content, action),
                 interface=interfaces.IActionHandler)
-            if adapter is not None:
-                return adapter()
+            if handler is not None:
+                try:
+                    result = handler()
+                except interfaces.ActionExecutionError, error:
+                    zope.event.notify(ActionErrorOccurred(action, error))
+                else:
+                    zope.event.notify(ActionSuccessful(action))
+                    return result
 
     def __repr__(self):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)

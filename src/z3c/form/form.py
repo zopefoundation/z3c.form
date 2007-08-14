@@ -66,6 +66,34 @@ def extends(*args, **kwargs):
             f_locals['handlers'] += getattr(arg, 'handlers', button.Handlers())
 
 
+@zope.component.adapter(interfaces.IActionErrorEvent)
+def handleActionError(event):
+    # Only react to the event, if the form is a standard form.
+    if not (interfaces.IFormAware.providedBy(event.action) and
+            interfaces.IForm.providedBy(event.action.form)):
+        return
+    # If the error was widget-specific, look up the widget.
+    widget = None
+    if isinstance(event.error, interfaces.WidgetActionExecutionError):
+        widget = event.action.form.widgets[event.error.widgetName]
+    # Create an error view for the error.
+    action = event.action
+    form = action.form
+    errorView = zope.component.getMultiAdapter(
+        (event.error.error, action.request, widget,
+         getattr(widget, 'field', None), form, form.getContent()),
+        interfaces.IErrorViewSnippet)
+    errorView.update()
+    # Assign the error view to all necessary places.
+    if widget:
+        widget.error = errorView
+    form.widgets.errors += (errorView,)
+    # If the form supports the ``formErrorsMessage`` attribute, then set the
+    # status to it.
+    if hasattr(form, 'formErrorsMessage'):
+        form.status = form.formErrorsMessage
+
+
 class BaseForm(browser.BrowserPage):
     """A base form."""
     zope.interface.implements(interfaces.IForm,

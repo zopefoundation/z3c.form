@@ -522,6 +522,25 @@ class IFieldWidget(zope.interface.Interface):
 
 # ----[ Actions ]------------------------------------------------------------
 
+class ActionExecutionError(Exception):
+    """An error that occurs during the execution of an action handler."""
+
+    def __init__(self, error):
+        self.error = error
+
+    def __repr__(self):
+        return '<%s wrapping %r>' %(self.__class__.__name__, self.error)
+
+
+class WidgetActionExecutionError(ActionExecutionError):
+    """An action execution error that occurred due to a widget value being
+    incorrect."""
+
+    def __init__(self, widgetName, error):
+        ActionExecutionError.__init__(self, error)
+        self.widgetName = widgetName
+
+
 class IAction(zope.interface.Interface):
     """Action"""
 
@@ -544,6 +563,25 @@ class IActionHandler(zope.interface.Interface):
     """Action handler."""
 
 
+class IActionEvent(zope.interface.Interface):
+    """An event specific for an action."""
+
+    action = zope.schema.Object(
+        title=_('Action'),
+        description=_('The action for which the event is created.'),
+        schema=IAction,
+        required=True)
+
+
+class IActionErrorEvent(IActionEvent):
+    """An action event that is created when an error occurred."""
+
+    error = zope.schema.Field(
+        title=_('Error'),
+        description=_('The error that occurred during the action.'),
+        required=True)
+
+
 class IActions(IManager):
     """A action manager"""
 
@@ -554,7 +592,12 @@ class IActions(IManager):
         """Setup actions."""
 
     def execute():
-        """Exceute actions."""
+        """Exceute actions.
+
+        If an action execution error is raised, the system is notified using
+        the action occurred error; on the other hand, if successful, the
+        action successfull event is sent to the system.
+        """
 
 
 class IButton(zope.schema.interfaces.IField):

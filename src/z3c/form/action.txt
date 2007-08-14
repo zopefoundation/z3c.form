@@ -185,3 +185,55 @@ Of course it only works for the "Apply" action and not ""Cancel":
   >>> request = TestRequest(form={'cancel': 'Cancel'})
   >>> manager.request = apply.request = cancel.request = request
   >>> manager.execute()
+
+Further, when a handler is successfully executed, an event is sent out, so
+let's register an event handler:
+
+  >>> eventlog = []
+  >>> @zope.component.adapter(interfaces.IActionEvent)
+  ... def handleEvent(event):
+  ...     eventlog.append(event)
+
+  >>> zope.component.provideHandler(handleEvent)
+
+Let's now execute the "Apply" action again:
+
+  >>> request = TestRequest(form={'apply': 'Apply'})
+  >>> manager.request = apply.request = cancel.request = request
+  >>> manager.execute()
+  successfully applied
+
+  >>> eventlog[-1]
+  <ActionSuccessful for <Action 'apply' u'Apply'>>
+
+Action handlers, however, can also raise action errors. These action errors
+are caught and an event is created notifying the system of the problem. The
+error is not further propagated. Other errors are not handled by the system to
+avoid hiding real failures of the code.
+
+Let's see how action errors can be used by implementing a handler for the
+cancel action:
+
+  >>> class ErrorActionHandler(action.ActionHandlerBase):
+  ...     zope.component.adapts(
+  ...         None, TestRequest, None, util.getSpecification(cancel))
+  ...     def __call__(self):
+  ...         raise interfaces.ActionExecutionError(
+  ...             zope.interface.Invalid('Something went wrong'))
+
+  >>> zope.component.provideAdapter(ErrorActionHandler)
+
+As you can see, the action execution error wraps some other execption, in this
+case a simple invalid error.
+
+Executing the "Cancel" action now produces the action error event:
+
+  >>> request = TestRequest(form={'cancel': 'Cancel'})
+  >>> manager.request = apply.request = cancel.request = request
+  >>> manager.execute()
+
+  >>> eventlog[-1]
+  <ActionErrorOccurred for <Action 'cancel' u'Cancel'>>
+
+  >>> eventlog[-1].error
+  <ActionExecutionError wrapping <zope.interface.exceptions.Invalid ...>>

@@ -5,6 +5,24 @@ CHANGES
 Version 1.6.0 (?/??/2007)
 -------------------------
 
+- Feature: An event handler for ``ActionErrorOccurred`` events is registered
+  to merge the action error into the form's error collectors, such as
+  ``form.widgets.errors`` and ``form.widgets['name'].error`` (if
+  applicable). It also sets the status of the form. (Thanks to Herman
+  Himmelbauer, who requested the feature, for providing use cases.)
+
+- Feature: Action can now raise ``ActionExecutionError`` exceptions that will
+  be handled by the framework. These errors wrap the original error. If an
+  error is specific to a widget, then the widget name is passed to a special
+  ``WidgetActionExecutionError`` error. (Thanks to Herman Himmelbauer, who
+  requested the feature, for providing use cases.)
+
+- Feature: After an action handler has been executed, an action executed event
+  is sent to the system. If the execution was successful, the event is
+  ``ActionSuccessfull`` event is sent. If an action execution error was
+  raised, the ``ActionErrorOccurred`` event is raised. (Thanks to Herman
+  Himmelbauer, who requested the feature, for providing use cases.)
+
 - Feature: The ``applyChanges()`` function now returns a dictionary of changes
   (grouped by interface) instead of a boolean. This allows us to generate a
   more detailed object-modified event. If no changes are applied, an empty

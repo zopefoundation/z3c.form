@@ -1158,7 +1158,7 @@ demonstrate the problem:
   ...     fields = field.Fields(IPerson).select('name')
   ...
   ...     @button.buttonAndHandler(u'Apply')
-  ...     def handleApply(self, form):
+  ...     def handleApply(self, action):
   ...         print 'success'
 
   >>> BaseForm.fields.keys()
@@ -1174,7 +1174,7 @@ Let's now derive a form from the base form:
   ...     fields = field.Fields(IPerson).select('gender')
   ...
   ...     @button.buttonAndHandler(u'Cancel')
-  ...     def handleCancel(self, form):
+  ...     def handleCancel(self, action):
   ...         print 'cancel'
 
   >>> DerivedForm.fields.keys()
@@ -1195,7 +1195,7 @@ over:
   ...     fields += field.Fields(IPerson).select('gender')
   ...
   ...     @button.buttonAndHandler(u'Cancel')
-  ...     def handleCancel(self, form):
+  ...     def handleCancel(self, action):
   ...         print 'cancel'
 
   >>> DerivedForm.fields.keys()
@@ -1216,7 +1216,7 @@ method that will do the extending for you:
   ...     fields += field.Fields(IPerson).select('gender')
   ...
   ...     @button.buttonAndHandler(u'Cancel')
-  ...     def handleCancel(self, form):
+  ...     def handleCancel(self, action):
   ...         print 'cancel'
 
   >>> DerivedForm.fields.keys()
@@ -1237,7 +1237,7 @@ turn that off:
   ...     fields += field.Fields(IPerson).select('gender')
   ...
   ...     @button.buttonAndHandler(u'Cancel')
-  ...     def handleCancel(self, form):
+  ...     def handleCancel(self, action):
   ...         print 'cancel'
 
   >>> DerivedForm.fields.keys()
@@ -1320,3 +1320,77 @@ We can see that the widget gets rendered as hidden:
          name="form.widgets.age" class="hidden-widget"
          value="29" />
   ...
+
+
+Actions with Errors
+-------------------
+
+Even though the data might be validated correctly, it sometimes happens that
+data turns out to be invalid while the action is executed. In those cases a
+special action execution error can be raised that wraps the original error.
+
+  >>> class PersonAddForm(form.AddForm):
+  ...
+  ...     fields = field.Fields(IPerson).select('id')
+  ...
+  ...     @button.buttonAndHandler(u'Check')
+  ...     def handleCheck(self, action):
+  ...         data, errors = self.extractData()
+  ...         if data['id'] in self.getContent():
+  ...             raise interfaces.WidgetActionExecutionError(
+  ...                 'id', zope.interface.Invalid('Id already exists'))
+
+In this case the action execution error is specific to a widget. The framework
+will attach a proper error view to the widget and the widget manager:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.id': u'srichter',
+  ...     'form.buttons.check': u'Check'}
+  ...     )
+
+  >>> addForm = PersonAddForm(root, request)
+  >>> addForm.update()
+
+  >>> addForm.widgets.errors
+  (<InvalidErrorViewSnippet for Invalid>,)
+  >>> addForm.widgets['id'].error
+  <InvalidErrorViewSnippet for Invalid>
+  >>> addForm.status
+  u'There were some errors.'
+
+If the error is non-widget specific, then we can simply use the generic action
+execution error:
+
+  >>> class PersonAddForm(form.AddForm):
+  ...
+  ...     fields = field.Fields(IPerson).select('id')
+  ...
+  ...     @button.buttonAndHandler(u'Check')
+  ...     def handleCheck(self, action):
+  ...         raise interfaces.ActionExecutionError(
+  ...             zope.interface.Invalid('Some problem occurred.'))
+
+Let's have a look at the result:
+
+  >>> addForm = PersonAddForm(root, request)
+  >>> addForm.update()
+
+  >>> addForm.widgets.errors
+  (<InvalidErrorViewSnippet for Invalid>,)
+  >>> addForm.status
+  u'There were some errors.'
+
+__Note__:
+
+  The action execution errors are connected to the form via an event
+  listener called ``handlerActionError``. This event listener listens for
+  ``IActionErrorEvent`` events. If the event is called for an action associated
+  with a form, the listener does its work as seen above. If the action is not
+  coupled to a form, then event listener does nothing:
+
+    >>> from z3c.form import action
+
+    >>> cancel = action.Action(request, u'Cancel')
+    >>> event = action.ActionErrorOccurred(cancel, ValueError(3))
+
+    >>> form.handleActionError(event)

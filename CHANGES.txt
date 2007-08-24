@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-Version 1.6.0 (?/??/2007)
+Version 1.6.0 (8/24/2007)
 -------------------------
 
 - Feature: An event handler for ``ActionErrorOccurred`` events is registered

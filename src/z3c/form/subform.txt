@@ -336,7 +336,7 @@ Rendering the form works as before:
     </body>
   </html>
 
-The itnersting part of this setup is that the "Apply" button calls the action
+The interesting part of this setup is that the "Apply" button calls the action
 handlers for both, the main and the sub-form:
 
   >>> request = TestRequest(form={
@@ -470,6 +470,7 @@ occurs:
     ...
     <fieldset>
       <legend>Owner</legend>
+      <i>There were some errors.</i>
       <ul>
         <li>
           Name: <div class="error">Constraint not satisfied</div>

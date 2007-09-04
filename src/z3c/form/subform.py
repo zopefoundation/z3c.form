@@ -39,7 +39,7 @@ class EditSubForm(form.BaseForm):
     def handleApply(self, action):
         data, errors = self.widgets.extract()
         if errors:
-            form.status = self.formErrorsMessage
+            self.status = self.formErrorsMessage
             return
         content = self.getContent()
         changed = form.applyChanges(self, content, data)

@@ -284,3 +284,22 @@ class CollectionSequenceDataConverter(BaseDataConverter):
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]
         return collectionType([widget.terms.getValue(token) for token in value])
+
+
+class BoolSingleCheckboxDataConverter(BaseDataConverter):
+    "A special converter between boolean fields and single checkbox widgets."
+
+    zope.component.adapts(
+        zope.schema.interfaces.IBool, interfaces.ISingleCheckBoxWidget)
+
+    def toWidgetValue(self, value):
+        """Convert from Python bool to HTML representation."""
+        if value:
+            return ['selected']
+        return []
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        if value and value[0] == 'selected':
+            return True
+        return False

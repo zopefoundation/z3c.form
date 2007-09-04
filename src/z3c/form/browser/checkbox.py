@@ -21,9 +21,10 @@ import zope.component
 import zope.interface
 import zope.schema
 import zope.schema.interfaces
+from zope.schema import vocabulary
 from zope.i18n import translate
 
-from z3c.form import interfaces
+from z3c.form import interfaces, term
 from z3c.form.widget import SequenceWidget, FieldWidget
 from z3c.form.browser import widget
 
@@ -60,3 +61,24 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
 def CheckBoxFieldWidget(field, request):
     """IFieldWidget factory for CheckBoxWidget."""
     return FieldWidget(field, CheckBoxWidget(request))
+
+
+class SingleCheckBoxWidget(CheckBoxWidget):
+    """Single Input type checkbox widget implementation."""
+    zope.interface.implementsOnly(interfaces.ISingleCheckBoxWidget)
+
+    klass = u'single-checkbox-widget'
+
+    def updateTerms(self):
+        if self.terms is None:
+            self.terms = term.Terms()
+            self.terms.terms = vocabulary.SimpleVocabulary((
+                vocabulary.SimpleTerm('selected', 'selected', self.label), ))
+        return self.terms
+
+
+@zope.component.adapter(zope.schema.interfaces.IBool, interfaces.IFormLayer)
+@zope.interface.implementer(interfaces.IFieldWidget)
+def SingleCheckBoxFieldWidget(field, request):
+    """IFieldWidget factory for CheckBoxWidget."""
+    return FieldWidget(field, SingleCheckBoxWidget(request))

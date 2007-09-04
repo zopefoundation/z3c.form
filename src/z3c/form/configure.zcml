@@ -64,6 +64,9 @@
       factory=".converter.CollectionSequenceDataConverter"
       />
   <adapter
+      factory=".converter.BoolSingleCheckboxDataConverter"
+      />
+  <adapter
       factory=".converter.FieldWidgetDataConverter"
       />
 

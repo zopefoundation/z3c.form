@@ -602,3 +602,35 @@ The same is true when getting the field value:
 
   >>> seqWidget.terms
   <z3c.form.term.CollectionTerms object ...>
+
+
+Boolean to Single Checkbox Data Converter
+-----------------------------------------
+
+The conversion from any field to the single checkbox widget value is a special
+case, because it has to be defined what selecting the value means. In the case
+of the boolean field, "selected" means ``True`` and if unselected, ``False``
+is returned:
+
+  >>> boolField = zope.schema.Bool()
+
+  >>> bscbx = converter.BoolSingleCheckboxDataConverter(boolField, seqWidget)
+  >>> bscbx
+  <BoolSingleCheckboxDataConverter converts from Bool to SequenceWidget>
+
+Let's now convert boolean field to widget values:
+
+  >>> bscbx.toWidgetValue(True)
+  ['selected']
+  >>> bscbx.toWidgetValue(False)
+  []
+
+Converting back is equally simple:
+
+  >>> bscbx.toFieldValue(['selected'])
+  True
+  >>> bscbx.toFieldValue([])
+  False
+
+Note that this widget has no concept of missing value, since it can only
+represent two states by desgin.

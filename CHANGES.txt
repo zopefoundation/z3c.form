@@ -5,6 +5,10 @@ CHANGES
 Version 1.7.0 (9/??/2007)
 -------------------------
 
+- Feature: Implemented single checkbox widget that can be used for boolean
+  fields. They are not available by default but can be set using the
+  ``widgetFactory`` attribute.
+
 - Bug: When rendering a widget the ``style`` attribute was not honored. Thanks
   to Andreas Reuleaux for reporting.
 

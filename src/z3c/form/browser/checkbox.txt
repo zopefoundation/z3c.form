@@ -3,18 +3,18 @@ CheckBoxWidget
 ==============
 
 Note: the checkbox widget isn't registered for a field by default. You can use
-the widgetFactory argument of a IField object if you construct fields or
-set the custom widget factory on selected fields later.
+the ``widgetFactory`` argument of a ``IField`` object if you construct fields
+or set the custom widget factory on selected fields later.
 
-The CheckBoxWidget renders a checkbox input type field e.g.
-<input type="checkbox" />
+The ``CheckBoxWidget`` widget renders a checkbox input type field e.g.  <input
+type="checkbox" />
 
   >>> from zope.interface.verify import verifyClass
   >>> from zope.app.form.interfaces import IInputWidget
   >>> from z3c.form import interfaces
   >>> from z3c.form.browser import checkbox
 
-The TextWidget is a widget:
+The ``CheckboxWidget`` is a widget:
 
   >>> verifyClass(interfaces.IWidget, checkbox.CheckBoxWidget)
   True
@@ -80,7 +80,7 @@ Now let's try if we get widget values:
     <label for="widget-id-0">
       <span class="label">yes</span>
     </label>
-  </span><span class="option">
+      </span><span class="option">
     <input type="checkbox" id="widget-id-1" name="widget.name:list"
            class="checkbox-widget" value="false" />
     <label for="widget-id-1">
@@ -110,3 +110,70 @@ field get rendered with a checked flag:
     </label>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
+
+
+Single Checkbox Widget
+----------------------
+
+Instead of using the checkbox widget as an UI component to allow multiple
+selection from a list of choices, it can be also used by itself to toggle a
+selection, effectively making it a binary selector. So in this case it lends
+itself well as a boolean UI input component.
+
+The ``SingleCheckboxWidget`` is a widget:
+
+  >>> verifyClass(interfaces.IWidget, checkbox.SingleCheckBoxWidget)
+  True
+
+The widget can render a input field only by adapting a request:
+
+  >>> request = TestRequest()
+  >>> widget = checkbox.SingleCheckBoxWidget(request)
+
+Set a name and id for the widget:
+
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+
+Such a widget provides the ``IWidget`` interface:
+
+  >>> interfaces.IWidget.providedBy(widget)
+  True
+
+For there to be a sensible output, we need to give the widget a label:
+
+  >>> widget.label = u'Do you want that?'
+
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="option">
+    <input type="checkbox" id="widget-id-0"
+           name="widget.name:list"
+           class="single-checkbox-widget" value="selected" />
+    <label for="widget-id-0">
+      <span class="label">Do you want that?</span>
+    </label>
+  </span>
+  <input name="widget.name-empty-marker" type="hidden"
+         value="1" />
+
+Initially, the box is not checked. Changing the widget value to the selection
+value, ...
+
+  >>> widget.value = ['selected']
+
+will make the box checked:
+
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="option">
+    <input type="checkbox" id="widget-id-0"
+           name="widget.name:list"
+           class="single-checkbox-widget" value="selected"
+           checked="checked" />
+    <label for="widget-id-0">
+      <span class="label">Do you want that?</span>
+    </label>
+  </span>
+  <input name="widget.name-empty-marker" type="hidden"
+         value="1" />

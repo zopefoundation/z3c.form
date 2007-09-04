@@ -438,6 +438,9 @@ class IOrderedSelectWidget(ISequenceWidget):
 class ICheckBoxWidget(ISequenceWidget):
     """Checbox widget."""
 
+class ISingleCheckBoxWidget(ICheckBoxWidget):
+    """Single Checbox widget."""
+
 class IRadioWidget(ISequenceWidget):
     """Radio widget."""
 

@@ -105,7 +105,7 @@ class IData(zope.interface.Interface):
 class IValidator(zope.interface.Interface):
     """A validator for a particular value."""
 
-    def validate(self, value):
+    def validate(value):
         """Validate the value.
 
         If successful, return ``None``. Otherwise raise an ``Invalid`` error.
@@ -114,7 +114,7 @@ class IValidator(zope.interface.Interface):
 class IManagerValidator(zope.interface.Interface):
     """A validator that validates a set of data."""
 
-    def validate(self, data):
+    def validate(data):
         """Validate a dictionary of data.
 
         This method is only responsible of validating relationships between
@@ -125,7 +125,7 @@ class IManagerValidator(zope.interface.Interface):
         during the validation process.
         """
 
-    def validateObject(self, obj):
+    def validateObject(obj):
         """Validate an object.
 
         The same semantics as in ``validate()`` apply, except that the values
@@ -143,10 +143,10 @@ class IErrorViewSnippet(zope.interface.Interface):
         description=_('Error the view is for.'),
         required=True)
 
-    def update(self):
+    def update():
         """Update view."""
 
-    def render(self):
+    def render():
         """Render view."""
 
 
@@ -239,7 +239,7 @@ class IDataManager(zope.interface.Interface):
 class IDataConverter(zope.interface.Interface):
     """A data converter from field to widget values and vice versa."""
 
-    def toWidgetValue(self, value):
+    def toWidgetValue(value):
         """Convert the field value to a widget output value.
 
         If conversion fails or is not possible, a ``ValueError`` *must* be
@@ -247,7 +247,7 @@ class IDataConverter(zope.interface.Interface):
         incoming value is well-defined.
         """
 
-    def toFieldValue(self, value):
+    def toFieldValue(value):
         """Convert an input value to a field/system internal value.
 
         This methods *must* also validate the converted value against the
@@ -650,7 +650,7 @@ class IButtonHandlers(zope.interface.Interface):
 class IButtonHandler(zope.interface.Interface):
     """A handler managed by the button handlers."""
 
-    def __call__(self, form, action):
+    def __call__(form, action):
         """Execute the handler."""
 
 
@@ -748,7 +748,7 @@ class IForm(zope.interface.Interface):
     def getContent():
         '''Return the content to be displayed and/or edited.'''
 
-    def updateWidgets(self):
+    def updateWidgets():
         '''Update the widgets for the form.
 
         This method is commonly called from the ``update()`` method and is
@@ -815,13 +815,13 @@ class IInputForm(zope.interface.Interface):
 class IAddForm(IForm):
     """A form to create and add a new component."""
 
-    def create(self, data):
+    def create(data):
         """Create the new object using the given data.
 
         Returns the newly created object.
         """
 
-    def add(self, object):
+    def add(object):
         """Add the object somewhere."""
 
 

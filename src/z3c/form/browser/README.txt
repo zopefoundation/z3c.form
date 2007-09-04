@@ -2,10 +2,10 @@
 README
 ======
 
-The z3c.form library provides a form framework and widgets. This document
-should make sure that we implement a widget for each field defined in
-zope.schema. Take a look at the different widget doctest for more information
-about the widgets.
+The ``z3c.form`` library provides a form framework and widgets. This document
+ensures that we implement a widget for each field defined in
+``zope.schema``. Take a look at the different widget doctest files for more
+information about the widgets.
 
   >>> import zope.schema
   >>> from z3c.form import browser

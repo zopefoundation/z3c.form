@@ -2,6 +2,7 @@
        tal:attributes="id view/id;
                        name view/name;
                        class view/klass;
+                       style view/style;
                        lang view/lang;
                        onclick view/onclick;
                        ondblclick view/ondblclick;

@@ -144,6 +144,7 @@ function selectionError()
           tal:attributes="name string:${view/name}.from;
                           id string:${view/id}-from;
                           class view/klass;
+                          style view/style;
                           title view/title;
                           lang view/lang;
                           onclick view/onclick;
@@ -184,6 +185,7 @@ function selectionError()
           tal:attributes="name string:${view/name}.to;
                           id string:${view/id}-to;
                           class view/klass;
+                          style view/style;
                           title view/title;
                           lang view/lang;
                           onclick view/onclick;

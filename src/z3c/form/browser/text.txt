@@ -50,7 +50,8 @@ Adding some more attributes to the widget will make it display more:
   >>> widget.id = 'id'
   >>> widget.name = 'name'
   >>> widget.value = u'value'
+  >>> widget.style = u'color: blue'
 
   >>> print widget.render()
   <input type="text" id="id" name="name" class="text-widget"
-         value="value" />
+         style="color: blue" value="value" />

@@ -127,6 +127,31 @@ For the boolean, the checkbox widget can be used as well:
     <span class="selected-option">yes</span>
   </span>
 
+We can also have a sinle checkbox button for the boolean.
+
+  >>> widget = checkbox.SingleCheckBoxFieldWidget(field, TestRequest())
+  >>> widget.id = 'foo'
+  >>> widget.name = 'bar'
+  >>> widget.update()
+
+  >>> print widget.render()
+  <span class="option">
+    <input type="checkbox" id="foo-0" name="bar:list"
+           class="single-checkbox-widget required bool-field"
+           value="selected" checked="checked" />
+    <label for="foo-0">
+      <span class="label"></span>
+    </label>
+  </span>
+  <input name="bar-empty-marker" type="hidden" value="1" />
+
+  >>> widget.mode = interfaces.DISPLAY_MODE
+  >>> print widget.render()
+  <span id="foo"
+        class="single-checkbox-widget required bool-field">
+    <span class="selected-option"></span>
+  </span>
+
 
 Button
 ------

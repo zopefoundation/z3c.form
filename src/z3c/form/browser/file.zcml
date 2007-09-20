@@ -3,6 +3,13 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="z3c.form">
 
+  <class class=".file.FileWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.IFileWidget"
+        />
+  </class>
+
   <adapter
       factory=".file.FileFieldWidget"
       for="zope.schema.interfaces.IBytes

@@ -3,6 +3,13 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="z3c.form">
 
+  <class class=".orderedselect.OrderedSelectWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.IOrderedSelectWidget"
+        />
+  </class>
+
   <adapter
       factory=".orderedselect.SequenceSelectFieldWidget"
       />

@@ -138,6 +138,11 @@ class IManagerValidator(zope.interface.Interface):
 class IErrorViewSnippet(zope.interface.Interface):
     """A view providing a view for an error"""
 
+    widget = zope.schema.Field(
+        title = _("Widget"),
+        description = _("The widget that the view is on"),
+        required = True)
+
     error = zope.schema.Field(
         title=_('Error'),
         description=_('Error the view is for.'),

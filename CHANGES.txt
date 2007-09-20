@@ -5,6 +5,12 @@ CHANGES
 Version 1.7.0 (9/??/2007)
 -------------------------
 
+- Bug: When an error occurred during processing of the request the
+  widget ended up been security proxies and the system started
+  throwing `TraversalError's trying to access the `label' attribute of
+  the widget. Declared that the widgets require the `zope.Public'
+  permission in order to access these attributes.
+
 - Bug: The `canAccess' and `canWrite' methods on the AttributeField
   datamanager didn't check for the case when the field's interface was
   not directly provided for by the context.

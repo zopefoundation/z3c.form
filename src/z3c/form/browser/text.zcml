@@ -3,6 +3,13 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="z3c.form">
 
+  <class class=".text.TextWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.ITextWidget"
+        />
+  </class>
+
   <adapter
       factory=".text.TextFieldWidget"
       for="zope.schema.interfaces.IBytesLine

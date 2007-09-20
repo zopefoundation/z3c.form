@@ -14,6 +14,13 @@
        if order doesn't matter, you should use a Set of Choice and you will
        get a multi select widget. -->
 
+  <class class=".checkbox.CheckBoxWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.ICheckBoxWidget"
+        />
+  </class>
+
   <z3c:widgetTemplate
       mode="display"
       widget="z3c.form.interfaces.ICheckBoxWidget"

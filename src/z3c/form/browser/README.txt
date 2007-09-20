@@ -15,9 +15,14 @@ configuration.
 
   >>> from zope.configuration import xmlconfig
   >>> import zope.component
+  >>> import zope.app.component
+  >>> import zope.app.security
   >>> import z3c.form
   >>> xmlconfig.XMLConfig('meta.zcml', zope.component)()
+  >>> xmlconfig.XMLConfig('meta.zcml', zope.app.component)()
+  >>> xmlconfig.XMLConfig('meta.zcml', zope.app.security)()
   >>> xmlconfig.XMLConfig('meta.zcml', z3c.form)()
+  >>> xmlconfig.XMLConfig('configure.zcml', zope.app.security)()
   >>> xmlconfig.XMLConfig('configure.zcml', z3c.form)()
 
 also define a helper method for test the widgets:

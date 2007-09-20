@@ -191,6 +191,13 @@ Now we can create a data manager for the city attribute:
 
   >>> cityDm = datamanager.AttributeField(stephan, IAddress['city'])
 
+We can access and write to the city attribute:
+
+  >>> cityDm.canAccess()
+  True
+  >>> cityDm.canWrite()
+  True
+
 Initially there is no value, but of course we can create one:
 
   >>> cityDm.get()

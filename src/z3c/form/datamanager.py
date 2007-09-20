@@ -68,14 +68,20 @@ class AttributeField(DataManager):
 
     def canAccess(self):
         """See z3c.form.interfaces.IDataManager"""
-        if isinstance(self.context, Proxy):
-            return canAccess(self.context, self.field.__name__)
+        context = self.context
+        if self.field.interface is not None:
+            context = self.field.interface(context)
+        if isinstance(context, Proxy):
+            return canAccess(context, self.field.__name__)
         return True
 
     def canWrite(self):
         """See z3c.form.interfaces.IDataManager"""
-        if isinstance(self.context, Proxy):
-            return canWrite(self.context, self.field.__name__)
+        context = self.context
+        if self.field.interface is not None:
+            context = self.field.interface(context)
+        if isinstance(context, Proxy):
+            return canWrite(context, self.field.__name__)
         return True
 
 class DictionaryField(DataManager):

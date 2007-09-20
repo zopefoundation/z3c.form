@@ -692,7 +692,7 @@ declaration.
 Let's have a look at the default form first. Initially, the standard
 registered widgets are used:
 
-  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, srichter)
   >>> manager.update()
 
   >>> manager['firstName']
@@ -709,10 +709,11 @@ Now we would like to have our own custom input widget:
 It can be simply assigned as follows:
 
   >>> personForm.fields['firstName'].widgetFactory = CustomInputWidgetFactory
+  >>> personForm.fields['lastName'].widgetFactory = CustomInputWidgetFactory
 
 Now this widget should be used instead of the registered default one:
 
-  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, srichter)
   >>> manager.update()
   >>> manager['firstName']
   <CustomInputWidget 'form.widgets.firstName'>
@@ -721,7 +722,7 @@ In the background the widget factory assignment really just registered the
 default factory for in the ``WidgetFactories`` object, which manages the
 custom widgets for all modes. Now all modes show this input widget:
 
-  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, srichter)
   >>> manager.mode = interfaces.DISPLAY_MODE
   >>> manager.update()
   >>> manager['firstName']
@@ -737,22 +738,30 @@ However, we can also register a specific widget for the display mode:
 
   >>> personForm.fields['firstName']\
   ...     .widgetFactory[interfaces.DISPLAY_MODE] = CustomDisplayWidgetFactory
+  >>> personForm.fields['lastName']\
+  ...     .widgetFactory[interfaces.DISPLAY_MODE] = CustomDisplayWidgetFactory
 
 Now the display mode should produce the custom display widget, ...
 
-  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, srichter)
   >>> manager.mode = interfaces.DISPLAY_MODE
   >>> manager.update()
   >>> manager['firstName']
   <CustomDisplayWidget 'form.widgets.firstName'>
+  >>> manager['lastName']
+  <CustomDisplayWidget 'form.widgets.lastName'>
 
-... while the input mode still shows the default custom input widget:
+... while the input mode still shows the default custom input widget
+on the `lastName' field but not on the `firstName' field since we
+don't have the `test.Edit' permission:
 
-  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager = field.FieldWidgets(personForm, request, srichter)
   >>> manager.mode = interfaces.INPUT_MODE
   >>> manager.update()
   >>> manager['firstName']
-  <CustomInputWidget 'form.widgets.firstName'>
+  <CustomDisplayWidget 'form.widgets.firstName'>
+  >>> manager['lastName']
+  <CustomInputWidget 'form.widgets.lastName'>
 
 The widgets factories component,
 
@@ -797,4 +806,3 @@ then the dictionary behaves as usual:
   >>> factories.get(interfaces.DISPLAY_MODE)
   <function CustomDisplayWidgetFactory at ...>
   >>> factories.get(interfaces.INPUT_MODE)
-

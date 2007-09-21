@@ -216,7 +216,7 @@ solution, it allows us to mimic the behavior of ``zope.formlib``. We think
 that we will eventually provide alternative ways to accomplish the same in a
 more explicit way.
 
-Finally, if we try to set a value that is read-only, a type error is raised:
+If we try to set a value that is read-only, a type error is raised:
 
   >>> readOnlyName = zope.schema.TextLine(
   ...     __name__='name',
@@ -229,6 +229,24 @@ Finally, if we try to set a value that is read-only, a type error is raised:
   TypeError: Can't set values on read-only fields
              (name=name, class=__builtin__.Person)
 
+Finally, we instantiate the data manager with a `zope.schema'
+field. And we can access the different methods like before.
+
+  >>> nameDm = datamanager.AttributeField(
+  ...    stephan, zope.schema.TextLine(__name__ = 'name'))
+  >>> nameDm.canAccess()
+  True
+  >>> nameDm.canWrite()
+  True
+
+  >>> nameDm.get()
+  u'Stephan "Caveman" Richter'
+  >>> nameDm.query()
+  u'Stephan "Caveman" Richter'
+
+  >>> nameDm.set(u'Stephan Richter')
+  >>> nameDm.get()
+  u'Stephan Richter'
 
 Dictionary Field Manager
 ------------------------

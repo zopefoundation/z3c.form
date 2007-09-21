@@ -63,7 +63,9 @@ class AttributeField(DataManager):
                                self.context.__class__.__module__,
                                self.context.__class__.__name__))
         # get the right adapter or context
-        context = self.field.interface(self.context)
+        context = self.context
+        if self.field.interface is not None:
+            context = self.field.interface(context)
         setattr(context, self.field.__name__, value)
 
     def canAccess(self):

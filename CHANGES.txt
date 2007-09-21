@@ -11,7 +11,7 @@ Version 1.7.0 (9/??/2007)
   the widget. Declared that the widgets require the `zope.Public'
   permission in order to access these attributes.
 
-- Bug: The `canAccess' and `canWrite' methods on the AttributeField
+- Bug: The `canAccess', `canWrite' and `set' methods on the AttributeField
   datamanager didn't check for the case when the field's interface was
   not directly provided for by the context.
 

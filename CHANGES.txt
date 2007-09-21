@@ -11,9 +11,9 @@ Version 1.7.0 (9/??/2007)
   the widget. Declared that the widgets require the `zope.Public'
   permission in order to access these attributes.
 
-- Bug: The `canAccess', `canWrite' and `set' methods on the AttributeField
-  datamanager didn't check for the case when the field's interface was
-  not directly provided for by the context.
+- Feature: The ``AttributeField`` data manager now supports adapting
+  the content to the fields interface when the content doesn't implement
+  this interface.
 
 - Feature: Implemented single checkbox widget that can be used for boolean
   fields. They are not available by default but can be set using the

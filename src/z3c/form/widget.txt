@@ -8,7 +8,7 @@ user, allow it to be modified and then return a new value. Good examples of
 widgets include the Qt widgets and HTML widgets. The widget is not responsible
 for converting its value to the desired internal value or validate the
 incoming data. These responsibilities are passed data converters and
-validators, respecitively.
+validators, respectively.
 
 There are several problems that can be identified in the original Zope 3 widget
 implementation located at ``zope.app.form``.

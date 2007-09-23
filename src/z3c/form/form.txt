@@ -203,18 +203,22 @@ The next step is to determine the value that should be displayed by the
 widget. This value could come from three places (looked up in this order):
 
 1. The field's default value.
-2. The content of the form, which represents the displayed data.
-3. The request, in case a form has not been submitted or an error occurred.
+2. The context object that the form is representing.
+3. The request in case a form has not been submitted or an error occurred.
 
-Since we are currently building an add form, the second place is not
-effective. And since we do not have anything in the request, the value should
-be the field's default value or be empty.
+Since we are currently building an add form and not an edit form,
+there is no context object to represent, so the second step is not
+applicable. The third step is also not applicable as we do not have
+anything in the request. Therefore, the value should be the field's
+default value, or be empty. In this case the field provides a default
+value:
 
   >>> age.value
   u'20'
 
-Since the widget only deals with output-ready values, the system also converts
-the value using a data converter.
+While the default of the age field is actually the integer ``20``, the
+widget has converted the value to the output-ready string ``'20'``
+using a data converter.
 
 Widget Mode
 ~~~~~~~~~~~

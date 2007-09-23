@@ -116,11 +116,11 @@ Thus let's now create a working add form:
   ...     def nextURL(self):
   ...         return 'index.html'
 
-This is as simple as it gets. We explicitely define the pieces that are
-custom to every situation and let the default setup of the framework do the
-rest. Yes, this looks extremely similar to ``zope.formlib`` and it is
-intentional so, because we really like the simplicity of ``zope.formlib``'s
-way of dealing with the common use cases.
+This is as simple as it gets. We explicitely define the pieces that
+are custom to every situation and let the default setup of the
+framework do the rest. This is intentionally similar to
+``zope.formlib``, because we really like the simplicity of
+``zope.formlib``'s way of dealing with the common use cases.
 
 During the test setup we also brought up a root folder already, so let's try
 to add a new person object there. For this add form, of course, the context is

@@ -156,7 +156,7 @@ the ``IForm`` interface:
   >>> addForm.widgets
   <z3c.form.field.FieldWidgets object at ...>
 
-The widget manager will have three widgets, one for each field:
+The widget manager will have four widgets, one for each field:
 
   >>> addForm.widgets.keys()
   ['id', 'name', 'gender', 'age']

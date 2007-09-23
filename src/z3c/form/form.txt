@@ -122,21 +122,21 @@ framework do the rest. This is intentionally similar to
 ``zope.formlib``, because we really like the simplicity of
 ``zope.formlib``'s way of dealing with the common use cases.
 
-During the test setup we also brought up a root folder already, so let's try
-to add a new person object there. For this add form, of course, the context is
-now the root folder:
+Let's try to add to add a new person object to the root folder (which
+was created during test setup).  For this add form, of course, the
+context is now the root folder:
 
   >>> request = TestRequest()
   >>> addForm = PersonAddForm(root, request)
 
-Since forms are not necessarily pages -- in fact often they are not -- they
-must not have a ``__call__`` method that does all the processing and rendering
-at once. Instead, this form embraces the update/render pattern. Thus, we first
-call the ``update()`` method.
+Since forms are not necessarily pages -- in fact often they are not --
+they must not have a ``__call__`` method that does all the processing
+and rendering at once. Instead, we use the update/render
+pattern. Thus, we first call the ``update()`` method.
 
   >>> addForm.update()
 
-Actually a lot of things happen during this stage. Let me step through it one
+Actually a lot of things happen during this stage. Let us step through it one
 by one pointing out the effects.
 
 

@@ -38,7 +38,7 @@ implementation located at ``zope.app.form``.
     require rewriting the entire form to change a label. Instead, we often
     endde up writing cusom schemas.
 
-(5) Flexbility -- Oftentimes it is desired to have one widget, but multiple
+(5) Flexibility -- Oftentimes it is desired to have one widget, but multiple
     styles of representation. For example, in one scenario the widget uses a
     plain HTML widget and in another a fancy JavaScript widget is used. The
     current implementation makes it very hard to provide alternative styles

@@ -457,7 +457,7 @@ Note that the values of the field are now extracted from the request.
 
 Another way to receive an error is by not fulfilling the invariants of the
 schema. In our case, the id and name cannot be the same. So let's provoke the
-error now, ...
+error now:
 
   >>> request = TestRequest(form={
   ...     'form.widgets.id': u'Stephan',

@@ -513,8 +513,8 @@ easily.
 Context-free subforms
 ---------------------
 
-Ok, that was easy. But what about write a form including a subform wihtout a
-context? Let's show how we can write a form wihtout any concext using the
+Ok, that was easy. But what about write a form including a subform without a
+context? Let's show how we can write a form without any concext using the
 sample above. Note, this sample for do not include actions which store the
 form input. You can store the values like in any other forms using the forms
 widget method ``self.widgets.extract()`` which will return the form and

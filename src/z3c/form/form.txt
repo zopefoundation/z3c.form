@@ -180,8 +180,8 @@ In our simple example, all fields will be converted to widgets.
 Widget Creation
 ~~~~~~~~~~~~~~~
 
-So first it instantiates the widget with the field. During the process,
-several pieces of information are transferred from the field to the widget:
+During the widget creation process, several pieces of information are
+transferred from the field to the widget:
 
   >>> age = addForm.widgets['age']
 
@@ -200,8 +200,7 @@ Widget Value
 ~~~~~~~~~~~~
 
 The next step is to determine the value that should be displayed by the
-widget. There are three places where the value could come from (shown in the
-order they are looked up):
+widget. This value could come from three places (looked up in this order):
 
 1. The field's default value.
 2. The content of the form, which represents the displayed data.

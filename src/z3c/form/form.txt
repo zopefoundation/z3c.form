@@ -172,10 +172,10 @@ Just because a field is requested in the field manager, does not mean that a
 widget has to be created for the field. There are cases when a field
 declaration might be ignored. The following reasons come to mind:
 
-* No widget is created, if the data is not accessible in the content.
-* A custom widget manager has been registered to particularly ignore a field.
+* No widget is created if the data is not accessible in the content.
+* A custom widget manager has been registered to specifically ignore a field.
 
-In our simple test case, all fields will be converted to widgets.
+In our simple example, all fields will be converted to widgets.
 
 Widget Creation
 ~~~~~~~~~~~~~~~

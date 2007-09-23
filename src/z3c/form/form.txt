@@ -603,21 +603,23 @@ methods:
 Changing Widget Attribute Values
 --------------------------------
 
-It frequently happens that a customer comes along and wants to slightly or
-totally change some of the text shown in forms or make optional fields
-required. Until now this always meant to implement a custom schema for this
-client. With the z3c.form framework all attributes -- for which it is sensible
-to replace a value without touching the code -- are customizable via an
-attribute value adapter.
+It frequently happens that a customer comes along and wants to
+slightly or totally change some of the text shown in forms or make
+optional fields required. It does not make sense to always have to
+adjust the schema or implement a custom schema for these use
+cases. With the z3c.form framework all attributes -- for which it is
+sensible to replace a value without touching the code -- are
+customizable via an attribute value adapter.
 
-So let's change the label of the name widget from "Name" to "Full Name":
+To demonstrate this feature, let's change the label of the name widget
+from "Name" to "Full Name":
 
   >>> from z3c.form import widget
   >>> NameLabel = widget.StaticWidgetAttribute(
   ...     u'Full Name', field=IPerson['name'])
   >>> zope.component.provideAdapter(NameLabel, name='label')
 
-When the form renders, the label should be changed:
+When the form renders, the label has now changed:
 
   >>> addForm = PersonAddForm(root, TestRequest())
   >>> addTemplate(addForm)

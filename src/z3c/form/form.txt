@@ -560,10 +560,12 @@ trailing ".".
   >>> addForm.name
   'form'
 
-The template can then use those attributes, if it likes to. Since we are
-talking about templates, in this example we set the template manually, but if
-no template is specified, the system tries to find an adapter. Initially,
-there is no adapter, so rendering the form fails:
+The template can then use those attributes, if it likes to. 
+
+In the examples previously we set the template manually. If no
+template is specified, the system tries to find an adapter. Without
+any special configuration, there is no adapter, so rendering the form
+fails:
 
   >>> addForm.template = None
   >>> addForm.render()
@@ -571,10 +573,14 @@ there is no adapter, so rendering the form fails:
   ...
   ComponentLookupError: ((...), <InterfaceClass ...IPageTemplate>, u'')
 
-The form module provides a simple component to create template factories:
+The form module provides a simple component to create adapter
+factories from templates:
 
   >>> factory = form.FormTemplateFactory(
   ...     testing.getPath('../tests/simple_edit.pt'), form=PersonAddForm)
+
+Let's register our new template-based adapter factory:
+
   >>> zope.component.provideAdapter(factory)
 
 Now the factory will be used to provide a template:
@@ -584,8 +590,9 @@ Now the factory will be used to provide a template:
   ...
   </html>
 
-Since a form can also be used as a page itself, it is callable --
-invoking both the ``update()`` and ``render()`` methods:
+Since a form can also be used as a page itself, it is callable. When
+you call it will invoke both the ``update()`` and ``render()``
+methods:
 
   >>> print addForm()
   <html>

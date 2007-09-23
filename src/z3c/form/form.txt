@@ -528,12 +528,12 @@ register a new error view snippet for the ``TooSmall`` error:
   >>> print addForm.widgets['age'].error.render()
   <div class="error">The value cannot be a negative number.</div>
 
-Note: The ``adapts()`` call might look very strange initially. However, an
-error view snippet is an adapter that requires 6 input objects -- error,
-request, widget, field, form, content. By specifying only the error, we tell
-the system that we do not care about the other discriminators, which then can
-be anything. I could also have used ``zope.interface.Interface`` instead,
-which would be equivalent.
+Note: The ``adapts()`` declaration might look strange. An error view
+snippet is actually a multiadapter that adapts a combination of 6
+objects -- error, request, widget, field, form, content. By specifying
+only the error, we tell the system that we do not care about the other
+discriminators, which then can be anything. We could also have used
+``zope.interface.Interface`` instead, which would be equivalent.
 
 
 Additional Form Attributes and API

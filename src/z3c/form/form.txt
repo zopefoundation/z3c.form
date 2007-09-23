@@ -273,7 +273,7 @@ The add button is an action and a widget at the same time:
   >>> addAction.value
   u'Add'
 
-After everything is setup, all pressed buttons are executed. Once a submitted
+After everything is set up, all pressed buttons are executed. Once a submitted
 action is detected, a special action handler adapter is used to determine the
 actions to take. Since the add button has not been pressed yet, no action
 occurred.
@@ -284,7 +284,7 @@ Rendering the form
 
 Once the update is complete we can render the form. Since we have not
 specified a template yet, we have to do this now. We have prepared a small and
-very simple template as part of this test:
+very simple template as part of this example:
 
   >>> import os
   >>> from zope.app.pagetemplate import viewpagetemplatefile

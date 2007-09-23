@@ -2,10 +2,11 @@
 Forms
 =====
 
-The purpose of this package is the development forms in as simple as possible
-a way, that still provides all the hooks to do customization at any level as
-required by our real-world use cases. Thus, once the system is set up with all
-its default registrations, it should be trivial to develop a new form.
+The purpose of this package is to m ake development of forms as simple
+as possible, while still providing all the hooks to do customization
+at any level as required by our real-world use cases. Thus, once the
+system is set up with all its default registrations, it should be
+trivial to develop a new form.
 
 The strategy of this document is to provide the most common, and thus
 simplest, case first and then demonstrate the available customization

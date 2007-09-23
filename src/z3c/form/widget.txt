@@ -7,7 +7,7 @@ input. The only responsibility of a widget is to represent a value to the
 user, allow it to be modified and then return a new value. Good examples of
 widgets include the Qt widgets and HTML widgets. The widget is not responsible
 for converting its value to the desired internal value or validate the
-incoming data. These resposnibilities are passed data converters and
+incoming data. These responsibilities are passed data converters and
 validators, respecitively.
 
 There are several problems that can be identified in the original Zope 3 widget

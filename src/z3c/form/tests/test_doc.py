@@ -17,12 +17,18 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 import unittest
-from zope.testing import doctest
+import re
+
+from zope.testing import doctest, renormalizing
 from zope.app.testing import placelesssetup
 
 from z3c.form import testing
 
 def test_suite():
+    checker = renormalizing.RENormalizing([
+        (re.compile(r"(invalid literal for int\(\)) with base 10: '(.*)'"),
+         r'\1: \2'),
+        ])
     return unittest.TestSuite((
         doctest.DocFileSuite(
             '../action.txt',
@@ -78,6 +84,7 @@ def test_suite():
             '../converter.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../form.txt',

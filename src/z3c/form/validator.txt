@@ -219,11 +219,9 @@ was successful. Let's now generate a failure:
   >>> errors = invariants.validate(
   ...     {'login': u'srichter', 'email': u'strichter@foo.com'})
 
-  >>> errors
-  (<zope.interface.exceptions.Invalid instance at ...>,)
-
-  >>> str(errors[0])
-  'The login not part of email.'
+  >>> for e in errors:
+  ...     print e.__class__.__name__ + ':', e
+  Invalid: The login not part of email.
 
 Let's now have a look at writing a custom validator. In this case, we want to
 ensure that the E-mail address is at most twice as long as the login:
@@ -245,9 +243,11 @@ we can use the validator:
   >>> custom.validate(
   ...     {'login': u'srichter', 'email': u'srichter@foo.com'})
   ()
-  >>> custom.validate(
+  >>> errors = custom.validate(
   ...     {'login': u'srichter', 'email': u'srichter@foobar.com'})
-  (<zope.interface.exceptions.Invalid instance at ...>,)
+  >>> for e in errors:
+  ...     print e.__class__.__name__ + ':', e
+  Invalid: Email too long.
 
 To register the custom validator only for this schema, we hace to use the
 discriminator generator again.

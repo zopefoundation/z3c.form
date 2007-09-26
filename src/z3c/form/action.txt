@@ -236,4 +236,5 @@ Executing the "Cancel" action now produces the action error event:
   <ActionErrorOccurred for <Action 'cancel' u'Cancel'>>
 
   >>> eventlog[-1].error
-  <ActionExecutionError wrapping <zope.interface.exceptions.Invalid ...>>
+  <ActionExecutionError wrapping ...Invalid...>
+

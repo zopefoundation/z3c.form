@@ -85,7 +85,6 @@ setup (
         'zope.component',
         'zope.configuration',
         'zope.event',
-        'zope.formlib',
         'zope.i18n',
         'zope.i18nmessageid',
         'zope.interface',

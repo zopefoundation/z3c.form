@@ -16,7 +16,7 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.interface
+import zope.component
 
 from z3c.form import form, interfaces
 

@@ -27,7 +27,6 @@ from zope.i18n import translate
 from zope.schema.fieldproperty import FieldProperty
 
 from z3c.form import interfaces, util, value
-from z3c.form.i18n import MessageFactory as _
 
 PLACEHOLDER = object()
 

@@ -23,7 +23,6 @@ import zope.event
 import zope.lifecycleevent
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher import browser
-from zope.formlib import form
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
 

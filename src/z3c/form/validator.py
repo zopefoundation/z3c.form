@@ -99,7 +99,11 @@ class Data(object):
         # Try to get the value for the field
         value = data.get(name, data)
         if value is data:
-            raise NoInputData(name)
+            if self.__context__ is None:
+                raise NoInputData(name)
+            dm = zope.component.getMultiAdapter(
+                (self.__context__, field), interfaces.IDataManager)
+            value = dm.get()
         # Optimization: Once we now we have a good value, set it as an
         # attribute for faster access.
         setattr(self, name, value)

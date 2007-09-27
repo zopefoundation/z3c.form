@@ -205,6 +205,7 @@ Widget manager validators have the option to validate a data dictionary,
 or an object implementing the schema:
 
   >>> class Person(object):
+  ...     zope.interface.implements(IPerson)
   ...     login = u'srichter'
   ...     email = u'srichter@foo.com'
   >>> stephan = Person()
@@ -249,7 +250,7 @@ we can use the validator:
   ...     print e.__class__.__name__ + ':', e
   Invalid: Email too long.
 
-To register the custom validator only for this schema, we hace to use the
+To register the custom validator only for this schema, we have to use the
 discriminator generator again.
 
   >>> from z3c.form import util
@@ -324,3 +325,22 @@ It is used by the validators (especially invariant validators) to provide a
 context of validation, for example to look up a vocabulary or access the
 parent of an object. Note that the context will be different between add and
 edit forms.
+
+Validation of interface variants when not all fields are displayed in form
+--------------------------------------------------------------------------
+
+We need to register the data manager to access the data on the context object:
+
+  >>> from z3c.form import datamanager
+  >>> zope.component.provideAdapter(datamanager.AttributeField)
+
+Sometimes you might leave out fields in the form which need to compute the
+invariant. An exception should be raised. The data wrapper is used to test
+the invariants and looks up values on the context object that are left out in
+the form.
+
+  >>> invariants = validator.InvariantsValidator(
+  ...     stephan, None, None, IPerson, None)
+  >>> invariants.validate({'email': 'foo@bar.com'})
+  (<zope.interface.exceptions.Invalid instance at ...>,)
+

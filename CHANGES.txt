@@ -29,6 +29,9 @@ Version 1.7.0 (9/??/2007)
 - Bug: Several interfaces had the ``self`` argument in the method
   signature. Thanks to Markus Kemmerling for reporting.
 
+- Bug: Interface invariants where not working when not all fields
+  needed for computing the invariant are in the submitted form.
+
 
 Version 1.6.0 (8/24/2007)
 -------------------------

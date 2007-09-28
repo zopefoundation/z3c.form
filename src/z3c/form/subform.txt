@@ -618,8 +618,8 @@ And render the form. As you can see, the widgets get rendered without any
   </body>
   </html>
 
-Let's show how we can extract input values of the form and subform. First give
-them some input:
+Let's show how we can extract the input values of the form and the subform.
+First give them some input:
 
   >>> request = TestRequest(form={
   ...     'car.widgets.model': u'Ford',

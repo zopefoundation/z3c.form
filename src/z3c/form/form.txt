@@ -1395,7 +1395,7 @@ Let's have a look at the result:
   >>> addForm.status
   u'There were some errors.'
 
-__Note__:
+**Note**:
 
   The action execution errors are connected to the form via an event
   listener called ``handlerActionError``. This event listener listens for

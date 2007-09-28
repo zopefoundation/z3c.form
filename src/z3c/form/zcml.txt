@@ -108,3 +108,9 @@ Cleanup
 Now we need to clean up the custom module.
 
   >>> del sys.modules['custom']
+
+Also let's not leave temporary files lying around
+
+  >>> import shutil
+  >>> shutil.rmtree(temp_dir)
+

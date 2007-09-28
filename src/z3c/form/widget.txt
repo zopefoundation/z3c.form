@@ -510,3 +510,13 @@ This event should be used by widget-managing components and is not created and
 sent out internally by the widget's ``update()`` method. The event was
 designed to provide an additional hook between updating the widget and
 rendering it.
+
+
+Cleanup
+-------
+
+Let's not leave temporary files lying around
+
+  >>> import os
+  >>> os.remove(textWidgetTemplate)
+

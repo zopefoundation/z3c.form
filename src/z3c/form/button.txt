@@ -441,7 +441,7 @@ anything:
   TypeError: ('Unrecognized argument type', 1)
 
 When creating a new form derived from another, you often want to keep existing
-buttons and add new ones. In order no to change the super-form class, you need
+buttons and add new ones. In order not to change the super-form class, you need
 to copy the button manager:
 
   >>> bm.keys()

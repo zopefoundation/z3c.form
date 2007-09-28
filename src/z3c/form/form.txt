@@ -983,7 +983,7 @@ Creating Edit Forms for Dictionaries
 
 Sometimes it is not desirable to edit a class instance that implements the
 fields, but other types of object. A good example is the need to modify a
-simple dictionaries, where the field names are the keys. To do that, a special
+simple dictionary, where the field names are the keys. To do that, a special
 data manager for dictionaries is available:
 
   >>> from z3c.form import datamanager

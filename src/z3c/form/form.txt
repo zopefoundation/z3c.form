@@ -956,8 +956,8 @@ touch. In this package all those messages are exposed as form attributes.
 
 There are three messages for the edit form:
 
-* ``formErrorsMessage`` -- Indicates that there was an error occurred while
-    applying the changes. This message is also available for the add form.
+* ``formErrorsMessage`` -- Indicates that an error occurred while
+  applying the changes. This message is also available for the add form.
 
 * ``successMessage`` -- The form data was successfully applied.
 

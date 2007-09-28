@@ -34,7 +34,7 @@ We can now create the field manager:
   >>> from z3c.form import field
   >>> manager = field.Fields(IPerson)
 
-Like all managers in this package, the enumerable mapping API is provided:
+Like all managers in this package, it provides the enumerable mapping API:
 
   >>> manager['id']
   <Field 'id'>

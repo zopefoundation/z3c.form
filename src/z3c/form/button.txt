@@ -41,7 +41,7 @@ provides those buttons.
   ...     def cancel(self, action):
   ...         self.request.response.redirect('index.html')
 
-Let' now create an action manager for the button manager in the form. To do
+Let's now create an action manager for the button manager in the form. To do
 that we first need a request and a form instance:
 
   >>> from z3c.form.testing import TestRequest
@@ -208,7 +208,7 @@ manager:
   ...         print 'successfully applied'
 
 The first argument of the ``Button`` class constructor is the name of the
-button. Optionally, this can also be one of the follwoing keyword arguments:
+button. Optionally, this can also be one of the following keyword arguments:
 
   >>> button.Button(name='apply').__name__
   'apply'
@@ -292,7 +292,7 @@ hex-encoded string:
   >>> Form.buttons.keys()
   ['4170706c7920616e64204e657874']
 
-Of course, you can use the ``__name__`` argument to specify a nem
+Of course, you can use the ``__name__`` argument to specify a name
 yourself. The decorator, however, also allows the keyword ``name``:
 
   >>> class Form(object):
@@ -327,8 +327,8 @@ Button Conditions
 
 Sometimes it is desirable to only show a button when a certain condition is
 fulfilled. The ``Button`` field supports conditions via a simple argument. The
-``condition`` argument must be a callable takening the form as argument and
-returns a truth-value. If the condition is not fulfilled, the button will not
+``condition`` argument must be a callable taking the form as argument and
+returning a truth-value. If the condition is not fulfilled, the button will not
 be converted to an action:
 
   >>> class Form(object):
@@ -379,7 +379,7 @@ Let's now create a custom label for the action:
   ...     u'Apply now', button=myform.buttons['apply'])
   >>> zope.component.provideAdapter(ApplyLabel, name='title')
 
-Once the button action manager is updated, the new tite is chosen:
+Once the button action manager is updated, the new title is chosen:
 
   >>> actions.update()
   >>> actions['apply'].title
@@ -425,7 +425,7 @@ The ``select()`` method can also be used to eliminate another button:
   >>> list(bm.select('help', 'apply'))
   ['help', 'apply']
 
-Of course, in the example above we elimintated one and reoganized the buttons.
+Of course, in the example above we eliminated one and reorganized the buttons.
 
 Third, you can omit one or more buttons:
 

@@ -515,7 +515,7 @@ Context-free subforms
 
 Ok, that was easy. But what about writing a form including a subform without a
 context? Let's show how we can write a form without any context using the
-sample above. Note, this sample for do not include actions which store the
+sample above. Note, this sample form does not include actions which store the
 form input. You can store the values like in any other forms using the forms
 widget method ``self.widgets.extract()`` which will return the form and
 subform input values.
@@ -552,7 +552,7 @@ Next we define the car form, which has the owner form as a sub-form.
   ...         self.owner.update()
   ...         super(CarAddForm, self).update()
 
-Let's now instantiate the form and render it. but first setup a simple
+Let's now instantiate the form and render it. but first set up a simple
 container which we can use for the add form context:
 
   >>> class Container(object):

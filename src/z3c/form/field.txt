@@ -232,7 +232,7 @@ If the constructor does not recognize any of the types above, it raises a
   TypeError: ('Unrecognized argument type', <object object at ...>)
 
 Additionally, you can specify several keyword arguments in the field manager
-constructor that are used to setup the fields:
+constructor that are used to set up the fields:
 
 * ``omitReadOnly``
 

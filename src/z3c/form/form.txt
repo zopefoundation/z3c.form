@@ -2,7 +2,7 @@
 Forms
 =====
 
-The purpose of this package is to m ake development of forms as simple
+The purpose of this package is to make development of forms as simple
 as possible, while still providing all the hooks to do customization
 at any level as required by our real-world use cases. Thus, once the
 system is set up with all its default registrations, it should be
@@ -116,7 +116,7 @@ Thus let's now create a working add form:
   ...     def nextURL(self):
   ...         return 'index.html'
 
-This is as simple as it gets. We explicitely define the pieces that
+This is as simple as it gets. We explicitly define the pieces that
 are custom to every situation and let the default setup of the
 framework do the rest. This is intentionally similar to
 ``zope.formlib``, because we really like the simplicity of

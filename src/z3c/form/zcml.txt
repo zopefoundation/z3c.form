@@ -68,7 +68,7 @@ Let's get the template
   >>> template = zope.component.queryMultiAdapter((None, request, None, None,
   ...     myWidget), interface=IPageTemplate, name='input')
 
-and check them:
+and check it:
 
   >>> template
   <zope.app.pagetemplate.viewpagetemplatefile.ViewPageTemplateFile ...>

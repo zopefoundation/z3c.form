@@ -552,8 +552,8 @@ Next we define the car form, which has the owner form as a sub-form.
   ...         self.owner.update()
   ...         super(CarAddForm, self).update()
 
-Let's now instantiate the form and render it. but first setup a simple container
-which we can use for the add form context:
+Let's now instantiate the form and render it. but first setup a simple
+container which we can use for the add form context:
 
   >>> class Container(object):
   ...    """Simple context simulation a container."""
@@ -564,8 +564,8 @@ Setup a test request:
   >>> from z3c.form.testing import TestRequest
   >>> request = TestRequest()
 
-And render the form. As you can see, the widget get rendered without any ``real``
-context.
+And render the form. As you can see, the widget get rendered without any
+``real`` context.
 
   >>> carForm = CarAddForm(container, request)
   >>> carForm.update()

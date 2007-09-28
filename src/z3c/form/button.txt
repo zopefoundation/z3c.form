@@ -87,7 +87,7 @@ implementation.
   >>> actions['apply']
   <CustomButtonAction 'form.buttons.apply' u'Apply'>
 
-Alternatively, modify customize an individual button by setting its
+Alternatively, customize an individual button by setting its
 actionFactory attribute.
 
   >>> def customButtonActionFactory(request, field):

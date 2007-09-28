@@ -67,7 +67,7 @@ Before we can start writing forms, we must have the content to work with:
   ...             self.age = age
   ...
   ...     def __repr__(self):
-  ...         return '<%s %r>' %(self.__class__.__name__, self.name)
+  ...         return '<%s %r>' % (self.__class__.__name__, self.name)
 
 Okay, that should suffice for now.
 
@@ -76,7 +76,7 @@ person. Since practice showed that the ``IAdding`` interface is overkill for
 most projects, the default add form of ``z3c.form`` requires you to define the
 creation and adding mechanism.
 
-__Note__:
+**Note**:
 
   If it is not done, ``NotImplementedError[s]`` are raised:
 
@@ -186,10 +186,12 @@ transferred from the field to the widget:
   >>> age = addForm.widgets['age']
 
   # field.title -> age.label
+
   >>> age.label
   u'Age'
 
   # field.required -> age.required
+
   >>> age.required
   False
 

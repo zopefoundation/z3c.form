@@ -719,7 +719,7 @@ Now this widget should be used instead of the registered default one:
   <CustomInputWidget 'form.widgets.firstName'>
 
 In the background the widget factory assignment really just registered the
-default factory for in the ``WidgetFactories`` object, which manages the
+default factory in the ``WidgetFactories`` object, which manages the
 custom widgets for all modes. Now all modes show this input widget:
 
   >>> manager = field.FieldWidgets(personForm, request, srichter)
@@ -752,8 +752,8 @@ Now the display mode should produce the custom display widget, ...
   <CustomDisplayWidget 'form.widgets.lastName'>
 
 ... while the input mode still shows the default custom input widget
-on the `lastName' field but not on the `firstName' field since we
-don't have the `test.Edit' permission:
+on the ``lastName`` field but not on the ``firstName`` field since we
+don't have the ``test.Edit`` permission:
 
   >>> manager = field.FieldWidgets(personForm, request, srichter)
   >>> manager.mode = interfaces.INPUT_MODE

@@ -78,7 +78,7 @@ Let's use the template within the widget.
   >>> print template(myWidget)
   <input type="text" value="" />
 
-We normly render the widget which returns the registered template.
+We normally render the widget which returns the registered template.
 
   >>> print myWidget.render()
   <input type="text" value="" />

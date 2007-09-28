@@ -506,7 +506,7 @@ If the data did not change, it is also locally reported:
 
 Final Note: With ``zope.formlib`` and ``zope.app.form`` people usually wrote
 complex object widgets to handle objects within forms. We never considered
-this a good way of programming, since one looses control over the layout too
+this a good way of programming, since one loses control over the layout too
 easily.
 
 

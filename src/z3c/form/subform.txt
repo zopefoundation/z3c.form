@@ -556,15 +556,15 @@ Let's now instantiate the form and render it. but first set up a simple
 container which we can use for the add form context:
 
   >>> class Container(object):
-  ...    """Simple context simulation a container."""
+  ...    """Simple context simulating a container."""
   >>> container = Container()
 
-Setup a test request:
+Set up a test request:
 
   >>> from z3c.form.testing import TestRequest
   >>> request = TestRequest()
 
-And render the form. As you can see, the widget get rendered without any
+And render the form. As you can see, the widgets get rendered without any
 ``real`` context.
 
   >>> carForm = CarAddForm(container, request)

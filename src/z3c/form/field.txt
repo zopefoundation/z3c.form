@@ -464,8 +464,8 @@ Determination of the widget mode
 
 By default, all widgets will also assume the mode of the manager:
 
-   >>> manager['lastName'].mode
-   'input'
+  >>> manager['lastName'].mode
+  'input'
 
   >>> manager.mode = interfaces.DISPLAY_MODE
   >>> manager.update()

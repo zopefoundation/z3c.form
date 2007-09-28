@@ -83,8 +83,8 @@ files. The documents are ordered in the way they should be read:
 
 - ``adding.txt`` [informative]
 
-   This module provides a base class for add forms that work with the
-   ``IAdding`` interface.
+  This module provides a base class for add forms that work with the
+  ``IAdding`` interface.
 
 
 Browser Documentation

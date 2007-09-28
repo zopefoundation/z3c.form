@@ -565,7 +565,7 @@ Set up a test request:
   >>> request = TestRequest()
 
 And render the form. As you can see, the widgets get rendered without any
-``real`` context.
+*real* context.
 
   >>> carForm = CarAddForm(container, request)
   >>> carForm.update()

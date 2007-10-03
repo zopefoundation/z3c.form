@@ -1,0 +1,6 @@
+<input type="image" id="" name="" class="" src="" value="" disabled="disabled"
+       tal:attributes="id view/id;
+                       name view/name;
+                       class view/klass;
+                       src view/src;
+                       value view/value" />

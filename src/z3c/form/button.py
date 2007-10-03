@@ -21,11 +21,13 @@ import zope.event
 import zope.interface
 import zope.location
 import zope.schema
+import zope.traversing.api
 
+from zope.app.component import hooks
 from zope.interface import adapter
 from zope.schema.fieldproperty import FieldProperty
 from z3c.form import action, interfaces, util, value
-from z3c.form.browser import submit
+from z3c.form.browser import image, submit
 from z3c.form.widget import AfterWidgetUpdateEvent
 
 
@@ -61,6 +63,22 @@ class Button(zope.schema.Field):
     def __repr__(self):
         return '<%s %r %r>' %(
             self.__class__.__name__, self.__name__, self.title)
+
+
+class ImageButton(Button):
+    """A simple image button in a form."""
+    zope.interface.implements(interfaces.IImageButton)
+
+    image = FieldProperty(interfaces.IImageButton['image'])
+
+    def __init__(self, image=None, *args, **kwargs):
+        self.image = image
+        super(ImageButton, self).__init__(*args, **kwargs)
+
+    def __repr__(self):
+        return '<%s %r %r>' %(
+            self.__class__.__name__, self.__name__, self.image)
+
 
 class Buttons(util.SelectionManager):
     """Button manager."""
@@ -203,6 +221,25 @@ class ButtonAction(action.Action, submit.SubmitWidget, zope.location.Location):
     @property
     def id(self):
         return self.name.replace('.', '-')
+
+
+class ImageButtonAction(image.ImageWidget, ButtonAction):
+    zope.component.adapts(interfaces.IFormLayer, interfaces.IImageButton)
+
+    def __init__(self, request, field):
+        action.Action.__init__(self, request, field.title)
+        submit.SubmitWidget.__init__(self, request)
+        self.field = field
+
+    @property
+    def src(self):
+        site = hooks.getSite()
+        src = zope.traversing.api.traverse(
+            site, '++resource++' + self.field.image, request=self.request)()
+        return src
+
+    def isExecuted(self):
+        return self.name + '.x' in self.request.form
 
 
 class ButtonActions(action.Actions):

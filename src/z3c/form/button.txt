@@ -543,3 +543,43 @@ The handlers also provide a method to copy the handlers to a new instance:
   False
 
 This is commonly needed when one wants to extend the handlers of a super-form.
+
+
+Image Buttons
+-------------
+
+A special type of button is the image button. Instead of creating a "submit"-
+or "button"-type input, an "image" button is created. An image button is a
+simple extension of a button, requiring an `image` argument to the constructor:
+
+  >>> imgSubmit = button.ImageButton(
+  ...     name='submit',
+  ...     title=u'Submit',
+  ...     image=u'submit.png')
+  >>> imgSubmit
+  <ImageButton 'submit' u'submit.png'>
+
+Some browsers do not submit the value of the input, but only the coordinates
+of the image where the mouse click occurred. Thus we also need a special
+button action:
+
+  >>> from zope.publisher.browser import TestRequest
+  >>> request = TestRequest()
+
+  >>> imgSubmitAction = button.ImageButtonAction(request, imgSubmit)
+  >>> imgSubmitAction
+  <ImageButtonAction 'submit' u'Submit'>
+
+Initially, we did not click on the image:
+
+  >>> imgSubmitAction.isExecuted()
+  False
+
+Now the button is clicked:
+
+  >>> request = TestRequest(form={'submit.x': '3', 'submit.y': '4'})
+
+  >>> imgSubmitAction = button.ImageButtonAction(request, imgSubmit)
+  >>> imgSubmitAction.isExecuted()
+  True
+

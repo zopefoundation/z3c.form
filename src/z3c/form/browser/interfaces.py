@@ -202,6 +202,15 @@ class IHTMLInputWidget(IHTMLFormElement):
         required=False)
 
 
+class IHTMLImageWidget(IHTMLInputWidget):
+    """A widget using the HTML INPUT element with type 'image'."""
+
+    src = zope.schema.TextLine(
+        title=u'Image Source',
+        description=(u'The source of the image used to display the widget.'),
+        required=True)
+
+
 class IHTMLTextInputWidget(IHTMLFormElement):
     """A widget using the HTML INPUT element (for text types)."""
 

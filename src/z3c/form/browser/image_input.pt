@@ -1,0 +1,28 @@
+<input type="image" id="" name="" class="" src="" value=""
+       accesskey=""
+       tal:attributes="id view/id;
+                       name view/name;
+                       class view/klass;
+                       style view/style;
+                       lang view/lang;
+                       onclick view/onclick;
+                       ondblclick view/ondblclick;
+                       onmousedown view/onmousedown;
+                       onmouseup view/onmouseup;
+                       onmouseover view/onmouseover;
+                       onmousemove view/onmousemove;
+                       onmouseout view/onmouseout;
+                       onkeypress view/onkeypress;
+                       onkeydown view/onkeydown;
+                       onkeyup view/onkeyup;
+                       src view/src;
+                       value view/value;
+                       disabled view/disabled;
+                       tabindex view/tabindex;
+                       onfocus view/onfocus;
+                       onblur view/onblur;
+                       onchange view/onchange;
+                       readonly view/readonly;
+                       alt view/alt;
+                       accesskey view/accesskey;
+                       onselect view/onselect" />

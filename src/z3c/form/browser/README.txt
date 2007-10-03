@@ -195,7 +195,6 @@ is not used by default, but available for use:
          disabled="disabled" />
 
 
-
 Bytes
 -----
 
@@ -250,6 +249,7 @@ Choice
   <span id="foo" class="select-widget required choice-field">
     <span class="selected-option">Yes</span>
   </span>
+
 
 Date
 ----
@@ -386,6 +386,55 @@ Id
   <span id="foo" class="text-widget required id-field">
     z3c.form
   </span>
+
+
+ImageButton
+-----------
+
+Let's say we have a simple image field that uses the ``pressme.png`` image.
+
+  >>> from z3c.form import button
+  >>> field = button.ImageButton(
+  ...     image=u'pressme.png',
+  ...     title=u'Press me!')
+
+When the widget is created, the system converts the relative image path to an
+absolute image path by looking up the resource. For this to work, we have to
+setup some of the traversing machinery:
+
+  # Traversing setup
+  >>> from zope.traversing import testing
+  >>> testing.setUp()
+
+  # Resource namespace
+  >>> import zope.component
+  >>> from zope.traversing.interfaces import ITraversable
+  >>> from zope.traversing.namespace import resource
+  >>> zope.component.provideAdapter(
+  ...     resource, (None,), ITraversable, name="resource")
+  >>> zope.component.provideAdapter(
+  ...     resource, (None, None), ITraversable, name="resource")
+
+  # Register the "pressme.png" resource
+  >>> from zope.app.publisher.browser.resource import Resource
+  >>> testing.browserResource('pressme.png', Resource)
+
+Now we are ready to instantiate the widget:
+
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+  >>> print widget.render()
+  <input type="image" id="foo" name="bar"
+         class="image-widget imagebutton-field"
+         src="http://127.0.0.1/@@/pressme.png"
+         value="Press me!" />
+
+  >>> widget.mode = interfaces.DISPLAY_MODE
+  >>> print widget.render()
+  <input type="image" id="foo" name="bar"
+         class="image-widget imagebutton-field"
+         src="http://127.0.0.1/@@/pressme.png"
+         value="Press me!" disabled="disabled" />
 
 
 Int

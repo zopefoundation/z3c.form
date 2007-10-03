@@ -452,6 +452,9 @@ class IRadioWidget(ISequenceWidget):
 class ISubmitWidget(IWidget):
     """Submit widget."""
 
+class IImageWidget(IWidget):
+    """Submit widget."""
+
 class IButtonWidget(IWidget):
     """Button widget."""
 
@@ -624,6 +627,15 @@ class IButton(zope.schema.interfaces.IField):
         required=False,
         default=None,
         missing_value=None)
+
+
+class IImageButton(IButton):
+    """An image button in a form."""
+
+    image = zope.schema.TextLine(
+        title=_('Image Path'),
+        description=_('A relative image path to the root of the resources.'),
+        required=True)
 
 
 class IButtons(ISelectionManager):

@@ -87,6 +87,10 @@
       provides=".interfaces.IButtonAction"
       />
   <adapter
+      factory=".button.ImageButtonAction"
+      provides=".interfaces.IButtonAction"
+      />
+  <adapter
       factory=".button.ButtonActions"
       />
   <adapter

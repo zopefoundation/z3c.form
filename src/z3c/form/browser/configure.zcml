@@ -6,6 +6,7 @@
   <include file="button.zcml" />
   <include file="checkbox.zcml" />
   <include file="file.zcml" />
+  <include file="image.zcml" />
   <include file="orderedselect.zcml" />
   <include file="password.zcml" />
   <include file="radio.zcml" />

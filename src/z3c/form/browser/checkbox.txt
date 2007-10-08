@@ -62,7 +62,7 @@ setup.
   >>> import zope.schema.interfaces
   >>> from zope.schema.vocabulary import SimpleVocabulary
   >>> import z3c.form.term
-  >>> class MyTerms(z3c.form.term.ChoiceTerms):
+  >>> class MyTerms(z3c.form.term.ChoiceTermsVocabulary):
   ...     def __init__(self, context, request, form, field, widget):
   ...         self.terms = SimpleVocabulary.fromValues(['yes', 'no'])
   >>> zope.component.provideAdapter(z3c.form.term.BoolTerms,

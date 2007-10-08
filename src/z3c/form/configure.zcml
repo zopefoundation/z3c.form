@@ -72,7 +72,13 @@
 
   <!-- ITerms -->
   <adapter
-      factory=".term.ChoiceTerms"
+      factory=".term.choice_terms_multiplexer"
+      />
+  <adapter
+      factory=".term.ChoiceTermsVocabulary"
+      />
+  <adapter
+      factory=".term.ChoiceTermsSource"
       />
   <adapter
       factory=".term.CollectionTerms"

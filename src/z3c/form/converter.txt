@@ -466,7 +466,8 @@ converter is required that works with terms. A prime example is a choice
 field. Before we can use the converter, we have to register the terms adapter:
 
   >>> from z3c.form import term
-  >>> zope.component.provideAdapter(term.ChoiceTerms)
+  >>> zope.component.provideAdapter(term.ChoiceTermsVocabulary)
+  >>> zope.component.provideAdapter(term.choice_terms_multiplexer)
 
 Let's now create a choice field and a widget:
 

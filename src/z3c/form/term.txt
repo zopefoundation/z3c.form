@@ -72,7 +72,16 @@ Now, there are several terms implementations that were designed for particular
 fields. Within the framework, terms are used as adapters with the follwoing
 discriminators: context, request, form, field, and widget.
 
-The first terms implementation is for ``Choice`` fields:
+The first terms implementation is for ``Choice`` fields. Choice fields
+unfortunately can have a vocabulary and a source which behave differently.
+Let's have a look a the vocabulary first:
+
+  >>> import zope.component
+  >>> zope.component.provideAdapter(term.ChoiceTermsVocabulary)
+  >>> import z3c.form.testing
+  >>> request = z3c.form.testing.TestRequest()
+  >>> import z3c.form.widget
+  >>> widget = z3c.form.widget.Widget(request)
 
   >>> import zope.schema
 
@@ -80,7 +89,8 @@ The first terms implementation is for ``Choice`` fields:
   ...     title=u'Rating',
   ...     vocabulary=ratings)
 
-  >>> terms = term.ChoiceTerms(None, None, None, ratingField, None)
+  >>> terms = term.choice_terms_multiplexer(
+  ...     None, request, None, ratingField, widget)
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
 
@@ -93,7 +103,8 @@ vocabulary is looked up at run time.
 
 Initially we get an error because the "Ratings" vocabulary is not defined:
 
-  >>> terms = term.ChoiceTerms(None, None, None, ratingField2, None)
+  >>> terms = term.choice_terms_multiplexer(
+  ...     None, request, None, ratingField2, widget)
   Traceback (most recent call last):
   ...
   VocabularyRegistryError: unknown vocabulary: 'Ratings'
@@ -109,7 +120,8 @@ Let's now register the vocabulary under this name:
 
 We should now be able to get all terms as before:
 
-  >>> terms = term.ChoiceTerms(None, None, None, ratingField2, None)
+  >>> terms = term.choice_terms_multiplexer(
+  ...     None, request, None, ratingField, widget)
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
 

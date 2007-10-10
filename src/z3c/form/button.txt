@@ -583,3 +583,29 @@ Now the button is clicked:
   >>> imgSubmitAction.isExecuted()
   True
 
+The "image" type of the "input"-element also requires there to be a `src`
+attribute, which is the URL to the image to be used. The attribute is also
+supported by the Python API. However, in order for the attribute to work, the
+image must be available as a resource, so let's do that now:
+
+  # Traversing setup
+  >>> from zope.traversing import testing
+  >>> testing.setUp()
+
+  # Resource namespace
+  >>> import zope.component
+  >>> from zope.traversing.interfaces import ITraversable
+  >>> from zope.traversing.namespace import resource
+  >>> zope.component.provideAdapter(
+  ...     resource, (None,), ITraversable, name="resource")
+  >>> zope.component.provideAdapter(
+  ...     resource, (None, None), ITraversable, name="resource")
+
+  # Register the "submit.png" resource
+  >>> from zope.app.publisher.browser.resource import Resource
+  >>> testing.browserResource('submit.png', Resource)
+
+Now the attribute can be called:
+
+  >>> imgSubmitAction.src
+  u'http://127.0.0.1/@@/submit.png'

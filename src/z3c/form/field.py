@@ -202,9 +202,12 @@ class FieldWidgets(util.Manager):
 
         # Step 2: Validate the individual schemas and collect errors
         errors = ()
+        content = self.content
+        if self.ignoreContext:
+            content = None
         for schema, fieldData in schemaData.items():
             validator = zope.component.getMultiAdapter(
-                (self.content, self.request, self.form, schema, self),
+                (content, self.request, self.form, schema, self),
                 interfaces.IManagerValidator)
             errors += validator.validate(fieldData)
 

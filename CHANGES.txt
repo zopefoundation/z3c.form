@@ -2,6 +2,14 @@
 CHANGES
 =======
 
+
+After Version 1.7.0
+-------------------
+
+- Bug: Interface invariants where not working when not all fields
+  needed for computing the invariant are in the submitted form.
+
+
 Version 1.7.0 (2007-10-09)
 --------------------------
 

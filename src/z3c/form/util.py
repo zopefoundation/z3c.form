@@ -30,7 +30,7 @@ _identifier = re.compile('[A-Za-z][a-zA-Z0-9_]*$')
 def createId(name):
     if _identifier.match(name):
         return str(name).lower()
-    return name.encode('hex')
+    return name.encode('utf-8').encode('hex')
 
 
 classTypes = type, types.ClassType

@@ -2,10 +2,34 @@
 Utility Functions and Classes
 =============================
 
-This file documents the utility functiona and classes that are otherwise not
+This file documents the utility functions and classes that are otherwise not
 tested.
 
   >>> from z3c.form import util
+
+
+``creeateId(name)`` Function
+----------------------------
+
+This function converts an arbitrary unicode string into a valid Python
+identifier. If the name is a valid identifier, then it is just returned, but
+all upper case letters are lowered:
+
+  >>> util.createId(u'Change')
+  'change'
+
+  >>> util.createId(u'Change_2')
+  'change_2'
+
+If a name is not a valid identifier, a hex code of the string is created:
+
+  >>> util.createId(u'Change 3')
+  '4368616e67652033'
+
+The function can also handle non-ASCII characters:
+
+  >>> util.createId(u'Ändern')
+  'c383c2846e6465726e'
 
 
 ``getWidgetById(form, id)`` Function
@@ -49,15 +73,15 @@ If the widget is not found but the prefix is correct, ``None`` is returned:
   True
 
 
-extractFileName
----------------
+``extractFileName(form, id, cleanup=True, allowEmtpyPostFix=False)`` Function
+-----------------------------------------------------------------------------
 
 Test the filename extraction method:
 
   >>> class IDocument(zope.interface.Interface):
   ...     data = zope.schema.Bytes(title=u'Data')
 
-Define a widgets stub and a upload widget stub class and setup them as a 
+Define a widgets stub and a upload widget stub class and setup them as a
 faked form:
 
   >>> class FileUploadWidgetStub(object):
@@ -74,12 +98,12 @@ faked form:
   >>> class FileUploadFormStub(form.AddForm):
   ...     def __init__(self):
   ...         self.widgets = WidgetsStub()
-  ... 
+  ...
   ...     def setFakeFileName(self, filename):
   ...         self.widgets.data.filename = filename
 
-Now we can setup the stub form. Note this form is just a fake it's not a real 
-implementation. We just provide a form like class which simulates the 
+Now we can setup the stub form. Note this form is just a fake it's not a real
+implementation. We just provide a form like class which simulates the
 FileUpload object in the a widget. See z3c.form.browser.file.txt for a real
 file upload test uscase:
 
@@ -133,7 +157,7 @@ Test special characters in file path of filename:
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
   u'foo-bar.v.0.1.txt'
 
-Test optional keyword arguments. But remember it's hard for Zope to guess the 
+Test optional keyword arguments. But remember it's hard for Zope to guess the
 content type for filenames without extensions:
 
   >>> uploadForm.setFakeFileName(u'minimal')
@@ -184,8 +208,8 @@ the filename:
   ValueError: Missing filename extension.
 
 
-extractContentType
-------------------
+``extractContentType(form, id)`` Function
+-----------------------------------------
 
 there s alos a method which is able to extract the content type for a given
 file upload. We can use the stub form form the previous test.

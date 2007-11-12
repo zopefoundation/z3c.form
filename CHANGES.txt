@@ -6,6 +6,10 @@ CHANGES
 After Version 1.7.0
 -------------------
 
+- Bug: ``createId`` could not handle arbitrary unicode input. Thanks to
+  Andreas Reuleaux for reporting the bug and a patch for it. (Added
+  descriptive doctests for the function in the process.)
+
 - Bug: Interface invariants where not working when not all fields
   needed for computing the invariant are in the submitted form.
 

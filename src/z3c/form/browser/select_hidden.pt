@@ -1,0 +1,9 @@
+<tal:block define="id view/id;
+                   name string:${view/name}:list"
+           repeat="item view/items">
+  <input type="hidden" name="" class="hidden-widget"
+         tal:condition="item/selected"
+         tal:attributes="name name; value item/value; id item/id" />
+</tal:block>
+<input name="field-empty-marker" type="hidden" value="1"
+       tal:attributes="name string:${view/name}-empty-marker" />

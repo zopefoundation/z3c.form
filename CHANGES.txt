@@ -6,6 +6,8 @@ CHANGES
 After Version 1.7.0
 -------------------
 
+- Feature: Add a hidden widget template for the ``ISelectWidget``.
+
 - Bug: ``createId`` could not handle arbitrary unicode input. Thanks to
   Andreas Reuleaux for reporting the bug and a patch for it. (Added
   descriptive doctests for the function in the process.)

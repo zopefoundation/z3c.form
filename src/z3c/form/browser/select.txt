@@ -212,3 +212,25 @@ So after updating the widget you have the custom value:
   >>> widget.update()
   >>> widget.promptMessage
   u'please select a value'
+
+Hidden Widget
+-------------
+
+The select widget comes with a template for ``HIDDEN_MODE``.  Let's
+register it first:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('select_hidden.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ISelectWidget),
+  ...     IPageTemplate, name=interfaces.HIDDEN_MODE)
+
+We ca now set our widget's mode to hidden and render it:
+
+  >>> widget.mode = interfaces.HIDDEN_MODE
+  >>> widget.value = ['b']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <input type="hidden" name="widget.name:list"
+         class="hidden-widget" value="b" id="widget-id-1" />
+  <input name="widget.name-empty-marker" type="hidden"
+         value="1" />

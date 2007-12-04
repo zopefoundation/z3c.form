@@ -5,9 +5,8 @@ TODOS
 Framework
 ---------
 
-- There is only a hidden widget template registered for ``ITextWidget``. We
-  have to define more hidden widgets for sequence etc.
-
+- There is only hidden widget templates registered for ``ITextWidget``
+  and ``ISelectWidget``. We have to define more hidden widgets.
 
 
 Documentation

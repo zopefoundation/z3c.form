@@ -36,4 +36,11 @@
       template="select_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="hidden"
+      widget="z3c.form.interfaces.ISelectWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="select_hidden.pt"
+      />
+
 </configure>

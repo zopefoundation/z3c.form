@@ -122,7 +122,7 @@ framework do the rest. This is intentionally similar to
 ``zope.formlib``, because we really like the simplicity of
 ``zope.formlib``'s way of dealing with the common use cases.
 
-Let's try to add to add a new person object to the root folder (which
+Let's try to add a new person object to the root folder (which
 was created during test setup).  For this add form, of course, the
 context is now the root folder:
 

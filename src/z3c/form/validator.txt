@@ -59,7 +59,7 @@ For me, the primary goals of the validator framework are as follows:
 
 * Provide good defaults that behave sensibly.
 
-  God defaults are, like in anywhere in this pacakge, very important. We have
+  Good defaults are, like in anywhere in this pacakge, very important. We have
   chosen to implement the ``zope.formlib`` behavior as the default, since it
   worked very well -- with exception of action validation, of course.
 

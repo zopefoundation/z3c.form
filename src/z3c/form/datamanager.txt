@@ -229,7 +229,7 @@ If we try to set a value that is read-only, a type error is raised:
   TypeError: Can't set values on read-only fields
              (name=name, class=__builtin__.Person)
 
-Finally, we instantiate the data manager with a `zope.schema'
+Finally, we instantiate the data manager with a ``zope.schema``
 field. And we can access the different methods like before.
 
   >>> nameDm = datamanager.AttributeField(

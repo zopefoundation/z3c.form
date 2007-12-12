@@ -55,7 +55,7 @@ For me, the primary goals of the validator framework are as follows:
 
   [1].. This is optional, since widgets must not necessarily have fields.
   [2].. This is optional, since widget managers must not necessarily have
-        manage field widgets and thus know about schemas.
+  manage field widgets and thus know about schemas.
 
 * Provide good defaults that behave sensibly.
 

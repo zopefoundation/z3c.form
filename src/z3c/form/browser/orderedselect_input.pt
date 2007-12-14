@@ -1,5 +1,4 @@
 <script type="text/javascript">
-
 function moveItems(from, to)
   {
   // shortcuts for selection fields
@@ -115,7 +114,7 @@ function copyDataForSubmit(name)
     // create virtual node with suitable attributes
     var newNode = document.createElement("input");
     var newAttr = document.createAttribute("name");
-    newAttr.nodeValue = name;
+    newAttr.nodeValue = name.replace(/-/g, '.')+':list';
     newNode.setAttributeNode(newAttr);
 
     newAttr = document.createAttribute("type");
@@ -164,7 +163,7 @@ function selectionError()
                           onchange view/onchange;
                           multiple view/multiple;
                           size view/size">
-        <option tal:repeat="entry view/items"
+        <option tal:repeat="entry view/notselectedItems"
                 tal:attributes="value entry/value"
                 tal:content="entry/content" i18n:translate=""/>
       </select>

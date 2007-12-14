@@ -137,7 +137,6 @@ If we select item "b", then it should be selected:
         <select id="widget-id-from" name="widget.name.from"
                 size="5" multiple="multiple">
           <option value="a">A</option>
-          <option value="b">B</option>
           <option value="c">C</option>
         </select>
       </td>

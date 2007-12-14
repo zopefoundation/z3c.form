@@ -35,6 +35,7 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     multiple = u'multiple'
     items = ()
     selectedItems = ()
+    notselectedItems = ()
 
     def getItem(self, term, count=0):
         id = '%s-%i' % (self.id, count)
@@ -54,7 +55,18 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         self.selectedItems = [
             self.getItem(self.terms.getTermByToken(token), count)
             for count, token in enumerate(self.value)]
+        self.notselectedItems = self.deselect()
 
+    def deselect(self):
+        selecteditems = []
+        notselecteditems = []
+        for selecteditem in self.selectedItems:
+            selecteditems.append(selecteditem['content']) 
+        for item in self.items:
+            if not item['content'] in selecteditems:
+                notselecteditems.append(item)
+        return notselecteditems
+                
 
 @zope.component.adapter(zope.schema.interfaces.ISequence, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

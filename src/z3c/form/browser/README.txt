@@ -471,10 +471,9 @@ List
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="multiple" class="required list-field">
-          <option value="1">1</option>
+                multiple="multiple" 
+                class="required list-field">
           <option value="2">2</option>
-          <option value="3">3</option>
           <option value="4">4</option>
         </select>
       </td>
@@ -670,10 +669,9 @@ Tuple
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="multiple" class="required tuple-field">
-          <option value="1">1</option>
+                multiple="multiple" 
+                class="required tuple-field">
           <option value="2">2</option>
-          <option value="3">3</option>
           <option value="4">4</option>
         </select>
       </td>

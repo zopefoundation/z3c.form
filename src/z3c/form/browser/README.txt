@@ -479,12 +479,12 @@ List
       </td>
       <td>
         <button name="from2toButton" type="button"
-                value=" -&gt;"
-                onclick="javascript:from2to('foo')">&nbsp;-&gt;</button>
+                value="&rArr;"
+                onclick="javascript:from2to('foo')">&rArr;</button>
         <br />
         <button name="to2fromButton" type="button"
-                value="&lt;- "
-                onclick="javascript:to2from('foo')">&lt;-&nbsp;</button>
+                value="&lArr;"
+                onclick="javascript:to2from('foo')">&lArr;</button>
       </td>
       <td>
         <select id="foo-to" name="bar.to" size="5"
@@ -499,11 +499,11 @@ List
         </span>
       </td>
       <td>
-        <button name="upButton" type="button" value="^"
-                onclick="javascript:moveUp('foo')">^</button>
+        <button name="upButton" type="button" value="&uArr;"
+                onclick="javascript:moveUp('foo')">&uArr;</button>
         <br />
-        <button name="downButton" type="button" value="v"
-                onclick="javascript:moveDown('foo')">v</button>
+        <button name="downButton" type="button" value="&dArr;"
+                onclick="javascript:moveDown('foo')">&dArr;</button>
       </td>
     </tr>
   </table>
@@ -677,12 +677,12 @@ Tuple
       </td>
       <td>
         <button name="from2toButton" type="button"
-                value=" -&gt;"
-                onclick="javascript:from2to('foo')">&nbsp;-&gt;</button>
+                value="&rArr;"
+                onclick="javascript:from2to('foo')">&rArr;</button>
         <br />
         <button name="to2fromButton" type="button"
-                value="&lt;- "
-                onclick="javascript:to2from('foo')">&lt;-&nbsp;</button>
+                value="&lArr;"
+                onclick="javascript:to2from('foo')">&lArr;</button>
       </td>
       <td>
         <select id="foo-to" name="bar.to" size="5"
@@ -697,11 +697,11 @@ Tuple
         </span>
       </td>
       <td>
-        <button name="upButton" type="button" value="^"
-                onclick="javascript:moveUp('foo')">^</button>
+        <button name="upButton" type="button" value="&uArr;"
+                onclick="javascript:moveUp('foo')">&uArr;</button>
         <br />
-        <button name="downButton" type="button" value="v"
-                onclick="javascript:moveDown('foo')">v</button>
+        <button name="downButton" type="button" value="&dArr;"
+                onclick="javascript:moveDown('foo')">&dArr;</button>
       </td>
     </tr>
   </table>

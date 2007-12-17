@@ -8,6 +8,8 @@ After Version 1.7.0
 
 - Feature: Add a hidden widget template for the ``ISelectWidget``.
 
+- Feature: arrows in orderedselect replaced by named entities 
+
 - Bug: ``createId`` could not handle arbitrary unicode input. Thanks to
   Andreas Reuleaux for reporting the bug and a patch for it. (Added
   descriptive doctests for the function in the process.)
@@ -16,6 +18,8 @@ After Version 1.7.0
   needed for computing the invariant are in the submitted form.
 
 - Bug: orderedselect didn't submit selected values 
+
+- Bug orderedselect lists displayed tokens instead of value
 
 Version 1.7.0 (2007-10-09)
 --------------------------

@@ -56,12 +56,12 @@ If we render the widget we get an emtpy widget:
       </td>
       <td>
         <button name="from2toButton" type="button"
-                value="&rArr;"
-                onclick="javascript:from2to('widget-id')">&rArr;</button>
+                value="&rarr;"
+                onclick="javascript:from2to('widget-id')">&rarr;</button>
         <br />
         <button name="to2fromButton" type="button"
-                value="&lArr;"
-                onclick="javascript:to2from('widget-id')">&lArr;</button>
+                value="&larr;"
+                onclick="javascript:to2from('widget-id')">&larr;</button>
       </td>
       <td>
         <select id="widget-id-to" name="widget.name.to"
@@ -74,11 +74,11 @@ If we render the widget we get an emtpy widget:
         </span>
       </td>
       <td>
-        <button name="upButton" type="button" value="&uArr;"
-                onclick="javascript:moveUp('widget-id')">&uArr;</button>
+        <button name="upButton" type="button" value="&uarr;"
+                onclick="javascript:moveUp('widget-id')">&uarr;</button>
         <br />
-        <button name="downButton" type="button" value="&dArr;"
-                onclick="javascript:moveDown('widget-id')">&dArr;</button>
+        <button name="downButton" type="button" value="&darr;"
+                onclick="javascript:moveDown('widget-id')">&darr;</button>
       </td>
     </tr>
   </table>

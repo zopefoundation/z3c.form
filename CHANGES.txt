@@ -21,6 +21,8 @@ After Version 1.7.0
 
 - Bug orderedselect lists displayed tokens instead of value
 
+- Bug SequenzWidget displayed tokens instead of value
+
 Version 1.7.0 (2007-10-09)
 --------------------------
 

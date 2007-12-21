@@ -163,7 +163,7 @@ class SequenceWidget(Widget):
                 value.append(translate(
                     term.title, context=self.request, default=term.title))
             else:
-                value.append(term.token)
+                value.append(term.value)
         return value
 
     def updateTerms(self):

@@ -43,7 +43,7 @@ chapters = '\n'.join(
 
 setup (
     name='z3c.form',
-    version='1.7.0',
+    version='1.7.1dev',
     author = "Stephan Richter, Roger Ineichen and the Zope Community",
     author_email = "zope3-dev@zope.org",
     description = "An advanced form and widget framework for Zope 3",
@@ -74,9 +74,13 @@ setup (
     package_dir = {'':'src'},
     namespace_packages = ['z3c'],
     extras_require = dict(
-        test = ['zope.app.container', 'zope.testing',
-                'z3c.coverage', 'z3c.template',
-                'zope.app.i18n', ],
+        test = [
+            'zope.app.container',
+            'zope.testing',
+            'z3c.coverage',
+            'z3c.template',
+            'zope.app.i18n',
+            ],
         adding = ['zope.app.container'],
         ),
     install_requires = [

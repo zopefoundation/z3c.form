@@ -844,6 +844,15 @@ class IAddForm(IForm):
     def add(object):
         """Add the object somewhere."""
 
+    def createAndAdd(data):
+        """Call create and add.
+        
+        This method can be used for keep all attributes internal during create 
+        and add calls. On sucess we return the new created and added object.
+        If something fails, we return None. The default handleAdd method will
+        only set the _finishedAdd marker on sucess.
+        """
+
 
 class IEditForm(IForm):
     """A form to edit data of a component."""

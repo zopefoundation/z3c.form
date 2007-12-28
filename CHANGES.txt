@@ -3,8 +3,14 @@ CHANGES
 =======
 
 
-After Version 1.7.0
--------------------
+Version 1.7.1dev (unreleased)
+-----------------------------
+
+- Implemented additional createAndAdd hook in AddForm. This allows you to
+  implement create and add in a single method. It also supports gracefull
+  abort of a creat and add process if we do not return the new object. Which
+  means it can also be used as a hook for custom error messages for errors
+  happen during create and add.
 
 - Feature: Add a hidden widget template for the ``ISelectWidget``.
 

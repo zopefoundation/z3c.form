@@ -203,10 +203,16 @@ class AddForm(Form):
         if errors:
             self.status = self.formErrorsMessage
             return
+        obj = self.createAndAdd(data)
+        if obj is not None:
+            # mark only as finished if we get the new object
+            self._finishedAdd = True
+
+    def createAndAdd(self, data):
         obj = self.create(data)
         zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(obj))
         self.add(obj)
-        self._finishedAdd = True
+        return obj
 
     def create(self, data):
         raise NotImplementedError

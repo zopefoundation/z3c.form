@@ -1409,3 +1409,108 @@ Let's have a look at the result:
     >>> event = action.ActionErrorOccurred(cancel, ValueError(3))
 
     >>> form.handleActionError(event)
+
+
+Integration tests
+-----------------
+
+Identify the different forms can be important if it comes to layout template
+lookup. Ensure that we support the right interfaces for the different forms.
+
+
+Form
+~~~~
+
+  >>> from zope.interface.verify import verifyObject
+  >>> from z3c.form import interfaces
+  >>> obj = form.Form(None, None)
+  >>> verifyObject(interfaces.IForm, obj)
+  True
+
+  >>> interfaces.IForm.providedBy(obj)
+  True
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IDisplayForm.providedBy(obj)
+  False
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IEditForm.providedBy(obj)
+  False
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IAddForm.providedBy(obj)
+  False
+
+
+DisplayForm
+~~~~~~~~~~~
+
+  >>> from z3c.form import interfaces
+  >>> obj = form.DisplayForm(None, None)
+  >>> verifyObject(interfaces.IDisplayForm, obj)
+  True
+
+  >>> interfaces.IForm.providedBy(obj)
+  True
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IDisplayForm.providedBy(obj)
+  True
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IEditForm.providedBy(obj)
+  False
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IAddForm.providedBy(obj)
+  False
+
+
+EditForm
+~~~~~~~~
+
+  >>> from z3c.form import interfaces
+  >>> obj = form.EditForm(None, None)
+  >>> verifyObject(interfaces.IEditForm, obj)
+  True
+
+  >>> interfaces.IForm.providedBy(obj)
+  True
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IDisplayForm.providedBy(obj)
+  False
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IEditForm.providedBy(obj)
+  True
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IAddForm.providedBy(obj)
+  False
+
+
+
+AddForm
+~~~~~~~
+
+  >>> from z3c.form import interfaces
+  >>> obj = form.AddForm(None, None)
+  >>> verifyObject(interfaces.IAddForm, obj)
+  True
+
+  >>> interfaces.IForm.providedBy(obj)
+  True
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IDisplayForm.providedBy(obj)
+  False
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IEditForm.providedBy(obj)
+  False
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IAddForm.providedBy(obj)
+  True

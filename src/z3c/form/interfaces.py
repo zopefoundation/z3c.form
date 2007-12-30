@@ -787,6 +787,11 @@ class IForm(zope.interface.Interface):
 class ISubForm(IForm):
     """A subform."""
 
+
+class IDisplayForm(IForm):
+    """Mark a form as display form, used for tempaltes."""
+
+
 class IInputForm(zope.interface.Interface):
     """A form that is meant to process the input of the form controls."""
 

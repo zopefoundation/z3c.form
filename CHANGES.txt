@@ -6,6 +6,13 @@ CHANGES
 Version 1.7.1dev (unreleased)
 -----------------------------
 
+- Implemented IDisplayForm
+
+- Added integration tests for form interfaces. Added default class attribute
+  widgets in form class with default value ´´None´´´. This helps to pass the
+  integration tests. Now, the widget attribute can also be used as a indicator
+  for updated forms.
+
 - Implemented additional createAndAdd hook in AddForm. This allows you to
   implement create and add in a single method. It also supports gracefull
   abort of a creat and add process if we do not return the new object. Which

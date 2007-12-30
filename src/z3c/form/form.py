@@ -104,6 +104,7 @@ class BaseForm(browser.BrowserPage):
     prefix = 'form.'
     status = ''
     template = None
+    widgets  = None
 
     mode = interfaces.INPUT_MODE
     ignoreContext = False
@@ -143,6 +144,8 @@ class BaseForm(browser.BrowserPage):
 
 
 class DisplayForm(BaseForm):
+
+    zope.interface.implements(interfaces.IDisplayForm)
 
     mode = interfaces.DISPLAY_MODE
     ignoreRequest = True

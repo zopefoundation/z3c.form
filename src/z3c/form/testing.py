@@ -125,6 +125,16 @@ def setupFormDefaults():
         widget.WidgetTemplateFactory(getPath('select_hidden.pt'), 'text/html'),
         (None, None, None, None, interfaces.ISelectWidget),
         IPageTemplate, name=interfaces.HIDDEN_MODE)
+    # Checkbox Field Widget; register only templates
+    zope.component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('checkbox_input.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ICheckBoxWidget),
+        IPageTemplate, name=interfaces.INPUT_MODE)
+    zope.component.provideAdapter(
+        widget.WidgetTemplateFactory(
+        getPath('checkbox_display.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ICheckBoxWidget),
+        IPageTemplate, name=interfaces.DISPLAY_MODE)
     # Submit Field Widget
     zope.component.provideAdapter(
         widget.WidgetTemplateFactory(getPath('submit_input.pt'), 'text/html'),

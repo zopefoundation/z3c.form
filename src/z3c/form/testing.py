@@ -146,6 +146,7 @@ def setupFormDefaults():
     # Adapter to  convert between field/internal and widget values
     zope.component.provideAdapter(converter.FieldDataConverter)
     zope.component.provideAdapter(converter.SequenceDataConverter)
+    zope.component.provideAdapter(converter.CollectionSequenceDataConverter)
     zope.component.provideAdapter(converter.FieldWidgetDataConverter)
     # Adapter for providing terms to radio list and other widgets
     zope.component.provideAdapter(term.ChoiceTerms)

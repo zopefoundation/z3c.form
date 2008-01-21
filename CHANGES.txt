@@ -3,8 +3,8 @@ CHANGES
 =======
 
 
-Version 1.7.1dev (unreleased)
------------------------------
+Version 1.7.1 (2007-01-21)
+--------------------------
 
 - Implemented IDisplayForm interface
 
@@ -35,6 +35,7 @@ Version 1.7.1dev (unreleased)
 - Bug orderedselect lists displayed tokens instead of value
 
 - Bug SequenzWidget displayed tokens instead of value
+
 
 Version 1.7.0 (2007-10-09)
 --------------------------

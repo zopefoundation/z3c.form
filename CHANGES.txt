@@ -2,13 +2,14 @@
 CHANGES
 =======
 
-Version 1.7.2dev (unreleased)
------------------------------
+Version 1.7.2 (2008-01-21)
+--------------------------
 
-- ...
+- bugfix release, seems that zcml files are missing again. Try to use newest
+  setuptools.
 
 
-Version 1.7.1 (2007-01-21)
+Version 1.7.1 (2008-01-21)
 --------------------------
 
 - Implemented IDisplayForm interface

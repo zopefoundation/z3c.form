@@ -9,7 +9,7 @@ Version 1.7.1 (2007-01-21)
 - Implemented IDisplayForm interface
 
 - Added integration tests for form interfaces. Added default class attribute
-  called widgets in form class with default value ´´None´´´. This helps to 
+  called widgets in form class with default value ``None``. This helps to
   pass the integration tests. Now, the widget attribute can also be used as a 
   indicator for updated forms.
 

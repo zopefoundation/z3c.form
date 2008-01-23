@@ -2,45 +2,47 @@
 CHANGES
 =======
 
-Version 1.7.2 (2008-01-21)
+Version 1.8.0 (2008-01-23)
 --------------------------
 
-- bugfix release, seems that zcml files are missing again. Try to use newest
-  setuptools.
+- Feature: Implemented ``IDisplayForm`` interface.
 
+- Feature: Added integration tests for form interfaces. Added default class
+  attribute called ``widgets`` in form class with default value ``None``. This
+  helps to pass the integration tests. Now, the ``widgets`` attribute can also
+  be used as a indicator for updated forms.
 
-Version 1.7.1 (2008-01-21)
---------------------------
-
-- Implemented IDisplayForm interface
-
-- Added integration tests for form interfaces. Added default class attribute
-  called widgets in form class with default value ``None``. This helps to 
-  pass the integration tests. Now, the widget attribute can also be used as a 
-  indicator for updated forms.
-
-- Implemented additional createAndAdd hook in AddForm. This allows you to
-  implement create and add in a single method. It also supports gracefull
-  abort of a creat and add process if we do not return the new object. Which
-  means it can also be used as a hook for custom error messages for errors
-  happen during create and add.
+- Feature: Implemented additional ``createAndAdd`` hook in ``AddForm``. This
+  allows you to implement create and add in a single method. It also supports
+  graceful abortion of a create and add process if we do not return the new
+  object. This means it can also be used as a hook for custom error messages
+  for errors happen during create and add.
 
 - Feature: Add a hidden widget template for the ``ISelectWidget``.
 
-- Feature: arrows in orderedselect replaced by named entities 
+- Feature: Arrows in the ordered select widget replaced by named entities.
+
+- Feature: Added ``CollectionSequenceDataConverter`` to ``setupFormDefaults``.
+
+- Feature: Templates for the CheckBox widget are now registered in
+  ``checkbox.zcml``.
+
+- Feature: If a value cannot be converted from its unicode representation to a
+  field value using the field's ``IFromUnicode`` interface, the resulting type
+  error now shows the field name, if available.
 
 - Bug: ``createId`` could not handle arbitrary unicode input. Thanks to
   Andreas Reuleaux for reporting the bug and a patch for it. (Added
   descriptive doctests for the function in the process.)
 
-- Bug: Interface invariants where not working when not all fields
-  needed for computing the invariant are in the submitted form.
+- Bug: Interface invariants where not working when not all fields needed for
+  computing the invariant are in the submitted form.
 
-- Bug: orderedselect didn't submit selected values 
+- Bug: Ordered select didn't submit selected values.
 
-- Bug orderedselect lists displayed tokens instead of value
+- Bug: Ordered select lists displayed tokens instead of value,
 
-- Bug SequenzWidget displayed tokens instead of value
+- Bug: ``SequenceWidget`` displayed tokens instead of value.
 
 
 Version 1.7.0 (2007-10-09)

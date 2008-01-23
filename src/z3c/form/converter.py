@@ -64,7 +64,11 @@ class FieldDataConverter(BaseDataConverter):
     def __init__(self, field, widget):
         super(FieldDataConverter, self).__init__(field, widget)
         if not zope.schema.interfaces.IFromUnicode.providedBy(field):
-            raise TypeError('Field must provide ``IFromUnicode``.')
+            if field.__name__:
+                raise TypeError('Field ``%s`` must provide ``IFromUnicode``.' \
+                                % field.__name__)
+            else:
+                raise TypeError('Field must provide ``IFromUnicode``.')
 
 
 @zope.component.adapter(interfaces.IFieldWidget)

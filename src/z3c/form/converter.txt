@@ -36,6 +36,14 @@ is raised:
   ...
   TypeError: Field must provide ``IFromUnicode``.
 
+A named field will tell it's name:
+
+  >>> converter.FieldDataConverter(zope.schema.Date(__name__="foobar"), text)
+  Traceback (most recent call last):
+  ...
+  TypeError: Field ``foobar`` must provide ``IFromUnicode``.
+
+
 However, the ``FieldDataConverter`` is registered for ``IField``, since many
 fields (like ``Decimal``) for which we want to create custom converters
 provide ``IFromUnicode`` more specifically than their characterizing interface

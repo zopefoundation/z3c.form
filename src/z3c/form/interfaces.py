@@ -789,7 +789,7 @@ class ISubForm(IForm):
 
 
 class IDisplayForm(IForm):
-    """Mark a form as display form, used for tempaltes."""
+    """Mark a form as display form, used for templates."""
 
 
 class IInputForm(zope.interface.Interface):

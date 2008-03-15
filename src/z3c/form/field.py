@@ -246,10 +246,10 @@ class FieldWidgets(util.Manager):
             widget.id = (prefix + shortName).replace('.', '-')
             # Step 4: Set the context
             widget.context = self.content
-            zope.interface.alsoProvides(widget, interfaces.IContextAware)
             # Step 5: Set the form
             widget.form = self.form
-            zope.interface.alsoProvides(widget, interfaces.IFormAware)
+            # Optimization: set both interfaces here, rather in step 4 and 5: alsoProvides is quite slow
+            zope.interface.alsoProvides(widget, interfaces.IContextAware, interfaces.IFormAware)
             # Step 6: Set some variables
             widget.ignoreContext = self.ignoreContext
             widget.ignoreRequest = self.ignoreRequest

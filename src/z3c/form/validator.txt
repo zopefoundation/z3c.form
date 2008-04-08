@@ -341,6 +341,9 @@ the form.
 
   >>> invariants = validator.InvariantsValidator(
   ...     stephan, None, None, IPerson, None)
-  >>> invariants.validate({'email': 'foo@bar.com'})
-  (<zope.interface.exceptions.Invalid instance at ...>,)
+  >>> errors = invariants.validate({'email': 'foo@bar.com'})
+  >>> errors[0].__class__.__name__
+  'Invalid'
+  >>> errors[0].args[0]
+  'The login not part of email.'
 

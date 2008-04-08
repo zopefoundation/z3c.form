@@ -2,6 +2,16 @@
 CHANGES
 =======
 
+Version 1.8.1 (2008-04-08)
+--------------------------
+
+- Bug: Fixed a bug that prohibited groups from having different contents than
+  the parent form.  Previously, the groups contents were not being properly
+  updated. Added new documentation on how to use groups to generate
+  object-based sub-forms. Thanks to Paul Carduner for providing the fix and
+  documentation.
+
+
 Version 1.8.0 (2008-01-23)
 --------------------------
 

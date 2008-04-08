@@ -63,7 +63,8 @@ class GroupForm(object):
         content = self.getContent()
         form.applyChanges(self, content, data)
         for group in self.groups:
-            groupChanged = form.applyChanges(group, content, data)
+            groupContent = group.getContent()
+            groupChanged = form.applyChanges(group, groupContent, data)
             changed = changed or groupChanged
         if changed:
             zope.event.notify(

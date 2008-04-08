@@ -440,3 +440,195 @@ and the data is correctly updated:
   2006
 
 And that's it!
+
+
+Groups with Different Content
+-----------------------------
+
+You can customize the content for a group by overriding a group's
+``getContent`` method.  This is a very easy way to get around not
+having object widgets.  For example, suppose we want to maintain the
+vehicle owner's information in a separate class than the vehicle.  We
+might have an ``IVehicleOwner`` interface like so.
+
+  >>> class IVehicleOwner(zope.interface.Interface):
+  ...     firstName = zope.schema.TextLine(title=u'First Name')
+  ...     lastName = zope.schema.TextLine(title=u'Last Name')
+
+Then out ``IVehicleRegistration`` interface would include an object
+field for the owner instead of the ``firstName`` and ``lastName``
+fields.
+
+  >>> class IVehicleRegistration(zope.interface.Interface):
+  ...     owner = zope.schema.Object(title=u'Owner', schema=IVehicleOwner)
+  ...
+  ...     license = zope.schema.TextLine(title=u'License')
+  ...     address = zope.schema.TextLine(title=u'Address')
+  ...
+  ...     model = zope.schema.TextLine(title=u'Model')
+  ...     make = zope.schema.TextLine(title=u'Make')
+  ...     year = zope.schema.Int(title=u'Year')
+
+Now let's create simple implementations of these two interfaces.
+
+  >>> class VehicleOwner(object):
+  ...     zope.interface.implements(IVehicleOwner)
+  ...
+  ...     def __init__(self, **kw):
+  ...         for name, value in kw.items():
+  ...             setattr(self, name, value)
+
+  >>> class VehicleRegistration(object):
+  ...     zope.interface.implements(IVehicleRegistration)
+  ...
+  ...     def __init__(self, **kw):
+  ...         for name, value in kw.items():
+  ...             setattr(self, name, value)
+
+Now we can create a group just for the owner with its own
+``getContent`` method that simply returns the ``owner`` object field
+of the ``VehicleRegistration`` instance.
+
+  >>> class OwnerGroup(group.Group):
+  ...     label = u'Owner'
+  ...     fields = field.Fields(IVehicleOwner, prefix='owner')
+  ...
+  ...     def getContent(self):
+  ...         return self.context.owner
+
+When we create an Edit form for example, we should omit the ``owner``
+field which is taken care of with the group.
+
+  >>> class RegistrationEditForm(group.GroupForm, form.EditForm):
+  ...     fields = field.Fields(IVehicleRegistration).omit(
+  ...         'owner')
+  ...     groups = (OwnerGroup,)
+  ...
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
+
+
+  >>> reg = VehicleRegistration(
+  ...               license=u'MA 40387',
+  ...               address=u'10 Main St, Maynard, MA',
+  ...               model=u'BMW',
+  ...               make=u'325',
+  ...               year=u'2005',
+  ...               owner=VehicleOwner(firstName=u'Stephan',
+  ...                                  lastName=u'Richter'))
+  >>> request = testing.TestRequest()
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+
+When we render the form, the group appears as we would expect but with
+the ``owner`` prefix for the fields.
+
+  >>> print edit.render()
+  <html>
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-license">License</label>
+          <input type="text" id="form-widgets-license"
+                 name="form.widgets.license"
+                 class="text-widget required textline-field"
+                 value="MA 40387" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-address">Address</label>
+          <input type="text" id="form-widgets-address"
+                 name="form.widgets.address"
+                 class="text-widget required textline-field"
+                 value="10 Main St, Maynard, MA" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-model">Model</label>
+          <input type="text" id="form-widgets-model"
+                 name="form.widgets.model"
+                 class="text-widget required textline-field"
+                 value="BMW" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-make">Make</label>
+          <input type="text" id="form-widgets-make"
+                 name="form.widgets.make"
+                 class="text-widget required textline-field"
+                 value="325" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-year">Year</label>
+          <input type="text" id="form-widgets-year"
+                 name="form.widgets.year"
+                 class="text-widget required int-field" value="2005" />
+        </div>
+        <fieldgroup>
+          <legend>Owner</legend>
+          <div class="row">
+            <label for="form-widgets-owner-firstName">First Name</label>
+            <input type="text" id="form-widgets-owner-firstName"
+                   name="form.widgets.owner.firstName"
+                   class="text-widget required textline-field"
+                   value="Stephan" />
+          </div>
+          <div class="row">
+            <label for="form-widgets-owner-lastName">Last Name</label>
+            <input type="text" id="form-widgets-owner-lastName"
+                   name="form.widgets.owner.lastName"
+                   class="text-widget required textline-field"
+                   value="Richter" />
+          </div>
+        </fieldgroup>
+        <div class="action">
+          <input type="submit" id="form-buttons-apply"
+                 name="form.buttons.apply"
+                 class="submit-widget button-field" value="Apply" />
+        </div>
+      </form>
+    </body>
+  </html>
+
+Now let's try and edit the owner.  For example, suppose that Stephan
+Richter gave his BMW to Paul Carduner because he is such a nice guy.
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.owner.firstName': u'Paul',
+  ...     'form.widgets.owner.lastName': u'Carduner',
+  ...     'form.widgets.license': u'MA 4038765',
+  ...     'form.widgets.address': u'Berkeley',
+  ...     'form.widgets.model': u'BMW',
+  ...     'form.widgets.make': u'325',
+  ...     'form.widgets.year': u'2005',
+  ...     'form.buttons.apply': u'Apply'
+  ...     })
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+
+We'll see if everything worked on the form side.
+
+  >>> print edit.render()
+  <html>
+    <body>
+      <i>Data successfully updated.</i>
+      ...
+    </body>
+  </html>
+
+Now the owner object should have updated fields.
+
+  >>> reg.owner.firstName
+  u'Paul'
+  >>> reg.owner.lastName
+  u'Carduner'
+  >>> reg.license
+  u'MA 4038765'
+  >>> reg.address
+  u'Berkeley'
+  >>> reg.model
+  u'BMW'
+  >>> reg.make
+  u'325'
+  >>> reg.year
+  2005
+
+And that's it!

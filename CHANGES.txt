@@ -2,6 +2,13 @@
 CHANGES
 =======
 
+Version 1.8.2dev (unreleased)
+-----------------------------
+
+- Bug: Prevent to call __len__ on ITerms and use ``is None`` for check for 
+  existence
+
+
 Version 1.8.1 (2008-04-08)
 --------------------------
 

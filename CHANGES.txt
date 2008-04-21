@@ -6,7 +6,8 @@ Version 1.8.2dev (unreleased)
 -----------------------------
 
 - Bug: Prevent to call __len__ on ITerms and use ``is None`` for check for 
-  existence
+  existence. Because __len__ is not a part of the ITerms API and 
+  ``not widget.terms`` will end in calling __len__ on existing terms.
 
 
 Version 1.8.1 (2008-04-08)

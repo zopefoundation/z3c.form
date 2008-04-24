@@ -28,7 +28,8 @@ Contents:
    src/z3c/form/value
    src/z3c/form/error
    src/z3c/form/browser/README
-
+   CHANGES
+   
 
 Indices and tables
 ==================

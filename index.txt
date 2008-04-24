@@ -1,0 +1,38 @@
+.. z3c.form documentation master file, created by sphinx-quickstart on Wed Apr 23 23:01:11 2008.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to z3c.form's documentation!
+====================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   src/z3c/form/README
+   src/z3c/form/action
+   src/z3c/form/adding
+   src/z3c/form/button
+   src/z3c/form/converter
+   src/z3c/form/datamanager
+   src/z3c/form/error
+   src/z3c/form/field
+   src/z3c/form/form
+   src/z3c/form/group
+   src/z3c/form/subform
+   src/z3c/form/term
+   src/z3c/form/util
+   src/z3c/form/validator
+   src/z3c/form/value
+   src/z3c/form/widget
+   src/z3c/form/zcml
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

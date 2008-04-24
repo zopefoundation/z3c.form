@@ -1,3 +1,5 @@
+.. _browserREADME.txt:
+
 ======
 README
 ======

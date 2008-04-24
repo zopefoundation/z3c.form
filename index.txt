@@ -27,6 +27,7 @@ Contents:
    src/z3c/form/value
    src/z3c/form/widget
    src/z3c/form/zcml
+   src/z3c/form/browser/README
 
 
 Indices and tables

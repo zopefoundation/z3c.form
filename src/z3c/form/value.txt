@@ -1,6 +1,11 @@
+.. _value.txt:
+
 ========================
 Attribute Value Adapters
 ========================
+
+.. module:: z3c.form.value
+   :synopsis: Highly customizable form properties with adapter lookups.
 
 In advanced, highly customized projects it is often the case that a property
 wants to be overridden for a particular customer in a particular case. A prime

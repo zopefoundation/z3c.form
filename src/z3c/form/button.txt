@@ -1,6 +1,12 @@
+.. _button.txt:
+
 =======
 Buttons
 =======
+
+.. module:: z3c.form.button
+   :synopsis: Representing actionable form buttons.
+
 
 Buttons are a method to declare actions for a form. Like fields describe
 widgets within a form, buttons describe actions. The symmetry goes even

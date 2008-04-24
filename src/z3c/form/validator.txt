@@ -1,6 +1,11 @@
+.. _validator.txt:
+
 ==========
 Validators
 ==========
+
+.. module:: z3c.form.validator
+   :synopsis: Validating form input.
 
 Validators are components that validate submitted data. This is certainly not
 a new concept, but in the previous form frameworks validation was hidden in

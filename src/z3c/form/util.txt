@@ -1,6 +1,11 @@
+.. _util.txt:
+
 =============================
 Utility Functions and Classes
 =============================
+
+.. module:: z3c.form.util
+   :synopsis: Utility functions and classes.
 
 This file documents the utility functions and classes that are otherwise not
 tested.

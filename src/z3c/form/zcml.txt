@@ -1,6 +1,11 @@
+.. _zcml.txt:
+
 ==========
 Directives
 ==========
+
+.. module:: z3c.form.zcml
+   :synopsis: ZCML directives for use with z3c.form.
 
 Widget template directive
 -------------------------

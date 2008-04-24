@@ -1,6 +1,11 @@
+.. _form.txt:
+
 =====
 Forms
 =====
+
+.. module:: z3c.form.form
+   :synopsis: Common form patterns for real-world use cases.
 
 The purpose of this package is to make development of forms as simple
 as possible, while still providing all the hooks to do customization

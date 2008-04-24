@@ -2,6 +2,9 @@
 Error Views
 ===========
 
+.. module:: z3c.form.error
+   :synopsis: Error message handling and customization.
+
 Error views are looked up every time a validation error occurs during data
 extraction and/or validation. Unfortunately, it was often hard to adjust error
 messages based on specific situations. The error view implementation in this

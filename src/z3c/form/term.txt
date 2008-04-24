@@ -1,6 +1,11 @@
+.. _term.txt:
+
 =====
 Terms
 =====
+
+.. module:: z3c.form.term
+   :synopsis: Providing choices for sequene widgets.
 
 Terms are used to provide choices for sequence widgets or any other construct
 needing them. Since Zope 3 already has sources and vocabularies, the base

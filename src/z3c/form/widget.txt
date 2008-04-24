@@ -1,6 +1,11 @@
+.. _widget.txt:
+
 =======
 Widgets
 =======
+
+.. module:: z3c.form.widget
+   :synopsis: UI components for user input.
 
 Widgets are small UI components that accept and process the textual user
 input. The only responsibility of a widget is to represent a value to the

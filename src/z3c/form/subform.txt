@@ -1,6 +1,11 @@
+.. _subform.txt:
+
 =========
 Sub-Forms
 =========
+
+.. module:: z3c.form.subform
+   :synopsis: Support for forms within forms.
 
 Traditionally, the Zope community talks about sub-forms in a generic manner
 without defining their purpose, restrictions and assumptions. When we

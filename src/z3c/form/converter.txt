@@ -1,6 +1,12 @@
+.. _converter.txt:
+
 ==============
 Data Converter
 ==============
+
+.. module:: z3c.form.converter
+   :synopsis: Converting data between external widgets and internal
+   python data structures
 
 The data converter is the component that converts an internal data value as
 described by a field to an external value as required by a widget and vice

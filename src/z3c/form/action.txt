@@ -1,6 +1,11 @@
+.. _action.txt:
+
 ===============
 Action Managers
 ===============
+
+.. module:: z3c.form.action
+   :synopsis: Managing and executing form actions.
 
 Action managers are components that manage all actions that can be taken
 within a view, usually a form. They are also responsible for executing actions

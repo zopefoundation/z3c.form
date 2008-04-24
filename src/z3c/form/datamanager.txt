@@ -1,6 +1,11 @@
+.. _datamanager.txt:
+
 =============
 Data Managers
 =============
+
+.. module:: z3c.form.datamanager
+   :synopsis: Abstraction for getting and setting data.
 
 For the longest time the way widgets retrieved and stored their values on the
 actual content/model was done by binding the field to a context and then

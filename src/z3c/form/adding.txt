@@ -1,6 +1,11 @@
+.. _adding.txt:
+
 =========================
 Add Forms for ``IAdding``
 =========================
+
+.. module:: z3c.form.adding
+   :synopsis: Supporting IAdding, but only if you have to.
 
 While using ``IAdding``-based add forms is strongly discouraged by this
 package due to performance and code complexity concerns, there is still the

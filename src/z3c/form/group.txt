@@ -1,6 +1,11 @@
+.. _group.txt:
+
 ===========
 Group Forms
 ===========
+
+.. module:: z3c.form.group
+   :synopsis: Grouping form fields into logical units.
 
 Group forms allow you to split up a form into several logical units without
 much overhead. To the parent form, groups should be only dealt with during

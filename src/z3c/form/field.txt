@@ -1,6 +1,11 @@
+.. _field.txt:
+
 ==============
 Field Managers
 ==============
+
+.. module:: z3c.form.field
+   :synopsis: Defining form fields from schemas.
 
 One of the features in ``zope.formlib`` that works really well is the syntax
 used to define the contents of the form. The formlib uses form fields, to

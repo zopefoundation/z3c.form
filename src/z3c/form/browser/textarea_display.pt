@@ -12,6 +12,6 @@
                       onmouseout view/onmouseout;
                       onkeypress view/onkeypress;
                       onkeydown view/onkeydown;
-                      onkeyup view/onkeyup">
-  <tal:block condition="view/value" content="view/value" />
-</span>
+                      onkeyup view/onkeyup"><tal:block
+      condition="view/value" content="view/value"
+/></span>

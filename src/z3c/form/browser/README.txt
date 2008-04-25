@@ -50,10 +50,8 @@ ASCII
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textarea-widget required ascii-field">
-    This is
-   ASCII.
-  </span>
+  <span id="foo" class="textarea-widget required ascii-field">This is
+   ASCII.</span>
 
 
 ASCIILine
@@ -68,9 +66,7 @@ ASCIILine
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required asciiline-field">
-    An ASCII line.
-  </span>
+  <span id="foo" class="text-widget required asciiline-field">An ASCII line.</span>
 
 Bool
 ----
@@ -97,9 +93,8 @@ Bool
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="radio-widget required bool-field">
-    <span class="selected-option">yes</span>
-  </span>
+  <span id="foo" class="radio-widget required bool-field"><span
+      class="selected-option">yes</span></span>
 
 For the boolean, the checkbox widget can be used as well:
 
@@ -128,9 +123,8 @@ For the boolean, the checkbox widget can be used as well:
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="checkbox-widget required bool-field">
-    <span class="selected-option">yes</span>
-  </span>
+  <span id="foo" class="checkbox-widget required bool-field"><span
+      class="selected-option">yes</span></span>
 
 We can also have a sinle checkbox button for the boolean.
 
@@ -153,9 +147,8 @@ We can also have a sinle checkbox button for the boolean.
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo"
-        class="single-checkbox-widget required bool-field">
-    <span class="selected-option"></span>
-  </span>
+        class="single-checkbox-widget required bool-field"><span
+      class="selected-option"></span></span>
 
 
 Button
@@ -206,7 +199,7 @@ Bytes
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> widget.render()
-  u'<span id="foo" class="file-widget required bytes-field">\n  \x08%\n\x1a\n</span>\n'
+  u'<span id="foo" class="file-widget required bytes-field">\x08%\n\x1a</span>\n'
 
 
 BytesLine
@@ -221,9 +214,7 @@ BytesLine
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required bytesline-field">
-    A Bytes line.
-  </span>
+  <span id="foo" class="text-widget required bytesline-field">A Bytes line.</span>
 
 
 Choice
@@ -246,9 +237,8 @@ Choice
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="select-widget required choice-field">
-    <span class="selected-option">Yes</span>
-  </span>
+  <span id="foo" class="select-widget required choice-field"><span
+    class="selected-option">Yes</span></span>
 
 
 Date
@@ -264,9 +254,7 @@ Date
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required date-field">
-    07/04/01
-  </span>
+  <span id="foo" class="text-widget required date-field">07/04/01</span>
 
 
 Datetime
@@ -281,9 +269,7 @@ Datetime
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required datetime-field">
-    07/04/01 12:00
-  </span>
+  <span id="foo" class="text-widget required datetime-field">07/04/01 12:00</span>
 
 
 Decimal
@@ -299,9 +285,7 @@ Decimal
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required decimal-field">
-    1,265.87
-  </span>
+  <span id="foo" class="text-widget required decimal-field">1,265.87</span>
 
 
 Dict
@@ -323,9 +307,7 @@ DottedName
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required dottedname-field">
-    z3c.form
-  </span>
+  <span id="foo" class="text-widget required dottedname-field">z3c.form</span>
 
 
 Float
@@ -340,9 +322,7 @@ Float
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required float-field">
-    1,265.8
-  </span>
+  <span id="foo" class="text-widget required float-field">1,265.8</span>
 
 
 FrozenSet
@@ -365,10 +345,9 @@ FrozenSet
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="select-widget required frozenset-field">
-    <span class="selected-option">1</span>,
-    <span class="selected-option">3</span>
-  </span>
+  <span id="foo" class="select-widget required frozenset-field"><span
+    class="selected-option">1</span>, <span
+    class="selected-option">3</span></span>
 
 
 Id
@@ -383,9 +362,7 @@ Id
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required id-field">
-    z3c.form
-  </span>
+  <span id="foo" class="text-widget required id-field">z3c.form</span>
 
 
 ImageButton
@@ -449,9 +426,7 @@ Int
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required int-field">
-    1,200
-  </span>
+  <span id="foo" class="text-widget required int-field">1,200</span>
 
 
 List
@@ -471,7 +446,7 @@ List
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="multiple" 
+                multiple="multiple"
                 class="required list-field">
           <option value="2">2</option>
           <option value="4">4</option>
@@ -510,10 +485,9 @@ List
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="required list-field">
-    <span class="selected-option">1</span>,
-    <span class="selected-option">3</span>
-  </span>
+  <span id="foo" class="required list-field"><span
+      class="selected-option">1</span>, <span
+      class="selected-option">3</span></span>
 
 
 Object
@@ -535,9 +509,7 @@ Password
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="password-widget required password-field">
-    mypwd
-  </span>
+  <span id="foo" class="password-widget required password-field">mypwd</span>
 
 
 Set
@@ -560,10 +532,9 @@ Set
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="select-widget required set-field">
-    <span class="selected-option">1</span>,
-    <span class="selected-option">3</span>
-  </span>
+  <span id="foo" class="select-widget required set-field"><span
+      class="selected-option">1</span>, <span
+      class="selected-option">3</span></span>
 
 
 SourceText
@@ -578,9 +549,7 @@ SourceText
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textarea-widget required sourcetext-field">
-    &lt;source /&gt;
-  </span>
+  <span id="foo" class="textarea-widget required sourcetext-field">&lt;source /&gt;</span>
 
 
 Text
@@ -595,10 +564,8 @@ Text
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="textarea-widget required text-field">
-    Some
-    Text.
-  </span>
+  <span id="foo" class="textarea-widget required text-field">Some
+    Text.</span>
 
 
 TextLine
@@ -613,9 +580,7 @@ TextLine
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required textline-field">
-    Some Text line.
-  </span>
+  <span id="foo" class="text-widget required textline-field">Some Text line.</span>
 
 
 Time
@@ -630,9 +595,7 @@ Time
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required time-field">
-    12:00
-  </span>
+  <span id="foo" class="text-widget required time-field">12:00</span>
 
 
 Timedelta
@@ -647,9 +610,7 @@ Timedelta
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required timedelta-field">
-    3 days, 0:00:00
-  </span>
+  <span id="foo" class="text-widget required timedelta-field">3 days, 0:00:00</span>
 
 
 Tuple
@@ -669,7 +630,7 @@ Tuple
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
-                multiple="multiple" 
+                multiple="multiple"
                 class="required tuple-field">
           <option value="2">2</option>
           <option value="4">4</option>
@@ -708,10 +669,9 @@ Tuple
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="required tuple-field">
-    <span class="selected-option">1</span>,
-    <span class="selected-option">3</span>
-  </span>
+  <span id="foo" class="required tuple-field"><span
+    class="selected-option">1</span>, <span
+    class="selected-option">3</span></span>
 
 
 URI
@@ -726,6 +686,4 @@ URI
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
-  <span id="foo" class="text-widget required uri-field">
-    http://zope.org
-  </span>
+  <span id="foo" class="text-widget required uri-field">http://zope.org</span>

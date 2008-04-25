@@ -12,10 +12,10 @@
                       onmouseout view/onmouseout;
                       onkeypress view/onkeypress;
                       onkeydown view/onkeydown;
-                      onkeyup view/onkeyup">
-  <tal:block tal:repeat="value view/displayValue"
+                      onkeyup view/onkeyup"><tal:block
+    tal:repeat="value view/displayValue"
     ><span class="selected-option"
            tal:content="value"
     /><tal:block condition="not:repeat/value/end">, </tal:block
-  ></tal:block>
-</span>
+  ></tal:block
+></span>

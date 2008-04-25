@@ -3,6 +3,67 @@
  * CUSTOMIZED Sphinx Doc Design
  */
 
+#zope-page-header{
+  background: #f9f9f9;
+  margin: 0px;
+  width: 999px;
+  margin: auto;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+#portal-logo img{
+  border: 0px;
+  margin: 0.5em 0em 0.5em 36px;
+  float: left;
+}
+
+#zope-page-header ul{
+  height: auto;
+  line-height: 4em;
+  display: inline;
+  text-align: center;
+  padding-bottom: .5em;
+  margin-bottom: 10px;
+}
+
+#zope-page-header ul li{
+  display: inline;
+}
+
+#zope-page-header ul li a{
+  padding: 0em 1em;
+  font-weight: bold;
+  border: 1px solid #f9f9f9;
+}
+
+#zope-page-header ul li a:hover{
+  padding: 0em 1em;
+  border: 1px solid #d3d3d3;
+  background: white;
+  color: #333;
+}
+
+#portal-feature{
+  background: white;
+  padding: 0px 140px 0px 50px;
+  width: 809px;
+  margin: auto;
+}
+#portal-feature img{
+  float: left;
+  margin: 1em 0;
+}
+#feature-blurb{
+  height: auto;
+  font-size: 1.8em;
+  padding: 38px 0px  0.5em 250px;
+}
+#feature-blurb p{
+  line-height: 1.2em;
+  margin: 0 0 .75em;
+}
+
+
 body {
     font: 75% "Lucida Grande",Verdana,Lucida,Helvetica,Arial,sans-serif;
     background: #474747 url(http://zode01.lovelysystems.com/body_bg.png) repeat-x scroll left top;

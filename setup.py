@@ -82,6 +82,8 @@ setup (
             'z3c.template',
             'zope.app.i18n',
             ],
+        docs = ['Sphinx',
+                'z3c.recipe.sphinxdoc'],
         adding = ['zope.app.container'],
         ),
     install_requires = [

@@ -2,5 +2,6 @@
        tal:attributes="id view/id;
                        name view/name;
                        class view/klass;
+                       style view/style;
                        src view/src;
                        value view/value" />

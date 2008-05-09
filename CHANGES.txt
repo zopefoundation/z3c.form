@@ -2,6 +2,12 @@
 CHANGES
 =======
 
+Version 1.8.3 (????-??-??)
+--------------------------
+
+- Bug: Display widgets did not set the style attribute if it was
+  available, even though the input widgets did set the style attribute.
+
 Version 1.8.2 (2008-04-24)
 --------------------------
 

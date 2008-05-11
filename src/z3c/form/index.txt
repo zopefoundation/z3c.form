@@ -10,24 +10,24 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   z3c/form/README
-   z3c/form/form
-   z3c/form/group
-   z3c/form/subform
-   z3c/form/field
-   z3c/form/button
-   z3c/form/zcml
-   z3c/form/validator
-   z3c/form/widget
-   z3c/form/action
-   z3c/form/datamanager
-   z3c/form/converter
-   z3c/form/term
-   z3c/form/util
-   z3c/form/adding
-   z3c/form/value
-   z3c/form/error
-   z3c/form/browser/README
+   README
+   form
+   group
+   subform
+   field
+   button
+   zcml
+   validator
+   widget
+   action
+   datamanager
+   converter
+   term
+   util
+   adding
+   value
+   error
+   browser/README
 
 Indices and tables
 ==================

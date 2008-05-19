@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="z3c.form">
+
+  <!-- This data converter is registered in its own file so that it
+       can be easily excluded in other packages. For example, we may
+       want to use the testing.py's file upload data converter widget
+       instead of the standard one when we test our application.  By
+       placing this registration in its own file, we do not have to do
+       zcml overrides, but can rather just exclude this file and
+       include file_testing.zcml-->
+
+  <!-- Data Converters -->
+  <adapter
+      factory=".converter.FileUploadDataConverter"
+      />
+
+</configure>

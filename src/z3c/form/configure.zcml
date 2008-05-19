@@ -54,9 +54,7 @@
   <adapter
       factory=".converter.TimedeltaDataConverter"
       />
-  <adapter
-      factory=".converter.FileUploadDataConverter"
-      />
+  <include file="file.zcml" />
   <adapter
       factory=".converter.SequenceDataConverter"
       />

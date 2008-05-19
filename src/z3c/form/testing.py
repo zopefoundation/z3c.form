@@ -32,6 +32,17 @@ from z3c.form import form, interfaces, term, validator, widget
 from z3c.form.browser import radio, select, text
 
 
+class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
+    """A special file upload data converter that works with testing."""
+    zope.component.adapts(
+        zope.schema.interfaces.IBytes, interfaces.IFileWidget)
+
+    def toFieldValue(self, value):
+        if value is None or value == '':
+            value = self.widget.request.get(self.widget.name+'.testing', '')
+        return super(TestingFileUploadDataConverter, self).toFieldValue(value)
+
+
 class TestRequest(TestRequest):
     zope.interface.implements(interfaces.IFormLayer)
 

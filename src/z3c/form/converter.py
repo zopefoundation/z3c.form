@@ -238,7 +238,7 @@ class FileUploadDataConverter(BaseDataConverter):
                 else:
                     return self.field.missing_value
         else:
-            return unicode(value)
+            return str(value)
 
 
 class SequenceDataConverter(BaseDataConverter):

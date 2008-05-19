@@ -111,4 +111,4 @@ using the data converter.
   >>> conv
   <TestingFileUploadDataConverter converts from Bytes to FileWidget>
   >>> conv.toFieldValue("")
-  u'File upload contents.'
+  'File upload contents.'

@@ -1,0 +1,33 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="z3c.form">
+
+  <class class=".file.FileWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.IFileWidget"
+        />
+  </class>
+
+  <adapter
+      factory=".file.FileFieldWidget"
+      for="zope.schema.interfaces.IBytes
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      mode="display"
+      widget="z3c.form.interfaces.IFileWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="file_display.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.IFileWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="file_testing_input.pt"
+      />
+
+</configure>

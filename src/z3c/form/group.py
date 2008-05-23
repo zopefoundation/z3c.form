@@ -76,7 +76,12 @@ class GroupForm(object):
         self.updateWidgets()
         groups = []
         for groupClass in self.groups:
-            group = groupClass(self.context, self.request, self)
+            # only instantiate the groupClass if it hasn't already
+            # been instantiated
+            if type(groupClass) is type:
+                group = groupClass(self.context, self.request, self)
+            else:
+                group = groupClass
             group.update()
             groups.append(group)
         self.groups = tuple(groups)

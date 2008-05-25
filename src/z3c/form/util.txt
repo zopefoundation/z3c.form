@@ -211,8 +211,8 @@ the filename:
 ``extractContentType(form, id)`` Function
 -----------------------------------------
 
-there s alos a method which is able to extract the content type for a given
-file upload. We can use the stub form form the previous test.
+There is also a method which is able to extract the content type for a given
+file upload. We can use the stub form from the previous test.
 
   >>> uploadForm = FileUploadFormStub()
   >>> uploadForm.setFakeFileName('foo.txt')

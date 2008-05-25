@@ -78,7 +78,7 @@ class GroupForm(object):
         for groupClass in self.groups:
             # only instantiate the groupClass if it hasn't already
             # been instantiated
-            if type(groupClass) is type:
+            if isinstance(groupClass, type):
                 group = groupClass(self.context, self.request, self)
             else:
                 group = groupClass

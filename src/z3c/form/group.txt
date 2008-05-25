@@ -96,6 +96,13 @@ instances:
   >>> add.groups
   (<LicenseGroup object at ...>, <CarGroup object at ...>)
 
+If we happen to update the add form again, the groups that have
+already been converted to instances ares skipped.
+
+  >>> add.update()
+  >>> add.groups
+  (<LicenseGroup object at ...>, <CarGroup object at ...>)
+
 We can now render the form:
 
   >>> print add.render()

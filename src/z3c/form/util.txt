@@ -31,6 +31,21 @@ The function can also handle non-ASCII characters:
   >>> util.createId(u'Ändern')
   'c383c2846e6465726e'
 
+``createCSSId(name)`` Function
+------------------------------
+
+This function takes any unicode name and coverts it into an id that
+can be easily referenced by CSS selectors.  Characters that are in the
+ascii alphabet, are numbers, or are '-' or '_' will be left the same.
+All other characters will be converted to ordinal numbers:
+
+  >>> util.createCSSId(u'NormalId')
+  'NormalId'
+  >>> util.createCSSId(u'عَرَ')
+  'c398c2b9c399c28ec398c2b1c399c28e'
+  >>> util.createCSSId(u'This has spaces')
+  'This20has20spaces'
+
 
 ``getWidgetById(form, id)`` Function
 ------------------------------------

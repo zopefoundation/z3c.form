@@ -5,6 +5,10 @@ CHANGES
 Version 1.8.3 (????-??-??)
 --------------------------
 
+- Feature: The z3c.form.util module has a new function, createCSSId
+  that generates readable ids for use with css selectors from any
+  unicode string.
+
 - Bug: Display widgets did not set the style attribute if it was
   available, even though the input widgets did set the style attribute.
 

@@ -18,6 +18,7 @@ $Id$
 __docformat__ = "reStructuredText"
 import re
 import types
+import string
 import zope.interface
 import zope.contenttype
 
@@ -32,6 +33,11 @@ def createId(name):
         return str(name).lower()
     return name.encode('utf-8').encode('hex')
 
+_acceptableChars = string.letters + string.digits + '_-'
+def createCSSId(name):
+    return str(''.join([((char in _acceptableChars and char) or
+                         char.encode('utf-8').encode('hex'))
+                        for char in name]))
 
 classTypes = type, types.ClassType
 

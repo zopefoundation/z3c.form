@@ -59,13 +59,12 @@ class GroupForm(object):
 
     def applyChanges(self, data):
         '''See interfaces.IEditForm'''
-        changed = False
         content = self.getContent()
-        form.applyChanges(self, content, data)
+        changed = form.applyChanges(self, content, data)
         for group in self.groups:
             groupContent = group.getContent()
             groupChanged = form.applyChanges(group, groupContent, data)
-            changed = changed or groupChanged
+            changed.update(groupChanged)
         if changed:
             zope.event.notify(
                 zope.lifecycleevent.ObjectModifiedEvent(content))

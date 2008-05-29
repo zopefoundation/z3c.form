@@ -9,6 +9,10 @@ Version 1.8.3 (????-??-??)
   that generates readable ids for use with css selectors from any
   unicode string.
 
+- Bug: The ``applyChanges()`` method in group forms did not return a changes
+  dictionary, but simply a boolean. This is now fixed and the group form
+  changes are now merged with the main form changes.
+
 - Bug: Display widgets did not set the style attribute if it was
   available, even though the input widgets did set the style attribute.
 

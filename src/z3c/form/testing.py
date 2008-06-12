@@ -101,6 +101,9 @@ def setupFormDefaults():
         text.TextFieldWidget,
         adapts=(zope.schema.interfaces.IInt, interfaces.IFormLayer))
     zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IDecimal, interfaces.IFormLayer))
+    zope.component.provideAdapter(
         widget.WidgetTemplateFactory(getPath('text_input.pt'), 'text/html'),
         (None, None, None, None, interfaces.ITextWidget),
         IPageTemplate, name=interfaces.INPUT_MODE)

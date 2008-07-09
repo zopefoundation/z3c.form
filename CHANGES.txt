@@ -2,8 +2,13 @@
 CHANGES
 =======
 
-Version 1.8.3 (????-??-??)
+Version 1.9.0 (????-??-??)
 --------------------------
+
+- Feature: The widget manager's ``extract()`` method now supports an optional
+  ``setErrors`` (default value: True) flag that allows one to not set errors
+  on the widgets and widget manager during data extraction. Use case: You want
+  to inspect the entered data and handle errors manually.
 
 - Bug: Added a widget for ``IDecimal`` field in testing setup.
 

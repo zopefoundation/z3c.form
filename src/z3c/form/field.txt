@@ -682,6 +682,34 @@ Note that the errors coming from invariants are all error view snippets as
 well, just as it is the case for field-specific validation errors. And that's
 really all there is!
 
+By default, the ``extract()`` method not only returns the errors that it
+catches, but also sets them on individual widgets and on the manager:
+
+  >>> manager.errors
+  (<ErrorViewSnippet for LastNameTooShort>,)
+
+This behavior can be turned off. To demonstrate, let's make a new request that
+causes a widget-level error:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan', 'form.widgets.id': u'srichter'})
+  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+
+When calling the ``extract()`` method with the `setErrors` flag turned off, we
+still get the same result from the method call, ...
+
+  >>> manager.extract(setErrors=False)
+  ({'firstName': u'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
+
+but there are no side effects on the manager and the widgets:
+
+  >>> manager.errors
+  ()
+  >>> manager['lastName'].error is None
+  True
+
 
 Fields -- Custom Widget Factories
 ---------------------------------

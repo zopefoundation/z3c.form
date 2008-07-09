@@ -264,10 +264,10 @@ class FieldWidgets(util.Manager):
             self._data[shortName] = widget
             zope.location.locate(widget, self, shortName)
 
-    def extract(self):
+    def extract(self, setErrors=True):
         """See interfaces.IWidgets"""
         data = {}
-        self.errors = ()
+        errors = ()
         for name, widget in self.items():
             if widget.mode == interfaces.DISPLAY_MODE:
                 continue
@@ -288,8 +288,9 @@ class FieldWidgets(util.Manager):
                     (error, self.request, widget, widget.field,
                      self.form, self.content), interfaces.IErrorViewSnippet)
                 view.update()
-                widget.error = view
-                self.errors += (view,)
+                if setErrors:
+                    widget.error = view
+                errors += (view,)
             else:
                 name = widget.__name__
                 data[name] = value
@@ -298,5 +299,7 @@ class FieldWidgets(util.Manager):
                 (error, self.request, None, None, self.form, self.content),
                 interfaces.IErrorViewSnippet)
             view.update()
-            self.errors += (view,)
-        return data, self.errors
+            errors += (view,)
+        if setErrors:
+            self.errors = errors
+        return data, errors

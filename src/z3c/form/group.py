@@ -19,8 +19,10 @@ __docformat__ = "reStructuredText"
 import zope.component
 
 from z3c.form import form, interfaces
+from zope.interface import implements
 
 class Group(form.BaseForm):
+    implements(interfaces.IGroup)
 
     def __init__(self, context, request, parentForm):
         self.context = context
@@ -59,15 +61,22 @@ class GroupForm(object):
 
     def applyChanges(self, data):
         '''See interfaces.IEditForm'''
+        descriptions = []
         content = self.getContent()
         changed = form.applyChanges(self, content, data)
         for group in self.groups:
             groupContent = group.getContent()
             groupChanged = form.applyChanges(group, groupContent, data)
-            changed.update(groupChanged)
+            for interface, names in groupChanged.items():
+                changed[interface] = changed.get(interface, []) + names
         if changed:
+            for interface, names in changed.items():
+                descriptions.append(
+                    zope.lifecycleevent.Attributes(interface, *names))
+            # Send out a detailed object-modified event
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content))
+                zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
+
         return changed
 
     def update(self):
@@ -77,10 +86,10 @@ class GroupForm(object):
         for groupClass in self.groups:
             # only instantiate the groupClass if it hasn't already
             # been instantiated
-            if isinstance(groupClass, type):
-                group = groupClass(self.context, self.request, self)
-            else:
+            if interfaces.IGroup.providedBy(groupClass):
                 group = groupClass
+            else:
+                group = groupClass(self.context, self.request, self)
             group.update()
             groups.append(group)
         self.groups = tuple(groups)

@@ -5,10 +5,22 @@ CHANGES
 Version 1.9.0 (????-??-??)
 --------------------------
 
+- Feature: Groups now produce detailed `ObjectModifiedEvent` descriptions like
+  regular edit forms do. (Thanks to Carsten Senger for providing a patch.)
+
 - Feature: The widget manager's ``extract()`` method now supports an optional
   ``setErrors`` (default value: True) flag that allows one to not set errors
   on the widgets and widget manager during data extraction. Use case: You want
   to inspect the entered data and handle errors manually.
+
+- Bug: Group classes now implement ``IGroup``. This also helps with the
+  detection of group instantiation. (Thanks to Carsten Senger for providing a
+  patch.)
+
+- Bug: The list of changes in a group were updated incorrectly, since it was
+  assumed that groups would modify mutually exclusive interfaces. Instead of
+  using an overwriting dictionary ``update()`` method, a purely additive merge
+  is used now. (Thanks to Carsten Senger for providing a patch.)
 
 - Bug: Added a widget for ``IDecimal`` field in testing setup.
 

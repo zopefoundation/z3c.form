@@ -403,6 +403,18 @@ The behavior when an error occurs is identical to that of the add form:
     </body>
   </html>
 
+When an edit form with groups is successfully committed, a detailed 
+object-modified event is sent out telling the system about the changes.
+ To see the error, let's create an event subscriber for object-modified events:
+
+  >>> eventlog = []
+  >>> import zope.lifecycleevent
+  >>> @zope.component.adapter(zope.lifecycleevent.ObjectModifiedEvent)
+  ... def logEvent(event):
+  ...     eventlog.append(event)
+  >>> zope.component.provideHandler(logEvent)
+
+
 Let's now complete the form successfully:
 
   >>> request = testing.TestRequest(form={
@@ -445,6 +457,21 @@ and the data is correctly updated:
   u'F150'
   >>> reg.year
   2006
+
+Let's look at the event:
+ 
+  >>> event = eventlog[-1]
+  >>> event
+  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+
+The event's description contains the changed Interface and the names of
+all changed fields, even if they where in different groups:
+
+  >>> attrs = event.descriptions[0]
+  >>> attrs.interface
+  <InterfaceClass __builtin__.IVehicleRegistration>
+  >>> attrs.attributes
+  ('license', 'address', 'model', 'make', 'year')
 
 And that's it!
 

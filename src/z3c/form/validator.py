@@ -104,7 +104,7 @@ class Data(object):
             dm = zope.component.getMultiAdapter(
                 (self.__context__, field), interfaces.IDataManager)
             value = dm.get()
-        # Optimization: Once we now we have a good value, set it as an
+        # Optimization: Once we know we have a good value, set it as an
         # attribute for faster access.
         setattr(self, name, value)
         return value

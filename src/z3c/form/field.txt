@@ -438,6 +438,20 @@ Let's make sure that all enumerable mapping functions work correctly:
   >>> len(manager)
   3
 
+It is also possible to delete widgets from the manager:
+
+  >>> del manager['firstName']
+  >>> len(manager)
+  2
+  >>> manager.values()
+  [<Widget 'form.widgets.id'>, <Widget 'form.widgets.lastName'>]
+  >>> manager.keys()
+  ['id', 'lastName']
+  >>> manager.items()
+  [('id', <Widget 'form.widgets.id'>),
+  ('lastName', <Widget 'form.widgets.lastName'>)]
+
+
 
 Properties of widgets within a manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

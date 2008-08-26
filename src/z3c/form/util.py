@@ -135,6 +135,15 @@ class Manager(object):
     def __getitem__(self, name):
         return self._data[name]
 
+    def __delitem__(self, name):
+        if name not in self._data_keys:
+            raise KeyError(_('No such key'))
+
+        del self._data_keys[self._data_keys.index(name)]
+        value = self._data[name]
+        del self._data_values[self._data_values.index(value)]
+        del self._data[name]
+
     def get(self, name, default=None):
         return self._data.get(name, default)
 

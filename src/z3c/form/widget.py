@@ -94,7 +94,8 @@ class Widget(zope.location.Location):
             if (interfaces.IContextAware.providedBy(self) and
                 not self.ignoreContext):
                 value = zope.component.getMultiAdapter(
-                    (self.context, self.field), interfaces.IDataManager).get()
+                    (self.context, self.field), 
+                    interfaces.IDataManager).query()
             # Step 1.2.2: If we still do not have a value, we can always use
             #             the default value of the field, id set
             # NOTE: It should check field.default is not missing_value, but

@@ -20,6 +20,7 @@ __docformat__ = "reStructuredText"
 import zope.interface
 import zope.component
 import zope.schema
+from zope.security.interfaces import ForbiddenAttribute
 from zope.security.checker import canAccess, canWrite, Proxy
 
 from z3c.form import interfaces
@@ -28,7 +29,6 @@ from z3c.form import interfaces
 class DataManager(object):
     """Data manager base class."""
     zope.interface.implements(interfaces.IDataManager)
-
 
 class AttributeField(DataManager):
     """Attribute field."""
@@ -51,6 +51,8 @@ class AttributeField(DataManager):
         """See z3c.form.interfaces.IDataManager"""
         try:
             return self.get()
+        except ForbiddenAttribute, e:
+            raise e
         except AttributeError:
             return default
 

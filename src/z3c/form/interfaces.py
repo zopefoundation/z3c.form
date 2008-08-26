@@ -223,10 +223,17 @@ class IFields(ISelectionManager):
 class IDataManager(zope.interface.Interface):
     """Data manager."""
 
-    def get(default=NOVALUE):
+    def get():
+        """Get the value.
+
+        If no value can be found, raise an error
+        """
+
+    def query(default=NOVALUE):
         """Get the value.
 
         If no value can be found, return the default value.
+        If access is forbidden, raise an error.
         """
 
     def set(value):

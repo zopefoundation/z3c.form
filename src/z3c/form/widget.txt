@@ -262,7 +262,7 @@ Again, the request value is honored above everything else:
   >>> print ageWidget.render()
   <input type="text" name="age" value="25" />
 
-But what happens if the object we are working on is securoty proxied? In
+But what happens if the object we are working on is security proxied? In
 particular, what happens, if the access to the attribute is denied. To see
 what happens, we have to create a proxied person:
 

@@ -44,7 +44,7 @@ chapters = '\n'.join(
 
 setup (
     name='z3c.form',
-    version='1.9.0',
+    version='1.9.1dev',
     author = "Stephan Richter, Roger Ineichen and the Zope Community",
     author_email = "zope-dev@zope.org",
     description = "An advanced form and widget framework for Zope 3",

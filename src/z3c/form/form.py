@@ -55,7 +55,7 @@ def extends(*args, **kwargs):
         f_locals['fields'] = field.Fields()
         for arg in args:
             f_locals['fields'] += getattr(arg, 'fields', field.Fields())
-    if not kwargs.get('ignoreHandlers', False):
+    if not kwargs.get('ignoreButtons', False):
         f_locals['buttons'] = button.Buttons()
         for arg in args:
             f_locals['buttons'] += getattr(arg, 'buttons', button.Buttons())

@@ -137,7 +137,7 @@ class Manager(object):
 
     def __delitem__(self, name):
         if name not in self._data_keys:
-            raise KeyError(_('No such key'))
+            raise KeyError(name)
 
         del self._data_keys[self._data_keys.index(name)]
         value = self._data[name]

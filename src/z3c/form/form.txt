@@ -1231,11 +1231,10 @@ method that will do the extending for you:
       [<Handler for <Button 'apply' u'Apply'>>,
        <Handler for <Button 'cancel' u'Cancel'>>]>
 
-If you, for example do not want to extend the buttons and handlers, you can
-turn that off:
+If you, for example do not want to extend the buttons, you can turn that off:
 
   >>> class DerivedForm(BaseForm):
-  ...     form.extends(BaseForm, ignoreButtons=True, ignoreHandlers=True)
+  ...     form.extends(BaseForm, ignoreButtons=True)
   ...
   ...     fields += field.Fields(IPerson).select('gender')
   ...
@@ -1247,6 +1246,26 @@ turn that off:
   ['name', 'gender']
   >>> DerivedForm.buttons.keys()
   ['cancel']
+  >>> DerivedForm.handlers
+  <Handlers
+      [<Handler for <Button 'apply' u'Apply'>>,
+       <Handler for <Button 'cancel' u'Cancel'>>]>
+
+If you, for example do not want to extend the handlers, you can turn that off:
+
+  >>> class DerivedForm(BaseForm):
+  ...     form.extends(BaseForm, ignoreHandlers=True)
+  ...
+  ...     fields += field.Fields(IPerson).select('gender')
+  ...
+  ...     @button.buttonAndHandler(u'Cancel')
+  ...     def handleCancel(self, action):
+  ...         print 'cancel'
+
+  >>> DerivedForm.fields.keys()
+  ['name', 'gender']
+  >>> DerivedForm.buttons.keys()
+  ['apply', 'cancel']
   >>> DerivedForm.handlers
   <Handlers [<Handler for <Button 'cancel' u'Cancel'>>]>
 

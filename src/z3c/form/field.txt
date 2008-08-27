@@ -451,6 +451,12 @@ It is also possible to delete widgets from the manager:
   [('id', <Widget 'form.widgets.id'>),
   ('lastName', <Widget 'form.widgets.lastName'>)]
 
+Note that deleting a non-existent widget causes a ``KeyError`` to be raised:
+
+  >>> del manager['firstName']
+  Traceback (most recent call last):
+  ...
+  KeyError: 'firstName'
 
 
 Properties of widgets within a manager

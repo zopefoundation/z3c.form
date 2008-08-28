@@ -76,6 +76,7 @@ setup (
     namespace_packages = ['z3c'],
     extras_require = dict(
         test = [
+            'zope.app.testing',
             'zope.app.container',
             'zope.testing',
             'z3c.coverage',
@@ -86,8 +87,8 @@ setup (
         ),
     install_requires = [
         'setuptools',
+        'zope.app.component',
         'zope.app.pagetemplate',
-        'zope.app.testing',
         'zope.component',
         'zope.configuration',
         'zope.event',
@@ -100,6 +101,7 @@ setup (
         'zope.publisher',
         'zope.schema',
         'zope.security',
+        'zope.traversing',
         ],
     dependency_links = ['http://download.zope.org/distribution'],
     zip_safe = False,

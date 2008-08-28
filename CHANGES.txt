@@ -2,6 +2,12 @@
 CHANGES
 =======
 
+Version 1.9.1dev (unreleased)
+-----------------------------
+
+- Remove unused imports, adjust buildout dependencies in setup.py
+
+
 Version 1.9.0 (2008-08-26)
 --------------------------
 

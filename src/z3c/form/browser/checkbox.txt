@@ -10,7 +10,6 @@ The ``CheckBoxWidget`` widget renders a checkbox input type field e.g.  <input
 type="checkbox" />
 
   >>> from zope.interface.verify import verifyClass
-  >>> from zope.app.form.interfaces import IInputWidget
   >>> from z3c.form import interfaces
   >>> from z3c.form.browser import checkbox
 

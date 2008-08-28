@@ -5,7 +5,6 @@ TextWidget
 The widget can render a input field for a text line:
 
   >>> from zope.interface.verify import verifyClass
-  >>> from zope.app.form.interfaces import IInputWidget
   >>> from z3c.form import interfaces
   >>> from z3c.form.browser import text
 

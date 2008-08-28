@@ -67,6 +67,12 @@
   <adapter
       factory=".converter.FieldWidgetDataConverter"
       />
+  <adapter
+      factory=".converter.TextLinesConverter"
+      />
+  <adapter
+      factory=".converter.MultiConverter"
+      />
 
   <!-- ITerms -->
   <adapter

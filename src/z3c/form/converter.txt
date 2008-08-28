@@ -642,3 +642,43 @@ Converting back is equally simple:
 
 Note that this widget has no concept of missing value, since it can only
 represent two states by desgin.
+
+
+TextLines Data Converter
+------------------------
+
+For sequence widgets and fields that work with a sequence of TextLine, a simple
+data converter is required. Let's now create a list of text lines field and a 
+widget:
+
+  >>> languages = zope.schema.List(
+  ...     value_type=zope.schema.TextLine(),
+  ...     default=[],
+  ...     missing_value=None,
+  ...     )
+
+  >>> from z3c.form.browser import textlines
+  >>> tlWidget = textlines.TextLinesWidget(TestRequest())
+  >>> tlWidget.field = languages
+
+We now use the field and widget to instantiate the converter:
+
+  >>> tlc = converter.TextLinesConverter(languages, tlWidget)
+
+We can now convert a real value to a widget value:
+
+  >>> tlc.toWidgetValue([u'de', u'fr', u'en'])
+  u'de\nfr\nen'
+
+
+The result is always a string, since textlines widgets only deal with textarea 
+as input field. Of course, we can convert the widget value back to an internal
+value:
+
+  >>> tlc.toFieldValue('de\nfr\nen')
+  [u'de', u'fr', u'en']
+
+An empty string will also cause the missing value to be returned:
+
+  >>> tlc.toFieldValue('') is None
+  True

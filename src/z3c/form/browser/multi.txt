@@ -1,0 +1,522 @@
+============
+Multi Widget
+============
+
+The multi widget allows you to add and edit one or more values.
+
+As for all widgets, the multi widget must provide the new ``IWidget``
+interface:
+
+  >>> from zope.interface.verify import verifyClass
+  >>> from z3c.form import interfaces
+  >>> from z3c.form.browser import multi
+
+  >>> verifyClass(interfaces.IWidget, multi.MultiWidget)
+  True
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+  >>> widget = multi.MultiWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+
+We also need to register the template for at least the widget and request:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('multi_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IMultiWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+For the next test, we need to setup our button handler adapters. If we render 
+the widget we get an emtpy widget:
+
+  >>> from z3c.form import button
+  >>> zope.component.provideAdapter(button.ButtonActions)
+  >>> zope.component.provideAdapter(button.ButtonActionHandler)
+  >>> zope.component.provideAdapter(button.ButtonAction,
+  ...     provides=interfaces.IButtonAction)
+
+And our submit buttons will need some template:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('submit_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ISubmitWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="0" />
+
+As you can see the widget is empty and doesn't provide values. Let's
+update the widget and check it again. But first register a IFieldWidget adapter
+and a template for our IInt field:
+
+  >>> import z3c.form.interfaces
+  >>> from z3c.form.browser.text import TextFieldWidget
+  >>> zope.component.provideAdapter(TextFieldWidget,
+  ...     (zope.schema.interfaces.IInt, z3c.form.interfaces.IFormLayer))
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('text_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ITextWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="0" />
+
+It's still the same. Since the widget doesn't provide a field nothing useful
+get rendered. Now let's define a fiel for this widget and check it again:
+
+  >>> field = zope.schema.List(
+  ...     __name__=u'foo',
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="0" />
+
+As you can see, there is still no input value. Let's provide some values for 
+this widget. Before we can do that, we will need to register a data converter 
+for our multi widget and the data converter dispatcher adapter:
+
+  >>> from z3c.form.converter import IntegerDataConverter
+  >>> from z3c.form.converter import FieldWidgetDataConverter
+  >>> from z3c.form.validator import SimpleFieldValidator
+  >>> zope.component.provideAdapter(IntegerDataConverter)
+  >>> zope.component.provideAdapter(FieldWidgetDataConverter)
+  >>> zope.component.provideAdapter(SimpleFieldValidator)
+
+  >>> widget.update()
+  >>> widget.value = [u'42', u'43']
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-1-row" class="row">
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-1-remove"
+                     name="widget.name.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-1" name="widget.name.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="2" />
+
+If we now oush the ``Add`` button, we will get a new input field for enter a
+new value:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.1':u'43',
+  ...                                    'widget.buttons.add':'Add'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-1-row" class="row">
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-1-remove"
+                     name="widget.name.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-1" name="widget.name.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-2-row" class="row">
+          <div class="label">
+            <label for="widget-id-2">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-2-remove"
+                     name="widget.name.2.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-2" name="widget.name.2"
+                 class="text-widget required int-field" value="" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="3" />
+
+Now let's store the new value:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'3',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.1':u'43',
+  ...                                    'widget.name.2':u'44'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-1-row" class="row">
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-1-remove"
+                     name="widget.name.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-1" name="widget.name.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-2-row" class="row">
+          <div class="label">
+            <label for="widget-id-2">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-2-remove"
+                     name="widget.name.2.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-2" name="widget.name.2"
+         class="text-widget required int-field" value="44" />
+  </div>
+          </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="3" />
+
+As you can see in the above sample, the new stored value get rendered as a 
+real value and the new adding value input field is gone. Now let's try
+to remove an existing value:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'3',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.1':u'43',
+  ...                                    'widget.name.2':u'44',
+  ...                                    'widget.name.1.remove':u'1',
+  ...                                    'widget.buttons.remove':'Remove'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-2-row" class="row">
+          <div class="label">
+            <label for="widget-id-2">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-2-remove"
+                     name="widget.name.2.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-2" name="widget.name.2"
+                 class="text-widget required int-field" value="44" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="2" />
+
+Show how the error handling works. Let's use a bad none integer value as input
+for our internal (sub) widget.
+
+  >>> from z3c.form.error import ErrorViewSnippet
+    >>> from z3c.form.error import StandardErrorViewTemplate
+  >>> zope.component.provideAdapter(ErrorViewSnippet)
+  >>> zope.component.provideAdapter(StandardErrorViewTemplate)
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.1':u'bad'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-1-row" class="row">
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-1-remove"
+                     name="widget.name.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="widget-id-1" name="widget.name.1"
+                 class="text-widget required int-field" value="bad" />
+            </div>
+          </div>
+          <div class="error">
+            <div class="error">The entered value is not a valid integer literal.</div>
+          </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="2" />
+
+
+Label
+-----
+
+There is an option which allows to disable the label for the (sub) widgets.
+You can set the option showLabel to False which will skip rendering the labels.
+Or of corse you can register your own template for your layer if you like to 
+skip the label rendering for all widgets.
+
+  >>> field = zope.schema.List(
+  ...     __name__=u'foo',
+  ...     value_type=zope.schema.Int(
+  ...         title=u'Ignored'),
+  ...     )
+  >>> request = TestRequest()
+  >>> widget = multi.MultiWidget(request)
+  >>> widget.field = field
+  >>> widget.value = [u'42', u'43']
+  >>> widget.showLabel = False
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="None-0-row" class="row">
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="None-0-remove" name="None.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="None-0" name="None.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="None-1-row" class="row">
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="None-1-remove" name="None.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="None-1" name="None.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="None.count" value="2" />

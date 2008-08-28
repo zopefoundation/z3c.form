@@ -1,0 +1,22 @@
+<span id="" class=""
+      tal:attributes="id view/id;
+                      class view/klass;
+                      style view/style;
+                      title view/title;
+                      lang view/lang;
+                      onclick view/onclick;
+                      ondblclick view/ondblclick;
+                      onmousedown view/onmousedown;
+                      onmouseup view/onmouseup;
+                      onmouseover view/onmouseover;
+                      onmousemove view/onmousemove;
+                      onmouseout view/onmouseout;
+                      onkeypress view/onkeypress;
+                      onkeydown view/onkeydown;
+                      onkeyup view/onkeyup"><tal:block
+    tal:repeat="value view/displayValue"
+    ><span class="selected-option"
+           tal:content="value"
+    /><tal:block condition="not:repeat/value/end">, </tal:block
+  ></tal:block
+></span>

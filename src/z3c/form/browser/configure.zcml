@@ -7,6 +7,7 @@
   <include file="checkbox.zcml" />
   <include file="file.zcml" />
   <include file="image.zcml" />
+  <include file="multi.zcml" />
   <include file="orderedselect.zcml" />
   <include file="password.zcml" />
   <include file="radio.zcml" />
@@ -14,5 +15,6 @@
   <include file="submit.zcml" />
   <include file="text.zcml" />
   <include file="textarea.zcml" />
+  <include file="textlines.zcml" />
 
 </configure>

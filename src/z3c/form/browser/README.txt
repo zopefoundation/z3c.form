@@ -44,6 +44,13 @@ ASCII
   >>> field = zope.schema.ASCII(default='This is\n ASCII.')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.textarea.TextAreaWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from ASCII to TextAreaWidget>
+
   >>> print widget.render()
   <textarea id="foo" name="bar" class="textarea-widget required ascii-field">This is
    ASCII.</textarea>
@@ -60,6 +67,13 @@ ASCIILine
   >>> field = zope.schema.ASCIILine(default='An ASCII line.')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from ASCIILine to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar"
          class="text-widget required asciiline-field" value="An ASCII line." />
@@ -74,6 +88,13 @@ Bool
   >>> field = zope.schema.Bool(default=True)
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.radio.RadioWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <SequenceDataConverter converts from Bool to RadioWidget>
+
   >>> print widget.render()
   <span class="option">
     <label for="foo-0">
@@ -158,6 +179,10 @@ Button
   >>> field = button.Button(title=u'Press me!')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.submit.SubmitWidget'>
+
   >>> print widget.render()
   <input type="submit" id="foo" name="bar"
          class="submit-widget button-field" value="Press me!" />
@@ -194,6 +219,13 @@ Bytes
   >>> field = zope.schema.Bytes(default='\10\45\n\32')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.file.FileWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FileUploadDataConverter converts from Bytes to FileWidget>
+
   >>> print widget.render()
   <input type="file" id="foo" name="bar" class="file-widget required bytes-field" />
 
@@ -208,6 +240,13 @@ BytesLine
   >>> field = zope.schema.BytesLine(default='A Bytes line.')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from BytesLine to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required bytesline-field"
          value="A Bytes line." />
@@ -227,6 +266,13 @@ Choice
   >>> field = zope.schema.Choice(default=True, vocabulary=vocabulary)
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.select.SelectWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <SequenceDataConverter converts from Choice to SelectWidget>
+
   >>> print widget.render()
   <select id="foo" name="bar:list" class="select-widget required choice-field"
           size="1">
@@ -248,6 +294,13 @@ Date
   >>> field = zope.schema.Date(default=datetime.date(2007, 4, 1))
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <DateDataConverter converts from Date to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required date-field"
          value="07/04/01" />
@@ -263,6 +316,13 @@ Datetime
   >>> field = zope.schema.Datetime(default=datetime.datetime(2007, 4, 1, 12))
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <DatetimeDataConverter converts from Datetime to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required datetime-field"
          value="07/04/01 12:00" />
@@ -279,6 +339,13 @@ Decimal
   >>> field = zope.schema.Decimal(default=decimal.Decimal('1265.87'))
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <DecimalDataConverter converts from Decimal to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required decimal-field"
          value="1,265.87" />
@@ -301,6 +368,13 @@ DottedName
   >>> field = zope.schema.DottedName(default='z3c.form')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from DottedName to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required dottedname-field"
          value="z3c.form" />
@@ -316,6 +390,13 @@ Float
   >>> field = zope.schema.Float(default=1265.8)
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FloatDataConverter converts from Float to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required float-field"
          value="1,265.8" />
@@ -333,6 +414,13 @@ FrozenSet
   ...     default=frozenset([1, 3]) )
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.select.SelectWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <CollectionSequenceDataConverter converts from FrozenSet to SelectWidget>
+
   >>> print widget.render()
   <select id="foo" name="bar:list" class="select-widget required frozenset-field"
           multiple="multiple" size="5">
@@ -356,6 +444,13 @@ Id
   >>> field = zope.schema.Id(default='z3c.form')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from Id to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required id-field"
          value="z3c.form" />
@@ -400,6 +495,10 @@ Now we are ready to instantiate the widget:
 
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.image.ImageWidget'>
+
   >>> print widget.render()
   <input type="image" id="foo" name="bar"
          class="image-widget imagebutton-field"
@@ -420,6 +519,13 @@ Int
   >>> field = zope.schema.Int(default=1200)
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <IntegerDataConverter converts from Int to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required int-field"
          value="1,200" />
@@ -429,19 +535,163 @@ Int
   <span id="foo" class="text-widget required int-field">1,200</span>
 
 
-List
-----
+List - ASCII
+------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.ASCII(
+  ...         title=u'ASCII',
+  ...         default='This is\n ASCII.'),
+  ...     default=['foo\nfoo', 'bar\nbar'])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>ASCII</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-0" name="bar.0"
+                 class="textarea-widget required ascii-field">foo
+  foo</textarea>
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>ASCII</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-1" name="bar.1"
+                 class="textarea-widget required ascii-field">bar
+  bar</textarea>
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - ASCIILine
+----------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.ASCIILine(
+  ...         title=u'ASCIILine',
+  ...         default='An ASCII line.'),
+  ...     default=['foo', 'bar'])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>ASCIILine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required asciiline-field"
+                 value="foo" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>ASCIILine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required asciiline-field"
+                 value="bar" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Choice
+-------------
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Choice(values=(1, 2, 3, 4)),
   ...     default=[1, 3] )
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.orderedselect.OrderedSelectWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <CollectionSequenceDataConverter converts from List to OrderedSelectWidget>
+
   >>> print widget.render()
   <script type="text/javascript">
   ...
   </script>
-  <BLANKLINE>
   <table border="0" class="ordered-selection-field">
     <tr>
       <td>
@@ -490,6 +740,963 @@ List
       class="selected-option">3</span></span>
 
 
+List - Date
+-----------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Date(
+  ...         title=u'Date',
+  ...         default=datetime.date(2007, 4, 1)),
+  ...     default=[datetime.date(2008, 9, 27), datetime.date(2008, 9, 28)])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Date</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required date-field"
+                 value="08/09/27" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Date</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required date-field"
+                 value="08/09/28" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Datetime
+---------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Datetime(
+  ...         title=u'Datetime',
+  ...         default=datetime.datetime(2007, 4, 1, 12)),
+  ...     default=[datetime.datetime(2008, 9, 27, 12),
+  ...              datetime.datetime(2008, 9, 28, 12)])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Datetime</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required datetime-field"
+                 value="08/09/27 12:00" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Datetime</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required datetime-field"
+                 value="08/09/28 12:00" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Decimal
+---------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Decimal(
+  ...         title=u'Decimal',
+  ...         default=decimal.Decimal('1265.87')),
+  ...     default=[decimal.Decimal('123.456'), decimal.Decimal('1')])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Decimal</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required decimal-field"
+                 value="123.456" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Decimal</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required decimal-field" value="1" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - DottedName
+-----------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.DottedName(
+  ...         title=u'DottedName',
+  ...         default='z3c.form'),
+  ...     default=[u'z3c.form', u'z3c.wizard'])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>DottedName</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required dottedname-field"
+                 value="z3c.form" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>DottedName</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required dottedname-field"
+                 value="z3c.wizard" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Float
+------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Float(
+  ...         title=u'Float',
+  ...         default=123.456),
+  ...     default=[1234.5, 1])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Float</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required float-field"
+                 value="1,234.5" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Float</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required float-field" value="1.0" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Id
+---------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Id(
+  ...         title=u'Id',
+  ...         default='z3c.form'),
+  ...     default=['z3c.form', 'z3c.wizard'])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Id</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required id-field"
+                 value="z3c.form" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Id</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required id-field"
+                 value="z3c.wizard" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Int
+----------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Int(
+  ...         title=u'Int',
+  ...         default=666),
+  ...     default=[42, 43])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Int</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Int</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Password
+---------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Password(
+  ...         title=u'Password',
+  ...         default=u'mypwd'),
+  ...     default=['pwd', 'pass'])
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Password</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="password" id="foo-0" name="bar.0"
+                 class="password-widget required password-field" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Password</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="password" id="foo-1" name="bar.1"
+                 class="password-widget required password-field" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - SourceText
+-----------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.SourceText(
+  ...         title=u'SourceText',
+  ...         default=u'<source />'),
+  ...     default=[u'<html></body>foo</body></html>', u'<h1>bar</h1>'] )
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>SourceText</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-0" name="bar.0"
+                 class="textarea-widget required sourcetext-field">&lt;html&gt;&lt;/body&gt;foo&lt;/body&gt;&lt;/html&gt;</textarea>
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>SourceText</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-1" name="bar.1"
+                 class="textarea-widget required sourcetext-field">&lt;h1&gt;bar&lt;/h1&gt;</textarea>
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Text
+-----------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Text(
+  ...         title=u'Text',
+  ...         default=u'Some\n Text.'),
+  ...     default=[u'foo\nfoo', u'bar\nbar'] )
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Text</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-0" name="bar.0"
+            class="textarea-widget required text-field">foo
+  foo</textarea>
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Text</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-1" name="bar.1"
+            class="textarea-widget required text-field">bar
+  bar</textarea>
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - TextLine
+---------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.TextLine(
+  ...         title=u'TextLine',
+  ...         default=u'Some Text line.'),
+  ...     default=[u'foo', u'bar'] )
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>TextLine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required textline-field"
+                 value="foo" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>TextLine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required textline-field"
+                 value="bar" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Time
+-----------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Time(
+  ...         title=u'Time',
+  ...         default=datetime.time(12, 0)),
+  ...     default=[datetime.time(13, 0), datetime.time(14, 0)] )
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Time</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required time-field" value="13:00" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Time</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required time-field" value="14:00" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - Timedelta
+----------------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.Timedelta(
+  ...         title=u'Timedelta',
+  ...         default=datetime.timedelta(days=3)),
+  ...     default=[datetime.timedelta(days=4), datetime.timedelta(days=5)] )
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Timedelta</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required timedelta-field"
+                 value="4 days, 0:00:00" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Timedelta</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required timedelta-field"
+                 value="5 days, 0:00:00" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+List - URI
+----------
+
+  >>> field = zope.schema.List(
+  ...     value_type=zope.schema.URI(
+  ...         title=u'URI',
+  ...         default='http://zope.org'),
+  ...     default=['http://www.python.org', 'http://www.zope.com'] )
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from List to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>URI</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required uri-field"
+                 value="http://www.python.org" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>URI</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required uri-field"
+                 value="http://www.zope.com" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
 Object
 ------
 
@@ -503,6 +1710,13 @@ Password
   >>> field = zope.schema.Password(default=u'mypwd')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.password.PasswordWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from Password to PasswordWidget>
+
   >>> print widget.render()
   <input type="password" id="foo" name="bar"
          class="password-widget required password-field" />
@@ -520,6 +1734,13 @@ Set
   ...     default=set([1, 3]) )
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.select.SelectWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <CollectionSequenceDataConverter converts from Set to SelectWidget>
+
   >>> print widget.render()
   <select id="foo" name="bar:list" class="select-widget required set-field"
           multiple="multiple"  size="5">
@@ -543,6 +1764,13 @@ SourceText
   >>> field = zope.schema.SourceText(default=u'<source />')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.textarea.TextAreaWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from SourceText to TextAreaWidget>
+
   >>> print widget.render()
   <textarea id="foo" name="bar"
             class="textarea-widget required sourcetext-field">&lt;source /&gt;</textarea>
@@ -558,6 +1786,13 @@ Text
   >>> field = zope.schema.Text(default=u'Some\n Text.')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.textarea.TextAreaWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from Text to TextAreaWidget>
+
   >>> print widget.render()
   <textarea id="foo" name="bar" class="textarea-widget required text-field">Some
    Text.</textarea>
@@ -574,6 +1809,13 @@ TextLine
   >>> field = zope.schema.TextLine(default=u'Some Text line.')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from TextLine to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required textline-field"
          value="Some Text line." />
@@ -589,6 +1831,14 @@ Time
   >>> field = zope.schema.Time(default=datetime.time(12, 0))
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <TimeDataConverter converts from Time to TextWidget>
+
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required time-field"
          value="12:00" />
@@ -604,6 +1854,13 @@ Timedelta
   >>> field = zope.schema.Timedelta(default=datetime.timedelta(days=3))
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <TimedeltaDataConverter converts from Timedelta to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required timedelta-field"
          value="3 days, 0:00:00" />
@@ -613,19 +1870,163 @@ Timedelta
   <span id="foo" class="text-widget required timedelta-field">3 days, 0:00:00</span>
 
 
-Tuple
------
+Tuple - ASCII
+-------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.ASCII(
+  ...         title=u'ASCII',
+  ...         default='This is\n ASCII.'),
+  ...     default=('foo\nfoo', 'bar\nbar'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>ASCII</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-0" name="bar.0"
+                 class="textarea-widget required ascii-field">foo
+  foo</textarea>
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>ASCII</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-1" name="bar.1"
+                 class="textarea-widget required ascii-field">bar
+  bar</textarea>
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - ASCIILine
+-----------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.ASCIILine(
+  ...         title=u'ASCIILine',
+  ...         default='An ASCII line.'),
+  ...     default=('foo', 'bar'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>ASCIILine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required asciiline-field"
+                 value="foo" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>ASCIILine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required asciiline-field"
+                 value="bar" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Choice
+--------------
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Choice(values=(1, 2, 3, 4)),
   ...     default=(1, 3) )
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.orderedselect.OrderedSelectWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <CollectionSequenceDataConverter converts from Tuple to OrderedSelectWidget>
+
   >>> print widget.render()
   <script type="text/javascript">
   ...
   </script>
-  <BLANKLINE>
   <table border="0" class="ordered-selection-field">
     <tr>
       <td>
@@ -674,12 +2075,976 @@ Tuple
     class="selected-option">3</span></span>
 
 
+Tuple - Date
+------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Date(
+  ...         title=u'Date',
+  ...         default=datetime.date(2007, 4, 1)),
+  ...     default=(datetime.date(2008, 9, 27), datetime.date(2008, 9, 28)))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Date</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required date-field"
+                 value="08/09/27" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Date</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required date-field"
+                 value="08/09/28" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Datetime
+----------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Datetime(
+  ...         title=u'Datetime',
+  ...         default=datetime.datetime(2007, 4, 1, 12)),
+  ...     default=(datetime.datetime(2008, 9, 27, 12),
+  ...              datetime.datetime(2008, 9, 28, 12)))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Datetime</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required datetime-field"
+                 value="08/09/27 12:00" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Datetime</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required datetime-field"
+                 value="08/09/28 12:00" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Decimal
+----------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Decimal(
+  ...         title=u'Decimal',
+  ...         default=decimal.Decimal('1265.87')),
+  ...     default=(decimal.Decimal('123.456'), decimal.Decimal('1')))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Decimal</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required decimal-field"
+                 value="123.456" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Decimal</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required decimal-field" value="1" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - DottedName
+------------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.DottedName(
+  ...         title=u'DottedName',
+  ...         default='z3c.form'),
+  ...     default=(u'z3c.form', u'z3c.wizard'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>DottedName</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required dottedname-field"
+                 value="z3c.form" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>DottedName</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required dottedname-field"
+                 value="z3c.wizard" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Float
+-------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Float(
+  ...         title=u'Float',
+  ...         default=123.456),
+  ...     default=(1234.5, 1))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Float</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required float-field"
+                 value="1,234.5" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Float</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required float-field" value="1.0" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Id
+----------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Id(
+  ...         title=u'Id',
+  ...         default='z3c.form'),
+  ...     default=('z3c.form', 'z3c.wizard'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Id</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required id-field"
+                 value="z3c.form" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Id</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required id-field"
+                 value="z3c.wizard" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Int
+-----------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Int(
+  ...         title=u'Int',
+  ...         default=666),
+  ...     default=(42, 43))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Int</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Int</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Password
+----------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Password(
+  ...         title=u'Password',
+  ...         default=u'mypwd'),
+  ...     default=('pwd', 'pass'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Password</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="password" id="foo-0" name="bar.0"
+                 class="password-widget required password-field" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Password</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="password" id="foo-1" name="bar.1"
+                 class="password-widget required password-field" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - SourceText
+------------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.SourceText(
+  ...         title=u'SourceText',
+  ...         default=u'<source />'),
+  ...     default=(u'<html></body>foo</body></html>', u'<h1>bar</h1>'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>SourceText</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-0" name="bar.0"
+                 class="textarea-widget required sourcetext-field">&lt;html&gt;&lt;/body&gt;foo&lt;/body&gt;&lt;/html&gt;</textarea>
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>SourceText</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-1" name="bar.1"
+                 class="textarea-widget required sourcetext-field">&lt;h1&gt;bar&lt;/h1&gt;</textarea>
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Text
+------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Text(
+  ...         title=u'Text',
+  ...         default=u'Some\n Text.'),
+  ...     default=(u'foo\nfoo', u'bar\nbar'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Text</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-0" name="bar.0"
+            class="textarea-widget required text-field">foo
+  foo</textarea>
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Text</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><textarea id="foo-1" name="bar.1"
+            class="textarea-widget required text-field">bar
+  bar</textarea>
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - TextLine
+----------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.TextLine(
+  ...         title=u'TextLine',
+  ...         default=u'Some Text line.'),
+  ...     default=(u'foo', u'bar'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>TextLine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required textline-field"
+                 value="foo" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>TextLine</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required textline-field"
+                 value="bar" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Time
+------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Time(
+  ...         title=u'Time',
+  ...         default=datetime.time(12, 0)),
+  ...     default=(datetime.time(13, 0), datetime.time(14, 0)))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Time</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required time-field" value="13:00" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Time</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required time-field" value="14:00" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - Timedelta
+-----------------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.Timedelta(
+  ...         title=u'Timedelta',
+  ...         default=datetime.timedelta(days=3)),
+  ...     default=(datetime.timedelta(days=4), datetime.timedelta(days=5)))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>Timedelta</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required timedelta-field"
+                 value="4 days, 0:00:00" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>Timedelta</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required timedelta-field"
+                 value="5 days, 0:00:00" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
+Tuple - URI
+-----------
+
+  >>> field = zope.schema.Tuple(
+  ...     value_type=zope.schema.URI(
+  ...         title=u'URI',
+  ...         default='http://zope.org'),
+  ...     default=('http://www.python.org', 'http://www.zope.com'))
+  >>> widget = setupWidget(field)
+  >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.multi.MultiWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <MultiConverter converts from Tuple to MultiWidget>
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>URI</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-0-remove" name="bar.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-0" name="bar.0"
+                 class="text-widget required uri-field"
+                 value="http://www.python.org" />
+          </div>
+        </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>URI</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="foo-1-remove" name="bar.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input type="text" id="foo-1" name="bar.1"
+                 class="text-widget required uri-field"
+                 value="http://www.zope.com" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="bar.count" value="2" />
+
+
 URI
 ---
 
   >>> field = zope.schema.URI(default='http://zope.org')
   >>> widget = setupWidget(field)
   >>> widget.update()
+
+  >>> widget.__class__
+  <class 'z3c.form.browser.text.TextWidget'>
+
+  >>> interfaces.IDataConverter(widget)
+  <FieldDataConverter converts from URI to TextWidget>
+
   >>> print widget.render()
   <input type="text" id="foo" name="bar" class="text-widget required uri-field"
          value="http://zope.org" />

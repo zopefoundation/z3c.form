@@ -400,7 +400,20 @@ class IWidget(ILocation):
 
 
 class ISequenceWidget(IWidget):
-    """Sequence widget."""
+    """Term based sequence widget base.
+    
+    The sequence widget is used for select items from a sequence. Don't get
+    confused, this widget does support to choose one or more values from a
+    sequence. The word sequence is not used for the schema field, it's used 
+    for the values where this widget can choose from.
+
+    This widget base class is used for build single or sequence values based
+    on a sequence which is in most use case a collection. e.g.
+    IList of IChoice for sequence values or IChoice for single values.
+    
+    See also the MultiWidget for build sequence values based on none collection
+    based values. e.g. IList of ITextLine
+    """
 
     noValueToken = zope.schema.ASCIILine(
         title=_('NOVALUE Token'),
@@ -417,6 +430,21 @@ class ISequenceWidget(IWidget):
         This method can be used by external components to get the terms
         without having to worry whether they are already created or not.
         """
+
+
+class IMultiWidget(IWidget):
+    """None Term based sequence widget base.
+    
+    The multi widget is used for ITuple or IList if no other widget is defined.
+    
+    Some IList or ITuple are using another specialized widget if they can
+    choose from a collection. e.g. a IList of IChoice. The base class of such
+    widget is the ISequenceWidget. 
+    
+    This widget can handle none collection based sequences and offers add or 
+    remove values to or from the sequence. Each sequence value get rendered by 
+    it's own relevant widget. e.g. IList of ITextLine or ITuple of IInt
+    """
 
 
 class ISelectWidget(ISequenceWidget):
@@ -467,6 +495,9 @@ class IButtonWidget(IWidget):
 
 class ITextAreaWidget(IWidget):
     """Text widget."""
+
+class ITextLinesWidget(IWidget):
+    """Text lines widget."""
 
 class ITextWidget(IWidget):
     """Text widget."""

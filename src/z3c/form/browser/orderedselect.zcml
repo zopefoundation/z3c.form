@@ -16,6 +16,16 @@
 
   <adapter
       factory=".orderedselect.SequenceChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.IList
+           zope.schema.interfaces.IChoice
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".orderedselect.SequenceChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.ITuple
+           zope.schema.interfaces.IChoice
+           z3c.form.interfaces.IFormLayer"
       />
 
   <z3c:widgetTemplate

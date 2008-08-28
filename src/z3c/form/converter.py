@@ -36,7 +36,6 @@ class BaseDataConverter(object):
         self.field = field
         self.widget = widget
 
-
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
         if value is self.field.missing_value:
@@ -288,6 +287,64 @@ class CollectionSequenceDataConverter(BaseDataConverter):
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]
         return collectionType([widget.terms.getValue(token) for token in value])
+
+
+class TextLinesConverter(BaseDataConverter):
+    """Data converter for ITextLinesWidget."""
+
+    zope.component.adapts(
+        zope.schema.interfaces.ISequence, interfaces.ITextLinesWidget)
+
+    def toWidgetValue(self, value):
+        """Convert from text lines to HTML representation."""
+        # if the value is the missing value, then an empty list is produced.
+        if value is self.field.missing_value:
+            return u''
+        return "\n".join(value)
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        widget = self.widget
+        collectionType = self.field._type
+        if not len(value):
+            return self.field.missing_value
+        valueType = self.field.value_type._type
+        values = [valueType(v) for v in value.split()]
+        return collectionType(values)
+
+
+class MultiConverter(BaseDataConverter):
+    """Data converter for IMultiWidget."""
+
+    zope.component.adapts(
+        zope.schema.interfaces.ISequence, interfaces.IMultiWidget)
+
+    def toWidgetValue(self, value):
+        """Just dispatch it."""
+        if value is self.field.missing_value:
+            return []
+        # We relay on the default registered widget, this is probably a 
+        # restriction for custom widgets. If so use your own MultiWidget and
+        # register your own converter which will get the right widget for the
+        # used value_type.
+        field = self.field.value_type
+        widget = zope.component.getMultiAdapter((field, self.widget.request),
+            interfaces.IFieldWidget)
+        converter = zope.component.getMultiAdapter((field, widget),
+            interfaces.IDataConverter)
+
+        # we always return a list of values for the widget
+        return [converter.toWidgetValue(v) for v in value]
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        collectionType = self.field._type
+        if not len(value):
+            return self.field.missing_value
+        valueType = self.field.value_type._type
+        values = [valueType(v) for v in value]
+        # convert the field values to a tuple or list 
+        return collectionType(values)
 
 
 class BoolSingleCheckboxDataConverter(BaseDataConverter):

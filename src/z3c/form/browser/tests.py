@@ -69,4 +69,12 @@ def test_suite():
                      setUp=testing.setUp, tearDown=testing.tearDown,
                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
                      ),
+        DocFileSuite('textlines.txt',
+                     setUp=testing.setUp, tearDown=testing.tearDown,
+                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+                     ),
+        DocFileSuite('multi.txt',
+                     setUp=testing.setUp, tearDown=testing.tearDown,
+                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+                     ),
         ))

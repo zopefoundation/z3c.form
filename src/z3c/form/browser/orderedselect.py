@@ -83,8 +83,6 @@ def SequenceSelectFieldWidget(field, request):
         (field, field.value_type, request), interfaces.IFieldWidget)
 
 
-@zope.component.adapter(zope.schema.interfaces.ISequence,
-    zope.schema.interfaces.IChoice, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def SequenceChoiceSelectFieldWidget(field, value_type, request):
     """IFieldWidget factory for SelectWidget."""

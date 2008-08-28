@@ -478,6 +478,115 @@ the adapter is registered, everything should work as expected:
 So that's it. Everything else is the same from then on.
 
 
+Multi Widget
+------------
+
+A common use case in user interfaces is to ask the user to define one or more
+items. The ``widget`` module provides a basic widget implementation to support 
+this use case.
+
+The MultiWidget allows to store none, one or more values for a sequence field.
+Don't get cinfused by the term sequence. Ther sequence used in SequenceWidget
+means that the widget can choose from a sequence of values which is a really
+a collection. The MultiWidget can collect values for build and store a 
+sequence of values like used in ITuple or IList field.
+
+  >>> request = TestRequest()
+  >>> multiWidget = widget.MultiWidget(request)
+  >>> multiWidget.name = 'multi.name'
+  >>> multiWidget.id = 'multi-id'
+
+  >>> multiWidget.value
+  []
+
+Let's define a field for our multi widget:
+
+  >>> multiField = zope.schema.List(
+  ...     value_type=zope.schema.Int(default=42))
+  >>> multiWidget.field = multiField
+
+The value of a multi widget is always list. When extracting values from the 
+request, the values must be a list of valid values based on the value_type
+field used from the used sequence field. The widget also uses a counter which
+is required for processing the input from a request. The counter is a marker
+for build the right amount of enumerated widgets.
+
+If we provide an empty counter we will get no value:
+
+If we provide no request we will get no value:
+
+  >>> multiWidget.extract()
+  <NOVALUE>
+
+If we provide an empty counter we will get no value:
+
+  >>> multiWidget.request = TestRequest(form={'multi.name.count':'0'})
+  >>> multiWidget.extract()
+  <NOVALUE>
+
+If we provide real values within the request, we will get it back:
+
+  >>> multiWidget.request = TestRequest(form={'multi.name.count':'2',
+  ...                                         'multi.name.0':u'42',
+  ...                                         'multi.name.1':u'43'})
+  >>> multiWidget.extract()
+  [u'42', u'43']
+
+If we provide a bad value we will get the bad value within the extract method.
+Our widget update process will validate this bad value later:
+
+  >>> multiWidget.request = TestRequest(form={'multi.name.count':'1',
+  ...                                         'multi.name.0':u'bad'})
+  >>> multiWidget.extract()
+  [u'bad']
+
+Storing a widget value forces to update the (sub) widgets. this forces also to 
+validate the (sub) widget values. For showing this we nee dot register a 
+validator:
+
+  >>> from z3c.form.validator import SimpleFieldValidator
+  >>> zope.component.provideAdapter(SimpleFieldValidator)
+
+Since the value of the widget is a list of (widget) value items, when 
+displaying the values, they can be used as they are:
+
+  >>> multiWidget.request = TestRequest(form={'multi.name.count':'2',
+  ...                                         'multi.name.0':u'42',
+  ...                                         'multi.name.1':u'43'})
+  >>> multiWidget.value = multiWidget.extract()
+  >>> multiWidget.value
+  [u'42', u'43']
+
+Each widget normaly gets first process by it's update method call after 
+intialization. This update call forces to call extract, which first will get
+the right amount of (sub) widgets by the given counter value. Based on that 
+counter value the right amount of widgets will get created. Each widget will
+return it's own value and this collected values get returned by the extract
+method. The multi widget update method will then store this values if any give
+as multi widget value argument. If extract doesnt return a value the multi
+widget update method will use it's default value. If we store a given value
+from the extract as multi widget value, this will force to setup the multi
+widget widgets based on the given values and apply the right value for them.
+After that the mutli widget is ready for rendering. The good thing about that
+pattern is that it is possible to set a value before or after the update method
+is called. At any time if we change the mutli widget value the (sub) widgets 
+get updated within the new relevant value.
+
+  >>> multiRequest = TestRequest(form={'multi.name.count':'2',
+  ...                                  'multi.name.0':u'42',
+  ...                                  'multi.name.1':u'43'})
+
+  >>> multiWidget = widget.FieldWidget(multiField, widget.MultiWidget(
+  ...     multiRequest))
+  >>> multiWidget.name = 'multi.name'
+  >>> multiWidget.value
+  []
+
+  >>> multiWidget.update()
+  >>> multiWidget.value
+  [u'42', u'43']
+
+
 Widget Events
 -------------
 

@@ -81,7 +81,13 @@
       factory=".term.ChoiceTermsSource"
       />
   <adapter
-      factory=".term.CollectionTerms"
+      factory=".term.collection_terms_multiplexer"
+      />
+  <adapter
+      factory=".term.CollectionTermsVocabulary"
+      />
+  <adapter
+      factory=".term.CollectionTermsSource"
       />
   <adapter
       factory=".term.BoolTerms"

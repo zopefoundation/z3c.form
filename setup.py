@@ -75,7 +75,7 @@ setup (
     namespace_packages = ['z3c'],
     extras_require = dict(
         test = ['zope.app.container', 'zope.testing',
-                'z3c.coverage', 'z3c.template'],
+                'z3c.coverage', 'z3c.template', 'zc.sourcefactory'],
         adding = ['zope.app.container'],
         ),
     install_requires = [

@@ -273,7 +273,7 @@ class IValue(zope.interface.Interface):
 
 # term interfaces
 class ITerms(zope.interface.Interface):
-    """"""
+    """ """
 
     context = zope.schema.Field()
     request = zope.schema.Field()
@@ -299,6 +299,16 @@ class ITerms(zope.interface.Interface):
 
         LookupError is raised if there isn't a value in the source.
         """
+
+    def __iter__():
+        """Iterate over terms."""
+
+    def __len__():
+        """Return number of terms."""
+
+    def __contains__(value):
+        """Check wether terms containes the ``value``."""
+
 
 class IBoolTerms(ITerms):
     """A specialization that handles boolean choices."""

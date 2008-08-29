@@ -2,6 +2,9 @@
 CHANGES
 =======
 
+- Added Support for using sources: where is was previosly possible to
+  use a vocabulary it is now also possible to use a source.
+
 Version 1.7.0 (9/??/2007)
 -------------------------
 

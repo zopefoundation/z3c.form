@@ -2,21 +2,22 @@
 CHANGES
 =======
 
-Version 1.9.1dev (unreleased)
------------------------------
+Version 2.0.0 (2008-??-??)
+--------------------------
 
-- Feature: Implemented MultiWidget. The MultiWidget allows to use simple fields
-  like ITextLine, IInt, IPassword, etc. in a IList or ITuple sequence. Since we
-  used the term sequence for the sequence we can choose from, from the point of
-  view of a widget e.g. a source or vocabulary, the name multi is used for the
-  widget which allows to collect values for a sequence field.
+- Feature: The `TypeError` message used when a field does not provide
+  ``IFormUnicode`` now also contains the type of the field.
 
-- Feature: Implemented TextLinesWidget. This widget offers a TextArea and
-  splits lines in sequence items. This is usfull for power user interfaces.
-  The widget can be used for e.g. (IList or ITuple) of ITextLine or any other
-  (sequence) of simple field like IPassword, IInt etc.
+- Feature: Implemented the `MultiWidget` widget. This widget allows to use
+  simple fields like `ITextLine`, `IInt`, `IPassword`, etc. in a `IList` or
+  `ITuple` sequence.
 
-- Remove unused imports, adjust buildout dependencies in setup.py
+- Feature: Implemented `TextLinesWidget` widget. This widget offers a text
+  area element and splits lines in sequence items. This is usfull for power
+  user interfaces.  The widget can be used for sequence fields (e.g. `IList`)
+  that specify a simple value type field (e.g. `ITextLine` or `IInt`).
+
+- Bug: Remove unused imports, adjust buildout dependencies in `setup.py`.
 
 
 Version 1.9.0 (2008-08-26)

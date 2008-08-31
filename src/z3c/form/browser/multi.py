@@ -67,7 +67,8 @@ class MultiWidget(HTMLSelectWidget, widget.MultiWidget, FormMixin):
             name = '%s.remove' % (widget.name)
             if name in self.request:
                 append(widget.id)
-        self.widgets = [widget for widget in self.widgets if widget.id not in ids]
+        self.widgets = [widget for widget in self.widgets
+                        if widget.id not in ids]
 
 @zope.interface.implementer(interfaces.IFieldWidget)
 def multiFieldWidgetFactory(field, request):

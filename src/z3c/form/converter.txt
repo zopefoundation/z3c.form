@@ -34,15 +34,14 @@ is raised:
   >>> converter.FieldDataConverter(zope.schema.Date(), text)
   Traceback (most recent call last):
   ...
-  TypeError: Field must provide ``IFromUnicode``.
+  TypeError: Field of type ``Date`` must provide ``IFromUnicode``.
 
 A named field will tell it's name:
 
   >>> converter.FieldDataConverter(zope.schema.Date(__name__="foobar"), text)
   Traceback (most recent call last):
   ...
-  TypeError: Field ``foobar`` must provide ``IFromUnicode``.
-
+  TypeError: Field ``foobar`` of type ``Date`` must provide ``IFromUnicode``.
 
 However, the ``FieldDataConverter`` is registered for ``IField``, since many
 fields (like ``Decimal``) for which we want to create custom converters
@@ -382,8 +381,8 @@ By default the converter converts missing input to missin_input value:
   True
 
 
-FileUpload Data Converter
--------------------------
+File Upload Data Converter
+--------------------------
 
 Since the ``Bytes`` field can contain a FileUpload object, we have to make
 sure we can convert FileUpload objects to bytes too.
@@ -644,12 +643,12 @@ Note that this widget has no concept of missing value, since it can only
 represent two states by desgin.
 
 
-TextLines Data Converter
-------------------------
+Text Lines Data Converter
+-------------------------
 
-For sequence widgets and fields that work with a sequence of TextLine, a simple
-data converter is required. Let's now create a list of text lines field and a 
-widget:
+For sequence widgets and fields that work with a sequence of `TextLine` value
+fields, a simple data converter is required. Let's create a list of text lines
+field and a widget:
 
   >>> languages = zope.schema.List(
   ...     value_type=zope.schema.TextLine(),
@@ -671,7 +670,7 @@ We can now convert a real value to a widget value:
   u'de\nfr\nen'
 
 
-The result is always a string, since textlines widgets only deal with textarea 
+The result is always a string, since text lines widgets only deal with textarea
 as input field. Of course, we can convert the widget value back to an internal
 value:
 

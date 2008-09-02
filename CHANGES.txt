@@ -5,6 +5,9 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Bug: Use nocall: modifier in orderedselect_input.pt to avoid calling
+  list entry if it is callable.
+
 - Feature: The `TypeError` message used when a field does not provide
   ``IFormUnicode`` now also contains the type of the field.
 

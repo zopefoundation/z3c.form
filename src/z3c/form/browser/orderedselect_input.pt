@@ -165,7 +165,7 @@ function selectionError()
                           size view/size">
         <option tal:repeat="entry view/notselectedItems"
                 tal:attributes="value entry/value"
-                tal:content="entry/content" i18n:translate=""/>
+                tal:content="nocall:entry/content" i18n:translate=""/>
       </select>
     </td>
     <td>
@@ -206,7 +206,7 @@ function selectionError()
                           size view/size">
         <option tal:repeat="entry view/selectedItems"
                 tal:attributes="value entry/value"
-                tal:content="entry/content" i18n:translate=""/>
+                tal:content="nocall:entry/content" i18n:translate=""/>
       </select>
       <input name="foo-empty-marker" type="hidden"
         tal:attributes="name string:${view/name}-empty-marker"/>

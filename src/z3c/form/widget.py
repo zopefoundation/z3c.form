@@ -94,7 +94,7 @@ class Widget(zope.location.Location):
             if (interfaces.IContextAware.providedBy(self) and
                 not self.ignoreContext):
                 value = zope.component.getMultiAdapter(
-                    (self.context, self.field), 
+                    (self.context, self.field),
                     interfaces.IDataManager).query()
             # Step 1.2.2: If we still do not have a value, we can always use
             #             the default value of the field, id set
@@ -144,16 +144,16 @@ class Widget(zope.location.Location):
 
 class SequenceWidget(Widget):
     """Term based sequence widget base.
-    
+
     The sequence widget is used for select items from a sequence. Don't get
     confused, this widget does support to choose one or more values from a
-    sequence. The word sequence is not used for the schema field, it's used 
+    sequence. The word sequence is not used for the schema field, it's used
     for the values where this widget can choose from.
 
     This widget base class is used for build single or sequence values based
     on a sequence which is in most use case a collection. e.g.
     IList of IChoice for sequence values or IChoice for single values.
-    
+
     See also the MultiWidget for build sequence values based on none collection
     based values. e.g. IList of ITextLine
     """
@@ -213,23 +213,23 @@ class SequenceWidget(Widget):
 
 class MultiWidget(Widget):
     """None Term based sequence widget base.
-    
+
     The multi widget is used for ITuple or IList if no other widget is defined.
-    
+
     Some IList or ITuple are using another specialized widget if they can
     choose from a collection. e.g. a IList of IChoice. The base class of such
-    widget is the ISequenceWidget. 
-    
-    This widget can handle none collection based sequences and offers add or 
-    remove values to or from the sequence. Each sequence value get rendered by 
+    widget is the ISequenceWidget.
+
+    This widget can handle none collection based sequences and offers add or
+    remove values to or from the sequence. Each sequence value get rendered by
     it's own relevant widget. e.g. IList of ITextLine or ITuple of IInt
-    
+
     Each widget get rendered within a sequence value. This means each internal
     widget will repressent one value from the mutli widget value. Based on the
     nature of this (sub) widget setup the internal widget do not have a real
-    context and can't get binded to it. This makes it impossible to use a 
+    context and can't get binded to it. This makes it impossible to use a
     sequence of collection where the collection needs a context. But that
-    should not be a problem since sequence of collection will use the 
+    should not be a problem since sequence of collection will use the
     SequenceWidget as base.
     """
 
@@ -248,7 +248,7 @@ class MultiWidget(Widget):
 
     @property
     def counterMarker(self):
-        # this get called in render from the template and contains always the 
+        # this get called in render from the template and contains always the
         # right amount of widgets we use.
         return '<input type="hidden" name="%s" value="%d" />' % (
             self.counterName, len(self.widgets))
@@ -274,12 +274,12 @@ class MultiWidget(Widget):
 
     def applyValue(self, widget, value=interfaces.NOVALUE):
         """Validate and apply value to given widget.
-        
-        This method get called on any multi widget vaue change and is 
+
+        This method get called on any multi widget vaue change and is
         responsible for validate the given value and setup an error message.
-        
-        This is internal apply value and validation process is needed because 
-        nothing outside this mutli widget does know something about our 
+
+        This is internal apply value and validation process is needed because
+        nothing outside this mutli widget does know something about our
         internal sub widgets.
         """
         if value is not interfaces.NOVALUE:
@@ -337,10 +337,10 @@ class MultiWidget(Widget):
         return property(get, set)
 
     def extract(self, default=interfaces.NOVALUE):
-        # This method is responsible to get the widgets value based on the 
+        # This method is responsible to get the widgets value based on the
         # request and nothing else.
-        # We have to setup the widgets for extract their values, because we 
-        # don't know how to do this for every field without the right widgets. 
+        # We have to setup the widgets for extract their values, because we
+        # don't know how to do this for every field without the right widgets.
         # Later we will setup the widgets based on this values. This is needed
         # because we probably set a new value in the fornm for our multi widget
         # which whould generate a different set of widgets.

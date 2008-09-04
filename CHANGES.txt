@@ -5,11 +5,12 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
-- Feature: Add support for internationalization of z3c.form's messages,
-  add Russian translation. More translations are welcome.
+- Feature: The `SequenceDataConverter` and `CollectionSequenceDataConverter`
+  converter classes now ignore values that are not present in the terms when
+  converting to a widget value.
 
-- Bug: Use nocall: modifier in orderedselect_input.pt to avoid calling
-  list entry if it is callable.
+- Feature: Add support for internationalization of z3c.form's messages.
+  Added Russian translation.
 
 - Feature: The `TypeError` message used when a field does not provide
   ``IFormUnicode`` now also contains the type of the field.
@@ -22,6 +23,9 @@ Version 2.0.0 (2008-??-??)
   area element and splits lines in sequence items. This is usfull for power
   user interfaces.  The widget can be used for sequence fields (e.g. `IList`)
   that specify a simple value type field (e.g. `ITextLine` or `IInt`).
+
+- Bug: Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling
+  list entry if it is callable.
 
 - Bug: Remove unused imports, adjust buildout dependencies in `setup.py`.
 

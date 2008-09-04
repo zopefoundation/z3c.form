@@ -27,6 +27,12 @@ configuration.
   >>> xmlconfig.XMLConfig('configure.zcml', zope.app.security)()
   >>> xmlconfig.XMLConfig('configure.zcml', z3c.form)()
 
+This utility is setup by hand, since its ZCML loads to many unwanted files:
+
+  >>> import zope.component
+  >>> import zope.i18n.negotiator
+  >>> zope.component.provideUtility(zope.i18n.negotiator.negotiator)
+
 also define a helper method for test the widgets:
 
   >>> from z3c.form import interfaces

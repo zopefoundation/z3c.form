@@ -5,6 +5,9 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Feature: Add support for internationalization of z3c.form's messages,
+  add Russian translation. More translations are welcome.
+
 - Bug: Use nocall: modifier in orderedselect_input.pt to avoid calling
   list entry if it is callable.
 

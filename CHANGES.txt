@@ -10,7 +10,7 @@ Version 2.0.0 (2008-??-??)
   converting to a widget value.
 
 - Feature: Add support for internationalization of z3c.form's messages.
-  Added Russian translation.
+  Added Russian and French translations.
 
 - Feature: The `TypeError` message used when a field does not provide
   ``IFormUnicode`` now also contains the type of the field.

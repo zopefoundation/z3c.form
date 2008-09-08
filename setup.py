@@ -83,7 +83,7 @@ setup (
             'z3c.template',
             'z3c.pt',
             'zope.app.i18n',
-            'lxml==2.1.1',
+            'lxml',
             ],
         adding = ['zope.app.container'],
         ),

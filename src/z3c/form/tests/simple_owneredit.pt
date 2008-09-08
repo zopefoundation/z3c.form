@@ -1,3 +1,6 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     tal:omit-tag="">       
 <i tal:condition="view/status" tal:content="view/status" />
 <ul tal:condition="view/widgets/errors">
   <li tal:repeat="error view/widgets/errors">
@@ -18,3 +21,4 @@
 <div class="action" tal:repeat="action view/actions/values">
   <input type="submit" tal:replace="structure action/render"
 /></div>
+</div>

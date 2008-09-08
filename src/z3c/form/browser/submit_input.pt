@@ -1,5 +1,8 @@
-<input type="submit" id="" name="" class="" value=""
-       accesskey=""
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
+<input id="" name="" class="" value=""
+       accesskey="" type="submit" 
        tal:attributes="id view/id;
                        name view/name;
                        class view/klass;
@@ -25,3 +28,4 @@
                        alt view/alt;
                        accesskey view/accesskey;
                        onselect view/onselect" />
+</html>

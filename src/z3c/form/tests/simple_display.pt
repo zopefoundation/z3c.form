@@ -1,4 +1,5 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal">       
   <body>
     <div class="row" tal:repeat="widget view/widgets/values">
       <span tal:replace="structure widget/render" /></div>

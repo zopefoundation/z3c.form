@@ -1,6 +1,10 @@
-<div class="multiWidget"
-     tal:attributes="class view/css">
-  <div tal:repeat="widget view/widgets">
-    <tal:block replace="widget/render">widget</tal:block>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
+  <div class="multiWidget"
+       tal:attributes="class view/css">
+    <div tal:repeat="widget view/widgets">
+      <tal:block replace="widget/render">widget</tal:block>
+    </div>
   </div>
-</div>
+</html>

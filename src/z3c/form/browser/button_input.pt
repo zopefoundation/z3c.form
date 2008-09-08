@@ -1,3 +1,6 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
 <input type="button" id="" name="" class="" value="" accesskey=""
        tal:attributes="id view/id;
                        name view/name;
@@ -24,3 +27,4 @@
                        alt view/alt;
                        accesskey view/accesskey;
                        onselect view/onselect" />
+</html>

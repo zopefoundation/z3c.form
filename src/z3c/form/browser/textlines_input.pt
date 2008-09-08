@@ -1,3 +1,6 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
 <textarea
     id="" name="" class="" cols="" rows=""
     tabindex="" disabled="" readonly="" accesskey=""
@@ -28,3 +31,4 @@
                     accesskey view/accesskey;
                     onselect view/onselect"
     tal:content="structure view/value" />
+</html>

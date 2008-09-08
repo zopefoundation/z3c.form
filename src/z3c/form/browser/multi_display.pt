@@ -1,3 +1,6 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">  
 <span id="" class=""
       tal:attributes="id view/id;
                       class view/klass;
@@ -20,3 +23,4 @@
     /><tal:block condition="not:repeat/value/end">, </tal:block
   ></tal:block
 ></span>
+</html>

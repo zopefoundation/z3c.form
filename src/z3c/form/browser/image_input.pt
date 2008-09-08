@@ -1,5 +1,8 @@
-<input type="image" id="" name="" class="" src="" value=""
-       accesskey=""
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
+<input id="" name="" class="" src="" value=""
+       accesskey="" type="image" 
        tal:attributes="id view/id;
                        name view/name;
                        class view/klass;
@@ -26,3 +29,4 @@
                        alt view/alt;
                        accesskey view/accesskey;
                        onselect view/onselect" />
+</html>

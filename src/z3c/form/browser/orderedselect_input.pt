@@ -1,4 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      tal:omit-tag="">
 <script type="text/javascript">
+  <![CDATA[
 function moveItems(from, to)
   {
   // shortcuts for selection fields
@@ -133,15 +138,15 @@ function copyDataForSubmit(name)
 // error message for missing selection
 function selectionError()
   {alert("Must select something!")}
-
+]]>
 </script>
 
 <table border="0" class="ordered-selection-field">
   <tr>
     <td>
-      <select id="from" name="from" size="5" multiple=""
-          tal:attributes="name string:${view/name}.from;
-                          id string:${view/id}-from;
+      <select id="from" name="from" class=""  multiple="" size="5"
+          tal:attributes="id string:${view/id}-from;
+                          name string:${view/name}.from;
                           class view/klass;
                           style view/style;
                           title view/title;
@@ -169,20 +174,20 @@ function selectionError()
       </select>
     </td>
     <td>
-      <button name="from2toButton" type="button" value="&rarr;"
-          onclick="javascript:from2to()"
-          tal:attributes="onClick string:javascript:from2to('${view/id}')"
+      <button onclick="javascript:from2to()"
+              name="from2toButton" type="button" value="&rarr;"
+              tal:attributes="onClick string:javascript:from2to('${view/id}')"
           >&rarr;</button>
       <br />
-      <button name="to2fromButton" type="button" value="&larr;"
-          onclick="javascript:to2from()"
-          tal:attributes="onClick string:javascript:to2from('${view/id}')"
+      <button onclick="javascript:to2from()"
+              name="to2fromButton" type="button" value="&larr;"
+              tal:attributes="onClick string:javascript:to2from('${view/id}')"
           >&larr;</button>
     </td>
     <td>
-      <select id="to" name="to" size="5" multiple=""
-          tal:attributes="name string:${view/name}.to;
-                          id string:${view/id}-to;
+      <select id="to" name="to" class="" multiple="" size="5" 
+          tal:attributes="id string:${view/id}-to;
+                          name string:${view/name}.to;
                           class view/klass;
                           style view/style;
                           title view/title;
@@ -221,16 +226,17 @@ function selectionError()
     </td>
     <td>
       <button
-          name="upButton" type="button" value="&uarr;"
           onclick="javascript:moveUp()"
+          name="upButton" type="button" value="&uarr;"
           tal:attributes="onClick string:javascript:moveUp('${view/id}')"
           >&uarr;</button>
       <br />
       <button
-          name="downButton" type="button" value="&darr;"
           onclick="javascript:moveDown()"
+          name="downButton" type="button" value="&darr;"
           tal:attributes="onClick string:javascript:moveDown('${view/id}')"
           >&darr;</button>
     </td>
   </tr>
 </table>
+</html>

@@ -1,7 +1,11 @@
-<input type="image" id="" name="" class="" src="" value="" disabled="disabled"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
+<input id="" name="" class="" src="" value="" disabled="disabled" type="image" 
        tal:attributes="id view/id;
                        name view/name;
                        class view/klass;
                        style view/style;
                        src view/src;
                        value view/value" />
+</html>

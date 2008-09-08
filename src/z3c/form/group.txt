@@ -106,7 +106,7 @@ already been converted to instances ares skipped.
 We can now render the form:
 
   >>> print add.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -187,10 +187,10 @@ Let's now submit the form, but forgetting to enter the address:
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print testing.render(add, './/i')
+  >>> print testing.render(add, './/xmlns:i')
   <i>There were some errors.</i>
 
-  >>> print testing.render(add, './/fieldset[1]/ul')
+  >>> print testing.render(add, './/xmlns:fieldset[1]/xmlns:ul')
   <ul>
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -212,10 +212,10 @@ happens, if errors happen inside and outside a group?
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print testing.render(add, './/i')
+  >>> print testing.render(add, './/xmlns:i')
   <i>There were some errors.</i>
 
-  >>> print testing.render(add, './/ul[1]')
+  >>> print testing.render(add, './/xmlns:ul[1]')
   <ul>
     <li>
     Last Name:
@@ -229,7 +229,7 @@ happens, if errors happen inside and outside a group?
     </li>
   </ul>
   
-  >>> print testing.render(add, './/fieldset[1]/ul')
+  >>> print testing.render(add, './/xmlns:fieldset[1]/xmlns:ul')
   <ul>
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -291,7 +291,7 @@ Let's now have a look at an edit form for the vehicle registration:
 After updating the form, we can render the HTML:
 
   >>> print edit.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -372,10 +372,10 @@ The behavior when an error occurs is identical to that of the add form:
 
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
-  >>> print testing.render(edit, './/i')
+  >>> print testing.render(edit, './/xmlns:i')
   <i>There were some errors.</i>
 
-  >>> print testing.render(edit, './/ul')
+  >>> print testing.render(edit, './/xmlns:ul')
   <ul>
     <li>
     Address:
@@ -383,7 +383,7 @@ The behavior when an error occurs is identical to that of the add form:
     </li>
   </ul>
   
-  >>> print testing.render(edit, './/fieldset/ul')
+  >>> print testing.render(edit, './/xmlns:fieldset/xmlns:ul')
   <ul>
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -420,7 +420,7 @@ Let's now complete the form successfully:
 
 The success message will be shown on the form, ...
 
-  >>> print testing.render(edit, './/i')
+  >>> print testing.render(edit, './/xmlns:i')
   <i>Data successfully updated.</i>
 
 and the data is correctly updated:
@@ -541,7 +541,7 @@ When we render the form, the group appears as we would expect but with
 the ``owner`` prefix for the fields.
 
   >>> print edit.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -622,7 +622,7 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print testing.render(edit, './/i')
+  >>> print testing.render(edit, './/xmlns:i')
   <i>Data successfully updated.</i>
   
 Now the owner object should have updated fields.

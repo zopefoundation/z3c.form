@@ -103,7 +103,7 @@ Let's now instantiate the form and render it:
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
   >>> print carForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -175,7 +175,7 @@ might have made in the form:
 Also, the form should say that the data of the owner has changed:
 
   >>> print carForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -292,7 +292,7 @@ Rendering the form works as before:
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
   >>> print carForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -385,7 +385,7 @@ the parent form, the sub-form is still submitted:
 Let's look at the rendered form:
 
   >>> print carForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
       <ul>
@@ -466,7 +466,7 @@ occurs:
   u'MA-991723FDG'
 
   >>> print carForm.render() # doctest: +NOPARSE_MARKUP
-  <html>       
+  <html xmlns="http://www.w3.org/1999/xhtml">       
       ...
       <fieldset>
         <legend>Owner</legend>
@@ -495,7 +495,7 @@ If the data did not change, it is also locally reported:
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
   >>> print carForm.render() # doctest: +NOPARSE_MARKUP
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     ...
       <fieldset>
       <legend>Owner</legend>
@@ -571,7 +571,7 @@ And render the form. As you can see, the widgets get rendered without any
   >>> carForm = CarAddForm(container, request)
   >>> carForm.update()
   >>> print carForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
   <body>
   <form action=".">
     <div class="row">

@@ -300,7 +300,7 @@ very simple template as part of this example:
 Let's now render the page:
 
   >>> print addForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -407,7 +407,7 @@ Let's now render the form:
 
   >>> addTemplate(addForm)
   >>> print addForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
       <ul>
@@ -476,7 +476,7 @@ error now:
 and see how the form looks like:
 
   >>> print addForm.render() # doctest: +NOPARSE_MARKUP
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
       <ul>
@@ -588,7 +588,7 @@ Let's register our new template-based adapter factory:
 Now the factory will be used to provide a template:
 
   >>> print addForm.render() # doctest: +NOPARSE_MARKUP
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   </html>
 
@@ -597,7 +597,7 @@ you call it will invoke both the ``update()`` and ``render()``
 methods:
 
   >>> print addForm() # doctest: +NOPARSE_MARKUP
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   </html>
 
@@ -626,12 +626,13 @@ When the form renders, the label has now changed:
   >>> addForm = PersonAddForm(root, TestRequest())
   >>> addTemplate(addForm)
   >>> addForm.update()
-  >>> print testing.render(addForm, './/div[2][@class="row"]')
+  >>> print testing.render(addForm, './/xmlns:div[2][@class="row"]')
   <div class="row">
     <label for="form-widgets-name">Full Name</label>
     <input class="text-widget required textline-field"
            id="form-widgets-name" name="form.widgets.name" type="text" value="">
   </div>
+  
 
 Adding a "Cancel" button
 ------------------------
@@ -669,7 +670,7 @@ After registering the new action manager,
 the add form should display a cancel button:
 
   >>> addForm.update()
-  >>> print testing.render(addForm, './/div[@class="action"]')
+  >>> print testing.render(addForm, './/xmlns:div[@class="action"]')
   <div class="action">
     <input type="submit" id="form-buttons-add" name="form.buttons.add"
            class="submit-widget button-field" value="Add" />
@@ -739,7 +740,7 @@ After adding a template, we can look at the form:
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print editForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -799,7 +800,7 @@ Let's now submit the form having some invalid data.
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print editForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
       <ul>
@@ -862,7 +863,7 @@ Let's now resubmit the form with valid data, so the data should be updated.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print testing.render(editForm, './/i')
+  >>> print testing.render(editForm, './/xmlns:i')
   <i>Data successfully updated.</i>
 
   >>> stephan = root[u'srichter']
@@ -925,7 +926,7 @@ When submitting the form without any changes, the form will tell you so.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print testing.render(editForm, './/i')
+  >>> print testing.render(editForm, './/xmlns:i')
   <i>No changes were applied.</i>
 
 
@@ -950,7 +951,7 @@ Let's now change the ``noChangesMessage``:
 
   >>> editForm.noChangesMessage = u'No changes were detected in the form data.'
   >>> editForm.update()
-  >>> print testing.render(editForm, './/i')
+  >>> print testing.render(editForm, './/xmlns:i')
   <i>No changes were detected in the form data.</i>
 
 When even more flexibility is required within a project, one could also
@@ -984,7 +985,7 @@ We can now use the form as usual:
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print editForm.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">
@@ -1060,7 +1061,7 @@ Creating a display form is simple; just instantiate, update and render it:
   >>> display = PersonDisplayForm(stephan, TestRequest())
   >>> display.update()
   >>> print display.render()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <div class="row">
         <span id="form-widgets-id"
@@ -1286,7 +1287,7 @@ We can see that the custom widget gets used in the rendered form:
   >>> myEdit = MyEditForm(root[u'srichter'], TestRequest())
   >>> addTemplate(myEdit)
   >>> myEdit.update()
-  >>> print testing.render(myEdit, './/input[@id="form-widgets-name"]')
+  >>> print testing.render(myEdit, './/xmlns:input[@id="form-widgets-name"]')
   <input type="text" id="form-widgets-name"
          name="form.widgets.name" class="MyCSS required textline-field"
          value="Claudia Richter" />
@@ -1313,7 +1314,7 @@ We can see that the widget gets rendered as hidden:
   >>> hiddenEdit = HiddenFieldEditForm(root[u'srichter'], TestRequest())
   >>> addTemplate(hiddenEdit)
   >>> hiddenEdit.update()
-  >>> print testing.render(hiddenEdit, './/input[@id="form-widgets-age"]')
+  >>> print testing.render(hiddenEdit, './/xmlns:input[@id="form-widgets-age"]')
   <input type="hidden" id="form-widgets-age"
          name="form.widgets.age" class="hidden-widget"
          value="29" />

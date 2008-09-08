@@ -1,3 +1,6 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     tal:omit-tag="">
 <i tal:condition="view/status" tal:content="view/status" />
 <ul tal:condition="view/widgets/errors">
   <li tal:repeat="error view/widgets/errors">
@@ -15,3 +18,4 @@
          tal:content="widget/label" />
   <input type="text" tal:replace="structure widget/render"
 /></div>
+</div>

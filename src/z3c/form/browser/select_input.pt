@@ -1,3 +1,6 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     tal:omit-tag="">  
 <select id="" name="" class="" tabindex="" disabled="" multiple="" size=""
         tal:attributes="id view/id;
                         name string:${view/name}:list;
@@ -37,3 +40,4 @@
 </select>
 <input name="field-empty-marker" type="hidden" value="1"
        tal:attributes="name string:${view/name}-empty-marker" />
+</div>

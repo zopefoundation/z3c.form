@@ -75,7 +75,7 @@ instantiating the form, ...
 ... we can now view the form:
 
   >>> print add()
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
         <div class="row">

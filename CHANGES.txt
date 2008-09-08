@@ -5,6 +5,8 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Refactoring: Templates now declare XML namespaces.
+
 - Refactoring: HTML output is now compared using a modified version of
   the XML-aware output checker provided by ``lxml``.
 

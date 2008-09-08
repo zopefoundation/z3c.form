@@ -459,7 +459,7 @@ class ISelectWidget(ISequenceWidget):
     items = zope.schema.Tuple(
         title=_('Items'),
         description=_('A collection of dictionaries containing all pieces of '
-                      'information for renderiing. The following keys must '
+                      'information for rendering. The following keys must '
                       'be in each dictionary: id, value, content, selected'))
 
     noValueMessage = zope.schema.Text(
@@ -788,7 +788,7 @@ class IForm(zope.interface.Interface):
 
     label = zope.schema.TextLine(
         title=_('Label'),
-        description=_('A human readable text desribing the form that can be '
+        description=_('A human readable text describing the form that can be '
                       'used in the UI.'),
         required=False)
 
@@ -865,7 +865,7 @@ class IInputForm(zope.interface.Interface):
     acceptCharset = zope.schema.ASCIILine(
         title=_('Accepted Character Sets'),
         description=_('This is a list of character sets the server accepts. '
-                      'By default this is unknwon.'),
+                      'By default this is unknown.'),
         required=False)
 
     accept = zope.schema.ASCIILine(

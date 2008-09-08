@@ -224,7 +224,7 @@ is not used by default, but available for use:
 Bytes
 -----
 
-  >>> field = zope.schema.Bytes(default='\10\45\n\32')
+  >>> field = zope.schema.Bytes(default='Default bytes')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -238,8 +238,8 @@ Bytes
   <input type="file" id="foo" name="bar" class="file-widget required bytes-field" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> widget.render()
-  u'<span id="foo" class="file-widget required bytes-field">\x08%\n\x1a</span>\n'
+  >>> widget.render().strip('\n')
+  u'<span id="foo" class="file-widget required bytes-field">Default bytes</span>'
 
 
 BytesLine

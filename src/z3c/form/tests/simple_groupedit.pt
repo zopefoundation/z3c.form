@@ -21,13 +21,13 @@
                tal:content="widget/label" />
         <input type="text" tal:replace="structure widget/render"
       /></div>
-      <fieldgroup tal:condition="view/groups|nothing"
+      <fieldset tal:condition="view/groups|nothing"
                   tal:repeat="view view/groups">
         <legend tal:condition="view/label"
                 tal:content="view/label">Label</legend>
         <div metal:use-macro="template/macros/errors" />
         <div metal:use-macro="template/macros/rows" />
-      </fieldgroup>
+      </fieldset>
       <div class="action"
            tal:condition="view/actions|nothing"
            tal:repeat="action view/actions/values">

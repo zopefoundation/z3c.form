@@ -5,6 +5,9 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Refactoring: HTML output is now compared using a modified version of
+  the XML-aware output checker provided by ``lxml``.
+
 - Feature: The `SequenceDataConverter` and `CollectionSequenceDataConverter`
   converter classes now ignore values that are not present in the terms when
   converting to a widget value.

@@ -82,6 +82,7 @@ setup (
             'z3c.coverage',
             'z3c.template',
             'zope.app.i18n',
+            'lxml==2.1.1',
             ],
         adding = ['zope.app.container'],
         ),

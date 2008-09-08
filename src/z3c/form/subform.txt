@@ -465,22 +465,23 @@ occurs:
   >>> me.license
   u'MA-991723FDG'
 
-  >>> print carForm.render()
-  <html>
-    ...
-    <fieldset>
-      <legend>Owner</legend>
-      <i>There were some errors.</i>
-      <ul>
-        <li>
-          Name: <div class="error">Constraint not satisfied</div>
-        </li>
-      </ul>
+  >>> print carForm.render() # doctest: +NOPARSE_MARKUP
+  <html>       
       ...
-    </fieldset>
-    ...
+      <fieldset>
+        <legend>Owner</legend>
+        <i>There were some errors.</i>
+        <ul>
+           <li>
+             Name:
+             <div class="error">Constraint not satisfied</div>
+           </li>
+        </ul>
+       ...
+     </fieldset>
+     ...
   </html>
-
+  
 If the data did not change, it is also locally reported:
 
   >>> request = TestRequest(form={
@@ -493,14 +494,14 @@ If the data did not change, it is also locally reported:
 
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
-  >>> print carForm.render()
+  >>> print carForm.render() # doctest: +NOPARSE_MARKUP
   <html>
     ...
-    <fieldset>
+      <fieldset>
       <legend>Owner</legend>
       <i>No changes were applied.</i>
       ...
-    </fieldset>
+      </fieldset>
     ...
   </html>
 

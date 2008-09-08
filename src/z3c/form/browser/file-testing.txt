@@ -42,7 +42,8 @@ input element, but also with a text area:
   >>> print widget.render()
   <input type="file" id="widget.id" name="widget.name"
          class="file-widget" />
-  <textarea name="widget.name.testing" style="display: none;"></textarea>
+  <textarea name="widget.name.testing" style="display: none;"><!--
+     nothing here --></textarea>
 
 Let's now make sure that we can extract user entered data from a widget:
 
@@ -90,7 +91,8 @@ If we render them, we get a regular file upload widget:
   >>> print widget.render()
   <input type="file" id="widget.id" name="widget.name"
          class="file-widget" />
-  <textarea name="widget.name.testing" style="display: none;"></textarea>
+  <textarea name="widget.name.testing" style="display: none;"><!--
+     nothing here --></textarea>
 
 Alternatively, we can also pass in the file upload content via the
 testing text area:

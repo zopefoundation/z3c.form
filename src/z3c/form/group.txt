@@ -123,7 +123,7 @@ We can now render the form:
                  class="text-widget required textline-field"
                  value="" />
         </div>
-        <fieldgroup>
+        <fieldset>
           <legend>License</legend>
           <div class="row">
             <label for="form-widgets-license">License</label>
@@ -139,8 +139,8 @@ We can now render the form:
                    class="text-widget required textline-field"
                    value="" />
           </div>
-        </fieldgroup>
-        <fieldgroup>
+        </fieldset>
+        <fieldset>
           <legend>Car</legend>
           <div class="row">
             <label for="form-widgets-model">Model</label>
@@ -163,7 +163,7 @@ We can now render the form:
                    class="text-widget required int-field"
                    value="" />
           </div>
-        </fieldgroup>
+        </fieldset>
         <div class="action">
           <input type="submit" id="form-buttons-add"
                  name="form.buttons.add" class="submit-widget button-field"
@@ -187,25 +187,15 @@ Let's now submit the form, but forgetting to enter the address:
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print add.render()
-  <html>
-    <body>
-      <i>There were some errors.</i>
-      <form action=".">
-        ...
-        <fieldgroup>
-          <legend>License</legend>
-          <ul>
-            <li>
-              Address: <div class="error">Required input is missing.</div>
-            </li>
-          </ul>
-          ...
-        </fieldgroup>
-        ...
-      </form>
-    </body>
-  </html>
+  >>> print testing.render(add, './/i')
+  <i>There were some errors.</i>
+
+  >>> print testing.render(add, './/fieldset[1]/ul')
+  <ul>
+    <li>
+      Address: <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
 
 As you can see, the template is clever enough to just report the errors at the
 top of the form, but still report the actual problem within the group. So what
@@ -222,30 +212,29 @@ happens, if errors happen inside and outside a group?
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print add.render()
-  <html>
-    <body>
-      <i>There were some errors.</i>
-      <ul>
-        <li>
-          Last Name: <div class="error">Required input is missing.</div>
-        </li>
-      </ul>
-      <form action=".">
-        ...
-        <fieldgroup>
-          <legend>License</legend>
-          <ul>
-            <li>
-              Address: <div class="error">Required input is missing.</div>
-            </li>
-          </ul>
-          ...
-        </fieldgroup>
-        ...
-      </form>
-    </body>
-  </html>
+  >>> print testing.render(add, './/i')
+  <i>There were some errors.</i>
+
+  >>> print testing.render(add, './/ul[1]')
+  <ul>
+    <li>
+    Last Name:
+      <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
+  <ul>
+    <li>
+    Address:
+      <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
+  
+  >>> print testing.render(add, './/fieldset[1]/ul')
+  <ul>
+    <li>
+      Address: <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
 
 Let's now successfully complete the add form.
 
@@ -319,7 +308,7 @@ After updating the form, we can render the HTML:
                  class="text-widget required textline-field"
                  value="Richter" />
          </div>
-        <fieldgroup>
+        <fieldset>
           <legend>License</legend>
           <div class="row">
             <label for="form-widgets-license">License</label>
@@ -335,8 +324,8 @@ After updating the form, we can render the HTML:
                    class="text-widget required textline-field"
                    value="10 Main St, Maynard, MA" />
           </div>
-        </fieldgroup>
-        <fieldgroup>
+        </fieldset>
+        <fieldset>
           <legend>Car</legend>
           <div class="row">
             <label for="form-widgets-model">Model</label>
@@ -359,7 +348,7 @@ After updating the form, we can render the HTML:
                    class="text-widget required int-field"
                    value="2005" />
           </div>
-        </fieldgroup>
+        </fieldset>
         <div class="action">
           <input type="submit" id="form-buttons-apply"
                  name="form.buttons.apply" class="submit-widget button-field"
@@ -383,25 +372,23 @@ The behavior when an error occurs is identical to that of the add form:
 
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
-  >>> print edit.render()
-  <html>
-    <body>
-      <i>There were some errors.</i>
-      <form action=".">
-        ...
-        <fieldgroup>
-          <legend>License</legend>
-          <ul>
-            <li>
-              Address: <div class="error">Required input is missing.</div>
-            </li>
-          </ul>
-          ...
-        </fieldgroup>
-        ...
-      </form>
-    </body>
-  </html>
+  >>> print testing.render(edit, './/i')
+  <i>There were some errors.</i>
+
+  >>> print testing.render(edit, './/ul')
+  <ul>
+    <li>
+    Address:
+      <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
+  
+  >>> print testing.render(edit, './/fieldset/ul')
+  <ul>
+    <li>
+      Address: <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
 
 When an edit form with groups is successfully committed, a detailed 
 object-modified event is sent out telling the system about the changes.
@@ -433,13 +420,8 @@ Let's now complete the form successfully:
 
 The success message will be shown on the form, ...
 
-  >>> print edit.render()
-  <html>
-    <body>
-      <i>Data successfully updated.</i>
-      ...
-    </body>
-  </html>
+  >>> print testing.render(edit, './/i')
+  <i>Data successfully updated.</i>
 
 and the data is correctly updated:
 
@@ -596,7 +578,7 @@ the ``owner`` prefix for the fields.
                  name="form.widgets.year"
                  class="text-widget required int-field" value="2005" />
         </div>
-        <fieldgroup>
+        <fieldset>
           <legend>Owner</legend>
           <div class="row">
             <label for="form-widgets-owner-firstName">First Name</label>
@@ -612,7 +594,7 @@ the ``owner`` prefix for the fields.
                    class="text-widget required textline-field"
                    value="Richter" />
           </div>
-        </fieldgroup>
+        </fieldset>
         <div class="action">
           <input type="submit" id="form-buttons-apply"
                  name="form.buttons.apply"
@@ -640,14 +622,9 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print edit.render()
-  <html>
-    <body>
-      <i>Data successfully updated.</i>
-      ...
-    </body>
-  </html>
-
+  >>> print testing.render(edit, './/i')
+  <i>Data successfully updated.</i>
+  
 Now the owner object should have updated fields.
 
   >>> reg.owner.firstName

@@ -475,7 +475,7 @@ error now:
 
 and see how the form looks like:
 
-  >>> print addForm.render()
+  >>> print addForm.render() # doctest: +NOPARSE_MARKUP
   <html>
     <body>
       <i>There were some errors.</i>
@@ -587,7 +587,7 @@ Let's register our new template-based adapter factory:
 
 Now the factory will be used to provide a template:
 
-  >>> print addForm.render()
+  >>> print addForm.render() # doctest: +NOPARSE_MARKUP
   <html>
   ...
   </html>
@@ -596,7 +596,7 @@ Since a form can also be used as a page itself, it is callable. When
 you call it will invoke both the ``update()`` and ``render()``
 methods:
 
-  >>> print addForm()
+  >>> print addForm() # doctest: +NOPARSE_MARKUP
   <html>
   ...
   </html>
@@ -626,16 +626,12 @@ When the form renders, the label has now changed:
   >>> addForm = PersonAddForm(root, TestRequest())
   >>> addTemplate(addForm)
   >>> addForm.update()
-  >>> print addForm.render()
-  <html>
-  ...
+  >>> print testing.render(addForm, './/div[2][@class="row"]')
   <div class="row">
     <label for="form-widgets-name">Full Name</label>
-    <input type="text" id="form-widgets-name" name="form.widgets.name"
-           class="text-widget required textline-field" value="" />
+    <input class="text-widget required textline-field"
+           id="form-widgets-name" name="form.widgets.name" type="text" value="">
   </div>
-  ...
-
 
 Adding a "Cancel" button
 ------------------------
@@ -673,9 +669,7 @@ After registering the new action manager,
 the add form should display a cancel button:
 
   >>> addForm.update()
-  >>> print addForm.render()
-  <html>
-  ...
+  >>> print testing.render(addForm, './/div[@class="action"]')
   <div class="action">
     <input type="submit" id="form-buttons-add" name="form.buttons.add"
            class="submit-widget button-field" value="Add" />
@@ -684,7 +678,6 @@ the add form should display a cancel button:
     <input type="submit" id="form-buttons-cancel" name="form.buttons.cancel"
            class="submit-widget button-field" value="Cancel" />
   </div>
-  ...
 
 But showing the button does not mean it does anything. So we also need a
 custom action handler to handle the cancel action:
@@ -869,11 +862,8 @@ Let's now resubmit the form with valid data, so the data should be updated.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print editForm.render()
-  <html>
-  ...
+  >>> print testing.render(editForm, './/i')
   <i>Data successfully updated.</i>
-  ...
 
   >>> stephan = root[u'srichter']
   >>> stephan.name
@@ -935,11 +925,8 @@ When submitting the form without any changes, the form will tell you so.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print editForm.render()
-  <html>
-  ...
+  >>> print testing.render(editForm, './/i')
   <i>No changes were applied.</i>
-  ...
 
 
 Changing Status Messages
@@ -963,11 +950,8 @@ Let's now change the ``noChangesMessage``:
 
   >>> editForm.noChangesMessage = u'No changes were detected in the form data.'
   >>> editForm.update()
-  >>> print editForm.render()
-  <html>
-  ...
+  >>> print testing.render(editForm, './/i')
   <i>No changes were detected in the form data.</i>
-  ...
 
 When even more flexibility is required within a project, one could also
 implement these messages as properties looking up an attribute value. However,
@@ -1302,13 +1286,10 @@ We can see that the custom widget gets used in the rendered form:
   >>> myEdit = MyEditForm(root[u'srichter'], TestRequest())
   >>> addTemplate(myEdit)
   >>> myEdit.update()
-  >>> print myEdit.render()
-  ...
-  <html...
+  >>> print testing.render(myEdit, './/input[@id="form-widgets-name"]')
   <input type="text" id="form-widgets-name"
          name="form.widgets.name" class="MyCSS required textline-field"
          value="Claudia Richter" />
-  ...
 
 
 Hidden fields
@@ -1332,16 +1313,10 @@ We can see that the widget gets rendered as hidden:
   >>> hiddenEdit = HiddenFieldEditForm(root[u'srichter'], TestRequest())
   >>> addTemplate(hiddenEdit)
   >>> hiddenEdit.update()
-  >>> print hiddenEdit.render()
-  <html>...
-  <input type="text" id="form-widgets-name"
-         name="form.widgets.name" class="MyCSS required textline-field"
-         value="Claudia Richter" />
-  ...
+  >>> print testing.render(hiddenEdit, './/input[@id="form-widgets-age"]')
   <input type="hidden" id="form-widgets-age"
          name="form.widgets.age" class="hidden-widget"
          value="29" />
-  ...
 
 
 Actions with Errors

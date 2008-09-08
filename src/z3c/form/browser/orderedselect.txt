@@ -19,8 +19,8 @@ interface:
 
 The widget can be instantiated only using the request:
 
-  >>> from z3c.form.testing import TestRequest
-  >>> request = TestRequest()
+  >>> from z3c.form import testing
+  >>> request = testing.TestRequest()
 
   >>> widget = orderedselect.OrderedSelectWidget(request)
 
@@ -103,62 +103,40 @@ providing ``ITerms``. This source uses descriminators wich will fit our setup.
   ...      interfaces.IOrderedSelectWidget) )
 
 Now let's try if we get widget values:
-
+  
   >>> widget.update()
-  >>> print widget.render()
-  <script type="text/javascript">
-  ...
-  </script>
-  <table border="0" class="ordered-selection-field">
-    <tr>
-      <td>
-        <select id="widget-id-from" name="widget.name.from"
-                size="5" multiple="multiple">
-          <option value="a">A</option>
-          <option value="b">B</option>
-          <option value="c">C</option>
-        </select>
-      </td>
-      ...
-    </tr>
-  </table>
+  >>> print testing.render(widget, './/table//td[1]')
+  <td>
+    <select id="widget-id-from" name="widget.name.from"
+            size="5" multiple="multiple">
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+    </select>
+  </td>
 
 If we select item "b", then it should be selected:
 
   >>> widget.value = ['b']
   >>> widget.update()
-  >>> print widget.render()
-  <script type="text/javascript">
-  ...
-  </script>
-  <table border="0" class="ordered-selection-field">
-    <tr>
-      <td>
-        <select id="widget-id-from" name="widget.name.from"
-                size="5" multiple="multiple">
-          <option value="a">A</option>
-          <option value="c">C</option>
-        </select>
-      </td>
-      ...
-      <td>
-        <select id="widget-id-to" name="widget.name.to"
-                size="5" multiple="multiple">
-          <option value="b">B</option>
-        </select>
-        <input name="widget.name-empty-marker" type="hidden" />
-        <span id="widget-id-toDataContainer">
-          <script type="text/javascript">
-            copyDataForSubmit('widget-id');</script>
-        </span>
-      </td>
-      ...
-    </tr>
-  </table>
+  >>> print testing.render(widget, './/table//select[@id="widget-id-from"]/..')
+  <td>
+    <select id="widget-id-from" name="widget.name.from"
+            size="5" multiple="multiple">
+      <option value="a">A</option>
+      <option value="c">C</option>
+    </select>
+  </td>
+
+  >>> print testing.render(widget, './/table//select[@id="widget-id-to"]')
+  <select id="widget-id-to" name="widget.name.to"
+          size="5" multiple="multiple">
+    <option value="b">B</option>
+  </select>
 
 Let's now make sure that we can extract user entered data from a widget:
 
-  >>> widget.request = TestRequest(form={'widget.name': ['c']})
+  >>> widget.request = testing.TestRequest(form={'widget.name': ['c']})
   >>> widget.update()
   >>> widget.extract()
   ['c']
@@ -167,14 +145,14 @@ Unfortunately, when nothing is selected, we do not get an empty list sent into
 the request, but simply no entry at all. For this we have the empty marker, so
 that:
 
-  >>> widget.request = TestRequest(form={'widget.name-empty-marker': '1'})
+  >>> widget.request = testing.TestRequest(form={'widget.name-empty-marker': '1'})
   >>> widget.update()
   >>> widget.extract()
   []
 
 If nothing is found in the request, the default is returned:
 
-  >>> widget.request = TestRequest()
+  >>> widget.request = testing.TestRequest()
   >>> widget.update()
   >>> widget.extract()
   <NOVALUE>
@@ -182,7 +160,7 @@ If nothing is found in the request, the default is returned:
 Let's now make sure that a bogus value causes extract to return the default as
 described by the interface:
 
-  >>> widget.request = TestRequest(form={'widget.name': ['x']})
+  >>> widget.request = testing.TestRequest(form={'widget.name': ['x']})
   >>> widget.update()
   >>> widget.extract()
   <NOVALUE>
@@ -208,22 +186,13 @@ zope.app.content.
   ...              SimpleVocabulary.createTerm(CallableValue(3), 'c')
   ...              ])
 
-  >>> widget.terms = SelectionTermsWithCallableValues(None, TestRequest(), None, None, widget)
+  >>> widget.terms = SelectionTermsWithCallableValues(
+  ...     None, testing.TestRequest(), None, None, widget)
   >>> widget.update()
-  >>> print widget.render()
-  <script type="text/javascript">
-  ...
-  </script>
-  <table border="0" class="ordered-selection-field">
-    <tr>
-      <td>
-        <select id="widget-id-from" name="widget.name.from"
-                size="5" multiple="multiple">
-          <option value="a">Callable Value 1</option>
-          <option value="b">Callable Value 2</option>
-          <option value="c">Callable Value 3</option>
-        </select>
-      </td>
-      ...
-    </tr>
-  </table>
+  >>> print testing.render(widget, './/table//select[@id="widget-id-from"]')
+  <select id="widget-id-from" name="widget.name.from"
+          size="5" multiple="multiple">
+    <option value="a">Callable Value 1</option>
+    <option value="b">Callable Value 2</option>
+    <option value="c">Callable Value 3</option>
+  </select>

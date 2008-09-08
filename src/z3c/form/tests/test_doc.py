@@ -25,90 +25,107 @@ from zope.app.testing import placelesssetup
 from z3c.form import testing
 
 def test_suite():
-    checker = renormalizing.RENormalizing([
-        (re.compile(r"(invalid literal for int\(\)) with base 10: '(.*)'"),
-         r'\1: \2'),
-        ])
+    checker = testing.OutputChecker()
+    
     return unittest.TestSuite((
         doctest.DocFileSuite(
             '../action.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../datamanager.txt',
             setUp=placelesssetup.setUp, tearDown=placelesssetup.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../field.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../value.txt',
             setUp=placelesssetup.setUp, tearDown=placelesssetup.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../validator.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../term.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../error.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../widget.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../button.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../zcml.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../converter.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-            checker=checker,
+            checker=renormalizing.RENormalizing([
+                 (re.compile(
+                  r"(invalid literal for int\(\)) with base 10: '(.*)'"),
+                  r'\1: \2'),
+                 ])
             ),
         doctest.DocFileSuite(
             '../form.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../group.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../subform.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../util.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         doctest.DocFileSuite(
             '../adding.txt',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ),
         ))

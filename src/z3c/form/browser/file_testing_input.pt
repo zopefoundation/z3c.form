@@ -1,3 +1,6 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
 <input type="file" id="" name="" class="" title="" lang="" disabled=""
        readonly="" alt="" tabindex="" accesskey="" size="" maxlength=""
        tal:attributes="id view/id;
@@ -28,4 +31,5 @@
                        size view/size;
                        maxlength view/maxlength" />
 <textarea name="" style="display: none;"
-       tal:attributes="name string:${view/name}.testing"></textarea>
+       tal:attributes="name string:${view/name}.testing"><!-- nothing here --></textarea>
+</html>

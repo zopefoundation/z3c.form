@@ -76,9 +76,13 @@ widget. The first step is to define the template:
 
   >>> import tempfile
   >>> textWidgetTemplate = tempfile.mktemp('text.pt')
-  >>> open(textWidgetTemplate, 'w').write('''\
-  ... <input type="text" name="" value=""
-  ...        tal:attributes="name view/name; value view/value;" />\
+  >>> open(textWidgetTemplate, 'w').write('''
+  ... <html xmlns="http://www.w3.org/1999/xhtml"
+  ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
+  ...       tal:omit-tag="">
+  ...    <input type="text" name="" value=""
+  ...           tal:attributes="name view/name; value view/value;" />
+  ... </html>
   ... ''')
 
 Next, we have to create a template factory for the widget:

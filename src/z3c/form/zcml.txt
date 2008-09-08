@@ -19,11 +19,15 @@ We need a custom widget template
   >>> temp_dir = tempfile.mkdtemp()
   >>> file = os.path.join(temp_dir, 'widget.pt')
   >>> open(file, 'w').write('''
-  ... <input type="text" id="" name="" value="" size=""
-  ...        tal:attributes="id view/id;
-  ...                        name view/name;
-  ...                        size view/size;
-  ...                        value view/value;" />
+  ... <html xmlns="http://www.w3.org/1999/xhtml"
+  ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
+  ...       tal:omit-tag="">
+  ...    <input type="text" id="" name="" value="" size=""
+  ...           tal:attributes="id view/id;
+  ...                           name view/name;
+  ...                           size view/size;
+  ...                           value view/value;" />
+  ... </html>
   ... ''')
 
 and a interface

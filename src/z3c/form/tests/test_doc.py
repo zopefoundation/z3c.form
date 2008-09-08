@@ -17,6 +17,7 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 import unittest
+import itertools
 import re
 
 from zope.testing import doctest, renormalizing
@@ -26,11 +27,11 @@ from z3c.form import testing
 
 def test_suite():
     checker = testing.OutputChecker()
-    
-    return unittest.TestSuite((
+
+    tests = ((
         doctest.DocFileSuite(
             '../action.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
@@ -42,7 +43,7 @@ def test_suite():
             ),
         doctest.DocFileSuite(
             '../field.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
@@ -54,43 +55,43 @@ def test_suite():
             ),
         doctest.DocFileSuite(
             '../validator.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../term.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../error.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../widget.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../button.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../zcml.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../converter.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=renormalizing.RENormalizing([
                  (re.compile(
@@ -100,32 +101,34 @@ def test_suite():
             ),
         doctest.DocFileSuite(
             '../form.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../group.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../subform.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../util.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
         doctest.DocFileSuite(
             '../adding.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
-            ),
-        ))
+            ))
+        for setUp in (testing.setUpZPT, testing.setUpZ3CPT))
+
+    return unittest.TestSuite(itertools.chain(*tests))

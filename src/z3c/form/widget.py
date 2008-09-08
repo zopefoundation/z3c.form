@@ -22,7 +22,7 @@ import zope.component
 import zope.location
 import zope.schema.interfaces
 from zope.pagetemplate.interfaces import IPageTemplate
-from zope.app.pagetemplate import ViewPageTemplateFile
+from z3c.form import viewpagetemplatefile
 from zope.i18n import translate
 from zope.schema.fieldproperty import FieldProperty
 
@@ -380,7 +380,8 @@ class WidgetTemplateFactory(object):
     def __init__(self, filename, contentType='text/html',
                  context=None, request=None, view=None,
                  field=None, widget=None):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = viewpagetemplatefile.ViewPageTemplateFile(
+            filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(context),
             util.getSpecification(request),

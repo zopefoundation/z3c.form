@@ -81,6 +81,7 @@ setup (
             'zope.testing',
             'z3c.coverage',
             'z3c.template',
+            'z3c.pt',
             'zope.app.i18n',
             'lxml==2.1.1',
             ],

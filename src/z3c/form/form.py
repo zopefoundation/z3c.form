@@ -21,7 +21,7 @@ import zope.interface
 import zope.component
 import zope.event
 import zope.lifecycleevent
-from zope.app.pagetemplate import ViewPageTemplateFile
+from z3c.form.viewpagetemplatefile import ViewPageTemplateFile
 from zope.publisher import browser
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty

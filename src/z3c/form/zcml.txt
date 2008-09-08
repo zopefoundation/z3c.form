@@ -75,7 +75,7 @@ Let's get the template
 and check it:
 
   >>> template
-  <zope.app.pagetemplate.viewpagetemplatefile.ViewPageTemplateFile ...>
+  <z3c.form.viewpagetemplatefile.ViewPageTemplateFile object at ...>
 
 Let's use the template within the widget.
 

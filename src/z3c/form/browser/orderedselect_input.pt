@@ -3,7 +3,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       tal:omit-tag="">
 <script type="text/javascript">
-  <![CDATA[
+/*  <![CDATA[ */
 function moveItems(from, to)
   {
   // shortcuts for selection fields
@@ -138,7 +138,8 @@ function copyDataForSubmit(name)
 // error message for missing selection
 function selectionError()
   {alert("Must select something!")}
-]]>
+
+/* ]]> */
 </script>
 
 <table border="0" class="ordered-selection-field">

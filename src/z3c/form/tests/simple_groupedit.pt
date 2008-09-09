@@ -1,4 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal">       
   <body>
     <i tal:condition="view/status" tal:content="view/status"/>

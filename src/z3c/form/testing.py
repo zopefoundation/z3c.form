@@ -34,13 +34,11 @@ from zope.security import checker
 from zope.app.testing import setup
 from zope.testing.doctest import register_optionflag
 
-from z3c.form import config
-from z3c.form import viewpagetemplatefile
 from z3c.form import browser, button, converter, datamanager, error, field
 from z3c.form import form, interfaces, term, validator, widget
 from z3c.form.browser import radio, select, text
 
-import z3c.pt
+import z3c.pt.compat
 
 import lxml.html
 import lxml.doctestcompare
@@ -147,13 +145,11 @@ def setUp(test):
     test.globs = {'root': setup.placefulSetUp(True)}
 
 def setUpZPT(suite):
-    config.PREFER_Z3C_PT = False
-    reload(viewpagetemplatefile)
+    z3c.pt.compat.config.disable()
     setUp(suite)
     
 def setUpZ3CPT(suite):
-    config.PREFER_Z3C_PT = True
-    reload(viewpagetemplatefile)
+    z3c.pt.compat.config.enable()
     setUp(suite)
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.pt)()
 

@@ -289,10 +289,10 @@ specified a template yet, we have to do this now. We have prepared a small and
 very simple template as part of this example:
 
   >>> import os
-  >>> from zope.app.pagetemplate import viewpagetemplatefile
+  >>> from z3c.pt import compat as viewpagetemplatefile
   >>> from z3c.form import tests
   >>> def addTemplate(form):
-  ...     form.template = viewpagetemplatefile.BoundPageTemplate(
+  ...     form.template = viewpagetemplatefile.bind_template(
   ...         viewpagetemplatefile.ViewPageTemplateFile(
   ...             'simple_edit.pt', os.path.dirname(tests.__file__)), form)
   >>> addTemplate(addForm)

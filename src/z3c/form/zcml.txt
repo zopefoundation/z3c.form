@@ -75,7 +75,7 @@ Let's get the template
 and check it:
 
   >>> template
-  <z3c.form.viewpagetemplatefile.ViewPageTemplateFile object at ...>
+  <z3c.pt.compat.ViewPageTemplateFile object at ...>
 
 Let's use the template within the widget.
 

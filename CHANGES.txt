@@ -5,8 +5,11 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Feature: Added benchmarking suite demonstrating performance gain
+  when using ``z3c.pt``.
+
 - Feature: Added support for ``z3c.pt``. Usage is switched on via the
-  "PREFER_Z3C_PT" environment variable. [malthe]
+  "PREFER_Z3C_PT" environment variable.
 
 - Refactoring: Templates now declare XML namespaces.
 

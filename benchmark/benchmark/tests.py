@@ -16,16 +16,16 @@ from zope import schema
 
 from zope.schema.interfaces import IVocabularyFactory
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+
 from z3c.pt.pagetemplate import ViewPageTemplateFile as z3cViewPageTemplateFile
+from z3c.pt import compat
 
 from z3c.form import form
 from z3c.form import term
 from z3c.form import interfaces
 from z3c.form import field
-from z3c.form import config
 from z3c.form import tests
 from z3c.form import testing
-from z3c.form import viewpagetemplatefile as vptf
 
 def benchmark(title):
     def decorator(f):
@@ -104,9 +104,9 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, ISmallForm)(context, request)
 
-        config.PREFER_Z3C_PT = True
+        compat.config.PREFER_Z3C_PT = True
         t_z3c = self.benchmark(f_z3c, f_z3c)
-        config.PREFER_Z3C_PT = False
+        compat.config.PREFER_Z3C_PT = False
         t_zope = self.benchmark(f_zope, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
@@ -123,9 +123,9 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, ILargeDataSetsForm)(context, request)
 
-        config.PREFER_Z3C_PT = True
+        compat.config.PREFER_Z3C_PT = True
         t_z3c = self.benchmark(f_z3c, f_z3c)
-        config.PREFER_Z3C_PT = False
+        compat.config.PREFER_Z3C_PT = False
         t_zope = self.benchmark(f_zope, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
@@ -142,9 +142,9 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, IManyFields)(context, request)
 
-        config.PREFER_Z3C_PT = True
+        compat.config.PREFER_Z3C_PT = True
         t_z3c = self.benchmark(f_z3c, f_z3c)
-        config.PREFER_Z3C_PT = False
+        compat.config.PREFER_Z3C_PT = False
         t_zope = self.benchmark(f_zope, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
@@ -152,7 +152,7 @@ class BenchmarkTestCase(BaseTestCase):
         print "                   %.2fX" % (t_zope/t_z3c)
 
     def benchmark(self, prep, func, *args):
-        reload(vptf)
+        reload(compat)
         self._setUp()
         prep()
         t = timing(func, *args)

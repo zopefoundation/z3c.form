@@ -180,7 +180,11 @@ register some adapters before using it:
 Sources
 =======
 
-Let's create a source first:
+Basic sources
+-------------
+
+Basic sources need no context to compute their value. Let's create a
+source first:
 
   >>> from zc.sourcefactory.basic import BasicSourceFactory 
   >>> class RatingSourceFactory(BasicSourceFactory):
@@ -204,7 +208,7 @@ ChoiceTermsSource adapter:
   >>> zope.component.provideAdapter(term.ChoiceTermsSource)
 
 Choice fields
--------------
+~~~~~~~~~~~~~
 
 Sources can be used with ``Choice`` fields like vocabularies.  First
 we create a field based on the source:
@@ -247,7 +251,7 @@ With can test if a value is in the source:
   False 
 
 Collections
------------
+~~~~~~~~~~~
 
 Finally, there are terms adapters for all collections:
 
@@ -257,5 +261,94 @@ Finally, there are terms adapters for all collections:
 
   >>> terms = term.collection_terms_multiplexer(
   ...     None, request, None, sourceRatingsField, widget)
+  >>> [entry.title for entry in terms]
+  [u'ugly', u'nice', u'great']
+
+
+Contextual sources
+------------------
+
+Contextual sources depend on the context they are called on. Let's
+create a context and a contextual source:
+
+  >>> from zc.sourcefactory.contextual import BasicContextualSourceFactory
+  >>> class RatingContext(object):
+  ...     base_value = 10 
+  >>> class ContextualRatingSourceFactory(BasicContextualSourceFactory):
+  ...     _mapping = {10: u'ugly', 20: u'nice', 30: u'great'}
+  ...     def getValues(self, context):
+  ...         return [context.base_value + x for x in self._mapping.keys()]
+  ...     def getTitle(self, context, value):
+  ...         return self._mapping[value - context.base_value]
+
+As we did not include the configure.zcml of zc.sourcefactory we have
+to register some required adapters manually. We also need the
+ChoiceTermsSource adapter:
+
+  >>> import zope.component
+  >>> import zc.sourcefactory.browser.source
+  >>> import zc.sourcefactory.browser.token
+  >>> zope.component.provideAdapter(
+  ...     zc.sourcefactory.browser.source.FactoredContextualTerms)
+  >>> zope.component.provideAdapter(
+  ...     zc.sourcefactory.browser.token.fromInteger)
+  >>> zope.component.provideAdapter(term.ChoiceTermsSource)
+
+Choice fields
+~~~~~~~~~~~~~
+
+Contextual sources can be used with ``Choice`` fields like
+vocabularies.  First we create a field based on the source:
+
+  >>> contextualSourceRatingField = zope.schema.Choice(
+  ...     title=u'Context Sourced Rating',
+  ...     source=ContextualRatingSourceFactory())
+
+We create an context object and connect the field to a widget to see
+the ITerms adapter for sources at work:
+
+  >>> rating_context = RatingContext()
+  >>> rating_context.base_value = 100
+  >>> terms = term.choice_terms_multiplexer(
+  ...     rating_context, request, None, contextualSourceRatingField, widget)
+
+Iterating over the terms adapter returnes the term objects:
+
+  >>> [entry for entry in terms]
+  [<zc.sourcefactory.browser.source.FactoredTerm object at 0x...>,
+   <zc.sourcefactory.browser.source.FactoredTerm object at 0x...>, 
+   <zc.sourcefactory.browser.source.FactoredTerm object at 0x...>]
+  >>> len(terms)
+  3
+  >>> [entry.token for entry in terms]
+  ['110', '120', '130']
+  >>> [entry.title for entry in terms]
+  [u'ugly', u'nice', u'great']
+
+Using a token, it is possible to look up the term and the value:
+
+  >>> terms.getTermByToken('120').title
+  u'nice'
+  >>> terms.getValue('130')
+  130
+
+With can test if a value is in the source:
+
+  >>> 130 in terms
+  True
+  >>> 125 in terms
+  False 
+
+Collections
+~~~~~~~~~~~
+
+Finally, there are terms adapters for all collections:
+
+  >>> contextualSourceRatingsField = zope.schema.List(
+  ...     title=u'Contextual Sourced Ratings',
+  ...     value_type=contextualSourceRatingField)
+
+  >>> terms = term.collection_terms_multiplexer(
+  ...     rating_context, request, None, contextualSourceRatingsField, widget)
   >>> [entry.title for entry in terms]
   [u'ugly', u'nice', u'great']

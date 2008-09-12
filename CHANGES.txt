@@ -3,7 +3,8 @@ CHANGES
 =======
 
 - Added Support for using sources: where is was previosly possible to
-  use a vocabulary it is now also possible to use a source.
+  use a vocabulary it is now also possible to use a source. (Works
+  both for basic and contextual sources.)
 
 Version 1.7.0 (9/??/2007)
 -------------------------

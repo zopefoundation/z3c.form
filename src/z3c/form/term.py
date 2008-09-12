@@ -94,8 +94,7 @@ class SourceTerms(Terms):
     zope.schema.interfaces.IChoice,
     interfaces.IWidget)
 def choice_terms_multiplexer(context, request, form, field, widget):
-    if field.vocabulary is None:
-        field = field.bind(context)
+    field = field.bind(context)
     terms = field.vocabulary
     return zope.component.queryMultiAdapter(
         (context, request, form, field, terms, widget),

@@ -31,11 +31,11 @@ msgstr "Supprimer"
 
 #: src/z3c/form/browser/select.py:39
 msgid "no value"
-msgstr "pas de valeur"
+msgstr "aucune valeur"
 
 #: src/z3c/form/browser/select.py:40
 msgid "select a value ..."
-msgstr "Choisissez une valeur..."
+msgstr "Choisissez une valeur…"
 
 #: src/z3c/form/converter.py:123
 msgid "The entered value is not a valid integer literal."
@@ -47,8 +47,8 @@ msgid "The entered value is not a valid decimal literal."
 msgstr "La valeur fournie n'est pas un nombre décimal valable"
 
 #: src/z3c/form/converter.py:232
-msgid "Bytes data is not a file object"
-msgstr "Les données du champ Bytes ne sont pas un objet fichier"
+msgid "Bytes data are not a file object"
+msgstr "Les données binaires ne sont pas un objet fichier"
 
 #: src/z3c/form/error.py:89
 msgid "The system could not process the given value."
@@ -63,12 +63,12 @@ msgstr "Il y a des erreurs."
 #: src/z3c/form/form.py:241
 #: src/z3c/form/subform.py:30
 msgid "Data successfully updated."
-msgstr "Données correctement modifiées."
+msgstr "Les données ont été modifiées avec succès."
 
 #: src/z3c/form/form.py:242
 #: src/z3c/form/subform.py:31
 msgid "No changes were applied."
-msgstr "Rien n'a été modifié."
+msgstr "Aucuns changements n'a été effectué."
 
 #: src/z3c/form/form.py:259
 msgid "Apply"
@@ -80,7 +80,7 @@ msgid "Context"
 msgstr "Contexte"
 
 #: src/z3c/form/interfaces.py:102
-msgid "The context in which the data is validated."
+msgid "The context in which the data are validated."
 msgstr "Le contexte dans lequel les données sont validées."
 
 #: src/z3c/form/interfaces.py:142
@@ -100,7 +100,7 @@ msgstr "Erreur"
 
 #: src/z3c/form/interfaces.py:148
 msgid "Error the view is for."
-msgstr "L'erreur pour laquelle la vue est définie"
+msgstr "L'erreur pour laquelle la vue est définie."
 
 #: src/z3c/form/interfaces.py:164
 #: src/z3c/form/interfaces.py:603
@@ -117,7 +117,7 @@ msgstr "Champ de schéma"
 
 #: src/z3c/form/interfaces.py:170
 msgid "The schema field that is to be rendered."
-msgstr "Le champ de schéma qui doit être rendu"
+msgstr "Le champ du schéma qui doit être rendu"
 
 #: src/z3c/form/interfaces.py:174
 #: src/z3c/form/interfaces.py:516
@@ -150,7 +150,7 @@ msgstr "L'interface d'où provient le champ."
 
 #: src/z3c/form/interfaces.py:189
 msgid "Data Provider"
-msgstr "Producteur de données"
+msgstr "Fournisseur de données"
 
 #: src/z3c/form/interfaces.py:190
 msgid "The component providing the data of the field for the widget."
@@ -166,19 +166,19 @@ msgstr "La fabrique de widgets."
 
 #: src/z3c/form/interfaces.py:314
 msgid "True-value Label"
-msgstr "Titre d'une valeur vraie"
+msgstr "Titre de la valeur vraie"
 
 #: src/z3c/form/interfaces.py:315
 msgid "The label for a true value of the Bool field."
-msgstr "Le titre d'une valeur vraie pour un champ Bool"
+msgstr "Le titre de la valeur vraie pour un champ booléen."
 
 #: src/z3c/form/interfaces.py:319
 msgid "False-value Label"
-msgstr "Titre d'une valeur fausse"
+msgstr "Titre de la valeur fausse"
 
 #: src/z3c/form/interfaces.py:320
 msgid "The label for a false value of the Bool field."
-msgstr "Le titre d'une valeur fausse pour un champ Bool"
+msgstr "Le titre de la valeur fausse pour un champ booléen."
 
 #: src/z3c/form/interfaces.py:330
 #: src/z3c/form/interfaces.py:597
@@ -271,7 +271,7 @@ msgstr "Invite"
 
 #: src/z3c/form/interfaces.py:455
 msgid "A flag, when set, enables a choice explicitely requesting the user to choose a value."
-msgstr "Un indicateur qui, lorsque défini, active un choix de manière explicite demandant à l'utilisateur de choisir une valeur."
+msgstr "Un indicateur qui, lorsqu'il est défini, active un choix qui demande de manière explicite à l'utilisateur de choisir une valeur."
 
 #: src/z3c/form/interfaces.py:460
 msgid "Items"
@@ -283,7 +283,7 @@ msgstr "Une collection de dictionnaires contenant toutes les informations néces
 
 #: src/z3c/form/interfaces.py:466
 msgid "No-Value Message"
-msgstr "Message « pas de valeur »"
+msgstr "Message « pas de valeur »"
 
 #: src/z3c/form/interfaces.py:467
 #: src/z3c/form/interfaces.py:472
@@ -365,11 +365,11 @@ msgstr "L'erreur survenue pendant l'action."
 
 #: src/z3c/form/interfaces.py:656
 msgid "Access Key"
-msgstr "Touche d'accès direct"
+msgstr "Touche de raccourci"
 
 #: src/z3c/form/interfaces.py:657
 msgid "The key when pressed causes the button to be pressed."
-msgstr "La touche qui correspond à l'appui du bouton."
+msgstr "La touche qui correspond à l'enclenchement du bouton."
 
 #: src/z3c/form/interfaces.py:663
 msgid "Action Factory"
@@ -385,7 +385,7 @@ msgstr "Chemin de l'image"
 
 #: src/z3c/form/interfaces.py:675
 msgid "A relative image path to the root of the resources."
-msgstr "Un chemin d'image relatif à la racine des ressources."
+msgstr "Un chemin d'une image relatif à la racine des ressources."
 
 #: src/z3c/form/interfaces.py:721
 msgid "Handlers"
@@ -413,11 +413,11 @@ msgstr "Widgets"
 
 #: src/z3c/form/interfaces.py:785
 msgid "A widget manager containing the widgets to be used in the form."
-msgstr "Un gestionnaire de widgets contenant les widgets utilisés dans le formulaire."
+msgstr "Un gestionnaire de widgets contenant les widgets à utiliser dans le formulaire."
 
 #: src/z3c/form/interfaces.py:791
 msgid "A human readable text desribing the form that can be used in the UI."
-msgstr "Un texte à destination des utilisateurs, décrivant le formulaire."
+msgstr "Un texte à destination des utilisateurs, décrivant le formulaire à utiliser dans l'interface utilisateur."
 
 #: src/z3c/form/interfaces.py:797
 msgid "The prefix of the form used to uniquely identify it."
@@ -425,14 +425,14 @@ msgstr "Le préfixe du formulaire, utilisé pour l'identifier de manière unique
 
 #: src/z3c/form/interfaces.py:801
 msgid "Status"
-msgstr "État"
+msgstr "Statut"
 
 #: src/z3c/form/interfaces.py:802
 msgid "The status message of the form."
-msgstr "Le message d'état du formulaire."
+msgstr "Le message de statut du formulaire."
 
 #: src/z3c/form/interfaces.py:838
-msgid "The action defines the URI to which the form data is sent."
+msgid "The action defines the URI to which the form data are sent."
 msgstr "L'action définit l'URI à laquelle les données du formulaire sont envoyées."
 
 #: src/z3c/form/interfaces.py:844
@@ -445,7 +445,7 @@ msgstr "Id"
 
 #: src/z3c/form/interfaces.py:849
 msgid "The id of the form used to identify it."
-msgstr "L'id du formulaire, servant à l'identifier."
+msgstr "L'identifiant du formulaire, servant à l'identifier."
 
 #: src/z3c/form/interfaces.py:853
 msgid "Method"

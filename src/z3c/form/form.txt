@@ -172,7 +172,7 @@ Just because a field is requested in the field manager, does not mean that a
 widget has to be created for the field. There are cases when a field
 declaration might be ignored. The following reasons come to mind:
 
-* No widget is created if the data is not accessible in the content.
+* No widget is created if the data are not accessible in the content.
 * A custom widget manager has been registered to specifically ignore a field.
 
 In our simple example, all fields will be converted to widgets.
@@ -780,7 +780,7 @@ After adding a template, we can look at the form:
     </body>
   </html>
 
-As you can see, the data is being pulled in from the context for the edit
+As you can see, the data are being pulled in from the context for the edit
 form. Next we will look at the behavior when submitting the form.
 
 
@@ -1028,7 +1028,7 @@ We can now use the form as usual:
   </html>
 
 Note that the name displayed in the form is identical to the one in the
-dictionary. Let's now submit a form to ensure that the data is also written to
+dictionary. Let's now submit a form to ensure that the data are also written to
 the dictionary:
 
   >>> request = TestRequest(form={

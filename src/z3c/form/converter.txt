@@ -456,7 +456,7 @@ FieldStorage during the upload:
   >>> fudc.toFieldValue(myUpload) is None
   Traceback (most recent call last):
   ...
-  ValueError: (u'Bytes data is not a file object', ...AttributeError...)
+  ValueError: (u'Bytes data are not a file object', ...AttributeError...)
 
 When the file upload widget is not used and a text-based widget is desired,
 then the regular field data converter will be chosen. Using a text widget,

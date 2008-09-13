@@ -423,7 +423,7 @@ The success message will be shown on the form, ...
   >>> print testing.render(edit, './/xmlns:i')
   <i>Data successfully updated.</i>
 
-and the data is correctly updated:
+and the data are correctly updated:
 
   >>> reg.firstName
   u'Stephan'

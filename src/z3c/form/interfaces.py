@@ -93,13 +93,13 @@ class IData(zope.interface.Interface):
 
     def __init__(schema, data, context):
         """The data proxy is instantiated using the schema it represents, the
-        data fulfilling the schema and the context in which the data is
+        data fulfilling the schema and the context in which the data are
         validated.
         """
 
     __context__ = zope.schema.Field(
         title=_('Context'),
-        description=_('The context in which the data is validated.'),
+        description=_('The context in which the data are validated.'),
         required=True)
 
 class IValidator(zope.interface.Interface):
@@ -835,7 +835,7 @@ class IInputForm(zope.interface.Interface):
 
     action = zope.schema.URI(
         title=_('Action'),
-        description=_('The action defines the URI to which the form data is '
+        description=_('The action defines the URI to which the form data are '
                       'sent.'),
         required=True)
 

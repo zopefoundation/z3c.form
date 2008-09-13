@@ -229,7 +229,7 @@ class FileUploadDataConverter(BaseDataConverter):
                 seek = value.seek
                 read = value.read
             except AttributeError, e:
-                raise ValueError(_('Bytes data is not a file object'), e)
+                raise ValueError(_('Bytes data are not a file object'), e)
             else:
                 seek(0)
                 data = read()

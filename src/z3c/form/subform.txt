@@ -466,6 +466,7 @@ occurs:
   u'MA-991723FDG'
 
   >>> print carForm.render() # doctest: +NOPARSE_MARKUP
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">       
       ...
       <fieldset>
@@ -495,6 +496,7 @@ If the data did not change, it is also locally reported:
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
   >>> print carForm.render() # doctest: +NOPARSE_MARKUP
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
     ...
       <fieldset>

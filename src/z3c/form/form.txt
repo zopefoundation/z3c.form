@@ -476,6 +476,7 @@ error now:
 and see how the form looks like:
 
   >>> print addForm.render() # doctest: +NOPARSE_MARKUP
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
@@ -588,6 +589,7 @@ Let's register our new template-based adapter factory:
 Now the factory will be used to provide a template:
 
   >>> print addForm.render() # doctest: +NOPARSE_MARKUP
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   </html>
@@ -597,6 +599,7 @@ you call it will invoke both the ``update()`` and ``render()``
 methods:
 
   >>> print addForm() # doctest: +NOPARSE_MARKUP
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   </html>

@@ -324,7 +324,7 @@ We can create a custom label for the age widget:
   ...     u'Current Age',
   ...     context=None, request=None, view=None, field=ageField, widget=None)
 
-Clearly, this code deos not require us to touch the orginal form and widget
+Clearly, this code does not require us to touch the orginal form and widget
 code, given that we have enough control over the selection. In the example
 above, all the selection discriminators are listed for demonstration
 purposes. Of course, the label in this case can be created as follows:

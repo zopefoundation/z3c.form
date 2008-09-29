@@ -90,6 +90,12 @@ def test_suite():
             checker=checker,
             ),
         doctest.DocFileSuite(
+            '../testing.txt',
+            setUp=setUp, tearDown=testing.tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
+            ),
+        doctest.DocFileSuite(
             '../converter.txt',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,

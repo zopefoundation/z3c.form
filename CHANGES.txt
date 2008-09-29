@@ -5,6 +5,10 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Feature: Added support in the file upload widget's testing flavor to specify
+  'base64'-encoded strings in the hidden text area, so that binary data can be
+  uploaded as well.
+
 - Feature: Allow overriding the "required" widget attribute using IValue adapter
   just like it's done for "label" and "name" attributes.
 

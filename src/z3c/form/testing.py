@@ -16,9 +16,10 @@
 $Id$
 """
 __docformat__ = 'restructuredtext'
+import binascii
+import doctest
 import os
 import re
-import doctest
 import xml.parsers.expat
 
 import zope.component
@@ -54,6 +55,10 @@ class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
     def toFieldValue(self, value):
         if value is None or value == '':
             value = self.widget.request.get(self.widget.name+'.testing', '')
+            try:
+                value = value.decode('base64')
+            except binascii.error:
+                pass
         return super(TestingFileUploadDataConverter, self).toFieldValue(value)
 
 class OutputChecker(lxml.doctestcompare.LHTMLOutputChecker):
@@ -61,9 +66,9 @@ class OutputChecker(lxml.doctestcompare.LHTMLOutputChecker):
     HTML markup than the checker from the ``lxml.doctestcompare``
     module. It also uses the text comparison function from the
     built-in ``doctest`` module to allow the use of ellipsis."""
-    
+
     _repr_re = re.compile(r'^<([A-Z]|[^>]+ (at|object) |[a-z]+ \'[A-Za-z0-9_.]+\'>)')
-    
+
     def _looks_like_markup(self, s):
         s = s.replace('<BLANKLINE>', '\n').strip()
         return (s.startswith('<')
@@ -75,7 +80,7 @@ class OutputChecker(lxml.doctestcompare.LHTMLOutputChecker):
         checker = doctest.OutputChecker()
         return checker.check_output(
             want, got, doctest.ELLIPSIS|doctest.NORMALIZE_WHITESPACE)
-        
+
 class TestRequest(TestRequest):
     zope.interface.implements(interfaces.IFormLayer)
 
@@ -118,7 +123,7 @@ def render(view, xpath='.'):
         root = lxml.etree.fromstring(string)
     except lxml.etree.XMLSyntaxError:
         root = lxml.html.fromstring(string)
-        
+
     output = ""
     for node in root.xpath(
         xpath, namespaces={'xmlns': 'http://www.w3.org/1999/xhtml'}):
@@ -128,7 +133,7 @@ def render(view, xpath='.'):
 
     if not output:
         raise ValueError("No elements matched by %s." % repr(xpath))
-        
+
     # let's get rid of blank lines
     output = output.replace('\n\n', '\n')
 
@@ -147,7 +152,7 @@ def setUp(test):
 def setUpZPT(suite):
     z3c.pt.compat.config.disable()
     setUp(suite)
-    
+
 def setUpZ3CPT(suite):
     z3c.pt.compat.config.enable()
     setUp(suite)

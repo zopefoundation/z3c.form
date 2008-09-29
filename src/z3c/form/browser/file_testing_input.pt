@@ -30,6 +30,9 @@
                        onselect view/onselect;
                        size view/size;
                        maxlength view/maxlength" />
+
+<input type="hidden" name=""
+       tal:attributes="name string:${view/name}.encoding; value string:plain" />
 <textarea name="" style="display: none;"
        tal:attributes="name string:${view/name}.testing"><!-- nothing here --></textarea>
 </html>

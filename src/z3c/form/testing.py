@@ -55,10 +55,13 @@ class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
     def toFieldValue(self, value):
         if value is None or value == '':
             value = self.widget.request.get(self.widget.name+'.testing', '')
-            try:
-                value = value.decode('base64')
-            except binascii.error:
-                pass
+            encoding = self.widget.request.get(self.widget.name+'.encoding', 'plain')
+
+            # allow for the case where the file contents are base64 encoded.
+            if encoding!='plain':
+                value = value.decode(encoding)
+            self.widget.request.form[self.widget.name] = value
+
         return super(TestingFileUploadDataConverter, self).toFieldValue(value)
 
 class OutputChecker(lxml.doctestcompare.LHTMLOutputChecker):

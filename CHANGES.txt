@@ -45,6 +45,9 @@ Version 2.0.0 (2008-??-??)
   user interfaces.  The widget can be used for sequence fields (e.g. `IList`)
   that specify a simple value type field (e.g. `ITextLine` or `IInt`).
 
+- Bug: When dealing with `Bytes` fields, we should do a null conversion when
+  going to its widget value.
+
 - Bug: Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling
   list entry if it is callable.
 

@@ -212,6 +212,10 @@ class FileUploadDataConverter(BaseDataConverter):
     zope.component.adapts(
         zope.schema.interfaces.IBytes, interfaces.IFileWidget)
 
+    def toWidgetValue(self, value):
+        """See interfaces.IDataConverter"""
+        return value
+
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         if value is None or value == '':

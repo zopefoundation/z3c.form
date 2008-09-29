@@ -384,8 +384,8 @@ By default the converter converts missing input to missin_input value:
 File Upload Data Converter
 --------------------------
 
-Since the ``Bytes`` field can contain a FileUpload object, we have to make
-sure we can convert FileUpload objects to bytes too.
+Since the ``Bytes`` field can contain a ``FileUpload`` object, we have to make
+sure we can convert ``FileUpload`` objects to bytes too.
 
   >>> import z3c.form.browser.file
   >>> fileWidget = z3c.form.browser.file.FileWidget(TestRequest())
@@ -395,14 +395,15 @@ sure we can convert FileUpload objects to bytes too.
   >>> fudc
   <FileUploadDataConverter converts from Bytes to FileWidget>
 
-Bytes are converted to unicode:
+The file upload widget usually provides a file object. But sometimes is also
+provides a string:
 
   >>> simple = 'foobar'
   >>> fudc.toFieldValue(simple)
   'foobar'
 
-The converter can also convert FileUpload objects. Setup a fields storage
-stub...
+The converter can also convert ``FileUpload`` objects. So we need to setup a
+fields storage stub ...
 
   >>> class FieldStorageStub:
   ...     def __init__(self, file):
@@ -410,7 +411,7 @@ stub...
   ...         self.headers = {}
   ...         self.filename = 'foo.bar'
 
-build a FileUpload...
+and a ``FileUpload`` component:
 
   >>> import cStringIO
   >>> from zope.publisher.browser import FileUpload
@@ -418,14 +419,14 @@ build a FileUpload...
   >>> aFieldStorage = FieldStorageStub(myfile)
   >>> myUpload = FileUpload(aFieldStorage)
 
-and try to convert:
+Let's try to convert the input now:
 
   >>> fudc.toFieldValue(myUpload)
   'File upload contents.'
 
-By default the converter converts missing input to missin_input value:
+By default the converter converts missing input to ``missing_input`` value:
 
-  >>> fudc.toFieldValue(u'') is None
+  >>> fudc.toFieldValue('') is None
   True
 
 If we get a emtpy filename for a fileupload, we also get the missing_value,
@@ -446,7 +447,7 @@ not able to uppload a file without a filename:
   True
 
 There is also a ValueError if we don't get a seekable file from the
-FieldStorage during the upload:
+``FieldStorage`` during the upload:
 
   >>> myfile = ''
   >>> aFieldStorage = FieldStorageStub(myfile)
@@ -457,6 +458,12 @@ FieldStorage during the upload:
   Traceback (most recent call last):
   ...
   ValueError: (u'Bytes data are not a file object', ...AttributeError...)
+
+When converting to the widget value, not conversion should be done, since
+bytes are not convertable in that sense.
+
+  >>> fudc.toWidgetValue('bytes')
+  'bytes'
 
 When the file upload widget is not used and a text-based widget is desired,
 then the regular field data converter will be chosen. Using a text widget,

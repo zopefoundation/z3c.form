@@ -42,6 +42,7 @@ input element, but also with a text area:
   >>> print widget.render()
   <input type="file" id="widget.id" name="widget.name"
          class="file-widget" />
+  <input name="widget.name.encoding" type="hidden" value="plain">
   <textarea name="widget.name.testing" style="display: none;"><!--
      nothing here --></textarea>
 
@@ -91,6 +92,7 @@ If we render them, we get a regular file upload widget:
   >>> print widget.render()
   <input type="file" id="widget.id" name="widget.name"
          class="file-widget" />
+  <input name="widget.name.encoding" type="hidden" value="plain">
   <textarea name="widget.name.testing" style="display: none;"><!--
      nothing here --></textarea>
 

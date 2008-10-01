@@ -73,7 +73,8 @@ class SingleCheckBoxWidget(CheckBoxWidget):
         if self.terms is None:
             self.terms = term.Terms()
             self.terms.terms = vocabulary.SimpleVocabulary((
-                vocabulary.SimpleTerm('selected', 'selected', self.label), ))
+                vocabulary.SimpleTerm('selected', 'selected',
+                                      self.label or self.field.title), ))
         return self.terms
 
 
@@ -81,4 +82,6 @@ class SingleCheckBoxWidget(CheckBoxWidget):
 @zope.interface.implementer(interfaces.IFieldWidget)
 def SingleCheckBoxFieldWidget(field, request):
     """IFieldWidget factory for CheckBoxWidget."""
-    return FieldWidget(field, SingleCheckBoxWidget(request))
+    widget = FieldWidget(field, SingleCheckBoxWidget(request))
+    widget.label = u'' # don't show the label twice
+    return widget

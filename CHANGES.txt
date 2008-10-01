@@ -53,6 +53,9 @@ Version 2.0.0 (2008-??-??)
 
 - Bug: Remove unused imports, adjust buildout dependencies in `setup.py`.
 
+- Bug: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
+  <div class="label">, and once in the <label> next to the checkbox).
+
 
 Version 1.9.0 (2008-08-26)
 --------------------------

@@ -176,3 +176,25 @@ will make the box checked:
   </span>
   <input name="widget.name-empty-marker" type="hidden"
          value="1" />
+
+If you do not specify the label on the widget directly, it is taken from the
+field
+
+  >>> from zope.schema import Bool
+  >>> widget = checkbox.SingleCheckBoxWidget(request)
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+  >>> widget.field = Bool(title=u"Do you REALLY want that?")
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="option">
+    <input type="checkbox" id="widget-id-0"
+           name="widget.name:list"
+           class="single-checkbox-widget" value="selected" />
+    <label for="widget-id-0">
+      <span class="label">Do you REALLY want that?</span>
+    </label>
+  </span>
+  <input name="widget.name-empty-marker" type="hidden"
+         value="1" />
+

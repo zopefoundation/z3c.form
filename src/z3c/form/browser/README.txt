@@ -93,7 +93,7 @@ ASCIILine
 Bool
 ----
 
-  >>> field = zope.schema.Bool(default=True)
+  >>> field = zope.schema.Bool(default=True, title=u"Check me")
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -155,7 +155,7 @@ For the boolean, the checkbox widget can be used as well:
   <span id="foo" class="checkbox-widget required bool-field"><span
       class="selected-option">yes</span></span>
 
-We can also have a sinle checkbox button for the boolean.
+We can also have a single checkbox button for the boolean.
 
   >>> widget = checkbox.SingleCheckBoxFieldWidget(field, TestRequest())
   >>> widget.id = 'foo'
@@ -168,7 +168,7 @@ We can also have a sinle checkbox button for the boolean.
            class="single-checkbox-widget required bool-field"
            value="selected" checked="checked" />
     <label for="foo-0">
-      <span class="label"></span>
+      <span class="label">Check me</span>
     </label>
   </span>
   <input name="bar-empty-marker" type="hidden" value="1" />
@@ -177,7 +177,12 @@ We can also have a sinle checkbox button for the boolean.
   >>> print widget.render()
   <span id="foo"
         class="single-checkbox-widget required bool-field"><span
-      class="selected-option"></span></span>
+      class="selected-option">Check me</span></span>
+
+Note that the widget label is not repeated twice:
+
+  >>> widget.label
+  u''
 
 
 Button

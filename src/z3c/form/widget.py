@@ -65,7 +65,7 @@ class Widget(zope.location.Location):
     field = None
 
     # Internal attributes
-    _adapterValueAttributes = ('label', 'name', 'required')
+    _adapterValueAttributes = ('label', 'name', 'required', 'title')
 
     def __init__(self, request):
         self.request = request

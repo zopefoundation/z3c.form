@@ -37,7 +37,8 @@ from zope.testing.doctest import register_optionflag
 
 from z3c.form import browser, button, converter, datamanager, error, field
 from z3c.form import form, interfaces, term, validator, widget
-from z3c.form.browser import radio, select, text
+from z3c.form.browser import radio, select, text, textarea
+from z3c.form.browser import file as fileWidget
 
 import z3c.pt.compat
 
@@ -173,13 +174,40 @@ def setupFormDefaults():
     # Text Field Widget
     zope.component.provideAdapter(
         text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IBytesLine, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IASCIILine, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
         adapts=(zope.schema.interfaces.ITextLine, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IId, interfaces.IFormLayer))
     zope.component.provideAdapter(
         text.TextFieldWidget,
         adapts=(zope.schema.interfaces.IInt, interfaces.IFormLayer))
     zope.component.provideAdapter(
         text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IFloat, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
         adapts=(zope.schema.interfaces.IDecimal, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IDate, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IDatetime, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.ITime, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.ITimedelta, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IURI, interfaces.IFormLayer))
     zope.component.provideAdapter(
         widget.WidgetTemplateFactory(getPath('text_input.pt'), 'text/html'),
         (None, None, None, None, interfaces.ITextWidget),
@@ -192,6 +220,23 @@ def setupFormDefaults():
         widget.WidgetTemplateFactory(getPath('text_hidden.pt'), 'text/html'),
         (None, None, None, None, interfaces.ITextWidget),
         IPageTemplate, name=interfaces.HIDDEN_MODE)
+
+    # Textarea Field Widget
+    zope.component.provideAdapter(
+        textarea.TextAreaFieldWidget,
+        adapts=(zope.schema.interfaces.IASCII, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        textarea.TextAreaFieldWidget,
+        adapts=(zope.schema.interfaces.IText, interfaces.IFormLayer))
+    zope.component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('textarea_input.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ITextAreaWidget),
+        IPageTemplate, name=interfaces.INPUT_MODE)
+    zope.component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('textarea_display.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ITextAreaWidget),
+        IPageTemplate, name=interfaces.DISPLAY_MODE)
+
     # Radio Field Widget
     zope.component.provideAdapter(radio.RadioFieldWidget)
     zope.component.provideAdapter(
@@ -202,7 +247,8 @@ def setupFormDefaults():
         widget.WidgetTemplateFactory(getPath('radio_display.pt'), 'text/html'),
         (None, None, None, None, interfaces.IRadioWidget),
         IPageTemplate, name=interfaces.DISPLAY_MODE)
-    # Select Field Widget
+
+    # Select Widget
     zope.component.provideAdapter(select.SelectFieldWidget)
     zope.component.provideAdapter(
         widget.WidgetTemplateFactory(getPath('select_input.pt'), 'text/html'),
@@ -216,6 +262,7 @@ def setupFormDefaults():
         widget.WidgetTemplateFactory(getPath('select_hidden.pt'), 'text/html'),
         (None, None, None, None, interfaces.ISelectWidget),
         IPageTemplate, name=interfaces.HIDDEN_MODE)
+
     # Checkbox Field Widget; register only templates
     zope.component.provideAdapter(
         widget.WidgetTemplateFactory(getPath('checkbox_input.pt'), 'text/html'),
@@ -239,9 +286,18 @@ def setupFormDefaults():
     zope.component.provideAdapter(converter.SequenceDataConverter)
     zope.component.provideAdapter(converter.CollectionSequenceDataConverter)
     zope.component.provideAdapter(converter.FieldWidgetDataConverter)
+    # special data converter
+    zope.component.provideAdapter(converter.IntegerDataConverter)
+    zope.component.provideAdapter(converter.FloatDataConverter)
+    zope.component.provideAdapter(converter.DecimalDataConverter)
+    zope.component.provideAdapter(converter.DateDataConverter)
+    zope.component.provideAdapter(converter.TimeDataConverter)
+    zope.component.provideAdapter(converter.DatetimeDataConverter)
+    zope.component.provideAdapter(converter.TimedeltaDataConverter)
     # Adapter for providing terms to radio list and other widgets
-    zope.component.provideAdapter(term.ChoiceTerms)
     zope.component.provideAdapter(term.BoolTerms)
+    zope.component.provideAdapter(term.ChoiceTerms)
+    zope.component.provideAdapter(term.CollectionTerms)
     # Adapter to create an action from a button
     zope.component.provideAdapter(
         button.ButtonAction, provides=interfaces.IButtonAction)

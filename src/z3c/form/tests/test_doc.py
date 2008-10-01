@@ -134,6 +134,12 @@ def test_suite():
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
+            ),
+        doctest.DocFileSuite(
+            '../hint.txt',
+            setUp=setUp, tearDown=testing.tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
             ))
         for setUp in (testing.setUpZPT, testing.setUpZ3CPT))
 

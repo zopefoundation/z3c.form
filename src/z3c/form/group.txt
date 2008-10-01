@@ -26,7 +26,7 @@ multiple groups:
   ...
   ...     model = zope.schema.TextLine(title=u'Model')
   ...     make = zope.schema.TextLine(title=u'Make')
-  ...     year = zope.schema.Int(title=u'Year')
+  ...     year = zope.schema.TextLine(title=u'Year')
 
   >>> class VehicleRegistration(object):
   ...     zope.interface.implements(IVehicleRegistration)
@@ -161,7 +161,7 @@ We can now render the form:
             <label for="form-widgets-year">Year</label>
             <input type="text" id="form-widgets-year"
                    name="form.widgets.year"
-                   class="text-widget required int-field"
+                   class="text-widget required textline-field"
                    value="" />
           </div>
         </fieldset>
@@ -272,7 +272,7 @@ The object is now added to the container and all attributes should be set:
   >>> reg.make
   u'325'
   >>> reg.year
-  2005
+  u'2005'
 
 Let's now have a look at an edit form for the vehicle registration:
 
@@ -346,7 +346,7 @@ After updating the form, we can render the HTML:
             <label for="form-widgets-year">Year</label>
             <input type="text" id="form-widgets-year"
                    name="form.widgets.year"
-                   class="text-widget required int-field"
+                   class="text-widget required textline-field"
                    value="2005" />
           </div>
         </fieldset>
@@ -439,7 +439,7 @@ and the data are correctly updated:
   >>> reg.make
   u'F150'
   >>> reg.year
-  2006
+  u'2006'
 
 Let's look at the event:
  
@@ -484,7 +484,7 @@ fields.
   ...
   ...     model = zope.schema.TextLine(title=u'Model')
   ...     make = zope.schema.TextLine(title=u'Make')
-  ...     year = zope.schema.Int(title=u'Year')
+  ...     year = zope.schema.TextLine(title=u'Year')
 
 Now let's create simple implementations of these two interfaces.
 
@@ -577,7 +577,7 @@ the ``owner`` prefix for the fields.
           <label for="form-widgets-year">Year</label>
           <input type="text" id="form-widgets-year"
                  name="form.widgets.year"
-                 class="text-widget required int-field" value="2005" />
+                 class="text-widget required textline-field" value="2005" />
         </div>
         <fieldset>
           <legend>Owner</legend>
@@ -641,6 +641,6 @@ Now the owner object should have updated fields.
   >>> reg.make
   u'325'
   >>> reg.year
-  2005
+  u'2005'
 
 And that's it!

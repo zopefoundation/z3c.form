@@ -119,11 +119,13 @@ class Widget(zope.location.Location):
             self.value = converter.toWidgetValue(value)
         # Step 2: Update selected attributes
         for attrName in self._adapterValueAttributes:
-            value = zope.component.queryMultiAdapter(
-                (self.context, self.request, self.form, self.field, self),
-                interfaces.IValue, name=attrName)
-            if value is not None:
-                setattr(self, attrName, value.get())
+            # only allow to set values for known attributes
+            if hasattr(self, attrName):
+                value = zope.component.queryMultiAdapter(
+                    (self.context, self.request, self.form, self.field, self),
+                    interfaces.IValue, name=attrName)
+                if value is not None:
+                    setattr(self, attrName, value.get())
 
     def render(self):
         """See z3c.form.interfaces.IWidget."""

@@ -5,6 +5,9 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Updated package to work with ``z3c.pt`` version 1.0b1 (which is
+  now based on the Chameleon template compiler). [malthe]
+
 - Feature: Added support in the file upload widget's testing flavor to specify
   'base64'-encoded strings in the hidden text area, so that binary data can be
   uploaded as well.

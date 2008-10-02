@@ -40,6 +40,9 @@ from z3c.form import form, interfaces, term, validator, widget
 from z3c.form.browser import radio, select, text, textarea
 from z3c.form.browser import file as fileWidget
 
+from z3c.pt.compat.testing import render
+from z3c.pt.compat.testing import OutputChecker
+
 import z3c.pt.compat
 
 import lxml.html
@@ -64,26 +67,6 @@ class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
             self.widget.request.form[self.widget.name] = value
 
         return super(TestingFileUploadDataConverter, self).toFieldValue(value)
-
-class OutputChecker(lxml.doctestcompare.LHTMLOutputChecker):
-    """Doctest output checker which is better equippied to identify
-    HTML markup than the checker from the ``lxml.doctestcompare``
-    module. It also uses the text comparison function from the
-    built-in ``doctest`` module to allow the use of ellipsis."""
-
-    _repr_re = re.compile(r'^<([A-Z]|[^>]+ (at|object) |[a-z]+ \'[A-Za-z0-9_.]+\'>)')
-
-    def _looks_like_markup(self, s):
-        s = s.replace('<BLANKLINE>', '\n').strip()
-        return (s.startswith('<')
-                and not self._repr_re.search(s))
-
-    def text_compare(self, want, got, strip):
-        if want is None: want = ""
-        if got is None: got = ""
-        checker = doctest.OutputChecker()
-        return checker.check_output(
-            want, got, doctest.ELLIPSIS|doctest.NORMALIZE_WHITESPACE)
 
 class TestRequest(TestRequest):
     zope.interface.implements(interfaces.IFormLayer)
@@ -117,35 +100,6 @@ class SimpleSecurityPolicy(object):
             if permission in self.allowedPermissions:
                 return True
         return False
-
-def render(view, xpath='.'):
-    string = view.render()
-    if string == "":
-        return string
-
-    try:
-        root = lxml.etree.fromstring(string)
-    except lxml.etree.XMLSyntaxError:
-        root = lxml.html.fromstring(string)
-
-    output = ""
-    for node in root.xpath(
-        xpath, namespaces={'xmlns': 'http://www.w3.org/1999/xhtml'}):
-        s = lxml.etree.tounicode(node, pretty_print=True)
-        s = s.replace(' xmlns="http://www.w3.org/1999/xhtml"', ' ')
-        output += s
-
-    if not output:
-        raise ValueError("No elements matched by %s." % repr(xpath))
-
-    # let's get rid of blank lines
-    output = output.replace('\n\n', '\n')
-
-    # self-closing tags are more readable with a space before the
-    # end-of-tag marker
-    output = output.replace('"/>', '" />')
-
-    return output
 
 def getPath(filename):
     return os.path.join(os.path.dirname(browser.__file__), filename)

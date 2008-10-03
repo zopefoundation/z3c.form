@@ -86,6 +86,12 @@ files. The documents are ordered in the way they should be read:
   This module provides a base class for add forms that work with the
   ``IAdding`` interface.
 
+- ``testing.txt`` [informative]
+
+  The ``testing`` module provides helper functions that make it easier to tet
+  form-based code in unit tests. It also provides components that simplify
+  testing in testbrowser and Selenium.
+
 
 Browser Documentation
 ---------------------

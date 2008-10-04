@@ -29,7 +29,7 @@ INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
 HIDDEN_MODE = 'hidden'
 
-class NOT_CHANGED(object):
+class NOT_CHANGED(str):
     def __repr__(self):
         return '<NOT_CHANGED>'
 NOT_CHANGED = NOT_CHANGED()

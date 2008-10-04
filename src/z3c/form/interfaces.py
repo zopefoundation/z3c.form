@@ -25,10 +25,14 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 
 from z3c.form.i18n import MessageFactory as _
 
-
 INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
 HIDDEN_MODE = 'hidden'
+
+class NOT_CHANGED(object):
+    def __repr__(self):
+        return '<NOT_CHANGED>'
+NOT_CHANGED = NOT_CHANGED()
 
 class NOVALUE(object):
     def __repr__(self):

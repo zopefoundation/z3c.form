@@ -219,7 +219,9 @@ class FileUploadDataConverter(BaseDataConverter):
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         if value is None or value == '':
-            return self.field.missing_value
+            # When no new file is uploaded, send a signal that we do not want
+            # to do anything special.
+            return interfaces.NOT_CHANGED
 
         if isinstance(value, zope.publisher.browser.FileUpload):
             # By default a IBytes field is used for get a file upload widget.

@@ -1397,11 +1397,54 @@ Let's have a look at the result:
     >>> form.handleActionError(event)
 
 
+Applying Changes
+----------------
+
+When applying the data of a form to a content component, the function
+``applyChanges()`` is called. It simply iterates through the fields of the
+form and uses the data managers to store the values. The output of the
+function is a list of changes:
+
+  >>> roger = Person(u'roger', u'Roger')
+  >>> roger
+  <Person u'Roger'>
+
+  >>> class BaseForm(form.Form):
+  ...     fields = field.Fields(IPerson).select('name')
+  >>> myForm = BaseForm(roger, TestRequest())
+
+  >>> form.applyChanges(myForm, roger, {'name': u'Roger Ineichen'})
+  {<InterfaceClass __builtin__.IPerson>: ['name']}
+
+  >>> roger
+  <Person u'Roger Ineichen'>
+
+When a field is missing from the data, it is simply skipped:
+
+  >>> form.applyChanges(myForm, roger, {})
+  {}
+
+If the new and old value are identical, storing the data is skipped as well:
+
+  >>> form.applyChanges(myForm, roger, {'name': u'Roger Ineichen'})
+  {}
+
+In some cases the data converter for a field-widget pair returns the
+``NOT_CHANGED`` value. In this case, the field is skipped as well:
+
+  >>> form.applyChanges(myForm, roger, {'name': interfaces.NOT_CHANGED})
+  {}
+
+  >>> roger
+  <Person u'Roger Ineichen'>
+
+
 Integration tests
 -----------------
 
-Identify the different forms can be important if it comes to layout template
-lookup. Ensure that we support the right interfaces for the different forms.
+Identifying the different forms can be important if it comes to layout
+template lookup. Let's ensure that we support the right interfaces for the
+different forms.
 
 
 Form
@@ -1475,7 +1518,6 @@ EditForm
   >>> from z3c.form import interfaces
   >>> interfaces.IAddForm.providedBy(obj)
   False
-
 
 
 AddForm

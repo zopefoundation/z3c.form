@@ -424,14 +424,17 @@ Let's try to convert the input now:
   >>> fudc.toFieldValue(myUpload)
   'File upload contents.'
 
-By default the converter converts missing input to ``missing_input`` value:
+By default the converter converts missing input to the ``NOT_CHANGED`` value:
 
-  >>> fudc.toFieldValue('') is None
-  True
+  >>> fudc.toFieldValue('')
+  <NOT_CHANGED>
 
-If we get a emtpy filename for a fileupload, we also get the missing_value,
-but this means there was a error somewhere in the upload, normaly yo are
-not able to uppload a file without a filename:
+This allows machinery later to ignore the field without sending all the data
+around.
+
+If we get an emtpy filename in a ``FileUpload`` obejct, we also get the
+``missing_value``. But this really means that there was an error somewhere in
+the upload, since you are normaly not able to upload a file without a filename:
 
   >>> class EmptyFilenameFieldStorageStub:
   ...     def __init__(self, file):
@@ -446,7 +449,7 @@ not able to uppload a file without a filename:
   >>> fudc.toFieldValue(myUpload) is None
   True
 
-There is also a ValueError if we don't get a seekable file from the
+There is also a ``ValueError`` if we don't get a seekable file from the
 ``FieldStorage`` during the upload:
 
   >>> myfile = ''

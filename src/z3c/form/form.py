@@ -36,10 +36,13 @@ def applyChanges(form, content, data):
         # If the field is not in the data, then go on to the next one
         if name not in data:
             continue
+        # If the value is NOT_CHANGED, ignore it, since the widget/converter
+        # sent a strong message not to do so.
+        if data[name] == interfaces.NOT_CHANGED:
+            continue
         # Get the datamanager and get the original value
         dm = zope.component.getMultiAdapter(
             (content, field.field), interfaces.IDataManager)
-        oldValue = dm.get()
         # Only update the data, if it is different
         if dm.get() != data[name]:
             dm.set(data[name])

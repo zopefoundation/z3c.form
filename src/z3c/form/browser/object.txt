@@ -18,6 +18,15 @@ examples:
 
 
 
+  >>> from z3c.form.dummy import MySubObjectFactory
+  >>> from z3c.form.dummy import MySecondFactory
+
+  >>> import zope.component
+
+  >>> zope.component.provideAdapter(MySubObjectFactory, name='IMySubObject')
+  >>> zope.component.provideAdapter(MySecondFactory, name='IMySecond')
+
+
 As for all widgets, the objectwidget must provide the new ``IWidget``
 interface:
 
@@ -184,8 +193,8 @@ Do all that fun in add and edit forms too:
 We have to provide an adapter first:
 
   >>> zope.component.provideAdapter(object.ObjectFieldWidget)
-  >>> from z3c.form import converter
-  >>> zope.component.provideAdapter(converter.ObjectConverter)
+  >>> import z3c.form.object
+  >>> zope.component.provideAdapter(z3c.form.object.ObjectConverter)
 
 We define an interface containing a subobject, and an addform for it:
 
@@ -222,7 +231,7 @@ But now, the addform contains a subform, that the user didn't need to create
 and which is already updated:
 
   >>> myaddform.widgets['subobject'].subform
-  <z3c.form.browser.object.ObjectSubForm object at ...>
+  <z3c.form.object.ObjectSubForm object at ...>
   >>> myaddform.widgets['subobject'].subform.widgets.keys()
   ['foofield', 'barfield']
 
@@ -403,6 +412,64 @@ Wow, it got added:
           <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
             <legend>my object</legend>
             <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="99">
+            <br>
+            <div class="error">
+              <div class="error">The entered value is not a valid integer literal.</div>
+            </div>
+            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+            <br>
+            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+          </fieldset>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+  >>> root['first'].subobject.foofield
+  43
+
+  >>> root['first'].subobject.barfield
+  55
+
+
+
+  >>> request = TestRequest(form={'subobject.widgets.foofield':u'999999',
+  ...                             'subobject.widgets.barfield':u'bad',
+  ...                             'form.widgets.name':u'first',
+  ...                             'form.widgets.subobject-empty-marker':u'1',
+  ...                             'form.buttons.apply':'Apply'})
+
+  >>> editform.request = request
+
+#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+
+  >>> editform.update()
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <i>There were some errors.</i>
+      <ul>
+        <li>
+        my object:
+          <div class="error">The entered value is not a valid integer literal.</div>
+        </li>
+      </ul>
+      <form action=".">
+        <div class="row">
+          <b>
+            <div class="error">The entered value is not a valid integer literal.</div>
+          </b>
+          <label for="form-widgets-subobject">my object</label>
+          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
+            <legend>my object</legend>
+            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="badder">
             <br>
             <div class="error">
               <div class="error">The entered value is not a valid integer literal.</div>

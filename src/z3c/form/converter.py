@@ -362,66 +362,6 @@ class MultiConverter(BaseDataConverter):
         # convert the field values to a tuple or list
         return collectionType(values)
 
-from z3c.form.dummy import MySubObject
-
-class ObjectConverter(BaseDataConverter):
-    """Data converter for IObjectWidget."""
-
-    zope.component.adapts(
-        zope.schema.interfaces.IObject, interfaces.IObjectWidget)
-
-    factory = MySubObject
-    #factory = None
-
-    def _fields(self):
-        x = zope.schema.getFields(self.field.schema)
-        return x
-
-    def toWidgetValue(self, value):
-        """Just dispatch it."""
-        if value is self.field.missing_value:
-            return None
-
-        return value
-
-        rv = {}
-        for name, field in self._fields().items():
-            #widget = zope.component.getMultiAdapter((field, self.widget.request),
-            #    interfaces.IFieldWidget)
-            #converter = zope.component.getMultiAdapter((field, widget),
-            #    interfaces.IDataConverter)
-
-            v = getattr(value, name, None)
-            #rv[name] = converter.toWidgetValue(v)
-            rv[name] = v
-
-        return (rv, tuple())
-
-    def toFieldValue(self, value):
-        """See interfaces.IDataConverter"""
-        #if self.factory is None:
-        #    adapter = zope.component.queryMultiAdapter(
-        #        (self.widget.context, self.widget.request, self.widget.form,
-        #         self.field.schema, self.widget),
-        #        interfaces.IValue, name='default')
-        #    if adapter:
-        #        obj = adapter.get()
-        #else:
-        #    obj = self.factory()
-
-        #this is creepy
-        if value[1]:
-            raise value[1][0].error
-        
-        obj = self.factory()
-        for name, f in self._fields().items():
-            try:
-                setattr(obj, name, value[0][name])
-            except KeyError:
-                #smells like an input error?
-                pass
-        return obj
-
 
 class BoolSingleCheckboxDataConverter(BaseDataConverter):
     "A special converter between boolean fields and single checkbox widgets."

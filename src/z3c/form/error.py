@@ -101,6 +101,23 @@ class InvalidErrorViewSnippet(ErrorViewSnippet):
         return self.error.args[0]
 
 
+class MultipleErrorViewSnippet(ErrorViewSnippet):
+    """Error view snippet for multiple errors."""
+    zope.component.adapts(
+        interfaces.IMultipleErrors, None, None, None, None, None)
+
+    def update(self):
+        output = ''
+        for error in self.error.errors:
+            view = zope.component.getMultiAdapter(
+                (error, self.request, widget, widget.field,
+                 self.form, self.content), interfaces.IErrorViewSnippet)
+            output += view.render()
+        self.output = output
+
+    def render(self):
+        return self.output
+
 class ErrorViewTemplateFactory(object):
     """Error view template factory."""
 

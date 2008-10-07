@@ -154,6 +154,10 @@ class IErrorViewSnippet(zope.interface.Interface):
     def render():
         """Render view."""
 
+class IMultipleErrors(zope.interface.Interface):
+    """An error that contains many errors"""
+    
+    errors = zope.interface.Attribute("List of errors")
 
 # ----[ Fields ]--------------------------------------------------------------
 
@@ -509,7 +513,7 @@ class IPasswordWidget(ITextWidget):
     """Password widget."""
 
 class IObjectWidget(IWidget):
-    """Object widget.""" 
+    """Object widget."""
 
 class IWidgets(IManager):
     """A widget manager"""

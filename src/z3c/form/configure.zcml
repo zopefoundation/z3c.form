@@ -75,7 +75,7 @@
       factory=".converter.MultiConverter"
       />
   <adapter
-      factory=".converter.ObjectConverter"
+      factory=".object.ObjectConverter"
       />
 
   <!-- ITerms -->

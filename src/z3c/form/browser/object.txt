@@ -1,0 +1,430 @@
+============
+ObjectWidget
+============
+
+The ObjectWidget is about rendering a schema's fields as a single widget.
+
+
+There are way too many preconditions to exercise the ObjectWidget as it
+relies heavily on the from and widget framework.
+It renders the sub-widgets in a sub-form.
+
+In order to not overwhelm you with our set of well-chosen defaults,
+all the default component registrations have been made prior to doing those
+examples:
+
+  >>> from z3c.form import testing
+  >>> testing.setupFormDefaults()
+
+
+
+As for all widgets, the objectwidget must provide the new ``IWidget``
+interface:
+
+  >>> from zope.interface.verify import verifyClass
+  >>> from z3c.form import interfaces
+  >>> from z3c.form.browser import object
+
+  >>> verifyClass(interfaces.IWidget, object.ObjectWidget)
+  True
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+  >>> widget = object.ObjectWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+
+Also, stand-alone widgets need to ignore the context:
+
+  >>> widget.ignoreContext = True
+
+There is no life for ObjectWidget without a schema to render:
+
+  >>> widget.update()
+  Traceback (most recent call last):
+  ...
+  AttributeError: 'NoneType' object has no attribute 'schema'
+
+This schema is specified by the field:
+
+  >>> from z3c.form.widget import FieldWidget
+  >>> from z3c.form.dummy import IMySubObject
+  >>> import zope.schema
+  >>> field = zope.schema.Object(
+  ...     __name__='subobject',
+  ...     title=u'my object widget',
+  ...     schema=IMySubObject)
+
+Apply the field nicely with the helper:
+
+  >>> widget = FieldWidget(field, widget)
+
+We also need to register the templates for the widget and request:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('object_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IObjectWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('object_display.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IObjectWidget),
+  ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
+
+We can now render the widget:
+
+  >>> widget.update()
+  >>> print widget.render()
+  <fieldset class="object-widget required" id="subobject" name="subobject">
+    <legend>my object widget</legend>
+    <input class="text-widget required int-field" id="subobject-widgets-foofield"
+           name="subobject.widgets.foofield" type="text" value="1,111">
+    <br>
+    <input class="text-widget required int-field" id="subobject-widgets-barfield"
+           name="subobject.widgets.barfield" type="text" value="2,222">
+    <br>
+    <input name="subobject-empty-marker" type="hidden" value="1">
+  </fieldset>
+
+As you see all sort of default values are rendered.
+
+Let's provide a more meaningful value:
+
+  >>> from z3c.form.dummy import MySubObject
+  >>> v = MySubObject()
+  >>> v.foofield = 42
+  >>> v.barfield = 666
+
+  >>> widget.value = v
+  >>> widget.ignoreContext = False
+
+#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+
+  >>> widget.update()
+  >>> print widget.render()
+  <fieldset class="object-widget required" id="subobject" name="subobject">
+    <legend>my object widget</legend>
+    <input class="text-widget required int-field" id="subobject-widgets-foofield"
+           name="subobject.widgets.foofield" type="text" value="42">
+    <br>
+    <input class="text-widget required int-field" id="subobject-widgets-barfield"
+           name="subobject.widgets.barfield" type="text" value="666">
+    <br>
+    <input name="subobject-empty-marker" type="hidden" value="1">
+  </fieldset>
+
+Let's fill in some values:
+
+  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
+  ...                                    'subobject.widgets.barfield':u'999'})
+  >>> widget.update()
+  >>> print widget.render()
+  <fieldset class="object-widget required" id="subobject" name="subobject">
+    <legend>my object widget</legend>
+    <input class="text-widget required int-field" id="subobject-widgets-foofield"
+           name="subobject.widgets.foofield" type="text" value="2">
+    <br>
+    <input class="text-widget required int-field" id="subobject-widgets-barfield"
+           name="subobject.widgets.barfield" type="text" value="999">
+    <br>
+    <input name="subobject-empty-marker" type="hidden" value="1">
+  </fieldset>
+
+
+Error handling is next. Let's use teh value "bad" (an invalid integer literal)
+as input for our internal (sub) widget.
+
+  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
+  ...                                    'subobject.widgets.barfield':u'bad'})
+
+
+#  >>> from pub.dbgpclient import brk; brk('192.168.32.1')
+
+  >>> widget.update()
+  >>> print widget.render()
+  <fieldset id="subobject" name="subobject"
+            class="object-widget required">
+  <legend>my object widget</legend>
+      <input id="subobject-widgets-foofield"
+             name="subobject.widgets.foofield"
+             class="text-widget required int-field" value="2"
+             type="text" />
+      <br />
+      <div class="error">
+    <div class="error">The entered value is not a valid integer literal.</div>
+      </div>
+      <input id="subobject-widgets-barfield"
+             name="subobject.widgets.barfield"
+             class="text-widget required int-field" value="bad"
+             type="text" />
+      <br />
+  <input name="subobject-empty-marker" type="hidden" value="1" />
+  </fieldset>
+
+
+
+
+
+
+
+
+
+Do all that fun in add and edit forms too:
+
+We have to provide an adapter first:
+
+  >>> zope.component.provideAdapter(object.ObjectFieldWidget)
+  >>> from z3c.form import converter
+  >>> zope.component.provideAdapter(converter.ObjectConverter)
+
+We define an interface containing a subobject, and an addform for it:
+
+  >>> from z3c.form import form, field
+  >>> from z3c.form.dummy import MyObject, IMyObject
+
+  >>> class MyAddForm(form.AddForm):
+  ...     fields = field.Fields(IMyObject)
+  ...     def create(self, data):
+  ...         print "MyAddForm.create", str(data)
+  ...         return MyObject(**data)
+  ...     def add(self, obj):
+  ...         self.context[obj.name] = obj
+  ...     def nextURL(self):
+  ...         pass
+
+We create the form and try to update it:
+
+  >>> request = TestRequest()
+  >>> myaddform =  MyAddForm(root, request)
+
+#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+
+  >>> myaddform.update()
+
+As usually, the form contains a widget manager with the expected widget
+
+  >>> myaddform.widgets.keys()
+  ['subobject', 'name']
+  >>> myaddform.widgets.values()
+  [<ObjectWidget 'form.widgets.subobject'>, <TextWidget 'form.widgets.name'>]
+
+But now, the addform contains a subform, that the user didn't need to create
+and which is already updated:
+
+  >>> myaddform.widgets['subobject'].subform
+  <z3c.form.browser.object.ObjectSubForm object at ...>
+  >>> myaddform.widgets['subobject'].subform.widgets.keys()
+  ['foofield', 'barfield']
+
+If we want to render the addform, we must give it a template:
+
+  >>> import os
+  >>> from zope.app.pagetemplate import viewpagetemplatefile
+  >>> from z3c.form import tests
+  >>> def addTemplate(form):
+  ...     form.template = viewpagetemplatefile.BoundPageTemplate(
+  ...         viewpagetemplatefile.ViewPageTemplateFile(
+  ...             'simple_edit.pt', os.path.dirname(tests.__file__)), form)
+  >>> addTemplate(myaddform)
+
+Now rendering the addform renders the subform as well:
+
+  >>> print myaddform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-subobject">my object</label>
+          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
+            <legend>my object</legend>
+            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="1,111">
+            <br>
+            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="2,222">
+            <br>
+            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+          </fieldset>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-add" name="form.buttons.add" type="submit" value="Add">
+        </div>
+      </form>
+    </body>
+  </html>
+
+Let's try to add an object:
+
+  >>> request = TestRequest(form={'subobject.widgets.foofield':u'66',
+  ...                             'subobject.widgets.barfield':u'99',
+  ...                             'form.widgets.name':u'first',
+  ...                             'form.widgets.subobject-empty-marker':u'1',
+  ...                             'form.buttons.add':'Add'})
+  >>> myaddform.request = request
+  >>> myaddform.update()
+  MyAddForm.create {'subobject': <z3c.form.dummy.MySubObject object at ...>,
+  'name': u'first'}
+
+Wow, it got added:
+
+  >>> root['first']
+  <z3c.form.dummy.MyObject object at ...>
+
+  >>> root['first'].subobject
+  <z3c.form.dummy.MySubObject object at ...>
+
+  >>> root['first'].subobject.foofield
+  66
+
+  >>> root['first'].subobject.barfield
+  99
+
+  >>> myaddform.render()
+  ''
+
+
+
+  >>> class MyEditForm(form.EditForm):
+  ...     fields = field.Fields(IMyObject)
+
+  >>> editform = MyEditForm(root['first'], TestRequest())
+  >>> addTemplate(editform)
+  >>> editform.update()
+
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-subobject">my object</label>
+          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
+            <legend>my object</legend>
+            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="66">
+            <br>
+            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="99">
+            <br>
+            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+          </fieldset>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+
+  >>> request = TestRequest(form={'subobject.widgets.foofield':u'43',
+  ...                             'subobject.widgets.barfield':u'55',
+  ...                             'form.widgets.name':u'first',
+  ...                             'form.widgets.subobject-empty-marker':u'1',
+  ...                             'form.buttons.apply':'Apply'})
+
+  >>> editform.request = request
+  >>> editform.update()
+
+  >>> root['first'].subobject.foofield
+  43
+
+  >>> root['first'].subobject.barfield
+  55
+
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <i>Data successfully updated.</i>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-subobject">my object</label>
+          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
+            <legend>my object</legend>
+            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="43">
+            <br>
+            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="55">
+            <br>
+            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+          </fieldset>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+
+  >>> request = TestRequest(form={'subobject.widgets.foofield':u'99',
+  ...                             'subobject.widgets.barfield':u'bad',
+  ...                             'form.widgets.name':u'first',
+  ...                             'form.widgets.subobject-empty-marker':u'1',
+  ...                             'form.buttons.apply':'Apply'})
+
+  >>> editform.request = request
+
+#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+
+  >>> editform.update()
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <i>There were some errors.</i>
+      <ul>
+        <li>
+        my object:
+          <div class="error">The entered value is not a valid integer literal.</div>
+        </li>
+      </ul>
+      <form action=".">
+        <div class="row">
+          <b>
+            <div class="error">The entered value is not a valid integer literal.</div>
+          </b>
+          <label for="form-widgets-subobject">my object</label>
+          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
+            <legend>my object</legend>
+            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="99">
+            <br>
+            <div class="error">
+              <div class="error">The entered value is not a valid integer literal.</div>
+            </div>
+            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+            <br>
+            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+          </fieldset>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+  >>> root['first'].subobject.foofield
+  43
+
+  >>> root['first'].subobject.barfield
+  55

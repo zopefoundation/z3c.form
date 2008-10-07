@@ -17,4 +17,6 @@
   <include file="textarea.zcml" />
   <include file="textlines.zcml" />
 
+  <include file="object.zcml" />
+
 </configure>

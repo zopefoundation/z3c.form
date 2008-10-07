@@ -508,6 +508,8 @@ class IFileWidget(ITextWidget):
 class IPasswordWidget(ITextWidget):
     """Password widget."""
 
+class IObjectWidget(IWidget):
+    """Object widget.""" 
 
 class IWidgets(IManager):
     """A widget manager"""

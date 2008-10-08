@@ -26,6 +26,7 @@ from z3c.form.converter import BaseDataConverter
 from z3c.form.dummy import MySubObject
 from z3c.form import form, interfaces
 from z3c.form.field import Fields
+from z3c.form.error import MultipleErrors
 from z3c.form.i18n import MessageFactory as _
 
 class IObjectFactory(zope.interface.Interface):
@@ -128,12 +129,15 @@ class ObjectConverter(BaseDataConverter):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
+        if not value:
+            from pub.dbgpclient import brk; brk('192.168.32.1')
+
         if value[1]:
             #lame, we must be able to show all errors
             #if len(value[1])>1:
             #    from pub.dbgpclient import brk; brk('192.168.32.1')
 
-            raise value[1][0].error
+            raise MultipleErrors(value[1])
 
         obj = self.createObject(value)
 

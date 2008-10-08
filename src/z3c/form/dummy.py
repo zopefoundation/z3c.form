@@ -7,9 +7,14 @@ import zope.schema
 from zope.schema.fieldproperty import FieldProperty
 
 class IMySubObject(zope.interface.Interface):
-    foofield = zope.schema.Int(default=1111,
-                               max=9999)
-    barfield = zope.schema.Int(default=2222)
+    foofield = zope.schema.Int(
+        title=u"My foo field",
+        default=1111,
+        max=9999)
+    barfield = zope.schema.Int(
+        title=u"My dear bar",
+        default=2222,
+        required=False)
 
 class MySubObject(object):
     zope.interface.implements(IMySubObject)
@@ -38,6 +43,16 @@ class MyObject(object):
         self.subobject=subobject
         self.name=name
 
+
+class IMyComplexObject(zope.interface.Interface):
+    subobject = zope.schema.Object(title=u'my object', schema=IMySecond)
+    name = zope.schema.TextLine(title=u'name')
+
+class MyComplexObject(object):
+    zope.interface.implements(IMyComplexObject)
+    def __init__(self, name=u'', subobject=None):
+        self.subobject=subobject
+        self.name=name
 
 import zope.interface
 import zope.component

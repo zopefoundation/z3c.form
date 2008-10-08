@@ -22,6 +22,7 @@ import zope.location
 import zope.schema.interfaces
 
 from z3c.form import interfaces, util
+from z3c.form.error import MultipleErrors
 from z3c.form.widget import AfterWidgetUpdateEvent
 
 
@@ -283,7 +284,8 @@ class FieldWidgets(util.Manager):
                      getattr(widget, 'field', None),
                      widget),
                     interfaces.IValidator).validate(value)
-            except (zope.schema.ValidationError, ValueError), error:
+            except (zope.schema.ValidationError,
+                    ValueError, MultipleErrors), error:
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,
                      self.form, self.content), interfaces.IErrorViewSnippet)

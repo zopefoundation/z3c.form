@@ -1,30 +1,16 @@
-<fieldset id="" name="" class="" title="" lang="" disabled=""
-       tal:attributes="id view/id;
-                       name view/name;
-                       class view/klass;
-                       style view/style;
-                       title view/title;
-                       lang view/lang;
-                       onclick view/onclick;
-                       ondblclick view/ondblclick;
-                       onmousedown view/onmousedown;
-                       onmouseup view/onmouseup;
-                       onmouseover view/onmouseover;
-                       onmousemove view/onmousemove;
-                       onmouseout view/onmouseout;
-                       onkeypress view/onkeypress;
-                       onkeydown view/onkeydown;
-                       onkeyup view/onkeyup;
-                       disabled view/disabled;
-                       tabindex view/tabindex;
-                       onfocus view/onfocus;
-                       onblur view/onblur;
-                       onchange view/onchange;">
-<legend tal:content="view/label">foobar</legend>
-
-<tal:block repeat="widget view/subform/widgets/values">
-    <tal:block content="structure widget/render" />
-    <br/>
-</tal:block>
-
-</fieldset>
+<div class="object-widget"
+     tal:attributes="class view/klass">
+    <tal:block repeat="widget view/subform/widgets/values">
+        <div class="label">
+          <label tal:attributes="for widget/id">
+            <span i18n:translate=""
+                tal:content="widget/label">label</span>
+            <span class="required"
+                  tal:condition="widget/required">*</span>
+          </label>
+        </div>
+        <div class="widget" tal:content="structure widget/render">
+          <input type="text" size="24" value="" />
+        </div>
+    </tal:block>
+</div>

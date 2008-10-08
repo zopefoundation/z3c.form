@@ -107,16 +107,19 @@ class MultipleErrorViewSnippet(ErrorViewSnippet):
         interfaces.IMultipleErrors, None, None, None, None, None)
 
     def update(self):
-        output = ''
-        for error in self.error.errors:
-            view = zope.component.getMultiAdapter(
-                (error, self.request, widget, widget.field,
-                 self.form, self.content), interfaces.IErrorViewSnippet)
-            output += view.render()
-        self.output = output
+        pass
 
     def render(self):
-        return self.output
+        return ''.join([view.render() for view in self.error.errors])
+
+
+class MultipleErrors(Exception):
+    zope.interface.implements(interfaces.IMultipleErrors)
+    """An error that contains many errors"""
+
+    def __init__(self, errors):
+        self.errors = errors
+
 
 class ErrorViewTemplateFactory(object):
     """Error view template factory."""

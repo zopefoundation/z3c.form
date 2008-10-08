@@ -26,6 +26,9 @@ examples:
   >>> zope.component.provideAdapter(MySubObjectFactory, name='IMySubObject')
   >>> zope.component.provideAdapter(MySecondFactory, name='IMySecond')
 
+  >>> from z3c.form.error import MultipleErrorViewSnippet
+  >>> zope.component.provideAdapter(MultipleErrorViewSnippet)
+
 
 As for all widgets, the objectwidget must provide the new ``IWidget``
 interface:
@@ -94,16 +97,31 @@ We can now render the widget:
 
   >>> widget.update()
   >>> print widget.render()
-  <fieldset class="object-widget required" id="subobject" name="subobject">
-    <legend>my object widget</legend>
-    <input class="text-widget required int-field" id="subobject-widgets-foofield"
-           name="subobject.widgets.foofield" type="text" value="1,111">
-    <br>
-    <input class="text-widget required int-field" id="subobject-widgets-barfield"
-           name="subobject.widgets.barfield" type="text" value="2,222">
-    <br>
-    <input name="subobject-empty-marker" type="hidden" value="1">
-  </fieldset>
+  <html>
+    <body>
+      <div class="object-widget required">
+        <div class="label">
+          <label for="subobject-widgets-foofield">
+            <span>My foo field</span>
+            <span class="required">*</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="1,111">
+        </div>
+        <div class="label">
+          <label for="subobject-widgets-barfield">
+            <span>My dear bar</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="2,222">
+        </div>
+        <input name="subobject-empty-marker" type="hidden" value="1">
+      </div>
+    </body>
+  </html>
+
 
 As you see all sort of default values are rendered.
 
@@ -121,36 +139,64 @@ Let's provide a more meaningful value:
 
   >>> widget.update()
   >>> print widget.render()
-  <fieldset class="object-widget required" id="subobject" name="subobject">
-    <legend>my object widget</legend>
-    <input class="text-widget required int-field" id="subobject-widgets-foofield"
-           name="subobject.widgets.foofield" type="text" value="42">
-    <br>
-    <input class="text-widget required int-field" id="subobject-widgets-barfield"
-           name="subobject.widgets.barfield" type="text" value="666">
-    <br>
-    <input name="subobject-empty-marker" type="hidden" value="1">
-  </fieldset>
+  <html>
+    <body>
+      <div class="object-widget required">
+        <div class="label">
+          <label for="subobject-widgets-foofield">
+            <span>My foo field</span>
+            <span class="required">*</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="42">
+        </div>
+        <div class="label">
+          <label for="subobject-widgets-barfield">
+            <span>My dear bar</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="666">
+        </div>
+        <input name="subobject-empty-marker" type="hidden" value="1">
+      </div>
+    </body>
+  </html>
 
-Let's fill in some values:
+Let's fill in some values via the request:
 
   >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
   ...                                    'subobject.widgets.barfield':u'999'})
   >>> widget.update()
   >>> print widget.render()
-  <fieldset class="object-widget required" id="subobject" name="subobject">
-    <legend>my object widget</legend>
-    <input class="text-widget required int-field" id="subobject-widgets-foofield"
-           name="subobject.widgets.foofield" type="text" value="2">
-    <br>
-    <input class="text-widget required int-field" id="subobject-widgets-barfield"
-           name="subobject.widgets.barfield" type="text" value="999">
-    <br>
-    <input name="subobject-empty-marker" type="hidden" value="1">
-  </fieldset>
+  <html>
+    <body>
+      <div class="object-widget required">
+        <div class="label">
+          <label for="subobject-widgets-foofield">
+            <span>My foo field</span>
+            <span class="required">*</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="2">
+        </div>
+        <div class="label">
+          <label for="subobject-widgets-barfield">
+            <span>My dear bar</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="999">
+        </div>
+        <input name="subobject-empty-marker" type="hidden" value="1">
+      </div>
+    </body>
+  </html>
 
 
-Error handling is next. Let's use teh value "bad" (an invalid integer literal)
+Error handling is next. Let's use the value "bad" (an invalid integer literal)
 as input for our internal (sub) widget.
 
   >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
@@ -161,34 +207,44 @@ as input for our internal (sub) widget.
 
   >>> widget.update()
   >>> print widget.render()
-  <fieldset id="subobject" name="subobject"
-            class="object-widget required">
-  <legend>my object widget</legend>
-      <input id="subobject-widgets-foofield"
-             name="subobject.widgets.foofield"
-             class="text-widget required int-field" value="2"
-             type="text" />
-      <br />
-      <div class="error">
-    <div class="error">The entered value is not a valid integer literal.</div>
+  <html>
+    <body>
+      <div class="object-widget required">
+        <div class="label">
+          <label for="subobject-widgets-foofield">
+            <span>My foo field</span>
+            <span class="required">*</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="2">
+        </div>
+        <div class="label">
+          <label for="subobject-widgets-barfield">
+            <span>My dear bar</span>
+          </label>
+        </div>
+        <div class="error">
+          <div class="error">The entered value is not a valid integer literal.</div>
+        </div>
+        <div class="widget">
+          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+        </div>
+        <input name="subobject-empty-marker" type="hidden" value="1">
       </div>
-      <input id="subobject-widgets-barfield"
-             name="subobject.widgets.barfield"
-             class="text-widget required int-field" value="bad"
-             type="text" />
-      <br />
-  <input name="subobject-empty-marker" type="hidden" value="1" />
-  </fieldset>
+    </body>
+  </html>
 
 
 
 
 
 
-
-
+In forms
+========
 
 Do all that fun in add and edit forms too:
+
 
 We have to provide an adapter first:
 
@@ -200,6 +256,8 @@ We define an interface containing a subobject, and an addform for it:
 
   >>> from z3c.form import form, field
   >>> from z3c.form.dummy import MyObject, IMyObject
+
+Note, that creating an object will print some information about it:
 
   >>> class MyAddForm(form.AddForm):
   ...     fields = field.Fields(IMyObject)
@@ -220,18 +278,20 @@ We create the form and try to update it:
 
   >>> myaddform.update()
 
-As usually, the form contains a widget manager with the expected widget
+As usual, the form contains a widget manager with the expected widget
 
   >>> myaddform.widgets.keys()
   ['subobject', 'name']
   >>> myaddform.widgets.values()
   [<ObjectWidget 'form.widgets.subobject'>, <TextWidget 'form.widgets.name'>]
 
-But now, the addform contains a subform, that the user didn't need to create
-and which is already updated:
+The addform has our ObjectWidget which in turn contains a subform:
 
   >>> myaddform.widgets['subobject'].subform
   <z3c.form.object.ObjectSubForm object at ...>
+
+Which in turn contains the sub-widgets:
+
   >>> myaddform.widgets['subobject'].subform.widgets.keys()
   ['foofield', 'barfield']
 
@@ -254,14 +314,26 @@ Now rendering the addform renders the subform as well:
       <form action=".">
         <div class="row">
           <label for="form-widgets-subobject">my object</label>
-          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
-            <legend>my object</legend>
-            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="1,111">
-            <br>
-            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="2,222">
-            <br>
+          <div class="object-widget required">
+            <div class="label">
+              <label for="subobject-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="1,111">
+            </div>
+            <div class="label">
+              <label for="subobject-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="2,222">
+            </div>
             <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
-          </fieldset>
+          </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
@@ -300,9 +372,6 @@ Wow, it got added:
   >>> root['first'].subobject.barfield
   99
 
-  >>> myaddform.render()
-  ''
-
 
 
   >>> class MyEditForm(form.EditForm):
@@ -318,14 +387,26 @@ Wow, it got added:
       <form action=".">
         <div class="row">
           <label for="form-widgets-subobject">my object</label>
-          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
-            <legend>my object</legend>
-            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="66">
-            <br>
-            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="99">
-            <br>
+          <div class="object-widget required">
+            <div class="label">
+              <label for="subobject-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="66">
+            </div>
+            <div class="label">
+              <label for="subobject-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="99">
+            </div>
             <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
-          </fieldset>
+          </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
@@ -361,14 +442,26 @@ Wow, it got added:
       <form action=".">
         <div class="row">
           <label for="form-widgets-subobject">my object</label>
-          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
-            <legend>my object</legend>
-            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="43">
-            <br>
-            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="55">
-            <br>
+          <div class="object-widget required">
+            <div class="label">
+              <label for="subobject-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="43">
+            </div>
+            <div class="label">
+              <label for="subobject-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="55">
+            </div>
             <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
-          </fieldset>
+          </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
@@ -409,17 +502,29 @@ Wow, it got added:
             <div class="error">The entered value is not a valid integer literal.</div>
           </b>
           <label for="form-widgets-subobject">my object</label>
-          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
-            <legend>my object</legend>
-            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="99">
-            <br>
+          <div class="object-widget required">
+            <div class="label">
+              <label for="subobject-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="99">
+            </div>
+            <div class="label">
+              <label for="subobject-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
             <div class="error">
               <div class="error">The entered value is not a valid integer literal.</div>
             </div>
-            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
-            <br>
+            <div class="widget">
+              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+            </div>
             <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
-          </fieldset>
+          </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
@@ -458,26 +563,43 @@ Wow, it got added:
       <ul>
         <li>
         my object:
+          <div class="error">Value is too big</div>
           <div class="error">The entered value is not a valid integer literal.</div>
         </li>
       </ul>
       <form action=".">
         <div class="row">
           <b>
+            <div class="error">Value is too big</div>
             <div class="error">The entered value is not a valid integer literal.</div>
           </b>
           <label for="form-widgets-subobject">my object</label>
-          <fieldset class="object-widget required" id="form-widgets-subobject" name="form.widgets.subobject">
-            <legend>my object</legend>
-            <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="badder">
-            <br>
+          <div class="object-widget required">
+            <div class="label">
+              <label for="subobject-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="error">
+              <div class="error">Value is too big</div>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="999999">
+            </div>
+            <div class="label">
+              <label for="subobject-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
             <div class="error">
               <div class="error">The entered value is not a valid integer literal.</div>
             </div>
-            <input class="text-widget required int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
-            <br>
+            <div class="widget">
+              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+            </div>
             <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
-          </fieldset>
+          </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
@@ -495,3 +617,80 @@ Wow, it got added:
 
   >>> root['first'].subobject.barfield
   55
+
+  >>> editform = MyEditForm(root['first'], TestRequest())
+  >>> addTemplate(editform)
+  >>> editform.mode = interfaces.DISPLAY_MODE
+  >>> editform.update()
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-subobject">my object</label>
+          <div class="object-widget required">
+            <div class="label">
+              <label for="subobject-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <span class="text-widget required int-field" id="subobject-widgets-foofield">43</span>
+            </div>
+            <div class="label">
+              <label for="subobject-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <span class="text-widget int-field" id="subobject-widgets-barfield">55</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <span class="text-widget required textline-field" id="form-widgets-name">first</span>
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+
+
+
+
+#We define an interface containing a subobject, and an addform for it:
+#
+#  >>> from z3c.form import form, field
+#  >>> from z3c.form.dummy import MyComplexObject, IMyComplexObject
+#
+#Note, that creating an object will print some information about it:
+#
+#  >>> class MyAddForm(form.AddForm):
+#  ...     fields = field.Fields(IMyComplexObject)
+#  ...     def create(self, data):
+#  ...         print "MyAddForm.create", str(data)
+#  ...         return MyObject(**data)
+#  ...     def add(self, obj):
+#  ...         self.context[obj.name] = obj
+#  ...     def nextURL(self):
+#  ...         pass
+#
+#We create the form and try to update it:
+#
+#  >>> request = TestRequest()
+#  >>> myaddform =  MyAddForm(root, request)
+#
+##>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+#
+#  >>> myaddform.update()
+#
+#  >>> addTemplate(myaddform)
+#
+#Now rendering the addform renders the subform as well:
+#
+#  >>> print myaddform.render()

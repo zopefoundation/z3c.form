@@ -125,6 +125,11 @@
       permission="zope.Public"
       />
   <adapter
+      factory=".error.MultipleErrorViewSnippet"
+      trusted="True"
+      permission="zope.Public"
+      />
+  <adapter
       factory=".error.StandardErrorViewTemplate"
       />
 

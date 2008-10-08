@@ -14,8 +14,22 @@ class ObjectWidget(widget.HTMLFormElement, Widget):
 
     klass = u'object-widget'
     subform = None
+    _value = interfaces.NOVALUE
 
-    def _makeSubform(self):
+    #def updateWidgets(self):
+    #    #if self.subform is None:
+    #    if self._value is not interfaces.NOVALUE:
+    #        subobj = self._value
+    #    else:
+    #        try:
+    #            subobj = getattr(self.context, self.field.__name__)
+    #        except AttributeError:
+    #            #lame, mostly for adding
+    #            subobj = self.context
+    #    self.subform = ObjectSubForm(subobj, self)
+    #    #self.subform = ObjectSubForm(self.value, self)
+    #    self.subform.update()
+    def updateWidgets(self):
         #if self.subform is None:
         try:
             subobj = getattr(self.context, self.field.__name__)
@@ -27,17 +41,29 @@ class ObjectWidget(widget.HTMLFormElement, Widget):
                 subobj = self.context
         self.subform = ObjectSubForm(subobj, self)
         #self.subform = ObjectSubForm(self.value, self)
+        self.subform.update()
 
     def update(self):
         super(ObjectWidget, self).update()
+        self.updateWidgets()
 
-        self._makeSubform()
-        self.subform.update()
+    #@apply
+    #def value():
+    #    """This invokes updateWidgets on any value change e.g. update/extract."""
+    #    def get(self):
+    #        return self.extract()
+    #    def set(self, value):
+    #        if isinstance(value, tuple):
+    #            from pub.dbgpclient import brk; brk('192.168.32.1')
+    #
+    #        self._value = value
+    #        # ensure that we apply our new values to the widgets
+    #        self.updateWidgets()
+    #    return property(get, set)
 
     def extract(self, default=interfaces.NOVALUE):
         if self.name+'-empty-marker' in self.request:
-            self._makeSubform()
-            self.subform.update()
+            self.updateWidgets()
             rv=self.subform.extractData()
             return rv
         else:

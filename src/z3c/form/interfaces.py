@@ -156,7 +156,7 @@ class IErrorViewSnippet(zope.interface.Interface):
 
 class IMultipleErrors(zope.interface.Interface):
     """An error that contains many errors"""
-    
+
     errors = zope.interface.Attribute("List of errors")
 
 # ----[ Fields ]--------------------------------------------------------------
@@ -323,6 +323,18 @@ class IBoolTerms(ITerms):
         title=_('False-value Label'),
         description=_('The label for a false value of the Bool field.'),
         required=False)
+
+
+# ----[ Object factory ]-----------------------------------------------------
+
+class IObjectFactory(zope.interface.Interface):
+    """Factory that will instatiate our objects for ObjectWidget
+    It could also pre-populate properties as it gets the value passed
+    """
+
+    def get(value):
+        """return a default object created to be populated
+        """
 
 
 # ----[ Widgets ]------------------------------------------------------------

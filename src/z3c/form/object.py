@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Data Converters
+"""ObjectWidget related classes
 
 $Id$
 """
@@ -23,26 +23,13 @@ import zope.schema
 
 from z3c.form.converter import BaseDataConverter
 
-from z3c.form.dummy import MySubObject
 from z3c.form import form, interfaces
 from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
 from z3c.form.i18n import MessageFactory as _
 
-class IObjectFactory(zope.interface.Interface):
-    """Factory that will instatiate our objects for ObjectWidget
-    """
-
-    def get(value):
-        """return a default object created to be populated
-        """
-
 class ObjectSubForm(form.BaseForm):
     zope.interface.implements(interfaces.ISubForm)
-
-    formErrorsMessage = _('There were some errors.')
-    successMessage = _('Data successfully updated.')
-    noChangesMessage = _('No changes were applied.')
 
     def __init__(self, context, parentWidget):
         self.context = context
@@ -95,7 +82,6 @@ class ObjectConverter(BaseDataConverter):
     zope.component.adapts(
         zope.schema.interfaces.IObject, interfaces.IObjectWidget)
 
-    #factory = MySubObject
     factory = None
 
     def _fields(self):
@@ -113,13 +99,17 @@ class ObjectConverter(BaseDataConverter):
         #keep value passed, maybe some subclasses want it
 
         if self.factory is None:
+            name = self.field.schema.__module__+'.'+self.field.schema.__name__
             adapter = zope.component.queryMultiAdapter(
                 (self.widget.context, self.widget.request,
                  self.widget.form, self.widget),
-                IObjectFactory,
-                name=self.field.schema.__name__)
+                interfaces.IObjectFactory,
+                name=name)
             if adapter:
                 obj = adapter.get(value)
+            else:
+                raise ValueError("No IObjectFactory adapter registered for %s" %
+                                 name)
         else:
             #this is creepy, do we need this?
             #there seems to be no way to dispatch???
@@ -129,22 +119,42 @@ class ObjectConverter(BaseDataConverter):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
-        if not value:
-            from pub.dbgpclient import brk; brk('192.168.32.1')
+        if value is interfaces.NOVALUE:
+            return self.field.missing_value
 
         if value[1]:
-            #lame, we must be able to show all errors
-            #if len(value[1])>1:
-            #    from pub.dbgpclient import brk; brk('192.168.32.1')
-
             raise MultipleErrors(value[1])
 
         obj = self.createObject(value)
 
         for name, f in self._fields().items():
-            try:
-                setattr(obj, name, value[0][name])
-            except KeyError:
-                #smells like an input error?
-                pass
+            setattr(obj, name, value[0][name])
         return obj
+
+class FactoryAdapter(object):
+    """Most basic-default factory adapter"""
+
+    zope.interface.implements(interfaces.IObjectFactory)
+    zope.component.adapts(zope.interface.Interface, interfaces.IFormLayer,
+        interfaces.IForm, interfaces.IWidget)
+
+    factory = None
+
+    def __init__(self, context, request, form, widget):
+        self.context = context
+        self.request = request
+        self.form = form
+        self.widget = widget
+
+    def get(self, value):
+        return self.factory()
+
+    def __repr__(self):
+        return '<%s %r>' % (self.__class__.__name__, self.__name__)
+
+def registerFactoryAdapter(for_, klass):
+    """register the basic FactoryAdapter for a given interface and class"""
+    name = for_.__module__+'.'+for_.__name__
+    class temp(FactoryAdapter):
+        factory = klass
+    zope.component.provideAdapter(temp, name=name)

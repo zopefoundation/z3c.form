@@ -18,13 +18,16 @@ examples:
 
 
 
-  >>> from z3c.form.dummy import MySubObjectFactory
-  >>> from z3c.form.dummy import MySecondFactory
+  >>> from z3c.form.testing import IMySubObject
+  >>> from z3c.form.testing import IMySecond
+  >>> from z3c.form.testing import MySubObject
+  >>> from z3c.form.testing import MySecond
 
   >>> import zope.component
 
-  >>> zope.component.provideAdapter(MySubObjectFactory, name='IMySubObject')
-  >>> zope.component.provideAdapter(MySecondFactory, name='IMySecond')
+  >>> from z3c.form.object import registerFactoryAdapter
+  >>> registerFactoryAdapter(IMySubObject, MySubObject)
+  >>> registerFactoryAdapter(IMySecond, MySecond)
 
   >>> from z3c.form.error import MultipleErrorViewSnippet
   >>> zope.component.provideAdapter(MultipleErrorViewSnippet)
@@ -65,7 +68,7 @@ There is no life for ObjectWidget without a schema to render:
 This schema is specified by the field:
 
   >>> from z3c.form.widget import FieldWidget
-  >>> from z3c.form.dummy import IMySubObject
+  >>> from z3c.form.testing import IMySubObject
   >>> import zope.schema
   >>> field = zope.schema.Object(
   ...     __name__='subobject',
@@ -107,7 +110,9 @@ We can now render the widget:
           </label>
         </div>
         <div class="widget">
-          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="1,111">
+          <input class="text-widget required int-field"
+          id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+          type="text" value="1,111">
         </div>
         <div class="label">
           <label for="subobject-widgets-barfield">
@@ -115,7 +120,8 @@ We can now render the widget:
           </label>
         </div>
         <div class="widget">
-          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="2,222">
+          <input class="text-widget int-field" id="subobject-widgets-barfield"
+          name="subobject.widgets.barfield" type="text" value="2,222">
         </div>
         <input name="subobject-empty-marker" type="hidden" value="1">
       </div>
@@ -127,17 +133,17 @@ As you see all sort of default values are rendered.
 
 Let's provide a more meaningful value:
 
-  >>> from z3c.form.dummy import MySubObject
+  >>> from z3c.form.testing import MySubObject
   >>> v = MySubObject()
   >>> v.foofield = 42
   >>> v.barfield = 666
 
-  >>> widget.value = v
-  >>> widget.ignoreContext = False
 
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+  >>> widget.ignoreContext = False
+  >>> widget.value = v
 
   >>> widget.update()
+
   >>> print widget.render()
   <html>
     <body>
@@ -149,7 +155,9 @@ Let's provide a more meaningful value:
           </label>
         </div>
         <div class="widget">
-          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="42">
+          <input class="text-widget required int-field"
+          id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+          type="text" value="42">
         </div>
         <div class="label">
           <label for="subobject-widgets-barfield">
@@ -157,7 +165,8 @@ Let's provide a more meaningful value:
           </label>
         </div>
         <div class="widget">
-          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="666">
+          <input class="text-widget int-field" id="subobject-widgets-barfield"
+          name="subobject.widgets.barfield" type="text" value="666">
         </div>
         <input name="subobject-empty-marker" type="hidden" value="1">
       </div>
@@ -180,7 +189,9 @@ Let's fill in some values via the request:
           </label>
         </div>
         <div class="widget">
-          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="2">
+          <input class="text-widget required int-field"
+          id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+          type="text" value="2">
         </div>
         <div class="label">
           <label for="subobject-widgets-barfield">
@@ -188,7 +199,8 @@ Let's fill in some values via the request:
           </label>
         </div>
         <div class="widget">
-          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="999">
+          <input class="text-widget int-field" id="subobject-widgets-barfield"
+          name="subobject.widgets.barfield" type="text" value="999">
         </div>
         <input name="subobject-empty-marker" type="hidden" value="1">
       </div>
@@ -203,8 +215,6 @@ as input for our internal (sub) widget.
   ...                                    'subobject.widgets.barfield':u'bad'})
 
 
-#  >>> from pub.dbgpclient import brk; brk('192.168.32.1')
-
   >>> widget.update()
   >>> print widget.render()
   <html>
@@ -217,7 +227,9 @@ as input for our internal (sub) widget.
           </label>
         </div>
         <div class="widget">
-          <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="2">
+          <input class="text-widget required int-field"
+          id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+          type="text" value="2">
         </div>
         <div class="label">
           <label for="subobject-widgets-barfield">
@@ -228,7 +240,8 @@ as input for our internal (sub) widget.
           <div class="error">The entered value is not a valid integer literal.</div>
         </div>
         <div class="widget">
-          <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+          <input class="text-widget int-field" id="subobject-widgets-barfield"
+          name="subobject.widgets.barfield" type="text" value="bad">
         </div>
         <input name="subobject-empty-marker" type="hidden" value="1">
       </div>
@@ -255,7 +268,7 @@ We have to provide an adapter first:
 We define an interface containing a subobject, and an addform for it:
 
   >>> from z3c.form import form, field
-  >>> from z3c.form.dummy import MyObject, IMyObject
+  >>> from z3c.form.testing import MyObject, IMyObject
 
 Note, that creating an object will print some information about it:
 
@@ -273,8 +286,6 @@ We create the form and try to update it:
 
   >>> request = TestRequest()
   >>> myaddform =  MyAddForm(root, request)
-
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
 
   >>> myaddform.update()
 
@@ -322,7 +333,9 @@ Now rendering the addform renders the subform as well:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="1,111">
+              <input class="text-widget required int-field"
+              id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+              type="text" value="1,111">
             </div>
             <div class="label">
               <label for="subobject-widgets-barfield">
@@ -330,9 +343,11 @@ Now rendering the addform renders the subform as well:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="2,222">
+              <input class="text-widget int-field" id="subobject-widgets-barfield"
+              name="subobject.widgets.barfield" type="text" value="2,222">
             </div>
-            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+            <input name="form.widgets.subobject-empty-marker" type="hidden"
+            value="1">
           </div>
         </div>
         <div class="row">
@@ -340,11 +355,20 @@ Now rendering the addform renders the subform as well:
           <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="">
         </div>
         <div class="action">
-          <input class="submit-widget button-field" id="form-buttons-add" name="form.buttons.add" type="submit" value="Add">
+          <input class="submit-widget button-field" id="form-buttons-add"
+          name="form.buttons.add" type="submit" value="Add">
         </div>
       </form>
     </body>
   </html>
+
+
+We don't have the object (yet) in the root:
+
+  >>> root['first']
+  Traceback (most recent call last):
+  ...
+  KeyError: 'first'
 
 Let's try to add an object:
 
@@ -355,24 +379,25 @@ Let's try to add an object:
   ...                             'form.buttons.add':'Add'})
   >>> myaddform.request = request
   >>> myaddform.update()
-  MyAddForm.create {'subobject': <z3c.form.dummy.MySubObject object at ...>,
+  MyAddForm.create {'subobject': <z3c.form.testing.MySubObject object at ...>,
   'name': u'first'}
 
 Wow, it got added:
 
   >>> root['first']
-  <z3c.form.dummy.MyObject object at ...>
+  <z3c.form.testing.MyObject object at ...>
 
   >>> root['first'].subobject
-  <z3c.form.dummy.MySubObject object at ...>
+  <z3c.form.testing.MySubObject object at ...>
+
+Field values need to be right:
 
   >>> root['first'].subobject.foofield
   66
-
   >>> root['first'].subobject.barfield
   99
 
-
+Let's try to edit that newly added object:
 
   >>> class MyEditForm(form.EditForm):
   ...     fields = field.Fields(IMyObject)
@@ -380,6 +405,8 @@ Wow, it got added:
   >>> editform = MyEditForm(root['first'], TestRequest())
   >>> addTemplate(editform)
   >>> editform.update()
+
+Watch for the widget values in the HTML:
 
   >>> print editform.render()
   <html xmlns="http://www.w3.org/1999/xhtml">
@@ -395,7 +422,9 @@ Wow, it got added:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="66">
+              <input class="text-widget required int-field"
+              id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+              type="text" value="66">
             </div>
             <div class="label">
               <label for="subobject-widgets-barfield">
@@ -403,22 +432,27 @@ Wow, it got added:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="99">
+              <input class="text-widget int-field" id="subobject-widgets-barfield"
+              name="subobject.widgets.barfield" type="text" value="99">
             </div>
-            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+            <input name="form.widgets.subobject-empty-marker" type="hidden"
+            value="1">
           </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
-          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+          <input class="text-widget required textline-field" id="form-widgets-name"
+          name="form.widgets.name" type="text" value="first">
         </div>
         <div class="action">
-          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+          name="form.buttons.apply" type="submit" value="Apply">
         </div>
       </form>
     </body>
   </html>
 
+Let's modify the values:
 
   >>> request = TestRequest(form={'subobject.widgets.foofield':u'43',
   ...                             'subobject.widgets.barfield':u'55',
@@ -426,14 +460,25 @@ Wow, it got added:
   ...                             'form.widgets.subobject-empty-marker':u'1',
   ...                             'form.buttons.apply':'Apply'})
 
+They are still the same:
+
+  >>> root['first'].subobject.foofield
+  66
+  >>> root['first'].subobject.barfield
+  99
+
   >>> editform.request = request
   >>> editform.update()
 
+Until we update the form:
+
   >>> root['first'].subobject.foofield
   43
-
   >>> root['first'].subobject.barfield
   55
+
+After the update the form says that the values got updated and renders the new
+values:
 
   >>> print editform.render()
   <html xmlns="http://www.w3.org/1999/xhtml">
@@ -450,7 +495,9 @@ Wow, it got added:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="43">
+              <input class="text-widget required int-field"
+              id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+              type="text" value="43">
             </div>
             <div class="label">
               <label for="subobject-widgets-barfield">
@@ -458,22 +505,27 @@ Wow, it got added:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="55">
+              <input class="text-widget int-field" id="subobject-widgets-barfield"
+              name="subobject.widgets.barfield" type="text" value="55">
             </div>
-            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+            <input name="form.widgets.subobject-empty-marker" type="hidden"
+            value="1">
           </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
-          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+          <input class="text-widget required textline-field" id="form-widgets-name"
+          name="form.widgets.name" type="text" value="first">
         </div>
         <div class="action">
-          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+          name="form.buttons.apply" type="submit" value="Apply">
         </div>
       </form>
     </body>
   </html>
 
+Let's make a nasty error, by typing 'bad' instead of an integer:
 
   >>> request = TestRequest(form={'subobject.widgets.foofield':u'99',
   ...                             'subobject.widgets.barfield':u'bad',
@@ -482,10 +534,11 @@ Wow, it got added:
   ...                             'form.buttons.apply':'Apply'})
 
   >>> editform.request = request
-
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
-
   >>> editform.update()
+
+Watch for the error message in the HTML:
+it has to appear at the field itself and at the top of the form:
+
   >>> print editform.render()
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
@@ -510,7 +563,9 @@ Wow, it got added:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="99">
+              <input class="text-widget required int-field"
+              id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+              type="text" value="99">
             </div>
             <div class="label">
               <label for="subobject-widgets-barfield">
@@ -521,29 +576,35 @@ Wow, it got added:
               <div class="error">The entered value is not a valid integer literal.</div>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+              <input class="text-widget int-field" id="subobject-widgets-barfield"
+              name="subobject.widgets.barfield" type="text" value="bad">
             </div>
-            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+            <input name="form.widgets.subobject-empty-marker" type="hidden"
+            value="1">
           </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
-          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+          <input class="text-widget required textline-field" id="form-widgets-name"
+          name="form.widgets.name" type="text" value="first">
         </div>
         <div class="action">
-          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+          name="form.buttons.apply" type="submit" value="Apply">
         </div>
       </form>
     </body>
   </html>
 
+The object values must stay at the old ones:
+
   >>> root['first'].subobject.foofield
   43
-
   >>> root['first'].subobject.barfield
   55
 
-
+Let's make more errors:
+Now we enter 'bad' and '999999', where '999999' hits the upper limit of the field.
 
   >>> request = TestRequest(form={'subobject.widgets.foofield':u'999999',
   ...                             'subobject.widgets.barfield':u'bad',
@@ -552,10 +613,10 @@ Wow, it got added:
   ...                             'form.buttons.apply':'Apply'})
 
   >>> editform.request = request
-
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
-
   >>> editform.update()
+
+Both errors must appear at the top of the form:
+
   >>> print editform.render()
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
@@ -585,7 +646,9 @@ Wow, it got added:
               <div class="error">Value is too big</div>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="subobject-widgets-foofield" name="subobject.widgets.foofield" type="text" value="999999">
+              <input class="text-widget required int-field"
+              id="subobject-widgets-foofield" name="subobject.widgets.foofield"
+              type="text" value="999999">
             </div>
             <div class="label">
               <label for="subobject-widgets-barfield">
@@ -596,27 +659,35 @@ Wow, it got added:
               <div class="error">The entered value is not a valid integer literal.</div>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="subobject-widgets-barfield" name="subobject.widgets.barfield" type="text" value="bad">
+              <input class="text-widget int-field" id="subobject-widgets-barfield"
+              name="subobject.widgets.barfield" type="text" value="bad">
             </div>
-            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+            <input name="form.widgets.subobject-empty-marker" type="hidden"
+            value="1">
           </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
-          <input class="text-widget required textline-field" id="form-widgets-name" name="form.widgets.name" type="text" value="first">
+          <input class="text-widget required textline-field" id="form-widgets-name"
+          name="form.widgets.name" type="text" value="first">
         </div>
         <div class="action">
-          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+          name="form.buttons.apply" type="submit" value="Apply">
         </div>
       </form>
     </body>
   </html>
 
+And of course, the object values do not get modified:
+
   >>> root['first'].subobject.foofield
   43
-
   >>> root['first'].subobject.barfield
   55
+
+
+Simple but often used use-case is the display form:
 
   >>> editform = MyEditForm(root['first'], TestRequest())
   >>> addTemplate(editform)
@@ -636,7 +707,8 @@ Wow, it got added:
               </label>
             </div>
             <div class="widget">
-              <span class="text-widget required int-field" id="subobject-widgets-foofield">43</span>
+              <span class="text-widget required int-field"
+              id="subobject-widgets-foofield">43</span>
             </div>
             <div class="label">
               <label for="subobject-widgets-barfield">
@@ -644,53 +716,20 @@ Wow, it got added:
               </label>
             </div>
             <div class="widget">
-              <span class="text-widget int-field" id="subobject-widgets-barfield">55</span>
+              <span class="text-widget int-field"
+              id="subobject-widgets-barfield">55</span>
             </div>
           </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
-          <span class="text-widget required textline-field" id="form-widgets-name">first</span>
+          <span class="text-widget required textline-field"
+          id="form-widgets-name">first</span>
         </div>
         <div class="action">
-          <input class="submit-widget button-field" id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
+          <input class="submit-widget button-field"
+          id="form-buttons-apply" name="form.buttons.apply" type="submit" value="Apply">
         </div>
       </form>
     </body>
   </html>
-
-
-
-
-
-#We define an interface containing a subobject, and an addform for it:
-#
-#  >>> from z3c.form import form, field
-#  >>> from z3c.form.dummy import MyComplexObject, IMyComplexObject
-#
-#Note, that creating an object will print some information about it:
-#
-#  >>> class MyAddForm(form.AddForm):
-#  ...     fields = field.Fields(IMyComplexObject)
-#  ...     def create(self, data):
-#  ...         print "MyAddForm.create", str(data)
-#  ...         return MyObject(**data)
-#  ...     def add(self, obj):
-#  ...         self.context[obj.name] = obj
-#  ...     def nextURL(self):
-#  ...         pass
-#
-#We create the form and try to update it:
-#
-#  >>> request = TestRequest()
-#  >>> myaddform =  MyAddForm(root, request)
-#
-##>>> from pub.dbgpclient import brk; brk('192.168.32.1')
-#
-#  >>> myaddform.update()
-#
-#  >>> addTemplate(myaddform)
-#
-#Now rendering the addform renders the subform as well:
-#
-#  >>> print myaddform.render()

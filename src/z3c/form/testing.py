@@ -25,6 +25,7 @@ import xml.parsers.expat
 import zope.component
 import zope.interface
 import zope.schema
+from zope.schema.fieldproperty import FieldProperty
 import zope.configuration.xmlconfig
 
 from zope.pagetemplate.interfaces import IPageTemplate
@@ -149,6 +150,65 @@ def render(view, xpath='.'):
 
 def getPath(filename):
     return os.path.join(os.path.dirname(browser.__file__), filename)
+
+
+#############################
+# classes required by ObjectWidget tests
+#
+
+class IMySubObject(zope.interface.Interface):
+    foofield = zope.schema.Int(
+        title=u"My foo field",
+        default=1111,
+        max=9999)
+    barfield = zope.schema.Int(
+        title=u"My dear bar",
+        default=2222,
+        required=False)
+
+class MySubObject(object):
+    zope.interface.implements(IMySubObject)
+
+    foofield = FieldProperty(IMySubObject['foofield'])
+    barfield = FieldProperty(IMySubObject['barfield'])
+
+class IMySecond(zope.interface.Interface):
+    subfield = zope.schema.Object(
+        title=u"Second-subobject",
+        schema=IMySubObject)
+    moofield = zope.schema.TextLine(title=u"Something")
+
+class MySecond(object):
+    zope.interface.implements(IMySecond)
+
+    subfield = FieldProperty(IMySecond['subfield'])
+    moofield = FieldProperty(IMySecond['moofield'])
+
+
+class IMyObject(zope.interface.Interface):
+    subobject = zope.schema.Object(title=u'my object', schema=IMySubObject)
+    name = zope.schema.TextLine(title=u'name')
+
+class MyObject(object):
+    zope.interface.implements(IMyObject)
+    def __init__(self, name=u'', subobject=None):
+        self.subobject=subobject
+        self.name=name
+
+
+class IMyComplexObject(zope.interface.Interface):
+    subobject = zope.schema.Object(title=u'my object', schema=IMySecond)
+    name = zope.schema.TextLine(title=u'name')
+
+class MyComplexObject(object):
+    zope.interface.implements(IMyComplexObject)
+    def __init__(self, name=u'', subobject=None):
+        self.subobject=subobject
+        self.name=name
+
+#
+#
+#############################
 
 def setUp(test):
     test.globs = {'root': setup.placefulSetUp(True)}

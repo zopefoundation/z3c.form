@@ -23,7 +23,7 @@ import zope.schema
 
 from z3c.form.converter import BaseDataConverter
 
-from z3c.form import form, interfaces
+from z3c.form import form, interfaces, util
 from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
 from z3c.form.i18n import MessageFactory as _
@@ -34,8 +34,8 @@ class ObjectSubForm(form.BaseForm):
     def __init__(self, context, parentWidget):
         self.context = context
         self.request = parentWidget.request
-        self.parentWidget = parentWidget
-        self.parentForm = self.__parent__ = parentWidget.form
+        self.__parent__ = parentWidget
+        self.parentForm = parentWidget.form
 
     def _validate(self):
         for widget in self.widgets.values():
@@ -47,7 +47,7 @@ class ObjectSubForm(form.BaseForm):
                 zope.component.getMultiAdapter(
                     (self.context,
                      self.request,
-                     self.parentWidget.form,
+                     self.parentForm,
                      getattr(widget, 'field', None),
                      widget),
                     interfaces.IValidator).validate(value)
@@ -55,27 +55,30 @@ class ObjectSubForm(form.BaseForm):
                 # on exception, setup the widget error message
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,
-                     self.parentWidget.form, self.context),
+                     self.parentForm, self.context),
                     interfaces.IErrorViewSnippet)
                 view.update()
                 widget.error = view
 
-    def update(self):
-        self.fields = Fields(self.parentWidget.field.schema)
+    def update(self, ignoreContext=None):
+        self.fields = Fields(self.__parent__.field.schema)
 
-        self.mode = self.parentWidget.mode
-        self.ignoreContext = self.parentWidget.ignoreContext
-        self.ignoreRequest = self.parentWidget.ignoreRequest
-        
-# XXX: I recommend to use the existing parent prefix as prefix for the new prefix
+        #update stuff from parent to be sure
+        self.mode = self.__parent__.mode
+        if ignoreContext is not None:
+            self.ignoreContext = ignoreContext
+        else:
+            self.ignoreContext = self.__parent__.ignoreContext
+        self.ignoreRequest = self.__parent__.ignoreRequest
+        if interfaces.IFormAware.providedBy(self.__parent__):
+            self.ignoreReadonly = self.parentForm.ignoreReadonly
 
-#       prefix = util.expandPrefix(self.__parent__.prefix)
-#       self.prefix = prefix + util.expandPrefix(
-#           self.parentWidget.field.__name__)
-        self.prefix = self.parentWidget.field.__name__
+        prefix = ''
+        if self.parentForm:
+            prefix = util.expandPrefix(self.parentForm.prefix) + \
+                util.expandPrefix(self.parentForm.widgets.prefix)
 
-        if interfaces.IFormAware.providedBy(self.parentWidget):
-            self.ignoreReadonly = self.parentWidget.form.ignoreReadonly
+        self.prefix = prefix+self.__parent__.field.__name__
 
         super(ObjectSubForm, self).update()
 
@@ -90,10 +93,8 @@ class ObjectConverter(BaseDataConverter):
 
     factory = None
 
-# XXX: was x a debug hook?
     def _fields(self):
-        x = zope.schema.getFields(self.field.schema)
-        return x
+        return zope.schema.getFields(self.field.schema)
 
     def toWidgetValue(self, value):
         """Just dispatch it."""
@@ -104,21 +105,18 @@ class ObjectConverter(BaseDataConverter):
 
     def createObject(self, value):
         #keep value passed, maybe some subclasses want it
-
-# XXX: Are I'm correct the value is already an object?
-# if so, should we return the value?
-#        if self.field.schema.providedBy(value):
-#            return value
+        #nasty: value here is the raw extracted from the widget's subform
+        #in the form of (value-dict, (error1, error2))
 
         if self.factory is None:
             name = self.field.schema.__module__+'.'+self.field.schema.__name__
-            adapter = zope.component.queryMultiAdapter(
+            creator = zope.component.queryMultiAdapter(
                 (self.widget.context, self.widget.request,
                  self.widget.form, self.widget),
                 interfaces.IObjectFactory,
                 name=name)
-            if adapter:
-                obj = adapter.get(value)
+            if creator:
+                obj = creator(value)
             else:
                 raise ValueError("No IObjectFactory adapter registered for %s" %
                                  name)
@@ -137,19 +135,13 @@ class ObjectConverter(BaseDataConverter):
         if value[1]:
             raise MultipleErrors(value[1])
 
-# XXX: check if this allways returns a new object instance. If so we need to
-# ensure that the existing instance doesn't get replaced. Because an existing 
-# instance could provide some reference to other things we whould loose.
+        if (self.widget._value is not interfaces.NOVALUE
+            and not self.widget.subform.ignoreContext):
+            obj = self.widget._value
+        else:
+            obj = self.createObject(value)
 
-# probably we should do:
-#        if self.field.schema.providedBy(value):
-#            obj = value
-#        else:
-#            obj = self.createObject(value)
-#
-# Or are I'm wrong?
-
-        obj = self.createObject(value)
+        obj = self.field.schema(obj)
 
         for name, f in self._fields().items():
             setattr(obj, name, value[0][name])
@@ -170,13 +162,8 @@ class FactoryAdapter(object):
         self.form = form
         self.widget = widget
 
-# XXX: probably we should use __call__ instead of get and skip the value. Isn't
-# the value an existing object instance? Which means if we never replace 
-# existing objects this should never get called within an existing value?
-#    def __call__():
-#        return self.factory()
-
-    def get(self, value):
+    def __call__(self, value):
+        #value is the extracted data from the form
         return self.factory()
 
     def __repr__(self):

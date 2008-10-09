@@ -20,20 +20,14 @@ class ObjectWidget(widget.HTMLFormElement, Widget):
     def updateWidgets(self):
         if self._value is not interfaces.NOVALUE:
             self.subform = ObjectSubForm(self._value, self)
+            ignore = None
         else:
             self.subform = ObjectSubForm(None, self)
-            self.subform.ignoreContext=True
+            ignore = True
 
-        self.subform.update()
+        self.subform.update(ignore)
 
     def update(self):
-        try:
-            self._value = getattr(self.context, self.field.__name__)
-        except AttributeError:
-            #lame, mostly for adding
-            if self.context is not None:
-                self._value = self.context
-
         super(ObjectWidget, self).update()
         self.updateWidgets()
 

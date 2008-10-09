@@ -329,10 +329,11 @@ class IBoolTerms(ITerms):
 
 class IObjectFactory(zope.interface.Interface):
     """Factory that will instatiate our objects for ObjectWidget
-    It could also pre-populate properties as it gets the value passed
+    It could also pre-populate properties as it gets the values extracted
+    from the form passed in ``value``
     """
 
-    def get(value):
+    def __call__(value):
         """return a default object created to be populated
         """
 

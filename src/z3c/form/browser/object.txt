@@ -140,6 +140,7 @@ Let's provide a more meaningful value:
   >>> v = MySubObject()
   >>> v.foofield = 42
   >>> v.barfield = 666
+  >>> v.__marker__ = "ThisMustStayTheSame"
 
 
   >>> widget.ignoreContext = False
@@ -179,10 +180,16 @@ Let's provide a more meaningful value:
     </body>
   </html>
 
+The widget's value is NOVALUE until it gets a request:
+
+  >>> widget.value
+  <NOVALUE>
+
 Let's fill in some values via the request:
 
   >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
-  ...                                    'subobject.widgets.barfield':u'999'})
+  ...                                    'subobject.widgets.barfield':u'999',
+  ...                                    'subobject-empty-marker':u'1'})
   >>> widget.update()
   >>> print widget.render()
   <html>
@@ -216,13 +223,27 @@ Let's fill in some values via the request:
     </body>
   </html>
 
+  >>> v = widget.value
+  >>> v
+  <z3c.form.testing.MySubObject object at ...>
+  >>> v.foofield
+  2
+  >>> v.barfield
+  999
+
+The marker must stay (we have to modify the same object):
+
+  >>> v.__marker__
+  'ThisMustStayTheSame'
+
 
 
 Error handling is next. Let's use the value "bad" (an invalid integer literal)
 as input for our internal (sub) widget.
 
   >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
-  ...                                    'subobject.widgets.barfield':u'bad'})
+  ...                                    'subobject.widgets.barfield':u'bad',
+  ...                                    'subobject-empty-marker':u'1'})
 
 
   >>> widget.update()
@@ -261,8 +282,10 @@ as input for our internal (sub) widget.
     </body>
   </html>
 
-
-
+  >>> widget.value
+  Traceback (most recent call last):
+  ...
+  MultipleErrors
 
 
 
@@ -299,9 +322,6 @@ We create the form and try to update it:
 
   >>> request = TestRequest()
   >>> myaddform =  MyAddForm(root, request)
-
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
-
 
   >>> myaddform.update()
 
@@ -492,9 +512,6 @@ They are still the same:
   99
 
   >>> editform.request = request
-
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
-
   >>> editform.update()
 
 Until we have updated the form:
@@ -806,3 +823,139 @@ Simple but often used use-case is the display form:
       </form>
     </body>
   </html>
+
+
+
+
+
+
+
+
+
+
+#Object in an Object situation
+#=============================
+#
+#
+#We define an interface containing a subobject, and an addform for it:
+#
+#  >>> from z3c.form import form, field
+#  >>> from z3c.form.testing import MyComplexObject, IMyComplexObject
+#
+#Note, that creating an object will print some information about it:
+#
+#  >>> class MyAddForm(form.AddForm):
+#  ...     fields = field.Fields(IMyComplexObject)
+#  ...     def create(self, data):
+#  ...         print "MyAddForm.create", str(data)
+#  ...         return MyObject(**data)
+#  ...     def add(self, obj):
+#  ...         self.context[obj.name] = obj
+#  ...     def nextURL(self):
+#  ...         pass
+#
+#We create the form and try to update it:
+#
+#  >>> request = TestRequest()
+#
+##>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+#
+#  >>> myaddform =  MyAddForm(root, request)
+#
+##>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+#
+#
+#  >>> myaddform.update()
+#
+#As usual, the form contains a widget manager with the expected widget
+#
+#  >>> myaddform.widgets.keys()
+#  ['subobject', 'name']
+#  >>> myaddform.widgets.values()
+#  [<ObjectWidget 'form.widgets.subobject'>, <TextWidget 'form.widgets.name'>]
+#
+#The addform has our ObjectWidget which in turn contains a subform:
+#
+#  >>> myaddform.widgets['subobject'].subform
+#  <z3c.form.object.ObjectSubForm object at ...>
+#
+#Which in turn contains the sub-widgets:
+#
+#  >>> myaddform.widgets['subobject'].subform.widgets.keys()
+#  ['subfield', 'moofield']
+#
+#  >>> myaddform.widgets['subobject'].subform.widgets['subfield'].subform.widgets.keys()
+#  ['foofield', 'barfield']
+#
+#If we want to render the addform, we must give it a template:
+#
+#  >>> addTemplate(myaddform)
+#
+#Now rendering the addform renders the subform as well:
+#
+#  >>> print myaddform.render()
+#  <html xmlns="http://www.w3.org/1999/xhtml">
+#    <body>
+#      <form action=".">
+#        <div class="row">
+#          <label for="form-widgets-subobject">my object</label>
+#          <div class="object-widget required">
+#            <div class="label">
+#              <label for="form-widgets-subobject-widgets-subfield">
+#                <span>Second-subobject</span>
+#                <span class="required">*</span>
+#              </label>
+#            </div>
+#            <div class="widget">
+#              <div class="object-widget required">
+#                <div class="label">
+#                  <label for="form-widgets-subobject-widgets-subfield-widgets-foofield">
+#                    <span>My foo field</span>
+#                    <span class="required">*</span>
+#                  </label>
+#                </div>
+#                <div class="widget">
+#                  <input class="text-widget required int-field"
+#                  id="form-widgets-subobject-widgets-subfield-widgets-foofield"
+#                  name="form.widgets.subobject.widgets.subfield.widgets.foofield"
+#                  type="text" value="1,111">
+#                </div>
+#                <div class="label">
+#                  <label for="form-widgets-subobject-widgets-subfield-widgets-barfield">
+#                    <span>My dear bar</span>
+#                  </label>
+#                </div>
+#                <div class="widget">
+#                  <input class="text-widget int-field"
+#                  id="form-widgets-subobject-widgets-subfield-widgets-barfield"
+#                  name="form.widgets.subobject.widgets.subfield.widgets.barfield"
+#                  type="text" value="2,222">
+#                </div>
+#                <input name="form.widgets.subobject.widgets.subfield-empty-marker" type="hidden" value="1">
+#              </div>
+#            </div>
+#            <div class="label">
+#              <label for="form-widgets-subobject-widgets-moofield">
+#                <span>Something</span>
+#                <span class="required">*</span>
+#              </label>
+#            </div>
+#            <div class="widget">
+#              <input class="text-widget required textline-field"
+#              id="form-widgets-subobject-widgets-moofield"
+#              name="form.widgets.subobject.widgets.moofield" type="text" value="">
+#            </div>
+#            <input name="form.widgets.subobject-empty-marker" type="hidden" value="1">
+#          </div>
+#        </div>
+#        <div class="row">
+#          <label for="form-widgets-name">name</label>
+#          <input class="text-widget required textline-field"
+#          id="form-widgets-name" name="form.widgets.name" type="text" value="">
+#        </div>
+#        <div class="action">
+#          <input class="submit-widget button-field" id="form-buttons-add" name="form.buttons.add" type="submit" value="Add">
+#        </div>
+#      </form>
+#    </body>
+#  </html>

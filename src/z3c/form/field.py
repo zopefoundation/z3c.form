@@ -21,7 +21,7 @@ import zope.interface
 import zope.location
 import zope.schema.interfaces
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces, util, error
 from z3c.form.error import MultipleErrors
 from z3c.form.widget import AfterWidgetUpdateEvent
 
@@ -272,9 +272,9 @@ class FieldWidgets(util.Manager):
         for name, widget in self.items():
             if widget.mode == interfaces.DISPLAY_MODE:
                 continue
-            raw = widget.extract()
             value = widget.field.missing_value
             try:
+                raw = widget.extract()
                 if raw is not interfaces.NOVALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
                 zope.component.getMultiAdapter(

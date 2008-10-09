@@ -23,7 +23,7 @@ import zope.schema
 
 from z3c.form.converter import BaseDataConverter
 
-from z3c.form import form, interfaces, util
+from z3c.form import form, interfaces, util, widget
 from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
 from z3c.form.i18n import MessageFactory as _
@@ -84,68 +84,121 @@ class ObjectSubForm(form.BaseForm):
 
         self._validate()
 
-
 class ObjectConverter(BaseDataConverter):
     """Data converter for IObjectWidget."""
 
     zope.component.adapts(
         zope.schema.interfaces.IObject, interfaces.IObjectWidget)
 
-    factory = None
-
-    def _fields(self):
-        return zope.schema.getFields(self.field.schema)
-
     def toWidgetValue(self, value):
         """Just dispatch it."""
         if value is self.field.missing_value:
-            return None
+            return interfaces.NOVALUE
 
         return value
-
-    def createObject(self, value):
-        #keep value passed, maybe some subclasses want it
-        #nasty: value here is the raw extracted from the widget's subform
-        #in the form of (value-dict, (error1, error2))
-
-        if self.factory is None:
-            name = self.field.schema.__module__+'.'+self.field.schema.__name__
-            creator = zope.component.queryMultiAdapter(
-                (self.widget.context, self.widget.request,
-                 self.widget.form, self.widget),
-                interfaces.IObjectFactory,
-                name=name)
-            if creator:
-                obj = creator(value)
-            else:
-                raise ValueError("No IObjectFactory adapter registered for %s" %
-                                 name)
-        else:
-            #this is creepy, do we need this?
-            #there seems to be no way to dispatch???
-            obj = self.factory()
-
-        return obj
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         if value is interfaces.NOVALUE:
             return self.field.missing_value
 
-        if value[1]:
-            raise MultipleErrors(value[1])
+        return value
 
-        if (self.widget._value is not interfaces.NOVALUE
-            and not self.widget.subform.ignoreContext):
-            obj = self.widget._value
+
+class ObjectWidget(widget.Widget):
+    zope.interface.implements(interfaces.IObjectWidget)
+
+    subform = None
+    _value = interfaces.NOVALUE
+    _updating = False
+
+    def updateWidgets(self):
+        if self._value is not interfaces.NOVALUE:
+            self.subform = ObjectSubForm(self._value, self)
+            ignore = None
         else:
-            obj = self.createObject(value)
+            self.subform = ObjectSubForm(None, self)
+            ignore = True
 
-        obj = self.field.schema(obj)
+        self.subform.update(ignore)
 
-        for name, f in self._fields().items():
-            setattr(obj, name, value[0][name])
+    def update(self):
+        #very-very-nasty: skip raising exceptions in extract while we're updating
+        self._updating = True
+        try:
+            super(ObjectWidget, self).update()
+            self.updateWidgets()
+        finally:
+            self._updating = False
+
+    @apply
+    def value():
+        """This invokes updateWidgets on any value change e.g. update/extract."""
+        def get(self):
+            return self.extract()
+        def set(self, value):
+            if isinstance(value, tuple):
+                try:
+                    value = interfaces.IDataConverter(self).toFieldValue(value)
+                    self._value = value
+                except (zope.schema.ValidationError,
+                    ValueError, MultipleErrors), error:
+                    pass
+            else:
+                self._value = value
+
+            # ensure that we apply our new values to the widgets
+            self.updateWidgets()
+        return property(get, set)
+
+    def createObject(self, value):
+        #keep value passed, maybe some subclasses want it
+        #nasty: value here is the raw extracted from the widget's subform
+        #in the form of (value-dict, (error1, error2))
+
+        name = self.field.schema.__module__+'.'+self.field.schema.__name__
+        creator = zope.component.queryMultiAdapter(
+            (self.context, self.request,
+             self.form, self),
+            interfaces.IObjectFactory,
+            name=name)
+        if creator:
+            obj = creator(value)
+        else:
+            raise ValueError("No IObjectFactory adapter registered for %s" %
+                             name)
+
         return obj
+
+    def extract(self, default=interfaces.NOVALUE):
+        if self.name+'-empty-marker' in self.request:
+            self.updateWidgets()
+
+            value = self.subform.extractData()
+            #value here is (data-dict, (error1, error2))
+
+            if value[1]:
+                #very-very-nasty: skip raising exceptions in extract while we're updating
+                if self._updating:
+                    return default
+                raise MultipleErrors(value[1])
+
+            if (self._value is not interfaces.NOVALUE
+                and not self.subform.ignoreContext):
+                obj = self._value
+            else:
+                obj = self.createObject(value)
+
+            obj = self.field.schema(obj)
+
+            for name in zope.schema.getFieldNames(self.field.schema):
+                try:
+                    setattr(obj, name, value[0][name])
+                except KeyError:
+                    pass
+            return obj
+        else:
+            return default
 
 class FactoryAdapter(object):
     """Most basic-default factory adapter"""

@@ -338,6 +338,17 @@ class IObjectFactory(zope.interface.Interface):
         """
 
 
+# ----[ Subform factory ]-----------------------------------------------------
+
+class ISubformFactory(zope.interface.Interface):
+    """Factory that will instatiate our subforms for ObjectWidget
+    """
+
+    def __call__():
+        """return a default object created to be populated
+        """
+
+
 # ----[ Widgets ]------------------------------------------------------------
 
 class IWidget(ILocation):

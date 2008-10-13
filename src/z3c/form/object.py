@@ -30,12 +30,15 @@ from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
 from z3c.form.i18n import MessageFactory as _
 
+def getIfName(iface):
+    return iface.__module__+'.'+iface.__name__
+
 class ObjectSubForm(form.BaseForm):
     zope.interface.implements(interfaces.ISubForm)
 
-    def __init__(self, context, parentWidget):
+    def __init__(self, context, request, parentWidget):
         self.context = context
-        self.request = parentWidget.request
+        self.request = request
         self.__parent__ = parentWidget
         self.parentForm = parentWidget.form
 
@@ -113,7 +116,7 @@ class ObjectConverter(BaseDataConverter):
         #value here is the raw extracted from the widget's subform
         #in the form of a dict key:fieldname, value:fieldvalue
 
-        name = self.field.schema.__module__+'.'+self.field.schema.__name__
+        name = getIfName(self.field.schema)
         creator = zope.component.queryMultiAdapter(
             (self.widget.context, self.widget.request,
              self.widget.form, self.widget),
@@ -173,12 +176,23 @@ class ObjectWidget(widget.Widget):
     _value = interfaces.NOVALUE
     _updating = False
 
+    def _getForm(self, content):
+        #self.subform = ObjectSubForm(content, self)
+        #from pub.dbgpclient import brk; brk('192.168.32.1')
+
+        form = getattr(self, 'form', None)
+        self.subform = zope.component.getMultiAdapter(
+            (content, self.request,
+             self.context,
+             form, self, self.field),
+            interfaces.ISubformFactory)()
+
     def updateWidgets(self):
         if self._value is not interfaces.NOVALUE:
-            self.subform = ObjectSubForm(self._value, self)
+            self._getForm(self._value)
             ignore = None
         else:
-            self.subform = ObjectSubForm(None, self)
+            self._getForm(None)
             ignore = True
 
         self.subform.update(ignore)
@@ -232,8 +246,38 @@ class ObjectWidget(widget.Widget):
         else:
             return default
 
+
+######## default adapters
+
+class SubformAdapter(object):
+    """Most basic-default subform factory adapter"""
+
+    zope.interface.implements(interfaces.ISubformFactory)
+    zope.component.adapts(zope.interface.Interface, interfaces.IFormLayer,
+                          zope.interface.Interface,
+                          zope.interface.Interface, interfaces.IObjectWidget,
+                          zope.interface.Interface)
+
+    factory = ObjectSubForm
+
+    def __init__(self, context, request, widgetContext, form, widget, field):
+        self.context = context
+        self.request = request
+        self.widgetContext = widgetContext
+        self.form = form
+        self.widget = widget
+        self.field = field
+
+    def __call__(self):
+        #value is the extracted data from the form
+        obj = self.factory(self.context, self.request, self.widget)
+        return obj
+
+    def __repr__(self):
+        return '<%s %r>' % (self.__class__.__name__, self.__name__)
+
 class FactoryAdapter(object):
-    """Most basic-default factory adapter"""
+    """Most basic-default object factory adapter"""
 
     zope.interface.implements(interfaces.IObjectFactory)
     zope.component.adapts(zope.interface.Interface, interfaces.IFormLayer,
@@ -261,7 +305,7 @@ class FactoryAdapter(object):
 # arguments. But can probably do that later in a ZCML directive
 def registerFactoryAdapter(for_, klass):
     """register the basic FactoryAdapter for a given interface and class"""
-    name = for_.__module__+'.'+for_.__name__
+    name = getIfName(for_)
     class temp(FactoryAdapter):
         factory = klass
     zope.component.provideAdapter(temp, name=name)

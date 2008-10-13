@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="z3c.form">
+
+  <!-- Data Converters -->
+  <adapter
+      factory=".object.ObjectConverter"
+      />
+
+  <!-- Subform default factory -->
+  <adapter
+      factory=".object.SubformAdapter"
+      />
+
+</configure>

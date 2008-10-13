@@ -74,9 +74,6 @@
   <adapter
       factory=".converter.MultiConverter"
       />
-  <adapter
-      factory=".object.ObjectConverter"
-      />
 
   <!-- ITerms -->
   <adapter
@@ -211,6 +208,8 @@
         parent="z3c-form"
         />
   </configure>
+
+  <include file="object.zcml" />
 
   <include package=".browser" />
 

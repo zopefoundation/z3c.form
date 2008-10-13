@@ -932,9 +932,106 @@ Simple but often used use-case is the display form:
 
 
 
+Editforms might use dicts as context:
 
+  >>> newsub = MySubObject()
+  >>> newsub.foofield = 78
+  >>> newsub.barfield = 87
 
+  >>> class MyEditFormDict(form.EditForm):
+  ...     fields = field.Fields(IMyObject)
+  ...     def getContent(self):
+  ...         return {'subobject': newsub, 'name': u'blooki'}
 
+  >>> editform = MyEditFormDict(None, TestRequest())
+  >>> addTemplate(editform)
+  >>> editform.update()
+
+Watch for the widget values in the HTML:
+
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-subobject">my object</label>
+          <div class="object-widget required">
+            <div class="label">
+              <label for="form-widgets-subobject-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field"
+              id="form-widgets-subobject-widgets-foofield"
+              name="form.widgets.subobject.widgets.foofield"
+              type="text" value="78">
+            </div>
+            <div class="label">
+              <label for="form-widgets-subobject-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field"
+              id="form-widgets-subobject-widgets-barfield"
+              name="form.widgets.subobject.widgets.barfield"
+              type="text" value="87">
+            </div>
+            <input name="form.widgets.subobject-empty-marker" type="hidden"
+            value="1">
+          </div>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field" id="form-widgets-name"
+          name="form.widgets.name" type="text" value="blooki">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+          name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+Let's modify the values:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.subobject.widgets.foofield':u'43',
+  ...     'form.widgets.subobject.widgets.barfield':u'55',
+  ...     'form.widgets.name':u'first',
+  ...     'form.widgets.subobject-empty-marker':u'1',
+  ...     'form.buttons.apply':'Apply'})
+
+They are still the same:
+
+  >>> newsub.foofield
+  78
+  >>> newsub.barfield
+  87
+
+Until updating the form:
+
+  >>> editform.request = request
+  >>> eventlog=[]
+  >>> editform.update()
+
+  >>> newsub.foofield
+  43
+  >>> newsub.barfield
+  55
+
+  >>> len(eventlog)
+  2
+  >>> printEvents()
+  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObject>
+  ('foofield', 'barfield')
+  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMyObject>
+  ('subobject', 'name')
 
 
 

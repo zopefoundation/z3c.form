@@ -102,7 +102,9 @@ class ObjectConverter(BaseDataConverter):
 
         retval = {}
         for name in zope.schema.getFieldNames(self.field.schema):
-            retval[name] = getattr(value, name, interfaces.NOVALUE)
+            dm = zope.component.getMultiAdapter(
+                (value, self.field.schema[name]), interfaces.IDataManager)
+            retval[name] = dm.query()
 
         return retval
 
@@ -133,19 +135,23 @@ class ObjectConverter(BaseDataConverter):
         if self.widget.subform.ignoreContext:
             obj = self.createObject(value)
         else:
-            obj = getattr(self.widget.context, self.field.__name__)
+            dm = zope.component.getMultiAdapter(
+                (self.widget.context, self.field), interfaces.IDataManager)
+            obj = dm.get()
 
         obj = self.field.schema(obj)
 
         names = []
         for name in zope.schema.getFieldNames(self.field.schema):
             try:
-                oldval = getattr(obj, name, interfaces.NOVALUE)
+                dm = zope.component.getMultiAdapter(
+                    (obj, self.field.schema[name]), interfaces.IDataManager)
+                oldval = dm.query()
                 if (oldval != value[name]
                     or zope.schema.interfaces.IObject.providedBy(
                         self.field.schema[name])
                     ):
-                    setattr(obj, name, value[name])
+                    dm.set(value[name])
                     names.append(name)
             except KeyError:
                 pass

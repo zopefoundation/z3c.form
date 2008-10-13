@@ -20,6 +20,8 @@ import zope.i18n.format
 import zope.interface
 import zope.component
 import zope.schema
+import zope.event
+import zope.lifecycleevent
 
 from z3c.form.converter import BaseDataConverter
 
@@ -84,6 +86,9 @@ class ObjectSubForm(form.BaseForm):
 
         self._validate()
 
+    def getContent(self):
+        return self.__parent__._value
+
 class ObjectConverter(BaseDataConverter):
     """Data converter for IObjectWidget."""
 
@@ -95,12 +100,62 @@ class ObjectConverter(BaseDataConverter):
         if value is self.field.missing_value:
             return interfaces.NOVALUE
 
-        return value
+        retval = {}
+        for name in zope.schema.getFieldNames(self.field.schema):
+            retval[name] = getattr(value, name, interfaces.NOVALUE)
+
+        return retval
+
+    def createObject(self, value):
+        #keep value passed, maybe some subclasses want it
+        #value here is the raw extracted from the widget's subform
+        #in the form of a dict key:fieldname, value:fieldvalue
+
+        name = self.field.schema.__module__+'.'+self.field.schema.__name__
+        creator = zope.component.queryMultiAdapter(
+            (self.widget.context, self.widget.request,
+             self.widget.form, self.widget),
+            interfaces.IObjectFactory,
+            name=name)
+        if creator:
+            obj = creator(value)
+        else:
+            raise ValueError("No IObjectFactory adapter registered for %s" %
+                             name)
+
+        return obj
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         if value is interfaces.NOVALUE:
             return self.field.missing_value
+
+        if self.widget.subform.ignoreContext:
+            obj = self.createObject(value)
+        else:
+            obj = getattr(self.widget.context, self.field.__name__)
+
+        obj = self.field.schema(obj)
+
+        names = []
+        for name in zope.schema.getFieldNames(self.field.schema):
+            try:
+                oldval = getattr(obj, name, interfaces.NOVALUE)
+                if (oldval != value[name]
+                    or zope.schema.interfaces.IObject.providedBy(
+                        self.field.schema[name])
+                    ):
+                    setattr(obj, name, value[name])
+                    names.append(name)
+            except KeyError:
+                pass
+
+        if names:
+            zope.event.notify(
+                zope.lifecycleevent.ObjectModifiedEvent(obj,
+                    zope.lifecycleevent.Attributes(self.field.schema, *names)))
+        return obj
+
 
         return value
 
@@ -137,38 +192,11 @@ class ObjectWidget(widget.Widget):
         def get(self):
             return self.extract()
         def set(self, value):
-            if isinstance(value, tuple):
-                try:
-                    value = interfaces.IDataConverter(self).toFieldValue(value)
-                    self._value = value
-                except (zope.schema.ValidationError,
-                    ValueError, MultipleErrors), error:
-                    pass
-            else:
-                self._value = value
-
+            self._value = value
             # ensure that we apply our new values to the widgets
             self.updateWidgets()
         return property(get, set)
 
-    def createObject(self, value):
-        #keep value passed, maybe some subclasses want it
-        #nasty: value here is the raw extracted from the widget's subform
-        #in the form of (value-dict, (error1, error2))
-
-        name = self.field.schema.__module__+'.'+self.field.schema.__name__
-        creator = zope.component.queryMultiAdapter(
-            (self.context, self.request,
-             self.form, self),
-            interfaces.IObjectFactory,
-            name=name)
-        if creator:
-            obj = creator(value)
-        else:
-            raise ValueError("No IObjectFactory adapter registered for %s" %
-                             name)
-
-        return obj
 
     def extract(self, default=interfaces.NOVALUE):
         if self.name+'-empty-marker' in self.request:
@@ -178,25 +206,23 @@ class ObjectWidget(widget.Widget):
             #value here is (data-dict, (error1, error2))
 
             if value[1]:
-                #very-very-nasty: skip raising exceptions in extract while we're updating
+                #very-very-nasty: skip raising exceptions in extract
+                #while we're updating
                 if self._updating:
+                    #very-very-nasty: kill all errors on subwidgets
+                    if self.subform.widgets.errors:
+                        pass
+                        #from pub.dbgpclient import brk; brk('192.168.32.1')
+
+                    self.subform.widgets.errors = ()
+                    for w in self.subform.widgets.values():
+                        w.error=None
+
                     return default
                 raise MultipleErrors(value[1])
 
-            if (self._value is not interfaces.NOVALUE
-                and not self.subform.ignoreContext):
-                obj = self._value
-            else:
-                obj = self.createObject(value)
+            return value[0]
 
-            obj = self.field.schema(obj)
-
-            for name in zope.schema.getFieldNames(self.field.schema):
-                try:
-                    setattr(obj, name, value[0][name])
-                except KeyError:
-                    pass
-            return obj
         else:
             return default
 
@@ -217,7 +243,9 @@ class FactoryAdapter(object):
 
     def __call__(self, value):
         #value is the extracted data from the form
-        return self.factory()
+        obj = self.factory()
+        zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(obj))
+        return obj
 
     def __repr__(self):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)

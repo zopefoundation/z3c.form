@@ -16,14 +16,16 @@ examples:
   >>> from z3c.form import testing
   >>> testing.setupFormDefaults()
 
+  >>> import zope.component
+
+  >>> from z3c.form import datamanager
+  >>> zope.component.provideAdapter(datamanager.DictionaryField)
 
 
   >>> from z3c.form.testing import IMySubObject
   >>> from z3c.form.testing import IMySecond
   >>> from z3c.form.testing import MySubObject
   >>> from z3c.form.testing import MySecond
-
-  >>> import zope.component
 
   >>> from z3c.form.object import registerFactoryAdapter
   >>> registerFactoryAdapter(IMySubObject, MySubObject)
@@ -223,13 +225,20 @@ Let's fill in some values via the request:
     </body>
   </html>
 
-  >>> v = widget.value
+Widget value comes from the request:
+
+  >>> wv = widget.value
+  >>> wv
+  {'foofield': 2, 'barfield': 999}
+
+But our object will not be modified, since there was no "apply"-like control.
+
   >>> v
   <z3c.form.testing.MySubObject object at ...>
   >>> v.foofield
-  2
+  42
   >>> v.barfield
-  999
+  666
 
 The marker must stay (we have to modify the same object):
 
@@ -241,7 +250,7 @@ The marker must stay (we have to modify the same object):
 Error handling is next. Let's use the value "bad" (an invalid integer literal)
 as input for our internal (sub) widget.
 
-  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
+  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'55',
   ...                                    'subobject.widgets.barfield':u'bad',
   ...                                    'subobject-empty-marker':u'1'})
 
@@ -261,7 +270,7 @@ as input for our internal (sub) widget.
           <input class="text-widget required int-field"
           id="subobject-widgets-foofield"
           name="subobject.widgets.foofield"
-          type="text" value="2">
+          type="text" value="55">
         </div>
         <div class="label">
           <label for="subobject-widgets-barfield">
@@ -282,10 +291,23 @@ as input for our internal (sub) widget.
     </body>
   </html>
 
+Getting the widget value raises the widget errors:
+
   >>> widget.value
   Traceback (most recent call last):
   ...
   MultipleErrors
+
+Our object still must retain the old values:
+
+  >>> v
+  <z3c.form.testing.MySubObject object at ...>
+  >>> v.foofield
+  42
+  >>> v.barfield
+  666
+  >>> v.__marker__
+  'ThisMustStayTheSame'
 
 
 
@@ -300,6 +322,28 @@ We have to provide an adapter first:
   >>> zope.component.provideAdapter(object.ObjectFieldWidget)
   >>> import z3c.form.object
   >>> zope.component.provideAdapter(z3c.form.object.ObjectConverter)
+
+Forms and our objectwidget fire events on add and edit, setup a subscriber
+for those:
+
+  >>> eventlog = []
+  >>> import zope.lifecycleevent
+  >>> @zope.component.adapter(zope.lifecycleevent.ObjectModifiedEvent)
+  ... def logEvent(event):
+  ...     eventlog.append(event)
+  >>> zope.component.provideHandler(logEvent)
+  >>> @zope.component.adapter(zope.lifecycleevent.ObjectCreatedEvent)
+  ... def logEvent2(event):
+  ...     eventlog.append(event)
+  >>> zope.component.provideHandler(logEvent2)
+
+  >>> def printEvents():
+  ...     for event in eventlog:
+  ...         print str(event)
+  ...         if isinstance(event, zope.lifecycleevent.ObjectModifiedEvent):
+  ...             for attr in event.descriptions:
+  ...                 print attr.interface
+  ...                 print attr.attributes
 
 We define an interface containing a subobject, and an addform for it:
 
@@ -322,6 +366,7 @@ We create the form and try to update it:
 
   >>> request = TestRequest()
   >>> myaddform =  MyAddForm(root, request)
+
 
   >>> myaddform.update()
 
@@ -418,6 +463,7 @@ Let's try to add an object:
   ...     'form.widgets.subobject-empty-marker':u'1',
   ...     'form.buttons.add':'Add'})
   >>> myaddform.request = request
+
   >>> myaddform.update()
   MyAddForm.create {'subobject': <z3c.form.testing.MySubObject object at ...>,
   'name': u'first'}
@@ -436,6 +482,21 @@ Field values need to be right:
   66
   >>> root['first'].subobject.barfield
   99
+
+Let's see our event log:
+
+  >>> len(eventlog)
+  4
+
+  >>> printEvents()
+  <zope.app.event.objectevent.ObjectCreatedEvent object at ...>
+  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObject>
+  ('foofield', 'barfield')
+  <zope.app.event.objectevent.ObjectCreatedEvent object at ...>
+  <zope.app.container.contained.ContainerModifiedEvent object at ...>
+
+  >>> eventlog=[]
 
 Let's try to edit that newly added object:
 
@@ -520,6 +581,22 @@ Until we have updated the form:
   43
   >>> root['first'].subobject.barfield
   55
+
+Let's see our event log:
+
+  >>> len(eventlog)
+  2
+
+  >>> printEvents()
+  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObject>
+  ('foofield', 'barfield')
+  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMyObject>
+  ('subobject',)
+
+  >>> eventlog=[]
+
 
 After the update the form says that the values got updated and renders the new
 values:
@@ -617,7 +694,13 @@ Let's make a nasty error, by typing 'bad' instead of an integer:
   ...     'form.buttons.apply':'Apply'})
 
   >>> editform.request = request
+  >>> eventlog=[]
   >>> editform.update()
+
+Eventlog must be clean:
+
+  >>> len(eventlog)
+  0
 
 Watch for the error message in the HTML:
 it has to appear at the field itself and at the top of the form:
@@ -777,6 +860,28 @@ And of course, the object values do not get modified:
   999
 
 
+#Let's make an other error, by typing a newline into name:
+#
+#  >>> request = TestRequest(form={
+#  ...     'form.widgets.subobject.widgets.foofield':u'1',
+#  ...     'form.widgets.subobject.widgets.barfield':u'2',
+#  ...     'form.widgets.name':u'first\nline',
+#  ...     'form.widgets.subobject-empty-marker':u'1',
+#  ...     'form.buttons.apply':'Apply'})
+#
+#  >>> editform.request = request
+#  >>> eventlog=[]
+#  >>> editform.update()
+
+THIS IS BAD:
+
+  #>>> len(eventlog)
+  #0
+  #>>> printEvents()
+  #<zope.app.event.objectevent.ObjectModifiedEvent object at 0x97f688c>
+  #<InterfaceClass z3c.form.testing.IMySubObject>
+  #('foofield', 'barfield')
+
 Simple but often used use-case is the display form:
 
   >>> editform = MyEditForm(root['first'], TestRequest())
@@ -862,7 +967,7 @@ Simple but often used use-case is the display form:
 #
 #  >>> myaddform =  MyAddForm(root, request)
 #
-##>>> from pub.dbgpclient import brk; brk('192.168.32.1')
+#  >>> from pub.dbgpclient import brk; brk('192.168.32.1')
 #
 #
 #  >>> myaddform.update()

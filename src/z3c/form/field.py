@@ -250,7 +250,9 @@ class FieldWidgets(util.Manager):
             # Step 5: Set the form
             widget.form = self.form
             # Optimization: set both interfaces here, rather in step 4 and 5: alsoProvides is quite slow
-            zope.interface.alsoProvides(widget, interfaces.IContextAware, interfaces.IFormAware)
+            zope.interface.alsoProvides(widget,
+                                        interfaces.IContextAware,
+                                        interfaces.IFormAware)
             # Step 6: Set some variables
             widget.ignoreContext = self.ignoreContext
             widget.ignoreRequest = self.ignoreRequest

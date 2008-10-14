@@ -77,7 +77,9 @@ class Widget(zope.location.Location):
         lookForDefault = False
         # Step 1.1: If possible, get a value from the request
         if not self.ignoreRequest:
-            widget_value = self.extract()
+            #at this turn we do not need errors to be set on widgets
+            #errors will be set when extract gets called from form.extractData
+            widget_value = self.extract(setErrors=False)
             if widget_value is not interfaces.NOVALUE:
                 # Once we found the value in the request, it takes precendence
                 # over everything and nothing else has to be done.
@@ -136,7 +138,7 @@ class Widget(zope.location.Location):
                 IPageTemplate, name=self.mode)
         return template(self)
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NOVALUE, setErrors=True):
         """See z3c.form.interfaces.IWidget."""
         return self.request.get(self.name, default)
 
@@ -195,7 +197,7 @@ class SequenceWidget(Widget):
         self.updateTerms()
         super(SequenceWidget, self).update()
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NOVALUE, setErrors=True):
         """See z3c.form.interfaces.IWidget."""
         if (self.name not in self.request and
             self.name+'-empty-marker' in self.request):
@@ -338,7 +340,7 @@ class MultiWidget(Widget):
             self.updateWidgets()
         return property(get, set)
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NOVALUE, setErrors=True):
         # This method is responsible to get the widgets value based on the
         # request and nothing else.
         # We have to setup the widgets for extract their values, because we

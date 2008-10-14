@@ -276,7 +276,7 @@ class FieldWidgets(util.Manager):
                 continue
             value = widget.field.missing_value
             try:
-                raw = widget.extract()
+                raw = widget.extract(setErrors=setErrors)
                 if raw is not interfaces.NOVALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
                 zope.component.getMultiAdapter(

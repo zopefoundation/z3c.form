@@ -65,7 +65,7 @@ class ObjectSubForm(form.BaseForm):
                 view.update()
                 widget.error = view
 
-    def update(self, ignoreContext=None):
+    def update(self, ignoreContext=None, setErrors=True):
         self.fields = Fields(self.__parent__.field.schema)
 
         #update stuff from parent to be sure
@@ -87,7 +87,9 @@ class ObjectSubForm(form.BaseForm):
 
         super(ObjectSubForm, self).update()
 
-        self._validate()
+        if setErrors:
+            #hmmm, do we need this here? seems to be over-validated
+            self._validate()
 
     def getContent(self):
         return self.__parent__._value
@@ -187,7 +189,7 @@ class ObjectWidget(widget.Widget):
              form, self, self.field),
             interfaces.ISubformFactory)()
 
-    def updateWidgets(self):
+    def updateWidgets(self, setErrors=True):
         if self._value is not interfaces.NOVALUE:
             self._getForm(self._value)
             ignore = None
@@ -195,14 +197,14 @@ class ObjectWidget(widget.Widget):
             self._getForm(None)
             ignore = True
 
-        self.subform.update(ignore)
+        self.subform.update(ignore, setErrors=setErrors)
 
     def update(self):
         #very-very-nasty: skip raising exceptions in extract while we're updating
         self._updating = True
         try:
             super(ObjectWidget, self).update()
-            self.updateWidgets()
+            self.updateWidgets(setErrors=False)
         finally:
             self._updating = False
 
@@ -210,7 +212,7 @@ class ObjectWidget(widget.Widget):
     def value():
         """This invokes updateWidgets on any value change e.g. update/extract."""
         def get(self):
-            return self.extract()
+            return self.extract(setErrors=True)
         def set(self, value):
             self._value = value
             # ensure that we apply our new values to the widgets
@@ -218,30 +220,20 @@ class ObjectWidget(widget.Widget):
         return property(get, set)
 
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NOVALUE, setErrors=True):
         if self.name+'-empty-marker' in self.request:
-            self.updateWidgets()
+            self.updateWidgets(setErrors=False)
 
-            value = self.subform.extractData()
-            #value here is (data-dict, (error1, error2))
+            value, errors = self.subform.extractData(setErrors=setErrors)
 
-            if value[1]:
+            if errors:
                 #very-very-nasty: skip raising exceptions in extract
                 #while we're updating
                 if self._updating:
-                    #very-very-nasty: kill all errors on subwidgets
-                    if self.subform.widgets.errors:
-                        pass
-                        #from pub.dbgpclient import brk; brk('192.168.32.1')
-
-                    self.subform.widgets.errors = ()
-                    for w in self.subform.widgets.values():
-                        w.error=None
-
                     return default
-                raise MultipleErrors(value[1])
+                raise MultipleErrors(errors)
 
-            return value[0]
+            return value
 
         else:
             return default

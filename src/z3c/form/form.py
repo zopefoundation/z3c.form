@@ -127,9 +127,9 @@ class BaseForm(browser.BrowserPage):
         self.widgets.ignoreReadonly = self.ignoreReadonly
         self.widgets.update()
 
-    def extractData(self):
+    def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
-        return self.widgets.extract()
+        return self.widgets.extract(setErrors=setErrors)
 
     def update(self):
         '''See interfaces.IForm'''

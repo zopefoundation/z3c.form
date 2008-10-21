@@ -22,7 +22,7 @@ import zope.component
 import zope.schema
 import zope.event
 import zope.lifecycleevent
-
+from zope.security.proxy import removeSecurityProxy
 from z3c.form.converter import BaseDataConverter
 
 from z3c.form import form, interfaces, util, widget
@@ -165,10 +165,12 @@ class ObjectConverter(BaseDataConverter):
             zope.event.notify(
                 zope.lifecycleevent.ObjectModifiedEvent(obj,
                     zope.lifecycleevent.Attributes(self.field.schema, *names)))
-        return obj
 
-
-        return value
+        # Commonly the widget context is security proxied. This method,
+        # however, should return a bare object, so let's remove the
+        # security proxy now that all fields have been set using the security
+        # mechanism.
+        return removeSecurityProxy(obj)
 
 
 class ObjectWidget(widget.Widget):

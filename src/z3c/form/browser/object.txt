@@ -69,7 +69,7 @@ There is no life for ObjectWidget without a schema to render:
   >>> widget.update()
   Traceback (most recent call last):
   ...
-  AttributeError: 'NoneType' object has no attribute 'schema'
+  ValueError: <ObjectWidget 'widget.name'> .field is None, that's a blocking point
 
 This schema is specified by the field:
 

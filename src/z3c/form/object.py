@@ -65,9 +65,12 @@ class ObjectSubForm(form.BaseForm):
                 view.update()
                 widget.error = view
 
-    def update(self, ignoreContext=None, setErrors=True):
+    def setupFields(self):
         self.fields = Fields(self.__parent__.field.schema)
 
+    def update(self, ignoreContext=None, setErrors=True):
+        if self.__parent__.field is None:
+            raise ValueError("%r .field is None, that's a blocking point" % self.__parent__)
         #update stuff from parent to be sure
         self.mode = self.__parent__.mode
         if ignoreContext is not None:
@@ -84,6 +87,8 @@ class ObjectSubForm(form.BaseForm):
                 util.expandPrefix(self.parentForm.widgets.prefix)
 
         self.prefix = prefix+self.__parent__.field.__name__
+
+        self.setupFields()
 
         super(ObjectSubForm, self).update()
 
@@ -142,7 +147,10 @@ class ObjectConverter(BaseDataConverter):
         else:
             dm = zope.component.getMultiAdapter(
                 (self.widget.context, self.field), interfaces.IDataManager)
-            obj = dm.get()
+            try:
+                obj = dm.get()
+            except KeyError:
+                obj = self.createObject(value)
 
         obj = self.field.schema(obj)
 
@@ -181,9 +189,6 @@ class ObjectWidget(widget.Widget):
     _updating = False
 
     def _getForm(self, content):
-        #self.subform = ObjectSubForm(content, self)
-        #from pub.dbgpclient import brk; brk('192.168.32.1')
-
         form = getattr(self, 'form', None)
         self.subform = zope.component.getMultiAdapter(
             (content, self.request,

@@ -29,7 +29,7 @@ class FieldDescriptionAsHint(object):
 
     zope.interface.implements(interfaces.IValue)
     zope.component.adapts(zope.interface.Interface, interfaces.IFormLayer,
-        interfaces.IForm, zope.schema.interfaces.IField, interfaces.IWidget) 
+        interfaces.IForm, zope.schema.interfaces.IField, interfaces.IWidget)
 
     def __init__(self, context, request, form, field, widget):
         self.context = context

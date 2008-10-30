@@ -190,10 +190,11 @@ class ObjectWidget(widget.Widget):
 
     def _getForm(self, content):
         form = getattr(self, 'form', None)
+        schema = getattr(self.field, 'schema', None)
+
         self.subform = zope.component.getMultiAdapter(
-            (content, self.request,
-             self.context,
-             form, self, self.field),
+            (content, self.request, self.context,
+             form, self, self.field, schema),
             interfaces.ISubformFactory)()
 
     def updateWidgets(self, setErrors=True):
@@ -252,20 +253,25 @@ class SubformAdapter(object):
     """Most basic-default subform factory adapter"""
 
     zope.interface.implements(interfaces.ISubformFactory)
-    zope.component.adapts(zope.interface.Interface, interfaces.IFormLayer,
-                          zope.interface.Interface,
-                          zope.interface.Interface, interfaces.IObjectWidget,
-                          zope.interface.Interface)
+    zope.component.adapts(zope.interface.Interface, #widget value
+                          interfaces.IFormLayer,    #request
+                          zope.interface.Interface, #widget context
+                          zope.interface.Interface, #form
+                          interfaces.IObjectWidget, #widget
+                          zope.interface.Interface, #field
+                          zope.interface.Interface) #field.schema
 
     factory = ObjectSubForm
 
-    def __init__(self, context, request, widgetContext, form, widget, field):
+    def __init__(self, context, request, widgetContext, form,
+                 widget, field, schema):
         self.context = context
         self.request = request
         self.widgetContext = widgetContext
         self.form = form
         self.widget = widget
         self.field = field
+        self.schema = schema
 
     def __call__(self):
         #value is the extracted data from the form

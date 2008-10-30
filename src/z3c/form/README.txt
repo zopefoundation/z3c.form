@@ -86,6 +86,10 @@ files. The documents are ordered in the way they should be read:
   This module provides a base class for add forms that work with the
   ``IAdding`` interface.
 
+- ``object-caveat.txt`` [informative]
+
+  Explains the current problems of ObjectWidget.
+
 
 Browser Documentation
 ---------------------
@@ -101,4 +105,3 @@ mainly document the basic widgets provided by the package.
 
   Each field name documentation file comprehensively explains the widget and
   how it is ensured to work properly.
-

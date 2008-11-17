@@ -204,6 +204,8 @@ class SequenceWidget(Widget):
             return []
         value = self.request.get(self.name, default)
         if value != default:
+            if not isinstance(value, (tuple, list)):
+                value = (value,)
             # do some kind of validation, at least only use existing values
             for token in value:
                 if token == self.noValueToken:

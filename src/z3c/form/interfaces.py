@@ -158,6 +158,10 @@ class IErrorViewSnippet(zope.interface.Interface):
     def render():
         """Render view."""
 
+class IMultipleErrors(zope.interface.Interface):
+    """An error that contains many errors"""
+
+    errors = zope.interface.Attribute("List of errors")
 
 # ----[ Fields ]--------------------------------------------------------------
 
@@ -189,11 +193,11 @@ class IField(zope.interface.Interface):
         description=_('The interface from which the field is coming.'),
         required=True)
 
-    dataProvider = zope.schema.Field(
-        title=_('Data Provider'),
-        description=_('The component providing the data of the field for '
-                      'the widget.'),
-        required=True)
+    ignoreContext = zope.schema.Bool(
+        title=_('Ignore Context'),
+        description=_('A flag, when set, forces the widget not to look at '
+                      'the context for a value.'),
+        required=False)
 
     widgetFactory = zope.schema.Field(
         title=_('Widget Factory'),
@@ -325,6 +329,30 @@ class IBoolTerms(ITerms):
         required=False)
 
 
+# ----[ Object factory ]-----------------------------------------------------
+
+class IObjectFactory(zope.interface.Interface):
+    """Factory that will instatiate our objects for ObjectWidget
+    It could also pre-populate properties as it gets the values extracted
+    from the form passed in ``value``
+    """
+
+    def __call__(value):
+        """return a default object created to be populated
+        """
+
+
+# ----[ Subform factory ]-----------------------------------------------------
+
+class ISubformFactory(zope.interface.Interface):
+    """Factory that will instatiate our subforms for ObjectWidget
+    """
+
+    def __call__():
+        """return a default object created to be populated
+        """
+
+
 # ----[ Widgets ]------------------------------------------------------------
 
 class IWidget(ILocation):
@@ -380,7 +408,7 @@ class IWidget(ILocation):
         default=False,
         required=False)
 
-    def extract(default=NOVALUE):
+    def extract(default=NOVALUE, setErrors=True):
         """Extract the string value(s) of the widget from the form.
 
         The return value may be any Python construct, but is typically a
@@ -390,10 +418,12 @@ class IWidget(ILocation):
 
         If an error occurs during the extraction, the default value should be
         returned. Since this should never happen, if the widget is properly
-        designed and used, it is okay to not raise an error here, since we do
+        designed and used, it is okay to NOT raise an error here, since we do
         not want to crash the system during an inproper request.
 
         If there is no value to extract, the default is to be returned.
+
+        setErrors: needs to be passed on to possible sub-widgets
         """
 
     def update():
@@ -512,6 +542,8 @@ class IFileWidget(ITextWidget):
 class IPasswordWidget(ITextWidget):
     """Password widget."""
 
+class IObjectWidget(IWidget):
+    """Object widget."""
 
 class IWidgets(IManager):
     """A widget manager"""
@@ -556,8 +588,11 @@ class IWidgets(IManager):
     def update():
         """Setup widgets."""
 
-    def extract():
+    def extract(setErrors=True):
         """Extract the values from the widgets and validate them.
+
+        setErrors: decides whether to set errors on self and on the widgets
+                   also needs to be passed on to sub-widgets
         """
 
 
@@ -817,8 +852,10 @@ class IForm(zope.interface.Interface):
         mainly meant to be a hook for subclasses.
         '''
 
-    def extractData():
-        '''Extract the data of the form.'''
+    def extractData(setErrors=True):
+        '''Extract the data of the form.
+
+        setErrors: needs to be passed to extract() and to sub-widgets'''
 
     def update():
         '''Update the form.'''

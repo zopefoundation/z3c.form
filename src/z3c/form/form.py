@@ -44,7 +44,9 @@ def applyChanges(form, content, data):
         dm = zope.component.getMultiAdapter(
             (content, field.field), interfaces.IDataManager)
         # Only update the data, if it is different
-        if dm.get() != data[name]:
+        # Or it is an Object, in case we'll never know
+        if (dm.get() != data[name]
+            or zope.schema.interfaces.IObject.providedBy(field.field)):
             dm.set(data[name])
             # Record the change using information required later
             changes.setdefault(dm.field.interface, []).append(name)
@@ -128,9 +130,9 @@ class BaseForm(browser.BrowserPage):
         self.widgets.ignoreReadonly = self.ignoreReadonly
         self.widgets.update()
 
-    def extractData(self):
+    def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
-        return self.widgets.extract()
+        return self.widgets.extract(setErrors=setErrors)
 
     def update(self):
         '''See interfaces.IForm'''

@@ -8,6 +8,16 @@ Version 2.0.0 (2008-??-??)
 - Feature: When no file is specified in the file upload widget, instead of
   overwriting the value with a missing one, the old data is retained.
 
+- Feature: Added a new flag ``ignoreContext`` to the form field, so that one
+  can individually select which fields should and which ones should not ignore
+  the context.
+
+- Feature: Allow raw request values of sequence widgets to be non-sequence
+  values, which makes integration with Javascript libraries easier.
+
+- Feature: Preliminary support for widgets of schema.IObject.
+  There is a big caveat, read: object-caveat.txt
+
 - Feature: Added support in the file upload widget's testing flavor to specify
   'base64'-encoded strings in the hidden text area, so that binary data can be
   uploaded as well.

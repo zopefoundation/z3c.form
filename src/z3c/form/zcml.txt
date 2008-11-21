@@ -75,7 +75,7 @@ Let's get the template
 and check it:
 
   >>> template
-  <z3c.pt.compat.ViewPageTemplateFile object at ...>
+  <ViewPageTemplateFile ...widget.pt>
 
 Let's use the template within the widget.
 
@@ -117,4 +117,3 @@ Also let's not leave temporary files lying around
 
   >>> import shutil
   >>> shutil.rmtree(temp_dir)
-

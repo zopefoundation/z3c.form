@@ -288,6 +288,22 @@ constructor that are used to set up the fields:
     >>> manager['country'].mode
     'display'
 
+* ``ignoreContext``
+
+  While the ``ignoreContext`` flag is usually set on the form, it is sometimes
+  desirable to set the flag for a particular field.
+
+    >>> manager = field.Fields(IPerson)
+    >>> manager['country'].ignoreContext
+
+    >>> manager = field.Fields(IPerson, ignoreContext=True)
+    >>> manager['country'].ignoreContext
+    True
+
+    >>> manager = field.Fields(IPerson, ignoreContext=False)
+    >>> manager['country'].ignoreContext
+    False
+
 
 Fields Widget Manager
 ---------------------
@@ -728,6 +744,30 @@ but there are no side effects on the manager and the widgets:
   >>> manager.errors
   ()
   >>> manager['lastName'].error is None
+  True
+
+Customization of Ignoring the Context
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Note that you can also manually control ignoring the context per field.
+
+  >>> class CustomPersonForm(object):
+  ...     prefix = 'form.'
+  ...     fields = field.Fields(IPerson).select('id')
+  ...     fields += field.Fields(IPerson, ignoreContext=True).select(
+  ...                   'firstName', 'lastName')
+  >>> customPersonForm = CustomPersonForm()
+
+Let's now create a manager and update it:
+
+  >>> customManager = field.FieldWidgets(customPersonForm, request, context)
+  >>> customManager.update()
+
+  >>> customManager['id'].ignoreContext
+  False
+  >>> customManager['firstName'].ignoreContext
+  True
+  >>> customManager['lastName'].ignoreContext
   True
 
 

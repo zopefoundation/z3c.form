@@ -341,7 +341,7 @@ class MultiConverter(BaseDataConverter):
         """Just dispatch it."""
         if value is self.field.missing_value:
             return []
-        # We relay on the default registered widget, this is probably a 
+        # We relay on the default registered widget, this is probably a
         # restriction for custom widgets. If so use your own MultiWidget and
         # register your own converter which will get the right widget for the
         # used value_type.
@@ -361,7 +361,7 @@ class MultiConverter(BaseDataConverter):
             return self.field.missing_value
         valueType = self.field.value_type._type
         values = [valueType(v) for v in value]
-        # convert the field values to a tuple or list 
+        # convert the field values to a tuple or list
         return collectionType(values)
 
 

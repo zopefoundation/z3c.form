@@ -122,6 +122,11 @@
       permission="zope.Public"
       />
   <adapter
+      factory=".error.MultipleErrorViewSnippet"
+      trusted="True"
+      permission="zope.Public"
+      />
+  <adapter
       factory=".error.StandardErrorViewTemplate"
       />
 
@@ -203,6 +208,8 @@
         parent="z3c-form"
         />
   </configure>
+
+  <include file="object.zcml" />
 
   <include package=".browser" />
 

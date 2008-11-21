@@ -21,7 +21,8 @@ import zope.interface
 import zope.location
 import zope.schema.interfaces
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces, util, error
+from z3c.form.error import MultipleErrors
 from z3c.form.widget import AfterWidgetUpdateEvent
 
 
@@ -65,7 +66,8 @@ class Field(object):
 
     widgetFactory = WidgetFactoryProperty()
 
-    def __init__(self, field, name=None, prefix='', mode=None, interface=None):
+    def __init__(self, field, name=None, prefix='', mode=None, interface=None,
+                 ignoreContext=None):
         self.field = field
         if name is None:
             name = field.__name__
@@ -76,6 +78,7 @@ class Field(object):
         if interface is None:
             interface = field.interface
         self.interface = interface
+        self.ignoreContext = ignoreContext
 
     def __repr__(self):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)
@@ -220,13 +223,17 @@ class FieldWidgets(util.Manager):
         prefix += util.expandPrefix(self.prefix)
         # Walk through each field, making a widget out of it.
         for field in self.form.fields.values():
+            # Step 0. Determine whether the context should be ignored.
+            ignoreContext = self.ignoreContext
+            if field.ignoreContext is not None:
+                ignoreContext = field.ignoreContext
             # Step 1: Determine the mode of the widget.
             mode = self.mode
             if field.mode is not None:
                 mode = field.mode
             elif field.field.readonly and not self.ignoreReadonly:
                     mode = interfaces.DISPLAY_MODE
-            elif not self.ignoreContext:
+            elif not ignoreContext:
                 # If we do not have enough permissions to write to the
                 # attribute, then switch to display mode.
                 dm = zope.component.getMultiAdapter(
@@ -253,7 +260,7 @@ class FieldWidgets(util.Manager):
             zope.interface.alsoProvides(
                 widget, interfaces.IContextAware, interfaces.IFormAware)
             # Step 6: Set some variables
-            widget.ignoreContext = self.ignoreContext
+            widget.ignoreContext = ignoreContext
             widget.ignoreRequest = self.ignoreRequest
             # Step 7: Set the mode of the widget
             widget.mode = mode
@@ -273,9 +280,9 @@ class FieldWidgets(util.Manager):
         for name, widget in self.items():
             if widget.mode == interfaces.DISPLAY_MODE:
                 continue
-            raw = widget.extract()
             value = widget.field.missing_value
             try:
+                raw = widget.extract(setErrors=setErrors)
                 if raw is not interfaces.NOVALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
                 zope.component.getMultiAdapter(
@@ -285,7 +292,8 @@ class FieldWidgets(util.Manager):
                      getattr(widget, 'field', None),
                      widget),
                     interfaces.IValidator).validate(value)
-            except (zope.schema.ValidationError, ValueError), error:
+            except (zope.schema.ValidationError,
+                    ValueError, MultipleErrors), error:
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,
                      self.form, self.content), interfaces.IErrorViewSnippet)

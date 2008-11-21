@@ -447,6 +447,15 @@ default value is returned:
   >>> seqWidget.extract()
   []
 
+Note that we also support single values being returned outside a sequence. The
+extracted value is then wrapped by a tuple. This feature is useful when
+integrating with third-party client frameworks that do not know about the Zope
+naming conventions.
+
+  >>> seqWidget.request = TestRequest(form={'seq': 'v1'})
+  >>> seqWidget.extract()
+  ('v1',)
+
 If the no-value token has been selected, it is returned without further
 verification:
 

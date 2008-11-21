@@ -189,11 +189,11 @@ class IField(zope.interface.Interface):
         description=_('The interface from which the field is coming.'),
         required=True)
 
-    dataProvider = zope.schema.Field(
-        title=_('Data Provider'),
-        description=_('The component providing the data of the field for '
-                      'the widget.'),
-        required=True)
+    ignoreContext = zope.schema.Bool(
+        title=_('Ignore Context'),
+        description=_('A flag, when set, forces the widget not to look at '
+                      'the context for a value.'),
+        required=False)
 
     widgetFactory = zope.schema.Field(
         title=_('Widget Factory'),

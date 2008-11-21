@@ -5,6 +5,10 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Feature: Added a new flag ``ignoreContext`` to the form field, so that one
+  can individually select which fields should and which ones should not ignore
+  the context.
+
 - Feature: Allow raw request values of sequence widgets to be non-sequence
   values, which makes integration with Javascript libraries easier.
 

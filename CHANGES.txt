@@ -5,6 +5,16 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Changes: around objectwidget
+  - zcml objectWidgetTemplate to be able to register widget templates for
+    specific field schemas
+  - subwidgets prefix will come from the main-widget
+  - subform discriminator on field.schema did not work
+
+- Fixes: MultiWidget:
+  - setting (sub)widgets early
+  - setting subwidgets.form
+
 - Feature: When no file is specified in the file upload widget, instead of
   overwriting the value with a missing one, the old data is retained.
 

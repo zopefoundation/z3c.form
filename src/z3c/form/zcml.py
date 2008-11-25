@@ -29,6 +29,7 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
 from z3c.form.widget import WidgetTemplateFactory
+from z3c.form.object import ObjectWidgetTemplateFactory
 
 
 class IWidgetTemplateDirective(zope.interface.Interface):
@@ -83,6 +84,13 @@ class IWidgetTemplateDirective(zope.interface.Interface):
         default='text/html',
         required=False)
 
+class IObjectWidgetTemplateDirective(IWidgetTemplateDirective):
+    schema = zope.configuration.fields.GlobalObject(
+        title=_('Schema'),
+        description=_('The schema of the field for which the template should be available'),
+        default=zope.interface.Interface,
+        required=False)
+
 
 def widgetTemplateDirective(
     _context, template, for_=zope.interface.Interface,
@@ -100,3 +108,22 @@ def widgetTemplateDirective(
     # register the template
     zope.component.zcml.adapter(_context, (factory,), IPageTemplate,
         (for_, layer, view, field, widget), name=mode)
+
+
+def objectWidgetTemplateDirective(
+    _context, template, for_=zope.interface.Interface,
+    layer=IDefaultBrowserLayer, view=None, field=None, widget=None,
+    schema=None,
+    mode=interfaces.INPUT_MODE, contentType='text/html'):
+
+    # Make sure that the template exists
+    template = os.path.abspath(str(_context.path(template)))
+    if not os.path.isfile(template):
+        raise ConfigurationError("No such file", template)
+
+    factory = ObjectWidgetTemplateFactory(template, contentType)
+    zope.interface.directlyProvides(factory, IPageTemplate)
+
+    # register the template
+    zope.component.zcml.adapter(_context, (factory,), IPageTemplate,
+        (for_, layer, view, field, widget, schema), name=mode)

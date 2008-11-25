@@ -10,7 +10,12 @@
         handler=".zcml.widgetTemplateDirective"
         />
 
+    <meta:directive
+        name="objectWidgetTemplate"
+        schema=".zcml.IObjectWidgetTemplateDirective"
+        handler=".zcml.objectWidgetTemplateDirective"
+        />
+
   </meta:directives>
 
 </configure>
-

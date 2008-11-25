@@ -23,6 +23,9 @@ import zope.schema
 import zope.event
 import zope.lifecycleevent
 from zope.security.proxy import removeSecurityProxy
+from zope.pagetemplate.interfaces import IPageTemplate
+
+from z3c.pt import compat as viewpagetemplatefile
 from z3c.form.converter import BaseDataConverter
 
 from z3c.form import form, interfaces, util, widget
@@ -81,12 +84,14 @@ class ObjectSubForm(form.BaseForm):
         if interfaces.IFormAware.providedBy(self.__parent__):
             self.ignoreReadonly = self.parentForm.ignoreReadonly
 
-        prefix = ''
-        if self.parentForm:
-            prefix = util.expandPrefix(self.parentForm.prefix) + \
-                util.expandPrefix(self.parentForm.widgets.prefix)
+        #prefix = ''
+        #if self.parentForm:
+        #    prefix = util.expandPrefix(self.parentForm.prefix) + \
+        #        util.expandPrefix(self.parentForm.widgets.prefix)
+        #
+        #self.prefix = prefix+self.__parent__.field.__name__
 
-        self.prefix = prefix+self.__parent__.field.__name__
+        self.prefix = self.__parent__.name
 
         self.setupFields()
 
@@ -151,6 +156,8 @@ class ObjectConverter(BaseDataConverter):
                 obj = dm.get()
             except KeyError:
                 obj = self.createObject(value)
+            except AttributeError:
+                obj = self.createObject(value)
 
         obj = self.field.schema(obj)
 
@@ -194,7 +201,7 @@ class ObjectWidget(widget.Widget):
 
         self.subform = zope.component.getMultiAdapter(
             (content, self.request, self.context,
-             form, self, self.field, schema),
+             form, self, self.field, makeDummyObject(schema)),
             interfaces.ISubformFactory)()
 
     def updateWidgets(self, setErrors=True):
@@ -221,6 +228,10 @@ class ObjectWidget(widget.Widget):
         """This invokes updateWidgets on any value change e.g. update/extract."""
         def get(self):
             return self.extract(setErrors=True)
+            #value = {}
+            #for name in zope.schema.getFieldNames(self.field.schema):
+            #    value[name] = self.subform.widgets[name].value
+            #return value
         def set(self, value):
             self._value = value
             # ensure that we apply our new values to the widgets
@@ -239,6 +250,7 @@ class ObjectWidget(widget.Widget):
                 #while we're updating
                 if self._updating:
                     return default
+
                 raise MultipleErrors(errors)
 
             return value
@@ -246,6 +258,51 @@ class ObjectWidget(widget.Widget):
         else:
             return default
 
+    def render(self):
+        """See z3c.form.interfaces.IWidget."""
+        template = self.template
+        if template is None:
+            template = zope.component.queryMultiAdapter(
+                (self.context, self.request, self.form, self.field, self,
+                 makeDummyObject(self.field.schema)),
+                IPageTemplate, name=self.mode)
+            if template is None:
+                return super(ObjectWidget, self).render()
+        return template(self)
+
+######## make dummy objects providing a given interface to support
+######## discriminating on field.schema
+
+class DummyObject(object):
+    zope.interface.implements(zope.interface.Interface)
+
+def makeDummyObject(iface):
+    dummy = DummyObject()
+    if iface is not None:
+        zope.interface.directlyProvides(dummy, iface)
+    return dummy
+
+######## special template factory that takes the field.schema into account
+
+class ObjectWidgetTemplateFactory(object):
+    """Widget template factory."""
+
+    def __init__(self, filename, contentType='text/html',
+                 context=None, request=None, view=None,
+                 field=None, widget=None, schema=None):
+        self.template = viewpagetemplatefile.ViewPageTemplateFile(
+            filename, content_type=contentType)
+        zope.component.adapter(
+            util.getSpecification(context),
+            util.getSpecification(request),
+            util.getSpecification(view),
+            util.getSpecification(field),
+            util.getSpecification(widget),
+            util.getSpecification(schema))(self)
+        zope.interface.implementer(IPageTemplate)(self)
+
+    def __call__(self, context, request, view, field, widget, schema):
+        return self.template
 
 ######## default adapters
 
@@ -274,7 +331,6 @@ class SubformAdapter(object):
         self.schema = schema
 
     def __call__(self):
-        #value is the extracted data from the form
         obj = self.factory(self.context, self.request, self.widget)
         return obj
 

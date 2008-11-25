@@ -245,8 +245,12 @@ class MultiWidget(Widget):
     # you set showLabel to False or use another template for disable (sub)
     # widget labels
     showLabel = True
-    widgets = []
+    widgets = None
     _value = []
+
+    def __init__(self, request):
+        super(MultiWidget, self).__init__(request)
+        self.widgets = []
 
     @property
     def counterName(self):
@@ -268,6 +272,11 @@ class MultiWidget(Widget):
             interfaces.IFieldWidget)
         widget.name = name
         widget.id = id
+        #set widget.form (objectwidget needs this)
+        if interfaces.IFormAware.providedBy(self):
+            widget.form = self.form
+            zope.interface.alsoProvides(
+                widget, interfaces.IFormAware)
         widget.update()
         return widget
 
@@ -281,11 +290,11 @@ class MultiWidget(Widget):
     def applyValue(self, widget, value=interfaces.NOVALUE):
         """Validate and apply value to given widget.
 
-        This method get called on any multi widget vaue change and is
-        responsible for validate the given value and setup an error message.
+        This method gets called on any multi widget value change and is
+        responsible for validating the given value and setup an error message.
 
         This is internal apply value and validation process is needed because
-        nothing outside this mutli widget does know something about our
+        nothing outside this multi widget does know something about our
         internal sub widgets.
         """
         if value is not interfaces.NOVALUE:
@@ -348,7 +357,7 @@ class MultiWidget(Widget):
         # We have to setup the widgets for extract their values, because we
         # don't know how to do this for every field without the right widgets.
         # Later we will setup the widgets based on this values. This is needed
-        # because we probably set a new value in the fornm for our multi widget
+        # because we probably set a new value in the form for our multi widget
         # which whould generate a different set of widgets.
         if self.request.get(self.counterName) is None:
             # counter marker not found

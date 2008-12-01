@@ -38,6 +38,9 @@ examples:
   >>> from z3c.form.error import MultipleErrorViewSnippet
   >>> zope.component.provideAdapter(MultipleErrorViewSnippet)
 
+  >>> import z3c.form.object
+  >>> zope.component.provideAdapter(z3c.form.object.ObjectConverter)
+
 
 As for all widgets, the objectwidget must provide the new ``IWidget``
 interface:
@@ -150,7 +153,7 @@ Let's provide a more meaningful value:
 
 
   >>> widget.ignoreContext = False
-  >>> widget.value = v
+  >>> widget.value = dict(foofield=42, barfield=666)
 
   >>> widget.update()
 
@@ -250,7 +253,25 @@ The marker must stay (we have to modify the same object):
   'ThisMustStayTheSame'
 
 
-HMMMM.... do we to test error handling here?
+  >>> converter = interfaces.IDataConverter(widget)
+
+  >>> value = converter.toFieldValue(wv)
+  >>> value
+  <z3c.form.testing.MySubObject object at ...>
+  >>> value.foofield
+  2
+  >>> value.barfield
+  999
+
+This is a different object:
+
+  >>> value.__marker__
+  Traceback (most recent call last):
+  ...
+  AttributeError: 'MySubObject' object has no attribute '__marker__'
+
+
+HMMMM.... do we have to test error handling here?
 I'm tempted to leave it out as no widgets seem to do this.
 
 #Error handling is next. Let's use the value "bad" (an invalid integer literal)
@@ -326,8 +347,6 @@ Do all that fun in add and edit forms too:
 We have to provide an adapter first:
 
   >>> zope.component.provideAdapter(object.ObjectFieldWidget)
-  >>> import z3c.form.object
-  >>> zope.component.provideAdapter(z3c.form.object.ObjectConverter)
 
 Forms and our objectwidget fire events on add and edit, setup a subscriber
 for those:
@@ -680,7 +699,7 @@ Let's modify the values:
 
   >>> editform.update()
 
-Until we have updated the form:
+Let's check what are ther esults of the update:
 
   >>> root['first'].subobject.foofield
   666
@@ -1066,12 +1085,7 @@ We create the form and try to update it:
 
   >>> request = TestRequest()
 
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
-
   >>> myaddform =  MyAddForm(root, request)
-
-#>>> from pub.dbgpclient import brk; brk('192.168.32.1')
-
 
   >>> myaddform.update()
 

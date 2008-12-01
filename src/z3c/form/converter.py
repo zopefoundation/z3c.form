@@ -341,13 +341,17 @@ class MultiConverter(BaseDataConverter):
         """Just dispatch it."""
         if value is self.field.missing_value:
             return []
-        # We relay on the default registered widget, this is probably a
+        # We rely on the default registered widget, this is probably a
         # restriction for custom widgets. If so use your own MultiWidget and
         # register your own converter which will get the right widget for the
         # used value_type.
         field = self.field.value_type
         widget = zope.component.getMultiAdapter((field, self.widget.request),
             interfaces.IFieldWidget)
+        if interfaces.IFormAware.providedBy(self.widget):
+            #form property required by objecwidget
+            widget.form = self.widget.form
+            zope.interface.alsoProvides(widget, interfaces.IFormAware)
         converter = zope.component.getMultiAdapter((field, widget),
             interfaces.IDataConverter)
 
@@ -355,13 +359,24 @@ class MultiConverter(BaseDataConverter):
         return [converter.toWidgetValue(v) for v in value]
 
     def toFieldValue(self, value):
-        """See interfaces.IDataConverter"""
-        collectionType = self.field._type
+        """Just dispatch it."""
         if not len(value):
             return self.field.missing_value
-        valueType = self.field.value_type._type
-        values = [valueType(v) for v in value]
+
+        field = self.field.value_type
+        widget = zope.component.getMultiAdapter((field, self.widget.request),
+            interfaces.IFieldWidget)
+        if interfaces.IFormAware.providedBy(self.widget):
+            #form property required by objecwidget
+            widget.form = self.widget.form
+            zope.interface.alsoProvides(widget, interfaces.IFormAware)
+        converter = zope.component.getMultiAdapter((field, widget),
+            interfaces.IDataConverter)
+
+        values = [converter.toFieldValue(v) for v in value]
+
         # convert the field values to a tuple or list
+        collectionType = self.field._type
         return collectionType(values)
 
 

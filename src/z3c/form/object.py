@@ -143,21 +143,25 @@ class ObjectConverter(BaseDataConverter):
         return obj
 
     def toFieldValue(self, value):
-        """See interfaces.IDataConverter"""
+        """field value is an Object type, that provides field.schema"""
         if value is interfaces.NOVALUE:
             return self.field.missing_value
 
-        if self.widget.subform.ignoreContext:
+        if self.widget.subform is None:
+            #creepy situation when the widget is hanging in nowhere
             obj = self.createObject(value)
         else:
-            dm = zope.component.getMultiAdapter(
-                (self.widget.context, self.field), interfaces.IDataManager)
-            try:
-                obj = dm.get()
-            except KeyError:
+            if self.widget.subform.ignoreContext:
                 obj = self.createObject(value)
-            except AttributeError:
-                obj = self.createObject(value)
+            else:
+                dm = zope.component.getMultiAdapter(
+                    (self.widget.context, self.field), interfaces.IDataManager)
+                try:
+                    obj = dm.get()
+                except KeyError:
+                    obj = self.createObject(value)
+                except AttributeError:
+                    obj = self.createObject(value)
 
         obj = self.field.schema(obj)
 
@@ -227,11 +231,14 @@ class ObjectWidget(widget.Widget):
     def value():
         """This invokes updateWidgets on any value change e.g. update/extract."""
         def get(self):
-            return self.extract(setErrors=True)
-            #value = {}
-            #for name in zope.schema.getFieldNames(self.field.schema):
-            #    value[name] = self.subform.widgets[name].value
-            #return value
+            #value (get) cannot raise an exception, then we return insane values
+            try:
+                return self.extract(setErrors=True)
+            except MultipleErrors:
+                value = {}
+                for name in zope.schema.getFieldNames(self.field.schema):
+                    value[name] = self.subform.widgets[name].value
+                return value
         def set(self, value):
             self._value = value
             # ensure that we apply our new values to the widgets
@@ -341,8 +348,11 @@ class FactoryAdapter(object):
     """Most basic-default object factory adapter"""
 
     zope.interface.implements(interfaces.IObjectFactory)
-    zope.component.adapts(zope.interface.Interface, interfaces.IFormLayer,
-        interfaces.IForm, interfaces.IWidget)
+    zope.component.adapts(
+        zope.interface.Interface, #context
+        interfaces.IFormLayer,    #request
+        zope.interface.Interface, #form -- but can become None easily (in tests)
+        interfaces.IWidget)       #widget
 
     factory = None
 

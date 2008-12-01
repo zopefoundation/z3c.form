@@ -194,6 +194,10 @@ a new value:
   ...                                    'widget.name.1':u'43',
   ...                                    'widget.buttons.add':'Add'})
   >>> widget.update()
+
+  >>> widget.extract()
+  [u'42', u'43']
+
   >>> print widget.render()
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
@@ -274,6 +278,10 @@ Now let's store the new value:
   ...                                    'widget.name.1':u'43',
   ...                                    'widget.name.2':u'44'})
   >>> widget.update()
+
+  >>> widget.extract()
+  [u'42', u'43', u'44']
+
   >>> print widget.render()
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
@@ -358,6 +366,12 @@ remove an existing value:
   ...                                    'widget.name.1.remove':u'1',
   ...                                    'widget.buttons.remove':'Remove'})
   >>> widget.update()
+
+This is good so, because the Remove is an widget-internal submit action
+
+  >>> widget.extract()
+  [u'42', u'43', u'44']
+
   >>> print widget.render()
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
@@ -423,6 +437,10 @@ as input for our internal (sub) widget.
   ...                                    'widget.name.0':u'42',
   ...                                    'widget.name.1':u'bad'})
   >>> widget.update()
+
+  >>> widget.extract()
+  [u'42', u'bad']
+
   >>> print widget.render()
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">

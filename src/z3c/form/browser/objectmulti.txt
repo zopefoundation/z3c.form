@@ -1,0 +1,936 @@
+===================
+Multi+Object Widget
+===================
+
+The multi widget allows you to add and edit one or more values.
+
+In order to not overwhelm you with our set of well-chosen defaults,
+all the default component registrations have been made prior to doing those
+examples:
+
+  >>> from z3c.form import testing
+  >>> testing.setupFormDefaults()
+
+As for all widgets, the multi widget must provide the new ``IWidget``
+interface:
+
+  >>> from zope.interface.verify import verifyClass
+  >>> from z3c.form import interfaces
+  >>> from z3c.form.browser import multi
+
+  >>> verifyClass(interfaces.IWidget, multi.MultiWidget)
+  True
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+  >>> widget = multi.MultiWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+
+We also need to register the template for at least the widget and request:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('multi_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IMultiWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+For the next test, we need to setup our button handler adapters.
+
+  >>> from z3c.form import button
+  >>> zope.component.provideAdapter(button.ButtonActions)
+  >>> zope.component.provideAdapter(button.ButtonActionHandler)
+  >>> zope.component.provideAdapter(button.ButtonAction,
+  ...     provides=interfaces.IButtonAction)
+
+Our submit buttons will need a template as well:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('submit_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ISubmitWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+We can now render the widget:
+
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="0" />
+
+As you can see the widget is empty and doesn't provide values. This is because
+the widget does not know what sub-widgets to display. So let's register a
+`IFieldWidget` adapter and a template for our `IInt` field:
+
+  >>> import z3c.form.interfaces
+  >>> from z3c.form.browser.text import TextFieldWidget
+  >>> zope.component.provideAdapter(TextFieldWidget,
+  ...     (zope.schema.interfaces.IInt, z3c.form.interfaces.IFormLayer))
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('text_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ITextWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+Let's now update the widget and check it again.
+
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="0" />
+
+It's still the same. Since the widget doesn't provide a field nothing useful
+gets rendered. Now let's define a field for this widget and check it again:
+
+  >>> from z3c.form.widget import FieldWidget
+
+  >>> from z3c.form.testing import IMySubObject
+  >>> from z3c.form.testing import IMySecond
+  >>> from z3c.form.testing import MySubObject
+  >>> from z3c.form.testing import MySecond
+
+  >>> from z3c.form.object import registerFactoryAdapter
+  >>> registerFactoryAdapter(IMySubObject, MySubObject)
+
+  >>> field = zope.schema.List(
+  ...     __name__='foo',
+  ...     value_type=zope.schema.Object(title=u'my object widget',
+  ...                                   schema=IMySubObject),
+  ...     )
+
+  >>> widget = FieldWidget(field, widget)
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget required">
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove" />
+     </div>
+  </div>
+  <input type="hidden" name="foo.count" value="0" />
+
+As you can see, there is still no input value. Let's provide some values for
+this widget. Before we can do that, we will need to register a data converter
+for our multi widget and the data converter dispatcher adapter:
+
+  >>> from z3c.form.converter import IntegerDataConverter
+  >>> from z3c.form.converter import FieldWidgetDataConverter
+  >>> from z3c.form.converter import MultiConverter
+  >>> from z3c.form.validator import SimpleFieldValidator
+  >>> zope.component.provideAdapter(IntegerDataConverter)
+  >>> zope.component.provideAdapter(FieldWidgetDataConverter)
+  >>> zope.component.provideAdapter(SimpleFieldValidator)
+  >>> zope.component.provideAdapter(MultiConverter)
+
+Bunch of adapters to get objectwidget work:
+
+  >>> from z3c.form import datamanager
+  >>> zope.component.provideAdapter(datamanager.DictionaryField)
+
+  >>> import z3c.form.browser.object
+  >>> zope.component.provideAdapter(z3c.form.browser.object.ObjectFieldWidget)
+  >>> import z3c.form.object
+  >>> zope.component.provideAdapter(z3c.form.object.ObjectConverter)
+  >>> import z3c.form.error
+  >>> zope.component.provideAdapter(z3c.form.error.ValueErrorViewSnippet)
+  >>> from z3c.form.object import SubformAdapter
+  >>> zope.component.provideAdapter(SubformAdapter)
+
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('object_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IObjectWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('object_display.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IObjectWidget),
+  ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
+
+  >>> widget.update()
+
+  >>> widget.value = [dict(foofield=42, barfield=666),
+  ...     dict(foofield=789, barfield=321)]
+
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>my object widget</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input id="foo-0-remove"
+                     name="foo.0.remove"
+                     class="multi-widget-checkbox checkbox-widget"
+                     type="checkbox" value="1" />
+            </div>
+            <div class="multi-widget-input">
+              <div class="object-widget required">
+                <div class="label">
+                  <label for="foo-0-widgets-foofield">
+                    <span>My foo field</span>
+                    <span class="required">*</span>
+                  </label>
+                </div>
+                <div class="widget">
+                    <input id="foo-0-widgets-foofield"
+                           name="foo.0.widgets.foofield"
+                           class="text-widget required int-field" value="42"
+                           type="text" />
+                </div>
+                <div class="label">
+                  <label for="foo-0-widgets-barfield">
+                    <span>My dear bar</span>
+                  </label>
+                </div>
+                <div class="widget">
+                    <input id="foo-0-widgets-barfield"
+                           name="foo.0.widgets.barfield"
+                           class="text-widget int-field" value="666"
+                           type="text" />
+                </div>
+                <input name="foo.0-empty-marker" type="hidden"
+                       value="1" />
+              </div>
+            </div>
+          </div>
+      </div>
+      <div id="foo-1-row" class="row">
+          <div class="label">
+            <label for="foo-1">
+              <span>my object widget</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input id="foo-1-remove"
+                     name="foo.1.remove"
+                     class="multi-widget-checkbox checkbox-widget"
+                     type="checkbox" value="1" />
+            </div>
+            <div class="multi-widget-input">
+              <div class="object-widget required">
+                <div class="label">
+                  <label for="foo-1-widgets-foofield">
+                    <span>My foo field</span>
+                    <span class="required">*</span>
+                  </label>
+                </div>
+                <div class="widget">
+                  <input id="foo-1-widgets-foofield"
+                         name="foo.1.widgets.foofield"
+                         class="text-widget required int-field"
+                         value="789" type="text" />
+                </div>
+                <div class="label">
+                  <label for="foo-1-widgets-barfield">
+                    <span>My dear bar</span>
+                  </label>
+                </div>
+                <div class="widget">
+                    <input id="foo-1-widgets-barfield"
+                           name="foo.1.widgets.barfield"
+                           class="text-widget int-field" value="321"
+                           type="text" />
+                </div>
+                <input name="foo.1-empty-marker" type="hidden"
+                       value="1" />
+              </div>
+            </div>
+          </div>
+      </div>
+    <div class="buttons">
+      <input id="widget-buttons-add" name="widget.buttons.add"
+             class="submit-widget button-field" value="Add"
+             type="submit" />
+      <input id="widget-buttons-remove"
+             name="widget.buttons.remove"
+             class="submit-widget button-field" value="Remove"
+             type="submit" />
+    </div>
+  </div>
+  <input type="hidden" name="foo.count" value="2" />
+
+Let's see what we get on value extraction:
+
+  >>> widget.extract()
+  <NOVALUE>
+
+If we now click on the ``Add`` button, we will get a new input field for enter
+a new value:
+
+  >>> widget.request = TestRequest(form={'foo.count':u'2',
+  ...                                    'foo.0.widgets.foofield':u'42',
+  ...                                    'foo.0.widgets.barfield':u'666',
+  ...                                    'foo.0-empty-marker':u'1',
+  ...                                    'foo.1.widgets.foofield':u'789',
+  ...                                    'foo.1.widgets.barfield':u'321',
+  ...                                    'foo.1-empty-marker':u'1',
+  ...                                    'widget.buttons.add':'Add'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget required">
+    <div class="row" id="foo-0-row">
+      <div class="label">
+        <label for="foo-0">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget"
+                 id="foo-0-remove"
+                 name="foo.0.remove"
+                 type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-0-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field"
+                     id="foo-0-widgets-foofield"
+                     name="foo.0.widgets.foofield"
+                     type="text" value="42">
+            </div>
+            <div class="label">
+              <label for="foo-0-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field"
+                     id="foo-0-widgets-barfield"
+                     name="foo.0.widgets.barfield"
+                     type="text" value="666">
+            </div>
+            <input name="foo.0-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="foo-1-row">
+      <div class="label">
+        <label for="foo-1">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget"
+                 id="foo-1-remove"
+                 name="foo.1.remove"
+                 type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-1-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field"
+                     id="foo-1-widgets-foofield"
+                     name="foo.1.widgets.foofield"
+                     type="text" value="789">
+            </div>
+            <div class="label">
+              <label for="foo-1-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field"
+                     id="foo-1-widgets-barfield"
+                     name="foo.1.widgets.barfield"
+                     type="text" value="321">
+            </div>
+            <input name="foo.1-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="foo-2-row">
+      <div class="label">
+        <label for="foo-2">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget"
+                 id="foo-2-remove"
+                 name="foo.2.remove"
+                 type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-2-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field"
+                     id="foo-2-widgets-foofield"
+                     name="foo.2.widgets.foofield"
+                     type="text" value="1,111">
+            </div>
+            <div class="label">
+              <label for="foo-2-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field"
+                     id="foo-2-widgets-barfield"
+                     name="foo.2.widgets.barfield"
+                     type="text" value="2,222">
+            </div>
+            <input name="foo.2-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <input id="widget-buttons-add" name="widget.buttons.add"
+             class="submit-widget button-field" value="Add"
+             type="submit" />
+      <input id="widget-buttons-remove"
+             name="widget.buttons.remove"
+             class="submit-widget button-field" value="Remove"
+             type="submit" />
+    </div>
+  </div>
+  <input name="foo.count" type="hidden" value="3">
+
+Let's see what we get on value extraction:
+
+  >>> value = widget.extract()
+  >>> value
+  [{'foofield': 42, 'barfield': 666}, {'foofield': 789, 'barfield': 321}]
+  >>> converter = interfaces.IDataConverter(widget)
+
+  >>> value = converter.toFieldValue(value)
+  >>> value
+  [<z3c.form.testing.MySubObject object at ...>,
+  <z3c.form.testing.MySubObject object at ...>]
+
+  >>> value[0].foofield
+  42
+  >>> value[0].barfield
+  666
+
+
+Now let's store the new value:
+
+
+  >>> widget.request = TestRequest(form={'foo.count':u'3',
+  ...                                    'foo.0.widgets.foofield':u'42',
+  ...                                    'foo.0.widgets.barfield':u'666',
+  ...                                    'foo.0-empty-marker':u'1',
+  ...                                    'foo.1.widgets.foofield':u'789',
+  ...                                    'foo.1.widgets.barfield':u'321',
+  ...                                    'foo.1-empty-marker':u'1',
+  ...                                    'foo.2.widgets.foofield':u'46',
+  ...                                    'foo.2.widgets.barfield':u'98',
+  ...                                    'foo.2-empty-marker':u'1',
+  ...                                    })
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget required">
+    <div class="row" id="foo-0-row">
+      <div class="label">
+        <label for="foo-0">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove" name="foo.0.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-0-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-0-widgets-foofield" name="foo.0.widgets.foofield" type="text" value="42">
+            </div>
+            <div class="label">
+              <label for="foo-0-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-0-widgets-barfield" name="foo.0.widgets.barfield" type="text" value="666">
+            </div>
+            <input name="foo.0-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="foo-1-row">
+      <div class="label">
+        <label for="foo-1">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove" name="foo.1.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-1-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-1-widgets-foofield" name="foo.1.widgets.foofield" type="text" value="789">
+            </div>
+            <div class="label">
+              <label for="foo-1-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-1-widgets-barfield" name="foo.1.widgets.barfield" type="text" value="321">
+            </div>
+            <input name="foo.1-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="foo-2-row">
+      <div class="label">
+        <label for="foo-2">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-2-remove" name="foo.2.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-2-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-2-widgets-foofield" name="foo.2.widgets.foofield" type="text" value="46">
+            </div>
+            <div class="label">
+              <label for="foo-2-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-2-widgets-barfield" name="foo.2.widgets.barfield" type="text" value="98">
+            </div>
+            <input name="foo.2-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+    </div>
+  </div>
+  <input name="foo.count" type="hidden" value="3">
+
+Let's see what we get on value extraction:
+
+  >>> value = widget.extract()
+  >>> value
+  [{'foofield': 42, 'barfield': 666},
+  {'foofield': 789, 'barfield': 321},
+  {'foofield': 46, 'barfield': 98}]
+  >>> converter = interfaces.IDataConverter(widget)
+
+  >>> value = converter.toFieldValue(value)
+  >>> value
+  [<z3c.form.testing.MySubObject object at ...>,
+  <z3c.form.testing.MySubObject object at ...>]
+
+  >>> value[0].foofield
+  42
+  >>> value[0].barfield
+  666
+
+
+As you can see in the above sample, the new stored value gets rendered as a
+real value and the new adding value input field is gone. Now let's try to
+remove an existing value:
+
+  >>> widget.request = TestRequest(form={'foo.count':u'3',
+  ...                                    'foo.0.widgets.foofield':u'42',
+  ...                                    'foo.0.widgets.barfield':u'666',
+  ...                                    'foo.0-empty-marker':u'1',
+  ...                                    'foo.1.widgets.foofield':u'789',
+  ...                                    'foo.1.widgets.barfield':u'321',
+  ...                                    'foo.1-empty-marker':u'1',
+  ...                                    'foo.2.widgets.foofield':u'46',
+  ...                                    'foo.2.widgets.barfield':u'98',
+  ...                                    'foo.2-empty-marker':u'1',
+  ...                                    'foo.1.remove':u'1',
+  ...                                    'widget.buttons.remove':'Remove'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget required">
+    <div class="row" id="foo-0-row">
+      <div class="label">
+        <label for="foo-0">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove" name="foo.0.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-0-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-0-widgets-foofield" name="foo.0.widgets.foofield" type="text" value="42">
+            </div>
+            <div class="label">
+              <label for="foo-0-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-0-widgets-barfield" name="foo.0.widgets.barfield" type="text" value="666">
+            </div>
+            <input name="foo.0-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="foo-2-row">
+      <div class="label">
+        <label for="foo-2">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-2-remove" name="foo.2.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-2-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-2-widgets-foofield" name="foo.2.widgets.foofield" type="text" value="46">
+            </div>
+            <div class="label">
+              <label for="foo-2-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-2-widgets-barfield" name="foo.2.widgets.barfield" type="text" value="98">
+            </div>
+            <input name="foo.2-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+    </div>
+  </div>
+  <input name="foo.count" type="hidden" value="2">
+
+Let's see what we get on value extraction:
+(this is good so, because Remove is a widget-internal submit)
+
+  >>> value = widget.extract()
+  >>> value
+  [{'foofield': 42, 'barfield': 666},
+  {'foofield': 789, 'barfield': 321},
+  {'foofield': 46, 'barfield': 98}]
+  >>> converter = interfaces.IDataConverter(widget)
+
+  >>> value = converter.toFieldValue(value)
+  >>> value
+  [<z3c.form.testing.MySubObject object at ...>,
+  <z3c.form.testing.MySubObject object at ...>]
+
+  >>> value[0].foofield
+  42
+  >>> value[0].barfield
+  666
+
+
+Error handling is next. Let's use the value "bad" (an invalid integer literal)
+as input for our internal (sub) widget.
+
+  >>> from z3c.form.error import ErrorViewSnippet
+  >>> from z3c.form.error import StandardErrorViewTemplate
+  >>> zope.component.provideAdapter(ErrorViewSnippet)
+  >>> zope.component.provideAdapter(StandardErrorViewTemplate)
+
+  >>> widget.request = TestRequest(form={'foo.count':u'2',
+  ...                                    'foo.0.widgets.foofield':u'42',
+  ...                                    'foo.0.widgets.barfield':u'666',
+  ...                                    'foo.0-empty-marker':u'1',
+  ...                                    'foo.1.widgets.foofield':u'bad',
+  ...                                    'foo.1.widgets.barfield':u'98',
+  ...                                    'foo.1-empty-marker':u'1',
+  ...                                    })
+
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget required">
+    <div class="row" id="foo-0-row">
+      <div class="label">
+        <label for="foo-0">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove" name="foo.0.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-0-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-0-widgets-foofield" name="foo.0.widgets.foofield" type="text" value="42">
+            </div>
+            <div class="label">
+              <label for="foo-0-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-0-widgets-barfield" name="foo.0.widgets.barfield" type="text" value="666">
+            </div>
+            <input name="foo.0-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="foo-1-row">
+      <div class="label">
+        <label for="foo-1">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove" name="foo.1.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-1-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="error">
+              <div class="error">The entered value is not a valid integer literal.</div>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-1-widgets-foofield" name="foo.1.widgets.foofield" type="text" value="bad">
+            </div>
+            <div class="label">
+              <label for="foo-1-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-1-widgets-barfield" name="foo.1.widgets.barfield" type="text" value="98">
+            </div>
+            <input name="foo.1-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+      <div class="error">
+        <div class="error">Object is of wrong type.</div>
+      </div>
+    </div>
+    <div class="buttons">
+      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+    </div>
+  </div>
+  <input name="foo.count" type="hidden" value="2">
+
+Let's see what we get on value extraction:
+
+  >>> value = widget.extract()
+  >>> value
+  [{'foofield': 42, 'barfield': 666},
+  {'foofield': u'bad', 'barfield': u'98'}]
+
+
+Label
+-----
+
+There is an option which allows to disable the label for the (sub) widgets.
+You can set the `showLabel` option to `False` which will skip rendering the
+labels. Alternatively you can also register your own template for your layer
+if you like to skip the label rendering for all widgets.
+
+
+  >>> field = zope.schema.List(
+  ...     __name__='foo',
+  ...     value_type=zope.schema.Object(title=u'ignored_title',
+  ...                                   schema=IMySubObject),
+  ...     )
+  >>> request = TestRequest()
+  >>> widget = multi.MultiWidget(request)
+  >>> widget = FieldWidget(field, widget)
+  >>> widget.value = [dict(foofield=42, barfield=666),
+  ...     dict(foofield=789, barfield=321)]
+  >>> widget.showLabel = False
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget required">
+    <div class="row" id="foo-0-row">
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove" name="foo.0.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-0-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-0-widgets-foofield" name="foo.0.widgets.foofield" type="text" value="42">
+            </div>
+            <div class="label">
+              <label for="foo-0-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-0-widgets-barfield" name="foo.0.widgets.barfield" type="text" value="666">
+            </div>
+            <input name="foo.0-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="foo-1-row">
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove" name="foo.1.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-1-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget required int-field" id="foo-1-widgets-foofield" name="foo.1.widgets.foofield" type="text" value="789">
+            </div>
+            <div class="label">
+              <label for="foo-1-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field" id="foo-1-widgets-barfield" name="foo.1.widgets.barfield" type="text" value="321">
+            </div>
+            <input name="foo.1-empty-marker" type="hidden" value="1">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+    </div>
+  </div>
+  <input name="foo.count" type="hidden" value="2">

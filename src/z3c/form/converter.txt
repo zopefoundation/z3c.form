@@ -432,7 +432,7 @@ By default the converter converts missing input to the ``NOT_CHANGED`` value:
 This allows machinery later to ignore the field without sending all the data
 around.
 
-If we get an emtpy filename in a ``FileUpload`` obejct, we also get the
+If we get an empty filename in a ``FileUpload`` obejct, we also get the
 ``missing_value``. But this really means that there was an error somewhere in
 the upload, since you are normaly not able to upload a file without a filename:
 

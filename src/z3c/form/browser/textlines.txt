@@ -40,7 +40,7 @@ We also need to register the template for at least the widget and request:
   ...     (None, None, None, None, interfaces.ITextLinesWidget),
   ...     IPageTemplate, name=interfaces.INPUT_MODE)
 
-If we render the widget we get an emtpy textarea widget:
+If we render the widget we get an empty textarea widget:
 
   >>> print widget.render()
   <textarea id="id" name="name" class="textarea-widget"></textarea>

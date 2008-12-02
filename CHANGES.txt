@@ -5,6 +5,11 @@ CHANGES
 Version 2.0.0 (2008-??-??)
 --------------------------
 
+- Fix: IMPORTANT - the signature of z3c.form.util.extractFileName function changed
+  because of spelling mistake fix in argument name. The ``allowEmtpyPostFix`` is
+  now called ``allowEmptyPostfix`` (note ``Empty`` instead of ``Emtpy`` and
+  ``Postfix`` instead of ``PostFix``).
+
 - Changes: around objectwidget
   - zcml objectWidgetTemplate to be able to register widget templates for
     specific field schemas

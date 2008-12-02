@@ -88,7 +88,7 @@ If the widget is not found but the prefix is correct, ``None`` is returned:
   True
 
 
-``extractFileName(form, id, cleanup=True, allowEmtpyPostFix=False)`` Function
+``extractFileName(form, id, cleanup=True, allowEmptyPostfix=False)`` Function
 -----------------------------------------------------------------------------
 
 Test the filename extraction method:
@@ -177,17 +177,17 @@ content type for filenames without extensions:
 
   >>> uploadForm.setFakeFileName(u'minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
-  ...     allowEmtpyPostFix=True)
+  ...     allowEmptyPostfix=True)
   u'minimal'
 
   >>> uploadForm.setFakeFileName(u'/tmp/minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
-  ...     allowEmtpyPostFix=True)
+  ...     allowEmptyPostfix=True)
   u'minimal'
 
   >>> uploadForm.setFakeFileName(u'D:\\some\\folder\\minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
-  ...     allowEmtpyPostFix=True)
+  ...     allowEmptyPostfix=True)
   u'minimal'
 
 There will be a ValueError if we get a empty filename by default:

@@ -41,7 +41,7 @@ We also need to register the template for at least the widget and request:
   ...     (None, None, None, None, interfaces.ISelectWidget),
   ...     IPageTemplate, name=interfaces.INPUT_MODE)
 
-If we render the widget we get an emtpy widget:
+If we render the widget we get an empty widget:
 
   >>> print widget.render()
   <select id="widget-id" name="widget.name:list"

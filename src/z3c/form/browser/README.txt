@@ -606,11 +606,11 @@ List - ASCII
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -675,11 +675,11 @@ List - ASCIILine
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -811,11 +811,11 @@ List - Date
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -881,11 +881,11 @@ List - Datetime
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -949,11 +949,11 @@ List - Decimal
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1018,11 +1018,11 @@ List - DottedName
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1086,11 +1086,11 @@ List - Float
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1155,11 +1155,11 @@ List - Id
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1222,11 +1222,11 @@ List - Int
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1289,11 +1289,11 @@ List - Password
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1356,11 +1356,11 @@ List - SourceText
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1425,11 +1425,11 @@ List - Text
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1494,11 +1494,11 @@ List - TextLine
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1561,11 +1561,11 @@ List - Time
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1630,11 +1630,11 @@ List - Timedelta
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1699,11 +1699,11 @@ List - URI
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -1941,11 +1941,11 @@ Tuple - ASCII
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2010,11 +2010,11 @@ Tuple - ASCIILine
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2146,11 +2146,11 @@ Tuple - Date
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2216,11 +2216,11 @@ Tuple - Datetime
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2284,11 +2284,11 @@ Tuple - Decimal
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2353,11 +2353,11 @@ Tuple - DottedName
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2421,11 +2421,11 @@ Tuple - Float
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2490,11 +2490,11 @@ Tuple - Id
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2557,11 +2557,11 @@ Tuple - Int
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2624,11 +2624,11 @@ Tuple - Password
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2691,11 +2691,11 @@ Tuple - SourceText
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2760,11 +2760,11 @@ Tuple - Text
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2829,11 +2829,11 @@ Tuple - TextLine
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2896,11 +2896,11 @@ Tuple - Time
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -2965,11 +2965,11 @@ Tuple - Timedelta
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -3034,11 +3034,11 @@ Tuple - URI
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="bar-buttons-add"
+         name="bar.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="bar-buttons-remove"
+         name="bar.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>

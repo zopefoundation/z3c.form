@@ -44,6 +44,8 @@ class MultiWidget(HTMLSelectWidget, widget.MultiWidget, FormMixin):
     items = ()
 
     def updateActions(self):
+        if self.name is not None:
+            self.prefix = self.name
         self.actions = zope.component.getMultiAdapter(
             (self, self.request, self), interfaces.IActions)
         self.actions.update()

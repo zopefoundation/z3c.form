@@ -65,11 +65,11 @@ We can now render the widget:
   >>> print widget.render()
   <div class="multi-widget">
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -95,11 +95,11 @@ Let's now update the widget and check it again.
   >>> print widget.render()
   <div class="multi-widget">
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -129,11 +129,11 @@ gets rendered. Now let's define a field for this widget and check it again:
   >>> print widget.render()
   <div class="multi-widget required">
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="foo-buttons-add"
+         name="foo.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="foo-buttons-remove"
+         name="foo.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -278,11 +278,11 @@ Bunch of adapters to get objectwidget work:
           </div>
       </div>
     <div class="buttons">
-      <input id="widget-buttons-add" name="widget.buttons.add"
+      <input id="foo-buttons-add" name="foo.buttons.add"
              class="submit-widget button-field" value="Add"
              type="submit" />
-      <input id="widget-buttons-remove"
-             name="widget.buttons.remove"
+      <input id="foo-buttons-remove"
+             name="foo.buttons.remove"
              class="submit-widget button-field" value="Remove"
              type="submit" />
     </div>
@@ -304,7 +304,7 @@ a new value:
   ...                                    'foo.1.widgets.foofield':u'789',
   ...                                    'foo.1.widgets.barfield':u'321',
   ...                                    'foo.1-empty-marker':u'1',
-  ...                                    'widget.buttons.add':'Add'})
+  ...                                    'foo.buttons.add':'Add'})
   >>> widget.update()
   >>> print widget.render()
   <div class="multi-widget required">
@@ -441,11 +441,11 @@ a new value:
       </div>
     </div>
     <div class="buttons">
-      <input id="widget-buttons-add" name="widget.buttons.add"
+      <input id="foo-buttons-add" name="foo.buttons.add"
              class="submit-widget button-field" value="Add"
              type="submit" />
-      <input id="widget-buttons-remove"
-             name="widget.buttons.remove"
+      <input id="foo-buttons-remove"
+             name="foo.buttons.remove"
              class="submit-widget button-field" value="Remove"
              type="submit" />
     </div>
@@ -593,8 +593,8 @@ Now let's store the new value:
       </div>
     </div>
     <div class="buttons">
-      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="3">
@@ -634,7 +634,7 @@ remove an existing value:
   ...                                    'foo.2.widgets.barfield':u'98',
   ...                                    'foo.2-empty-marker':u'1',
   ...                                    'foo.1.remove':u'1',
-  ...                                    'widget.buttons.remove':'Remove'})
+  ...                                    'foo.buttons.remove':'Remove'})
   >>> widget.update()
   >>> print widget.render()
   <div class="multi-widget required">
@@ -709,8 +709,8 @@ remove an existing value:
       </div>
     </div>
     <div class="buttons">
-      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">
@@ -833,8 +833,8 @@ as input for our internal (sub) widget.
       </div>
     </div>
     <div class="buttons">
-      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">
@@ -929,8 +929,8 @@ if you like to skip the label rendering for all widgets.
       </div>
     </div>
     <div class="buttons">
-      <input class="submit-widget button-field" id="widget-buttons-add" name="widget.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="widget-buttons-remove" name="widget.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">

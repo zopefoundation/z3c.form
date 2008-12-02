@@ -58,11 +58,11 @@ We can now render the widget:
   >>> print widget.render()
   <div class="multi-widget">
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -88,11 +88,11 @@ Let's now update the widget and check it again.
   >>> print widget.render()
   <div class="multi-widget">
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -110,11 +110,11 @@ gets rendered. Now let's define a field for this widget and check it again:
   >>> print widget.render()
   <div class="multi-widget">
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -176,11 +176,11 @@ for our multi widget and the data converter dispatcher adapter:
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -192,7 +192,7 @@ a new value:
   >>> widget.request = TestRequest(form={'widget.name.count':u'2',
   ...                                    'widget.name.0':u'42',
   ...                                    'widget.name.1':u'43',
-  ...                                    'widget.buttons.add':'Add'})
+  ...                                    'widget.name.buttons.add':'Add'})
   >>> widget.update()
 
   >>> widget.extract()
@@ -261,11 +261,11 @@ a new value:
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -345,11 +345,11 @@ Now let's store the new value:
           </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -364,7 +364,7 @@ remove an existing value:
   ...                                    'widget.name.1':u'43',
   ...                                    'widget.name.2':u'44',
   ...                                    'widget.name.1.remove':u'1',
-  ...                                    'widget.buttons.remove':'Remove'})
+  ...                                    'widget.name.buttons.remove':'Remove'})
   >>> widget.update()
 
 This is good so, because the Remove is an widget-internal submit action
@@ -415,11 +415,11 @@ This is good so, because the Remove is an widget-internal submit action
         </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>
@@ -488,11 +488,11 @@ as input for our internal (sub) widget.
           </div>
       </div>
     <div class="buttons">
-      <input type="submit" id="widget-buttons-add"
-         name="widget.buttons.add"
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-buttons-remove"
-         name="widget.buttons.remove"
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
          class="submit-widget button-field" value="Remove" />
      </div>
   </div>

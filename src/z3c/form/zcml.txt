@@ -107,6 +107,147 @@ immediately:
       ConfigurationError: ('No such file', '...unknown.pt')
 
 
+Object Widget template directive
+--------------------------------
+
+Show how we can use the objectwidget template directive.
+
+The big difference between the 'simple' Widget template and the Object Widget
+directive is that the Object Widget template takes the field's schema into
+account. That makes it easy to register different widget templates for different
+sub-schemas. You can use this together with SubformAdapter to get a totally
+custom subwidget.
+
+We need a custom widget template
+
+  >>> file = os.path.join(temp_dir, 'widget.pt')
+  >>> open(file, 'w').write('''
+  ... <html xmlns="http://www.w3.org/1999/xhtml"
+  ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
+  ...       tal:omit-tag="">
+  ...    <div class="object-widget" tal:attributes="class view/klass">
+  ...    yeah, this can get comlex
+  ...    </div>
+  ... </html>
+  ... ''')
+
+and a interface
+
+  >>> class IMyObjectWidget(interfaces.IObjectWidget):
+  ...     """My objectwidget interface."""
+
+and a widget class:
+
+  >>> from z3c.form.browser import object
+  >>> class MyObjectWidget(object.ObjectWidget):
+  ...     zope.interface.implements(IMyObjectWidget)
+  >>> request = TestRequest()
+  >>> myObjectWidget = MyObjectWidget(request)
+
+  >>> from z3c.form.testing import IMySubObject
+  >>> import zope.schema
+  >>> field = zope.schema.Object(
+  ...     __name__='subobject',
+  ...     title=u'my object widget',
+  ...     schema=IMySubObject)
+  >>> myObjectWidget.field = field
+
+Make them available under the fake package ``custom``:
+
+  >>> sys.modules['custom'] = type(
+  ...     'Module', (),
+  ...     {'IMyObjectWidget': IMyObjectWidget})()
+
+and register them as a widget template within the ``z3c:objectWidgetTemplate``
+directive:
+
+  >>> context = xmlconfig.string("""
+  ... <configure
+  ...     xmlns:z3c="http://namespaces.zope.org/z3c">
+  ...   <z3c:objectWidgetTemplate
+  ...       template="%s"
+  ...       widget="custom.IMyObjectWidget"
+  ...       />
+  ... </configure>
+  ... """ % file, context=context)
+
+Let's get the template
+
+  >>> template = zope.component.queryMultiAdapter((None, request, None, None,
+  ...     myObjectWidget, None), interface=IPageTemplate, name='input')
+
+and check it:
+
+  >>> isinstance(template, ViewPageTemplateFile)
+  True
+
+Let's use the template within the widget.
+
+  >>> print template(myObjectWidget)
+  <div class="object-widget">yeah, this can get comlex</div>
+
+We normally render the widget which returns the registered template.
+
+  >>> print myObjectWidget.render()
+  <div class="object-widget">yeah, this can get comlex</div>
+
+If the template does not exist, then the widget directive should fail
+immediately:
+
+  >>> unknownFile = os.path.join(temp_dir, 'unknown.pt')
+  >>> context = xmlconfig.string("""
+  ... <configure
+  ...     xmlns:z3c="http://namespaces.zope.org/z3c">
+  ...   <z3c:objectWidgetTemplate
+  ...       template="%s"
+  ...       widget="custom.IMyObjectWidget"
+  ...       />
+  ... </configure>
+  ... """ % unknownFile, context=context)
+  Traceback (most recent call last):
+  ...
+  ZopeXMLConfigurationError: File "<string>", line 4.2-7.8
+      ConfigurationError: ('No such file', '...unknown.pt')
+
+
+Register a specific template for a schema:
+
+We need a custom widget template
+
+  >>> file = os.path.join(temp_dir, 'widgetspec.pt')
+  >>> open(file, 'w').write('''
+  ... <html xmlns="http://www.w3.org/1999/xhtml"
+  ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
+  ...       tal:omit-tag="">
+  ...    <div class="object-widget" tal:attributes="class view/klass">
+  ...    this one is specific
+  ...    </div>
+  ... </html>
+  ... ''')
+
+  >>> context = xmlconfig.string("""
+  ... <configure
+  ...     xmlns:z3c="http://namespaces.zope.org/z3c">
+  ...   <z3c:objectWidgetTemplate
+  ...       template="%s"
+  ...       widget="custom.IMyObjectWidget"
+  ...       schema="z3c.form.testing.IMySubObject"
+  ...       />
+  ... </configure>
+  ... """ % file, context=context)
+
+Let's get the template
+
+  >>> template = zope.component.queryMultiAdapter((None, request, None, None,
+  ...     myObjectWidget, None), interface=IPageTemplate, name='input')
+
+and check it:
+
+  >>> print myObjectWidget.render()
+  <div class="object-widget">this one is specific</div>
+
+
+
 Cleanup
 -------
 

@@ -290,6 +290,7 @@ def makeDummyObject(iface):
     return dummy
 
 ######## special template factory that takes the field.schema into account
+######## used by zcml.py
 
 class ObjectWidgetTemplateFactory(object):
     """Widget template factory."""
@@ -341,9 +342,6 @@ class SubformAdapter(object):
         obj = self.factory(self.context, self.request, self.widget)
         return obj
 
-    def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.__name__)
-
 class FactoryAdapter(object):
     """Most basic-default object factory adapter"""
 
@@ -367,9 +365,6 @@ class FactoryAdapter(object):
         obj = self.factory()
         zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(obj))
         return obj
-
-    def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.__name__)
 
 # XXX: Probably we should offer an register factrory method which allows to
 # use all discriminators e.g. context, request, form, widget as optional

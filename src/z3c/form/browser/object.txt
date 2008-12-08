@@ -27,10 +27,6 @@ examples:
   >>> from z3c.form.testing import MySubObject
   >>> from z3c.form.testing import MySecond
 
-  >>> from z3c.form.object import registerFactoryAdapter
-  >>> registerFactoryAdapter(IMySubObject, MySubObject)
-  >>> registerFactoryAdapter(IMySecond, MySecond)
-
   >>> from z3c.form.object import SubformAdapter
   >>> zope.component.provideAdapter(SubformAdapter)
 
@@ -256,6 +252,18 @@ The marker must stay (we have to modify the same object):
   >>> converter = interfaces.IDataConverter(widget)
 
   >>> value = converter.toFieldValue(wv)
+  Traceback (most recent call last):
+  ...
+  ValueError: No IObjectFactory adapter registered for z3c.form.testing.IMySubObject
+
+We have to register object factory adapters to allow the objectwidget to
+create objects:
+
+  >>> from z3c.form.object import registerFactoryAdapter
+  >>> registerFactoryAdapter(IMySubObject, MySubObject)
+  >>> registerFactoryAdapter(IMySecond, MySecond)
+
+  >>> value = converter.toFieldValue(wv)
   >>> value
   <z3c.form.testing.MySubObject object at ...>
   >>> value.foofield
@@ -270,6 +278,49 @@ This is a different object:
   ...
   AttributeError: 'MySubObject' object has no attribute '__marker__'
 
+
+Setting missing values on the widget works too:
+
+  >>> widget.value = converter.toWidgetValue(field.missing_value)
+
+  >>> widget.update()
+
+Default values get rendered:
+
+  >>> print widget.render()
+  <div class="object-widget required">
+    <div class="label">
+      <label for="subobject-widgets-foofield">
+        <span>My foo field</span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <input id="subobject-widgets-foofield"
+             name="subobject.widgets.foofield"
+             class="text-widget required int-field" value="2" type="text" />
+    </div>
+    <div class="label">
+      <label for="subobject-widgets-barfield">
+        <span>My dear bar</span>
+      </label>
+    </div>
+    <div class="widget">
+      <input id="subobject-widgets-barfield"
+             name="subobject.widgets.barfield"
+             class="text-widget int-field" value="999" type="text" />
+    </div>
+    <input name="subobject-empty-marker" type="hidden" value="1" />
+  </div>
+
+But on the return we get default values back:
+
+  >>> widget.value
+  {'foofield': 2, 'barfield': 999}
+
+  >>> value = converter.toFieldValue(widget.value)
+  >>> value
+  <z3c.form.testing.MySubObject object at ...>
 
 HMMMM.... do we have to test error handling here?
 I'm tempted to leave it out as no widgets seem to do this.

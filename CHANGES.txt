@@ -40,7 +40,7 @@ Version 2.0.0 (2008-??-??)
 - Feature: Allow overriding the "required" widget attribute using IValue adapter
   just like it's done for "label" and "name" attributes.
 
-- Refactoring: Use the ``z3c.pt.compat`` template engine compatibility
+- Refactoring: Use the ``z3c.ptcompat`` template engine compatibility
   layer.
 
 - Feature: Added benchmarking suite demonstrating performance gain

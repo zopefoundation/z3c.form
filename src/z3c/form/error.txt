@@ -99,7 +99,7 @@ Even though message attribute values will solve most of our customization
 needs, sometimes one wishes to register a custom view to have more complex
 views. In this example we wish to register a custom error message:
 
-  >>> from z3c.pt import compat as viewpagetemplatefile
+  >>> from z3c import ptcompat as viewpagetemplatefile
   >>> from z3c.form import tests
 
   >>> class NegativeAgeView(error.ErrorViewSnippet):

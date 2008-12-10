@@ -104,7 +104,7 @@ setup (
         'zope.schema',
         'zope.security',
         'zope.traversing',
-        'z3c.pt.compat >= 0.3',
+        'z3c.ptcompat',
         ],
     dependency_links = ['http://download.zope.org/distribution'],
     zip_safe = False,

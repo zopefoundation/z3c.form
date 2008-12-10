@@ -68,7 +68,7 @@ We define the owner sub-form as we would any other form. The only difference
 is the template, which should not render a form-tag:
 
   >>> import os
-  >>> from z3c.pt import compat as viewpagetemplatefile
+  >>> from z3c import ptcompat as viewpagetemplatefile
   >>> from z3c.form import form, field, tests
 
   >>> templatePath = os.path.dirname(tests.__file__)

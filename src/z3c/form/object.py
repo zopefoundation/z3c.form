@@ -25,7 +25,7 @@ import zope.lifecycleevent
 from zope.security.proxy import removeSecurityProxy
 from zope.pagetemplate.interfaces import IPageTemplate
 
-from z3c.pt import compat as viewpagetemplatefile
+from z3c import ptcompat as viewpagetemplatefile
 from z3c.form.converter import BaseDataConverter
 
 from z3c.form import form, interfaces, util, widget

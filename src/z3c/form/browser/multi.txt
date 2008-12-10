@@ -499,6 +499,184 @@ as input for our internal (sub) widget.
   <input type="hidden" name="widget.name.count" value="2" />
 
 
+
+Displaying
+----------
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+  >>> widget = multi.MultiWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+
+Set the mode to DISPLAY_MODE:
+
+  >>> widget.mode = interfaces.DISPLAY_MODE
+
+We also need to register the template for at least the widget and request:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('multi_display.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IMultiWidget),
+  ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
+
+We can now render the widget:
+
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="multi-widget" id="widget-id"></span>
+
+As you can see the widget is empty and doesn't provide values. This is because
+the widget does not know what sub-widgets to display. So let's register a
+`IFieldWidget` adapter and a template for our `IInt` field:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('text_display.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ITextWidget),
+  ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
+
+Let's now update the widget and check it again.
+
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="multi-widget" id="widget-id"></span>
+
+It's still the same. Since the widget doesn't provide a field nothing useful
+gets rendered. Now let's define a field for this widget and check it again:
+
+  >>> field = zope.schema.List(
+  ...     __name__=u'foo',
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.update()
+  >>> print widget.render()
+  <span class="multi-widget" id="widget-id"></span>
+
+As you can see, there is still no input value. Let's provide some values for
+this widget. Before we can do that, we will need to register a data converter
+for our multi widget and the data converter dispatcher adapter:
+
+  >>> widget.update()
+  >>> widget.value = [u'42', u'43']
+  >>> print widget.render()
+  <span class="multi-widget" id="widget-id">
+    <div class="row" id="widget-id-0-row">
+      <div class="label">
+        <label for="widget-id-0">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-0">42</span>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="widget-id-1-row">
+      <div class="label">
+        <label for="widget-id-1">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-1">43</span>
+        </div>
+      </div>
+    </div>
+  </span>
+
+
+Hidden mode
+-----------
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+  >>> widget = multi.MultiWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+
+Set the mode to HIDDEN_MODE:
+
+  >>> widget.mode = interfaces.HIDDEN_MODE
+
+We also need to register the template for at least the widget and request:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('multi_hidden.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IMultiWidget),
+  ...     IPageTemplate, name=interfaces.HIDDEN_MODE)
+
+We can now render the widget:
+
+  >>> widget.update()
+  >>> print widget.render()
+  <input name="widget.name.count" type="hidden" value="0">
+
+As you can see the widget is empty and doesn't provide values. This is because
+the widget does not know what sub-widgets to display. So let's register a
+`IFieldWidget` adapter and a template for our `IInt` field:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('text_hidden.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ITextWidget),
+  ...     IPageTemplate, name=interfaces.HIDDEN_MODE)
+
+Let's now update the widget and check it again.
+
+  >>> widget.update()
+  >>> print widget.render()
+  <input name="widget.name.count" type="hidden" value="0">
+
+It's still the same. Since the widget doesn't provide a field nothing useful
+gets rendered. Now let's define a field for this widget and check it again:
+
+  >>> field = zope.schema.List(
+  ...     __name__=u'foo',
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.update()
+  >>> print widget.render()
+  <input name="widget.name.count" type="hidden" value="0">
+
+As you can see, there is still no input value. Let's provide some values for
+this widget. Before we can do that, we will need to register a data converter
+for our multi widget and the data converter dispatcher adapter:
+
+  >>> widget.update()
+  >>> widget.value = [u'42', u'43']
+  >>> print widget.render()
+  <input class="hidden-widget"
+         id="widget-id-0" name="widget.name.0" type="hidden" value="42">
+  <input class="hidden-widget"
+         id="widget-id-1" name="widget.name.1" type="hidden" value="43">
+  <input name="widget.name.count" type="hidden" value="2">
+
+
 Label
 -----
 

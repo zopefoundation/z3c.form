@@ -1,0 +1,5 @@
+<tal:block repeat="widget view/subform/widgets/values">
+    <div tal:replace="structure widget/render">
+      <input type="text" size="24" value="" />
+    </div>
+</tal:block>

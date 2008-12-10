@@ -272,6 +272,7 @@ class MultiWidget(Widget):
             interfaces.IFieldWidget)
         widget.name = name
         widget.id = id
+        widget.mode = self.mode
         #set widget.form (objectwidget needs this)
         if interfaces.IFormAware.providedBy(self):
             widget.form = self.form

@@ -1006,6 +1006,51 @@ Simple but often used use-case is the display form:
   </html>
 
 
+Let's see what happens in HIDDEN_MODE:
+(not quite sane thing, but we want to see the objectwidget rendered in hidden
+mode)
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('object_hidden.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IObjectWidget),
+  ...     IPageTemplate, name=interfaces.HIDDEN_MODE)
+
+
+  >>> editform = MyEditForm(root['first'], TestRequest())
+  >>> addTemplate(editform)
+  >>> editform.mode = interfaces.HIDDEN_MODE
+  >>> editform.update()
+
+Note, that the labels and the button is there because the form template for testing
+does/should not care about the form being hidden.
+What matters is that the objectwidget is rendered hidden.
+
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-subobject">my object</label>
+          <input id="form-widgets-subobject-widgets-foofield"
+                 name="form.widgets.subobject.widgets.foofield"
+                 value="666" class="hidden-widget" type="hidden" />
+          <input id="form-widgets-subobject-widgets-barfield"
+                 name="form.widgets.subobject.widgets.barfield"
+                 value="999" class="hidden-widget" type="hidden" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input id="form-widgets-name" name="form.widgets.name"
+                 value="first" class="hidden-widget" type="hidden" />
+        </div>
+        <div class="action">
+         <input id="form-buttons-apply" name="form.buttons.apply"
+                class="submit-widget button-field" value="Apply" type="submit" />
+        </div>
+      </form>
+    </body>
+  </html>
+
 
 
 Editforms might use dicts as context:

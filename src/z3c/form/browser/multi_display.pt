@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      tal:omit-tag="">  
+      tal:omit-tag="">
 <span id="" class=""
       tal:attributes="id view/id;
                       class view/klass;
@@ -16,11 +16,32 @@
                       onmouseout view/onmouseout;
                       onkeypress view/onkeypress;
                       onkeydown view/onkeydown;
-                      onkeyup view/onkeyup"><tal:block
-    tal:repeat="value view/displayValue"
-    ><span class="selected-option"
-           tal:content="value"
-    /><tal:block condition="not:repeat/value/end">, </tal:block
-  ></tal:block
-></span>
+                      onkeyup view/onkeyup">
+  <tal:block repeat="widget view/widgets">
+    <div id="" class="row"
+         tal:attributes="id string:${widget/id}-row"
+         tal:condition="python:widget.mode != 'hidden'">
+      <metal:block define-macro="widget-row">
+        <div class="label" tal:condition="view/showLabel">
+          <label tal:attributes="for widget/id">
+            <span i18n:translate=""
+                tal:content="widget/label">label</span>
+            <span class="required"
+                  tal:condition="widget/required">*</span>
+          </label>
+        </div>
+        <div class="widget">
+          <div class="multi-widget-display"
+               tal:content="structure widget/render">
+            <input size="24" value="" type="text" />
+          </div>
+        </div>
+        <div class="error"
+             tal:condition="widget/error">
+          <span tal:replace="structure widget/error/render">error</span>
+        </div>
+      </metal:block>
+    </div>
+  </tal:block>
+</span>
 </html>

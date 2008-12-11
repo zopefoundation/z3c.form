@@ -77,10 +77,22 @@
 
   <!-- ITerms -->
   <adapter
-      factory=".term.ChoiceTerms"
+      factory=".term.choice_terms_multiplexer"
       />
   <adapter
-      factory=".term.CollectionTerms"
+      factory=".term.ChoiceTermsVocabulary"
+      />
+  <adapter
+      factory=".term.ChoiceTermsSource"
+      />
+  <adapter
+      factory=".term.collection_terms_multiplexer"
+      />
+  <adapter
+      factory=".term.CollectionTermsVocabulary"
+      />
+  <adapter
+      factory=".term.CollectionTermsSource"
       />
   <adapter
       factory=".term.BoolTerms"

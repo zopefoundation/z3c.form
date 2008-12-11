@@ -54,14 +54,14 @@ If we render the widget we only get the empty marker:
   >>> print widget.render()
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
-Let's provide some values for this widget. We can do this by defining a source
-providing ``ITerms``. This source uses descriminators wich will fit for our
-setup.
+Let's provide some values for this widget. We can do this by defining
+a vocabulary providing ``ITerms``. This vocabulary uses descriminators
+wich will fit for our setup.
 
   >>> import zope.schema.interfaces
   >>> from zope.schema.vocabulary import SimpleVocabulary
   >>> import z3c.form.term
-  >>> class MyTerms(z3c.form.term.ChoiceTerms):
+  >>> class MyTerms(z3c.form.term.ChoiceTermsVocabulary):
   ...     def __init__(self, context, request, form, field, widget):
   ...         self.terms = SimpleVocabulary.fromValues(['yes', 'no'])
   >>> zope.component.provideAdapter(z3c.form.term.BoolTerms,

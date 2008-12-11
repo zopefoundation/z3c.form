@@ -501,11 +501,12 @@ This failed, because we did not register an adapter for the terms yet. After
 the adapter is registered, everything should work as expected:
 
   >>> from z3c.form import term
-  >>> zope.component.provideAdapter(term.ChoiceTerms)
+  >>> zope.component.provideAdapter(term.ChoiceTermsVocabulary)
+  >>> zope.component.provideAdapter(term.choice_terms_multiplexer)
 
   >>> seqWidget.update()
   >>> seqWidget.terms
-  <z3c.form.term.ChoiceTerms object at ...>
+  <z3c.form.term.ChoiceTermsVocabulary object at ...>
 
 So that's it. Everything else is the same from then on.
 

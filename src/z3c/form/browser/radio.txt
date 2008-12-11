@@ -8,7 +8,7 @@ The RadioWidget renders a radio input type field e.g. <input type="radio" />
   >>> from z3c.form import interfaces
   >>> from z3c.form.browser import radio
 
-The TextWidget is a widget:
+The RadioWidget is a widget:
 
  >>> verifyClass(interfaces.IWidget, radio.RadioWidget)
   True
@@ -53,11 +53,14 @@ Let's provide some values for this widget. We can do this by defining a source
 providing ITerms. This source uses descriminators wich will fit for our setup.
 
   >>> import zope.schema.interfaces
-  >>> from zope.schema.vocabulary import SimpleVocabulary
   >>> import z3c.form.term
-  >>> class MyTerms(z3c.form.term.ChoiceTerms):
+  >>> from zc.sourcefactory.basic import BasicSourceFactory
+  >>> class YesNoSourceFactory(BasicSourceFactory):
+  ...     def getValues(self):
+  ...         return ['yes', 'no']
+  >>> class MyTerms(z3c.form.term.ChoiceTermsSource):
   ...     def __init__(self, context, request, form, field, widget):
-  ...         self.terms = SimpleVocabulary.fromValues(['yes', 'no'])
+  ...         self.terms = YesNoSourceFactory()
   >>> zope.component.provideAdapter(z3c.form.term.BoolTerms,
   ...     adapts=(zope.interface.Interface,
   ...             interfaces.IFormLayer, zope.interface.Interface,

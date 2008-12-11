@@ -480,12 +480,25 @@ Sequence Data Converter
 
 For widgets and fields that work with choices of a sequence, a special data
 converter is required that works with terms. A prime example is a choice
-field. Before we can use the converter, we have to register the terms adapter:
+field. Before we can use the converter, we have to register some adapters:
 
   >>> from z3c.form import term
-  >>> zope.component.provideAdapter(term.ChoiceTerms)
+  >>> import zc.sourcefactory.browser.source
+  >>> import zc.sourcefactory.browser.token
+  >>> zope.component.provideAdapter(term.ChoiceTermsVocabulary)
+  >>> zope.component.provideAdapter(term.ChoiceTermsSource)
+  >>> zope.component.provideAdapter(term.choice_terms_multiplexer)
+  >>> zope.component.provideAdapter(
+  ...     zc.sourcefactory.browser.source.FactoredTerms)
+  >>> zope.component.provideAdapter(
+  ...     zc.sourcefactory.browser.token.fromInteger)
 
-Let's now create a choice field and a widget:
+The choice fields can be used together with vocabularies and sources.
+
+Using vocabulary
+~~~~~~~~~~~~~~~~
+
+Let's now create a choice field (using a vocabulary) and a widget:
 
   >>> from zope.schema.vocabulary import SimpleVocabulary
 
@@ -542,18 +555,81 @@ An empty list will also cause the missing value to be returned:
   >>> sdv.toFieldValue([])
   'missing'
 
+Using source
+~~~~~~~~~~~~
+
+Let's now create a choice field (using a source) and a widget:
+
+  >>> from zc.sourcefactory.basic import BasicSourceFactory 
+  >>> class GenderSourceFactory(BasicSourceFactory):
+  ...     _mapping = {0: u'male', 1: u'female'}
+  ...     def getValues(self):
+  ...         return self._mapping.keys()
+  ...     def getTitle(self, value):
+  ...         return self._mapping[value]
+  >>> gender_source = zope.schema.Choice(
+  ...     source = GenderSourceFactory())
+
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = gender_source
+
+We now use the field and widget to instantiate the converter:
+
+  >>> sdv = converter.SequenceDataConverter(gender, seqWidget)
+
+We can now convert a real value to a widget value, which will be the term's
+token:
+
+  >>> sdv.toWidgetValue(0)
+  ['0']
+
+The result is always a sequence, since sequence widgets only deal collections
+of values. Of course, we can convert the widget value back to an internal
+value:
+
+  >>> sdv.toFieldValue(['0'])
+  0
+
+Sometimes a field is not required. In those cases, the internalvalue is the
+missing value of the field. The converter interprets that as no value being
+selected:
+
+  >>> gender.missing_value = 'missing'
+
+  >>> sdv.toWidgetValue(gender.missing_value)
+  []
+
+If "no value" has been specified in the widget, the missing value
+of the field is returned:
+
+  >>> sdv.toFieldValue([u'--NOVALUE--'])
+  'missing'
+
+An empty list will also cause the missing value to be returned:
+
+  >>> sdv.toFieldValue([])
+  'missing'
+
 
 Collection Sequence Data Converter
 ----------------------------------
 
 For widgets and fields that work with a sequence of choices, another data
 converter is required that works with terms. A prime example is a list
-field. Before we can use the converter, we have to register the terms adapter:
+field. Before we can use the converter, we have to register the terms adapters:
 
   >>> from z3c.form import term
-  >>> zope.component.provideAdapter(term.CollectionTerms)
+  >>> zope.component.provideAdapter(term.collection_terms_multiplexer)
+  >>> zope.component.provideAdapter(term.CollectionTermsVocabulary)
+  >>> zope.component.provideAdapter(term.CollectionTermsSource)
 
-Let's now create a set field and a widget:
+Collections can also use either vocabularies or sources.
+
+Using vocabulary
+~~~~~~~~~~~~~~~~
+
+Let's now create a list field (using the previously defined field using
+a vocabulary) and a widget:
 
   >>> genders = zope.schema.List(value_type=gender)
   >>> seqWidget = widget.SequenceWidget(TestRequest())
@@ -605,7 +681,7 @@ these cases we use the last entry in the tuple as the type to use:
   set([0])
 
 Getting Terms
-~~~~~~~~~~~~~
++++++++++++++
 
 As an optimization of this converter, the converter actually does not look up
 the terms itself but uses the widget's ``terms`` attribute. If the terms are
@@ -623,7 +699,7 @@ So let's see how this works when getting the widget value:
   ['m']
 
   >>> seqWidget.terms
-  <z3c.form.term.CollectionTerms object ...>
+  <z3c.form.term.CollectionTermsVocabulary object ...>
 
 The same is true when getting the field value:
 
@@ -637,7 +713,88 @@ The same is true when getting the field value:
   set([0])
 
   >>> seqWidget.terms
-  <z3c.form.term.CollectionTerms object ...>
+  <z3c.form.term.CollectionTermsVocabulary object ...>
+
+Using source
+~~~~~~~~~~~~
+
+Let's now create a list field (using the previously defined field using
+a source) and a widget:
+
+  >>> genders_source = zope.schema.List(value_type=gender_source)
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders_source
+
+We now use the field and widget to instantiate the converter:
+
+  >>> csdv = converter.CollectionSequenceDataConverter(
+  ...     genders_source, seqWidget)
+
+We can now convert a real value to a widget value, which will be the term's
+token:
+
+  >>> csdv.toWidgetValue([0])
+  ['0']
+
+The result is always a sequence, since sequence widgets only deal collections
+of values. Of course, we can convert the widget value back to an internal
+value:
+
+  >>> csdv.toFieldValue(['0'])
+  [0]
+
+For some field, like the ``Set``, the collection type is a tuple. Sigh. In
+these cases we use the last entry in the tuple as the type to use:
+
+  >>> genders_source = zope.schema.Set(value_type=gender_source)
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders_source
+
+  >>> csdv = converter.CollectionSequenceDataConverter(
+  ...     genders_source, seqWidget)
+
+  >>> csdv.toWidgetValue(set([0]))
+  ['0']
+
+  >>> csdv.toFieldValue(['0'])
+  set([0])
+
+Getting Terms
++++++++++++++
+
+As an optimization of this converter, the converter actually does not look up
+the terms itself but uses the widget's ``terms`` attribute. If the terms are
+not yet retrieved, the converter will ask the widget to do so when in need.
+
+So let's see how this works when getting the widget value:
+
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders_source
+
+  >>> seqWidget.terms
+
+  >>> csdv = converter.CollectionSequenceDataConverter(
+  ...     genders_source, seqWidget)
+  >>> csdv.toWidgetValue([0])
+  ['0']
+
+  >>> seqWidget.terms
+  <z3c.form.term.CollectionTermsSource object ...>
+
+The same is true when getting the field value:
+
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders_source
+
+  >>> seqWidget.terms
+
+  >>> csdv = converter.CollectionSequenceDataConverter(
+  ...     genders_source, seqWidget)
+  >>> csdv.toFieldValue(['0'])
+  set([0])
+
+  >>> seqWidget.terms
+  <z3c.form.term.CollectionTermsSource object ...>
 
 
 Boolean to Single Checkbox Data Converter

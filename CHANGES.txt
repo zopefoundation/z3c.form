@@ -43,6 +43,10 @@ Version 2.0.0 (2008-??-??)
 - Refactoring: Use the ``z3c.pt.compat`` template engine compatibility
   layer.
 
+- Feature: Added Support for using sources: where is was previosly
+  possible to use a vocabulary it is now also possible to use a
+  source. (Works both for basic and contextual sources.)
+
 - Feature: Added benchmarking suite demonstrating performance gain
   when using ``z3c.pt``.
 

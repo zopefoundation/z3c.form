@@ -15,6 +15,9 @@
 
 $Id$
 """
+
+import zope.browser
+import zope.component
 import zope.schema
 from zope.schema import vocabulary
 
@@ -23,7 +26,7 @@ from z3c.form.i18n import MessageFactory as _
 
 
 class Terms(object):
-    """Base implementationf or custom ITerms."""
+    """Base implementation for custom ITerms."""
 
     zope.interface.implements(interfaces.ITerms)
 
@@ -45,26 +48,93 @@ class Terms(object):
     def __contains__(self, value):
         return self.terms.__contains__(value)
 
+class SourceTerms(Terms):
+    """Base implementation for ITerms using a source instead of a vocabulary."""
 
-class ChoiceTerms(Terms):
-    """ITerms adapter for zope.schema.IChoice based implementations."""
+    zope.interface.implements(interfaces.ITerms)
+
+    def __init__(self, context, request, form, field, source, widget):
+        self.context = context
+        self.request = request
+        self.form = form
+        self.field = field
+        self.widget = widget
+        self.source = source
+        self.terms = zope.component.getMultiAdapter(
+            (self.source, self.request),
+            zope.browser.interfaces.ITerms)
+
+    def getTermByToken(self, token):
+        # This is rather expensive
+        for value in self.source:
+            term = self.getTerm(value)
+            if term.token == token:
+                return term
+
+    def getValue(self, token):
+        return self.terms.getValue(token)
+
+    def __iter__(self):
+        for value in self.source:
+            yield self.terms.getTerm(value)
+
+    def __len__(self):
+        return len(self.source)
+
+    def __contains__(self, value):
+        return value in self.source
+
+
+@zope.interface.implementer(interfaces.ITerms)
+@zope.component.adapter(
+    zope.interface.Interface,
+    interfaces.IFormLayer,
+    zope.interface.Interface,
+    zope.schema.interfaces.IChoice,
+    interfaces.IWidget)
+def choice_terms_multiplexer(context, request, form, field, widget):
+    field = field.bind(context)
+    terms = field.vocabulary
+    return zope.component.queryMultiAdapter(
+        (context, request, form, field, terms, widget),
+        interfaces.ITerms)
+
+
+class ChoiceTermsVocabulary(Terms):
+    """ITerms adapter for zope.schema.IChoice based implementations using 
+    vocabulary."""
 
     zope.component.adapts(
         zope.interface.Interface,
         interfaces.IFormLayer,
         zope.interface.Interface,
         zope.schema.interfaces.IChoice,
+        zope.schema.interfaces.IBaseVocabulary,
         interfaces.IWidget)
 
-    def __init__(self, context, request, form, field, widget):
+    zope.interface.implements(interfaces.ITerms)
+
+    def __init__(self, context, request, form, field, vocabulary, widget):
         self.context = context
         self.request = request
         self.form = form
         self.field = field
         self.widget = widget
-        if field.vocabulary is None:
-            field = field.bind(context)
-        self.terms = field.vocabulary
+        self.terms = vocabulary
+
+
+class ChoiceTermsSource(SourceTerms):
+    "ITerms adapter for zope.schema.IChoice based implementations using source."
+
+    zope.component.adapts(
+        zope.interface.Interface,
+        interfaces.IFormLayer,
+        zope.interface.Interface,
+        zope.schema.interfaces.IChoice,
+        zope.schema.interfaces.IIterableSource,
+        interfaces.IWidget)
+
+    zope.interface.implements(interfaces.ITerms)
 
 
 class BoolTerms(Terms):
@@ -93,21 +163,49 @@ class BoolTerms(Terms):
                               (False, 'false', self.falseLabel)]]
         self.terms = vocabulary.SimpleVocabulary(terms)
 
+@zope.interface.implementer(interfaces.ITerms)
+@zope.component.adapter(
+    zope.interface.Interface,
+    interfaces.IFormLayer,
+    zope.interface.Interface,
+    zope.schema.interfaces.ICollection,
+    interfaces.IWidget)
+def collection_terms_multiplexer(context, request, form, field, widget):
+    terms = field.value_type.bind(context).vocabulary
+    return zope.component.queryMultiAdapter(
+        (context, request, form, field, terms, widget),
+        interfaces.ITerms)
 
-class CollectionTerms(Terms):
-    """ITerms adapter for zope.schema.ICollection based implementations."""
+class CollectionTermsVocabulary(Terms):
+    """ITerms adapter for zope.schema.ICollection based implementations using 
+    vocabulary."""
 
     zope.component.adapts(
         zope.interface.Interface,
         interfaces.IFormLayer,
         zope.interface.Interface,
         zope.schema.interfaces.ICollection,
+        zope.schema.interfaces.IBaseVocabulary,
         interfaces.IWidget)
 
-    def __init__(self, context, request, form, field, widget):
+    def __init__(self, context, request, form, field, vocabulary, widget):
         self.context = context
         self.request = request
         self.form = form
         self.field = field
         self.widget = widget
-        self.terms = field.value_type.bind(self.context).vocabulary
+        self.terms = vocabulary
+
+class CollectionTermsSource(SourceTerms):
+    """ITerms adapter for zope.schema.ICollection based implementations using
+    source."""
+
+    zope.component.adapts(
+        zope.interface.Interface,
+        interfaces.IFormLayer,
+        zope.interface.Interface,
+        zope.schema.interfaces.ICollection,
+        zope.schema.interfaces.IIterableSource,
+        interfaces.IWidget)
+
+    zope.interface.implements(interfaces.ITerms)

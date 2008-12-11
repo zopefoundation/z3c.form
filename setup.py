@@ -82,6 +82,7 @@ setup (
         'setuptools',
         'zope.app.pagetemplate',
         'zope.app.testing',
+        'zope.browser',
         'zope.component',
         'zope.configuration',
         'zope.event',

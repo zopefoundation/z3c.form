@@ -16,11 +16,10 @@
 $Id$
 """
 
+import zope.browser
 import zope.component
 import zope.schema
 from zope.schema import vocabulary
-
-import zope.app.form.browser.interfaces
 
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
@@ -63,7 +62,7 @@ class SourceTerms(Terms):
         self.source = source
         self.terms = zope.component.getMultiAdapter(
             (self.source, self.request),
-            zope.app.form.browser.interfaces.ITerms)
+            zope.browser.interfaces.ITerms)
 
     def getTermByToken(self, token):
         # This is rather expensive

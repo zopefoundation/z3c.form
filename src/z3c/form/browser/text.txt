@@ -54,3 +54,33 @@ Adding some more attributes to the widget will make it display more:
   >>> print widget.render()
   <input type="text" id="id" name="name" class="text-widget"
          style="color: blue" value="value" />
+
+
+Check DISPLAY_MODE:
+
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'text_display.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='display')
+
+  >>> widget.value = u'foobar'
+  >>> widget.style = None
+  >>> widget.mode = interfaces.DISPLAY_MODE
+  >>> print widget.render()
+  <span id="id" class="text-widget">foobar</span>
+
+Check HIDDEN_MODE:
+
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'text_hidden.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='hidden')
+
+  >>> widget.value = u'foobar'
+  >>> widget.mode = interfaces.HIDDEN_MODE
+  >>> print widget.render()
+  <input id="id" name="name" value="foobar" class="hidden-widget" type="hidden" />

@@ -1,18 +1,13 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
      xmlns:tal="http://xml.zope.org/namespaces/tal"
-     tal:omit-tag="">  
-<input id="" name="" value="" class="hidden-widget" size="" alt="" title=""
-       tabindex="" disabled="" readonly="" accesskey="" maxlength=""
-       type="hidden" 
+     tal:omit-tag="">
+<input id="" name="" value="" class="hidden-widget" title=""
+       tabindex="" accesskey=""
+       type="hidden"
        tal:attributes="id view/id;
                        name view/name;
                        title view/title;
-                       alt view/alt;
                        tabindex view/tabindex;
-                       disabled view/disabled;
-                       readonly view/readonly;
                        accesskey view/accesskey;
-                       maxlength view/maxlength;
-                       value view/value;
-                       size view/size" />
+                       value view/value" />
 </div>

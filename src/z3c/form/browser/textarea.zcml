@@ -36,4 +36,11 @@
       template="textarea_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="hidden"
+      widget="z3c.form.interfaces.ITextAreaWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="textarea_hidden.pt"
+      />
+
 </configure>

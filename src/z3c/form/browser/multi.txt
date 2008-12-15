@@ -394,9 +394,9 @@ This is good so, because the Remove is an widget-internal submit action
           </div>
         </div>
       </div>
-      <div id="widget-id-2-row" class="row">
+      <div id="widget-id-1-row" class="row">
           <div class="label">
-            <label for="widget-id-2">
+            <label for="widget-id-1">
               <span>Number</span>
               <span class="required">*</span>
             </label>
@@ -405,11 +405,11 @@ This is good so, because the Remove is an widget-internal submit action
             <div class="multi-widget-checkbox">
               <input type="checkbox" value="1"
                      class="multi-widget-checkbox checkbox-widget"
-                     id="widget-id-2-remove"
-                     name="widget.name.2.remove" />
+                     id="widget-id-1-remove"
+                     name="widget.name.1.remove" />
             </div>
             <div class="multi-widget-input"><input
-                 type="text" id="widget-id-2" name="widget.name.2"
+                 type="text" id="widget-id-1" name="widget.name.1"
                  class="text-widget required int-field" value="44" />
           </div>
         </div>
@@ -425,7 +425,63 @@ This is good so, because the Remove is an widget-internal submit action
   </div>
   <input type="hidden" name="widget.name.count" value="2" />
 
-Error handling is next. Let's use teh value "bad" (an invlaid integer literal)
+Change again a value after delete:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.1':u'45'})
+  >>> widget.update()
+
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input id="widget-id-0-remove" name="widget.name.0.remove"
+              class="multi-widget-checkbox checkbox-widget"
+              type="checkbox" value="1" />
+            </div>
+            <div class="multi-widget-input">
+                <input id="widget-id-0" name="widget.name.0"
+                class="text-widget required int-field" value="42" type="text" />
+            </div>
+          </div>
+      </div>
+      <div id="widget-id-1-row" class="row">
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input id="widget-id-1-remove" name="widget.name.1.remove"
+              class="multi-widget-checkbox checkbox-widget"
+              type="checkbox" value="1" />
+            </div>
+            <div class="multi-widget-input">
+                <input id="widget-id-1" name="widget.name.1"
+                class="text-widget required int-field" value="45" type="text" />
+            </div>
+          </div>
+      </div>
+    <div class="buttons">
+      <input id="widget-name-buttons-add" name="widget.name.buttons.add"
+      class="submit-widget button-field" value="Add" type="submit" />
+      <input id="widget-name-buttons-remove" name="widget.name.buttons.remove"
+      class="submit-widget button-field" value="Remove" type="submit" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="2" />
+
+Error handling is next. Let's use teh value "bad" (an invalid integer literal)
 as input for our internal (sub) widget.
 
   >>> from z3c.form.error import ErrorViewSnippet

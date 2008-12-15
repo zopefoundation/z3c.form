@@ -496,7 +496,8 @@ Now let's store the new value:
       </div>
       <div class="widget">
         <div class="multi-widget-checkbox">
-          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove" name="foo.0.remove" type="checkbox" value="1">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove"
+                 name="foo.0.remove" type="checkbox" value="1">
         </div>
         <div class="multi-widget-input">
           <div class="object-widget required">
@@ -507,7 +508,9 @@ Now let's store the new value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="foo-0-widgets-foofield" name="foo.0.widgets.foofield" type="text" value="42">
+              <input class="text-widget required int-field"
+                     id="foo-0-widgets-foofield" name="foo.0.widgets.foofield"
+                     type="text" value="42">
             </div>
             <div class="label">
               <label for="foo-0-widgets-barfield">
@@ -515,7 +518,8 @@ Now let's store the new value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="foo-0-widgets-barfield" name="foo.0.widgets.barfield" type="text" value="666">
+              <input class="text-widget int-field" id="foo-0-widgets-barfield"
+                     name="foo.0.widgets.barfield" type="text" value="666">
             </div>
             <input name="foo.0-empty-marker" type="hidden" value="1">
           </div>
@@ -531,7 +535,8 @@ Now let's store the new value:
       </div>
       <div class="widget">
         <div class="multi-widget-checkbox">
-          <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove" name="foo.1.remove" type="checkbox" value="1">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove"
+                 name="foo.1.remove" type="checkbox" value="1">
         </div>
         <div class="multi-widget-input">
           <div class="object-widget required">
@@ -542,7 +547,9 @@ Now let's store the new value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="foo-1-widgets-foofield" name="foo.1.widgets.foofield" type="text" value="789">
+              <input class="text-widget required int-field"
+                     id="foo-1-widgets-foofield" name="foo.1.widgets.foofield"
+                     type="text" value="789">
             </div>
             <div class="label">
               <label for="foo-1-widgets-barfield">
@@ -550,7 +557,8 @@ Now let's store the new value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="foo-1-widgets-barfield" name="foo.1.widgets.barfield" type="text" value="321">
+              <input class="text-widget int-field" id="foo-1-widgets-barfield"
+                     name="foo.1.widgets.barfield" type="text" value="321">
             </div>
             <input name="foo.1-empty-marker" type="hidden" value="1">
           </div>
@@ -566,7 +574,8 @@ Now let's store the new value:
       </div>
       <div class="widget">
         <div class="multi-widget-checkbox">
-          <input class="multi-widget-checkbox checkbox-widget" id="foo-2-remove" name="foo.2.remove" type="checkbox" value="1">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-2-remove"
+                 name="foo.2.remove" type="checkbox" value="1">
         </div>
         <div class="multi-widget-input">
           <div class="object-widget required">
@@ -577,7 +586,9 @@ Now let's store the new value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="foo-2-widgets-foofield" name="foo.2.widgets.foofield" type="text" value="46">
+              <input class="text-widget required int-field"
+                     id="foo-2-widgets-foofield" name="foo.2.widgets.foofield"
+                     type="text" value="46">
             </div>
             <div class="label">
               <label for="foo-2-widgets-barfield">
@@ -585,7 +596,8 @@ Now let's store the new value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="foo-2-widgets-barfield" name="foo.2.widgets.barfield" type="text" value="98">
+              <input class="text-widget int-field" id="foo-2-widgets-barfield"
+                     name="foo.2.widgets.barfield" type="text" value="98">
             </div>
             <input name="foo.2-empty-marker" type="hidden" value="1">
           </div>
@@ -593,8 +605,10 @@ Now let's store the new value:
       </div>
     </div>
     <div class="buttons">
-      <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-add"
+             name="foo.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="foo-buttons-remove"
+             name="foo.buttons.remove" type="submit" value="Remove">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="3">
@@ -647,7 +661,8 @@ remove an existing value:
       </div>
       <div class="widget">
         <div class="multi-widget-checkbox">
-          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove" name="foo.0.remove" type="checkbox" value="1">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-0-remove"
+                 name="foo.0.remove" type="checkbox" value="1">
         </div>
         <div class="multi-widget-input">
           <div class="object-widget required">
@@ -658,7 +673,9 @@ remove an existing value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="foo-0-widgets-foofield" name="foo.0.widgets.foofield" type="text" value="42">
+              <input class="text-widget required int-field"
+                     id="foo-0-widgets-foofield" name="foo.0.widgets.foofield"
+                     type="text" value="42">
             </div>
             <div class="label">
               <label for="foo-0-widgets-barfield">
@@ -666,51 +683,58 @@ remove an existing value:
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="foo-0-widgets-barfield" name="foo.0.widgets.barfield" type="text" value="666">
+              <input class="text-widget int-field" id="foo-0-widgets-barfield"
+                     name="foo.0.widgets.barfield" type="text" value="666">
             </div>
             <input name="foo.0-empty-marker" type="hidden" value="1">
           </div>
         </div>
       </div>
     </div>
-    <div class="row" id="foo-2-row">
+    <div class="row" id="foo-1-row">
       <div class="label">
-        <label for="foo-2">
+        <label for="foo-1">
           <span>my object widget</span>
           <span class="required">*</span>
         </label>
       </div>
       <div class="widget">
         <div class="multi-widget-checkbox">
-          <input class="multi-widget-checkbox checkbox-widget" id="foo-2-remove" name="foo.2.remove" type="checkbox" value="1">
+          <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove"
+                 name="foo.1.remove" type="checkbox" value="1">
         </div>
         <div class="multi-widget-input">
           <div class="object-widget required">
             <div class="label">
-              <label for="foo-2-widgets-foofield">
+              <label for="foo-1-widgets-foofield">
                 <span>My foo field</span>
                 <span class="required">*</span>
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget required int-field" id="foo-2-widgets-foofield" name="foo.2.widgets.foofield" type="text" value="46">
+              <input class="text-widget required int-field"
+                     id="foo-1-widgets-foofield" name="foo.1.widgets.foofield"
+                     type="text" value="46">
             </div>
             <div class="label">
-              <label for="foo-2-widgets-barfield">
+              <label for="foo-1-widgets-barfield">
                 <span>My dear bar</span>
               </label>
             </div>
             <div class="widget">
-              <input class="text-widget int-field" id="foo-2-widgets-barfield" name="foo.2.widgets.barfield" type="text" value="98">
+              <input class="text-widget int-field" id="foo-1-widgets-barfield"
+                     name="foo.1.widgets.barfield" type="text" value="98">
             </div>
-            <input name="foo.2-empty-marker" type="hidden" value="1">
+            <input name="foo.1-empty-marker" type="hidden" value="1">
           </div>
         </div>
       </div>
     </div>
     <div class="buttons">
-      <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-add"
+             name="foo.buttons.add" type="submit" value="Add">
+      <input class="submit-widget button-field" id="foo-buttons-remove"
+             name="foo.buttons.remove" type="submit" value="Remove">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">

@@ -64,6 +64,7 @@ class MultiWidget(HTMLSelectWidget, widget.MultiWidget, FormMixin):
     def handleRemove(self, action):
         self.widgets = [widget for widget in self.widgets
                         if ('%s.remove' % (widget.name)) not in self.request]
+        self.value = [widget.value for widget in self.widgets]
 
 @zope.interface.implementer(interfaces.IFieldWidget)
 def multiFieldWidgetFactory(field, request):

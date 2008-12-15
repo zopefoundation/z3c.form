@@ -241,8 +241,14 @@ class ObjectWidget(widget.Widget):
                 return value
         def set(self, value):
             self._value = value
-            # ensure that we apply our new values to the widgets
             self.updateWidgets()
+
+            # ensure that we apply our new values to the widgets
+            if value is not interfaces.NOVALUE:
+                for name in zope.schema.getFieldNames(self.field.schema):
+                    self.subform.widgets[name].value = value.get(name,
+                                                                 interfaces.NOVALUE)
+
         return property(get, set)
 
 

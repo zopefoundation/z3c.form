@@ -265,13 +265,10 @@ class MultiWidget(Widget):
 
     def getWidget(self, idx):
         """Setup widget based on index id with or without value."""
-        id = '%s-%i' % (self.id, idx)
-        name = '%s.%i' % (self.name, idx)
         valueType = self.field.value_type
         widget = zope.component.getMultiAdapter((valueType, self.request),
             interfaces.IFieldWidget)
-        widget.name = name
-        widget.id = id
+        self.setName(widget, idx)
         widget.mode = self.mode
         #set widget.form (objectwidget needs this)
         if interfaces.IFormAware.providedBy(self):
@@ -280,6 +277,10 @@ class MultiWidget(Widget):
                 widget, interfaces.IFormAware)
         widget.update()
         return widget
+
+    def setName(self, widget, idx):
+        widget.name = '%s.%i' % (self.name, idx)
+        widget.id = '%s-%i' % (self.id, idx)
 
     def appendAddingWidget(self):
         """Simply append a new empty widget with correct (counter) name."""

@@ -303,7 +303,7 @@ class MultiWidget(Widget):
             try:
                 # convert widget value to field value
                 converter = interfaces.IDataConverter(widget)
-                value = converter.toFieldValue(value)
+                fvalue = converter.toFieldValue(value)
                 # validate field value
                 zope.component.getMultiAdapter(
                     (self.context,
@@ -311,9 +311,9 @@ class MultiWidget(Widget):
                      self.form,
                      getattr(widget, 'field', None),
                      widget),
-                    interfaces.IValidator).validate(value)
+                    interfaces.IValidator).validate(fvalue)
                 # convert field value to widget value
-                widget.value = converter.toWidgetValue(value)
+                widget.value = converter.toWidgetValue(fvalue)
             except (zope.schema.ValidationError, ValueError), error:
                 # on exception, setup the widget error message
                 view = zope.component.getMultiAdapter(

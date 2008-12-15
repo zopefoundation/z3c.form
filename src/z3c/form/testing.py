@@ -114,7 +114,8 @@ class IMySubObject(zope.interface.Interface):
     foofield = zope.schema.Int(
         title=u"My foo field",
         default=1111,
-        max=9999)
+        max=9999,
+        required=True)
     barfield = zope.schema.Int(
         title=u"My dear bar",
         default=2222,
@@ -159,6 +160,23 @@ class MyComplexObject(object):
     def __init__(self, name=u'', subobject=None):
         self.subobject=subobject
         self.name=name
+
+class IMySubObjectMulti(zope.interface.Interface):
+    foofield = zope.schema.Int(
+        title=u"My foo field",
+        default=None, #default is None here!
+        max=9999,
+        required=True)
+    barfield = zope.schema.Int(
+        title=u"My dear bar",
+        default=2222,
+        required=False)
+
+class MySubObjectMulti(object):
+    zope.interface.implements(IMySubObjectMulti)
+
+    foofield = FieldProperty(IMySubObjectMulti['foofield'])
+    barfield = FieldProperty(IMySubObjectMulti['barfield'])
 
 #
 #

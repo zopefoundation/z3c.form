@@ -110,18 +110,16 @@ gets rendered. Now let's define a field for this widget and check it again:
 
   >>> from z3c.form.widget import FieldWidget
 
-  >>> from z3c.form.testing import IMySubObject
-  >>> from z3c.form.testing import IMySecond
-  >>> from z3c.form.testing import MySubObject
-  >>> from z3c.form.testing import MySecond
+  >>> from z3c.form.testing import IMySubObjectMulti
+  >>> from z3c.form.testing import MySubObjectMulti
 
   >>> from z3c.form.object import registerFactoryAdapter
-  >>> registerFactoryAdapter(IMySubObject, MySubObject)
+  >>> registerFactoryAdapter(IMySubObjectMulti, MySubObjectMulti)
 
   >>> field = zope.schema.List(
   ...     __name__='foo',
   ...     value_type=zope.schema.Object(title=u'my object widget',
-  ...                                   schema=IMySubObject),
+  ...                                   schema=IMySubObjectMulti),
   ...     )
 
   >>> widget = FieldWidget(field, widget)
@@ -181,6 +179,67 @@ Bunch of adapters to get objectwidget work:
   ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
 
   >>> widget.update()
+
+It must not fail if we assign values that do not meet the constraints,
+just cry about it in the HTML:
+
+  >>> widget.value = [{'foofield': None, 'barfield': 666}]
+  >>> print widget.render()
+  <div class="multi-widget required">
+      <div id="foo-0-row" class="row">
+          <div class="label">
+            <label for="foo-0">
+              <span>my object widget</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input id="foo-0-remove" name="foo.0.remove"
+                     class="multi-widget-checkbox checkbox-widget"
+                     type="checkbox" value="1" />
+            </div>
+            <div class="multi-widget-input"><div class="object-widget required">
+              <div class="label">
+                <label for="foo-0-widgets-foofield">
+                  <span>My foo field</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="error">
+                <div class="error">Required input is missing.</div>
+              </div>
+              <div class="widget">
+                <input id="foo-0-widgets-foofield" name="foo.0.widgets.foofield"
+                       class="text-widget required int-field" type="text" />
+              </div>
+              <div class="label">
+                <label for="foo-0-widgets-barfield">
+                  <span>My dear bar</span>
+                </label>
+              </div>
+              <div class="widget">
+                <input id="foo-0-widgets-barfield" name="foo.0.widgets.barfield"
+                       class="text-widget int-field" value="666" type="text" />
+              </div>
+              <input name="foo.0-empty-marker" type="hidden" value="1" />
+            </div>
+          </div>
+        </div>
+        <div class="error">
+          <div class="error">Wrong contained type</div>
+        </div>
+    </div>
+    <div class="buttons">
+      <input id="foo-buttons-add" name="foo.buttons.add"
+             class="submit-widget button-field" value="Add" type="submit" />
+      <input id="foo-buttons-remove" name="foo.buttons.remove"
+             class="submit-widget button-field" value="Remove" type="submit" />
+    </div>
+  </div>
+  <input type="hidden" name="foo.count" value="1" />
+
+Let's set acceptable values:
 
   >>> widget.value = [dict(foofield=42, barfield=666),
   ...     dict(foofield=789, barfield=321)]
@@ -422,7 +481,7 @@ a new value:
               <input class="text-widget required int-field"
                      id="foo-2-widgets-foofield"
                      name="foo.2.widgets.foofield"
-                     type="text" value="1,111">
+                     type="text" value="">
             </div>
             <div class="label">
               <label for="foo-2-widgets-barfield">
@@ -461,8 +520,8 @@ Let's see what we get on value extraction:
 
   >>> value = converter.toFieldValue(value)
   >>> value
-  [<z3c.form.testing.MySubObject object at ...>,
-  <z3c.form.testing.MySubObject object at ...>]
+  [<z3c.form.testing.MySubObjectMulti object at ...>,
+  <z3c.form.testing.MySubObjectMulti object at ...>]
 
   >>> value[0].foofield
   42
@@ -624,8 +683,8 @@ Let's see what we get on value extraction:
 
   >>> value = converter.toFieldValue(value)
   >>> value
-  [<z3c.form.testing.MySubObject object at ...>,
-  <z3c.form.testing.MySubObject object at ...>]
+  [<z3c.form.testing.MySubObjectMulti object at ...>,
+  <z3c.form.testing.MySubObjectMulti object at ...>]
 
   >>> value[0].foofield
   42
@@ -751,8 +810,8 @@ Let's see what we get on value extraction:
 
   >>> value = converter.toFieldValue(value)
   >>> value
-  [<z3c.form.testing.MySubObject object at ...>,
-  <z3c.form.testing.MySubObject object at ...>]
+  [<z3c.form.testing.MySubObjectMulti object at ...>,
+  <z3c.form.testing.MySubObjectMulti object at ...>]
 
   >>> value[0].foofield
   42
@@ -883,7 +942,7 @@ if you like to skip the label rendering for all widgets.
   >>> field = zope.schema.List(
   ...     __name__='foo',
   ...     value_type=zope.schema.Object(title=u'ignored_title',
-  ...                                   schema=IMySubObject),
+  ...                                   schema=IMySubObjectMulti),
   ...     )
   >>> request = TestRequest()
   >>> widget = multi.MultiWidget(request)

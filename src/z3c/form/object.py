@@ -227,6 +227,26 @@ class ObjectWidget(widget.Widget):
         finally:
             self._updating = False
 
+    def applyValue(self, widget, value=interfaces.NOVALUE):
+        """Validate and apply value to given widget.
+        """
+        converter = interfaces.IDataConverter(widget)
+        try:
+            zope.component.getMultiAdapter(
+                (self.context,
+                 self.request,
+                 self.form,
+                 getattr(widget, 'field', None),
+                 widget),
+                interfaces.IValidator).validate(value)
+
+            widget.value = converter.toWidgetValue(value)
+        except (zope.schema.ValidationError, ValueError), error:
+            # on exception, setup the widget error message
+            # set the wrong value as value
+            # the widget itself ought to cry about the error
+            widget.value = value
+
     @apply
     def value():
         """This invokes updateWidgets on any value change e.g. update/extract."""
@@ -246,8 +266,8 @@ class ObjectWidget(widget.Widget):
             # ensure that we apply our new values to the widgets
             if value is not interfaces.NOVALUE:
                 for name in zope.schema.getFieldNames(self.field.schema):
-                    self.subform.widgets[name].value = value.get(name,
-                                                                 interfaces.NOVALUE)
+                    self.applyValue(self.subform.widgets[name],
+                                    value.get(name, interfaces.NOVALUE))
 
         return property(get, set)
 

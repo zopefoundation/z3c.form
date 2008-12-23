@@ -51,7 +51,7 @@ If we render the widget we get an empty widget:
          value="1" />
 
 Let's provide some values for this widget. We can do this by defining a source
-providing ``ITerms``. This source uses descriminators wich will fit our setup.
+providing ``ITerms``. This source uses descriminators which will fit our setup.
 
   >>> import zope.schema.interfaces
   >>> from zope.schema.vocabulary import SimpleVocabulary
@@ -213,6 +213,26 @@ So after updating the widget you have the custom value:
   >>> widget.promptMessage
   u'please select a value'
 
+Display Widget
+--------------
+
+The select widget comes with a template for ``DISPLAY_MODE``.  Let's
+register it first:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('select_display.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ISelectWidget),
+  ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
+
+  >>> widget.mode = interfaces.DISPLAY_MODE
+  >>> widget.value = ['b', 'c']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <span id="widget-id" class="select-widget required">
+    <span class="selected-option">b</span>,
+    <span class="selected-option">c</span>
+  </span>
+
 Hidden Widget
 -------------
 
@@ -224,7 +244,7 @@ register it first:
   ...     (None, None, None, None, interfaces.ISelectWidget),
   ...     IPageTemplate, name=interfaces.HIDDEN_MODE)
 
-We ca now set our widget's mode to hidden and render it:
+We can now set our widget's mode to hidden and render it:
 
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> widget.value = ['b']

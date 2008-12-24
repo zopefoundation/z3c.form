@@ -41,7 +41,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
 
     # Internal attributes
     _adapterValueAttributes = SequenceWidget._adapterValueAttributes + \
-        ('noValueMessage', 'promptMessage')
+        ('noValueMessage', 'promptMessage', 'prompt')
 
     def isSelected(self, term):
         return term.token in self.value

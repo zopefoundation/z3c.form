@@ -4,6 +4,8 @@ CHANGES
 
 Version 2.0.0 (2008-??-??)
 --------------------------
+- Feature: add the 'prompt' attribute of the SequenceWidget to the list of
+  adaptable attributes.
 
 - Fix: IMPORTANT - the signature of z3c.form.util.extractFileName function changed
   because of spelling mistake fix in argument name. The ``allowEmtpyPostFix`` is

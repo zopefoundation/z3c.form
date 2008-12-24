@@ -213,6 +213,28 @@ So after updating the widget you have the custom value:
   >>> widget.promptMessage
   u'please select a value'
 
+Additionally, the select widget also allows dynamic value for the ``prompt``
+attribute . Initially, value is ``False``:
+
+  >>> widget.prompt = False
+  >>> widget.prompt
+  False
+
+Let's now register an attribute value:
+
+  >>> from z3c.form.widget import StaticWidgetAttribute
+  >>> AllowPrompt = StaticWidgetAttribute(True)
+
+  >>> import zope.component
+  >>> zope.component.provideAdapter(AllowPrompt, name='prompt')
+
+After updating the widget, the value for the prompt attribute changed to the
+value provided by the adapter:
+
+  >>> widget.update()
+  >>> widget.prompt
+  True
+
 Display Widget
 --------------
 

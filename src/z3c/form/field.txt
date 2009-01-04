@@ -733,10 +733,11 @@ causes a widget-level error:
   >>> manager.ignoreContext = True
   >>> manager.update()
 
-When calling the ``extract()`` method with the `setErrors` flag turned off, we
-still get the same result from the method call, ...
+We have to set the setErrors property to False before calling extract,
+we still get the same result from the method call, ...
 
-  >>> manager.extract(setErrors=False)
+  >>> manager.setErrors = False
+  >>> manager.extract()
   ({'firstName': u'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
 
 but there are no side effects on the manager and the widgets:

@@ -44,6 +44,11 @@ class ObjectSubForm(form.BaseForm):
         self.request = request
         self.__parent__ = parentWidget
         self.parentForm = parentWidget.form
+        self.ignoreContext = self.__parent__.ignoreContext
+        self.ignoreRequest = self.__parent__.ignoreRequest
+        if interfaces.IFormAware.providedBy(self.__parent__):
+            self.ignoreReadonly = self.parentForm.ignoreReadonly
+        self.prefix = self.__parent__.name
 
     def _validate(self):
         for widget in self.widgets.values():
@@ -71,35 +76,15 @@ class ObjectSubForm(form.BaseForm):
     def setupFields(self):
         self.fields = Fields(self.__parent__.field.schema)
 
-    def update(self, ignoreContext=None, setErrors=True):
+    def update(self):
         if self.__parent__.field is None:
             raise ValueError("%r .field is None, that's a blocking point" % self.__parent__)
         #update stuff from parent to be sure
         self.mode = self.__parent__.mode
-        if ignoreContext is not None:
-            self.ignoreContext = ignoreContext
-        else:
-            self.ignoreContext = self.__parent__.ignoreContext
-        self.ignoreRequest = self.__parent__.ignoreRequest
-        if interfaces.IFormAware.providedBy(self.__parent__):
-            self.ignoreReadonly = self.parentForm.ignoreReadonly
-
-        #prefix = ''
-        #if self.parentForm:
-        #    prefix = util.expandPrefix(self.parentForm.prefix) + \
-        #        util.expandPrefix(self.parentForm.widgets.prefix)
-        #
-        #self.prefix = prefix+self.__parent__.field.__name__
-
-        self.prefix = self.__parent__.name
 
         self.setupFields()
 
         super(ObjectSubForm, self).update()
-
-        if setErrors:
-            #hmmm, do we need this here? seems to be over-validated
-            self._validate()
 
     def getContent(self):
         return self.__parent__._value
@@ -211,12 +196,13 @@ class ObjectWidget(widget.Widget):
     def updateWidgets(self, setErrors=True):
         if self._value is not interfaces.NOVALUE:
             self._getForm(self._value)
-            ignore = None
         else:
             self._getForm(None)
-            ignore = True
+            self.subform.ignoreContext = True
 
-        self.subform.update(ignore, setErrors=setErrors)
+        self.subform.update()
+        if setErrors:
+            self.subform._validate()
 
     def update(self):
         #very-very-nasty: skip raising exceptions in extract while we're updating
@@ -253,7 +239,8 @@ class ObjectWidget(widget.Widget):
         def get(self):
             #value (get) cannot raise an exception, then we return insane values
             try:
-                return self.extract(setErrors=True)
+                self.setErrors=True
+                return self.extract()
             except MultipleErrors:
                 value = {}
                 for name in zope.schema.getFieldNames(self.field.schema):
@@ -272,11 +259,11 @@ class ObjectWidget(widget.Widget):
         return property(get, set)
 
 
-    def extract(self, default=interfaces.NOVALUE, setErrors=True):
+    def extract(self, default=interfaces.NOVALUE):
         if self.name+'-empty-marker' in self.request:
             self.updateWidgets(setErrors=False)
 
-            value, errors = self.subform.extractData(setErrors=setErrors)
+            value, errors = self.subform.extractData(setErrors=self.setErrors)
 
             if errors:
                 #very-very-nasty: skip raising exceptions in extract
@@ -306,13 +293,15 @@ class ObjectWidget(widget.Widget):
 ######## make dummy objects providing a given interface to support
 ######## discriminating on field.schema
 
-class DummyObject(object):
-    zope.interface.implements(zope.interface.Interface)
-
 def makeDummyObject(iface):
-    dummy = DummyObject()
     if iface is not None:
-        zope.interface.directlyProvides(dummy, iface)
+        class DummyObject(object):
+            zope.interface.implements(iface)
+    else:
+        class DummyObject(object):
+            zope.interface.implements(zope.interface.Interface)
+
+    dummy = DummyObject()
     return dummy
 
 ######## special template factory that takes the field.schema into account

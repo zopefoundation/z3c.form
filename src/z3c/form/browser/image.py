@@ -34,7 +34,7 @@ class ImageWidget(button.ButtonWidget):
     src = FieldProperty(IHTMLImageWidget['src'])
     klass = u'image-widget'
 
-    def extract(self, default=interfaces.NOVALUE, setErrors=True):
+    def extract(self, default=interfaces.NOVALUE):
         """See z3c.form.interfaces.IWidget."""
         if self.name + '.x' not in self.request:
             return default

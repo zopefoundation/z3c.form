@@ -418,7 +418,15 @@ class IWidget(ILocation):
         default=False,
         required=False)
 
-    def extract(default=NOVALUE, setErrors=True):
+    #ugly thing to remove setErrors parameter from extract
+    setErrors = zope.schema.Bool(
+        title=_('Set errors'),
+        description=_('A flag, when set, the widget sets error messages '
+                      'on calling extract().'),
+        default=True,
+        required=False)
+
+    def extract(default=NOVALUE):
         """Extract the string value(s) of the widget from the form.
 
         The return value may be any Python construct, but is typically a
@@ -432,8 +440,6 @@ class IWidget(ILocation):
         not want to crash the system during an inproper request.
 
         If there is no value to extract, the default is to be returned.
-
-        setErrors: needs to be passed on to possible sub-widgets
         """
 
     def update():
@@ -595,14 +601,19 @@ class IWidgets(IManager):
         default=False,
         required=True)
 
+    #ugly thing to remove setErrors parameter from extract
+    setErrors = zope.schema.Bool(
+        title=_('Set errors'),
+        description=_('A flag, when set, the contained widgets set error '
+                      'messages on calling extract().'),
+        default=True,
+        required=False)
+
     def update():
         """Setup widgets."""
 
-    def extract(setErrors=True):
+    def extract():
         """Extract the values from the widgets and validate them.
-
-        setErrors: decides whether to set errors on self and on the widgets
-                   also needs to be passed on to sub-widgets
         """
 
 

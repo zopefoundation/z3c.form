@@ -182,6 +182,7 @@ class FieldWidgets(util.Manager):
     ignoreContext = False
     ignoreRequest = False
     ignoreReadonly = False
+    setErrors = True
 
     def __init__(self, form, request, content):
         super(FieldWidgets, self).__init__()
@@ -273,7 +274,7 @@ class FieldWidgets(util.Manager):
             self._data[shortName] = widget
             zope.location.locate(widget, self, shortName)
 
-    def extract(self, setErrors=True):
+    def extract(self):
         """See interfaces.IWidgets"""
         data = {}
         errors = ()
@@ -282,7 +283,8 @@ class FieldWidgets(util.Manager):
                 continue
             value = widget.field.missing_value
             try:
-                raw = widget.extract(setErrors=setErrors)
+                widget.setErrors = self.setErrors
+                raw = widget.extract()
                 if raw is not interfaces.NOVALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
                 zope.component.getMultiAdapter(
@@ -298,7 +300,7 @@ class FieldWidgets(util.Manager):
                     (error, self.request, widget, widget.field,
                      self.form, self.content), interfaces.IErrorViewSnippet)
                 view.update()
-                if setErrors:
+                if self.setErrors:
                     widget.error = view
                 errors += (view,)
             else:
@@ -310,6 +312,6 @@ class FieldWidgets(util.Manager):
                 interfaces.IErrorViewSnippet)
             view.update()
             errors += (view,)
-        if setErrors:
+        if self.setErrors:
             self.errors = errors
         return data, errors

@@ -132,7 +132,8 @@ class BaseForm(browser.BrowserPage):
 
     def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
-        return self.widgets.extract(setErrors=setErrors)
+        self.widgets.setErrors = setErrors
+        return self.widgets.extract()
 
     def update(self):
         '''See interfaces.IForm'''

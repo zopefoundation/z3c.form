@@ -445,7 +445,7 @@ Let's look at the event:
  
   >>> event = eventlog[-1]
   >>> event
-  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
 
 The event's description contains the changed Interface and the names of
 all changed fields, even if they where in different groups:

@@ -565,12 +565,13 @@ Let's see our event log:
   4
 
   >>> printEvents()
-  <zope.app.event.objectevent.ObjectCreatedEvent object at ...>
-  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObject>
   ('foofield', 'barfield')
-  <zope.app.event.objectevent.ObjectCreatedEvent object at ...>
-  <zope.app.container.contained.ContainerModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.container.contained.ContainerModifiedEvent object at ...>
+
 
   >>> eventlog=[]
 
@@ -664,12 +665,13 @@ Let's see our event log:
   2
 
   >>> printEvents()
-  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObject>
   ('foofield', 'barfield')
-  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMyObject>
   ('subobject',)
+
 
   >>> eventlog=[]
 
@@ -1147,13 +1149,12 @@ Until updating the form:
   >>> len(eventlog)
   2
   >>> printEvents()
-  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObject>
   ('foofield', 'barfield')
-  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMyObject>
   ('subobject', 'name')
-
 
 
 Object in an Object situation

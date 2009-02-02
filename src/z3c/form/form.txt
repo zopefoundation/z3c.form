@@ -905,7 +905,7 @@ We can now look at the event:
 
   >>> event = eventlog[-1]
   >>> event
-  <zope.app.event.objectevent.ObjectModifiedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
 
   >>> attrs = event.descriptions[0]
   >>> attrs.interface

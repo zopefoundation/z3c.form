@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Mon Dec  8 11:39:17 2008\n"
+"POT-Creation-Date: Tue Feb  3 23:21:02 2009\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 
-#: src/z3c/form/browser/multi.py:59 src/z3c/form/form.py:208
+#: src/z3c/form/browser/multi.py:59 src/z3c/form/form.py:209
 msgid "Add"
 msgstr "添加"
 
@@ -44,24 +44,28 @@ msgstr "字节数据不是一个文件对象"
 msgid "The system could not process the given value."
 msgstr "系统无法处理给定值."
 
-#: src/z3c/form/form.py:206 src/z3c/form/form.py:245
+#: src/z3c/form/form.py:207 src/z3c/form/form.py:246
 #: src/z3c/form/subform.py:29
 msgid "There were some errors."
 msgstr "有一些错误."
 
-#: src/z3c/form/form.py:246 src/z3c/form/subform.py:30
+#: src/z3c/form/form.py:247 src/z3c/form/subform.py:30
 msgid "Data successfully updated."
 msgstr "数据已成功更新."
 
-#: src/z3c/form/form.py:247 src/z3c/form/subform.py:31
+#: src/z3c/form/form.py:248 src/z3c/form/subform.py:31
 msgid "No changes were applied."
 msgstr "没有变更被应用."
 
-#: src/z3c/form/form.py:264
+#: src/z3c/form/form.py:265
 msgid "Apply"
 msgstr "应用"
 
-#: src/z3c/form/interfaces.py:105 src/z3c/form/interfaces.py:774
+#: src/z3c/form/interfaces.py:1009
+msgid "The widget for which the event was created."
+msgstr "事件创建窗体"
+
+#: src/z3c/form/interfaces.py:105 src/z3c/form/interfaces.py:795
 msgid "Context"
 msgstr "上下文"
 
@@ -70,7 +74,7 @@ msgstr "上下文"
 msgid "The context in which the data are validated."
 msgstr "数据被验证的上下文."
 
-#: src/z3c/form/interfaces.py:146 src/z3c/form/interfaces.py:987
+#: src/z3c/form/interfaces.py:146 src/z3c/form/interfaces.py:1008
 msgid "Widget"
 msgstr "窗体"
 
@@ -78,8 +82,8 @@ msgstr "窗体"
 msgid "The widget that the view is on"
 msgstr "视图所在的窗体"
 
-#: src/z3c/form/interfaces.py:151 src/z3c/form/interfaces.py:392
-#: src/z3c/form/interfaces.py:668
+#: src/z3c/form/interfaces.py:151 src/z3c/form/interfaces.py:402
+#: src/z3c/form/interfaces.py:689
 msgid "Error"
 msgstr "错误"
 
@@ -87,7 +91,7 @@ msgstr "错误"
 msgid "Error the view is for."
 msgstr "错误视图"
 
-#: src/z3c/form/interfaces.py:172 src/z3c/form/interfaces.py:642
+#: src/z3c/form/interfaces.py:172 src/z3c/form/interfaces.py:663
 msgid "Title"
 msgstr "标题"
 
@@ -103,8 +107,8 @@ msgstr "模式字段"
 msgid "The schema field that is to be rendered."
 msgstr "将会渲染的模式字段"
 
-#: src/z3c/form/interfaces.py:182 src/z3c/form/interfaces.py:552
-#: src/z3c/form/interfaces.py:558 src/z3c/form/interfaces.py:835
+#: src/z3c/form/interfaces.py:182 src/z3c/form/interfaces.py:568
+#: src/z3c/form/interfaces.py:574 src/z3c/form/interfaces.py:856
 msgid "Prefix"
 msgstr "前缀"
 
@@ -112,8 +116,8 @@ msgstr "前缀"
 msgid "The prefix of the field used to avoid name clashes."
 msgstr "用于避免名字冲突的前缀字段"
 
-#: src/z3c/form/interfaces.py:187 src/z3c/form/interfaces.py:379
-#: src/z3c/form/interfaces.py:800
+#: src/z3c/form/interfaces.py:187 src/z3c/form/interfaces.py:389
+#: src/z3c/form/interfaces.py:821
 msgid "Mode"
 msgstr "样式"
 
@@ -129,12 +133,12 @@ msgstr "接口"
 msgid "The interface from which the field is coming."
 msgstr "字段来自的接口"
 
-#: src/z3c/form/interfaces.py:197 src/z3c/form/interfaces.py:571
-#: src/z3c/form/interfaces.py:779 src/z3c/form/interfaces.py:805
+#: src/z3c/form/interfaces.py:197 src/z3c/form/interfaces.py:587
+#: src/z3c/form/interfaces.py:800 src/z3c/form/interfaces.py:826
 msgid "Ignore Context"
 msgstr "忽略上下文"
 
-#: src/z3c/form/interfaces.py:198 src/z3c/form/interfaces.py:780
+#: src/z3c/form/interfaces.py:198 src/z3c/form/interfaces.py:801
 msgid ""
 "A flag, when set, forces the widget not to look at the context for a value."
 msgstr "当这个标记被设定时,强制窗体不响应值的上下文."
@@ -147,37 +151,37 @@ msgstr "窗体工厂"
 msgid "The widget factory."
 msgstr "窗体的工厂"
 
-#: src/z3c/form/interfaces.py:322
+#: src/z3c/form/interfaces.py:332
 msgid "True-value Label"
 msgstr "真值标签"
 
-#: src/z3c/form/interfaces.py:323
+#: src/z3c/form/interfaces.py:333
 msgid "The label for a true value of the Bool field."
 msgstr "Bool字段的真值标签"
 
-#: src/z3c/form/interfaces.py:327
+#: src/z3c/form/interfaces.py:337
 msgid "False-value Label"
 msgstr "假值标签"
 
-#: src/z3c/form/interfaces.py:328
+#: src/z3c/form/interfaces.py:338
 msgid "The label for a false value of the Bool field."
 msgstr "Bool字段的假值标签"
 
-#: src/z3c/form/interfaces.py:362 src/z3c/form/interfaces.py:636
-#: src/z3c/form/interfaces.py:884
+#: src/z3c/form/interfaces.py:372 src/z3c/form/interfaces.py:657
+#: src/z3c/form/interfaces.py:905
 msgid "Name"
 msgstr "名字"
 
-#: src/z3c/form/interfaces.py:363
+#: src/z3c/form/interfaces.py:373
 #, fuzzy
 msgid "The name the widget is known under."
 msgstr "窗体所知的名字."
 
-#: src/z3c/form/interfaces.py:367 src/z3c/form/interfaces.py:829
+#: src/z3c/form/interfaces.py:377 src/z3c/form/interfaces.py:850
 msgid "Label"
 msgstr "标记"
 
-#: src/z3c/form/interfaces.py:368
+#: src/z3c/form/interfaces.py:378
 msgid ""
 "\n"
 "        The widget label.\n"
@@ -198,73 +202,83 @@ msgstr ""
 "       根据特定实现的需求,属性可能被设计为读写或只读.\n"
 "           "
 
-#: src/z3c/form/interfaces.py:380
+#: src/z3c/form/interfaces.py:390
 msgid "A widget mode."
 msgstr "一个窗体样式."
 
-#: src/z3c/form/interfaces.py:385
+#: src/z3c/form/interfaces.py:395
 msgid "Required"
 msgstr "必需"
 
-#: src/z3c/form/interfaces.py:386
+#: src/z3c/form/interfaces.py:396
 msgid "If true the widget should be displayed as required input."
 msgstr "如果为真,窗体应显示为所需的输入."
 
-#: src/z3c/form/interfaces.py:393
+#: src/z3c/form/interfaces.py:403
 msgid "If an error occurred during any step, the error view stored here."
 msgstr "如果在任何一步有错误发生,错误视图将被储存在那里."
 
-#: src/z3c/form/interfaces.py:398
+#: src/z3c/form/interfaces.py:408
 msgid "Value"
 msgstr "值"
 
-#: src/z3c/form/interfaces.py:399
+#: src/z3c/form/interfaces.py:409
 msgid "The value that the widget represents."
 msgstr "窗体表现值"
 
-#: src/z3c/form/interfaces.py:405 src/z3c/form/interfaces.py:577
-#: src/z3c/form/interfaces.py:811
+#: src/z3c/form/interfaces.py:415 src/z3c/form/interfaces.py:593
+#: src/z3c/form/interfaces.py:832
 msgid "Ignore Request"
 msgstr "忽略请求"
 
-#: src/z3c/form/interfaces.py:406
+#: src/z3c/form/interfaces.py:416
 #, fuzzy
 msgid ""
 "A flag, when set, forces the widget not to look at the request for a value."
 msgstr "当这个标记被设置时,强制窗体不去响应值的请求."
 
-#: src/z3c/form/interfaces.py:453
+#: src/z3c/form/interfaces.py:423 src/z3c/form/interfaces.py:606
+#, fuzzy
+msgid "Set errors"
+msgstr "错误"
+
+#: src/z3c/form/interfaces.py:424
+#, fuzzy
+msgid "A flag, when set, the widget sets error messages on calling extract()."
+msgstr "当这个标记被设定时,强制窗体不响应值的上下文."
+
+#: src/z3c/form/interfaces.py:469
 msgid "NOVALUE Token"
 msgstr "非值 标记"
 
-#: src/z3c/form/interfaces.py:454
+#: src/z3c/form/interfaces.py:470
 msgid "The token to be used, if no value has been selected."
 msgstr "如果没有使用任何值,这个标记将被使用"
 
-#: src/z3c/form/interfaces.py:457
+#: src/z3c/form/interfaces.py:473
 #, fuzzy
 msgid "Terms"
 msgstr "条款"
 
-#: src/z3c/form/interfaces.py:458
+#: src/z3c/form/interfaces.py:474
 msgid "A component that provides the options for selection."
 msgstr "提供可供选择的选项的组件"
 
-#: src/z3c/form/interfaces.py:488
+#: src/z3c/form/interfaces.py:504
 msgid "Prompt"
 msgstr "提示"
 
-#: src/z3c/form/interfaces.py:489
+#: src/z3c/form/interfaces.py:505
 msgid ""
 "A flag, when set, enables a choice explicitely requesting the user to choose "
 "a value."
 msgstr "当这个标记被设置时,增加一个选择明确的要求用户一个值."
 
-#: src/z3c/form/interfaces.py:494
+#: src/z3c/form/interfaces.py:510
 msgid "Items"
 msgstr "条目"
 
-#: src/z3c/form/interfaces.py:495
+#: src/z3c/form/interfaces.py:511
 #, fuzzy
 msgid ""
 "A collection of dictionaries containing all pieces of information for "
@@ -274,216 +288,218 @@ msgstr ""
 "一个包含所有渲染片段信息的字典集合.如下的键必须在每个字典中: id, value, "
 "content, selected"
 
-#: src/z3c/form/interfaces.py:500
+#: src/z3c/form/interfaces.py:516
 msgid "No-Value Message"
 msgstr "空值 信息"
 
-#: src/z3c/form/interfaces.py:501 src/z3c/form/interfaces.py:506
+#: src/z3c/form/interfaces.py:517 src/z3c/form/interfaces.py:522
 msgid "A human-readable text that is displayed to refer the missing value."
 msgstr "丢失的值将以人类可读的文本显示."
 
-#: src/z3c/form/interfaces.py:505
+#: src/z3c/form/interfaces.py:521
 msgid "Prompt Message"
 msgstr "提示信息"
 
-#: src/z3c/form/interfaces.py:553 src/z3c/form/interfaces.py:559
+#: src/z3c/form/interfaces.py:569 src/z3c/form/interfaces.py:575
 msgid "The prefix of the widgets."
 msgstr "窗体的前缀"
 
-#: src/z3c/form/interfaces.py:564
+#: src/z3c/form/interfaces.py:580
 msgid "Errors"
 msgstr "错误"
 
-#: src/z3c/form/interfaces.py:565
+#: src/z3c/form/interfaces.py:581
 msgid "The collection of errors that occured during validation."
 msgstr "验证中所出现的错误集合"
 
-#: src/z3c/form/interfaces.py:572 src/z3c/form/interfaces.py:806
+#: src/z3c/form/interfaces.py:588 src/z3c/form/interfaces.py:827
 msgid "If set the context is ignored to retrieve a value."
 msgstr "如果设置了上下文,忽略取出的一个值."
 
-#: src/z3c/form/interfaces.py:578 src/z3c/form/interfaces.py:812
+#: src/z3c/form/interfaces.py:594 src/z3c/form/interfaces.py:833
 msgid "If set the request is ignored to retrieve a value."
 msgstr "如果设置了请求忽略取出的一个值."
 
-#: src/z3c/form/interfaces.py:583 src/z3c/form/interfaces.py:817
+#: src/z3c/form/interfaces.py:599 src/z3c/form/interfaces.py:838
 msgid "Ignore Readonly"
 msgstr "忽略只读"
 
-#: src/z3c/form/interfaces.py:584 src/z3c/form/interfaces.py:818
+#: src/z3c/form/interfaces.py:600 src/z3c/form/interfaces.py:839
 msgid "If set then readonly fields will also be shown."
 msgstr "如果被设置,只读字段也会被显示."
 
-#: src/z3c/form/interfaces.py:607 src/z3c/form/zcml.py:70
+#: src/z3c/form/interfaces.py:607
+msgid ""
+"A flag, when set, the contained widgets set error messages on calling extract"
+"()."
+msgstr ""
+
+#: src/z3c/form/interfaces.py:628 src/z3c/form/zcml.py:70
 msgid "Field"
 msgstr "字段"
 
-#: src/z3c/form/interfaces.py:608
+#: src/z3c/form/interfaces.py:629
 msgid "The schema field which the widget is representing."
 msgstr "窗体将显示的模式字段."
 
-#: src/z3c/form/interfaces.py:637
+#: src/z3c/form/interfaces.py:658
 msgid "The object name."
 msgstr "对象名称."
 
-#: src/z3c/form/interfaces.py:643
+#: src/z3c/form/interfaces.py:664
 msgid "The action title."
 msgstr "动作标题."
 
-#: src/z3c/form/interfaces.py:658 src/z3c/form/interfaces.py:878
+#: src/z3c/form/interfaces.py:679 src/z3c/form/interfaces.py:899
 msgid "Action"
 msgstr "动作"
 
-#: src/z3c/form/interfaces.py:659
+#: src/z3c/form/interfaces.py:680
 msgid "The action for which the event is created."
 msgstr "创建事件时的动作."
 
-#: src/z3c/form/interfaces.py:669
+#: src/z3c/form/interfaces.py:690
 msgid "The error that occurred during the action."
 msgstr "动作发生时产生的错误."
 
-#: src/z3c/form/interfaces.py:695
+#: src/z3c/form/interfaces.py:716
 msgid "Access Key"
 msgstr "访问键"
 
-#: src/z3c/form/interfaces.py:696
+#: src/z3c/form/interfaces.py:717
 msgid "The key when pressed causes the button to be pressed."
 msgstr "当键被按下时引发按钮被按下."
 
-#: src/z3c/form/interfaces.py:702
+#: src/z3c/form/interfaces.py:723
 msgid "Action Factory"
 msgstr "动作工厂"
 
-#: src/z3c/form/interfaces.py:703
+#: src/z3c/form/interfaces.py:724
 msgid "The action factory."
 msgstr "动作的工厂"
 
-#: src/z3c/form/interfaces.py:713
+#: src/z3c/form/interfaces.py:734
 msgid "Image Path"
 msgstr "图像路径"
 
-#: src/z3c/form/interfaces.py:714
+#: src/z3c/form/interfaces.py:735
 msgid "A relative image path to the root of the resources."
 msgstr "资源根目录的相对图像路径."
 
-#: src/z3c/form/interfaces.py:760
+#: src/z3c/form/interfaces.py:781
 msgid "Handlers"
 msgstr "处理器"
 
-#: src/z3c/form/interfaces.py:761
+#: src/z3c/form/interfaces.py:782
 msgid "A list of action handlers defined on the form."
 msgstr "表单上定义的动作处理器的列表."
 
-#: src/z3c/form/interfaces.py:775
+#: src/z3c/form/interfaces.py:796
 msgid "The context in which the widget is displayed."
 msgstr "窗体将被显示的上下文."
 
-#: src/z3c/form/interfaces.py:801
+#: src/z3c/form/interfaces.py:822
 msgid "The mode in which to render the widgets."
 msgstr "渲染窗体的样式"
 
-#: src/z3c/form/interfaces.py:823
+#: src/z3c/form/interfaces.py:844
 msgid "Widgets"
 msgstr "窗体"
 
-#: src/z3c/form/interfaces.py:824
+#: src/z3c/form/interfaces.py:845
 msgid "A widget manager containing the widgets to be used in the form."
 msgstr "一个包含了表单中将用到的所有窗体的窗体管理器."
 
-#: src/z3c/form/interfaces.py:830
+#: src/z3c/form/interfaces.py:851
 #, fuzzy
 msgid "A human readable text describing the form that can be used in the UI."
 msgstr "一份人类可读文本,描述可用于UI的表单"
 
-#: src/z3c/form/interfaces.py:836
+#: src/z3c/form/interfaces.py:857
 msgid "The prefix of the form used to uniquely identify it."
 msgstr "用于唯一标识这个表单的前缀."
 
-#: src/z3c/form/interfaces.py:840
+#: src/z3c/form/interfaces.py:861
 msgid "Status"
 msgstr "状态"
 
-#: src/z3c/form/interfaces.py:841
+#: src/z3c/form/interfaces.py:862
 msgid "The status message of the form."
 msgstr "表单的状态消息."
 
-#: src/z3c/form/interfaces.py:879
+#: src/z3c/form/interfaces.py:900
 #, fuzzy
 msgid "The action defines the URI to which the form data are sent."
 msgstr "定义了表单数据将发送往的URI的动作"
 
-#: src/z3c/form/interfaces.py:885
+#: src/z3c/form/interfaces.py:906
 msgid "The name of the form used to identify it."
 msgstr "用于标识表单的名字"
 
-#: src/z3c/form/interfaces.py:889
+#: src/z3c/form/interfaces.py:910
 msgid "Id"
 msgstr "Id"
 
-#: src/z3c/form/interfaces.py:890
+#: src/z3c/form/interfaces.py:911
 msgid "The id of the form used to identify it."
 msgstr "用于标识表单的id"
 
-#: src/z3c/form/interfaces.py:894
+#: src/z3c/form/interfaces.py:915
 msgid "Method"
 msgstr "方法"
 
-#: src/z3c/form/interfaces.py:895
+#: src/z3c/form/interfaces.py:916
 msgid "The HTTP method used to submit the form."
 msgstr "用于提交表单的HTTP方法."
 
-#: src/z3c/form/interfaces.py:901
+#: src/z3c/form/interfaces.py:922
 msgid "Encoding Type"
 msgstr "编码类型"
 
-#: src/z3c/form/interfaces.py:902
+#: src/z3c/form/interfaces.py:923
 msgid "The data encoding used to submit the data safely."
 msgstr "用于安全提交数据的数据编码."
 
-#: src/z3c/form/interfaces.py:907
+#: src/z3c/form/interfaces.py:928
 msgid "Accepted Character Sets"
 msgstr "可接受的字符集"
 
-#: src/z3c/form/interfaces.py:908
+#: src/z3c/form/interfaces.py:929
 #, fuzzy
 msgid ""
 "This is a list of character sets the server accepts. By default this is "
 "unknown."
 msgstr "这是服务器可接收的字符集清单.默认是未知."
 
-#: src/z3c/form/interfaces.py:913
+#: src/z3c/form/interfaces.py:934
 msgid "Accepted Content Types"
 msgstr "可接受的内容类型"
 
-#: src/z3c/form/interfaces.py:914
+#: src/z3c/form/interfaces.py:935
 msgid "This is a list of content types the server can safely handle."
 msgstr "这是服务器可以安全处理的内容类型清单."
 
-#: src/z3c/form/interfaces.py:952
+#: src/z3c/form/interfaces.py:973
 msgid "Fields"
 msgstr "字段集"
 
-#: src/z3c/form/interfaces.py:953
+#: src/z3c/form/interfaces.py:974
 msgid "A field manager describing the fields to be used for the form."
 msgstr "一个字段管理器,描述将用于表单的字段"
 
-#: src/z3c/form/interfaces.py:962
+#: src/z3c/form/interfaces.py:983
 msgid "Buttons"
 msgstr "按钮集"
 
-#: src/z3c/form/interfaces.py:963
+#: src/z3c/form/interfaces.py:984
 msgid "A button manager describing the buttons to be used for the form."
 msgstr "一个按钮管理器,描述用于表单的按钮."
 
-#: src/z3c/form/interfaces.py:988
-msgid "The widget for which the event was created."
-msgstr "事件创建窗体"
-
-#: src/z3c/form/term.py:82
+#: src/z3c/form/term.py:152
 msgid "yes"
 msgstr "是"
 
-#: src/z3c/form/term.py:83
+#: src/z3c/form/term.py:153
 msgid "no"
 msgstr "否"
 

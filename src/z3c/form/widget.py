@@ -248,11 +248,12 @@ class MultiWidget(Widget):
     # widget labels
     showLabel = True
     widgets = None
-    _value = []
+    _value = None
 
     def __init__(self, request):
         super(MultiWidget, self).__init__(request)
         self.widgets = []
+        self._value = []
 
     @property
     def counterName(self):

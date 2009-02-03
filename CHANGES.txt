@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-Version 2.0.0 (2008-??-??)
+Version 2.0.0 (unreleased)
 --------------------------
 - Feature: add the 'prompt' attribute of the SequenceWidget to the list of
   adaptable attributes.

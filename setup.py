@@ -78,6 +78,7 @@ setup (
         test = [
             'zope.app.testing',
             'zope.app.container',
+            'zope.app.pagetemplate',
             'zope.app.i18n',
             'zope.testing',
             'z3c.coverage',
@@ -90,8 +91,6 @@ setup (
         ),
     install_requires = [
         'setuptools',
-        'zope.app.component',
-        'zope.app.pagetemplate',
         'zope.browser',
         'zope.component',
         'zope.configuration',
@@ -105,9 +104,9 @@ setup (
         'zope.publisher',
         'zope.schema',
         'zope.security',
+        'zope.site',
         'zope.traversing',
-        'z3c.pt.compat >= 0.3',
+        'z3c.pt.compat >= 0.3', # XXX This should change to z3c.ptcompat
         ],
-    dependency_links = ['http://download.zope.org/distribution'],
     zip_safe = False,
     )

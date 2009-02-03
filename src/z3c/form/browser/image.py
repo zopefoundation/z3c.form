@@ -20,7 +20,7 @@ import zope.component
 import zope.interface
 import zope.traversing.api
 from zope.schema.fieldproperty import FieldProperty
-from zope.app.component import hooks
+from zope.site import hooks
 
 from z3c.form import interfaces
 from z3c.form.widget import FieldWidget

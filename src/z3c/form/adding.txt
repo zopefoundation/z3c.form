@@ -35,7 +35,7 @@ Let's first create a content component:
 
 Next we need a container to which we wish to add the person:
 
-  >>> from zope.app.container import btree
+  >>> from zope.container import btree
   >>> people = btree.BTreeContainer()
 
 When creating and adding a new object using the ``IAdding`` API, the container

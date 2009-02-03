@@ -239,7 +239,7 @@ happens, if errors happen inside and outside a group?
 
 Let's now successfully complete the add form.
 
-  >>> from zope.app.container import btree
+  >>> from zope.container import btree
   >>> context = btree.BTreeContainer()
 
   >>> request = testing.TestRequest(form={

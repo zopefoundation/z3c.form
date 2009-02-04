@@ -919,10 +919,12 @@ for our multi widget and the data converter dispatcher adapter:
 Label
 -----
 
-There is an option which allows to disable the label for the (sub) widgets.
+There is an option which allows to disable the label for the subwidgets.
 You can set the `showLabel` option to `False` which will skip rendering the
 labels. Alternatively you can also register your own template for your layer
-if you like to skip the label rendering for all widgets.
+if you like to skip the label rendering for all widgets. One more way
+is to register an attribute adapter for specific field/widget/layer/etc.
+See below for an example.
 
   >>> field = zope.schema.List(
   ...     __name__=u'foo',
@@ -973,3 +975,66 @@ if you like to skip the label rendering for all widgets.
      </div>
   </div>
   <input type="hidden" name="None.count" value="2" />
+
+We can also override the showLabel attribute value with an attribute
+adapter. We set it to False for our widget before, but the update method
+sets adapted attributes, so if we provide an attribute, it will be used
+to set the ``showLabel``. Let's see.
+
+  >>> from z3c.form.widget import StaticWidgetAttribute
+
+  >>> doShowLabel = StaticWidgetAttribute(True, widget=widget)
+  >>> zope.component.provideAdapter(doShowLabel, name="showLabel")
+
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="None-0-row" class="row">
+          <div class="label">
+            <label for="None-0">
+              <span>Ignored</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="None-0-remove" name="None.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="None-0" name="None.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="None-1-row" class="row">
+          <div class="label">
+            <label for="None-1">
+              <span>Ignored</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="None-1-remove" name="None.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="None-1" name="None.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-buttons-add"
+         name="widget.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-buttons-remove"
+         name="widget.buttons.remove"
+         class="submit-widget button-field" value="Remove selected" />
+     </div>
+  </div>
+  <input type="hidden" name="None.count" value="2" />
+  

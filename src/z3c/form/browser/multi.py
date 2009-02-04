@@ -28,14 +28,14 @@ from z3c.form.i18n import MessageFactory as _
 from z3c.form import interfaces
 from z3c.form import widget
 from z3c.form import button
-from z3c.form.browser.widget import HTMLSelectWidget
+from z3c.form.browser.widget import HTMLFormElement
 
 
 class FormMixin(object):
     zope.interface.implements(interfaces.IButtonForm, interfaces.IHandlerForm)
 
 
-class MultiWidget(HTMLSelectWidget, widget.MultiWidget, FormMixin):
+class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
     """Multi widget implementation."""
     zope.interface.implements(interfaces.IMultiWidget)
 
@@ -44,6 +44,12 @@ class MultiWidget(HTMLSelectWidget, widget.MultiWidget, FormMixin):
     prefix = 'widget'
     klass = u'multi-widget'
     items = ()
+
+    showLabel = True # show labels for item subwidgets or not
+
+    # Internal attributes
+    _adapterValueAttributes = widget.MultiWidget._adapterValueAttributes + \
+        ('showLabel',)
 
     def updateActions(self):
         self.updateAllowAddRemove()

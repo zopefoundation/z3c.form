@@ -245,9 +245,7 @@ class MultiWidget(Widget):
 
     allowAdding = True
     allowRemoving = True
-    # you set showLabel to False or use another template for disable (sub)
-    # widget labels
-    showLabel = True
+
     widgets = None
     _value = None
 

@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Tue Feb  3 22:47:11 2009\n"
-"PO-Revision-Date: 2009-02-03 23:22+0300\n"
+"POT-Creation-Date: Wed Feb  4 04:06:37 2009\n"
+"PO-Revision-Date: 2009-02-04 04:07+0300\n"
 "Last-Translator: Dan Korostelev <nadako@gmail.com>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +23,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/locales/extract.py\n"
 
-#: src/z3c/form/browser/multi.py:59
+#: src/z3c/form/browser/multi.py:63
 #: src/z3c/form/form.py:209
 msgid "Add"
 msgstr "Добавить"
 
-#: src/z3c/form/browser/multi.py:63
-msgid "Remove"
-msgstr "Удалить"
+#: src/z3c/form/browser/multi.py:68
+msgid "Remove selected"
+msgstr "Удалить выбранные"
 
 #: src/z3c/form/browser/select.py:39
 msgid "no value"
@@ -580,6 +580,8 @@ msgstr "Схема"
 msgid "The schema of the field for which the template should be available"
 msgstr "Схема поля, для которого шаблон должен быть доступен"
 
+#~ msgid "Remove"
+#~ msgstr "Удалить"
 #~ msgid "Data Provider"
 #~ msgstr "Поставщик данных"
 #~ msgid "The component providing the data of the field for the widget."

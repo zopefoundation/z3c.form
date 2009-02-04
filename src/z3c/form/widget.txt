@@ -619,6 +619,60 @@ get updated within the new relevant value.
   >>> multiWidget.value
   [u'42', u'43']
 
+MultiWidget also declares the ``allowAdding`` and ``allowRemoving``
+attributes that can be used in browser presentation to control add/remove
+button availability. To ease working with common cases, the
+``updateAllowAddRemove`` method provided that will set those attributes
+in respect to field's min_length and max_length, if the field provides
+zope.schema.interfaces.IMinMaxLen interface.
+
+Let's define a field with min and max length constraints and create
+a widget for it.
+
+  >>> multiField = zope.schema.List(
+  ...     value_type=zope.schema.Int(),
+  ...     min_length=2,
+  ...     max_length=5)
+
+  >>> request = TestRequest()
+  >>> multiWidget = widget.FieldWidget(multiField, widget.MultiWidget(request))
+
+Now, let's check if the function will do the right thing depending on
+the value:
+
+No value:
+
+  >>> multiWidget.updateAllowAddRemove()
+  >>> multiWidget.allowAdding, multiWidget.allowRemoving
+  (True, False)
+
+Minimum length:
+
+  >>> multiWidget.value = [u'3', u'5']
+  >>> multiWidget.updateAllowAddRemove()
+  >>> multiWidget.allowAdding, multiWidget.allowRemoving
+  (True, False)
+
+Some allowed length:
+
+  >>> multiWidget.value = [u'3', u'5', u'8', u'6']
+  >>> multiWidget.updateAllowAddRemove()
+  >>> multiWidget.allowAdding, multiWidget.allowRemoving
+  (True, True)
+
+Maximum length:
+
+  >>> multiWidget.value = [u'3', u'5', u'8', u'6', u'42']
+  >>> multiWidget.updateAllowAddRemove()
+  >>> multiWidget.allowAdding, multiWidget.allowRemoving
+  (False, True)
+
+Over maximum length:
+
+  >>> multiWidget.value = [u'3', u'5', u'8', u'6', u'42', u'45']
+  >>> multiWidget.updateAllowAddRemove()
+  >>> multiWidget.allowAdding, multiWidget.allowRemoving
+  (False, True)
 
 Widget Events
 -------------

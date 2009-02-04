@@ -63,7 +63,7 @@ We can now render the widget:
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="0" />
@@ -93,7 +93,7 @@ Let's now update the widget and check it again.
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="0" />
@@ -113,9 +113,6 @@ gets rendered. Now let's define a field for this widget and check it again:
       <input type="submit" id="widget-name-buttons-add"
          name="widget.name.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="widget-name-buttons-remove"
-         name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="0" />
@@ -131,8 +128,8 @@ for our multi widget and the data converter dispatcher adapter:
   >>> zope.component.provideAdapter(FieldWidgetDataConverter)
   >>> zope.component.provideAdapter(SimpleFieldValidator)
 
-  >>> widget.update()
   >>> widget.value = [u'42', u'43']
+  >>> widget.update()
   >>> print widget.render()
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
@@ -181,7 +178,7 @@ for our multi widget and the data converter dispatcher adapter:
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="2" />
@@ -266,7 +263,7 @@ a new value:
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="3" />
@@ -350,12 +347,12 @@ Now let's store the new value:
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="3" />
 
-As you can see in the above sample, the new stored value gest rendered as a
+As you can see in the above sample, the new stored value get rendered as a
 real value and the new adding value input field is gone. Now let's try to
 remove an existing value:
 
@@ -364,10 +361,10 @@ remove an existing value:
   ...                                    'widget.name.1':u'43',
   ...                                    'widget.name.2':u'44',
   ...                                    'widget.name.1.remove':u'1',
-  ...                                    'widget.name.buttons.remove':'Remove'})
+  ...                                    'widget.name.buttons.remove':'Remove selected'})
   >>> widget.update()
 
-This is good so, because the Remove is an widget-internal submit action
+This is good so, because the Remove selected is an widget-internal submit action
 
   >>> widget.extract()
   [u'42', u'43', u'44']
@@ -420,7 +417,7 @@ This is good so, because the Remove is an widget-internal submit action
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="2" />
@@ -476,7 +473,7 @@ Change again a value after delete:
       <input id="widget-name-buttons-add" name="widget.name.buttons.add"
       class="submit-widget button-field" value="Add" type="submit" />
       <input id="widget-name-buttons-remove" name="widget.name.buttons.remove"
-      class="submit-widget button-field" value="Remove" type="submit" />
+      class="submit-widget button-field" value="Remove selected" type="submit" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="2" />
@@ -549,11 +546,197 @@ as input for our internal (sub) widget.
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="2" />
 
+The widget filters out the add and remove buttons depending on the
+current value and the field constraints. You already saw that there's
+no remove button for empty value. Now, let's check rendering with
+minimum and maximum lengths defined in the field constraints.
+
+  >>> field = zope.schema.List(
+  ...     __name__=u'foo',
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     min_length=1,
+  ...     max_length=3
+  ...     )
+  >>> widget.field = field
+  >>> widget.widgets = []
+  >>> widget.value = []
+
+Let's test with minimum sequence, there should be no remove button:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'1',
+  ...                                    'widget.name.0':u'42'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
+         class="submit-widget button-field" value="Add" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="1" />
+
+Now, with middle-length sequence. All buttons should be there. 
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.1':u'43'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-1-row" class="row">
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-1-remove"
+                     name="widget.name.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="widget-id-1" name="widget.name.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-name-buttons-add"
+         name="widget.name.buttons.add"
+         class="submit-widget button-field" value="Add" />
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
+         class="submit-widget button-field" value="Remove selected" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="2" />
+
+Okay, now let's check the maximum-length sequence. There should be
+no add button:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'3',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.1':u'43',
+  ...                                    'widget.name.2':u'44'})
+  >>> widget.update()
+  >>> print widget.render()
+  <div class="multi-widget">
+      <div id="widget-id-0-row" class="row">
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-0-remove"
+                     name="widget.name.0.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="widget-id-0" name="widget.name.0"
+                 class="text-widget required int-field" value="42" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-1-row" class="row">
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-1-remove"
+                     name="widget.name.1.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="widget-id-1" name="widget.name.1"
+                 class="text-widget required int-field" value="43" />
+          </div>
+        </div>
+      </div>
+      <div id="widget-id-2-row" class="row">
+          <div class="label">
+            <label for="widget-id-2">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input type="checkbox" value="1"
+                     class="multi-widget-checkbox checkbox-widget"
+                     id="widget-id-2-remove"
+                     name="widget.name.2.remove" />
+            </div>
+            <div class="multi-widget-input"><input
+                 type="text" id="widget-id-2" name="widget.name.2"
+                 class="text-widget required int-field" value="44" />
+          </div>
+        </div>
+      </div>
+    <div class="buttons">
+      <input type="submit" id="widget-name-buttons-remove"
+         name="widget.name.buttons.remove"
+         class="submit-widget button-field" value="Remove selected" />
+     </div>
+  </div>
+  <input type="hidden" name="widget.name.count" value="3" />
 
 
 Displaying
@@ -786,7 +969,7 @@ if you like to skip the label rendering for all widgets.
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-buttons-remove"
          name="widget.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="None.count" value="2" />

@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Tue Feb  3 23:21:02 2009\n"
+"POT-Creation-Date: Wed Feb  4 04:06:37 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -23,13 +23,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/locales/extract.py\n"
 
-#: src/z3c/form/browser/multi.py:59
+#: src/z3c/form/browser/multi.py:63
 #: src/z3c/form/form.py:209
 msgid "Add"
 msgstr ""
 
-#: src/z3c/form/browser/multi.py:63
-msgid "Remove"
+#: src/z3c/form/browser/multi.py:68
+msgid "Remove selected"
 msgstr ""
 
 #: src/z3c/form/browser/select.py:39

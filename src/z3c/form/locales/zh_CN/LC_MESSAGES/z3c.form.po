@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Tue Feb  3 23:21:02 2009\n"
+"POT-Creation-Date: Wed Feb  4 04:06:37 2009\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,13 +11,13 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 
-#: src/z3c/form/browser/multi.py:59 src/z3c/form/form.py:209
+#: src/z3c/form/browser/multi.py:63 src/z3c/form/form.py:209
 msgid "Add"
 msgstr "添加"
 
-#: src/z3c/form/browser/multi.py:63
-msgid "Remove"
-msgstr "删除"
+#: src/z3c/form/browser/multi.py:68
+msgid "Remove selected"
+msgstr ""
 
 #: src/z3c/form/browser/select.py:39
 msgid "no value"
@@ -566,6 +566,9 @@ msgstr "模式字段"
 #, fuzzy
 msgid "The schema of the field for which the template should be available"
 msgstr "模板可用的字段"
+
+#~ msgid "Remove"
+#~ msgstr "删除"
 
 #~ msgid "Data Provider"
 #~ msgstr "数据提供者"

@@ -16,6 +16,8 @@
 $Id: select.py 78513 2007-07-31 23:03:47Z srichter $
 """
 __docformat__ = "reStructuredText"
+from operator import attrgetter
+
 import zope.component
 import zope.interface
 import zope.schema
@@ -44,6 +46,7 @@ class MultiWidget(HTMLSelectWidget, widget.MultiWidget, FormMixin):
     items = ()
 
     def updateActions(self):
+        self.updateAllowAddRemove()
         if self.name is not None:
             self.prefix = self.name
         self.actions = zope.component.getMultiAdapter(
@@ -52,15 +55,18 @@ class MultiWidget(HTMLSelectWidget, widget.MultiWidget, FormMixin):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        self.updateActions()
         super(MultiWidget, self).update()
+        self.updateActions()
         self.actions.execute()
+        self.updateActions() # Update again, as conditions may change
 
-    @button.buttonAndHandler(_('Add'), name='add')
+    @button.buttonAndHandler(_('Add'), name='add',
+                             condition=attrgetter('allowAdding'))
     def handleAdd(self, action):
         self.appendAddingWidget()
 
-    @button.buttonAndHandler(_('Remove'), name='remove')
+    @button.buttonAndHandler(_('Remove selected'), name='remove',
+                             condition=attrgetter('allowRemoving'))
     def handleRemove(self, action):
         self.widgets = [widget for widget in self.widgets
                         if ('%s.remove' % (widget.name)) not in self.request]

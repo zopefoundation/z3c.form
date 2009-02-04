@@ -14,18 +14,31 @@
       </li>
     </ul>
     <form action=".">
+      <tal:XXX replace="nothing">
+       Here's an interesting bug with z3c.pt: If you move the
+       define-macro below into the <div class="row"/>, it will
+       render the widget repetition twice for some reason when
+       using the macro below in the group fieldsets. Also, it
+       randomly won't repeat twice in some cases when text nodes are
+       inserted between tags (I tried to add "a" right after the
+       last tag - <input type="text" tal:replace="blahblah" />
+       Good luck to z3c.pt debuggers. :-)
+       
+       nadako
+      </tal:XXX>
+      <metal:block metal:define-macro="rows">
       <div class="row"
-           metal:define-macro="rows"
            tal:repeat="widget view/widgets/values">
         <b tal:condition="widget/error"
-           tal:content="structure widget/error/render"
-        /><label for=""
+           tal:content="structure widget/error/render" />
+        <label for=""
                tal:attributes="for widget/id"
                tal:content="widget/label" />
-        <input type="text" tal:replace="structure widget/render"
-      /></div>
+        <input type="text" tal:replace="structure widget/render" />
+      </div>
+      </metal:block>
       <fieldset tal:condition="view/groups|nothing"
-                  tal:repeat="view view/groups">
+                tal:repeat="view view/groups">
         <legend tal:condition="view/label"
                 tal:content="view/label">Label</legend>
         <div metal:use-macro="template/macros/errors" />

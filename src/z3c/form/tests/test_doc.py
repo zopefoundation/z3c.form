@@ -141,7 +141,6 @@ def test_suite():
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ))
-        #for setUp in (testing.setUpZPT, testing.setUpZ3CPT))
-        for setUp in (testing.setUpZPT, ))
+        for setUp in (testing.setUpZPT, testing.setUpZ3CPT))
 
     return unittest.TestSuite(itertools.chain(*tests))

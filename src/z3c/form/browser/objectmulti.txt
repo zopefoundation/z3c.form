@@ -70,7 +70,7 @@ We can now render the widget:
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="0" />
@@ -100,7 +100,7 @@ Let's now update the widget and check it again.
          class="submit-widget button-field" value="Add" />
       <input type="submit" id="widget-name-buttons-remove"
          name="widget.name.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
+         class="submit-widget button-field" value="Remove selected" />
      </div>
   </div>
   <input type="hidden" name="widget.name.count" value="0" />
@@ -130,9 +130,6 @@ gets rendered. Now let's define a field for this widget and check it again:
       <input type="submit" id="foo-buttons-add"
          name="foo.buttons.add"
          class="submit-widget button-field" value="Add" />
-      <input type="submit" id="foo-buttons-remove"
-         name="foo.buttons.remove"
-         class="submit-widget button-field" value="Remove" />
      </div>
   </div>
   <input type="hidden" name="foo.count" value="0" />
@@ -184,6 +181,7 @@ It must not fail if we assign values that do not meet the constraints,
 just cry about it in the HTML:
 
   >>> widget.value = [{'foofield': None, 'barfield': 666}]
+  >>> widget.update()
   >>> print widget.render()
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
@@ -234,7 +232,7 @@ just cry about it in the HTML:
       <input id="foo-buttons-add" name="foo.buttons.add"
              class="submit-widget button-field" value="Add" type="submit" />
       <input id="foo-buttons-remove" name="foo.buttons.remove"
-             class="submit-widget button-field" value="Remove" type="submit" />
+             class="submit-widget button-field" value="Remove selected" type="submit" />
     </div>
   </div>
   <input type="hidden" name="foo.count" value="1" />
@@ -342,7 +340,7 @@ Let's set acceptable values:
              type="submit" />
       <input id="foo-buttons-remove"
              name="foo.buttons.remove"
-             class="submit-widget button-field" value="Remove"
+             class="submit-widget button-field" value="Remove selected"
              type="submit" />
     </div>
   </div>
@@ -505,7 +503,7 @@ a new value:
              type="submit" />
       <input id="foo-buttons-remove"
              name="foo.buttons.remove"
-             class="submit-widget button-field" value="Remove"
+             class="submit-widget button-field" value="Remove selected"
              type="submit" />
     </div>
   </div>
@@ -667,7 +665,7 @@ Now let's store the new value:
       <input class="submit-widget button-field" id="foo-buttons-add"
              name="foo.buttons.add" type="submit" value="Add">
       <input class="submit-widget button-field" id="foo-buttons-remove"
-             name="foo.buttons.remove" type="submit" value="Remove">
+             name="foo.buttons.remove" type="submit" value="Remove selected">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="3">
@@ -707,7 +705,7 @@ remove an existing value:
   ...                                    'foo.2.widgets.barfield':u'98',
   ...                                    'foo.2-empty-marker':u'1',
   ...                                    'foo.1.remove':u'1',
-  ...                                    'foo.buttons.remove':'Remove'})
+  ...                                    'foo.buttons.remove':'Remove selected'})
   >>> widget.update()
   >>> print widget.render()
   <div class="multi-widget required">
@@ -793,13 +791,13 @@ remove an existing value:
       <input class="submit-widget button-field" id="foo-buttons-add"
              name="foo.buttons.add" type="submit" value="Add">
       <input class="submit-widget button-field" id="foo-buttons-remove"
-             name="foo.buttons.remove" type="submit" value="Remove">
+             name="foo.buttons.remove" type="submit" value="Remove selected">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">
 
 Let's see what we get on value extraction:
-(this is good so, because Remove is a widget-internal submit)
+(this is good so, because Remove selected is a widget-internal submit)
 
   >>> value = widget.extract()
   >>> value
@@ -917,7 +915,7 @@ as input for our internal (sub) widget.
     </div>
     <div class="buttons">
       <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove selected">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">
@@ -1013,7 +1011,7 @@ if you like to skip the label rendering for all widgets.
     </div>
     <div class="buttons">
       <input class="submit-widget button-field" id="foo-buttons-add" name="foo.buttons.add" type="submit" value="Add">
-      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove">
+      <input class="submit-widget button-field" id="foo-buttons-remove" name="foo.buttons.remove" type="submit" value="Remove selected">
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">

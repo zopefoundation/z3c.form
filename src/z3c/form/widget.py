@@ -244,6 +244,7 @@ class MultiWidget(Widget):
     zope.interface.implements(interfaces.IMultiWidget)
 
     allowAdding = True
+    allowRemoving = True
     # you set showLabel to False or use another template for disable (sub)
     # widget labels
     showLabel = True
@@ -332,18 +333,32 @@ class MultiWidget(Widget):
         """
         oldLen = len(self.widgets)
         self.widgets = []
+        idx = 0
         if self.value:
-            for idx, v in enumerate(self.value):
+            for v in self.value:
                 widget = self.getWidget(idx)
                 self.applyValue(widget, v)
                 self.widgets.append(widget)
+                idx += 1
         missing = oldLen - len(self.widgets)
         if missing > 0:
             # add previous existing new added widgtes
-            for i in range(missing):
-                idx += 1
+            for i in xrange(missing):
                 widget = self.getWidget(idx)
                 self.widgets.append(widget)
+                idx += 1
+
+    def updateAllowAddRemove(self):
+        """Update the allowAdding/allowRemoving attributes
+        basing on field constraints and current number of widgets
+        """
+        if not zope.schema.interfaces.IMinMaxLen.providedBy(self.field):
+            return
+        max_length = self.field.max_length
+        min_length = self.field.min_length
+        num_items = len(self.widgets)
+        self.allowAdding = bool((not max_length) or (num_items < max_length))
+        self.allowRemoving = bool(num_items and (num_items > min_length))
 
     @apply
     def value():

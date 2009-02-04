@@ -9,6 +9,18 @@ Framework
   and ``ISelectWidget``. We have to define more hidden widgets.
 
 
+Widgets
+-------
+
+- The MultiWidget should render a minimum number of elements by default
+  if the field defines min_length. Also, if user tries to remove elements
+  so the number of widgets becomes less than minimum - the widget should
+  add widgets to make their number minimum again. (Did you understand
+  this?:))
+
+- The MultiWidget should provide a way to reorder elements if used
+  for the ISequence field.
+
 Documentation
 -------------
 

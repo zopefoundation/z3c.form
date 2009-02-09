@@ -867,3 +867,36 @@ An empty string will also cause the missing value to be returned:
 
   >>> tlc.toFieldValue('') is None
   True
+
+It also should work for schema fields that define their type as tuple,
+for instance zope.schema.Int declares its type as (int, long). 
+
+  >>> ids = zope.schema.List(
+  ...     value_type=zope.schema.Int(),
+  ...     )
+
+Let's illustrate the problem:
+
+  >>> zope.schema.Int._type
+  (<type 'int'>, <type 'long'>)
+
+The converter will use the first one.
+
+  >>> tlWidget.field = ids
+  >>> tlc = converter.TextLinesConverter(ids, tlWidget)
+
+Of course, it still can convert to the widget value:
+
+  >>> tlc.toWidgetValue([1,2,3])
+  u'1\n2\n3'
+
+And back:
+
+  >>> tlc.toFieldValue(u'1\n2\n3\n')
+  [1, 2, 3]
+
+An empty string will also cause the missing value to be returned:
+
+  >>> tlc.toFieldValue('') is None
+  True
+ 

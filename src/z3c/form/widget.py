@@ -22,7 +22,7 @@ import zope.component
 import zope.location
 import zope.schema.interfaces
 from zope.pagetemplate.interfaces import IPageTemplate
-from z3c.pt import compat as viewpagetemplatefile
+from z3c import ptcompat as viewpagetemplatefile
 from zope.i18n import translate
 from zope.schema.fieldproperty import FieldProperty
 

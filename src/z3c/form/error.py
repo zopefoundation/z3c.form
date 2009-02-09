@@ -20,7 +20,7 @@ import os
 import zope.component
 import zope.interface
 import zope.schema
-from z3c.pt.compat import ViewPageTemplateFile
+from z3c.ptcompat import ViewPageTemplateFile
 from zope.pagetemplate.interfaces import IPageTemplate
 
 import z3c.form

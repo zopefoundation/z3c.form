@@ -52,7 +52,7 @@ To be able to create a person using ``IAdding``, we need to create an add form
 for it now:
 
   >>> import os
-  >>> from z3c.pt import compat as viewpagetemplatefile
+  >>> from z3c import ptcompat as viewpagetemplatefile
   >>> from z3c.form import tests, field
   >>> from z3c.form.adding import AddForm
 

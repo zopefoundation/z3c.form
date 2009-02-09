@@ -74,7 +74,7 @@ Let's get the template
 
 and check it:
 
-  >>> from z3c.pt.compat import ViewPageTemplateFile
+  >>> from z3c.ptcompat import ViewPageTemplateFile
   >>> isinstance(template, ViewPageTemplateFile)
   True
 

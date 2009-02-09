@@ -106,7 +106,7 @@ setup (
         'zope.security',
         'zope.site',
         'zope.traversing',
-        'z3c.pt.compat >= 0.3', # XXX This should change to z3c.ptcompat
+        'z3c.ptcompat',
         ],
     zip_safe = False,
     )

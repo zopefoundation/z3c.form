@@ -60,7 +60,7 @@ comparison to a regular add form, you only need to add the ``GroupForm`` as
 one of the base classes. The groups are specified in a simple tuple:
 
   >>> import os
-  >>> from z3c.pt import compat as viewpagetemplatefile
+  >>> from z3c import ptcompat as viewpagetemplatefile
   >>> from z3c.form import form, tests
 
   >>> class RegistrationAddForm(group.GroupForm, form.AddForm):

@@ -487,7 +487,7 @@ field. Before we can use the converter, we have to register some adapters:
   >>> import zc.sourcefactory.browser.token
   >>> zope.component.provideAdapter(term.ChoiceTermsVocabulary)
   >>> zope.component.provideAdapter(term.ChoiceTermsSource)
-  >>> zope.component.provideAdapter(term.choice_terms_multiplexer)
+  >>> zope.component.provideAdapter(term.ChoiceTerms)
   >>> zope.component.provideAdapter(
   ...     zc.sourcefactory.browser.source.FactoredTerms)
   >>> zope.component.provideAdapter(
@@ -619,7 +619,7 @@ converter is required that works with terms. A prime example is a list
 field. Before we can use the converter, we have to register the terms adapters:
 
   >>> from z3c.form import term
-  >>> zope.component.provideAdapter(term.collection_terms_multiplexer)
+  >>> zope.component.provideAdapter(term.CollectionTerms)
   >>> zope.component.provideAdapter(term.CollectionTermsVocabulary)
   >>> zope.component.provideAdapter(term.CollectionTermsSource)
 

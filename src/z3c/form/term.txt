@@ -98,7 +98,7 @@ Let's have a look a the vocabulary first:
   ...     title=u'Rating',
   ...     vocabulary=ratings)
 
-  >>> terms = term.choice_terms_multiplexer(
+  >>> terms = term.ChoiceTerms(
   ...     None, request, None, ratingField, widget)
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
@@ -112,7 +112,7 @@ vocabulary is looked up at run time.
 
 Initially we get an error because the "Ratings" vocabulary is not defined:
 
-  >>> terms = term.choice_terms_multiplexer(
+  >>> terms = term.ChoiceTerms(
   ...     None, request, None, ratingField2, widget)
   Traceback (most recent call last):
   ...
@@ -129,7 +129,7 @@ Let's now register the vocabulary under this name:
 
 We should now be able to get all terms as before:
 
-  >>> terms = term.choice_terms_multiplexer(
+  >>> terms = term.ChoiceTerms(
   ...     None, request, None, ratingField, widget)
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
@@ -163,7 +163,7 @@ Finally, there are a terms adapters for all collections. But we have to
 register some adapters before using it:
 
   >>> from z3c.form import term
-  >>> zope.component.provideAdapter(term.collection_terms_multiplexer)
+  >>> zope.component.provideAdapter(term.CollectionTerms)
   >>> zope.component.provideAdapter(term.CollectionTermsVocabulary)
   >>> zope.component.provideAdapter(term.CollectionTermsSource)
 
@@ -171,7 +171,7 @@ register some adapters before using it:
   ...     title=u'Ratings',
   ...     value_type=ratingField)
 
-  >>> terms = term.collection_terms_multiplexer(
+  >>> terms = term.CollectionTerms(
   ...     None, request, None, ratingsField, widget)
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
@@ -220,7 +220,7 @@ we create a field based on the source:
 We connect the field to a widget to see the ITerms adapter for sources
 at work:
 
-  >>> terms = term.choice_terms_multiplexer(
+  >>> terms = term.ChoiceTerms(
   ...     None, request, None, sourceRatingField, widget)
 
 Iterating over the terms adapter returnes the term objects:
@@ -259,7 +259,7 @@ Finally, there are terms adapters for all collections:
   ...     title=u'Sourced Ratings',
   ...     value_type=sourceRatingField)
 
-  >>> terms = term.collection_terms_multiplexer(
+  >>> terms = term.CollectionTerms(
   ...     None, request, None, sourceRatingsField, widget)
   >>> [entry.title for entry in terms]
   [u'ugly', u'nice', u'great']
@@ -309,7 +309,7 @@ the ITerms adapter for sources at work:
 
   >>> rating_context = RatingContext()
   >>> rating_context.base_value = 100
-  >>> terms = term.choice_terms_multiplexer(
+  >>> terms = term.ChoiceTerms(
   ...     rating_context, request, None, contextualSourceRatingField, widget)
 
 Iterating over the terms adapter returnes the term objects:
@@ -348,7 +348,7 @@ Finally, there are terms adapters for all collections:
   ...     title=u'Contextual Sourced Ratings',
   ...     value_type=contextualSourceRatingField)
 
-  >>> terms = term.collection_terms_multiplexer(
+  >>> terms = term.CollectionTerms(
   ...     rating_context, request, None, contextualSourceRatingsField, widget)
   >>> [entry.title for entry in terms]
   [u'ugly', u'nice', u'great']

@@ -328,10 +328,10 @@ def setupFormDefaults():
     zope.component.provideAdapter(converter.TimedeltaDataConverter)
     # Adapter for providing terms to radio list and other widgets
     zope.component.provideAdapter(term.BoolTerms)
-    zope.component.provideAdapter(term.choice_terms_multiplexer)
+    zope.component.provideAdapter(term.ChoiceTerms)
     zope.component.provideAdapter(term.ChoiceTermsVocabulary)
     zope.component.provideAdapter(term.ChoiceTermsSource)
-    zope.component.provideAdapter(term.collection_terms_multiplexer)
+    zope.component.provideAdapter(term.CollectionTerms)
     zope.component.provideAdapter(term.CollectionTermsVocabulary)
     zope.component.provideAdapter(term.CollectionTermsSource)
     # Adapter to create an action from a button

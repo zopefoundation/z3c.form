@@ -92,7 +92,7 @@ class SourceTerms(Terms):
     zope.interface.Interface,
     zope.schema.interfaces.IChoice,
     interfaces.IWidget)
-def choice_terms_multiplexer(context, request, form, field, widget):
+def ChoiceTerms(context, request, form, field, widget):
     field = field.bind(context)
     terms = field.vocabulary
     return zope.component.queryMultiAdapter(
@@ -170,7 +170,7 @@ class BoolTerms(Terms):
     zope.interface.Interface,
     zope.schema.interfaces.ICollection,
     interfaces.IWidget)
-def collection_terms_multiplexer(context, request, form, field, widget):
+def CollectionTerms(context, request, form, field, widget):
     terms = field.value_type.bind(context).vocabulary
     return zope.component.queryMultiAdapter(
         (context, request, form, field, terms, widget),

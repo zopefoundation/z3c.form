@@ -31,11 +31,15 @@ Let's create a couple of simple widgets and forms first:
   ...     textLine = zope.schema.TextLine(
   ...         title=u'Title',
   ...         description=u'A TextLine description')
+  ...
+  ...     anotherLine = zope.schema.TextLine(
+  ...         title=u'Other')
 
   >>> class Content(object):
   ...     zope.interface.implements(IContent)
   ...
   ...     textLine = None
+  ...     otherLine = None
   ...
   >>> content = Content()
 
@@ -47,12 +51,18 @@ Let's create a couple of simple widgets and forms first:
 
   >>> hintForm = HintForm(content, request)
 
-As you can see, there is no title value set for our widget:
+As you can see, there is no title value set for our widgets:
 
   >>> hintForm.update()
   >>> print hintForm.widgets['textLine'].render()
   <input id="form-widgets-textLine"
          name="form.widgets.textLine"
+         class="text-widget required textline-field"
+         value="" type="text" />
+
+  >>> print hintForm.widgets['anotherLine'].render()
+  <input id="form-widgets-anotherLine"
+         name="form.widgets.anotherLine"
          class="text-widget required textline-field"
          value="" type="text" />
 
@@ -72,12 +82,20 @@ field description:
          title="A TextLine description" value=""
          type="text" />
 
+If the field has no description as it is with the second one, no "title"
+will be set for the widget:
+
+  >>> print hintForm.widgets['anotherLine'].render()
+  <input id="form-widgets-anotherLine"
+         name="form.widgets.anotherLine"
+         class="text-widget required textline-field"
+         value="" type="text" />
 
 Check all fields
 ----------------
 
 Just to make sure that all the widgets are handled correctly, we will
-go trhough each of them. This sample can be useful if you need to
+go through all of them. This sample can be useful if you need to
 implement a JavaScript based hint concept:
 
   >>> import datetime

@@ -43,6 +43,3 @@ class FieldDescriptionAsHint(object):
             return self.field.description
         # None avoids rendering in templates
         return None
-
-    def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.__name__)

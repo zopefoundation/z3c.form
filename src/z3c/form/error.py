@@ -114,8 +114,8 @@ class MultipleErrorViewSnippet(ErrorViewSnippet):
 
 
 class MultipleErrors(Exception):
-    zope.interface.implements(interfaces.IMultipleErrors)
     """An error that contains many errors"""
+    zope.interface.implements(interfaces.IMultipleErrors)
 
     def __init__(self, errors):
         self.errors = errors

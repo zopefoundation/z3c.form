@@ -20,5 +20,6 @@ setup(name='benchmark',
          'zope.schema',
          'z3c.form',
          'z3c.pt',
+         'z3c.ptcompat',
       ],
       )

@@ -18,7 +18,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.pt.pagetemplate import ViewPageTemplateFile as z3cViewPageTemplateFile
-from z3c.pt import compat
+import z3c.ptcompat as compat
 
 from z3c.form import form
 from z3c.form import term

@@ -94,11 +94,11 @@ Version 2.0.0 (unreleased)
 - Fix: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
   <div class="label">, and once in the <label> next to the checkbox).
 
-- Feature: Add support for internationalization of z3c.form's messages.
-  Added Russian, French, German and Chinese translations.
-
 - Feature: The `TypeError` message used when a field does not provide
   ``IFormUnicode`` now also contains the type of the field.
+
+- Feature: Add support for internationalization of z3c.form's messages.
+  Added Russian, French, German and Chinese translations.
 
 - Remove unused imports, adjust buildout dependencies in `setup.py`.
 

@@ -29,10 +29,12 @@ INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
 HIDDEN_MODE = 'hidden'
 
-class NOT_CHANGED(str):
+# XXX: should this be changed to NOTCHANGED to follow the
+# same naming style as NOVALUE. 
+class NOT_CHANGED(object):
     def __repr__(self):
         return '<NOT_CHANGED>'
-NOT_CHANGED = NOT_CHANGED()
+NOT_CHANGED = NOT_CHANGED() 
 
 class NOVALUE(object):
     def __repr__(self):

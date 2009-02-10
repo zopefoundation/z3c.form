@@ -38,7 +38,7 @@ def applyChanges(form, content, data):
             continue
         # If the value is NOT_CHANGED, ignore it, since the widget/converter
         # sent a strong message not to do so.
-        if data[name] == interfaces.NOT_CHANGED:
+        if data[name] is interfaces.NOT_CHANGED:
             continue
         # Get the datamanager and get the original value
         dm = zope.component.getMultiAdapter(

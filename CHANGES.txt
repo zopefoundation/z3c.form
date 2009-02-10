@@ -22,8 +22,14 @@ Version 2.0.0 (unreleased)
   - setting (sub)widgets early
   - setting subwidgets.form
 
+- Feature: the new ``z3c.form.interfaces.NOT_CHANGED`` special value
+  is available to signal that the current value should be left as is.
+  It's currently handled in the ``z3c.form.form.applyChanges`` function.
+
 - Feature: When no file is specified in the file upload widget, instead of
   overwriting the value with a missing one, the old data is retained.
+  This is done by returning the new NOT_CHANGED special value from the
+  FileUploadDataConvereter.
 
 - Feature: Added a new flag ``ignoreContext`` to the form field, so that one
   can individually select which fields should and which ones should not ignore

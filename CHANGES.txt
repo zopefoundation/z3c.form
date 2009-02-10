@@ -4,23 +4,26 @@ CHANGES
 
 Version 2.0.0 (unreleased)
 --------------------------
-- Feature: add the 'prompt' attribute of the SequenceWidget to the list of
-  adaptable attributes.
+- Feature: Added Support for using sources: where is was previosly
+  possible to use a vocabulary it is now also possible to use a
+  source. This works both for basic and contextual sources.
+
+  IMPORTANT: the ChoiceTerms and and CollectionTerms in ``z3c.form.term``
+  are now simple functions that quieries for real ITerms adapters for
+  field's source or value_type respectively. So if your code inherits
+  the old ChoiceTerms and CollectionTerms classes, you'll need to review
+  and adapt it. See the ``z3c.form.term`` package and its documentation.
 
 - Fix: IMPORTANT - the signature of z3c.form.util.extractFileName function changed
   because of spelling mistake fix in argument name. The ``allowEmtpyPostFix`` is
   now called ``allowEmptyPostfix`` (note ``Empty`` instead of ``Emtpy`` and
   ``Postfix`` instead of ``PostFix``).
 
-- Changes: around objectwidget
-  - zcml objectWidgetTemplate to be able to register widget templates for
-    specific field schemas
-  - subwidgets prefix will come from the main-widget
-  - subform discriminator on field.schema did not work
-
-- Fixes: MultiWidget:
-  - setting (sub)widgets early
-  - setting subwidgets.form
+- Fix: IMPORTANT - the ``z3c.form.interfaces.NOVALUE`` special value
+  has been renamed to ``z3c.form.interfaces.NO_VALUE`` to follow the
+  common naming style. The backward-compatibility NOVALUE name is
+  still in place, but the `repr` output of the object has been also
+  changed, thus it may break your doctests.
 
 - Feature: the new ``z3c.form.interfaces.NOT_CHANGED`` special value
   is available to signal that the current value should be left as is.
@@ -31,15 +34,31 @@ Version 2.0.0 (unreleased)
   This is done by returning the new NOT_CHANGED special value from the
   FileUploadDataConvereter.
 
+- Fix: When dealing with `Bytes` fields, we should do a null conversion
+  when going to its widget value.
+
+- Feature: Preliminary support for widgets for the schema.IObject field
+  has been added. However, there is a big caveat, please read the
+  ``object-caveat.txt`` document inside the package.
+  
+  The new ``objectWidgetTemplate`` zcml directive provided for registering
+  widget templates for specific object field schemas.
+
+- Feature: Implemented the `MultiWidget` widget. This widget allows to use
+  simple fields like `ITextLine`, `IInt`, `IPassword`, etc. in a `IList` or
+  `ITuple` sequence.
+
+- Feature: Implemented `TextLinesWidget` widget. This widget offers a text
+  area element and splits lines in sequence items. This is usfull for power
+  user interfaces.  The widget can be used for sequence fields (e.g. `IList`)
+  that specify a simple value type field (e.g. `ITextLine` or `IInt`).
+
 - Feature: Added a new flag ``ignoreContext`` to the form field, so that one
   can individually select which fields should and which ones should not ignore
   the context.
 
 - Feature: Allow raw request values of sequence widgets to be non-sequence
   values, which makes integration with Javascript libraries easier.
-
-- Feature: Preliminary support for widgets of schema.IObject.
-  There is a big caveat, read: object-caveat.txt
 
 - Feature: Added support in the file upload widget's testing flavor to specify
   'base64'-encoded strings in the hidden text area, so that binary data can be
@@ -48,12 +67,11 @@ Version 2.0.0 (unreleased)
 - Feature: Allow overriding the "required" widget attribute using IValue adapter
   just like it's done for "label" and "name" attributes.
 
+- Feature: Add the 'prompt' attribute of the SequenceWidget to the list of
+  adaptable attributes.
+
 - Refactoring: Use the ``z3c.ptcompat`` template engine compatibility
   layer.
-
-- Feature: Added Support for using sources: where is was previosly
-  possible to use a vocabulary it is now also possible to use a
-  source. (Works both for basic and contextual sources.)
 
 - Feature: Added benchmarking suite demonstrating performance gain
   when using ``z3c.pt``.
@@ -66,9 +84,15 @@ Version 2.0.0 (unreleased)
 - Refactoring: HTML output is now compared using a modified version of
   the XML-aware output checker provided by ``lxml``.
 
-- Feature: The `SequenceDataConverter` and `CollectionSequenceDataConverter`
+- Fix: The `SequenceDataConverter` and `CollectionSequenceDataConverter`
   converter classes now ignore values that are not present in the terms when
   converting to a widget value.
+
+- Fix: Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling
+  list entry if it is callable.
+
+- Fix: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
+  <div class="label">, and once in the <label> next to the checkbox).
 
 - Feature: Add support for internationalization of z3c.form's messages.
   Added Russian, French, German and Chinese translations.
@@ -76,25 +100,7 @@ Version 2.0.0 (unreleased)
 - Feature: The `TypeError` message used when a field does not provide
   ``IFormUnicode`` now also contains the type of the field.
 
-- Feature: Implemented the `MultiWidget` widget. This widget allows to use
-  simple fields like `ITextLine`, `IInt`, `IPassword`, etc. in a `IList` or
-  `ITuple` sequence.
-
-- Feature: Implemented `TextLinesWidget` widget. This widget offers a text
-  area element and splits lines in sequence items. This is usfull for power
-  user interfaces.  The widget can be used for sequence fields (e.g. `IList`)
-  that specify a simple value type field (e.g. `ITextLine` or `IInt`).
-
-- Bug: When dealing with `Bytes` fields, we should do a null conversion when
-  going to its widget value.
-
-- Bug: Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling
-  list entry if it is callable.
-
-- Bug: Remove unused imports, adjust buildout dependencies in `setup.py`.
-
-- Bug: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
-  <div class="label">, and once in the <label> next to the checkbox).
+- Remove unused imports, adjust buildout dependencies in `setup.py`.
 
 
 Version 1.9.0 (2008-08-26)

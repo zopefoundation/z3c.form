@@ -61,7 +61,7 @@ If nothing is found in the request, the default is returned:
   >>> widget.request = TestRequest()
   >>> widget.update()
   >>> widget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
 Make also sure that we can handle FileUpload objects given from a file upload.
 
@@ -103,7 +103,7 @@ testing text area:
   ...     form={'widget.name.testing': 'File upload contents.'})
   >>> widget.update()
   >>> widget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
 The extract method uses the request directly, but we can get the value
 using the data converter.

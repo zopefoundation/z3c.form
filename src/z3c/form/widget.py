@@ -74,7 +74,7 @@ class Widget(zope.location.Location):
     def update(self):
         """See z3c.form.interfaces.IWidget."""
         # Step 1: Determine the value.
-        value = interfaces.NOVALUE
+        value = interfaces.NO_VALUE
         lookForDefault = False
         # Step 1.1: If possible, get a value from the request
         if not self.ignoreRequest:
@@ -82,7 +82,7 @@ class Widget(zope.location.Location):
             #errors will be set when extract gets called from form.extractData
             self.setErrors = False
             widget_value = self.extract()
-            if widget_value is not interfaces.NOVALUE:
+            if widget_value is not interfaces.NO_VALUE:
                 # Once we found the value in the request, it takes precendence
                 # over everything and nothing else has to be done.
                 self.value = widget_value
@@ -90,7 +90,7 @@ class Widget(zope.location.Location):
         # Step 1.2: If we have a widget with a field and we have no value yet,
         #           we have some more possible locations to get the value
         if (interfaces.IFieldWidget.providedBy(self) and
-            value is interfaces.NOVALUE and
+            value is interfaces.NO_VALUE and
             value is not PLACEHOLDER):
             # Step 1.2.1: If the widget knows about its context and the
             #              context is to be used to extract a value, get
@@ -105,20 +105,20 @@ class Widget(zope.location.Location):
             # NOTE: It should check field.default is not missing_value, but
             # that requires fixing zope.schema first
             if ((value is self.field.missing_value or
-                 value is interfaces.NOVALUE) and
+                 value is interfaces.NO_VALUE) and
                 self.field.default is not None):
                 value = self.field.default
                 lookForDefault = True
         # Step 1.3: If we still have not found a value, then we try to get it
         #           from an attribute value
-        if value is interfaces.NOVALUE or lookForDefault:
+        if value is interfaces.NO_VALUE or lookForDefault:
             adapter = zope.component.queryMultiAdapter(
                 (self.context, self.request, self.form, self.field, self),
                 interfaces.IValue, name='default')
             if adapter:
                 value = adapter.get()
         # Step 1.4: Convert the value to one that the widget can understand
-        if value not in (interfaces.NOVALUE, PLACEHOLDER):
+        if value not in (interfaces.NO_VALUE, PLACEHOLDER):
             converter = interfaces.IDataConverter(self)
             self.value = converter.toWidgetValue(value)
         # Step 2: Update selected attributes
@@ -140,7 +140,7 @@ class Widget(zope.location.Location):
                 IPageTemplate, name=self.mode)
         return template(self)
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""
         return self.request.get(self.name, default)
 
@@ -199,7 +199,7 @@ class SequenceWidget(Widget):
         self.updateTerms()
         super(SequenceWidget, self).update()
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""
         if (self.name not in self.request and
             self.name+'-empty-marker' in self.request):
@@ -291,7 +291,7 @@ class MultiWidget(Widget):
         widget = self.getWidget(idx)
         self.widgets.append(widget)
 
-    def applyValue(self, widget, value=interfaces.NOVALUE):
+    def applyValue(self, widget, value=interfaces.NO_VALUE):
         """Validate and apply value to given widget.
 
         This method gets called on any multi widget value change and is
@@ -301,7 +301,7 @@ class MultiWidget(Widget):
         nothing outside this multi widget does know something about our
         internal sub widgets.
         """
-        if value is not interfaces.NOVALUE:
+        if value is not interfaces.NO_VALUE:
             try:
                 # convert widget value to field value
                 converter = interfaces.IDataConverter(widget)
@@ -369,7 +369,7 @@ class MultiWidget(Widget):
             self.updateWidgets()
         return property(get, set)
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NO_VALUE):
         # This method is responsible to get the widgets value based on the
         # request and nothing else.
         # We have to setup the widgets for extract their values, because we
@@ -379,7 +379,7 @@ class MultiWidget(Widget):
         # which whould generate a different set of widgets.
         if self.request.get(self.counterName) is None:
             # counter marker not found
-            return interfaces.NOVALUE
+            return interfaces.NO_VALUE
         counter = int(self.request.get(self.counterName, 0))
         values = []
         append = values.append
@@ -389,7 +389,7 @@ class MultiWidget(Widget):
             append(widget.value)
         if len(values) == 0:
             # no multi value found
-            return interfaces.NOVALUE
+            return interfaces.NO_VALUE
         return values
 
 

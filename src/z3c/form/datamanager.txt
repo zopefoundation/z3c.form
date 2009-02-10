@@ -87,7 +87,7 @@ default value:
   AttributeError: 'Person' object has no attribute 'phone'
 
   >>> phoneDm.query()
-  <NOVALUE>
+  <NO_VALUE>
   >>> phoneDm.query('nothing')
   'nothing'
 
@@ -274,7 +274,7 @@ Let's now access the name:
   KeyError: 'name'
 
   >>> nameDm.query()
-  <NOVALUE>
+  <NO_VALUE>
 
 Initially we get the default value (as specified in the field), since the
 person dictionariy has no entry. If no default value has been specified in the

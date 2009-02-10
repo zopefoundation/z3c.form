@@ -155,7 +155,7 @@ If nothing is found in the request, the default is returned:
   >>> widget.request = testing.TestRequest()
   >>> widget.update()
   >>> widget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
 Let's now make sure that a bogus value causes extract to return the default as
 described by the interface:
@@ -163,7 +163,7 @@ described by the interface:
   >>> widget.request = testing.TestRequest(form={'widget.name': ['x']})
   >>> widget.update()
   >>> widget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
 Finally, let's check correctness of widget rendering in one rare case when
 we got selection terms with callable values and without titles. For example,

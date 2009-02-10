@@ -349,7 +349,7 @@ Let's set acceptable values:
 Let's see what we get on value extraction:
 
   >>> widget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
 If we now click on the ``Add`` button, we will get a new input field for enter
 a new value:

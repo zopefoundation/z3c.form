@@ -47,7 +47,7 @@ class AttributeField(DataManager):
             context = self.field.interface(context)
         return getattr(context, self.field.__name__)
 
-    def query(self, default=interfaces.NOVALUE):
+    def query(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IDataManager"""
         try:
             return self.get()
@@ -103,7 +103,7 @@ class DictionaryField(DataManager):
         """See z3c.form.interfaces.IDataManager"""
         return self.data[self.field.__name__]
 
-    def query(self, default=interfaces.NOVALUE):
+    def query(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IDataManager"""
         return self.data.get(self.field.__name__, default)
 

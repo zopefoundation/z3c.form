@@ -71,4 +71,4 @@ If nothing is found in the request, the default is returned:
   >>> widget.request = TestRequest()
   >>> widget.update()
   >>> widget.extract()
-  <NOVALUE>
+  <NO_VALUE>

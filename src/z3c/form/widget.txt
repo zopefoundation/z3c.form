@@ -441,7 +441,7 @@ default value is returned:
 
   >>> seqWidget.request = TestRequest(form={'seq': ['v4']})
   >>> seqWidget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
   >>> seqWidget.request = TestRequest(form={'seq-empty-marker': '1'})
   >>> seqWidget.extract()
@@ -549,13 +549,13 @@ If we provide an empty counter we will get no value:
 If we provide no request we will get no value:
 
   >>> multiWidget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
 If we provide an empty counter we will get no value:
 
   >>> multiWidget.request = TestRequest(form={'multi.name.count':'0'})
   >>> multiWidget.extract()
-  <NOVALUE>
+  <NO_VALUE>
 
 If we provide real values within the request, we will get it back:
 

@@ -185,10 +185,10 @@ Let's provide a more meaningful value:
     </body>
   </html>
 
-The widget's value is NOVALUE until it gets a request:
+The widget's value is NO_VALUE until it gets a request:
 
   >>> widget.value
-  <NOVALUE>
+  <NO_VALUE>
 
 Let's fill in some values via the request:
 

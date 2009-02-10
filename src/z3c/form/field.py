@@ -285,7 +285,7 @@ class FieldWidgets(util.Manager):
             try:
                 widget.setErrors = self.setErrors
                 raw = widget.extract()
-                if raw is not interfaces.NOVALUE:
+                if raw is not interfaces.NO_VALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
                 zope.component.getMultiAdapter(
                     (self.content,

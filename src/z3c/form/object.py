@@ -98,7 +98,7 @@ class ObjectConverter(BaseDataConverter):
     def toWidgetValue(self, value):
         """Just dispatch it."""
         if value is self.field.missing_value:
-            return interfaces.NOVALUE
+            return interfaces.NO_VALUE
 
         retval = {}
         for name in zope.schema.getFieldNames(self.field.schema):
@@ -129,7 +129,7 @@ class ObjectConverter(BaseDataConverter):
 
     def toFieldValue(self, value):
         """field value is an Object type, that provides field.schema"""
-        if value is interfaces.NOVALUE:
+        if value is interfaces.NO_VALUE:
             return self.field.missing_value
 
         if self.widget.subform is None:
@@ -181,7 +181,7 @@ class ObjectWidget(widget.Widget):
     zope.interface.implements(interfaces.IObjectWidget)
 
     subform = None
-    _value = interfaces.NOVALUE
+    _value = interfaces.NO_VALUE
     _updating = False
 
     def _getForm(self, content):
@@ -194,7 +194,7 @@ class ObjectWidget(widget.Widget):
             interfaces.ISubformFactory)()
 
     def updateWidgets(self, setErrors=True):
-        if self._value is not interfaces.NOVALUE:
+        if self._value is not interfaces.NO_VALUE:
             self._getForm(self._value)
         else:
             self._getForm(None)
@@ -213,7 +213,7 @@ class ObjectWidget(widget.Widget):
         finally:
             self._updating = False
 
-    def applyValue(self, widget, value=interfaces.NOVALUE):
+    def applyValue(self, widget, value=interfaces.NO_VALUE):
         """Validate and apply value to given widget.
         """
         converter = interfaces.IDataConverter(widget)
@@ -251,15 +251,15 @@ class ObjectWidget(widget.Widget):
             self.updateWidgets()
 
             # ensure that we apply our new values to the widgets
-            if value is not interfaces.NOVALUE:
+            if value is not interfaces.NO_VALUE:
                 for name in zope.schema.getFieldNames(self.field.schema):
                     self.applyValue(self.subform.widgets[name],
-                                    value.get(name, interfaces.NOVALUE))
+                                    value.get(name, interfaces.NO_VALUE))
 
         return property(get, set)
 
 
-    def extract(self, default=interfaces.NOVALUE):
+    def extract(self, default=interfaces.NO_VALUE):
         if self.name+'-empty-marker' in self.request:
             self.updateWidgets(setErrors=False)
 

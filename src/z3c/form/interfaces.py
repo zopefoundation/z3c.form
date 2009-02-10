@@ -29,17 +29,17 @@ INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
 HIDDEN_MODE = 'hidden'
 
-# XXX: should this be changed to NOTCHANGED to follow the
-# same naming style as NOVALUE. 
 class NOT_CHANGED(object):
     def __repr__(self):
         return '<NOT_CHANGED>'
 NOT_CHANGED = NOT_CHANGED() 
 
-class NOVALUE(object):
+class NO_VALUE(object):
     def __repr__(self):
-        return '<NOVALUE>'
-NOVALUE = NOVALUE()
+        return '<NO_VALUE>'
+NO_VALUE = NO_VALUE()
+
+NOVALUE = NO_VALUE # BBB: the object was renamed to follow common naming style
 
 # ----[ Layer Declaration ]--------------------------------------------------
 
@@ -239,7 +239,7 @@ class IDataManager(zope.interface.Interface):
         If no value can be found, raise an error
         """
 
-    def query(default=NOVALUE):
+    def query(default=NO_VALUE):
         """Get the value.
 
         If no value can be found, return the default value.
@@ -428,7 +428,7 @@ class IWidget(ILocation):
         default=True,
         required=False)
 
-    def extract(default=NOVALUE):
+    def extract(default=NO_VALUE):
         """Extract the string value(s) of the widget from the form.
 
         The return value may be any Python construct, but is typically a
@@ -468,7 +468,7 @@ class ISequenceWidget(IWidget):
     """
 
     noValueToken = zope.schema.ASCIILine(
-        title=_('NOVALUE Token'),
+        title=_('NO_VALUE Token'),
         description=_('The token to be used, if no value has been selected.'))
 
     terms = zope.schema.Object(

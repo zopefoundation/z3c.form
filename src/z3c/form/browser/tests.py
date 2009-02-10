@@ -18,7 +18,7 @@ from zope.testing.doctestunit import DocFileSuite
 from z3c.form import testing
 
 def test_suite():
-    checker = testing.OutputChecker()
+    checker = testing.OutputChecker(doctest)
 
     tests = ((
         DocFileSuite('README.txt',

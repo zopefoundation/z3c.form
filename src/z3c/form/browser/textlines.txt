@@ -54,3 +54,43 @@ Adding some more attributes to the widget will make it display more:
   >>> print widget.render()
   <textarea id="id" name="name" class="textarea-widget">foo
   bar</textarea>
+
+
+TextLinesFieldWidget
+--------------------
+
+The field widget needs a field:
+
+  >>> import zope.schema
+  >>> text = zope.schema.List(
+  ...     title=u'List',
+  ...      value_type=zope.schema.TextLine())
+
+  >>> widget = textlines.TextLinesFieldWidget(text, request)
+  >>> widget
+  <TextLinesWidget ''>
+
+  >>> widget.id = 'id'
+  >>> widget.name = 'name'
+  >>> widget.value = u'foo\nbar'
+
+  >>> print widget.render()
+  <textarea id="id" name="name" class="textarea-widget">foo
+  bar</textarea>
+
+
+TextLinesFieldWidgetFactory
+---------------------------
+
+  >>> widget = textlines.TextLinesFieldWidgetFactory(text, text.value_type,
+  ...     request)
+  >>> widget
+  <TextLinesWidget ''>
+
+  >>> widget.id = 'id'
+  >>> widget.name = 'name'
+  >>> widget.value = u'foo\nbar'
+
+  >>> print widget.render()
+  <textarea id="id" name="name" class="textarea-widget">foo
+  bar</textarea>

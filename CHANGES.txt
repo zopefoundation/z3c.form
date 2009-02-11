@@ -4,20 +4,21 @@ CHANGES
 
 Version 2.0.0 (unreleased)
 --------------------------
-- Feature: Added Support for using sources: where is was previosly
-  possible to use a vocabulary it is now also possible to use a
-  source. This works both for basic and contextual sources.
 
-  IMPORTANT: the ChoiceTerms and and CollectionTerms in ``z3c.form.term``
+- Feature: Added support for using sources. Where is was previosly possible to
+  use a vocabulary it is now also possible to use a source. This works both
+  for basic and contextual sources.
+
+  IMPORTANT: The `ChoiceTerms` and and CollectionTerms in ``z3c.form.term``
   are now simple functions that quieries for real ITerms adapters for
   field's source or value_type respectively. So if your code inherits
   the old ChoiceTerms and CollectionTerms classes, you'll need to review
   and adapt it. See the ``z3c.form.term`` package and its documentation.
 
-- Fix: IMPORTANT - the signature of z3c.form.util.extractFileName function changed
-  because of spelling mistake fix in argument name. The ``allowEmtpyPostFix`` is
-  now called ``allowEmptyPostfix`` (note ``Empty`` instead of ``Emtpy`` and
-  ``Postfix`` instead of ``PostFix``).
+- Fix: IMPORTANT - the signature of z3c.form.util.extractFileName function
+  changed because of spelling mistake fix in argument name. The
+  ``allowEmtpyPostFix`` is now called ``allowEmptyPostfix`` (note ``Empty``
+  instead of ``Emtpy`` and ``Postfix`` instead of ``PostFix``).
 
 - Fix: IMPORTANT - the ``z3c.form.interfaces.NOVALUE`` special value
   has been renamed to ``z3c.form.interfaces.NO_VALUE`` to follow the
@@ -40,7 +41,7 @@ Version 2.0.0 (unreleased)
 - Feature: Preliminary support for widgets for the schema.IObject field
   has been added. However, there is a big caveat, please read the
   ``object-caveat.txt`` document inside the package.
-  
+
   The new ``objectWidgetTemplate`` zcml directive provided for registering
   widget templates for specific object field schemas.
 
@@ -79,28 +80,32 @@ Version 2.0.0 (unreleased)
 - Feature: Added support for ``z3c.pt``. Usage is switched on via the
   "PREFER_Z3C_PT" environment variable.
 
-- Refactoring: Templates now declare XML namespaces.
-
-- Refactoring: HTML output is now compared using a modified version of
-  the XML-aware output checker provided by ``lxml``.
-
-- Fix: The `SequenceDataConverter` and `CollectionSequenceDataConverter`
-  converter classes now ignore values that are not present in the terms when
-  converting to a widget value.
-
-- Fix: Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling
-  list entry if it is callable.
-
-- Fix: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
-  <div class="label">, and once in the <label> next to the checkbox).
-
 - Feature: The `TypeError` message used when a field does not provide
   ``IFormUnicode`` now also contains the type of the field.
 
 - Feature: Add support for internationalization of z3c.form's messages.
   Added Russian, French, German and Chinese translations.
 
-- Remove unused imports, adjust buildout dependencies in `setup.py`.
+- Feature: Sphinx documentation for the package can now be created using the
+  new `docs` script.
+
+- Refactoring: Templates now declare XML namespaces.
+
+- Refactoring: HTML output is now compared using a modified version of
+  the XML-aware output checker provided by ``lxml``.
+
+- Refactoring: Remove unused imports, adjust buildout dependencies in
+  `setup.py`.
+
+- Bug: The `SequenceDataConverter` and `CollectionSequenceDataConverter`
+  converter classes now ignore values that are not present in the terms when
+  converting to a widget value.
+
+- Bug: Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling
+  list entry if it is callable.
+
+- Bug: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
+  <div class="label">, and once in the <label> next to the checkbox).
 
 
 Version 1.9.0 (2008-08-26)

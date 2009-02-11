@@ -88,6 +88,7 @@ setup (
             'lxml >= 2.1.1',
             ],
         adding = ['zope.app.container'],
+        docs = ['z3c.recipe.sphinxdoc'],
         ),
     install_requires = [
         'setuptools',

@@ -11,6 +11,10 @@
   </class>
 
   <adapter
+      factory=".select.ChoiceWidgetDispatcher"
+      />
+
+  <adapter
       factory=".select.SelectFieldWidget"
       />
 

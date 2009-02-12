@@ -281,6 +281,7 @@ def setupFormDefaults():
         IPageTemplate, name=interfaces.DISPLAY_MODE)
 
     # Select Widget
+    zope.component.provideAdapter(select.ChoiceWidgetDispatcher)
     zope.component.provideAdapter(select.SelectFieldWidget)
     zope.component.provideAdapter(
         widget.WidgetTemplateFactory(getPath('select_input.pt'), 'text/html'),

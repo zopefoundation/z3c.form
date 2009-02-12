@@ -75,9 +75,25 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
 
 @zope.component.adapter(zope.schema.interfaces.IChoice, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
-def SelectFieldWidget(field, request):
+def ChoiceWidgetDispatcher(field, request):
+    """Dispatch widget for IChoice based also on its source."""
+    return zope.component.getMultiAdapter((field, field.vocabulary, request),
+                                          interfaces.IFieldWidget)
+
+
+# IBaseVocabulary can change to ISource once vocabularies are deprecated
+@zope.component.adapter(zope.schema.interfaces.IChoice,
+                        zope.schema.interfaces.IBaseVocabulary,
+                        interfaces.IFormLayer)
+@zope.interface.implementer(interfaces.IFieldWidget)
+def SelectFieldWidget(field, source, request=None):
     """IFieldWidget factory for SelectWidget."""
-    return FieldWidget(field, SelectWidget(request))
+    # BBB: emulate our pre-2.0 signature (field, request)
+    if request is None:
+        real_request = source
+    else:
+        real_request = request
+    return FieldWidget(field, SelectWidget(real_request))
 
 
 @zope.component.adapter(
@@ -98,4 +114,4 @@ def CollectionSelectFieldWidget(field, request):
 @zope.interface.implementer(interfaces.IFieldWidget)
 def CollectionChoiceSelectFieldWidget(field, value_type, request):
     """IFieldWidget factory for SelectWidget."""
-    return SelectFieldWidget(field, request)
+    return SelectFieldWidget(field, None, request)

@@ -107,6 +107,9 @@ Version 2.0.0 (unreleased)
 - Bug: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
   <div class="label">, and once in the <label> next to the checkbox).
 
+- Feature: The widget for fields implementing IChoice is now looked up by
+  querying for an adapter for (field, field.vocabulary, request) so it can be
+  differentiated according to the type of the source used for the field.
 
 Version 1.9.0 (2008-08-26)
 --------------------------

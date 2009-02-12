@@ -16,7 +16,6 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.i18n.format
 import zope.interface
 import zope.component
 import zope.schema
@@ -31,7 +30,6 @@ from z3c.form.converter import BaseDataConverter
 from z3c.form import form, interfaces, util, widget
 from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
-from z3c.form.i18n import MessageFactory as _
 
 def getIfName(iface):
     return iface.__module__+'.'+iface.__name__

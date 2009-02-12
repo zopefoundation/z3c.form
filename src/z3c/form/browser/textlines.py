@@ -16,13 +16,8 @@ $Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
 """
 __docformat__ = "reStructuredText"
 
-import zope.component
 import zope.interface
-import zope.schema.interfaces
 
-from z3c.form.i18n import MessageFactory as _
-from z3c.form.interfaces import IFormLayer
-from z3c.form.interfaces import IFieldWidget
 from z3c.form import interfaces
 from z3c.form import widget
 from z3c.form.browser import textarea

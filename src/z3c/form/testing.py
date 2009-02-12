@@ -16,11 +16,7 @@
 $Id$
 """
 __docformat__ = 'restructuredtext'
-import binascii
-import doctest
 import os
-import re
-import xml.parsers.expat
 
 import zope.component
 import zope.interface

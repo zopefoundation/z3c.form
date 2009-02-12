@@ -20,9 +20,6 @@ from operator import attrgetter
 
 import zope.component
 import zope.interface
-import zope.schema
-import zope.schema.interfaces
-from zope.i18n import translate
 
 from z3c.form.i18n import MessageFactory as _
 from z3c.form import interfaces

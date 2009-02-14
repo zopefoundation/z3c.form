@@ -560,7 +560,7 @@ Using source
 
 Let's now create a choice field (using a source) and a widget:
 
-  >>> from zc.sourcefactory.basic import BasicSourceFactory 
+  >>> from zc.sourcefactory.basic import BasicSourceFactory
   >>> class GenderSourceFactory(BasicSourceFactory):
   ...     _mapping = {0: u'male', 1: u'female'}
   ...     def getValues(self):
@@ -714,6 +714,26 @@ The same is true when getting the field value:
 
   >>> seqWidget.terms
   <z3c.form.term.CollectionTermsVocabulary object ...>
+
+
+Corner case:
+Just in case the field has more ``_type``s:
+
+  >>> class myField(zope.schema.List):
+  ...     _type = (list, tuple)
+
+  >>> genders = myField(value_type=gender)
+  >>> seqWidget = widget.SequenceWidget(TestRequest())
+  >>> seqWidget.field = genders
+
+We now use the field and widget to instantiate the converter:
+
+  >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
+
+The converter uses the latter type (tuple) to convert:
+
+  >>> csdv.toFieldValue(['m'])
+  (0,)
 
 Using source
 ~~~~~~~~~~~~
@@ -869,7 +889,7 @@ An empty string will also cause the missing value to be returned:
   True
 
 It also should work for schema fields that define their type as tuple,
-for instance zope.schema.Int declares its type as (int, long). 
+for instance zope.schema.Int declares its type as (int, long).
 
   >>> ids = zope.schema.List(
   ...     value_type=zope.schema.Int(),
@@ -899,4 +919,32 @@ An empty string will also cause the missing value to be returned:
 
   >>> tlc.toFieldValue('') is None
   True
- 
+
+Converting Missing value to Widget value returns '':
+
+  >>> tlc.toWidgetValue(tlc.field.missing_value)
+  u''
+
+Just in case the field has more ``_type``s:
+
+  >>> class myField(zope.schema.List):
+  ...     _type = (list, tuple)
+
+  >>> ids = myField(
+  ...     value_type=zope.schema.Int(),
+  ...     )
+
+The converter will use the latter one.
+
+  >>> tlWidget.field = ids
+  >>> tlc = converter.TextLinesConverter(ids, tlWidget)
+
+Of course, it still can convert to the widget value:
+
+  >>> tlc.toWidgetValue([1,2,3])
+  u'1\n2\n3'
+
+And back:
+
+  >>> tlc.toFieldValue(u'1\n2\n3\n')
+  (1, 2, 3)

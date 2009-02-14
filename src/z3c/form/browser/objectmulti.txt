@@ -44,6 +44,11 @@ We also need to register the template for at least the widget and request:
   ...     (None, None, None, None, interfaces.IMultiWidget),
   ...     IPageTemplate, name=interfaces.INPUT_MODE)
 
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('multi_display.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IMultiWidget),
+  ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
+
 For the next test, we need to setup our button handler adapters.
 
   >>> from z3c.form import button
@@ -1015,3 +1020,733 @@ if you like to skip the label rendering for all widgets.
     </div>
   </div>
   <input name="foo.count" type="hidden" value="2">
+
+In a form
+---------
+
+Let's try a simple example in a form.
+
+We have to provide an adapter first:
+
+  >>> import z3c.form.browser.object
+  >>> zope.component.provideAdapter(z3c.form.browser.object.ObjectFieldWidget)
+
+
+Forms and our objectwidget fire events on add and edit, setup a subscriber
+for those:
+
+  >>> eventlog = []
+  >>> import zope.lifecycleevent
+  >>> @zope.component.adapter(zope.lifecycleevent.ObjectModifiedEvent)
+  ... def logEvent(event):
+  ...     eventlog.append(event)
+  >>> zope.component.provideHandler(logEvent)
+  >>> @zope.component.adapter(zope.lifecycleevent.ObjectCreatedEvent)
+  ... def logEvent2(event):
+  ...     eventlog.append(event)
+  >>> zope.component.provideHandler(logEvent2)
+
+  >>> def printEvents():
+  ...     for event in eventlog:
+  ...         print str(event)
+  ...         if isinstance(event, zope.lifecycleevent.ObjectModifiedEvent):
+  ...             for attr in event.descriptions:
+  ...                 print attr.interface
+  ...                 print attr.attributes
+
+We need to provide the widgets for the List
+
+  >>> from z3c.form.browser.multi import multiFieldWidgetFactory
+  >>> zope.component.provideAdapter(multiFieldWidgetFactory,
+  ...     (zope.schema.interfaces.IList, z3c.form.interfaces.IFormLayer))
+  >>> zope.component.provideAdapter(multiFieldWidgetFactory,
+  ...     (zope.schema.interfaces.ITuple, z3c.form.interfaces.IFormLayer))
+
+We define an interface containing a subobject, and an addform for it:
+
+  >>> from z3c.form import form, field
+  >>> from z3c.form.testing import MyMultiObject, IMyMultiObject
+
+Note, that creating an object will print some information about it:
+
+  >>> class MyAddForm(form.AddForm):
+  ...     fields = field.Fields(IMyMultiObject)
+  ...     def create(self, data):
+  ...         print "MyAddForm.create", str(data)
+  ...         return MyMultiObject(**data)
+  ...     def add(self, obj):
+  ...         self.context[obj.name] = obj
+  ...     def nextURL(self):
+  ...         pass
+
+We create the form and try to update it:
+
+  >>> request = TestRequest()
+  >>> myaddform =  MyAddForm(root, request)
+
+
+  >>> myaddform.update()
+
+As usual, the form contains a widget manager with the expected widget
+
+  >>> myaddform.widgets.keys()
+  ['listOfObject', 'name']
+  >>> myaddform.widgets.values()
+  [<MultiWidget 'form.widgets.listOfObject'>, <TextWidget 'form.widgets.name'>]
+
+If we want to render the addform, we must give it a template:
+
+  >>> import os
+  >>> from zope.app.pagetemplate import viewpagetemplatefile
+  >>> from z3c.form import tests
+  >>> def addTemplate(form):
+  ...     form.template = viewpagetemplatefile.BoundPageTemplate(
+  ...         viewpagetemplatefile.ViewPageTemplateFile(
+  ...             'simple_edit.pt', os.path.dirname(tests.__file__)), form)
+  >>> addTemplate(myaddform)
+
+Now rendering the addform renders no items yet:
+
+  >>> print myaddform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-listOfObject">My list field</label>
+          <div class="multi-widget required">
+            <div class="buttons">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-add"
+                     name="form.widgets.listOfObject.buttons.add"
+                     type="submit" value="Add">
+            </div>
+          </div>
+          <input name="form.widgets.listOfObject.count" type="hidden" value="0">
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field"
+                 id="form-widgets-name" name="form.widgets.name"
+                 type="text" value="">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field"
+                 id="form-buttons-add" name="form.buttons.add"
+                 type="submit" value="Add">
+        </div>
+      </form>
+    </body>
+  </html>
+
+We don't have the object (yet) in the root:
+
+  >>> root['first']
+  Traceback (most recent call last):
+  ...
+  KeyError: 'first'
+
+Add a row to the multi widget:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.listOfObject.count':u'0',
+  ...     'form.widgets.listOfObject.buttons.add':'Add'})
+  >>> myaddform.request = request
+
+Update with the request:
+
+  >>> myaddform.update()
+
+Render the form:
+
+  >>> print myaddform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-listOfObject">My list field</label>
+          <div class="multi-widget required">
+            <div class="row" id="form-widgets-listOfObject-0-row">
+              <div class="label">
+                <label for="form-widgets-listOfObject-0">
+                  <span>my object widget</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="widget">
+                <div class="multi-widget-checkbox">
+                  <input class="multi-widget-checkbox checkbox-widget"
+                         id="form-widgets-listOfObject-0-remove"
+                         name="form.widgets.listOfObject.0.remove"
+                         type="checkbox" value="1">
+                </div>
+                <div class="multi-widget-input">
+                  <div class="object-widget required">
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-foofield">
+                        <span>My foo field</span>
+                        <span class="required">*</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget required int-field"
+                             id="form-widgets-listOfObject-0-widgets-foofield"
+                             name="form.widgets.listOfObject.0.widgets.foofield"
+                             type="text" value="">
+                    </div>
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-barfield">
+                        <span>My dear bar</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget int-field"
+                             id="form-widgets-listOfObject-0-widgets-barfield"
+                             name="form.widgets.listOfObject.0.widgets.barfield"
+                             type="text" value="2,222">
+                    </div>
+                    <input name="form.widgets.listOfObject.0-empty-marker"
+                           type="hidden" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="buttons">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-add"
+                     name="form.widgets.listOfObject.buttons.add"
+                     type="submit" value="Add">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-remove"
+                     name="form.widgets.listOfObject.buttons.remove"
+                     type="submit" value="Remove selected">
+            </div>
+          </div>
+          <input name="form.widgets.listOfObject.count" type="hidden" value="1">
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field"
+                 id="form-widgets-name" name="form.widgets.name" type="text" value="">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-add"
+                 name="form.buttons.add" type="submit" value="Add">
+        </div>
+      </form>
+    </body>
+  </html>
+
+Now we can fill in some values to the object, and a name to the whole schema:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.listOfObject.count':u'1',
+  ...     'form.widgets.listOfObject.0.widgets.foofield':u'66',
+  ...     'form.widgets.listOfObject.0.widgets.barfield':u'99',
+  ...     'form.widgets.listOfObject.0-empty-marker':u'1',
+  ...     'form.widgets.name':u'first',
+  ...     'form.buttons.add':'Add'})
+  >>> myaddform.request = request
+
+Update the form with the request:
+
+  >>> myaddform.update()
+  MyAddForm.create {'name': u'first',
+  'listOfObject': [<z3c.form.testing.MySubObjectMulti object at ...>]}
+
+Wow, it got added:
+
+  >>> root['first']
+  <z3c.form.testing.MyMultiObject object at ...>
+
+  >>> root['first'].listOfObject
+  [<z3c.form.testing.MySubObjectMulti object at ...>]
+
+Field values need to be right:
+
+  >>> root['first'].listOfObject[0].foofield
+  66
+  >>> root['first'].listOfObject[0].barfield
+  99
+
+Let's see our event log:
+
+  >>> len(eventlog)
+  6
+
+((why is IMySubObjectMulti created twice???))
+
+  >>> printEvents()
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  ('foofield', 'barfield')
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  ('foofield', 'barfield')
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.container.contained.ContainerModifiedEvent object at ...>
+
+
+  >>> eventlog=[]
+
+Let's try to edit that newly added object:
+
+  >>> class MyEditForm(form.EditForm):
+  ...     fields = field.Fields(IMyMultiObject)
+
+  >>> editform = MyEditForm(root['first'], TestRequest())
+  >>> addTemplate(editform)
+  >>> editform.update()
+
+Watch for the widget values in the HTML:
+
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-listOfObject">My list field</label>
+          <div class="multi-widget required">
+            <div class="row" id="form-widgets-listOfObject-0-row">
+              <div class="label">
+                <label for="form-widgets-listOfObject-0">
+                  <span>my object widget</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="widget">
+                <div class="multi-widget-checkbox">
+                  <input class="multi-widget-checkbox checkbox-widget"
+                         id="form-widgets-listOfObject-0-remove"
+                         name="form.widgets.listOfObject.0.remove"
+                         type="checkbox" value="1">
+                </div>
+                <div class="multi-widget-input">
+                  <div class="object-widget required">
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-foofield">
+                        <span>My foo field</span>
+                        <span class="required">*</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget required int-field"
+                             id="form-widgets-listOfObject-0-widgets-foofield"
+                             name="form.widgets.listOfObject.0.widgets.foofield"
+                             type="text" value="66">
+                    </div>
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-barfield">
+                        <span>My dear bar</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget int-field"
+                             id="form-widgets-listOfObject-0-widgets-barfield"
+                             name="form.widgets.listOfObject.0.widgets.barfield"
+                             type="text" value="99">
+                    </div>
+                    <input name="form.widgets.listOfObject.0-empty-marker"
+                           type="hidden" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="buttons">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-add"
+                     name="form.widgets.listOfObject.buttons.add"
+                     type="submit" value="Add">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-remove"
+                     name="form.widgets.listOfObject.buttons.remove"
+                     type="submit" value="Remove selected">
+            </div>
+          </div>
+          <input name="form.widgets.listOfObject.count" type="hidden" value="1">
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field"
+                 id="form-widgets-name" name="form.widgets.name"
+                 type="text" value="first">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+                 name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+Let's modify the values:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.listOfObject.count':u'1',
+  ...     'form.widgets.listOfObject.0.widgets.foofield':u'43',
+  ...     'form.widgets.listOfObject.0.widgets.barfield':u'55',
+  ...     'form.widgets.listOfObject.0-empty-marker':u'1',
+  ...     'form.widgets.name':u'first',
+  ...     'form.buttons.apply':'Apply'})
+
+They are still the same:
+
+  >>> root['first'].listOfObject[0].foofield
+  66
+  >>> root['first'].listOfObject[0].barfield
+  99
+
+  >>> editform.request = request
+  >>> editform.update()
+
+Until we have updated the form:
+
+  >>> root['first'].listOfObject[0].foofield
+  43
+  >>> root['first'].listOfObject[0].barfield
+  55
+
+Let's see our event log:
+
+  >>> len(eventlog)
+  7
+
+((TODO: now this is real crap here, why is IMySubObjectMulti created 3 times???))
+
+  >>> printEvents()
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  ('foofield', 'barfield')
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  ('foofield', 'barfield')
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  ('foofield', 'barfield')
+  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <InterfaceClass z3c.form.testing.IMyMultiObject>
+  ('listOfObject',)
+
+  >>> eventlog=[]
+
+
+After the update the form says that the values got updated and renders the new
+values:
+
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <i>Data successfully updated.</i>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-listOfObject">My list field</label>
+          <div class="multi-widget required">
+            <div class="row" id="form-widgets-listOfObject-0-row">
+              <div class="label">
+                <label for="form-widgets-listOfObject-0">
+                  <span>my object widget</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="widget">
+                <div class="multi-widget-checkbox">
+                  <input class="multi-widget-checkbox checkbox-widget"
+                         id="form-widgets-listOfObject-0-remove"
+                         name="form.widgets.listOfObject.0.remove"
+                         type="checkbox" value="1">
+                </div>
+                <div class="multi-widget-input">
+                  <div class="object-widget required">
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-foofield">
+                        <span>My foo field</span>
+                        <span class="required">*</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget required int-field"
+                             id="form-widgets-listOfObject-0-widgets-foofield"
+                             name="form.widgets.listOfObject.0.widgets.foofield"
+                             type="text" value="43">
+                    </div>
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-barfield">
+                        <span>My dear bar</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget int-field"
+                             id="form-widgets-listOfObject-0-widgets-barfield"
+                             name="form.widgets.listOfObject.0.widgets.barfield"
+                             type="text" value="55">
+                    </div>
+                    <input name="form.widgets.listOfObject.0-empty-marker"
+                           type="hidden" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="buttons">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-add"
+                     name="form.widgets.listOfObject.buttons.add" type="submit"
+                     value="Add">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-remove"
+                     name="form.widgets.listOfObject.buttons.remove"
+                     type="submit" value="Remove selected">
+            </div>
+          </div>
+          <input name="form.widgets.listOfObject.count" type="hidden" value="1">
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field"
+                 id="form-widgets-name" name="form.widgets.name"
+                 type="text" value="first">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+                 name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+
+Let's see if the widget keeps the old object on editing:
+
+We add a special property to keep track of the object:
+
+  >>> root['first'].listOfObject[0].__marker__ = "ThisMustStayTheSame"
+
+  >>> root['first'].listOfObject[0].foofield
+  43
+  >>> root['first'].listOfObject[0].barfield
+  55
+
+Let's modify the values:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.listOfObject.count':u'1',
+  ...     'form.widgets.listOfObject.0.widgets.foofield':u'666',
+  ...     'form.widgets.listOfObject.0.widgets.barfield':u'999',
+  ...     'form.widgets.listOfObject.0-empty-marker':u'1',
+  ...     'form.widgets.name':u'first',
+  ...     'form.buttons.apply':'Apply'})
+
+  >>> editform.request = request
+
+  >>> editform.update()
+
+Let's check what are ther esults of the update:
+
+  >>> root['first'].listOfObject[0].foofield
+  666
+  >>> root['first'].listOfObject[0].barfield
+  999
+
+((TODO: bummer... we can't keep the old object))
+
+  #>>> root['first'].listOfObject[0].__marker__
+  #'ThisMustStayTheSame'
+
+
+Let's make a nasty error, by typing 'bad' instead of an integer:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.listOfObject.count':u'1',
+  ...     'form.widgets.listOfObject.0.widgets.foofield':u'99',
+  ...     'form.widgets.listOfObject.0.widgets.barfield':u'bad',
+  ...     'form.widgets.listOfObject.0-empty-marker':u'1',
+  ...     'form.widgets.name':u'first',
+  ...     'form.buttons.apply':'Apply'})
+
+  >>> editform.request = request
+  >>> eventlog=[]
+  >>> editform.update()
+
+Eventlog must be clean:
+
+  >>> len(eventlog)
+  2
+
+((TODO: bummer... who creates those 2 objects???))
+
+  >>> printEvents()
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+
+
+Watch for the error message in the HTML:
+it has to appear at the field itself and at the top of the form:
+((not nice: at the top ``Object is of wrong type.`` appears))
+
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <i>There were some errors.</i>
+      <ul>
+        <li>
+        My list field:
+          <div class="error">Object is of wrong type.</div>
+        </li>
+      </ul>
+      <form action=".">
+        <div class="row">
+          <b>
+            <div class="error">Object is of wrong type.</div>
+          </b>
+          <label for="form-widgets-listOfObject">My list field</label>
+          <div class="multi-widget required">
+            <div class="row" id="form-widgets-listOfObject-0-row">
+              <div class="label">
+                <label for="form-widgets-listOfObject-0">
+                  <span>my object widget</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="widget">
+                <div class="multi-widget-checkbox">
+                  <input class="multi-widget-checkbox checkbox-widget"
+                         id="form-widgets-listOfObject-0-remove"
+                         name="form.widgets.listOfObject.0.remove"
+                         type="checkbox" value="1">
+                </div>
+                <div class="multi-widget-input">
+                  <div class="object-widget required">
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-foofield">
+                        <span>My foo field</span>
+                        <span class="required">*</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget required int-field"
+                             id="form-widgets-listOfObject-0-widgets-foofield"
+                             name="form.widgets.listOfObject.0.widgets.foofield"
+                             type="text" value="99">
+                    </div>
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-barfield">
+                        <span>My dear bar</span>
+                      </label>
+                    </div>
+                    <div class="error">
+                      <div class="error">The entered value is not a valid integer literal.</div>
+                    </div>
+                    <div class="widget">
+                      <input class="text-widget int-field"
+                             id="form-widgets-listOfObject-0-widgets-barfield"
+                             name="form.widgets.listOfObject.0.widgets.barfield"
+                             type="text" value="bad">
+                    </div>
+                    <input name="form.widgets.listOfObject.0-empty-marker" type="hidden" value="1">
+                  </div>
+                </div>
+              </div>
+              <div class="error">
+                <div class="error">Object is of wrong type.</div>
+              </div>
+            </div>
+            <div class="buttons">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-add"
+                     name="form.widgets.listOfObject.buttons.add"
+                     type="submit" value="Add">
+              <input class="submit-widget button-field"
+                     id="form-widgets-listOfObject-buttons-remove"
+                     name="form.widgets.listOfObject.buttons.remove"
+                     type="submit" value="Remove selected">
+            </div>
+          </div>
+          <input name="form.widgets.listOfObject.count" type="hidden" value="1">
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <input class="text-widget required textline-field"
+                 id="form-widgets-name" name="form.widgets.name"
+                 type="text" value="first">
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field" id="form-buttons-apply"
+                 name="form.buttons.apply" type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>
+
+The object values must stay at the old ones:
+
+  >>> root['first'].listOfObject[0].foofield
+  666
+  >>> root['first'].listOfObject[0].barfield
+  999
+
+
+
+Simple but often used use-case is the display form:
+
+  >>> editform = MyEditForm(root['first'], TestRequest())
+  >>> addTemplate(editform)
+  >>> editform.mode = interfaces.DISPLAY_MODE
+  >>> editform.update()
+  >>> print editform.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-listOfObject">My list field</label>
+          <span class="multi-widget required" id="form-widgets-listOfObject">
+            <div class="row" id="form-widgets-listOfObject-0-row">
+              <div class="label">
+                <label for="form-widgets-listOfObject-0">
+                  <span>my object widget</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="widget">
+                <div class="multi-widget-display">
+                  <div class="object-widget required">
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-foofield">
+                        <span>My foo field</span>
+                        <span class="required">*</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <span class="text-widget required int-field"
+                            id="form-widgets-listOfObject-0-widgets-foofield">666</span>
+                    </div>
+                    <div class="label">
+                      <label for="form-widgets-listOfObject-0-widgets-barfield">
+                        <span>My dear bar</span>
+                      </label>
+                    </div>
+                    <div class="widget">
+                      <span class="text-widget int-field"
+                            id="form-widgets-listOfObject-0-widgets-barfield">999</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">name</label>
+          <span class="text-widget required textline-field"
+                id="form-widgets-name">first</span>
+        </div>
+        <div class="action">
+          <input class="submit-widget button-field"
+                 id="form-buttons-apply" name="form.buttons.apply"
+                 type="submit" value="Apply">
+        </div>
+      </form>
+    </body>
+  </html>

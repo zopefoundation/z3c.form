@@ -174,6 +174,25 @@ class MySubObjectMulti(object):
     foofield = FieldProperty(IMySubObjectMulti['foofield'])
     barfield = FieldProperty(IMySubObjectMulti['barfield'])
 
+class IMyMultiObject(zope.interface.Interface):
+    listOfObject = zope.schema.List(
+        title = u"My list field",
+        value_type = zope.schema.Object(
+            title=u'my object widget',
+            schema=IMySubObjectMulti),
+    )
+    name = zope.schema.TextLine(title=u'name')
+
+class MyMultiObject(object):
+    zope.interface.implements(IMyMultiObject)
+
+    listOfObject = FieldProperty(IMyMultiObject['listOfObject'])
+    name = FieldProperty(IMyMultiObject['name'])
+
+    def __init__(self, name=u'', listOfObject=None):
+        self.listOfObject = listOfObject
+        self.name = name
+
 #
 #
 #############################

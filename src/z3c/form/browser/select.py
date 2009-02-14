@@ -81,9 +81,8 @@ def ChoiceWidgetDispatcher(field, request):
                                           interfaces.IFieldWidget)
 
 
-# IBaseVocabulary can change to ISource once vocabularies are deprecated
 @zope.component.adapter(zope.schema.interfaces.IChoice,
-                        zope.schema.interfaces.IBaseVocabulary,
+                        zope.interface.Interface,
                         interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def SelectFieldWidget(field, source, request=None):

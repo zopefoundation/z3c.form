@@ -5,6 +5,10 @@ CHANGES
 Version 2.0.0 (unreleased)
 --------------------------
 
+- Bug: The CollectionSequenceDataConverter no longer throws a
+  "TypeError: 'NoneType' object is not iterable" when passed the value
+  of a non-required field (which in the case of a List field is None).
+
 - Feature: Added support for using sources. Where is was previosly possible to
   use a vocabulary it is now also possible to use a source. This works both
   for basic and contextual sources.

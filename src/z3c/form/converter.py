@@ -284,6 +284,8 @@ class CollectionSequenceDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         """Convert from Python bool to HTML representation."""
+        if value is self.field.missing_value:
+            return []
         widget = self.widget
         if widget.terms is None:
             widget.updateTerms()

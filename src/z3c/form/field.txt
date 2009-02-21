@@ -417,6 +417,29 @@ in a particular order:
   >>> manager.keys()
   ['id', 'lastName', 'firstName']
 
+
+
+ISSUE: duplicated key, values if update ge called more then once. 
+NOTE: I'll fix this today.
+
+  >>> keys = list(manager.keys())
+  >>> values = list(manager.values())
+  >>> data = dict(manager._data)
+
+  >>> manager.update()
+  >>> manager.keys()
+  ['id', 'lastName', 'firstName', 'id', 'lastName', 'firstName']
+
+set values back to manager since the test will get otherwise messup
+
+  >>> manager._data_keys = keys
+  >>> manager._data_values = values
+  >>> manager._data = data
+
+END ISSUE
+
+
+
 Let's make sure that all enumerable mapping functions work correctly:
 
   >>> manager['lastName']

@@ -65,6 +65,7 @@ actions:
 
   >>> actions.keys()
   ['apply', 'cancel']
+
   >>> actions['apply']
   <ButtonAction 'form.buttons.apply' u'Apply'>
 
@@ -81,17 +82,30 @@ by registering an adapter for the request and the button that provides
   ...     CustomButtonAction, provides=interfaces.IButtonAction)
 
 Now if we rerun update we will get this other ButtonAction
-implementation.
+implementation. Note, there are two strategies what now could happen. We can
+remove the existing action and get the new adapter based action or we can
+reuse the existing action. Since the ButtonActions class offers an API for
+remove existing actions, we reuse the existing action because it very uncommon
+to replace existing action during an for update call with an adapter. If
+someone really will add an action adapter during process time via directly
+provided interface, he is also responsible for remove existing actions.
+
+As you can see we still will get the old button action if we only call update:
 
   >>> actions.update()
+  >>> actions['apply']
+  <ButtonAction 'form.buttons.apply' u'Apply'>
 
-ISSUE duplicated button keys and values by calling update twice:
+This means we have to remove the previous action before we call update:
+
+  >>> del actions['apply']
+  >>> actions.update()
 
 Make sure we do not append a button twice to the key and value lists by calling
-update twice, Right now we do excatly that:
+update twice:
 
   >>> actions.keys()
-  ['apply', 'cancel', 'apply', 'cancel']
+  ['apply', 'cancel']
 
   >>> actions['apply']
   <CustomButtonAction 'form.buttons.apply' u'Apply'>
@@ -100,16 +114,34 @@ Alternatively, customize an individual button by setting its
 actionFactory attribute.
 
   >>> def customButtonActionFactory(request, field):
-  ...     print "Just to let you know, this is a custom button."
+  ...     print "This button factory creates a button only once."
   ...     button = CustomButtonAction(request, field)
   ...     button.css = "happy"
   ...     return button
 
   >>> form.buttons['apply'].actionFactory = customButtonActionFactory
+
+Again, remove the old button action befor we call update:
+
+  >>> del actions['apply']
   >>> actions.update()
-  Just to let you know, this is a custom button.
+  This button factory creates a button only once.
+
+  >>> actions.update()
+
   >>> actions['apply'].css
   'happy'
+
+Since we only create a button once from an adapter or a factory, we can change
+the button attributes without to lose changes:
+
+  >>> actions['apply'].css = 'very happy'
+  >>> actions['apply'].css
+  'very happy'
+
+  >>> actions.update()
+  >>> actions['apply'].css
+  'very happy'
 
 But let's not digress too much and get rid of this customization
 

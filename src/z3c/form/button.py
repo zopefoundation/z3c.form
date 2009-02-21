@@ -254,20 +254,24 @@ class ButtonActions(action.Actions):
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.form.buttons.prefix)
         # Walk through each field, making an action out of it.
+        orderedNames = []
         for name, button in self.form.buttons.items():
             # Step 1: Only create an action for the button, if the condition is
             #         fulfilled.
             if button.condition is not None and not button.condition(self.form):
                 continue
             # Step 2: Get the action for the given button.
-            if button.actionFactory is not None:
+            newButton = True
+            if name in self._data:
+                buttonAction = self._data[name]
+                newButton = False
+            elif button.actionFactory is not None:
                 buttonAction = button.actionFactory(self.request, button)
             else:
                 buttonAction = zope.component.getMultiAdapter(
                     (self.request, button), interfaces.IButtonAction)
             # Step 3: Set the name on the button
-            fullName = prefix + name
-            buttonAction.name = fullName
+            buttonAction.name = prefix + name
             # Step 4: Set any custom attribute values.
             title = zope.component.queryMultiAdapter(
                 (self.form, self.request, self.content, button, self),
@@ -276,15 +280,19 @@ class ButtonActions(action.Actions):
                 buttonAction.title = title.get()
             # Step 5: Set the form
             buttonAction.form = self.form
-            zope.interface.alsoProvides(buttonAction, interfaces.IFormAware)
+            if not interfaces.IFormAware.providedBy(buttonAction):
+                zope.interface.alsoProvides(buttonAction, interfaces.IFormAware)
             # Step 6: Update the new action
             buttonAction.update()
             zope.event.notify(AfterWidgetUpdateEvent(buttonAction))
             # Step 7: Add the widget to the manager
-            self._data_keys.append(name)
-            self._data_values.append(buttonAction)
-            self._data[name] = buttonAction
-            zope.location.locate(buttonAction, self, name)
+            orderedNames.append(name)
+            if newButton:
+                # allways keep the order given from button items
+                self._data_keys = orderedNames
+                self._data_values.append(buttonAction)
+                self._data[name] = buttonAction
+                zope.location.locate(buttonAction, self, name)
 
 
 class ButtonActionHandler(action.ActionHandlerBase):

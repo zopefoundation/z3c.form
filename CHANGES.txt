@@ -5,8 +5,18 @@ CHANGES
 Version 2.0.0 (unreleased)
 --------------------------
 
+- Bug: FieldWidgets update where appending keys and values within each
+  update call. Now the util.Manager uses a UniqueOrderedKeys implementation
+  which will ensure that we can't add duplicted manager keys. The implementation
+  also ensures that we can't override the UniqueOrderedKeys instace with a new
+  list by using a decorator. If this UniqueOrderedKeys implementation doesn't
+  fit for all use cases, we should probably use a customized UserList
+  implementation. Now we can call widgets.update() more then one time without
+  any side effect.
+
 - Bug: ButtonActions update where appending keys and values within each
-  update call. 
+  update call. Now we can call actions.update() more then one time without
+  any side effect.
 
 - Bug: The CollectionSequenceDataConverter no longer throws a
   "TypeError: 'NoneType' object is not iterable" when passed the value

@@ -254,7 +254,7 @@ class ButtonActions(action.Actions):
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.form.buttons.prefix)
         # Walk through each field, making an action out of it.
-        orderedNames = []
+        uniqueOrderedKeys = []
         for name, button in self.form.buttons.items():
             # Step 1: Only create an action for the button, if the condition is
             #         fulfilled.
@@ -286,13 +286,14 @@ class ButtonActions(action.Actions):
             buttonAction.update()
             zope.event.notify(AfterWidgetUpdateEvent(buttonAction))
             # Step 7: Add the widget to the manager
-            orderedNames.append(name)
+            uniqueOrderedKeys.append(name)
             if newButton:
-                # allways keep the order given from button items
-                self._data_keys = orderedNames
                 self._data_values.append(buttonAction)
                 self._data[name] = buttonAction
                 zope.location.locate(buttonAction, self, name)
+            # allways ensure that we add all keys and keep the order given from
+            # button items
+            self._data_keys = uniqueOrderedKeys
 
 
 class ButtonActionHandler(action.ActionHandlerBase):

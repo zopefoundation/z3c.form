@@ -223,6 +223,7 @@ class FieldWidgets(util.Manager):
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.prefix)
         # Walk through each field, making a widget out of it.
+        uniqueOrderedKeys = []
         for field in self.form.fields.values():
             # Step 0. Determine whether the context should be ignored.
             ignoreContext = self.ignoreContext
@@ -242,14 +243,19 @@ class FieldWidgets(util.Manager):
                 if not dm.canWrite():
                     mode = interfaces.DISPLAY_MODE
             # Step 2: Get the widget for the given field.
-            factory = field.widgetFactory.get(mode)
-            if factory is not None:
+            shortName = field.__name__
+            newWidget = True
+            if shortName in self._data:
+                # reuse existing widget
+                widget = self._data[shortName]
+                newWidget = False
+            elif field.widgetFactory.get(mode) is not None:
+                factory = field.widgetFactory.get(mode)
                 widget = factory(field.field, self.request)
             else:
                 widget = zope.component.getMultiAdapter(
                     (field.field, self.request), interfaces.IFieldWidget)
             # Step 3: Set the prefix for the widget
-            shortName = field.__name__
             widget.name = prefix + shortName
             widget.id = (prefix + shortName).replace('.', '-')
             # Step 4: Set the context
@@ -269,10 +275,14 @@ class FieldWidgets(util.Manager):
             widget.update()
             zope.event.notify(AfterWidgetUpdateEvent(widget))
             # Step 9: Add the widget to the manager
-            self._data_keys.append(shortName)
-            self._data_values.append(widget)
-            self._data[shortName] = widget
-            zope.location.locate(widget, self, shortName)
+            uniqueOrderedKeys.append(shortName)
+            if newWidget:
+                self._data_values.append(widget)
+                self._data[shortName] = widget
+                zope.location.locate(widget, self, shortName)
+            # allways ensure that we add all keys and keep the order given from
+            # button items
+            self._data_keys = uniqueOrderedKeys
 
     def extract(self):
         """See interfaces.IWidgets"""

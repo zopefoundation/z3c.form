@@ -117,29 +117,62 @@ def extractFileName(form, id, cleanup=True, allowEmptyPostfix=False):
     return widget.filename
 
 
+class UniqueOrderedKeys(object):
+    """Ensures that we only ue unique keys in a list.
+    
+    This is usefull since we use the keys and values list only as ordered
+    keys and values addition for our data dict.
+    
+    Note, this list is only used for Manager keys and not for values since we
+    can't really compare values if we will get new instances of widgets or
+    actions.
+    """
+
+    def __init__(self, values=[]):
+        self.data = []
+        # ensure that we not intialize a list with duplicated key values
+        [self.data.append(value) for value in values]
+
+    def append(self, value):
+        if value in self.data:
+            raise ValueError(value)
+        self.data.append(value)
+
+
 class Manager(object):
     """Non-persistent IManager implementation."""
     zope.interface.implements(interfaces.IManager)
 
     def __init__(self, *args, **kw):
-        self._data_keys = []
+        self.__data_keys = UniqueOrderedKeys()
         self._data_values = []
         self._data = {}
+
+    @apply
+    def _data_keys():
+        """Use a special ordered list which will check for duplicated keys.""" 
+        def get(self):
+            return self.__data_keys
+        def set(self, values):
+            if isinstance(values, UniqueOrderedKeys):
+                self.__data_keys = values
+            else:
+                self.__data_keys = UniqueOrderedKeys(values)
+        return property(get, set)
 
     def __len__(self):
         return len(self._data_values)
 
     def __iter__(self):
-        return iter(self._data_keys)
+        return iter(self._data_keys.data)
 
     def __getitem__(self, name):
         return self._data[name]
 
     def __delitem__(self, name):
-        if name not in self._data_keys:
+        if name not in self._data_keys.data:
             raise KeyError(name)
-
-        del self._data_keys[self._data_keys.index(name)]
+        del self._data_keys.data[self._data_keys.data.index(name)]
         value = self._data[name]
         del self._data_values[self._data_values.index(value)]
         del self._data[name]
@@ -148,13 +181,13 @@ class Manager(object):
         return self._data.get(name, default)
 
     def keys(self):
-        return self._data_keys
+        return self._data_keys.data
 
     def values(self):
         return self._data_values
 
     def items(self):
-        return [(i, self._data[i]) for i in self._data_keys]
+        return [(i, self._data[i]) for i in self._data_keys.data]
 
     def __contains__(self, name):
         return bool(self.get(name))

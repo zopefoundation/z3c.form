@@ -93,6 +93,9 @@ provided interface, he is also responsible for remove existing actions.
 As you can see we still will get the old button action if we only call update:
 
   >>> actions.update()
+  >>> actions.keys()
+  ['apply', 'cancel']
+
   >>> actions['apply']
   <ButtonAction 'form.buttons.apply' u'Apply'>
 
@@ -128,7 +131,6 @@ Again, remove the old button action befor we call update:
   This button factory creates a button only once.
 
   >>> actions.update()
-
   >>> actions['apply'].css
   'happy'
 

@@ -1439,6 +1439,70 @@ In some cases the data converter for a field-widget pair returns the
   <Person u'Roger Ineichen'>
 
 
+Refreshing actions
+------------------
+
+Sometimes, it's useful to update actions again after executing them,
+because some conditions could have changed. For example, imagine
+we have a sequence edit form that has a delete button. We don't
+want to show delete button when the sequence is empty. The button
+condition would handle this, but what if the sequence becomes empty
+as a result of execution of the delete action that was available?
+In that case we want to refresh our actions to new conditions to make
+our delete button not visible anymore. The ``refreshActions`` form
+variable is intended to handle this case.
+
+Let's create a simple form with an action that clears our context
+sequence.
+
+  >>> class SequenceForm(form.Form):
+  ...
+  ...     @button.buttonAndHandler(u'Empty', condition=lambda form:bool(form.context))
+  ...     def handleEmpty(self, action):
+  ...         self.context[:] = []
+  ...         self.refreshActions = True
+
+First, let's illustrate simple cases, when no button is pressed.
+The button will be available when context is not empty. 
+
+  >>> context = [1, 2, 3, 4]
+  >>> request = TestRequest()
+  >>> myForm = SequenceForm(context, request)
+  >>> myForm.update()
+  >>> addTemplate(myForm)
+  >>> print testing.render(myForm, './/xmlns:div[@class="action"]')
+  <div class="action">
+    <input type="submit" id="form-buttons-empty" name="form.buttons.empty"
+           class="submit-widget button-field" value="Empty" />
+  </div>
+
+The button will not be available when the context is empty.
+
+  >>> context = []
+  >>> request = TestRequest()
+  >>> myForm = SequenceForm(context, request)
+  >>> myForm.update()
+  >>> addTemplate(myForm)
+  >>> print testing.render(myForm, './/xmlns:form')
+  <form action=".">
+  </form>
+
+Now, the most interesting case when context is not empty, but becomes
+empty as a result of pressing the "empty" button. We set the
+``refreshActions`` flag in the action handler, so our actions should
+be updated to new conditions.
+
+  >>> context = [1, 2, 3, 4, 5]
+  >>> request = TestRequest(form={
+  ...     'form.buttons.empty': u'Empty'}
+  ...     )
+  >>> myForm = SequenceForm(context, request)
+  >>> myForm.update()
+  >>> addTemplate(myForm)
+  >>> print testing.render(myForm, './/xmlns:form')
+  <form action=".">
+  </form>
+
 Integration tests
 -----------------
 

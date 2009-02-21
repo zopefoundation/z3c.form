@@ -95,3 +95,5 @@ class GroupForm(object):
         self.groups = tuple(groups)
         self.updateActions()
         self.actions.execute()
+        if self.refreshActions:
+            self.updateActions()

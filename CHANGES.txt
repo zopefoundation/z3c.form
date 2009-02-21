@@ -5,6 +5,11 @@ CHANGES
 Version 2.0.0 (unreleased)
 --------------------------
 
+- Feature: Add support for refreshing actions after their execution. This
+  is useful when button action conditions are changing as a result of
+  action execution. All you need is to set the ``refreshActions`` flag
+  of the form to True in your action handler.
+
 - Bug: FieldWidgets update where appending keys and values within each
   update call. Now the util.Manager uses a UniqueOrderedKeys implementation
   which will ensure that we can't add duplicted manager keys. The implementation

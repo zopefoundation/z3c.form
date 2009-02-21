@@ -160,7 +160,8 @@ class DisplayForm(BaseForm):
 class Form(BaseForm):
     """The Form."""
     zope.interface.implements(
-        interfaces.IInputForm, interfaces.IButtonForm, interfaces.IHandlerForm)
+        interfaces.IInputForm, interfaces.IButtonForm,
+        interfaces.IHandlerForm, interfaces.IActionForm)
 
     buttons = button.Buttons()
 
@@ -168,6 +169,9 @@ class Form(BaseForm):
     enctype = FieldProperty(interfaces.IInputForm['enctype'])
     acceptCharset = FieldProperty(interfaces.IInputForm['acceptCharset'])
     accept = FieldProperty(interfaces.IInputForm['accept'])
+
+    actions = FieldProperty(interfaces.IActionForm['actions'])
+    refreshActions = FieldProperty(interfaces.IActionForm['refreshActions'])
 
     @property
     def action(self):
@@ -190,6 +194,8 @@ class Form(BaseForm):
         super(Form, self).update()
         self.updateActions()
         self.actions.execute()
+        if self.refreshActions:
+            self.updateActions()
 
     def __call__(self):
         self.update()

@@ -786,6 +786,23 @@ class IHandlerForm(zope.interface.Interface):
         required=True)
 
 
+class IActionForm(zope.interface.Interface):
+    """A form that stores executable actions"""
+    
+    actions = zope.schema.Object(
+        title=_('Actions'),
+        description=_('A list of actons defined on the form'),
+        schema=IActions,
+        required=True)
+
+    refreshActions = zope.schema.Bool(
+        title=_('Refresh actions'),
+        description=_('A flag, when set, causes form actions to be '
+                      'updated again after their execution.'),
+        default=False,
+        required=True)
+
+
 class IContextAware(zope.interface.Interface):
     """Offers a context attribute.
 

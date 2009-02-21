@@ -84,6 +84,15 @@ Now if we rerun update we will get this other ButtonAction
 implementation.
 
   >>> actions.update()
+
+ISSUE duplicated button keys and values by calling update twice:
+
+Make sure we do not append a button twice to the key and value lists by calling
+update twice, Right now we do excatly that:
+
+  >>> actions.keys()
+  ['apply', 'cancel', 'apply', 'cancel']
+
   >>> actions['apply']
   <CustomButtonAction 'form.buttons.apply' u'Apply'>
 

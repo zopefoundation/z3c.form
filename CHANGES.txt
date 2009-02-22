@@ -7,7 +7,7 @@ Version 2.0.0 (unreleased)
 
 - Feature: Added labelRequired and requiredInfo form attributes. This is
   useful for conditional rendering a required info legend in form templates.
-  The requiredInfo label depends by default a given lableRequired message id
+  The requiredInfo label depends by default on a given lableRequired message id
   and will only return the label if at least one widget field is required.
 
 - Feature: Add support for refreshing actions after their execution. This

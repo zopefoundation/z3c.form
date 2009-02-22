@@ -179,6 +179,7 @@ class FieldWidgets(util.Manager):
     prefix = 'widgets.'
     mode = interfaces.INPUT_MODE
     errors = ()
+    hasRequiredFields = False
     ignoreContext = False
     ignoreRequest = False
     ignoreReadonly = False
@@ -275,6 +276,8 @@ class FieldWidgets(util.Manager):
             widget.update()
             zope.event.notify(AfterWidgetUpdateEvent(widget))
             # Step 9: Add the widget to the manager
+            if widget.required:
+                self.hasRequiredFields = True
             uniqueOrderedKeys.append(shortName)
             if newWidget:
                 self._data_values.append(widget)

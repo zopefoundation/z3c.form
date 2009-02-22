@@ -106,6 +106,7 @@ class BaseForm(browser.BrowserPage):
     fields = field.Fields()
 
     label = None
+    labelRequired = _('<span class="required">*</span>&ndash; required')
     prefix = 'form.'
     status = ''
     template = None
@@ -129,6 +130,12 @@ class BaseForm(browser.BrowserPage):
         self.widgets.ignoreRequest = self.ignoreRequest
         self.widgets.ignoreReadonly = self.ignoreReadonly
         self.widgets.update()
+
+    @property
+    def requiredInfo(self):
+        if self.labelRequired is not None and self.widgets is not None \
+            and self.widgets.hasRequiredFields:
+            return zope.i18n.translate(self.labelRequired, context=self.request)
 
     def extractData(self, setErrors=True):
         '''See interfaces.IForm'''

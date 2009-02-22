@@ -604,6 +604,19 @@ methods:
   ...
   </html>
 
+The form also provides a label for rendering a required info. This required
+info depends by default on the given requiredInfo label and if at least one
+field is required:
+
+  >>> addForm.requiredInfo
+  u'<span class="required">*</span>&ndash; required'
+
+If we set the labelRequired to None, we do not get a requiredInfo label:
+
+  >>> addForm.labelRequired = None
+  >>> addForm.requiredInfo is None
+  True
+
 
 Changing Widget Attribute Values
 --------------------------------

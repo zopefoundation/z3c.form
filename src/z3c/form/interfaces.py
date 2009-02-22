@@ -603,6 +603,13 @@ class IWidgets(IManager):
         default=False,
         required=True)
 
+    hasRequiredFields = zope.schema.Bool(
+        title=_('Has required fields'),
+        description=_('A flag set when at least one field is marked as '
+                      'required'),
+        default=False,
+        required=False)
+
     #ugly thing to remove setErrors parameter from extract
     setErrors = zope.schema.Bool(
         title=_('Set errors'),
@@ -869,6 +876,12 @@ class IForm(zope.interface.Interface):
         title=_('Label'),
         description=_('A human readable text describing the form that can be '
                       'used in the UI.'),
+        required=False)
+
+    labelRequired = zope.schema.TextLine(
+        title=_('Label required'),
+        description=_('A human readable text describing the form that can be '
+                      'used in the UI for rendering a required info legend.'),
         required=False)
 
     prefix = zope.schema.BytesLine(

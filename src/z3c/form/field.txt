@@ -622,6 +622,17 @@ this selection for you:
   'input'
 
 
+Required fields
+---------------
+
+There is a flag for required fields. This flag get set if at least one field
+is required. This let us render a required info legend in forms if required
+fields get used.
+
+  >>> manager.hasRequiredFields
+  True
+
+
 Data extraction and validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

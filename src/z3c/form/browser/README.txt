@@ -1,6 +1,6 @@
-======
-README
-======
+===============
+Browser support
+===============
 
 The ``z3c.form`` library provides a form framework and widgets. This document
 ensures that we implement a widget for each field defined in

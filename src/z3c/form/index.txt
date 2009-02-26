@@ -23,7 +23,10 @@ Contents:
    adding
    value
    error
-   browser/README
+   hint
+   testing
+   object-caveat
+   browser/index
 
 Indices and tables
 ==================

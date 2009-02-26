@@ -726,8 +726,7 @@ The same is true when getting the field value:
   <z3c.form.term.CollectionTermsVocabulary object ...>
 
 
-Corner case:
-Just in case the field has more ``_type``s:
+Corner case: Just in case the field has a sequence as ``_type``:
 
   >>> class myField(zope.schema.List):
   ...     _type = (list, tuple)
@@ -935,7 +934,7 @@ Converting Missing value to Widget value returns '':
   >>> tlc.toWidgetValue(tlc.field.missing_value)
   u''
 
-Just in case the field has more ``_type``s:
+Just in case the field has sequence as its ``_type``:
 
   >>> class myField(zope.schema.List):
   ...     _type = (list, tuple)

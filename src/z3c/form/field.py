@@ -101,7 +101,7 @@ class Fields(util.SelectionManager):
             elif zope.schema.interfaces.IField.providedBy(arg):
                 name = arg.__name__
                 if not name:
-                        raise ValueError("Field has no name")
+                    raise ValueError("Field has no name")
                 fields.append((name, arg, arg.interface))
 
             elif self.managerInterface.providedBy(arg):
@@ -235,7 +235,7 @@ class FieldWidgets(util.Manager):
             if field.mode is not None:
                 mode = field.mode
             elif field.field.readonly and not self.ignoreReadonly:
-                    mode = interfaces.DISPLAY_MODE
+                mode = interfaces.DISPLAY_MODE
             elif not ignoreContext:
                 # If we do not have enough permissions to write to the
                 # attribute, then switch to display mode.

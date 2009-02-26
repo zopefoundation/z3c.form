@@ -26,7 +26,7 @@ msgstr "Ajouter"
 
 #: src/z3c/form/browser/multi.py:71
 msgid "Remove selected"
-msgstr ""
+msgstr "Supprimer"
 
 #: src/z3c/form/browser/select.py:39
 msgid "no value"

@@ -643,4 +643,111 @@ Now the owner object should have updated fields.
   >>> reg.year
   u'2005'
 
+
+Nested Groups
+-----------------
+
+The group can contains groups. 
+Let's adapt the previous RegistrationEditForm
+
+  >>> class OwnerGroup(group.Group):
+  ...     label = u'Owner'
+  ...     fields = field.Fields(IVehicleOwner, prefix='owner')
+  ...
+  ...     def getContent(self):
+  ...         return self.context.owner
+
+  >>> class VehicleRegistrationGroup(group.Group):
+  ...     label = u'Registration'
+  ...     fields = field.Fields(IVehicleRegistration).omit(
+  ...         'owner')
+  ...     groups = (OwnerGroup,)
+
+  >>> class RegistrationEditForm(group.GroupForm, form.EditForm):
+  ...     groups = (VehicleRegistrationGroup,)
+  ...
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
+
+
+  >>> reg = VehicleRegistration(
+  ...               license=u'MA 40387',
+  ...               address=u'10 Main St, Maynard, MA',
+  ...               model=u'BMW',
+  ...               make=u'325',
+  ...               year=u'2005',
+  ...               owner=VehicleOwner(firstName=u'Stephan',
+  ...                                  lastName=u'Richter'))
+  >>> request = testing.TestRequest()
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+
+Now let's try and edit the owner.  For example, suppose that Stephan
+Richter gave his BMW to Paul Carduner because he is such a nice guy.
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.owner.firstName': u'Paul',
+  ...     'form.widgets.owner.lastName': u'Carduner',
+  ...     'form.widgets.license': u'MA 4038765',
+  ...     'form.widgets.address': u'Berkeley',
+  ...     'form.widgets.model': u'BMW',
+  ...     'form.widgets.make': u'325',
+  ...     'form.widgets.year': u'2005',
+  ...     'form.buttons.apply': u'Apply'
+  ...     })
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+
+We'll see if everything worked on the form side.
+
+  >>> print testing.render(edit, './/xmlns:i')
+  <i>Data successfully updated.</i>
+  
+Now the owner object should have updated fields.
+
+  >>> reg.owner.firstName
+  u'Paul'
+  >>> reg.owner.lastName
+  u'Carduner'
+  >>> reg.license
+  u'MA 4038765'
+  >>> reg.address
+  u'Berkeley'
+  >>> reg.model
+  u'BMW'
+  >>> reg.make
+  u'325'
+  >>> reg.year
+  u'2005'
+
+So what happens, if errors happen inside a nested group?
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.owner.firstName': u'Paul',
+  ...     'form.widgets.license': u'MA 4038765',
+  ...     'form.widgets.model': u'BMW',
+  ...     'form.widgets.make': u'325',
+  ...     'form.widgets.year': u'2005',
+  ...     'form.buttons.apply': u'Apply'
+  ...     })
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+  >>> data, errors = edit.extractData()
+  >>> " ".join(["%s %s"%(error.widget.label, error.render()) for error in errors])
+  u'Address \n  <div class="error">Required input is missing.</div>\n\n Last Name \n  <div class="error">Required input is missing.</div>\n\n'
+
+  >>> print testing.render(edit, './/xmlns:i')
+  <i >There were some errors.</i>
+
+  >>> print testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul')
+  <ul >
+     <li>
+       Address:
+       <div class="error">Required input is missing.</div>
+     </li>
+  </ul>
+
+
 And that's it!

@@ -21,7 +21,7 @@ import zope.interface
 import zope.component
 import zope.event
 import zope.lifecycleevent
-from z3c.ptcompat import ViewPageTemplateFile
+from z3c import ptcompat
 from zope.publisher import browser
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
@@ -180,6 +180,9 @@ class Form(BaseForm):
     actions = FieldProperty(interfaces.IActionForm['actions'])
     refreshActions = FieldProperty(interfaces.IActionForm['refreshActions'])
 
+    # common string for use in validation status messages
+    formErrorsMessage = _('There were some errors.')
+
     @property
     def action(self):
         """See interfaces.IInputForm"""
@@ -217,7 +220,6 @@ class AddForm(Form):
     ignoreReadonly = True
 
     _finishedAdd = False
-    formErrorsMessage = _('There were some errors.')
 
     @button.buttonAndHandler(_('Add'), name='add')
     def handleAdd(self, action):
@@ -256,7 +258,6 @@ class EditForm(Form):
     """A simple edit form with an apply button."""
     zope.interface.implements(interfaces.IEditForm)
 
-    formErrorsMessage = _('There were some errors.')
     successMessage = _('Data successfully updated.')
     noChangesMessage = _('No changes were applied.')
 
@@ -293,7 +294,7 @@ class FormTemplateFactory(object):
 
     def __init__(self, filename, contentType='text/html', form=None,
         request=None):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = ptcompat.ViewPageTemplateFile(filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(form),
             util.getSpecification(request))(self)

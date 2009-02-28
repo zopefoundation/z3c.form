@@ -81,6 +81,8 @@ def FieldWidgetDataConverter(widget):
 
 class FormatterValidationError(zope.schema.ValidationError):
 
+    message = None # redefine here, so Python 2.6 won't raise warning
+
     def __init__(self, message, value):
         zope.schema.ValidationError.__init__(self, message, value)
         self.message = message

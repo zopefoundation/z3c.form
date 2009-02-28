@@ -138,6 +138,13 @@ Version 2.0.0 (unreleased)
   querying for an adapter for (field, field.vocabulary, request) so it can be
   differentiated according to the type of the source used for the field.
 
+- Feature: move ``formErrorsMessage`` attribute from AddForm and EditForm
+  to the ``z3c.form.form.Form`` base class as it's very common validation
+  status message and can be easily reused (especially when translations
+  are provided).
+
+- Fix: Don't cause warnings in Python 2.6.
+
 Version 1.9.0 (2008-08-26)
 --------------------------
 

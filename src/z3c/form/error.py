@@ -20,7 +20,7 @@ import os
 import zope.component
 import zope.interface
 import zope.schema
-from z3c.ptcompat import ViewPageTemplateFile
+from z3c import ptcompat
 from zope.pagetemplate.interfaces import IPageTemplate
 
 import z3c.form
@@ -127,7 +127,7 @@ class ErrorViewTemplateFactory(object):
     template = None
 
     def __init__(self, filename, contentType='text/html'):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = ptcompat.ViewPageTemplateFile(filename, content_type=contentType)
 
     def __call__(self, errorView, request):
         return self.template

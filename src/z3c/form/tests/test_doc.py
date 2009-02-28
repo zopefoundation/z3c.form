@@ -103,6 +103,9 @@ def test_suite():
                  (re.compile(
                   r"(invalid literal for int\(\)) with base 10: '(.*)'"),
                   r'\1: \2'),
+                 (re.compile(
+                  r"Decimal\('(.*)'\)"),
+                  r'Decimal("\1")'),
                  ])
             ),
         doctest.DocFileSuite(

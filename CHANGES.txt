@@ -4,6 +4,8 @@ CHANGES
 
 Version 2.0.0 (unreleased)
 --------------------------
+- Feature: Added Nested group support. Group are rendered as fieldsets. 
+  Nested fieldsets are very useful when designing forms.
 
 - Feature: Added labelRequired and requiredInfo form attributes. This is
   useful for conditional rendering a required info legend in form templates.

@@ -21,8 +21,11 @@ import zope.component
 from z3c.form import form, interfaces
 from zope.interface import implements
 
+
 class Group(form.BaseForm):
     implements(interfaces.IGroup)
+
+    groups = ()
 
     def __init__(self, context, request, parentForm):
         self.context = context
@@ -39,6 +42,44 @@ class Group(form.BaseForm):
             setattr(self.widgets, attrName, value)
         self.widgets.update()
 
+    def update(self):
+        '''See interfaces.IForm'''
+        self.updateWidgets()
+        groups = []
+        for groupClass in self.groups:
+            # only instantiate the groupClass if it hasn't already
+            # been instantiated
+            if interfaces.IGroup.providedBy(groupClass):
+                group = groupClass
+            else:
+                group = groupClass(self.context, self.request, self)
+            group.update()
+            groups.append(group)
+        self.groups = tuple(groups)
+    
+    def extractData(self):
+        '''See interfaces.IForm'''
+        data, errors = super(Group, self).extractData()
+        for group in self.groups:
+            groupData, groupErrors = group.extractData()
+            data.update(groupData)
+            if groupErrors:
+                if errors:
+                    errors += groupErrors
+                else:
+                    errors = groupErrors
+        return data, errors
+
+    def applyChanges(self, data):
+        '''See interfaces.IEditForm'''
+        descriptions = []
+        content = self.getContent()
+        changed = form.applyChanges(self, content, data)
+        for group in self.groups:
+            groupChanged = group.applyChanges(data)
+            for interface, names in groupChanged.items():
+                changed[interface] = changed.get(interface, []) + names
+        return changed
 
 
 class GroupForm(object):
@@ -65,8 +106,7 @@ class GroupForm(object):
         content = self.getContent()
         changed = form.applyChanges(self, content, data)
         for group in self.groups:
-            groupContent = group.getContent()
-            groupChanged = form.applyChanges(group, groupContent, data)
+            groupChanged = group.applyChanges(data)
             for interface, names in groupChanged.items():
                 changed[interface] = changed.get(interface, []) + names
         if changed:
@@ -75,7 +115,8 @@ class GroupForm(object):
                     zope.lifecycleevent.Attributes(interface, *names))
             # Send out a detailed object-modified event
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
+                zope.lifecycleevent.ObjectModifiedEvent(content, 
+                    *descriptions))
 
         return changed
 

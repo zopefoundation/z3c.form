@@ -507,13 +507,19 @@ value:
   >>> sdv.toFieldValue(['m'])
   0
 
-Sometimes a field is not required. In those cases, the internalvalue is the
+Sometimes a field is not required. In those cases, the internal value is the
 missing value of the field. The converter interprets that as no value being
 selected:
 
   >>> gender.missing_value = 'missing'
 
   >>> sdv.toWidgetValue(gender.missing_value)
+  []
+
+If the internal value is not a valid item in the terms, it is treated as
+missing:
+
+  >>> sdv.toWidgetValue(object())
   []
 
 If "no value" has been specified in the widget, the missing value
@@ -560,6 +566,19 @@ value:
 
   >>> csdv.toFieldValue(['m'])
   [0]
+
+Of course, a collection field can also have multiple values:
+
+  >>> csdv.toWidgetValue([0, 1])
+  ['m', 'f']
+
+  >>> csdv.toFieldValue(['m', 'f'])
+  [0, 1]
+
+If any of the values are not a valid choice, they are simply ignored:
+
+  >>> csdv.toWidgetValue([0, 3])
+  ['m']
 
 For some field, like the ``Set``, the collection type is a tuple. Sigh. In
 these cases we use the last entry in the tuple as the type to use:

@@ -56,7 +56,8 @@ class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
     def toFieldValue(self, value):
         if value is None or value == '':
             value = self.widget.request.get(self.widget.name+'.testing', '')
-            encoding = self.widget.request.get(self.widget.name+'.encoding', 'plain')
+            encoding = self.widget.request.get(
+                self.widget.name+'.encoding', 'plain')
 
             # allow for the case where the file contents are base64 encoded.
             if encoding!='plain':
@@ -78,21 +79,13 @@ class SimpleSecurityPolicy(object):
 
     def __init__(self, loggedIn=False, allowedPermissions=()):
         self.loggedIn = loggedIn
-        self.allowedPermissions = allowedPermissions
+        self.allowedPermissions = allowedPermissions + (checker.CheckerPublic,)
 
     def __call__(self, *participations):
         self.participations = []
         return self
 
-    def add(self, participation):
-        pass
-
-    def remove(self, participation):
-        pass
-
     def checkPermission(self, permission, object):
-        if permission is checker.CheckerPublic:
-            return True
         if self.loggedIn:
             if permission in self.allowedPermissions:
                 return True

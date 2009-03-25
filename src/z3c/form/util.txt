@@ -261,3 +261,138 @@ file upload. We can use the stub form from the previous test.
   >>> uploadForm.setFakeFileName('foo.unknown')
   >>> util.extractContentType(uploadForm, 'form.widgets.data')
   'text/x-unknown-content-type'
+
+
+`UniqueOrderedKeys` object
+--------------------------
+
+This object manages the keys of a dictionary. It ensures that no values are
+added multiple times and retains the original order of the keys.
+
+  >>> keys = util.UniqueOrderedKeys([1, 2])
+
+Let's now add another key:
+
+  >>> keys.append(3)
+  >>> keys.data
+  [1, 2, 3]
+
+Trying to add `3` again causes a `ValueError` exception:
+
+  >>> keys.append(3)
+  Traceback (most recent call last):
+  ...
+  ValueError: 3
+
+
+`Manager` object
+----------------
+
+The manager object is a base class of a mapping object that keeps track of the
+key order as they are added.
+
+  >>> manager = util.Manager()
+
+Initially the manager is empty:
+
+  >>> len(manager)
+  0
+
+Since this base class mainly defines a read-interface, we have to add the
+values manually:
+
+  >>> manager._data_values.append(2)
+  >>> manager._data_keys.append('b')
+  >>> manager._data['b'] = 2
+
+  >>> manager._data_values.append(1)
+  >>> manager._data_keys.append('a')
+  >>> manager._data['a'] = 1
+
+Let's iterate through the manager:
+
+  >>> tuple(iter(manager))
+  ('b', 'a')
+  >>> manager.keys()
+  ['b', 'a']
+  >>> manager.values()
+  [2, 1]
+  >>> manager.items()
+  [('b', 2), ('a', 1)]
+
+Let's ow look at item access:
+
+  >>> 'b' in manager
+  True
+  >>> manager.get('b')
+  2
+  >>> manager.get('c', 'None')
+  'None'
+
+It also supports deletion:
+
+  >>> del manager['b']
+  >>> manager.items()
+  [('a', 1)]
+
+When the `_data_keys` is reset it will always produce a `UniqueOrderedKeys`:
+
+  >>> manager._data_keys = []
+  >>> manager._data_keys
+  <z3c.form.util.UniqueOrderedKeys ...>
+
+  >>> manager._data_keys = util.UniqueOrderedKeys()
+  >>> manager._data_keys
+  <z3c.form.util.UniqueOrderedKeys ...>
+
+
+`SelectionManager` object
+-------------------------
+
+The selection manager is an extension to the manager and provides a few more
+API functions. Unfortunately, this base class is totally useless without a
+sensible constructor:
+
+  >>> import zope.interface
+
+  >>> class MySelectionManager(util.SelectionManager):
+  ...     managerInterface = zope.interface.Interface
+  ...
+  ...     def __init__(self, *args):
+  ...         super(MySelectionManager, self).__init__()
+  ...         args = list(args)
+  ...         for arg in args:
+  ...             if isinstance(arg, MySelectionManager):
+  ...                 args += arg.values()
+  ...                 continue
+  ...             self._data_values.append(arg)
+  ...             self._data_keys.append(str(arg))
+  ...             self._data[str(arg)] = arg
+
+Let's now create two managers:
+
+  >>> manager1 = MySelectionManager(1, 2)
+  >>> manager2 = MySelectionManager(3, 4)
+
+You can add two managers:
+
+  >>> manager = manager1 + manager2
+  >>> manager.values()
+  [1, 2, 3, 4]
+
+Next, you can select only certain names:
+
+  >>> manager.select('1', '2', '3').values()
+  [1, 2, 3]
+
+Or simply omit a value.
+
+  >>> manager.omit('2').values()
+  [1, 3, 4]
+
+You can also easily copy a manager:
+
+  >>> manager.copy() is not manager
+  True
+
+That's all.

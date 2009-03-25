@@ -119,10 +119,10 @@ def extractFileName(form, id, cleanup=True, allowEmptyPostfix=False):
 
 class UniqueOrderedKeys(object):
     """Ensures that we only ue unique keys in a list.
-    
-    This is usefull since we use the keys and values list only as ordered
-    keys and values addition for our data dict.
-    
+
+    This is useful since we use the keys and values list only as ordered keys
+    and values addition for our data dict.
+
     Note, this list is only used for Manager keys and not for values since we
     can't really compare values if we will get new instances of widgets or
     actions.
@@ -150,7 +150,7 @@ class Manager(object):
 
     @apply
     def _data_keys():
-        """Use a special ordered list which will check for duplicated keys.""" 
+        """Use a special ordered list which will check for duplicated keys."""
         def get(self):
             return self.__data_keys
         def set(self, values):
@@ -211,8 +211,8 @@ class SelectionManager(Manager):
     def omit(self, *names):
         """See interfaces.ISelectionManager"""
         return self.__class__(
-            *[item for item in self.values()
-              if item.__name__ not in names])
+            *[item for name, item in self.items()
+              if name not in names])
 
     def copy(self):
         """See interfaces.ISelectionManager"""

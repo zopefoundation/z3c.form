@@ -144,11 +144,6 @@ class IMyComplexObject(zope.interface.Interface):
     subobject = zope.schema.Object(title=u'my object', schema=IMySecond)
     name = zope.schema.TextLine(title=u'name')
 
-class MyComplexObject(object):
-    zope.interface.implements(IMyComplexObject)
-    def __init__(self, name=u'', subobject=None):
-        self.subobject=subobject
-        self.name=name
 
 class IMySubObjectMulti(zope.interface.Interface):
     foofield = zope.schema.Int(

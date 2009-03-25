@@ -1162,7 +1162,7 @@ Object in an Object situation
 We define an interface containing a subobject, and an addform for it:
 
   >>> from z3c.form import form, field
-  >>> from z3c.form.testing import MyComplexObject, IMyComplexObject
+  >>> from z3c.form.testing import IMyComplexObject
 
 Note, that creating an object will print some information about it:
 

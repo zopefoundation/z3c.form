@@ -1,9 +1,19 @@
 Stephan Richter (stephan.richter <at> gmail.com)
 Roger Ineichen (roger <at> projekt01.ch)
 
+Adam Groszer
+Axel Muller
+Brian Sutherland
 Carsten Senger
+Christopher Combelles
+Dan Korostelev
+Daniel Nouri
 Darryl Cousins
 Herman Himmelbauer
+Laurent Mignon
+Malthe Borch
+Marius Gedminas
 Martijn Faassen
-Paul Carduner
 Michael Howitz
+Michael Kerrin
+Paul Carduner

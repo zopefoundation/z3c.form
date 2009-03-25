@@ -4,75 +4,46 @@ CHANGES
 
 Version 2.0.0 (unreleased)
 --------------------------
-- Feature: Added Nested group support. Group are rendered as fieldsets. 
+
+- Feature: Added nested group support. Groups are rendered as fieldsets.
   Nested fieldsets are very useful when designing forms.
 
-- Feature: Added labelRequired and requiredInfo form attributes. This is
+- Feature: Added `labelRequired` and `requiredInfo` form attributes. This is
   useful for conditional rendering a required info legend in form templates.
-  The requiredInfo label depends by default on a given lableRequired message id
-  and will only return the label if at least one widget field is required.
+  The `requiredInfo` label depends by default on a given `labelRequired`
+  message id and will only return the label if at least one widget field is
+  required.
 
-- Feature: Add support for refreshing actions after their execution. This
-  is useful when button action conditions are changing as a result of
-  action execution. All you need is to set the ``refreshActions`` flag
-  of the form to True in your action handler.
-
-- Bug: FieldWidgets update where appending keys and values within each
-  update call. Now the util.Manager uses a UniqueOrderedKeys implementation
-  which will ensure that we can't add duplicted manager keys. The implementation
-  also ensures that we can't override the UniqueOrderedKeys instace with a new
-  list by using a decorator. If this UniqueOrderedKeys implementation doesn't
-  fit for all use cases, we should probably use a customized UserList
-  implementation. Now we can call widgets.update() more then one time without
-  any side effect.
-
-- Bug: ButtonActions update where appending keys and values within each
-  update call. Now we can call actions.update() more then one time without
-  any side effect.
-
-- Bug: The CollectionSequenceDataConverter no longer throws a
-  "TypeError: 'NoneType' object is not iterable" when passed the value
-  of a non-required field (which in the case of a List field is None).
+- Feature: Add support for refreshing actions after their execution. This is
+  useful when button action conditions are changing as a result of action
+  execution. All you need is to set the `refreshActions` flag of the form to
+  `True` in your action handler.
 
 - Feature: Added support for using sources. Where is was previosly possible to
   use a vocabulary it is now also possible to use a source. This works both
   for basic and contextual sources.
 
-  IMPORTANT: The `ChoiceTerms` and and CollectionTerms in ``z3c.form.term``
-  are now simple functions that quieries for real ITerms adapters for
-  field's source or value_type respectively. So if your code inherits
-  the old ChoiceTerms and CollectionTerms classes, you'll need to review
-  and adapt it. See the ``z3c.form.term`` package and its documentation.
+  IMPORTANT: The `ChoiceTerms` and `CollectionTerms` in `z3c.form.term` are
+  now simple functions that query for real `ITerms` adapters for field's
+  `source` or `value_type` respectively. So if your code inherits the old
+  `ChoiceTerms` and `CollectionTerms` classes, you'll need to review and adapt
+  it. See the `z3c.form.term` package and its documentation.
 
-- Fix: IMPORTANT - the signature of z3c.form.util.extractFileName function
-  changed because of spelling mistake fix in argument name. The
-  ``allowEmtpyPostFix`` is now called ``allowEmptyPostfix`` (note ``Empty``
-  instead of ``Emtpy`` and ``Postfix`` instead of ``PostFix``).
-
-- Fix: IMPORTANT - the ``z3c.form.interfaces.NOVALUE`` special value
-  has been renamed to ``z3c.form.interfaces.NO_VALUE`` to follow the
-  common naming style. The backward-compatibility NOVALUE name is
-  still in place, but the `repr` output of the object has been also
-  changed, thus it may break your doctests.
-
-- Feature: the new ``z3c.form.interfaces.NOT_CHANGED`` special value
-  is available to signal that the current value should be left as is.
-  It's currently handled in the ``z3c.form.form.applyChanges`` function.
+- Feature: The new `z3c.form.interfaces.NOT_CHANGED` special value is
+  available to signal that the current value should be left as is.  It's
+  currently handled in the `z3c.form.form.applyChanges` function.
 
 - Feature: When no file is specified in the file upload widget, instead of
   overwriting the value with a missing one, the old data is retained.
-  This is done by returning the new NOT_CHANGED special value from the
-  FileUploadDataConvereter.
+  This is done by returning the new `NOT_CHANGED` special value from the
+  `FileUploadDataConvereter`.
 
-- Fix: When dealing with `Bytes` fields, we should do a null conversion
-  when going to its widget value.
-
-- Feature: Preliminary support for widgets for the schema.IObject field
-  has been added. However, there is a big caveat, please read the
+- Feature: Preliminary support for widgets for the `schema.IObject` field has
+  been added. However, there is a big caveat, please read the
   ``object-caveat.txt`` document inside the package.
 
-  The new ``objectWidgetTemplate`` zcml directive provided for registering
-  widget templates for specific object field schemas.
+  A new `objectWidgetTemplate` ZCML directive is provided to register widget
+  templates for specific object field schemas.
 
 - Feature: Implemented the `MultiWidget` widget. This widget allows to use
   simple fields like `ITextLine`, `IInt`, `IPassword`, etc. in a `IList` or
@@ -83,9 +54,9 @@ Version 2.0.0 (unreleased)
   user interfaces.  The widget can be used for sequence fields (e.g. `IList`)
   that specify a simple value type field (e.g. `ITextLine` or `IInt`).
 
-- Feature: Added a new flag ``ignoreContext`` to the form field, so that one
-  can individually select which fields should and which ones should not ignore
-  the context.
+- Feature: Added a new flag `ignoreContext` to the form field, so that one can
+  individually select which fields should and which ones should not ignore the
+  context.
 
 - Feature: Allow raw request values of sequence widgets to be non-sequence
   values, which makes integration with Javascript libraries easier.
@@ -94,14 +65,11 @@ Version 2.0.0 (unreleased)
   'base64'-encoded strings in the hidden text area, so that binary data can be
   uploaded as well.
 
-- Feature: Allow overriding the "required" widget attribute using IValue adapter
-  just like it's done for "label" and "name" attributes.
+- Feature: Allow overriding the `required` widget attribute using `IValue`
+  adapter just like it's done for `label` and `name` attributes.
 
-- Feature: Add the 'prompt' attribute of the SequenceWidget to the list of
+- Feature: Add the `prompt` attribute of the `SequenceWidget` to the list of
   adaptable attributes.
-
-- Refactoring: Use the ``z3c.ptcompat`` template engine compatibility
-  layer.
 
 - Feature: Added benchmarking suite demonstrating performance gain
   when using ``z3c.pt``.
@@ -110,21 +78,63 @@ Version 2.0.0 (unreleased)
   "PREFER_Z3C_PT" environment variable.
 
 - Feature: The `TypeError` message used when a field does not provide
-  ``IFormUnicode`` now also contains the type of the field.
+  `IFormUnicode` now also contains the type of the field.
 
-- Feature: Add support for internationalization of z3c.form's messages.
+- Feature: Add support for internationalization of `z3c.form` messages.
   Added Russian, French, German and Chinese translations.
 
 - Feature: Sphinx documentation for the package can now be created using the
   new `docs` script.
 
+- Feature: The widget for fields implementing `IChoice` is now looked up by
+  querying for an adapter for ``(field, field.vocabulary, request)`` so it can
+  be differentiated according to the type of the source used for the field.
+
+- Feature: move `formErrorsMessage` attribute from `AddForm` and `EditForm` to
+  the `z3c.form.form.Form` base class as it's very common validation status
+  message and can be easily reused (especially when translations are
+  provided).
+
 - Refactoring: Templates now declare XML namespaces.
 
 - Refactoring: HTML output is now compared using a modified version of
-  the XML-aware output checker provided by ``lxml``.
+  the XML-aware output checker provided by `lxml`.
 
 - Refactoring: Remove unused imports, adjust buildout dependencies in
   `setup.py`.
+
+- Refactoring: Use the `z3c.ptcompat` template engine compatibility layer.
+
+- Bug: IMPORTANT - The signature of `z3c.form.util.extractFileName` function
+  changed because of spelling mistake fix in argument name. The
+  `allowEmtpyPostFix` is now called `allowEmptyPostfix` (note `Empty`
+  instead of `Emtpy` and `Postfix` instead of `PostFix`).
+
+- Bug: IMPORTANT - The `z3c.form.interfaces.NOVALUE` special value has been
+  renamed to `z3c.form.interfaces.NO_VALUE` to follow the common naming
+  style. The backward-compatibility `NOVALUE` name is still in place, but the
+  `repr` output of the object has been also changed, thus it may break your
+  doctests.
+
+- Bug: When dealing with `Bytes` fields, we should do a null conversion
+  when going to its widget value.
+
+- Bug: `FieldWidgets` update method were appending keys and values within each
+  update call. Now the `util.Manager` uses a `UniqueOrderedKeys`
+  implementation which will ensure that we can't add duplicated manager
+  keys. The implementation also ensures that we can't override the
+  `UniqueOrderedKeys` instance with a new list by using a decorator. If this
+  `UniqueOrderedKeys` implementation doesn't fit for all use cases, we should
+  probably use a customized `UserList` implementation. Now we can call
+  ``widgets.update()`` more then one time without any side effect.
+
+- Bug: `ButtonActions` update where appending keys and values within each
+  update call. Now we can call ``actions.update()`` more then one time without
+  any side effect.
+
+- Bug: The `CollectionSequenceDataConverter` no longer throws a
+  ``TypeError: 'NoneType' object is not iterable`` when passed the value
+  of a non-required field (which in the case of a `List` field is `None`).
 
 - Bug: The `SequenceDataConverter` and `CollectionSequenceDataConverter`
   converter classes now ignore values that are not present in the terms when
@@ -133,19 +143,11 @@ Version 2.0.0 (unreleased)
 - Bug: Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling
   list entry if it is callable.
 
-- Bug: SingleCheckBoxFieldWidget doesn't repeat the label twice (once in
-  <div class="label">, and once in the <label> next to the checkbox).
+- Bug: `SingleCheckBoxFieldWidget` doesn't repeat the label twice (once in
+  ``<div class="label">``, and once in the ``<label>`` next to the checkbox).
 
-- Feature: The widget for fields implementing IChoice is now looked up by
-  querying for an adapter for (field, field.vocabulary, request) so it can be
-  differentiated according to the type of the source used for the field.
+- Bug: Don't cause warnings in Python 2.6.
 
-- Feature: move ``formErrorsMessage`` attribute from AddForm and EditForm
-  to the ``z3c.form.form.Form`` base class as it's very common validation
-  status message and can be easily reused (especially when translations
-  are provided).
-
-- Fix: Don't cause warnings in Python 2.6.
 
 Version 1.9.0 (2008-08-26)
 --------------------------

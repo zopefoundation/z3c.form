@@ -957,3 +957,54 @@ And back:
 
   >>> tlc.toFieldValue(u'1\n2\n3\n')
   (1, 2, 3)
+
+
+Multi Data Converter
+--------------------
+
+For multi widgets and fields that work with a sequence of other basic types, a
+separate data converter is required. Let's create a list of integers field and
+a widget:
+
+  >>> numbers = zope.schema.List(
+  ...     value_type=zope.schema.Int(),
+  ...     default=[],
+  ...     missing_value=None,
+  ...     )
+
+  >>> from z3c.form.browser import multi
+  >>> multiWidget = multi.MultiWidget(TestRequest())
+  >>> multiWidget.field = numbers
+
+Before we can convert, we have to regsiter a widget for the integer field:
+
+  >>> from z3c.form.browser import text
+  >>> zope.component.provideAdapter(
+  ...     text.TextFieldWidget,
+  ...     (zope.schema.Int, TestRequest))
+
+We now use the field and widget to instantiate the converter:
+
+  >>> conv = converter.MultiConverter(numbers, multiWidget)
+
+We can now convert a list of integers to the multi-widget internal
+representation:
+
+  >>> conv.toWidgetValue([1, 2, 3])
+  [u'1', u'2', u'3']
+
+If the value is the missing value, an empty list is returned:
+
+  >>> conv.toWidgetValue(None)
+  []
+
+Now, let's look at the reverse:
+
+  >>> conv.toFieldValue([u'1', u'2', u'3'])
+  [1, 2, 3]
+
+If the list is empty, the missing value is returned:
+
+  >>> conv.toFieldValue([]) is None
+  True
+

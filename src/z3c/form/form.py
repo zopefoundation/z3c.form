@@ -294,7 +294,8 @@ class FormTemplateFactory(object):
 
     def __init__(self, filename, contentType='text/html', form=None,
         request=None):
-        self.template = ptcompat.ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = ptcompat.ViewPageTemplateFile(
+            filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(form),
             util.getSpecification(request))(self)

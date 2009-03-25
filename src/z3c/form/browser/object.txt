@@ -2,12 +2,12 @@
 ObjectWidget
 ============
 
-The ObjectWidget is about rendering a schema's fields as a single widget.
+The `ObjectWidget` widget is about rendering a schema's fields as a single
+widget.
 
-
-There are way too many preconditions to exercise the ObjectWidget as it
-relies heavily on the from and widget framework.
-It renders the sub-widgets in a sub-form.
+There are way too many preconditions to exercise the `ObjectWidget` as it
+relies heavily on the from and widget framework. It renders the sub-widgets in
+a sub-form.
 
 In order to not overwhelm you with our set of well-chosen defaults,
 all the default component registrations have been made prior to doing those
@@ -34,9 +34,7 @@ examples:
   >>> from z3c.form.error import MultipleErrorViewSnippet
   >>> zope.component.provideAdapter(MultipleErrorViewSnippet)
 
-
-
-As for all widgets, the objectwidget must provide the new ``IWidget``
+As for all widgets, the objectwidget must provide the new `IWidget`
 interface:
 
   >>> from zope.interface.verify import verifyClass
@@ -66,7 +64,8 @@ There is no life for ObjectWidget without a schema to render:
   >>> widget.update()
   Traceback (most recent call last):
   ...
-  ValueError: <ObjectWidget 'widget.name'> .field is None, that's a blocking point
+  ValueError: <ObjectWidget 'widget.name'> .field is None,
+              that's a blocking point
 
 This schema is specified by the field:
 

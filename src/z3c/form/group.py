@@ -56,12 +56,12 @@ class Group(form.BaseForm):
             group.update()
             groups.append(group)
         self.groups = tuple(groups)
-    
-    def extractData(self):
+
+    def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
-        data, errors = super(Group, self).extractData()
+        data, errors = super(Group, self).extractData(setErrors=setErrors)
         for group in self.groups:
-            groupData, groupErrors = group.extractData()
+            groupData, groupErrors = group.extractData(setErrors=setErrors)
             data.update(groupData)
             if groupErrors:
                 if errors:
@@ -87,11 +87,11 @@ class GroupForm(object):
 
     groups = ()
 
-    def extractData(self):
+    def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
-        data, errors = super(GroupForm, self).extractData()
+        data, errors = super(GroupForm, self).extractData(setErrors=setErrors)
         for group in self.groups:
-            groupData, groupErrors = group.extractData()
+            groupData, groupErrors = group.extractData(setErrors=setErrors)
             data.update(groupData)
             if groupErrors:
                 if errors:
@@ -115,7 +115,7 @@ class GroupForm(object):
                     zope.lifecycleevent.Attributes(interface, *names))
             # Send out a detailed object-modified event
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content, 
+                zope.lifecycleevent.ObjectModifiedEvent(content,
                     *descriptions))
 
         return changed

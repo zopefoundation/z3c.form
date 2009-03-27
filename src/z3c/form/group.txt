@@ -229,7 +229,7 @@ happens, if errors happen inside and outside a group?
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
-  
+
   >>> print testing.render(add, './/xmlns:fieldset[1]/xmlns:ul')
   <ul>
     <li>
@@ -383,7 +383,7 @@ The behavior when an error occurs is identical to that of the add form:
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
-  
+
   >>> print testing.render(edit, './/xmlns:fieldset/xmlns:ul')
   <ul>
     <li>
@@ -391,7 +391,7 @@ The behavior when an error occurs is identical to that of the add form:
     </li>
   </ul>
 
-When an edit form with groups is successfully committed, a detailed 
+When an edit form with groups is successfully committed, a detailed
 object-modified event is sent out telling the system about the changes.
  To see the error, let's create an event subscriber for object-modified events:
 
@@ -442,7 +442,7 @@ and the data are correctly updated:
   u'2006'
 
 Let's look at the event:
- 
+
   >>> event = eventlog[-1]
   >>> event
   <zope.lifecycleevent.ObjectModifiedEvent object at ...>
@@ -625,7 +625,7 @@ We'll see if everything worked on the form side.
 
   >>> print testing.render(edit, './/xmlns:i')
   <i>Data successfully updated.</i>
-  
+
 Now the owner object should have updated fields.
 
   >>> reg.owner.firstName
@@ -647,7 +647,7 @@ Now the owner object should have updated fields.
 Nested Groups
 -----------------
 
-The group can contains groups. 
+The group can contains groups.
 Let's adapt the previous RegistrationEditForm
 
   >>> class OwnerGroup(group.Group):
@@ -703,7 +703,7 @@ We'll see if everything worked on the form side.
 
   >>> print testing.render(edit, './/xmlns:i')
   <i>Data successfully updated.</i>
-  
+
 Now the owner object should have updated fields.
 
   >>> reg.owner.firstName
@@ -751,3 +751,10 @@ So what happens, if errors happen inside a nested group?
 
 
 And that's it!
+
+Just check whether we fully support the interface:
+
+  >>> from z3c.form import interfaces
+  >>> from zope.interface.verify import verifyClass
+  >>> verifyClass(interfaces.IGroup, group.Group)
+  True

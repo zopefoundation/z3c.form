@@ -544,8 +544,6 @@ field used from the used sequence field. The widget also uses a counter which
 is required for processing the input from a request. The counter is a marker
 for build the right amount of enumerated widgets.
 
-If we provide an empty counter we will get no value:
-
 If we provide no request we will get no value:
 
   >>> multiWidget.extract()
@@ -595,8 +593,8 @@ intialization. This update call forces to call extract, which first will get
 the right amount of (sub) widgets by the given counter value. Based on that
 counter value the right amount of widgets will get created. Each widget will
 return it's own value and this collected values get returned by the extract
-method. The multi widget update method will then store this values if any give
-as multi widget value argument. If extract doesnt return a value the multi
+method. The multi widget update method will then store this values if any given
+as multi widget value argument. If extract doesn't return a value the multi
 widget update method will use it's default value. If we store a given value
 from the extract as multi widget value, this will force to setup the multi
 widget widgets based on the given values and apply the right value for them.
@@ -616,6 +614,13 @@ get updated within the new relevant value.
   []
 
   >>> multiWidget.update()
+
+  >>> multiWidget.widgets[0].value
+  u'42'
+  
+  >>> multiWidget.widgets[1].value
+  u'43'
+
   >>> multiWidget.value
   [u'42', u'43']
 
@@ -715,4 +720,3 @@ Let's not leave temporary files lying around
 
   >>> import os
   >>> os.remove(textWidgetTemplate)
-

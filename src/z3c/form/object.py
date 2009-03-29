@@ -146,6 +146,10 @@ class ObjectConverter(BaseDataConverter):
                 except AttributeError:
                     obj = self.createObject(value)
 
+        if obj is None:
+            #if still None create one, otherwise following will burp
+            obj = self.createObject(value)
+
         obj = self.field.schema(obj)
 
         names = []

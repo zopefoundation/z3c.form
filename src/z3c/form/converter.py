@@ -335,7 +335,7 @@ class TextLinesConverter(BaseDataConverter):
         valueType = self.field.value_type._type
         if isinstance(valueType, tuple):
             valueType = valueType[0]
-        return collectionType(valueType(v) for v in value.split())
+        return collectionType(valueType(v) for v in value.splitlines())
 
 
 class MultiConverter(BaseDataConverter):

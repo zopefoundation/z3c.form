@@ -892,6 +892,11 @@ value:
   >>> tlc.toFieldValue('de\nfr\nen')
   [u'de', u'fr', u'en']
 
+Each line should be one item:
+
+  >>> tlc.toFieldValue('this morning\ntomorrow evening\nyesterday')
+  [u'this morning', u'tomorrow evening', u'yesterday']
+
 An empty string will also cause the missing value to be returned:
 
   >>> tlc.toFieldValue('') is None
@@ -1007,4 +1012,3 @@ If the list is empty, the missing value is returned:
 
   >>> conv.toFieldValue([]) is None
   True
-

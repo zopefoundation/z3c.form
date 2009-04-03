@@ -456,8 +456,93 @@ all changed fields, even if they where in different groups:
   >>> attrs.attributes
   ('license', 'address', 'model', 'make', 'year')
 
-And that's it!
 
+Group form as instance
+----------------------
+
+It is also possible to use group instances in forms. Let's setup our previous
+form and assing a group instance:
+
+  >>> class RegistrationEditForm(group.GroupForm, form.EditForm):
+  ...     fields = field.Fields(IVehicleRegistration).select(
+  ...         'firstName', 'lastName')
+  ...
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
+
+  >>> request = testing.TestRequest()
+
+  >>> edit = RegistrationEditForm(reg, request)
+
+Instanciate the form and use a group class and a group instance:
+
+  >>> carGroupInstance = CarGroup(edit.context, request, edit)
+  >>> edit.groups = (LicenseGroup, carGroupInstance)
+  >>> edit.update()
+  >>> print edit.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-firstName">First Name</label>
+          <input id="form-widgets-firstName"
+                 name="form.widgets.firstName"
+                 class="text-widget required textline-field"
+                 value="Stephan" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-lastName">Last Name</label>
+          <input id="form-widgets-lastName"
+                 name="form.widgets.lastName"
+                 class="text-widget required textline-field"
+                 value="Richter" type="text" />
+        </div>
+        <fieldset>
+          <legend>License</legend>
+        <div class="row">
+          <label for="form-widgets-license">License</label>
+          <input id="form-widgets-license"
+                 name="form.widgets.license"
+                 class="text-widget required textline-field"
+                 value="MA 4038765" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-address">Address</label>
+          <input id="form-widgets-address"
+                 name="form.widgets.address"
+                 class="text-widget required textline-field"
+                 value="11 Main St, Maynard, MA" type="text" />
+        </div>
+        </fieldset>
+        <fieldset>
+          <legend>Car</legend>
+        <div class="row">
+          <label for="form-widgets-model">Model</label>
+          <input id="form-widgets-model" name="form.widgets.model"
+                 class="text-widget required textline-field"
+                 value="Ford" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-make">Make</label>
+          <input id="form-widgets-make" name="form.widgets.make"
+                 class="text-widget required textline-field"
+                 value="F150" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-year">Year</label>
+          <input id="form-widgets-year" name="form.widgets.year"
+                 class="text-widget required textline-field"
+                 value="2006" type="text" />
+            </div>
+        </fieldset>
+        <div class="action">
+          <input id="form-buttons-apply" name="form.buttons.apply"
+                 class="submit-widget button-field" value="Apply"
+                 type="submit" />
+        </div>
+      </form>
+    </body>
+  </html>
 
 Groups with Different Content
 -----------------------------
@@ -523,7 +608,6 @@ field which is taken care of with the group.
   ...
   ...     template = viewpagetemplatefile.ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
-
 
   >>> reg = VehicleRegistration(
   ...               license=u'MA 40387',
@@ -645,10 +729,9 @@ Now the owner object should have updated fields.
 
 
 Nested Groups
------------------
+-------------
 
-The group can contains groups.
-Let's adapt the previous RegistrationEditForm
+The group can contains groups. Let's adapt the previous RegistrationEditForm:
 
   >>> class OwnerGroup(group.Group):
   ...     label = u'Owner'
@@ -662,13 +745,15 @@ Let's adapt the previous RegistrationEditForm
   ...     fields = field.Fields(IVehicleRegistration).omit(
   ...         'owner')
   ...     groups = (OwnerGroup,)
+  ...
+  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> class RegistrationEditForm(group.GroupForm, form.EditForm):
   ...     groups = (VehicleRegistrationGroup,)
   ...
   ...     template = viewpagetemplatefile.ViewPageTemplateFile(
-  ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
-
+  ...         'simple_nested_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(
   ...               license=u'MA 40387',
@@ -721,11 +806,168 @@ Now the owner object should have updated fields.
   >>> reg.year
   u'2005'
 
-So what happens, if errors happen inside a nested group?
+So what happens, if errors happen inside a nested group? Let's use an empty
+invllaid object for the test missing input errors:
+
+  >>> reg = VehicleRegistration(owner=VehicleOwner())
+
+  >>> request = testing.TestRequest(form={
+  ...     'form.widgets.owner.firstName': u'',
+  ...     'form.widgets.owner.lastName': u'',
+  ...     'form.widgets.license': u'',
+  ...     'form.widgets.address': u'',
+  ...     'form.widgets.model': u'',
+  ...     'form.widgets.make': u'',
+  ...     'form.widgets.year': u'',
+  ...     'form.buttons.apply': u'Apply'
+  ...     })
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> edit.update()
+  >>> data, errors = edit.extractData()
+  >>> print testing.render(edit, './/xmlns:i')
+  <i >There were some errors.</i>
+
+  >>> print testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul')
+  <ul>
+    <li>
+    License:
+      <div class="error">Required input is missing.</div>
+    </li>
+    <li>
+    Address:
+      <div class="error">Required input is missing.</div>
+    </li>
+    <li>
+    Model:
+      <div class="error">Required input is missing.</div>
+    </li>
+    <li>
+    Make:
+      <div class="error">Required input is missing.</div>
+    </li>
+    <li>
+    Year:
+      <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
+  <ul>
+    <li>
+    First Name:
+      <div class="error">Required input is missing.</div>
+    </li>
+    <li>
+    Last Name:
+      <div class="error">Required input is missing.</div>
+    </li>
+  </ul>
+
+
+Group instance in nested group
+------------------------------
+
+Let's also test if the Group class can handle group objects as instances:
+
+  >>> reg = VehicleRegistration(
+  ...               license=u'MA 40387',
+  ...               address=u'10 Main St, Maynard, MA',
+  ...               model=u'BMW',
+  ...               make=u'325',
+  ...               year=u'2005',
+  ...               owner=VehicleOwner(firstName=u'Stephan',
+  ...                                  lastName=u'Richter'))
+  >>> request = testing.TestRequest()
+
+  >>> edit = RegistrationEditForm(reg, request)
+  >>> vrg = VehicleRegistrationGroup(edit.context, request, edit)
+  >>> ownerGroup = OwnerGroup(edit.context, request, edit)
+
+Now build the group instance object chain:
+
+  >>> vrg.groups = (ownerGroup,)
+  >>> edit.groups = (vrg,)
+
+Also use refreshActions whihc is not needed but will make coverage this
+additional line of code in the update method:
+
+  >>> edit.refreshActions = True
+
+Update and render:
+
+  >>> edit.update()
+  >>> print edit.render()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <fieldset>
+          <legend>Registration</legend>
+        <div class="row">
+          <label for="form-widgets-license">License</label>
+          <input id="form-widgets-license"
+                 name="form.widgets.license"
+                 class="text-widget required textline-field"
+                 value="MA 40387" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-address">Address</label>
+          <input id="form-widgets-address"
+                 name="form.widgets.address"
+                 class="text-widget required textline-field"
+                 value="10 Main St, Maynard, MA" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-model">Model</label>
+          <input id="form-widgets-model" name="form.widgets.model"
+                 class="text-widget required textline-field"
+                 value="BMW" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-make">Make</label>
+          <input id="form-widgets-make" name="form.widgets.make"
+                 class="text-widget required textline-field"
+                 value="325" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-year">Year</label>
+          <input id="form-widgets-year" name="form.widgets.year"
+                 class="text-widget required textline-field"
+                 value="2005" type="text" />
+        </div>
+          <fieldset>
+          <legend>Owner</legend>
+        <div class="row">
+          <label for="form-widgets-owner-firstName">First Name</label>
+          <input id="form-widgets-owner-firstName"
+                 name="form.widgets.owner.firstName"
+                 class="text-widget required textline-field"
+                 value="Stephan" type="text" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-owner-lastName">Last Name</label>
+          <input id="form-widgets-owner-lastName"
+                 name="form.widgets.owner.lastName"
+                 class="text-widget required textline-field"
+                 value="Richter" type="text" />
+        </div>
+        </fieldset>
+        </fieldset>
+        <div class="action">
+          <input id="form-buttons-apply" name="form.buttons.apply"
+                 class="submit-widget button-field" value="Apply"
+                 type="submit" />
+          </div>
+      </form>
+    </body>
+  </html>
+
+
+Now test the error handling if just one missing value is given in a group:
 
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.owner.firstName': u'Paul',
+  ...     'form.widgets.owner.lastName': u'',
   ...     'form.widgets.license': u'MA 4038765',
+  ...     'form.widgets.address': u'Berkeley',
   ...     'form.widgets.model': u'BMW',
   ...     'form.widgets.make': u'325',
   ...     'form.widgets.year': u'2005',
@@ -733,24 +975,23 @@ So what happens, if errors happen inside a nested group?
   ...     })
 
   >>> edit = RegistrationEditForm(reg, request)
+  >>> vrg = VehicleRegistrationGroup(edit.context, request, edit)
+  >>> ownerGroup = OwnerGroup(edit.context, request, edit)
+  >>> vrg.groups = (ownerGroup,)
+  >>> edit.groups = (vrg,)
+
   >>> edit.update()
   >>> data, errors = edit.extractData()
-  >>> " ".join(["%s %s"%(error.widget.label, error.render()) for error in errors])
-  u'Address \n  <div class="error">Required input is missing.</div>\n\n Last Name \n  <div class="error">Required input is missing.</div>\n\n'
-
   >>> print testing.render(edit, './/xmlns:i')
   <i >There were some errors.</i>
 
   >>> print testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul')
-  <ul >
-     <li>
-       Address:
-       <div class="error">Required input is missing.</div>
-     </li>
+  <ul>
+    <li>
+    Last Name:
+      <div class="error">Required input is missing.</div>
+    </li>
   </ul>
-
-
-And that's it!
 
 Just check whether we fully support the interface:
 

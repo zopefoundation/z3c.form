@@ -249,6 +249,8 @@ class MultiWidget(Widget):
     widgets = None
     _value = None
 
+    _mode = FieldProperty(interfaces.IWidget['mode'])
+
     def __init__(self, request):
         super(MultiWidget, self).__init__(request)
         self.widgets = []
@@ -264,6 +266,18 @@ class MultiWidget(Widget):
         # right amount of widgets we use.
         return '<input type="hidden" name="%s" value="%d" />' % (
             self.counterName, len(self.widgets))
+
+    @apply
+    def mode():
+        """This invokes updateWidgets on any value change e.g. update/extract."""
+        def get(self):
+            return self._mode
+        def set(self, mode):
+            self._mode = mode
+            # ensure that we apply the new mode to the widgets
+            for w in self.widgets:
+                w.mode = mode
+        return property(get, set)
 
     def getWidget(self, idx):
         """Setup widget based on index id with or without value."""

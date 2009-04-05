@@ -588,7 +588,7 @@ displaying the values, they can be used as they are:
   >>> multiWidget.value
   [u'42', u'43']
 
-Each widget normaly gets first process by it's update method call after
+Each widget normaly gets first processed by it's update method call after
 intialization. This update call forces to call extract, which first will get
 the right amount of (sub) widgets by the given counter value. Based on that
 counter value the right amount of widgets will get created. Each widget will
@@ -617,7 +617,7 @@ get updated within the new relevant value.
 
   >>> multiWidget.widgets[0].value
   u'42'
-  
+
   >>> multiWidget.widgets[1].value
   u'43'
 
@@ -678,6 +678,21 @@ Over maximum length:
   >>> multiWidget.updateAllowAddRemove()
   >>> multiWidget.allowAdding, multiWidget.allowRemoving
   (False, True)
+
+I know a guy who once switched widget mode in the middle. All simple widgets
+are easy to hack, but multiWidget needs to update all subwidgets:
+
+  >>> [w.mode for w in multiWidget.widgets]
+  ['input', 'input', 'input', 'input', 'input', 'input']
+
+Switch the multiWidget mode:
+
+  >>> multiWidget.mode = interfaces.DISPLAY_MODE
+
+Yes, all subwigets switch mode:
+
+  >>> [w.mode for w in multiWidget.widgets]
+  ['display', 'display', 'display', 'display', 'display', 'display']
 
 Widget Events
 -------------

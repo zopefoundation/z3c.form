@@ -1275,3 +1275,90 @@ Now rendering the addform renders the subform as well:
       </form>
     </body>
   </html>
+
+
+Coverage happiness
+------------------
+
+Converting interfaces.NO_VALUE holds None:
+
+  >>> converter.toFieldValue(interfaces.NO_VALUE) is None
+  True
+
+
+This is a complicated case.
+Happens when the context is a dict, and the dict misses the field.
+(Note, we're making ``sub__object`` instead of ``subobject``)
+
+  >>> context = dict(sub__object=None, foo=123, bar=456)
+
+All the story the create a widget:
+
+  >>> field = zope.schema.Object(
+  ...     __name__='subobject',
+  ...     title=u'my object widget',
+  ...     schema=IMySubObject)
+
+  >>> wv = {'foofield': 2, 'barfield': 999}
+
+  >>> request = TestRequest()
+  >>> widget = z3c.form.browser.object.ObjectWidget(request)
+  >>> widget = FieldWidget(field, widget)
+  >>> widget.context = context
+  >>> widget.value = wv
+  >>> widget.update()
+  >>> converter = interfaces.IDataConverter(widget)
+
+And still we get a MySubObject, no failure:
+
+  >>> value = converter.toFieldValue(wv)
+  >>> value
+  <z3c.form.testing.MySubObject object at ...>
+  >>> value.foofield
+  2
+  >>> value.barfield
+  999
+
+
+Easy (after the previous).
+In case the previous value on the context is None (or missing).
+We need to create a new object to be able to set properties on.
+
+  >>> context['subobject'] = None
+  >>> value = converter.toFieldValue(wv)
+  >>> value
+  <z3c.form.testing.MySubObject object at ...>
+  >>> value.foofield
+  2
+  >>> value.barfield
+  999
+
+In case there is something that cannot be adapted to the right interface,
+it just burps:
+(might be an idea to create in this case also a new blank object)
+
+  >>> context['subobject'] = u'brutal'
+  >>> converter.toFieldValue(wv)
+  Traceback (most recent call last):
+  ...
+  TypeError: ('Could not adapt', u'brutal',
+  <InterfaceClass z3c.form.testing.IMySubObject>)
+
+  >>> context['subobject'] = None
+
+
+One more.
+Value to convert misses a field. Should never happen actually:
+
+  >>> wv = {'foofield': 2}
+  >>> value = converter.toFieldValue(wv)
+
+Known property is set:
+
+  >>> value.foofield
+  2
+
+Unknown sticks ti it's default value:
+
+  >>> value.barfield
+  2222

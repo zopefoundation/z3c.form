@@ -146,7 +146,7 @@ class ObjectConverter(BaseDataConverter):
                 except AttributeError:
                     obj = self.createObject(value)
 
-        if obj is None:
+        if obj is None or obj == self.field.missing_value:
             #if still None create one, otherwise following will burp
             obj = self.createObject(value)
 
@@ -269,7 +269,8 @@ class ObjectWidget(widget.Widget):
 
             if errors:
                 #very-very-nasty: skip raising exceptions in extract
-                #while we're updating
+                #while we're updating -- that happens when the widget
+                #is updated and update calls extract()
                 if self._updating:
                     return default
 

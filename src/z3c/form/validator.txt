@@ -79,6 +79,9 @@ well-defined. Thus, we first need to create a schema.
   ...     email = zope.schema.TextLine(
   ...         title=u'E-mail')
   ...
+  ...     photo = zope.schema.Bytes(
+  ...         title=u'Photo')
+  ...
   ...     @zope.interface.invariant
   ...     def isLoginPartOfEmail(person):
   ...         if not person.email.startswith(person.login):
@@ -112,6 +115,13 @@ A validation error is raised, when the validation fails:
   Traceback (most recent call last):
   ...
   TooLong: (u'StephanCaveman3', 10)
+
+If the value has not changed, validation is successful:
+
+  >>> from z3c.form import interfaces
+  >>> simple_photo = validator.SimpleFieldValidator(
+  ...     None, None, None, IPerson['photo'], None)
+  >>> simple_photo.validate(interfaces.NOT_CHANGED)
 
 Let's now create a validator that also requires at least 1 numerical character
 in the login name:

@@ -21,13 +21,14 @@ import zope.interface
 import zope.component
 import zope.event
 import zope.lifecycleevent
-from z3c import ptcompat
+#from z3c import ptcompat
 from zope.publisher import browser
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
 
 from z3c.form import button, field, interfaces, util
 from z3c.form.i18n import MessageFactory as _
+from z3c.form import ptcompat
 
 
 def applyChanges(form, content, data):

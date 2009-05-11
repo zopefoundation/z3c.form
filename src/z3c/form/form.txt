@@ -289,7 +289,7 @@ specified a template yet, we have to do this now. We have prepared a small and
 very simple template as part of this example:
 
   >>> import os
-  >>> from z3c import ptcompat as viewpagetemplatefile
+  >>> from z3c.form import ptcompat as viewpagetemplatefile
   >>> from z3c.form import tests
   >>> def addTemplate(form):
   ...     form.template = viewpagetemplatefile.bind_template(
@@ -563,7 +563,7 @@ trailing ".".
   >>> addForm.name
   'form'
 
-The template can then use those attributes, if it likes to. 
+The template can then use those attributes, if it likes to.
 
 In the examples previously we set the template manually. If no
 template is specified, the system tries to find an adapter. Without
@@ -648,7 +648,7 @@ When the form renders, the label has now changed:
     <input class="text-widget required textline-field"
            id="form-widgets-name" name="form.widgets.name" type="text" value="">
   </div>
-  
+
 
 Adding a "Cancel" button
 ------------------------
@@ -1476,7 +1476,7 @@ sequence.
   ...         self.refreshActions = True
 
 First, let's illustrate simple cases, when no button is pressed.
-The button will be available when context is not empty. 
+The button will be available when context is not empty.
 
   >>> context = [1, 2, 3, 4]
   >>> request = TestRequest()

@@ -24,12 +24,13 @@ import zope.lifecycleevent
 from zope.security.proxy import removeSecurityProxy
 from zope.pagetemplate.interfaces import IPageTemplate
 
-from z3c import ptcompat as viewpagetemplatefile
+#from z3c import ptcompat as viewpagetemplatefile
 from z3c.form.converter import BaseDataConverter
 
 from z3c.form import form, interfaces, util, widget
 from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
+from z3c.form.ptcompat import ViewPageTemplateFile
 
 def getIfName(iface):
     return iface.__module__+'.'+iface.__name__
@@ -316,7 +317,7 @@ class ObjectWidgetTemplateFactory(object):
     def __init__(self, filename, contentType='text/html',
                  context=None, request=None, view=None,
                  field=None, widget=None, schema=None):
-        self.template = viewpagetemplatefile.ViewPageTemplateFile(
+        self.template = ViewPageTemplateFile(
             filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(context),

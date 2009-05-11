@@ -74,8 +74,8 @@ Let's get the template
 
 and check it:
 
-  >>> from z3c import ptcompat
-  >>> isinstance(template, ptcompat.ViewPageTemplateFile)
+  >>> from z3c.form.ptcompat import ViewPageTemplateFile
+  >>> isinstance(template, ViewPageTemplateFile)
   True
 
 Let's use the template within the widget.
@@ -178,7 +178,7 @@ Let's get the template
 
 and check it:
 
-  >>> isinstance(template, ptcompat.ViewPageTemplateFile)
+  >>> isinstance(template, ViewPageTemplateFile)
   True
 
 Let's use the template within the widget.

@@ -37,10 +37,10 @@ from z3c.form import form, interfaces, term, validator, widget
 from z3c.form.browser import radio, select, text, textarea
 from z3c.form.browser import file as fileWidget
 
+from z3c.form.ptcompat import AVAILABLE
+
 from z3c.ptcompat.testing import render
 from z3c.ptcompat.testing import OutputChecker
-
-import z3c.ptcompat
 
 import lxml.html
 import lxml.doctestcompare
@@ -189,10 +189,13 @@ def setUp(test):
     test.globs = {'root': setup.placefulSetUp(True)}
 
 def setUpZPT(suite):
-    z3c.ptcompat.config.disable()
+    if AVAILABLE:
+        import z3c.ptcompat
+        z3c.ptcompat.config.disable()
     setUp(suite)
 
 def setUpZ3CPT(suite):
+    import z3c.ptcompat
     z3c.ptcompat.config.enable()
     setUp(suite)
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.pt)()

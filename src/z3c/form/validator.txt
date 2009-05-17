@@ -117,7 +117,6 @@ Let's now create a validator that also requires at least 1 numerical character
 in the login name:
 
   >>> import re
-
   >>> class LoginValidator(validator.SimpleFieldValidator):
   ...
   ...     def validate(self, value):
@@ -181,6 +180,124 @@ again:
   >>> zope.component.queryMultiAdapter(
   ...     (None, None, None, IPerson['email'], None),
   ...     interfaces.IValidator)
+
+Widget Validators and File-Uploads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+File-Uploads behave a bit different than the other form
+elements. Whether the user did not choose a file to upload
+``interfaces.NOT_CHANGED`` is set as value. But the validator knows
+how to handle this.
+
+The example has two bytes fields where File-Uploads are possible, one
+field is required the other one not:
+
+  >>> class IPhoto(zope.interface.Interface):
+  ...     data = zope.schema.Bytes(
+  ...         title=u'Photo')
+  ...
+  ...     thumb = zope.schema.Bytes(
+  ...         title=u'Thumbnail',
+  ...         required=False)
+
+There are several possible cases to differentiate between:
+
+No widget
++++++++++
+
+If there is no widget or the widget does not provide
+``interfaces.IContextAware``, no value is looked up from the
+context. So the not required field validates successfully but the
+required one has an required missing error, as the default value of
+the field is looked up on the field:
+
+  >>> simple_thumb = validator.SimpleFieldValidator(
+  ...     None, None, None, IPhoto['thumb'], None)
+  >>> simple_thumb.validate(interfaces.NOT_CHANGED)
+
+  >>> simple_data = validator.SimpleFieldValidator(
+  ...     None, None, None, IPhoto['data'], None)
+  >>> simple_data.validate(interfaces.NOT_CHANGED)
+  Traceback (most recent call last):
+  RequiredMissing
+
+Widget which ignores context
+++++++++++++++++++++++++++++
+
+If the context is ignored in the widget - as in the add form - the
+behavior is the same as if there was no widget:
+
+  >>> import z3c.form.widget
+  >>> widget = z3c.form.widget.Widget(None)
+  >>> zope.interface.alsoProvides(widget, interfaces.IContextAware)
+  >>> widget.ignoreContext = True
+  >>> simple_thumb = validator.SimpleFieldValidator(
+  ...     None, None, None, IPhoto['thumb'], widget)
+  >>> simple_thumb.validate(interfaces.NOT_CHANGED)
+
+  >>> simple_data = validator.SimpleFieldValidator(
+  ...     None, None, None, IPhoto['data'], widget)
+  >>> simple_data.validate(interfaces.NOT_CHANGED)
+  Traceback (most recent call last):
+  RequiredMissing
+
+Look up value from default adapter
+++++++++++++++++++++++++++++++++++
+
+When the value is ``interfaces.NOT_CHANGED`` the validator tries to
+look up the default value using a ``interfaces.IValue``
+adapter. Whether the adapter is found, its value is used as default,
+so the validation of the required field is successful here:
+
+  >>> data_default = z3c.form.widget.StaticWidgetAttribute(
+  ...     'data', context=None, request=None, view=None,
+  ...     field=IPhoto['data'], widget=widget)
+  >>> zope.component.provideAdapter(data_default, name='default')
+  >>> simple_data.validate(interfaces.NOT_CHANGED)
+
+
+Look up value from context
+++++++++++++++++++++++++++
+
+If there is a context aware widget which does not ignore its context,
+the value is looked up on the context using a data manager:
+
+  >>> class Photo(object):
+  ...     zope.interface.implements(IPhoto)
+  ...
+  ...     data = None
+  ...     thumb = None
+  >>> photo = Photo()
+  >>> widget.ignoreContext = False
+  >>> zope.component.provideAdapter(z3c.form.datamanager.AttributeField)
+
+  >>> simple_thumb = validator.SimpleFieldValidator(
+  ...     photo, None, None, IPhoto['thumb'], widget)
+  >>> simple_thumb.validate(interfaces.NOT_CHANGED)
+
+If the value is not set on the context it is a required missing as
+neither context nor input have a valid value:
+
+  >>> simple_data = validator.SimpleFieldValidator(
+  ...     photo, None, None, IPhoto['data'], widget)
+  >>> simple_data.validate(interfaces.NOT_CHANGED)
+  Traceback (most recent call last):
+  RequiredMissing
+
+After setting the value validation is successful:
+
+  >>> photo.data = 'data'
+  >>> simple_data.validate(interfaces.NOT_CHANGED)
+
+
+Clean-up
+++++++++
+
+  >>> gsm = zope.component.getGlobalSiteManager()
+  >>> gsm.unregisterAdapter(z3c.form.datamanager.AttributeField)
+  True
+  >>> gsm.unregisterAdapter(data_default, name='default')
+  True
 
 
 Widget Manager Validators

@@ -11,6 +11,7 @@ Dan Korostelev
 Daniel Nouri
 Darryl Cousins
 Herman Himmelbauer
+Jacob Holm
 Laurent Mignon
 Malthe Borch
 Marius Gedminas

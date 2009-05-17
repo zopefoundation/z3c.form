@@ -150,6 +150,10 @@ Version 2.0.0 (unreleased)
 
 - Bug: Don't cause warnings in Python 2.6.
 
+- Bug: `validator.SimpleFieldValidator` is now able to handle
+  `interfaces.NOT_CHANGED`. This value is set for file uploads when
+  the user does not choose a file for upload.
+
 
 Version 1.9.0 (2008-08-26)
 --------------------------

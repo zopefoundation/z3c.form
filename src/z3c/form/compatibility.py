@@ -20,25 +20,6 @@ import datetime
 import decimal
 import zope.interface
 
-def addTimeField():
-    """Add ITime interface and Time field to zope.schema.
-
-    Target: Zope 3.3
-    """
-    from zope.schema import interfaces
-    if hasattr(interfaces, 'ITime'):
-        return
-
-    class ITime(interfaces.IMinMax, interfaces.IField):
-        u"""Field containing a time."""
-    interfaces.ITime = ITime
-
-    class Time(zope.schema.Orderable, zope.schema.Field):
-        __doc__ = ITime.__doc__
-        zope.interface.implements(ITime)
-        _type = datetime.time
-    zope.schema.Time = Time
-
 def addHooks():
     try:
         from zope.site import hooks

@@ -82,6 +82,7 @@ setup (
         test = [
             'zope.app.testing',
             'zope.app.container',
+            'zope.container',
             'zope.app.pagetemplate',
             'zope.app.i18n',
             'zope.testing',

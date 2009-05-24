@@ -445,7 +445,7 @@ Let's look at the event:
 
   >>> event = eventlog[-1]
   >>> event
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
 
 The event's description contains the changed Interface and the names of
 all changed fields, even if they where in different groups:
@@ -467,7 +467,7 @@ form and assing a group instance:
   ...     fields = field.Fields(IVehicleRegistration).select(
   ...         'firstName', 'lastName')
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> request = testing.TestRequest()
@@ -606,7 +606,7 @@ field which is taken care of with the group.
   ...         'owner')
   ...     groups = (OwnerGroup,)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(
@@ -746,13 +746,13 @@ The group can contains groups. Let's adapt the previous RegistrationEditForm:
   ...         'owner')
   ...     groups = (OwnerGroup,)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> class RegistrationEditForm(group.GroupForm, form.EditForm):
   ...     groups = (VehicleRegistrationGroup,)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_nested_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(

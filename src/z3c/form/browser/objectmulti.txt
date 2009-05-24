@@ -1276,16 +1276,16 @@ Let's see our event log:
 ((why is IMySubObjectMulti created twice???))
 
   >>> printEvents()
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
   ('foofield', 'barfield')
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
   ('foofield', 'barfield')
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
-  <zope.container.contained.ContainerModifiedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
+  <zope...contained.ContainerModifiedEvent object at ...>
 
 
   >>> eventlog=[]
@@ -1415,19 +1415,19 @@ Let's see our event log:
 ((TODO: now this is real crap here, why is IMySubObjectMulti created 3 times???))
 
   >>> printEvents()
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
   ('foofield', 'barfield')
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
   ('foofield', 'barfield')
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
   ('foofield', 'barfield')
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMyMultiObject>
   ('listOfObject',)
 
@@ -1578,8 +1578,8 @@ Eventlog must be clean:
 ((TODO: bummer... who creates those 2 objects???))
 
   >>> printEvents()
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
-  <zope.lifecycleevent.ObjectCreatedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
+  <zope...ObjectCreatedEvent object at ...>
 
 
 Watch for the error message in the HTML:

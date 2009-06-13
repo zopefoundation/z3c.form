@@ -17,16 +17,14 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 
+#import utilities from z3c.ptcompat when available and set AVAILABLE flag
+
 try:
     from z3c.ptcompat import ViewPageTemplateFile
+    from z3c.ptcompat import bind_template
     AVAILABLE = True
 except ImportError:
     AVAILABLE = False
-
-if AVAILABLE:
-    #ViewPageTemplateFile = ptcompat.ViewPageTemplateFile
-    from z3c.ptcompat import bind_template
-else:
     from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
     from zope.app.pagetemplate.viewpagetemplatefile import BoundPageTemplate \
          as bind_template

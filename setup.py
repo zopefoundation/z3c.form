@@ -89,7 +89,7 @@ setup (
             'z3c.coverage',
             'z3c.template',
             'zc.sourcefactory',
-            'lxml',
+            'lxml >= 2.1.1',
             ],
         adding = ['zope.app.container'],
         docs = ['z3c.recipe.sphinxdoc'],

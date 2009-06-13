@@ -5,6 +5,15 @@ CHANGES
 Version 2.0.0 (unreleased)
 --------------------------
 
+- KGS 3.4 compatibility. This is a real hard thing, because z3c.form tests
+  use lxml >= 2.1.1 to check test output, but KGS 3.4 has lxml 1.3.6.
+  Therefore we agree on that if tests pass with all package versions nailed by
+  KGS 3.4 but lxml overridden to 2.1.1 then the z3c.form package works with a
+  plain KGS 3.4.
+
+- Feature: Removed hard z3c.ptcompat and thus z3c.pt dependency.
+  If you have z3c.ptcompat on the pythonpath it will be used.
+
 - Feature: Added nested group support. Groups are rendered as fieldsets.
   Nested fieldsets are very useful when designing forms.
 

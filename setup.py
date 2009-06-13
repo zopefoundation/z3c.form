@@ -75,15 +75,19 @@ setup (
     package_dir = {'':'src'},
     namespace_packages = ['z3c'],
     extras_require = dict(
+        extra = [
+            'z3c.pt >= 1.0b4',
+            'z3c.ptcompat',
+        ],
         test = [
             'zope.app.testing',
             'zope.app.container',
+            'zope.container',
             'zope.app.pagetemplate',
             'zope.app.i18n',
             'zope.testing',
             'z3c.coverage',
             'z3c.template',
-            'z3c.pt >= 1.0b4',
             'zc.sourcefactory',
             'lxml >= 2.1.1',
             ],
@@ -107,7 +111,6 @@ setup (
         'zope.security',
         'zope.site',
         'zope.traversing',
-        'z3c.ptcompat',
         ],
     zip_safe = False,
     )

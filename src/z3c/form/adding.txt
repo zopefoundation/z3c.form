@@ -35,7 +35,7 @@ Let's first create a content component:
 
 Next we need a container to which we wish to add the person:
 
-  >>> from zope.container import btree
+  >>> from zope.app.container import btree
   >>> people = btree.BTreeContainer()
 
 When creating and adding a new object using the ``IAdding`` API, the container
@@ -52,7 +52,7 @@ To be able to create a person using ``IAdding``, we need to create an add form
 for it now:
 
   >>> import os
-  >>> from z3c import ptcompat as viewpagetemplatefile
+  >>> from z3c.form import ptcompat as viewpagetemplatefile
   >>> from z3c.form import tests, field
   >>> from z3c.form.adding import AddForm
 

@@ -23,9 +23,15 @@ import unittest
 from zope.testing.doctestunit import DocFileSuite
 
 from z3c.form import testing
+from z3c.form.ptcompat import AVAILABLE
 
 def test_suite():
     checker = testing.OutputChecker(doctest)
+
+    if AVAILABLE:
+        setups = (testing.setUpZPT, testing.setUpZ3CPT)
+    else:
+        setups = (testing.setUpZPT,)
 
     tests = ((
         DocFileSuite('README.txt',
@@ -118,6 +124,6 @@ def test_suite():
                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
                      checker=checker,
                      ))
-             for setUp in (testing.setUpZPT, testing.setUpZ3CPT))
+             for setUp in setups)
 
     return unittest.TestSuite(itertools.chain(*tests))

@@ -60,7 +60,7 @@ comparison to a regular add form, you only need to add the ``GroupForm`` as
 one of the base classes. The groups are specified in a simple tuple:
 
   >>> import os
-  >>> from z3c import ptcompat as viewpagetemplatefile
+  >>> from z3c.form.ptcompat import ViewPageTemplateFile
   >>> from z3c.form import form, tests
 
   >>> class RegistrationAddForm(group.GroupForm, form.AddForm):
@@ -68,7 +68,7 @@ one of the base classes. The groups are specified in a simple tuple:
   ...         'firstName', 'lastName')
   ...     groups = (LicenseGroup, CarGroup)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
   ...
   ...     def create(self, data):
@@ -281,7 +281,7 @@ Let's now have a look at an edit form for the vehicle registration:
   ...         'firstName', 'lastName')
   ...     groups = (LicenseGroup, CarGroup)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> request = testing.TestRequest()
@@ -445,7 +445,7 @@ Let's look at the event:
 
   >>> event = eventlog[-1]
   >>> event
-  <zope.lifecycleevent.ObjectModifiedEvent object at ...>
+  <zope...ObjectModifiedEvent object at ...>
 
 The event's description contains the changed Interface and the names of
 all changed fields, even if they where in different groups:
@@ -467,7 +467,7 @@ form and assing a group instance:
   ...     fields = field.Fields(IVehicleRegistration).select(
   ...         'firstName', 'lastName')
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> request = testing.TestRequest()
@@ -606,7 +606,7 @@ field which is taken care of with the group.
   ...         'owner')
   ...     groups = (OwnerGroup,)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(
@@ -746,13 +746,13 @@ The group can contains groups. Let's adapt the previous RegistrationEditForm:
   ...         'owner')
   ...     groups = (OwnerGroup,)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> class RegistrationEditForm(group.GroupForm, form.EditForm):
   ...     groups = (VehicleRegistrationGroup,)
   ...
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_nested_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(

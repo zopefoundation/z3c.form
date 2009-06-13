@@ -68,13 +68,13 @@ We define the owner sub-form as we would any other form. The only difference
 is the template, which should not render a form-tag:
 
   >>> import os
-  >>> from z3c import ptcompat as viewpagetemplatefile
+  >>> from z3c.form.ptcompat import ViewPageTemplateFile
   >>> from z3c.form import form, field, tests
 
   >>> templatePath = os.path.dirname(tests.__file__)
 
   >>> class OwnerForm(form.EditForm):
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_owneredit.pt', templatePath)
   ...     fields = field.Fields(IOwner)
   ...     prefix = 'owner'
@@ -87,7 +87,7 @@ METAL macros, viewlets, or pagelets to make better reuse of some code.
 
   >>> class CarForm(form.EditForm):
   ...     fields = field.Fields(ICar).select('model', 'make')
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_caredit.pt', templatePath)
   ...     prefix = 'car'
   ...     def update(self):
@@ -267,7 +267,7 @@ base class:
   >>> from z3c.form import subform
 
   >>> class OwnerForm(subform.EditSubForm):
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_subedit.pt', templatePath)
   ...     fields = field.Fields(IOwner)
   ...     prefix = 'owner'
@@ -277,7 +277,7 @@ constructor arguments, the last one being the parent form:
 
   >>> class CarForm(form.EditForm):
   ...     fields = field.Fields(ICar).select('model', 'make')
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_caredit.pt', templatePath)
   ...     prefix = 'car'
   ...
@@ -467,7 +467,7 @@ occurs:
 
   >>> print carForm.render() # doctest: +NOPARSE_MARKUP
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-  <html xmlns="http://www.w3.org/1999/xhtml">       
+  <html xmlns="http://www.w3.org/1999/xhtml">
       ...
       <fieldset>
         <legend>Owner</legend>
@@ -482,7 +482,7 @@ occurs:
      </fieldset>
      ...
   </html>
-  
+
 If the data did not change, it is also locally reported:
 
   >>> request = TestRequest(form={
@@ -525,7 +525,7 @@ subform input values.
 
   >>> from z3c.form.interfaces import IWidgets
   >>> class OwnerAddForm(form.EditForm):
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_owneredit.pt', templatePath)
   ...     fields = field.Fields(IOwner)
   ...     prefix = 'owner'
@@ -540,7 +540,7 @@ Next we define the car form, which has the owner form as a sub-form.
 
   >>> class CarAddForm(form.EditForm):
   ...     fields = field.Fields(ICar).select('model', 'make')
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_caredit.pt', templatePath)
   ...     prefix = 'car'
   ...

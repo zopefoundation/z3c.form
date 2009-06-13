@@ -17,6 +17,9 @@ Version 2.0.0 (unreleased)
 - Feature: Added nested group support. Groups are rendered as fieldsets.
   Nested fieldsets are very useful when designing forms.
 
+  WARNING: if your Group did have an applyChanges (or any added(?)) method
+  the new one added by this change might not match the signature.
+
 - Added `labelRequired` and `requiredInfo` form attributes. This is
   useful for conditional rendering a required info legend in form templates.
   The `requiredInfo` label depends by default on a given `labelRequired`

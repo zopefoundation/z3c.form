@@ -393,7 +393,7 @@ The behavior when an error occurs is identical to that of the add form:
 
 When an edit form with groups is successfully committed, a detailed
 object-modified event is sent out telling the system about the changes.
- To see the error, let's create an event subscriber for object-modified events:
+To see the error, let's create an event subscriber for object-modified events:
 
   >>> eventlog = []
   >>> import zope.lifecycleevent

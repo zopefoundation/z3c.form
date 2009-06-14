@@ -39,9 +39,6 @@ from z3c.form.browser import file as fileWidget
 
 from z3c.form.ptcompat import AVAILABLE
 
-#from z3c.ptcompat.testing import render
-#from z3c.ptcompat.testing import OutputChecker
-
 import lxml.html
 import lxml.doctestcompare
 

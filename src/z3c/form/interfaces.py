@@ -16,14 +16,14 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-
+import zope.i18nmessageid
 import zope.interface
 import zope.schema
 from zope.interface.common import mapping
 from zope.location.interfaces import ILocation
 from zope.publisher.interfaces.browser import IBrowserRequest
 
-from z3c.form.i18n import MessageFactory as _
+MessageFactory = _ = zope.i18nmessageid.MessageFactory('z3c.form')
 
 INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
@@ -32,14 +32,14 @@ HIDDEN_MODE = 'hidden'
 class NOT_CHANGED(object):
     def __repr__(self):
         return '<NOT_CHANGED>'
-NOT_CHANGED = NOT_CHANGED() 
+NOT_CHANGED = NOT_CHANGED()
 
 class NO_VALUE(object):
     def __repr__(self):
         return '<NO_VALUE>'
 NO_VALUE = NO_VALUE()
-
-NOVALUE = NO_VALUE # BBB: the object was renamed to follow common naming style
+# BBB: the object was renamed to follow common naming style
+NOVALUE = NO_VALUE
 
 # ----[ Layer Declaration ]--------------------------------------------------
 

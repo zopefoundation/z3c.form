@@ -259,7 +259,13 @@ modify.
   >>> personDict = {}
   >>> nameDm = datamanager.DictionaryField(personDict, IPerson['name'])
 
-The datamanager can really only deal with dictionaries and no other types:
+The datamanager can really only deal with dictionaries and mapping types:
+
+  >>> import zope.interface.common.mapping
+  >>> class MyMapping(object):
+  ...     zope.interface.implements(zope.interface.common.mapping.IMapping)
+  >>> datamanager.DictionaryField(MyMapping(), IPerson['name'])
+  <z3c.form.datamanager.DictionaryField object at ...>
 
   >>> datamanager.DictionaryField([], IPerson['name'])
   Traceback (most recent call last):
@@ -269,9 +275,6 @@ The datamanager can really only deal with dictionaries and no other types:
 Let's now access the name:
 
   >>> nameDm.get()
-  Traceback (most recent call last):
-  ...
-  KeyError: 'name'
 
   >>> nameDm.query()
   <NO_VALUE>

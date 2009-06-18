@@ -20,6 +20,7 @@ __docformat__ = "reStructuredText"
 import zope.interface
 import zope.component
 import zope.schema
+from zope.interface.common import mapping
 from zope.security.interfaces import ForbiddenAttribute
 from zope.security.checker import canAccess, canWrite, Proxy
 
@@ -94,14 +95,15 @@ class DictionaryField(DataManager):
         dict, zope.schema.interfaces.IField)
 
     def __init__(self, data, field):
-        if not isinstance(data, dict):
+        if (not isinstance(data, dict) and
+            not mapping.IMapping.providedBy(data)):
             raise ValueError("Data are not a dictionary: %s" %type(data))
         self.data = data
         self.field = field
 
     def get(self):
         """See z3c.form.interfaces.IDataManager"""
-        return self.data[self.field.__name__]
+        return self.data.get(self.field.__name__, self.field.missing_value)
 
     def query(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IDataManager"""

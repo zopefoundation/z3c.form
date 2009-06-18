@@ -5,7 +5,9 @@ CHANGES
 Version 2.1.0 (unreleased)
 --------------------------
 
-- ...
+- Feature: The `DictionaryFieldManager` now allows all mappings. By default,
+  however, the field manager is only registered for dict, because it would
+  otherwise get picked up in undesired scenarios.
 
 Version 2.0.0 (2009-06-14)
 --------------------------

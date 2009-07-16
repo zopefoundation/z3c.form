@@ -97,7 +97,7 @@ class DictionaryField(DataManager):
     NOTE: Even though, this data manager allows nearly all kinds of
     mappings, by default it is only registered for dict, because it
     would otherwise get picked up in undesired scenarios. If you want
-    to use for another mapping, register the appropriate adapter in
+    to it use for another mapping, register the appropriate adapter in
     your application.
 
     """

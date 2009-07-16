@@ -20,6 +20,8 @@ __docformat__ = "reStructuredText"
 import zope.interface
 import zope.component
 import zope.schema
+import persistent.mapping
+import persistent.dict
 from zope.interface.common import mapping
 from zope.security.interfaces import ForbiddenAttribute
 from zope.security.checker import canAccess, canWrite, Proxy
@@ -90,12 +92,27 @@ class AttributeField(DataManager):
         return True
 
 class DictionaryField(DataManager):
-    """Dictionary field."""
+    """Dictionary field.
+
+    NOTE: Even though, this data manager allows nearly all kinds of
+    mappings, by default it is only registered for dict, because it
+    would otherwise get picked up in undesired scenarios. If you want
+    to use for another mapping, register the appropriate adapter in
+    your application.
+
+    """
+
     zope.component.adapts(
         dict, zope.schema.interfaces.IField)
 
+    _allowed_data_classes = (
+        dict,
+        persistent.mapping.PersistentMapping,
+        persistent.dict.PersistentDict,
+        )
+
     def __init__(self, data, field):
-        if (not isinstance(data, dict) and
+        if (not isinstance(data, self._allowed_data_classes) and
             not mapping.IMapping.providedBy(data)):
             raise ValueError("Data are not a dictionary: %s" %type(data))
         self.data = data

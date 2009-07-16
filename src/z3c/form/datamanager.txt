@@ -262,9 +262,17 @@ modify.
 The datamanager can really only deal with dictionaries and mapping types:
 
   >>> import zope.interface.common.mapping
+  >>> import persistent.mapping
+  >>> import persistent.dict
   >>> class MyMapping(object):
   ...     zope.interface.implements(zope.interface.common.mapping.IMapping)
   >>> datamanager.DictionaryField(MyMapping(), IPerson['name'])
+  <z3c.form.datamanager.DictionaryField object at ...>
+  >>> datamanager.DictionaryField(persistent.mapping.PersistentMapping(),
+  ...     IPerson['name'])
+  <z3c.form.datamanager.DictionaryField object at ...>
+  >>> datamanager.DictionaryField(persistent.dict.PersistentDict(),
+  ...     IPerson['name'])
   <z3c.form.datamanager.DictionaryField object at ...>
 
   >>> datamanager.DictionaryField([], IPerson['name'])

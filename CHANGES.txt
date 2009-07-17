@@ -12,6 +12,13 @@ Version 2.1.0 (unreleased)
   manager is only registered for dict, because it would otherwise get
   picked up in undesired scenarios.
 
+- Made compatible with `zope.app.publisher` 3.8.2 (and above) by using
+  the new absolute url adapter for resources introduced in 3.8.2.
+
+- Fixed tests to run with `z3c.pt` 1.0b17 (and above) by adding a
+  missing test dependency on `zope.app.component`.
+
+
 Version 2.0.0 (2009-06-14)
 --------------------------
 

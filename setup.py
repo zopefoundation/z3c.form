@@ -91,6 +91,8 @@ setup (
             'zope.app.testing',
             'zope.container',
             'zope.testing',
+            'zope.app.component', # required by z3c.pt from 1.0b17 on
+                                  # also required by our browser/README.txt
             ],
         adding = ['zope.app.container'],
         docs = ['z3c.recipe.sphinxdoc'],

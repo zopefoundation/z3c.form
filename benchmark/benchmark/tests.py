@@ -30,7 +30,9 @@ from z3c.form import testing
 def benchmark(title):
     def decorator(f):
         def wrapper(*args):
-            print "===============================\n %s\n===============================" % title
+            print "==============================="
+            print title
+            print "==============================="
             return f(*args)
         return wrapper
     return decorator
@@ -73,7 +75,7 @@ def build_many_fields(size):
             __name__=name,
             description=u"This field renders %s" % name,
             title=u"Title of %s" % name.capitalize())
-        
+
 IManyFields = tuple(build_many_fields(500))
 
 class BaseTestCase(unittest.TestCase):
@@ -89,16 +91,17 @@ class BaseTestCase(unittest.TestCase):
 class BenchmarkTestCase(BaseTestCase):
     def simple_form(self, cls, iface):
         class SimpleForm(form.AddForm):
-            fields = field.Fields(*(isinstance(iface, tuple) and iface or (iface,)))
+            fields = field.Fields(
+                *(isinstance(iface, tuple) and iface or (iface,)))
             render = cls(
                 os.path.join(tests.__path__[0], 'simple_edit.pt'))
         return SimpleForm
-                
+
     @benchmark(u"Small add-form (update/render)")
     def testSmallForm(self):
         context = object()
         request = testing.TestRequest()
-        
+
         f_z3c = self.simple_form(
             z3cViewPageTemplateFile, ISmallForm)(context, request)
         f_zope = self.simple_form(
@@ -117,7 +120,7 @@ class BenchmarkTestCase(BaseTestCase):
     def testLargeDataSets(self):
         context = object()
         request = testing.TestRequest()
-        
+
         f_z3c = self.simple_form(
             z3cViewPageTemplateFile, ILargeDataSetsForm)(context, request)
         f_zope = self.simple_form(
@@ -136,7 +139,7 @@ class BenchmarkTestCase(BaseTestCase):
     def testManyFields(self):
         context = object()
         request = testing.TestRequest()
-        
+
         f_z3c = self.simple_form(
             z3cViewPageTemplateFile, IManyFields)(context, request)
         f_zope = self.simple_form(
@@ -158,7 +161,7 @@ class BenchmarkTestCase(BaseTestCase):
         t = timing(func, *args)
         self._tearDown()
         return t
-                  
+
 def test_suite():
     return unittest.TestSuite((
         unittest.makeSuite(BenchmarkTestCase),

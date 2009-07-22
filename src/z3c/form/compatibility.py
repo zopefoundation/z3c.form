@@ -18,6 +18,8 @@ $Id$
 __docformat__ = "reStructuredText"
 import datetime
 import decimal
+import sys
+import types
 import zope.interface
 
 def addHooks():
@@ -32,6 +34,22 @@ def addHooks():
         import zope.site
         import zope.app.component.hooks
         zope.site.hooks = zope.app.component.hooks
+    except ImportError:
+        import zope.app.component.hooks
+        site = types.ModuleType('site')
+        site.hooks = zope.app.component.hooks
+        sys.modules['zope.site'] = site
+
+def addBTree():
+    try:
+        import zope.container.btree
+        return
+    except ImportError:
+        import zope.app.container.btree
+        container = types.ModuleType('container')
+        container.btree = zope.app.container.btree
+        sys.modules['zope.container'] = container
 
 def apply():
     addHooks()
+    addBTree()

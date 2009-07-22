@@ -42,6 +42,7 @@ chapters = '\n'.join(
                  'term.txt',
                  'util.txt')])
 
+
 setup (
     name='z3c.form',
     version='2.1.0dev',
@@ -84,13 +85,19 @@ setup (
             'z3c.coverage',
             'z3c.template',
             'zc.sourcefactory',
+            # zope.app.container pulls in zope.container, if newer version
             'zope.app.container',
             'zope.app.i18n',
             'zope.app.pagetemplate',
             'zope.app.security',
             'zope.app.testing',
-            'zope.container',
             'zope.testing',
+            ],
+        zope34 = [
+            'zope.app.component',
+            ],
+        latest = [
+            'zope.site',
             ],
         adding = ['zope.app.container'],
         docs = ['z3c.recipe.sphinxdoc'],
@@ -110,7 +117,9 @@ setup (
         'zope.publisher',
         'zope.schema',
         'zope.security',
-        'zope.site',
+        # Since the required package depends on the versions of the other
+        # packages, so not require it directly.
+        #'zope.site' or 'zope.app.component',
         'zope.traversing',
         ],
     zip_safe = False,

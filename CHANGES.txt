@@ -12,6 +12,11 @@ Version 2.1.0 (unreleased)
   manager is only registered for dict, because it would otherwise get
   picked up in undesired scenarios.
 
+- Bug: Completed the Zope 3.4 backwards-compatibility. Also created a buidlout
+  configuration file to test the Zope 3.4 compatibility. Note: You *must* use
+  the 'latest' or 'zope34' extra now to get all required packages.
+
+
 Version 2.0.0 (2009-06-14)
 --------------------------
 

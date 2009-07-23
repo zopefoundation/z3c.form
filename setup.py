@@ -85,6 +85,7 @@ setup (
             'z3c.coverage',
             'z3c.template',
             'zc.sourcefactory',
+            'zope.app.component',
             # zope.app.container pulls in zope.container, if newer version
             'zope.app.container',
             'zope.app.i18n',

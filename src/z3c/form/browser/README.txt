@@ -500,6 +500,12 @@ setup some of the traversing machinery:
   >>> zope.component.provideAdapter(
   ...     resource, (None, None), ITraversable, name="resource")
 
+  # New absolute URL adapter for resources, if available
+  >>> import zope.app.publisher.browser.resource
+  >>> if hasattr(zope.app.publisher.browser.resource, 'AbsoluteURL'):
+  ...     zope.component.provideAdapter(
+  ...         zope.app.publisher.browser.resource.AbsoluteURL)
+
   # Register the "pressme.png" resource
   >>> from zope.app.publisher.browser.resource import Resource
   >>> testing.browserResource('pressme.png', Resource)

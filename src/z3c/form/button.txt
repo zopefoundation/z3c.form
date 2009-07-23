@@ -644,6 +644,12 @@ image must be available as a resource, so let's do that now:
   >>> zope.component.provideAdapter(
   ...     resource, (None, None), ITraversable, name="resource")
 
+  # New absolute URL adapter for resources, if available
+  >>> import zope.app.publisher.browser.resource
+  >>> if hasattr(zope.app.publisher.browser.resource, 'AbsoluteURL'):
+  ...     zope.component.provideAdapter(
+  ...         zope.app.publisher.browser.resource.AbsoluteURL)
+
   # Register the "submit.png" resource
   >>> from zope.app.publisher.browser.resource import Resource
   >>> testing.browserResource('submit.png', Resource)

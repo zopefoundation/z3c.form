@@ -51,6 +51,6 @@ def ImageFieldWidget(field, request):
     image.value = field.title
     # Get the full resource URL for the image:
     site = hooks.getSite()
-    image.src = zope.traversing.api.traverse(
-        site, '++resource++' + field.image, request=request)()
+    image.src = unicode(zope.traversing.api.traverse(
+        site, '++resource++' + field.image, request=request)())
     return image

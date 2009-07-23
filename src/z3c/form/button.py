@@ -234,8 +234,8 @@ class ImageButtonAction(image.ImageWidget, ButtonAction):
     @property
     def src(self):
         site = hooks.getSite()
-        src = zope.traversing.api.traverse(
-            site, '++resource++' + self.field.image, request=self.request)()
+        src = unicode(zope.traversing.api.traverse(
+            site, '++resource++' + self.field.image, request=self.request)())
         return src
 
     def isExecuted(self):

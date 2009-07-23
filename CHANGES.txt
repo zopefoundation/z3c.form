@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-Version 2.1.0 (unreleased)
+Version 2.1.0 (2009-07-22)
 --------------------------
 
 - Feature: The `DictionaryFieldManager` now allows all mappings

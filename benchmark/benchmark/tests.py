@@ -14,7 +14,6 @@ from zope import interface
 from zope import component
 from zope import schema
 
-from zope.schema.interfaces import IVocabularyFactory
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.pt.pagetemplate import ViewPageTemplateFile as z3cViewPageTemplateFile
@@ -22,7 +21,6 @@ import z3c.ptcompat as compat
 
 from z3c.form import form
 from z3c.form import term
-from z3c.form import interfaces
 from z3c.form import field
 from z3c.form import tests
 from z3c.form import testing
@@ -107,10 +105,8 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, ISmallForm)(context, request)
 
-        compat.config.PREFER_Z3C_PT = True
-        t_z3c = self.benchmark(f_z3c, f_z3c)
-        compat.config.PREFER_Z3C_PT = False
-        t_zope = self.benchmark(f_zope, f_zope)
+        t_z3c = self.benchmark(compat.config.enable, f_z3c)
+        t_zope = self.benchmark(compat.config.disable, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
         print "zope.pagetemplate: %.3f" % t_zope
@@ -126,10 +122,8 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, ILargeDataSetsForm)(context, request)
 
-        compat.config.PREFER_Z3C_PT = True
-        t_z3c = self.benchmark(f_z3c, f_z3c)
-        compat.config.PREFER_Z3C_PT = False
-        t_zope = self.benchmark(f_zope, f_zope)
+        t_z3c = self.benchmark(compat.config.enable, f_z3c)
+        t_zope = self.benchmark(compat.config.disable, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
         print "zope.pagetemplate: %.3f" % t_zope
@@ -145,19 +139,18 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, IManyFields)(context, request)
 
-        compat.config.PREFER_Z3C_PT = True
-        t_z3c = self.benchmark(f_z3c, f_z3c)
-        compat.config.PREFER_Z3C_PT = False
-        t_zope = self.benchmark(f_zope, f_zope)
+        t_z3c = self.benchmark(compat.config.enable, f_z3c)
+        t_zope = self.benchmark(compat.config.disable, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
         print "zope.pagetemplate: %.3f" % t_zope
         print "                   %.2fX" % (t_zope/t_z3c)
 
     def benchmark(self, prep, func, *args):
-        reload(compat)
         self._setUp()
+        func(*args)
         prep()
+        func(*args)
         t = timing(func, *args)
         self._tearDown()
         return t

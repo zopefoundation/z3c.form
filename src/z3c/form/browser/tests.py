@@ -23,15 +23,17 @@ import unittest
 from zope.testing.doctestunit import DocFileSuite
 
 from z3c.form import testing
+from z3c.form import outputchecker
 from z3c.form.ptcompat import AVAILABLE, Z3CPT_AVAILABLE
 
+
 def test_suite():
-    checker = testing.OutputChecker(doctest)
+    checker = outputchecker.OutputChecker(doctest)
 
     if AVAILABLE and Z3CPT_AVAILABLE:
         setups = (testing.setUpZPT, testing.setUpZ3CPT)
     else:
-        setups = (testing.setUpZPT,)
+        setups = (testing.setUpZPT, )
 
     tests = ((
         DocFileSuite('README.txt',

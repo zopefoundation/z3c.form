@@ -5,6 +5,8 @@ CHANGES
 Version 2.2.0 (unreleased)
 --------------------------
 
+- Bug: Replace dots with hyphens when generating form id from its name.
+
 - Refactored OutputChecker to its own module to allow using 
   ``z3c.form.testing`` without needing to depend on ``lxml``
 

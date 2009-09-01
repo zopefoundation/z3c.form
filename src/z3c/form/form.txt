@@ -563,6 +563,14 @@ trailing ".".
   >>> addForm.name
   'form'
 
+The id is computed from the name, replacing dots with hyphens. Let's set
+the prefix to something containing more than one final dot and check how
+it works.
+
+  >>> addForm.prefix = 'person.form.add.'
+  >>> addForm.id
+  'person-form-add'
+
 The template can then use those attributes, if it likes to.
 
 In the examples previously we set the template manually. If no

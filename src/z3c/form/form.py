@@ -193,7 +193,9 @@ class Form(BaseForm):
         """See interfaces.IInputForm"""
         return self.prefix.strip('.')
 
-    id = name
+    @property
+    def id(self):
+        return self.name.replace('.', '-')
 
     def updateActions(self):
         self.actions = zope.component.getMultiAdapter(

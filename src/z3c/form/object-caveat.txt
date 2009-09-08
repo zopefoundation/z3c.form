@@ -3,7 +3,7 @@ ObjectWidget caveat
 ===================
 
 ObjectWidget itself seems to be fine, but we discovered a fundamental problem
-in z3.form.
+in z3c.form.
 
 The meat is that widget value
 * validation

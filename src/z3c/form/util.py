@@ -118,7 +118,7 @@ def extractFileName(form, id, cleanup=True, allowEmptyPostfix=False):
 
 
 class UniqueOrderedKeys(object):
-    """Ensures that we only ue unique keys in a list.
+    """Ensures that we only use unique keys in a list.
 
     This is useful since we use the keys and values list only as ordered keys
     and values addition for our data dict.

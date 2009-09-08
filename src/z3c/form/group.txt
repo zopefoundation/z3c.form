@@ -807,7 +807,7 @@ Now the owner object should have updated fields.
   u'2005'
 
 So what happens, if errors happen inside a nested group? Let's use an empty
-invllaid object for the test missing input errors:
+invalid object for the test missing input errors:
 
   >>> reg = VehicleRegistration(owner=VehicleOwner())
 
@@ -887,7 +887,7 @@ Now build the group instance object chain:
   >>> vrg.groups = (ownerGroup,)
   >>> edit.groups = (vrg,)
 
-Also use refreshActions whihc is not needed but will make coverage this
+Also use refreshActions which is not needed but will make coverage this
 additional line of code in the update method:
 
   >>> edit.refreshActions = True

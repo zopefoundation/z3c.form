@@ -356,7 +356,7 @@ class MultiConverter(BaseDataConverter):
         widget = zope.component.getMultiAdapter((field, self.widget.request),
             interfaces.IFieldWidget)
         if interfaces.IFormAware.providedBy(self.widget):
-            #form property required by objecwidget
+            # form property required by objectwidget
             widget.form = self.widget.form
             zope.interface.alsoProvides(widget, interfaces.IFormAware)
         converter = zope.component.getMultiAdapter((field, widget),

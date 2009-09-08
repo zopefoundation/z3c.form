@@ -54,16 +54,9 @@ class HTMLFormElement(object):
         if not self.klass:
             self.klass = unicode(klass)
         else:
-            #make sure items are not repeated
-            parts = self.klass.split()+[unicode(klass)]
-            seen = {}
-            unique = []
-            for item in parts:
-                if item in seen:
-                    continue
-                seen[item]=1
-                unique.append(item)
-            self.klass = u' '.join(unique)
+            # Make sure items are not repeated.
+            parts = self.klass.split() + [unicode(klass)]
+            self.klass = u' '.join(frozenset(parts))
 
     def update(self):
         """See z3c.form.interfaces.IWidget"""

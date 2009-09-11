@@ -31,6 +31,10 @@ ErrorViewMessage = value.StaticValueCreator(
     discriminators = ('error', 'request', 'widget', 'field', 'form', 'content')
     )
 
+ComputedErrorViewMessage = value.ComputedValueCreator(
+    discriminators = ('error', 'request', 'widget', 'field', 'form', 'content')
+    )
+
 
 def ErrorViewDiscriminators(
     errorView,

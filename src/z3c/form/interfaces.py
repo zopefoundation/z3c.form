@@ -344,24 +344,24 @@ class IBoolTerms(ITerms):
 # ----[ Object factory ]-----------------------------------------------------
 
 class IObjectFactory(zope.interface.Interface):
-    """Factory that will instatiate our objects for ObjectWidget
+    """Factory that will instantiate our objects for ObjectWidget.
     It could also pre-populate properties as it gets the values extracted
-    from the form passed in ``value``
+    from the form passed in ``value``.
     """
 
     def __call__(value):
-        """return a default object created to be populated
+        """Return a default object created to be populated.
         """
 
 
 # ----[ Subform factory ]-----------------------------------------------------
 
 class ISubformFactory(zope.interface.Interface):
-    """Factory that will instatiate our subforms for ObjectWidget
+    """Factory that will instantiate our subforms for ObjectWidget.
     """
 
     def __call__():
-        """return a default object created to be populated
+        """Return a default object created to be populated.
         """
 
 

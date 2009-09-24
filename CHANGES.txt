@@ -5,6 +5,8 @@ CHANGES
 Version 2.2.0 (unreleased)
 --------------------------
 
+- Bug: <div class="error"> was generated twice for ObjectWidget in input mode.
+
 - Feature: Add ``z3c.form.error.ComputedErrorViewMessage`` factory for easy
   creation of dynamically computed error messages.
 

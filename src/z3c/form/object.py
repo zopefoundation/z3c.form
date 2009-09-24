@@ -384,7 +384,7 @@ class FactoryAdapter(object):
         zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(obj))
         return obj
 
-# XXX: Probably we should offer an register factrory method which allows to
+# XXX: Probably we should offer an register factory method which allows to
 # use all discriminators e.g. context, request, form, widget as optional
 # arguments. But can probably do that later in a ZCML directive
 def registerFactoryAdapter(for_, klass):

@@ -9,10 +9,8 @@
                   tal:condition="widget/required">*</span>
           </label>
         </div>
-        <div class="error"
-             tal:condition="widget/error">
-          <span tal:replace="structure widget/error/render">error</span>
-        </div>
+        <div tal:condition="widget/error"
+             tal:replace="structure widget/error/render">error</div>
         <div class="widget" tal:content="structure widget/render">
           <input type="text" size="24" value="" />
         </div>

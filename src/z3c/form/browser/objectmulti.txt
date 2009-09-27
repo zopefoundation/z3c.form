@@ -196,6 +196,7 @@ just cry about it in the HTML:
               <span class="required">*</span>
             </label>
           </div>
+          <div class="error">Wrong contained type</div>
           <div class="widget">
             <div class="multi-widget-checkbox">
               <input id="foo-0-remove" name="foo.0.remove"
@@ -209,9 +210,7 @@ just cry about it in the HTML:
                   <span class="required">*</span>
                 </label>
               </div>
-              <div class="error">
-                <div class="error">Required input is missing.</div>
-              </div>
+              <div class="error">Required input is missing.</div>
               <div class="widget">
                 <input id="foo-0-widgets-foofield" name="foo.0.widgets.foofield"
                        class="text-widget required int-field" type="text" />
@@ -228,9 +227,6 @@ just cry about it in the HTML:
               <input name="foo.0-empty-marker" type="hidden" value="1" />
             </div>
           </div>
-        </div>
-        <div class="error">
-          <div class="error">Wrong contained type</div>
         </div>
     </div>
     <div class="buttons">
@@ -884,6 +880,7 @@ as input for our internal (sub) widget.
           <span class="required">*</span>
         </label>
       </div>
+      <div class="error">Object is of wrong type.</div>
       <div class="widget">
         <div class="multi-widget-checkbox">
           <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove" name="foo.1.remove" type="checkbox" value="1">
@@ -896,9 +893,7 @@ as input for our internal (sub) widget.
                 <span class="required">*</span>
               </label>
             </div>
-            <div class="error">
-              <div class="error">The entered value is not a valid integer literal.</div>
-            </div>
+            <div class="error">The entered value is not a valid integer literal.</div>
             <div class="widget">
               <input class="text-widget required int-field" id="foo-1-widgets-foofield" name="foo.1.widgets.foofield" type="text" value="bad">
             </div>
@@ -913,9 +908,6 @@ as input for our internal (sub) widget.
             <input name="foo.1-empty-marker" type="hidden" value="1">
           </div>
         </div>
-      </div>
-      <div class="error">
-        <div class="error">Object is of wrong type.</div>
       </div>
     </div>
     <div class="buttons">
@@ -1610,6 +1602,7 @@ it has to appear at the field itself and at the top of the form:
                   <span class="required">*</span>
                 </label>
               </div>
+              <div class="error">Object is of wrong type.</div>
               <div class="widget">
                 <div class="multi-widget-checkbox">
                   <input class="multi-widget-checkbox checkbox-widget"
@@ -1636,9 +1629,7 @@ it has to appear at the field itself and at the top of the form:
                         <span>My dear bar</span>
                       </label>
                     </div>
-                    <div class="error">
-                      <div class="error">The entered value is not a valid integer literal.</div>
-                    </div>
+                    <div class="error">The entered value is not a valid integer literal.</div>
                     <div class="widget">
                       <input class="text-widget int-field"
                              id="form-widgets-listOfObject-0-widgets-barfield"
@@ -1648,9 +1639,6 @@ it has to appear at the field itself and at the top of the form:
                     <input name="form.widgets.listOfObject.0-empty-marker" type="hidden" value="1">
                   </div>
                 </div>
-              </div>
-              <div class="error">
-                <div class="error">Object is of wrong type.</div>
               </div>
             </div>
             <div class="buttons">
@@ -1701,7 +1689,7 @@ Simple but often used use-case is the display form:
       <form action=".">
         <div class="row">
           <label for="form-widgets-listOfObject">My list field</label>
-          <span class="multi-widget required" id="form-widgets-listOfObject">
+          <div class="multi-widget required" id="form-widgets-listOfObject">
             <div class="row" id="form-widgets-listOfObject-0-row">
               <div class="label">
                 <label for="form-widgets-listOfObject-0">
@@ -1735,7 +1723,7 @@ Simple but often used use-case is the display form:
                 </div>
               </div>
             </div>
-          </span>
+          </div>
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>

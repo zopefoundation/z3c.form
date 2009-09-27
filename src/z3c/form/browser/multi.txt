@@ -523,6 +523,8 @@ as input for our internal (sub) widget.
               <span class="required">*</span>
             </label>
           </div>
+          <div class="error">The entered value is not a valid integer
+                             literal.</div>
           <div class="widget">
             <div class="multi-widget-checkbox">
               <input type="checkbox" value="1"
@@ -534,10 +536,6 @@ as input for our internal (sub) widget.
                  type="text" id="widget-id-1" name="widget.name.1"
                  class="text-widget required int-field" value="bad" />
             </div>
-          </div>
-          <div class="error">
-            <div class="error">The entered value is not a valid integer
-                               literal.</div>
           </div>
       </div>
     <div class="buttons">
@@ -773,7 +771,7 @@ We can now render the widget:
 
   >>> widget.update()
   >>> print widget.render()
-  <span class="multi-widget" id="widget-id"></span>
+  <div class="multi-widget" id="widget-id"></div>
 
 As you can see the widget is empty and doesn't provide values. This is because
 the widget does not know what sub-widgets to display. So let's register a
@@ -788,7 +786,7 @@ Let's now update the widget and check it again.
 
   >>> widget.update()
   >>> print widget.render()
-  <span class="multi-widget" id="widget-id"></span>
+  <div class="multi-widget" id="widget-id"></div>
 
 It's still the same. Since the widget doesn't provide a field nothing useful
 gets rendered. Now let's define a field for this widget and check it again:
@@ -800,7 +798,7 @@ gets rendered. Now let's define a field for this widget and check it again:
   >>> widget.field = field
   >>> widget.update()
   >>> print widget.render()
-  <span class="multi-widget" id="widget-id"></span>
+  <div class="multi-widget" id="widget-id"></div>
 
 As you can see, there is still no input value. Let's provide some values for
 this widget. Before we can do that, we will need to register a data converter
@@ -809,7 +807,7 @@ for our multi widget and the data converter dispatcher adapter:
   >>> widget.update()
   >>> widget.value = [u'42', u'43']
   >>> print widget.render()
-  <span class="multi-widget" id="widget-id">
+  <div class="multi-widget" id="widget-id">
     <div class="row" id="widget-id-0-row">
       <div class="label">
         <label for="widget-id-0">
@@ -836,7 +834,7 @@ for our multi widget and the data converter dispatcher adapter:
         </div>
       </div>
     </div>
-  </span>
+  </div>
 
 
 Hidden mode

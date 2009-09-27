@@ -352,9 +352,7 @@ I'm tempted to leave it out as no widgets seem to do this.
 #            <span>My dear bar</span>
 #          </label>
 #        </div>
-#        <div class="error">
-#          <div class="error">The entered value is not a valid integer literal.</div>
-#        </div>
+#        <div class="error">The entered value is not a valid integer literal.</div>
 #        <div class="widget">
 #          <input class="text-widget int-field"
 #          id="subobject-widgets-barfield"
@@ -814,9 +812,7 @@ it has to appear at the field itself and at the top of the form:
                 <span>My dear bar</span>
               </label>
             </div>
-            <div class="error">
-              <div class="error">The entered value is not a valid integer literal.</div>
-            </div>
+            <div class="error">The entered value is not a valid integer literal.</div>
             <div class="widget">
               <input class="text-widget int-field"
               id="form-widgets-subobject-widgets-barfield"
@@ -887,9 +883,7 @@ Both errors must appear at the top of the form:
                 <span class="required">*</span>
               </label>
             </div>
-            <div class="error">
-              <div class="error">Value is too big</div>
-            </div>
+            <div class="error">Value is too big</div>
             <div class="widget">
               <input class="text-widget required int-field"
               id="form-widgets-subobject-widgets-foofield"
@@ -901,9 +895,7 @@ Both errors must appear at the top of the form:
                 <span>My dear bar</span>
               </label>
             </div>
-            <div class="error">
-              <div class="error">The entered value is not a valid integer literal.</div>
-            </div>
+            <div class="error">The entered value is not a valid integer literal.</div>
             <div class="widget">
               <input class="text-widget int-field"
               id="form-widgets-subobject-widgets-barfield"

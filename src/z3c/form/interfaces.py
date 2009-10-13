@@ -795,10 +795,10 @@ class IHandlerForm(zope.interface.Interface):
 
 class IActionForm(zope.interface.Interface):
     """A form that stores executable actions"""
-    
+
     actions = zope.schema.Object(
         title=_('Actions'),
-        description=_('A list of actons defined on the form'),
+        description=_('A list of actions defined on the form'),
         schema=IActions,
         required=True)
 

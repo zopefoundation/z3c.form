@@ -43,7 +43,7 @@ class IWidgetTemplateDirective(zope.interface.Interface):
 
     mode = zope.schema.BytesLine(
         title=_('The mode of the template.'),
-        description=_('The mode is used for define input and display '
+        description=_('The mode is used to define input and display '
                       'templates'),
         default=interfaces.INPUT_MODE,
         required=False)

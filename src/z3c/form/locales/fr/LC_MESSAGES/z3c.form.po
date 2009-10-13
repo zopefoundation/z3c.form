@@ -18,7 +18,7 @@ msgstr ""
 "Language-Team: Zope 3 French Users <zope3-french-user@lists.afpy.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: src/z3c/form/browser/multi.py:66 src/z3c/form/form.py:226
 msgid "Add"

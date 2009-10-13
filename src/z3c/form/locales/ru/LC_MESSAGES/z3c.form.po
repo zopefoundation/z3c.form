@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Sun Feb 22 01:30:45 2009\n"
+"POT-Creation-Date: Tue Oct 13 16:21:54 2009\n"
 "PO-Revision-Date: 2009-02-22 01:31+0300\n"
 "Last-Translator: Dan Korostelev <nadako@gmail.com>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -23,8 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/locales/extract.py\n"
 
-#: src/z3c/form/browser/multi.py:66
-#: src/z3c/form/form.py:215
+#: src/z3c/form/browser/multi.py:66 src/z3c/form/form.py:226
 msgid "Add"
 msgstr "Добавить"
 
@@ -40,57 +39,63 @@ msgstr "нет значения"
 msgid "select a value ..."
 msgstr "выберите значение..."
 
-#: src/z3c/form/converter.py:123
+#: src/z3c/form/converter.py:125
 msgid "The entered value is not a valid integer literal."
 msgstr "Введённое значение не является допустимым целым числом."
 
-#: src/z3c/form/converter.py:130
-#: src/z3c/form/converter.py:137
+#: src/z3c/form/converter.py:132 src/z3c/form/converter.py:139
 msgid "The entered value is not a valid decimal literal."
 msgstr "Введённое значение не является допустимым десятичным числом."
 
-#: src/z3c/form/converter.py:238
+#: src/z3c/form/converter.py:240
 msgid "Bytes data are not a file object"
 msgstr "Введённые данные не являются файлом"
 
-#: src/z3c/form/error.py:89
+#: src/z3c/form/error.py:93
 msgid "The system could not process the given value."
 msgstr "Система не смогла обработать введённое значение."
 
-#: src/z3c/form/form.py:213
-#: src/z3c/form/form.py:252
-#: src/z3c/form/subform.py:29
+#: src/z3c/form/form.py:109
+msgid "<span class=\"required\">*</span>&ndash; required"
+msgstr ""
+
+#: src/z3c/form/form.py:184 src/z3c/form/subform.py:29
 msgid "There were some errors."
 msgstr "Произошли ошибки."
 
-#: src/z3c/form/form.py:253
-#: src/z3c/form/subform.py:30
+#: src/z3c/form/form.py:263 src/z3c/form/subform.py:30
 msgid "Data successfully updated."
 msgstr "Данные успешно обновлены."
 
-#: src/z3c/form/form.py:254
-#: src/z3c/form/subform.py:31
+#: src/z3c/form/form.py:264 src/z3c/form/subform.py:31
 msgid "No changes were applied."
 msgstr "Нет изменений."
 
-#: src/z3c/form/form.py:271
+#: src/z3c/form/form.py:281
 msgid "Apply"
 msgstr "Применить"
 
-#: src/z3c/form/interfaces.py:1002
+#: src/z3c/form/interfaces.py:1005
+msgid "Fields"
+msgstr "Поля"
+
+#: src/z3c/form/interfaces.py:1006
+msgid "A field manager describing the fields to be used for the form."
+msgstr "Менеджер полей, описывающий поля, использующиеся в форме."
+
+#: src/z3c/form/interfaces.py:1015
 msgid "Buttons"
 msgstr "Кнопки"
 
-#: src/z3c/form/interfaces.py:1003
+#: src/z3c/form/interfaces.py:1016
 msgid "A button manager describing the buttons to be used for the form."
 msgstr "Менеджер кнопок, описывающий кнопки, использующиеся в форме."
 
-#: src/z3c/form/interfaces.py:1028
+#: src/z3c/form/interfaces.py:1041
 msgid "The widget for which the event was created."
 msgstr "Виджет, для которого было создано событие."
 
-#: src/z3c/form/interfaces.py:107
-#: src/z3c/form/interfaces.py:814
+#: src/z3c/form/interfaces.py:107 src/z3c/form/interfaces.py:821
 msgid "Context"
 msgstr "Контекст"
 
@@ -98,8 +103,7 @@ msgstr "Контекст"
 msgid "The context in which the data are validated."
 msgstr "Контекст, в котором проверяются данные."
 
-#: src/z3c/form/interfaces.py:148
-#: src/z3c/form/interfaces.py:1027
+#: src/z3c/form/interfaces.py:148 src/z3c/form/interfaces.py:1040
 msgid "Widget"
 msgstr "Виджет"
 
@@ -107,9 +111,8 @@ msgstr "Виджет"
 msgid "The widget that the view is on"
 msgstr "Виджет, связанный с видом"
 
-#: src/z3c/form/interfaces.py:153
-#: src/z3c/form/interfaces.py:404
-#: src/z3c/form/interfaces.py:691
+#: src/z3c/form/interfaces.py:153 src/z3c/form/interfaces.py:404
+#: src/z3c/form/interfaces.py:698
 msgid "Error"
 msgstr "Ошибка"
 
@@ -117,8 +120,7 @@ msgstr "Ошибка"
 msgid "Error the view is for."
 msgstr "Ошибка, связанная с видом."
 
-#: src/z3c/form/interfaces.py:174
-#: src/z3c/form/interfaces.py:665
+#: src/z3c/form/interfaces.py:174 src/z3c/form/interfaces.py:672
 msgid "Title"
 msgstr "Заголовок"
 
@@ -134,10 +136,8 @@ msgstr "Поле схемы"
 msgid "The schema field that is to be rendered."
 msgstr "Поле схемы, которое будет отображено."
 
-#: src/z3c/form/interfaces.py:184
-#: src/z3c/form/interfaces.py:570
-#: src/z3c/form/interfaces.py:576
-#: src/z3c/form/interfaces.py:875
+#: src/z3c/form/interfaces.py:184 src/z3c/form/interfaces.py:570
+#: src/z3c/form/interfaces.py:576 src/z3c/form/interfaces.py:888
 msgid "Prefix"
 msgstr "Префикс"
 
@@ -145,9 +145,8 @@ msgstr "Префикс"
 msgid "The prefix of the field used to avoid name clashes."
 msgstr "Префикс для поля, используемый для избежания пересечения имён."
 
-#: src/z3c/form/interfaces.py:189
-#: src/z3c/form/interfaces.py:391
-#: src/z3c/form/interfaces.py:840
+#: src/z3c/form/interfaces.py:189 src/z3c/form/interfaces.py:391
+#: src/z3c/form/interfaces.py:847
 msgid "Mode"
 msgstr "Режим"
 
@@ -163,17 +162,16 @@ msgstr "Интерфейс"
 msgid "The interface from which the field is coming."
 msgstr "Интерфейс, в котором содежится поле."
 
-#: src/z3c/form/interfaces.py:199
-#: src/z3c/form/interfaces.py:589
-#: src/z3c/form/interfaces.py:819
-#: src/z3c/form/interfaces.py:845
+#: src/z3c/form/interfaces.py:199 src/z3c/form/interfaces.py:589
+#: src/z3c/form/interfaces.py:826 src/z3c/form/interfaces.py:852
 msgid "Ignore Context"
 msgstr "Игнорировать контекст"
 
-#: src/z3c/form/interfaces.py:200
-#: src/z3c/form/interfaces.py:820
-msgid "A flag, when set, forces the widget not to look at the context for a value."
-msgstr "Если этот флаг установлен, виджет не будет искать значение в контексте."
+#: src/z3c/form/interfaces.py:200 src/z3c/form/interfaces.py:827
+msgid ""
+"A flag, when set, forces the widget not to look at the context for a value."
+msgstr ""
+"Если этот флаг установлен, виджет не будет искать значение в контексте."
 
 #: src/z3c/form/interfaces.py:205
 msgid "Widget Factory"
@@ -199,9 +197,8 @@ msgstr "Надпись для значения \"ложь\""
 msgid "The label for a false value of the Bool field."
 msgstr "Надпись для значения \"ложь\" поля типа Bool."
 
-#: src/z3c/form/interfaces.py:374
-#: src/z3c/form/interfaces.py:659
-#: src/z3c/form/interfaces.py:924
+#: src/z3c/form/interfaces.py:374 src/z3c/form/interfaces.py:666
+#: src/z3c/form/interfaces.py:937
 msgid "Name"
 msgstr "Имя"
 
@@ -209,8 +206,7 @@ msgstr "Имя"
 msgid "The name the widget is known under."
 msgstr "Имя, под которым виджет известен."
 
-#: src/z3c/form/interfaces.py:379
-#: src/z3c/form/interfaces.py:869
+#: src/z3c/form/interfaces.py:379 src/z3c/form/interfaces.py:876
 msgid "Label"
 msgstr "Надпись"
 
@@ -221,8 +217,10 @@ msgid ""
 "\n"
 "        Label may be translated for the request.\n"
 "\n"
-"        The attribute may be implemented as either a read-write or read-only\n"
-"        property, depending on the requirements for a specific implementation.\n"
+"        The attribute may be implemented as either a read-write or read-"
+"only\n"
+"        property, depending on the requirements for a specific "
+"implementation.\n"
 "        "
 msgstr ""
 "\n"
@@ -230,7 +228,8 @@ msgstr ""
 "\n"
 "        Заголовок может быть переведен при запросе.\n"
 "\n"
-"        Атрибут может быть реализован как свойство (property) только для чтения или\n"
+"        Атрибут может быть реализован как свойство (property) только для "
+"чтения или\n"
 "        для чтения-записи, в зависимости от нужд реализации.\n"
 "        "
 
@@ -244,11 +243,13 @@ msgstr "Обязательно к заполнению"
 
 #: src/z3c/form/interfaces.py:398
 msgid "If true the widget should be displayed as required input."
-msgstr "Если истинно, виджет должен быть отображён как требующий ввода значения."
+msgstr ""
+"Если истинно, виджет должен быть отображён как требующий ввода значения."
 
 #: src/z3c/form/interfaces.py:405
 msgid "If an error occurred during any step, the error view stored here."
-msgstr "Если на любом из шагов произошла ошибка, вид ошибки будет сохранён здесь."
+msgstr ""
+"Если на любом из шагов произошла ошибка, вид ошибки будет сохранён здесь."
 
 #: src/z3c/form/interfaces.py:410
 msgid "Value"
@@ -258,24 +259,25 @@ msgstr "Значение"
 msgid "The value that the widget represents."
 msgstr "Значение, представляемое виджетом."
 
-#: src/z3c/form/interfaces.py:417
-#: src/z3c/form/interfaces.py:595
-#: src/z3c/form/interfaces.py:851
+#: src/z3c/form/interfaces.py:417 src/z3c/form/interfaces.py:595
+#: src/z3c/form/interfaces.py:858
 msgid "Ignore Request"
 msgstr "Игнорировать запрос"
 
 #: src/z3c/form/interfaces.py:418
-msgid "A flag, when set, forces the widget not to look at the request for a value."
+msgid ""
+"A flag, when set, forces the widget not to look at the request for a value."
 msgstr "Если этот флаг установлен, виджет не будет искать значение в запросе."
 
-#: src/z3c/form/interfaces.py:425
-#: src/z3c/form/interfaces.py:608
+#: src/z3c/form/interfaces.py:425 src/z3c/form/interfaces.py:615
 msgid "Set errors"
 msgstr "Установить ошибки"
 
 #: src/z3c/form/interfaces.py:426
 msgid "A flag, when set, the widget sets error messages on calling extract()."
-msgstr "Если этот флаг установлен, виджет установит сообщения об ошибке при вызове метода extract()."
+msgstr ""
+"Если этот флаг установлен, виджет установит сообщения об ошибке при вызове "
+"метода extract()."
 
 #: src/z3c/form/interfaces.py:471
 msgid "NO_VALUE Token"
@@ -298,7 +300,9 @@ msgid "Prompt"
 msgstr "Явный запрос значения"
 
 #: src/z3c/form/interfaces.py:507
-msgid "A flag, when set, enables a choice explicitely requesting the user to choose a value."
+msgid ""
+"A flag, when set, enables a choice explicitely requesting the user to choose "
+"a value."
 msgstr "Если установлено, пользователь должен будет явно выбрать значение."
 
 #: src/z3c/form/interfaces.py:512
@@ -306,15 +310,19 @@ msgid "Items"
 msgstr "Значения"
 
 #: src/z3c/form/interfaces.py:513
-msgid "A collection of dictionaries containing all pieces of information for rendering. The following keys must be in each dictionary: id, value, content, selected"
-msgstr "Набор словарей, содержащих все части информации для отображения. В каждом словаре должны быть следующие ключи: id, value, content, selected"
+msgid ""
+"A collection of dictionaries containing all pieces of information for "
+"rendering. The following keys must be in each dictionary: id, value, "
+"content, selected"
+msgstr ""
+"Набор словарей, содержащих все части информации для отображения. В каждом "
+"словаре должны быть следующие ключи: id, value, content, selected"
 
 #: src/z3c/form/interfaces.py:518
 msgid "No-Value Message"
 msgstr "Сообщение об отсутствии значения"
 
-#: src/z3c/form/interfaces.py:519
-#: src/z3c/form/interfaces.py:524
+#: src/z3c/form/interfaces.py:519 src/z3c/form/interfaces.py:524
 msgid "A human-readable text that is displayed to refer the missing value."
 msgstr "Текст, отображаемый для обозначения отсутствующего значения."
 
@@ -322,8 +330,7 @@ msgstr "Текст, отображаемый для обозначения от�
 msgid "Prompt Message"
 msgstr "Сообщение явного запроса"
 
-#: src/z3c/form/interfaces.py:571
-#: src/z3c/form/interfaces.py:577
+#: src/z3c/form/interfaces.py:571 src/z3c/form/interfaces.py:577
 msgid "The prefix of the widgets."
 msgstr "Префикс виджетов."
 
@@ -335,195 +342,215 @@ msgstr "Ошибки"
 msgid "The collection of errors that occured during validation."
 msgstr "Набор ошибок, произошедших во время валидации."
 
-#: src/z3c/form/interfaces.py:590
-#: src/z3c/form/interfaces.py:846
+#: src/z3c/form/interfaces.py:590 src/z3c/form/interfaces.py:853
 msgid "If set the context is ignored to retrieve a value."
 msgstr "Если установлено, контекст не используется для получения значения."
 
-#: src/z3c/form/interfaces.py:596
-#: src/z3c/form/interfaces.py:852
+#: src/z3c/form/interfaces.py:596 src/z3c/form/interfaces.py:859
 msgid "If set the request is ignored to retrieve a value."
 msgstr "Если установлено, запрос не используется для получения значения."
 
-#: src/z3c/form/interfaces.py:601
-#: src/z3c/form/interfaces.py:857
+#: src/z3c/form/interfaces.py:601 src/z3c/form/interfaces.py:864
 msgid "Ignore Readonly"
 msgstr "Игнорировать режим \"только для чтения\""
 
-#: src/z3c/form/interfaces.py:602
-#: src/z3c/form/interfaces.py:858
+#: src/z3c/form/interfaces.py:602 src/z3c/form/interfaces.py:865
 msgid "If set then readonly fields will also be shown."
 msgstr "Если установлено, поля только для чтения так же будут отображены."
 
-#: src/z3c/form/interfaces.py:609
-msgid "A flag, when set, the contained widgets set error messages on calling extract()."
-msgstr "Если этот флаг установлен, содержащиеся виджеты установят сообщения об ошибке при вызове extract()."
+#: src/z3c/form/interfaces.py:607
+msgid "Has required fields"
+msgstr ""
 
-#: src/z3c/form/interfaces.py:630
-#: src/z3c/form/zcml.py:70
+#: src/z3c/form/interfaces.py:608
+msgid "A flag set when at least one field is marked as required"
+msgstr ""
+
+#: src/z3c/form/interfaces.py:616
+msgid ""
+"A flag, when set, the contained widgets set error messages on calling extract"
+"()."
+msgstr ""
+"Если этот флаг установлен, содержащиеся виджеты установят сообщения об "
+"ошибке при вызове extract()."
+
+#: src/z3c/form/interfaces.py:637 src/z3c/form/zcml.py:70
 msgid "Field"
 msgstr "Поле"
 
-#: src/z3c/form/interfaces.py:631
+#: src/z3c/form/interfaces.py:638
 msgid "The schema field which the widget is representing."
 msgstr "Поле схемы, которое представляется виджетом."
 
-#: src/z3c/form/interfaces.py:660
+#: src/z3c/form/interfaces.py:667
 msgid "The object name."
 msgstr "Имя объекта."
 
-#: src/z3c/form/interfaces.py:666
+#: src/z3c/form/interfaces.py:673
 msgid "The action title."
 msgstr "Название действия."
 
-#: src/z3c/form/interfaces.py:681
-#: src/z3c/form/interfaces.py:918
+#: src/z3c/form/interfaces.py:688 src/z3c/form/interfaces.py:931
 msgid "Action"
 msgstr "Действие"
 
-#: src/z3c/form/interfaces.py:682
+#: src/z3c/form/interfaces.py:689
 msgid "The action for which the event is created."
 msgstr "Действие, для которого было создано событие."
 
-#: src/z3c/form/interfaces.py:692
+#: src/z3c/form/interfaces.py:699
 msgid "The error that occurred during the action."
 msgstr "Ошибка, которая произошла во время действия."
 
-#: src/z3c/form/interfaces.py:718
+#: src/z3c/form/interfaces.py:725
 msgid "Access Key"
 msgstr "Клавиша доступа"
 
-#: src/z3c/form/interfaces.py:719
+#: src/z3c/form/interfaces.py:726
 msgid "The key when pressed causes the button to be pressed."
 msgstr "Клавиша, при нажатии которой будет нажата кнопка."
 
-#: src/z3c/form/interfaces.py:725
+#: src/z3c/form/interfaces.py:732
 msgid "Action Factory"
 msgstr "Фабрика действий"
 
-#: src/z3c/form/interfaces.py:726
+#: src/z3c/form/interfaces.py:733
 msgid "The action factory."
 msgstr "Фабрика действий."
 
-#: src/z3c/form/interfaces.py:736
+#: src/z3c/form/interfaces.py:743
 msgid "Image Path"
 msgstr "Путь к изображению"
 
-#: src/z3c/form/interfaces.py:737
+#: src/z3c/form/interfaces.py:744
 msgid "A relative image path to the root of the resources."
 msgstr "Путь к изображению, относительно корня для ресурсов."
 
-#: src/z3c/form/interfaces.py:783
+#: src/z3c/form/interfaces.py:790
 msgid "Handlers"
 msgstr "Обработчики"
 
-#: src/z3c/form/interfaces.py:784
+#: src/z3c/form/interfaces.py:791
 msgid "A list of action handlers defined on the form."
 msgstr "Список обработчиков действий, определённых для формы."
 
-#: src/z3c/form/interfaces.py:793
+#: src/z3c/form/interfaces.py:800
 msgid "Actions"
 msgstr "Действия"
 
-#: src/z3c/form/interfaces.py:794
-msgid "A list of actons defined on the form"
+#: src/z3c/form/interfaces.py:801
+#, fuzzy
+msgid "A list of actions defined on the form"
 msgstr "Список действий, определённых для формы"
 
-#: src/z3c/form/interfaces.py:799
+#: src/z3c/form/interfaces.py:806
 msgid "Refresh actions"
 msgstr "Обновить действия"
 
-#: src/z3c/form/interfaces.py:800
-msgid "A flag, when set, causes form actions to be updated again after their execution."
+#: src/z3c/form/interfaces.py:807
+msgid ""
+"A flag, when set, causes form actions to be updated again after their "
+"execution."
 msgstr "Если этот флаг установлен, форма обновит действия после их выполнения."
 
-#: src/z3c/form/interfaces.py:815
+#: src/z3c/form/interfaces.py:822
 msgid "The context in which the widget is displayed."
 msgstr "Контекст, в котором отображается виджет."
 
-#: src/z3c/form/interfaces.py:841
+#: src/z3c/form/interfaces.py:848
 msgid "The mode in which to render the widgets."
 msgstr "Режим, в котором отображать виджет."
 
-#: src/z3c/form/interfaces.py:863
+#: src/z3c/form/interfaces.py:870
 msgid "Widgets"
 msgstr "Виджеты"
 
-#: src/z3c/form/interfaces.py:864
+#: src/z3c/form/interfaces.py:871
 msgid "A widget manager containing the widgets to be used in the form."
 msgstr "Менеджер виджетов, содержащий виджеты для использования в форме."
 
-#: src/z3c/form/interfaces.py:870
+#: src/z3c/form/interfaces.py:877
 msgid "A human readable text describing the form that can be used in the UI."
-msgstr "Текст с описанием формы, который может быть использован в пользовательском интерфейсе."
+msgstr ""
+"Текст с описанием формы, который может быть использован в пользовательском "
+"интерфейсе."
 
-#: src/z3c/form/interfaces.py:876
+#: src/z3c/form/interfaces.py:882
+#, fuzzy
+msgid "Label required"
+msgstr "Обязательно к заполнению"
+
+#: src/z3c/form/interfaces.py:883
+#, fuzzy
+msgid ""
+"A human readable text describing the form that can be used in the UI for "
+"rendering a required info legend."
+msgstr ""
+"Текст с описанием формы, который может быть использован в пользовательском "
+"интерфейсе."
+
+#: src/z3c/form/interfaces.py:889
 msgid "The prefix of the form used to uniquely identify it."
 msgstr "Префиск формы, использующийся для её идентификации."
 
-#: src/z3c/form/interfaces.py:880
+#: src/z3c/form/interfaces.py:893
 msgid "Status"
 msgstr "Статус"
 
-#: src/z3c/form/interfaces.py:881
+#: src/z3c/form/interfaces.py:894
 msgid "The status message of the form."
 msgstr "Сообщение о статусе формы."
 
-#: src/z3c/form/interfaces.py:919
+#: src/z3c/form/interfaces.py:932
 msgid "The action defines the URI to which the form data are sent."
 msgstr "Действие, определяет URI, по которому будут отправлены данные формы."
 
-#: src/z3c/form/interfaces.py:925
+#: src/z3c/form/interfaces.py:938
 msgid "The name of the form used to identify it."
 msgstr "Имя формы, использующееся для её идентификации."
 
-#: src/z3c/form/interfaces.py:929
+#: src/z3c/form/interfaces.py:942
 msgid "Id"
 msgstr "Идентификатор"
 
-#: src/z3c/form/interfaces.py:930
+#: src/z3c/form/interfaces.py:943
 msgid "The id of the form used to identify it."
 msgstr "Идентификатор формы."
 
-#: src/z3c/form/interfaces.py:934
+#: src/z3c/form/interfaces.py:947
 msgid "Method"
 msgstr "Метод"
 
-#: src/z3c/form/interfaces.py:935
+#: src/z3c/form/interfaces.py:948
 msgid "The HTTP method used to submit the form."
 msgstr "HTTP-метод, который был использован для отправки формы."
 
-#: src/z3c/form/interfaces.py:941
+#: src/z3c/form/interfaces.py:954
 msgid "Encoding Type"
 msgstr "Тип кодирования"
 
-#: src/z3c/form/interfaces.py:942
+#: src/z3c/form/interfaces.py:955
 msgid "The data encoding used to submit the data safely."
 msgstr "Кодировка данных, использующаяся для их безопасной передачи."
 
-#: src/z3c/form/interfaces.py:947
+#: src/z3c/form/interfaces.py:960
 msgid "Accepted Character Sets"
 msgstr "Допустимые наборы символов"
 
-#: src/z3c/form/interfaces.py:948
-msgid "This is a list of character sets the server accepts. By default this is unknown."
-msgstr "Список наборов символов, которые принимает сервер. По умолчанию неизвестно."
+#: src/z3c/form/interfaces.py:961
+msgid ""
+"This is a list of character sets the server accepts. By default this is "
+"unknown."
+msgstr ""
+"Список наборов символов, которые принимает сервер. По умолчанию неизвестно."
 
-#: src/z3c/form/interfaces.py:953
+#: src/z3c/form/interfaces.py:966
 msgid "Accepted Content Types"
 msgstr "Допустимые типы контента"
 
-#: src/z3c/form/interfaces.py:954
+#: src/z3c/form/interfaces.py:967
 msgid "This is a list of content types the server can safely handle."
 msgstr "Список типов контента, которые сервер может безопасно обработать."
-
-#: src/z3c/form/interfaces.py:992
-msgid "Fields"
-msgstr "Поля"
-
-#: src/z3c/form/interfaces.py:993
-msgid "A field manager describing the fields to be used for the form."
-msgstr "Менеджер полей, описывающий поля, использующиеся в форме."
 
 #: src/z3c/form/term.py:152
 msgid "yes"
@@ -542,25 +569,28 @@ msgid "Layout template."
 msgstr "Шаблон раскладки."
 
 #: src/z3c/form/zcml.py:40
-msgid "Refers to a file containing a page template (should end in extension ``.pt`` or ``.html``)."
-msgstr "Указывает на файл с шаблоном страницы (должно оканчиваться на ``.pt`` или ``.html``)."
+msgid ""
+"Refers to a file containing a page template (should end in extension ``.pt`` "
+"or ``.html``)."
+msgstr ""
+"Указывает на файл с шаблоном страницы (должно оканчиваться на ``.pt`` или ``."
+"html``)."
 
 #: src/z3c/form/zcml.py:45
 msgid "The mode of the template."
 msgstr "Режим шаблона."
 
 #: src/z3c/form/zcml.py:46
-msgid "The mode is used for define input and display templates"
-msgstr "Режим используется для определения шаблонов для ввода и для отображения"
+#, fuzzy
+msgid "The mode is used to define input and display templates"
+msgstr ""
+"Режим используется для определения шаблонов для ввода и для отображения"
 
-#: src/z3c/form/zcml.py:52
-#: src/z3c/form/zcml.py:64
-#: src/z3c/form/zcml.py:76
+#: src/z3c/form/zcml.py:52 src/z3c/form/zcml.py:64 src/z3c/form/zcml.py:76
 msgid "View"
 msgstr "Вид"
 
-#: src/z3c/form/zcml.py:53
-#: src/z3c/form/zcml.py:65
+#: src/z3c/form/zcml.py:53 src/z3c/form/zcml.py:65
 msgid "The view for which the template should be available"
 msgstr "Вид, для которого шаблон должен быть доступен"
 
@@ -598,8 +628,9 @@ msgstr "Схема поля, для которого шаблон должен �
 
 #~ msgid "Remove"
 #~ msgstr "Удалить"
+
 #~ msgid "Data Provider"
 #~ msgstr "Поставщик данных"
+
 #~ msgid "The component providing the data of the field for the widget."
 #~ msgstr "Компонент, предоставляющий данные для поля виджета."
-

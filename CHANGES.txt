@@ -13,8 +13,11 @@ Version 2.2.0 (unreleased)
 
 - Bug: Replace dots with hyphens when generating form id from its name.
 
-- Refactored OutputChecker to its own module to allow using 
-  ``z3c.form.testing`` without needing to depend on ``lxml``
+- Refactored OutputChecker to its own module to allow using
+  ``z3c.form.testing`` without needing to depend on ``lxml``.
+
+- Folded duplicate code in ``z3c.form.datamanager.AttributeField`` into a
+  single property.
 
 
 Version 2.1.0 (2009-07-22)

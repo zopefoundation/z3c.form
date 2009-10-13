@@ -42,13 +42,17 @@ class AttributeField(DataManager):
         self.context = context
         self.field = field
 
-    def get(self):
-        """See z3c.form.interfaces.IDataManager"""
+    @property
+    def adapted_context(self):
         # get the right adapter or context
         context = self.context
         if self.field.interface is not None:
             context = self.field.interface(context)
-        return getattr(context, self.field.__name__)
+        return context
+
+    def get(self):
+        """See z3c.form.interfaces.IDataManager"""
+        return getattr(self.adapted_context, self.field.__name__)
 
     def query(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IDataManager"""
@@ -68,25 +72,18 @@ class AttributeField(DataManager):
                                self.context.__class__.__module__,
                                self.context.__class__.__name__))
         # get the right adapter or context
-        context = self.context
-        if self.field.interface is not None:
-            context = self.field.interface(context)
-        setattr(context, self.field.__name__, value)
+        setattr(self.adapted_context, self.field.__name__, value)
 
     def canAccess(self):
         """See z3c.form.interfaces.IDataManager"""
-        context = self.context
-        if self.field.interface is not None:
-            context = self.field.interface(context)
+        context = self.adapted_context
         if isinstance(context, Proxy):
             return canAccess(context, self.field.__name__)
         return True
 
     def canWrite(self):
         """See z3c.form.interfaces.IDataManager"""
-        context = self.context
-        if self.field.interface is not None:
-            context = self.field.interface(context)
+        context = self.adapted_context
         if isinstance(context, Proxy):
             return canWrite(context, self.field.__name__)
         return True

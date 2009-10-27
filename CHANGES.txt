@@ -2,8 +2,8 @@
 CHANGES
 =======
 
-Version 2.2.0 (unreleased)
---------------------------
+2.2.0 (2009-10-27)
+------------------
 
 - Bug: <div class="error"> was generated twice for MultiWidget and
   ObjectWidget in input mode.

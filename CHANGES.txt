@@ -11,23 +11,23 @@ CHANGES
 2.2.0 (2009-10-27)
 ------------------
 
-- Bug: <div class="error"> was generated twice for MultiWidget and
-  ObjectWidget in input mode.
-
 - Feature: Add ``z3c.form.error.ComputedErrorViewMessage`` factory for easy
   creation of dynamically computed error messages.
+
+- Bug: <div class="error"> was generated twice for MultiWidget and
+  ObjectWidget in input mode.
 
 - Bug: Replace dots with hyphens when generating form id from its name.
 
 - Refactored OutputChecker to its own module to allow using
   ``z3c.form.testing`` without needing to depend on ``lxml``.
 
-- Folded duplicate code in ``z3c.form.datamanager.AttributeField`` into a
-  single property.
+- Refactored: Folded duplicate code in
+  ``z3c.form.datamanager.AttributeField`` into a single property.
 
 
-Version 2.1.0 (2009-07-22)
---------------------------
+2.1.0 (2009-07-22)
+------------------
 
 - Feature: The `DictionaryFieldManager` now allows all mappings
   (``zope.interface.common.mapping.IMapping``), even
@@ -45,8 +45,8 @@ Version 2.1.0 (2009-07-22)
   those extras explicitely in your product's required packages.
 
 
-Version 2.0.0 (2009-06-14)
---------------------------
+2.0.0 (2009-06-14)
+------------------
 
 Features
 ~~~~~~~~
@@ -217,8 +217,8 @@ Fixed Bugs
   does not choose a file for upload.
 
 
-Version 1.9.0 (2008-08-26)
---------------------------
+1.9.0 (2008-08-26)
+------------------
 
 - Feature: Use the ``query()`` method in the widget manager to try extract a
   value. This ensures that the lookup is never failing, which is particularly
@@ -265,8 +265,8 @@ Version 1.9.0 (2008-08-26)
   available, even though the input widgets did set the style attribute.
 
 
-Version 1.8.2 (2008-04-24)
---------------------------
+1.8.2 (2008-04-24)
+------------------
 
 - Bug: Display Widgets added spaces (due to code indentation) to the displayed
   values, which in some cases, like when displaying Python source code, caused
@@ -277,8 +277,8 @@ Version 1.8.2 (2008-04-24)
   widget.terms`` will end in calling ``__len__`` on existing terms.
 
 
-Version 1.8.1 (2008-04-08)
---------------------------
+1.8.1 (2008-04-08)
+------------------
 
 - Bug: Fixed a bug that prohibited groups from having different contents than
   the parent form.  Previously, the groups contents were not being properly
@@ -287,8 +287,8 @@ Version 1.8.1 (2008-04-08)
   documentation.
 
 
-Version 1.8.0 (2008-01-23)
---------------------------
+1.8.0 (2008-01-23)
+------------------
 
 - Feature: Implemented ``IDisplayForm`` interface.
 
@@ -330,8 +330,8 @@ Version 1.8.0 (2008-01-23)
 - Bug: ``SequenceWidget`` displayed tokens instead of value.
 
 
-Version 1.7.0 (2007-10-09)
---------------------------
+1.7.0 (2007-10-09)
+------------------
 
 - Feature: Implemented ``ImageButton``, ``ImageAction``, ``ImageWidget``, and
   ``ImageFieldWidget`` to support imge submit buttons.
@@ -364,8 +364,8 @@ Version 1.7.0 (2007-10-09)
   signature. Thanks to Markus Kemmerling for reporting.
 
 
-Version 1.6.0 (2007-08-24)
---------------------------
+1.6.0 (2007-08-24)
+------------------
 
 - Feature: An event handler for ``ActionErrorOccurred`` events is registered
   to merge the action error into the form's error collectors, such as
@@ -443,8 +443,8 @@ Version 1.6.0 (2007-08-24)
   the ``widget`` attribute was ``None`` -- rendering the template would fail.
 
 
-Version 1.5.0 (2007-07-18)
---------------------------
+1.5.0 (2007-07-18)
+------------------
 
 - Feature: Added a span around values for widgets in display mode. This allows
   for easier identification widget values in display mode.
@@ -492,8 +492,8 @@ Version 1.5.0 (2007-07-18)
 - Bug: Added tests for textarea widget.
 
 
-Version 1.4.0 (2007-06-29)
---------------------------
+1.4.0 (2007-06-29)
+------------------
 
 - Feature: The select widget grew a new ``prompt`` flag, which allows you to
   explicitely request a selection prompt as the first option in the selection
@@ -522,8 +522,8 @@ Version 1.4.0 (2007-06-29)
 - Bug: Recorded all public select-widget attributes in the interface.
 
 
-Version 1.3.0 (2007-06-22)
---------------------------
+1.3.0 (2007-06-22)
+------------------
 
 - Feature: In an edit form applying the data and generating all necessary
   messages was all done within the "Apply" button handler. Now the actual task
@@ -631,20 +631,20 @@ Version 1.3.0 (2007-06-22)
   by Roy Mathew in ``form.txt``.
 
 
-Version 1.2.0 (2007-05-30)
---------------------------
+1.2.0 (2007-05-30)
+------------------
 
 - Feature: Added ability to change the button action title using an ``IValue``
   adapter.
 
 
-Version 1.1.0 (2007-05-30)
---------------------------
+1.1.0 (2007-05-30)
+------------------
 
 - Feature: Added compatibility for Zope 3.3 and thus Zope 2.10.
 
 
-Version 1.0.0 (2007-05-24)
---------------------------
+1.0.0 (2007-05-24)
+------------------
 
 - Initial Release

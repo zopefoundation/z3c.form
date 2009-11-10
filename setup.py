@@ -84,7 +84,6 @@ setup (
             'zope.app.container',
             'zope.container',
             'zope.app.pagetemplate',
-            'zope.app.i18n',
             'zope.testing',
             'z3c.coverage',
             'z3c.template',

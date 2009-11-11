@@ -88,7 +88,6 @@ setup (
             'zope.app.component',
             # zope.app.container pulls in zope.container, if newer version
             'zope.app.container',
-            'zope.app.i18n',
             'zope.app.pagetemplate',
             'zope.app.security',
             'zope.app.testing',

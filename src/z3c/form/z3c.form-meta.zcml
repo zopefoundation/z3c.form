@@ -1,6 +1,0 @@
-<configure
-    xmlns:zcml="http://namespaces.zope.org/zcml">
-
-  <include package="z3c.form" file="meta.zcml" />
-
-</configure>

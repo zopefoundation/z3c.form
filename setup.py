@@ -1,6 +1,6 @@
 ##############################################################################
 #
-# Copyright (c) 2007 Zope Foundation and Contributors.
+# Copyright (c) 2007-2009 Zope Foundation and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -115,7 +115,7 @@ setup (
         'zope.location',
         'zope.pagetemplate',
         'zope.publisher',
-        'zope.schema',
+        'zope.schema >= 3.6.0',
         'zope.security',
         # Since the required package depends on the versions of the other
         # packages, so not require it directly.

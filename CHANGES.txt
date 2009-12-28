@@ -7,6 +7,8 @@ CHANGES
 
 - Deprecated: Removed zpkg slug and ZCML slugs.
 
+- Adapted tests to `zope.schema` 3.6.0.
+
 
 2.2.0 (2009-10-27)
 ------------------

@@ -219,7 +219,7 @@ the field is looked up on the field:
   ...     None, None, None, IPhoto['data'], None)
   >>> simple_data.validate(interfaces.NOT_CHANGED)
   Traceback (most recent call last):
-  RequiredMissing
+  RequiredMissing: data
 
 Widget which ignores context
 ++++++++++++++++++++++++++++
@@ -239,7 +239,7 @@ behavior is the same as if there was no widget:
   ...     None, None, None, IPhoto['data'], widget)
   >>> simple_data.validate(interfaces.NOT_CHANGED)
   Traceback (most recent call last):
-  RequiredMissing
+  RequiredMissing: data
 
 Look up value from default adapter
 ++++++++++++++++++++++++++++++++++
@@ -282,7 +282,7 @@ neither context nor input have a valid value:
   ...     photo, None, None, IPhoto['data'], widget)
   >>> simple_data.validate(interfaces.NOT_CHANGED)
   Traceback (most recent call last):
-  RequiredMissing
+  RequiredMissing: data
 
 After setting the value validation is successful:
 

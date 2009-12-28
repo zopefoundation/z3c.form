@@ -5,9 +5,17 @@ CHANGES
 2.2.1 (unreleased)
 ------------------
 
-- Deprecated: Removed zpkg slug and ZCML slugs.
+Refactoring
+~~~~~~~~~~~
+
+- Removed deprecated zpkg slug and ZCML slugs.
 
 - Adapted tests to `zope.schema` 3.6.0.
+
+- Avoid to use `zope.testing.doctestunit` as it is now deprecated.
+
+Update
+~~~~~~
 
 - Updated German translations.
 

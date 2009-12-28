@@ -16,11 +16,10 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 
-import itertools
+from doctest import DocFileSuite
 import doctest
+import itertools
 import unittest
-
-from zope.testing.doctestunit import DocFileSuite
 
 from z3c.form import testing
 from z3c.form import outputchecker

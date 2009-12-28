@@ -1064,7 +1064,7 @@ the dictionary:
   >>> editForm = PersonDictEditForm(None, request)
   >>> editForm.update()
 
-  >>> from zope.testing.doctestunit import pprint
+  >>> from pprint import pprint
   >>> pprint(personDict)
   {'age': 5,
    'gender': 'male',

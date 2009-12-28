@@ -698,7 +698,7 @@ empty:
   >>> manager.ignoreContext = True
   >>> manager.update()
 
-  >>> from zope.testing.doctestunit import pprint
+  >>> from pprint import pprint
   >>> pprint(manager.extract())
   ({'firstName': u'Stephan', 'lastName': u'Richter'}, ())
 

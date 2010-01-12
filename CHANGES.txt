@@ -5,7 +5,9 @@ CHANGES
 2.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- ``GroupForm`` and ``Group`` now use ``getContent`` method when
+  instantiating group classes instead of directly accessing
+  ``self.context``.
 
 
 2.3.0 (2009-12-28)

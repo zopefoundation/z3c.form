@@ -52,7 +52,7 @@ class Group(form.BaseForm):
             if interfaces.IGroup.providedBy(groupClass):
                 group = groupClass
             else:
-                group = groupClass(self.context, self.request, self)
+                group = groupClass(self.getContent(), self.request, self)
             group.update()
             groups.append(group)
         self.groups = tuple(groups)
@@ -130,7 +130,7 @@ class GroupForm(object):
             if interfaces.IGroup.providedBy(groupClass):
                 group = groupClass
             else:
-                group = groupClass(self.context, self.request, self)
+                group = groupClass(self.getContent(), self.request, self)
             group.update()
             groups.append(group)
         self.groups = tuple(groups)

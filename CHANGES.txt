@@ -5,7 +5,15 @@ CHANGES
 2.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Reverted changes made in the previous release as the ``getContent``
+  method can return anything it wants to as long as a data manager can
+  map the fields to it. So ``context`` should be used for group
+  instantiation. In cases where ``context`` is not wanted, the group
+  can be instantiated in the ``update`` method of its parent group or
+  form. See also
+  https://mail.zope.org/pipermail/zope-dev/2010-January/039334.html
+
+  (So version 2.3.2 is the same as version 2.3.0.)
 
 
 2.3.1 (2010-01-18)

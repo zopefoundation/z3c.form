@@ -33,7 +33,6 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     zope.interface.implementsOnly(interfaces.ISelectWidget)
 
     klass = u'select-widget'
-    items = ()
     prompt = False
 
     noValueMessage = _('no value')
@@ -50,12 +49,17 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         """See z3c.form.interfaces.IWidget."""
         super(SelectWidget, self).update()
         widget.addFieldClass(self)
-        self.items = []
+
+    @property
+    def items(self):
+        if self.terms is None:  # update() has not been called yet
+            return ()
+        items = []
         if (not self.required or self.prompt) and self.multiple is None:
             message = self.noValueMessage
             if self.prompt:
                 message = self.promptMessage
-            self.items.append({
+            items.append({
                 'id': self.id + '-novalue',
                 'value': self.noValueToken,
                 'content': message,
@@ -68,9 +72,10 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 content = translate(
                     term.title, context=self.request, default=term.title)
-            self.items.append(
+            items.append(
                 {'id':id, 'value':term.token, 'content':content,
                  'selected':selected})
+        return items
 
 
 @zope.component.adapter(zope.schema.interfaces.IChoice, interfaces.IFormLayer)

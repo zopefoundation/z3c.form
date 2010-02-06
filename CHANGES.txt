@@ -5,7 +5,8 @@ CHANGES
 2.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Don't create unnecessary self.items in update() method of
+  SelectWidget in DISPLAY_MODE. Now items is a property.
 
 
 2.3.2 (2010-01-21)

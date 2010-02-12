@@ -20,45 +20,54 @@ for the ``ITextLine`` field:
   >>> zope.component.provideAdapter(converter.FieldDataConverter)
   >>> zope.component.provideAdapter(converter.FieldWidgetDataConverter)
 
+Now that everything we need is defined. We can define a simple schema with fields::
+
   >>> import zope.interface
   >>> import zope.schema
 
   >>> class IPerson(zope.interface.Interface):
+  ...
   ...     id = zope.schema.TextLine(
   ...         title=u'ID',
   ...         description=u"The person's ID.",
-  ...         readonly=True,
   ...         required=True)
   ...
 
-We want to mix fields and content providers::
+We want to mix fields and a content provider. We define a very simple
+content provider that will print extra help text after a widget::
 
   >>> from z3c.form import field, form
-  >>> from z3c.form.interfaces import IWidgetsForm
+  >>> from z3c.form.interfaces import IFieldsAndContentProviderForm
   >>> from z3c.form import widget
   >>> from zope.contentprovider.provider import ContentProviderBase
+  >>> from zope.interface import implements
 
   >>> class ExtendedHelp(ContentProviderBase):
   ...
   ...   def update(self):
-  ...       pass
+  ...       self.person = self.context.id
   ...
   ...   def render(self):
-  ...       """see `z3c.form.interfaces.IWidget`
-  ...       """
-  ...       return '<div class="extendedhelp">Some very long help text ...</div>'
+  ...       return '<div class="extendedhelp">Some very long help text about person %s</div>' % self.person
 
   >>> from z3c.form.contentprovider import ContentProviders
+  >>> from z3c.form.testing import setupFormDefaults
+  >>> setupFormDefaults()
+
   >>> class PersonForm(form.Form):
-  ...     zope.interface.implements(IWidgetsForm)
+  ...     implements(IFieldsAndContentProviderForm)
   ...     prefix = 'form.'
   ...     fields = field.Fields(IPerson)
+  ...     ignoreContext = True
   ...     contentProviders = ContentProviders()
   ...     contentProviders['longHelp'] = ExtendedHelp
+  ...     contentProviders['longHelp'].position = 2
 
   >>> from z3c.form.testing import TestRequest
   >>> request = TestRequest()
-  >>> context = object()
+  >>> class Person(object):
+  ...    id = 'james'
+  >>> context = Person()
   >>> personForm = PersonForm(context, request)
 
   >>> from z3c.form.contentprovider import FieldWidgetsAndProviders
@@ -68,4 +77,32 @@ We want to mix fields and content providers::
   >>> manager._data
   {'longHelp': <ExtendedHelp object at ...>, 'id': <Widget 'form.widgets.id'>}
   >>> manager.get('longHelp').render()
-  '<div class="extendedhelp">Some very long help text ...</div>'
+  '<div class="extendedhelp">Some very long help text about person james</div>'
+
+We can also define content provider by adaptation::
+
+  >>> from zope.component import provideAdapter
+  >>> from zope.contentprovider.interfaces import IContentProvider
+  >>> from z3c.form.interfaces import IFormLayer
+  >>> provideAdapter(ExtendedHelp,
+  ...                (zope.interface.Interface,
+  ...                 IFormLayer,
+  ...                 zope.interface.Interface),
+  ...                provides=IContentProvider, name='longHelp')
+
+  >>> class PersonForm(form.Form):
+  ...     implements(IFieldsAndContentProviderForm)
+  ...     prefix = 'form.'
+  ...     fields = field.Fields(IPerson)
+  ...     ignoreContext = True
+  ...     contentProviders = ContentProviders(['longHelp'])
+  ...     contentProviders['longHelp'].position = 2
+
+  >>> from z3c.form.contentprovider import FieldWidgetsAndProviders
+  >>> manager = FieldWidgetsAndProviders(personForm, request, context)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager._data
+  {'longHelp': <ExtendedHelp object at ...>, 'id': <Widget 'form.widgets.id'>}
+  >>> manager.get('longHelp').render()
+  '<div class="extendedhelp">Some very long help text about person james</div>'

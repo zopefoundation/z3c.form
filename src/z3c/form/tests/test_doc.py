@@ -58,7 +58,7 @@ def test_suite():
         doctest.DocFileSuite(
             '../contentprovider.txt',
             setUp=setUp, tearDown=testing.tearDown,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS|doctest.REPORT_ONLY_FIRST_FAILURE,
             checker=checker,
             ),
         doctest.DocFileSuite(

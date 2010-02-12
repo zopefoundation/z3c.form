@@ -1007,6 +1007,14 @@ class IFieldsForm(IForm):
                       'the form.'),
         schema=IFields)
 
+class IWidgetsForm(IForm):
+    """A form that is based upon defined fields."""
+
+    widgetsItems = zope.schema.Object(
+        title=_('Widgets'),
+        description=_('A field manager describing the fields to be used for '
+                      'the form.'),
+        schema=IFields)
 
 class IButtonForm(IForm):
     """A form that is based upon defined buttons."""

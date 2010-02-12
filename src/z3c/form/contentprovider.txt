@@ -1,0 +1,71 @@
+ContentProviders
+----------------
+
+Before we can use a widget manager, we have to register the ``IFieldWidget`` adapter
+for the ``ITextLine`` field:
+
+  >>> import zope.component
+  >>> import zope.interface
+  >>> from z3c.form import interfaces, widget
+  >>> from z3c.form.testing import TestRequest
+
+  >>> @zope.component.adapter(zope.schema.TextLine, TestRequest)
+  ... @zope.interface.implementer(interfaces.IFieldWidget)
+  ... def TextFieldWidget(field, request):
+  ...     return widget.FieldWidget(field, widget.Widget(request))
+
+  >>> zope.component.provideAdapter(TextFieldWidget)
+
+  >>> from z3c.form import converter
+  >>> zope.component.provideAdapter(converter.FieldDataConverter)
+  >>> zope.component.provideAdapter(converter.FieldWidgetDataConverter)
+
+  >>> import zope.interface
+  >>> import zope.schema
+
+  >>> class IPerson(zope.interface.Interface):
+  ...     id = zope.schema.TextLine(
+  ...         title=u'ID',
+  ...         description=u"The person's ID.",
+  ...         readonly=True,
+  ...         required=True)
+  ...
+
+We want to mix fields and content providers::
+
+  >>> from z3c.form import field, form
+  >>> from z3c.form.interfaces import IWidgetsForm
+  >>> from z3c.form import widget
+  >>> from zope.contentprovider.provider import ContentProviderBase
+
+  >>> class ExtendedHelp(ContentProviderBase):
+  ...
+  ...   def update(self):
+  ...       pass
+  ...
+  ...   def render(self):
+  ...       """see `z3c.form.interfaces.IWidget`
+  ...       """
+  ...       return '<div class="extendedhelp">Some very long help text ...</div>'
+
+  >>> from z3c.form.contentprovider import ContentProviders
+  >>> class PersonForm(form.Form):
+  ...     zope.interface.implements(IWidgetsForm)
+  ...     prefix = 'form.'
+  ...     fields = field.Fields(IPerson)
+  ...     contentProviders = ContentProviders()
+  ...     contentProviders['longHelp'] = ExtendedHelp
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+  >>> context = object()
+  >>> personForm = PersonForm(context, request)
+
+  >>> from z3c.form.contentprovider import FieldWidgetsAndProviders
+  >>> manager = FieldWidgetsAndProviders(personForm, request, context)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager._data
+  {'longHelp': <ExtendedHelp object at ...>, 'id': <Widget 'form.widgets.id'>}
+  >>> manager.get('longHelp').render()
+  '<div class="extendedhelp">Some very long help text ...</div>'

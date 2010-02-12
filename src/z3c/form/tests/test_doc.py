@@ -56,6 +56,12 @@ def test_suite():
             checker=checker,
             ),
         doctest.DocFileSuite(
+            '../contentprovider.txt',
+            setUp=setUp, tearDown=testing.tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
+            ),
+        doctest.DocFileSuite(
             '../value.txt',
             setUp=placelesssetup.setUp, tearDown=placelesssetup.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,

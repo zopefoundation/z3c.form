@@ -307,7 +307,7 @@ class FieldWidgets(util.Manager):
                      getattr(widget, 'field', None),
                      widget),
                     interfaces.IValidator).validate(value)
-            except (zope.schema.ValidationError,
+            except (zope.interface.Invalid,
                     ValueError, MultipleErrors), error:
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,

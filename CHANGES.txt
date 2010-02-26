@@ -5,6 +5,8 @@ CHANGES
 2.3.3 (unreleased)
 ------------------
 
+- Handle Invalid exceptions from constraints and field validators.
+
 - Don't create unnecessary self.items in update() method of
   SelectWidget in DISPLAY_MODE. Now items is a property.
 

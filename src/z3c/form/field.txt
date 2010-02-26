@@ -330,7 +330,12 @@ definitions and create widgets for them. Thus, let's create a schema first:
 
   >>> class LastNameTooShort(zope.schema.interfaces.ValidationError):
   ...     """The last name is too short."""
-
+  
+  >>> def lastNameConstraint(value):
+  ...     if value and value == value.lower():
+  ...         raise zope.interface.Invalid(u"Name must have at least one capital letter")
+  ...     return True
+  
   >>> class IPerson(zope.interface.Interface):
   ...     id = zope.schema.TextLine(
   ...         title=u'ID',
@@ -342,7 +347,8 @@ definitions and create widgets for them. Thus, let's create a schema first:
   ...         title=u'Last Name',
   ...         description=u"The person's last name.",
   ...         default=u'',
-  ...         required=True)
+  ...         required=True,
+  ...         constraint=lastNameConstraint)
   ...
   ...     firstName = zope.schema.TextLine(
   ...         title=u'First Name',
@@ -707,6 +713,7 @@ provide the adapter from a validation error to an error view snippet first:
 
   >>> from z3c.form import error
   >>> zope.component.provideAdapter(error.ErrorViewSnippet)
+  >>> zope.component.provideAdapter(error.InvalidErrorViewSnippet)
 
 Let's now cause a widget-level error by not submitting the required last
 name:
@@ -718,6 +725,24 @@ name:
   >>> manager.update()
   >>> manager.extract()
   ({'firstName': u'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
+
+Or, we could violate a constraint. This constraint raises Invalid, which is
+a convenient way to raise errors where we mainly care about providing a custom
+error message.
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan', 
+  ...     'form.widgets.lastName': u'richter',
+  ...     'form.widgets.id': u'srichter'})
+  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> extracted = manager.extract()
+  >>> extracted
+  ({'firstName': u'Stephan'}, (<InvalidErrorViewSnippet for Invalid>,))
+  
+  >>> extracted[1][0].createMessage()
+  u'Name must have at least one capital letter'
 
 Finally, let's ensure that invariant failures are also caught:
 

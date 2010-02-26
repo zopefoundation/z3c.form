@@ -211,6 +211,11 @@ class Form(BaseForm):
 
     def __call__(self):
         self.update()
+        
+        # Don't render anything if we are doing a redirect
+        if self.request.response.getStatus() in (300, 301, 302, 303, 304, 305, 307,):
+            return u''
+        
         return self.render()
 
 

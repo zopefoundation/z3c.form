@@ -5,6 +5,10 @@ CHANGES
 2.3.3 (unreleased)
 ------------------
 
+- Don't invoke render() when publishing the form as a view if the HTTP status
+  code has been set to one in the 3xx range (e.g. a redirect or not-modified
+  response) - the response body will be ignored by the browser anyway.
+
 - Handle Invalid exceptions from constraints and field validators.
 
 - Don't create unnecessary self.items in update() method of

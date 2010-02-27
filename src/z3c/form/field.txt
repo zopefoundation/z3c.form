@@ -704,9 +704,13 @@ empty:
   >>> manager.ignoreContext = True
   >>> manager.update()
 
-  >>> from pprint import pprint
-  >>> pprint(manager.extract())
-  ({'firstName': u'Stephan', 'lastName': u'Richter'}, ())
+  >>> data, errors = manager.extract()
+  >>> data['firstName']
+  u'Stephan'
+  >>> data['lastName']
+  u'Richter'
+  >>> errors
+  ()
 
 Since all errors are immediately converted to error view snippets, we have to
 provide the adapter from a validation error to an error view snippet first:

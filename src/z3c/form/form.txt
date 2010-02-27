@@ -1119,12 +1119,16 @@ the dictionary:
   >>> editForm = PersonDictEditForm(None, request)
   >>> editForm.update()
 
-  >>> from pprint import pprint
-  >>> pprint(personDict)
-  {'age': 5,
-   'gender': 'male',
-   'id': u'rineichen',
-   'name': u'Jesse Ineichen'}
+  >>> len(personDict)
+  4
+  >>> personDict['age']
+  5
+  >>> personDict['gender']
+  'male'
+  >>> personDict['id']
+  u'rineichen'
+  >>> personDict['name']
+  u'Jesse Ineichen'
 
 
 Creating a Display Form

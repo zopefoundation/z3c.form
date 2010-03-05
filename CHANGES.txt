@@ -17,6 +17,7 @@ CHANGES
 - Don't create unnecessary self.items in update() method of
   SelectWidget in DISPLAY_MODE. Now items is a property.
 
+- Add hidden widget templates for radio buttons and checkboxes.
 
 2.3.2 (2010-01-21)
 ------------------

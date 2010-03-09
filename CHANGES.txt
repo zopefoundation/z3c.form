@@ -5,6 +5,15 @@ CHANGES
 2.3.3 (unreleased)
 ------------------
 
+- Don't let util.getSpecification() generate an interface more than once.
+  This causes strange effects when used in value adapters: if two adapters
+  use e.g. ISchema['some_field'] as a "discriminator" for 'field', with one
+  adapter being more specific on a discriminator that comes later in the
+  discriminator list (e.g. 'form' for an ErrorViewMessage), then depending on
+  the order in which these two were set up, the adapter specialisation may
+  differ, giving unexpected results that make it look like the adapter 
+  registry is picking the wrong adapter.
+
 - Fix trivial test failures on Python 2.4 stemming from differences in
   pprint's sorting of dicts.
 

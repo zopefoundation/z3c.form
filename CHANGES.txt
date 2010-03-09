@@ -5,6 +5,10 @@ CHANGES
 2.3.3 (unreleased)
 ------------------
 
+- The last discriminator of the 'message' IValue adapter used in the
+  ErrorViewSnippet is called 'content', but it was looked up as the error view
+  itself. It is now looked up on the form's context.
+
 - Don't let util.getSpecification() generate an interface more than once.
   This causes strange effects when used in value adapters: if two adapters
   use e.g. ISchema['some_field'] as a "discriminator" for 'field', with one

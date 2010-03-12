@@ -1,8 +1,23 @@
 ContentProviders
 ----------------
 
-Before we can use a widget manager, we have to register the ``IFieldWidget`` adapter
-for the ``ITextLine`` field:
+We want to mix fields and content providers.
+
+This allow to enrich the form by interlacing html snippets produced by content
+providers.
+
+For instance, we might want to include the table of results in a search form.
+
+We might also need to insert html close to a widget as a handle used when
+improving UI with Ajax.
+
+Adding html outside the widgets avoids the systematic need of 
+subclassing or changing the full widget rendering.
+
+Test setup
+----------
+Before we can use a widget manager, the ``IFieldWidget`` adapter
+has to be registered for the ``ITextLine`` field:
 
   >>> import zope.component
   >>> import zope.interface
@@ -20,7 +35,7 @@ for the ``ITextLine`` field:
   >>> zope.component.provideAdapter(converter.FieldDataConverter)
   >>> zope.component.provideAdapter(converter.FieldWidgetDataConverter)
 
-Now that everything we need is defined. We can define a simple schema with fields::
+We define a simple test schema with fields::
 
   >>> import zope.interface
   >>> import zope.schema
@@ -32,27 +47,48 @@ Now that everything we need is defined. We can define a simple schema with field
   ...         description=u"The person's ID.",
   ...         required=True)
   ...
+  ...     fullname = zope.schema.TextLine(
+  ...         title=u'FullName',
+  ...         description=u"The person's name.",
+  ...         required=True)
+  ...
 
-We want to mix fields and a content provider. We define a very simple
-content provider that will print extra help text after a widget::
+We want to insert a content provider between the fields. 
 
-  >>> from z3c.form import field, form
-  >>> from z3c.form.interfaces import IFieldsAndContentProviderForm
-  >>> from z3c.form import widget
+We define a test content provider that prints extra help text::
+
   >>> from zope.contentprovider.provider import ContentProviderBase
-  >>> from zope.interface import implements
-
   >>> class ExtendedHelp(ContentProviderBase):
   ...
   ...   def update(self):
   ...       self.person = self.context.id
   ...
   ...   def render(self):
-  ...       return '<div class="extendedhelp">Some very long help text about person %s</div>' % self.person
+  ...       return '<div class="ex-help">Help about person %s</div>' % self.person
 
-  >>> from z3c.form.contentprovider import ContentProviders
+
   >>> from z3c.form.testing import setupFormDefaults
   >>> setupFormDefaults()
+
+Form definition
+--------------- 
+
+The meat of the tests begins here.
+
+We define a form as usual by inheriting from ``form.Form``::
+
+  >>> from z3c.form import field, form
+  >>> from zope.interface import implements
+
+To insert content providers, the following steps are needed :
+
+  1. the form class must implement ``IFieldsAndContentProviderForm``
+
+  2. the class must have a ``contentProviders`` attribute that is an instance
+  of the ``ContentProviders`` class.
+
+  >>> from z3c.form.contentprovider import ContentProviders
+  >>> from z3c.form.interfaces import IFieldsAndContentProviderForm
 
   >>> class PersonForm(form.Form):
   ...     implements(IFieldsAndContentProviderForm)
@@ -67,6 +103,7 @@ content provider that will print extra help text after a widget::
   >>> request = TestRequest()
   >>> class Person(object):
   ...    id = 'james'
+  ...    fullname = 'James Bond'
   >>> context = Person()
   >>> personForm = PersonForm(context, request)
 
@@ -74,10 +111,19 @@ content provider that will print extra help text after a widget::
   >>> manager = FieldWidgetsAndProviders(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager._data
-  {'longHelp': <ExtendedHelp object at ...>, 'id': <Widget 'form.widgets.id'>}
+  >>> widgets = manager._data
+  >>> ids = widgets.keys()
+  >>> ids.sort()
+  >>> ids
+  ['fullname', 'id', 'longHelp']
+  >>> widgets['longHelp']
+  <ExtendedHelp object at ...>
+  >>> widgets['id']
+  <Widget 'form.widgets.id'>
+  >>> widgets['fullname']
+  <Widget 'form.widgets.fullname'>
   >>> manager.get('longHelp').render()
-  '<div class="extendedhelp">Some very long help text about person james</div>'
+  '<div class="ex-help">Help about person james</div>'
 
 We can also define content provider by adaptation::
 
@@ -102,7 +148,16 @@ We can also define content provider by adaptation::
   >>> manager = FieldWidgetsAndProviders(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager._data
-  {'longHelp': <ExtendedHelp object at ...>, 'id': <Widget 'form.widgets.id'>}
+  >>> widgets = manager._data
+  >>> ids = widgets.keys()
+  >>> ids.sort()
+  >>> ids
+  ['fullname', 'id', 'longHelp']
+  >>> widgets['longHelp']
+  <ExtendedHelp object at ...>
+  >>> widgets['id']
+  <Widget 'form.widgets.id'>
+  >>> widgets['fullname']
+  <Widget 'form.widgets.fullname'>
   >>> manager.get('longHelp').render()
-  '<div class="extendedhelp">Some very long help text about person james</div>'
+  '<div class="ex-help">Help about person james</div>'

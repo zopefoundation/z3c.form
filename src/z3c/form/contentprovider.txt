@@ -22,12 +22,13 @@ has to be registered for the ``ITextLine`` field::
   >>> import zope.component
   >>> import zope.interface
   >>> from z3c.form import interfaces, widget
+  >>> from z3c.form.browser import text
   >>> from z3c.form.testing import TestRequest
 
   >>> @zope.component.adapter(zope.schema.TextLine, TestRequest)
   ... @zope.interface.implementer(interfaces.IFieldWidget)
   ... def TextFieldWidget(field, request):
-  ...     return widget.FieldWidget(field, widget.Widget(request))
+  ...     return widget.FieldWidget(field, text.TextWidget(request))
 
   >>> zope.component.provideAdapter(TextFieldWidget)
 
@@ -81,19 +82,19 @@ To insert content providers, the following steps are needed :
   2. the class must have a ``contentProviders`` attribute that is an instance
   of the ``ContentProviders`` class.
 
+::
+
   >>> from z3c.form.contentprovider import ContentProviders
   >>> from z3c.form.interfaces import IFieldsAndContentProviderForm
 
   >>> class PersonForm(form.Form):
   ...     implements(IFieldsAndContentProviderForm)
-  ...     prefix = 'form.'
   ...     fields = field.Fields(IPerson)
   ...     ignoreContext = True
   ...     contentProviders = ContentProviders()
   ...     contentProviders['longHelp'] = ExtendedHelp
-  ...     contentProviders['longHelp'].position = 2
+  ...     contentProviders['longHelp'].position = 1
 
-  >>> from z3c.form.testing import TestRequest
   >>> request = TestRequest()
   >>> class Person(object):
   ...    id = 'james'
@@ -113,9 +114,9 @@ To insert content providers, the following steps are needed :
   >>> widgets['longHelp']
   <ExtendedHelp object at ...>
   >>> widgets['id']
-  <Widget 'form.widgets.id'>
+  <TextWidget 'form.widgets.id'>
   >>> widgets['fullname']
-  <Widget 'form.widgets.fullname'>
+  <TextWidget 'form.widgets.fullname'>
   >>> manager.get('longHelp').render()
   '<div class="ex-help">Help about person james</div>'
 
@@ -130,7 +131,7 @@ We can also define content provider by adaptation::
   ...                 zope.interface.Interface),
   ...                provides=IContentProvider, name='longHelp')
 
-  >>> class PersonForm(form.Form):
+  >>> class AdaptedPersonForm(form.Form):
   ...     implements(IFieldsAndContentProviderForm)
   ...     prefix = 'form.'
   ...     fields = field.Fields(IPerson)
@@ -150,8 +151,69 @@ We can also define content provider by adaptation::
   >>> widgets['longHelp']
   <ExtendedHelp object at ...>
   >>> widgets['id']
-  <Widget 'form.widgets.id'>
+  <TextWidget 'form.widgets.id'>
   >>> widgets['fullname']
-  <Widget 'form.widgets.fullname'>
+  <TextWidget 'form.widgets.fullname'>
   >>> manager.get('longHelp').render()
   '<div class="ex-help">Help about person james</div>'
+
+Rendering the form
+------------------
+
+Once the update is complete we can render the form. Since we have not
+specified a template yet, we have to do this now. We have prepared a small and
+very simple template as part of this example:
+
+  
+  >>> import os
+  >>> from z3c.form import ptcompat as viewpagetemplatefile
+  >>> from z3c.form import tests
+  >>> def personTemplate(form):
+  ...     form.template = viewpagetemplatefile.bind_template(
+  ...         viewpagetemplatefile.ViewPageTemplateFile(
+  ...             'simple_edit_with_providers.pt', 
+  ...             os.path.dirname(tests.__file__)), form)
+  >>> personTemplate(personForm)
+
+To enable form updating, all widget adapters must be registered::
+  
+  >>> from z3c.form.testing import setupFormDefaults
+  >>> setupFormDefaults()
+
+Let's update the form before rendering it.
+
+  >>> personForm.update()
+
+Because ``personFrom`` implements ``IFieldsAndContentProviderForm``, 
+computed widgets is a ``FieldWidgetsAndProviders`` instance.
+
+  >>> personForm.widgets
+  <z3c.form.contentprovider.FieldWidgetsAndProviders object at ...>
+
+Let's now render the page::
+
+  >>> print personForm.render()
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-id">ID</label>
+          <input id="form-widgets-id" name="form.widgets.id"
+                 class="text-widget required textline-field"
+                 value="" type="text" />
+        </div>
+        <div class="row">
+          <div class="ex-help">Help about person james</div>
+        </div>
+        <div class="row">
+          <label for="form-widgets-fullname">FullName</label>
+          <input id="form-widgets-fullname"
+                 name="form.widgets.fullname"
+                 class="text-widget required textline-field"
+                 value="" type="text" />
+        </div>
+      </form>
+    </body>
+  </html>
+

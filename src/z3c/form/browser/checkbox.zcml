@@ -35,4 +35,11 @@
       template="checkbox_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="hidden"
+      widget="z3c.form.interfaces.ICheckBoxWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="checkbox_hidden.pt"
+      />
+      
 </configure>

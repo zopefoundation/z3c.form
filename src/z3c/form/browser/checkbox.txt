@@ -110,6 +110,26 @@ field get rendered with a checked flag:
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
+Check HIDDEN_MODE:
+
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'checkbox_hidden.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='hidden')
+
+  >>> widget.value = 'true'
+  >>> widget.mode = interfaces.HIDDEN_MODE
+  >>> print widget.render()
+  <span class="option">
+    <input type="hidden" id="widget-id-0" name="widget.name:list"
+           class="checkbox-widget" value="true" />
+  </span><span class="option">
+    <input type="hidden" id="widget-id-1" name="widget.name:list"
+           class="checkbox-widget" value="false" />
+  </span>
+
 
 Single Checkbox Widget
 ----------------------
@@ -197,4 +217,22 @@ field
   </span>
   <input name="widget.name-empty-marker" type="hidden"
          value="1" />
+
+Check HIDDEN_MODE:
+
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'checkbox_hidden.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='hidden')
+
+  >>> widget.value = 'true'
+  >>> widget.mode = interfaces.HIDDEN_MODE
+  >>> print widget.render()
+  <span class="option">
+    <input type="hidden" id="widget-id-0"
+           name="widget.name:list"
+           class="single-checkbox-widget" value="selected" />
+  </span>
 

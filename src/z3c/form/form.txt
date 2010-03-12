@@ -341,6 +341,61 @@ Let's now render the page:
     </body>
   </html>
 
+The update()/render() cycle is what happens when the form is called, i.e.
+when it is published:
+
+  >>> print addForm()
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-id">ID</label>
+          <input type="text" id="form-widgets-id"
+                 name="form.widgets.id"
+                 class="text-widget required textline-field"
+                 value="" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-name">Name</label>
+          <input type="text" id="form-widgets-name" name="form.widgets.name"
+                 class="text-widget required textline-field"
+                 value="" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-gender">Gender</label>
+          <select id="form-widgets-gender" name="form.widgets.gender:list"
+                  class="select-widget choice-field" size="1">
+            <option id="form-widgets-gender-novalue"
+                    value="--NOVALUE--">no value</option>
+            <option id="form-widgets-gender-0" value="male">male</option>
+            <option id="form-widgets-gender-1" value="female">female</option>
+          </select>
+          <input name="form.widgets.gender-empty-marker" type="hidden"
+                 value="1" />
+        </div>
+        <div class="row">
+          <label for="form-widgets-age">Age</label>
+          <input type="text" id="form-widgets-age" name="form.widgets.age"
+                 class="text-widget int-field" value="20" />
+        </div>
+        <div class="action">
+          <input type="submit" id="form-buttons-add" name="form.buttons.add"
+                 class="submit-widget button-field" value="Add" />
+        </div>
+      </form>
+    </body>
+  </html>  
+
+Note that we don't actually call render if the response has been set to a 3xx
+type status code (e.g. a redirect or not modified response), since the browser
+would not render it anyway:
+
+  >>> request.response.setStatus(304)
+  >>> print addForm()
+  
+Let's go back to a normal status to continue the test.
+
+  >>> request.response.setStatus(200)
 
 Submitting an add form successfully
 -----------------------------------
@@ -1064,12 +1119,16 @@ the dictionary:
   >>> editForm = PersonDictEditForm(None, request)
   >>> editForm.update()
 
-  >>> from pprint import pprint
-  >>> pprint(personDict)
-  {'age': 5,
-   'gender': 'male',
-   'id': u'rineichen',
-   'name': u'Jesse Ineichen'}
+  >>> len(personDict)
+  4
+  >>> personDict['age']
+  5
+  >>> personDict['gender']
+  'male'
+  >>> personDict['id']
+  u'rineichen'
+  >>> personDict['name']
+  u'Jesse Ineichen'
 
 
 Creating a Display Form

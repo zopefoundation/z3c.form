@@ -396,3 +396,50 @@ You can also easily copy a manager:
   True
 
 That's all.
+
+`getSpecification()` function
+-----------------------------
+
+This function is capable of returning an `ISpecification` for any object,
+including instances.
+
+For an interface, it simply returns the interface:
+
+  >>> import zope.interface
+  >>> class IFoo(zope.interface.Interface):
+  ...     pass
+  
+  >>> util.getSpecification(IFoo) == IFoo
+  True
+  
+Ditto for a class:
+  
+  >>> class Bar(object):
+  ...     pass
+  
+  >>> util.getSpecification(Bar) == Bar
+  True
+
+For an instance, it will create a marker interface on the fly if necessary:
+
+  >>> bar = Bar()
+  >>> util.getSpecification(bar) # doctest: +ELLIPSIS
+  <InterfaceClass z3c.form.util.IGeneratedForObject_...>
+
+The ellipsis represents a hash of the object.
+
+If the function is called twice on the same object, it will not create a new
+marker each time:
+
+  >>> baz = Bar()
+  >>> barMarker = util.getSpecification(bar)
+  >>> bazMarker1 = util.getSpecification(baz)
+  >>> bazMarker2 = util.getSpecification(baz)
+
+  >>> barMarker is bazMarker1
+  False
+
+  >>> bazMarker1 == bazMarker2
+  True  
+  >>> bazMarker1 is bazMarker2
+  True

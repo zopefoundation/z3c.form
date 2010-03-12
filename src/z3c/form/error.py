@@ -68,7 +68,7 @@ class ErrorViewSnippet(object):
     def update(self):
         value = zope.component.queryMultiAdapter(
             (self.context, self.request, self.widget,
-             self.field, self.form, self),
+             self.field, self.form, self.content),
             interfaces.IValue, name='message')
         if value is not None:
             self.message = value.get()

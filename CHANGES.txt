@@ -5,9 +5,32 @@ CHANGES
 2.3.3 (unreleased)
 ------------------
 
+- The last discriminator of the 'message' IValue adapter used in the
+  ErrorViewSnippet is called 'content', but it was looked up as the error view
+  itself. It is now looked up on the form's context.
+
+- Don't let util.getSpecification() generate an interface more than once.
+  This causes strange effects when used in value adapters: if two adapters
+  use e.g. ISchema['some_field'] as a "discriminator" for 'field', with one
+  adapter being more specific on a discriminator that comes later in the
+  discriminator list (e.g. 'form' for an ErrorViewMessage), then depending on
+  the order in which these two were set up, the adapter specialisation may
+  differ, giving unexpected results that make it look like the adapter 
+  registry is picking the wrong adapter.
+
+- Fix trivial test failures on Python 2.4 stemming from differences in
+  pprint's sorting of dicts.
+
+- Don't invoke render() when publishing the form as a view if the HTTP status
+  code has been set to one in the 3xx range (e.g. a redirect or not-modified
+  response) - the response body will be ignored by the browser anyway.
+
+- Handle Invalid exceptions from constraints and field validators.
+
 - Don't create unnecessary self.items in update() method of
   SelectWidget in DISPLAY_MODE. Now items is a property.
 
+- Add hidden widget templates for radio buttons and checkboxes.
 
 2.3.2 (2010-01-21)
 ------------------

@@ -280,7 +280,7 @@ class FieldWidgets(util.Manager):
                 self.hasRequiredFields = True
             uniqueOrderedKeys.append(shortName)
             if newWidget:
-            #    self._data_values.append(widget)
+                self._data_values.append(widget)
                 self._data[shortName] = widget
                 zope.location.locate(widget, self, shortName)
             # allways ensure that we add all keys and keep the order given from
@@ -307,7 +307,7 @@ class FieldWidgets(util.Manager):
                      getattr(widget, 'field', None),
                      widget),
                     interfaces.IValidator).validate(value)
-            except (zope.schema.ValidationError,
+            except (zope.interface.Invalid,
                     ValueError, MultipleErrors), error:
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,

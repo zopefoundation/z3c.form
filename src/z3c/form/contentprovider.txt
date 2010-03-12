@@ -17,7 +17,7 @@ subclassing or changing the full widget rendering.
 Test setup
 ----------
 Before we can use a widget manager, the ``IFieldWidget`` adapter
-has to be registered for the ``ITextLine`` field:
+has to be registered for the ``ITextLine`` field::
 
   >>> import zope.component
   >>> import zope.interface
@@ -53,8 +53,7 @@ We define a simple test schema with fields::
   ...         required=True)
   ...
 
-We want to insert a content provider between the fields. 
-
+We will insert a content provider between the fields. 
 We define a test content provider that prints extra help text::
 
   >>> from zope.contentprovider.provider import ContentProviderBase
@@ -65,10 +64,6 @@ We define a test content provider that prints extra help text::
   ...
   ...   def render(self):
   ...       return '<div class="ex-help">Help about person %s</div>' % self.person
-
-
-  >>> from z3c.form.testing import setupFormDefaults
-  >>> setupFormDefaults()
 
 Form definition
 --------------- 
@@ -83,7 +78,6 @@ We define a form as usual by inheriting from ``form.Form``::
 To insert content providers, the following steps are needed :
 
   1. the form class must implement ``IFieldsAndContentProviderForm``
-
   2. the class must have a ``contentProviders`` attribute that is an instance
   of the ``ContentProviders`` class.
 

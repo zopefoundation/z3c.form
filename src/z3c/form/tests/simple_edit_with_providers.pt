@@ -12,15 +12,28 @@
       </li>
     </ul>
     <form action=".">
-      <div class="row" tal:repeat="widget view/widgets/values">
-        <b tal:condition="widget/error | nothing"
+      <tal:snippets repeat="snippet view/widgets/values">
+
+      <div class="row" tal:define="is_widget snippet/id | nothing">
+
+        <tal:widget condition="is_widget" 
+                    define="widget snippet">
+        <b tal:condition="widget/error"
            tal:content="structure widget/error/render"
-        /><label tal:condition="widget/id | nothing"
+        /><label tal:condition="widget/id"
                for=""
                tal:attributes="for widget/id"
                tal:content="widget/label" />
         <input type="text" tal:replace="structure widget/render" />
+        </tal:widget>
+
+        <tal:provider condition="not:is_widget"
+                      define="contentprovider snippet"
+                      replace="structure contentprovider/render" />
+                      
       </div>
+
+      </tal:snippets>
       <div class="action" tal:repeat="action view/actions/values">
         <input type="submit" tal:replace="structure action/render" />
       </div>

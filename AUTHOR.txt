@@ -10,13 +10,14 @@ Christopher Combelles
 Dan Korostelev
 Daniel Nouri
 Darryl Cousins
+David Glick
 Herman Himmelbauer
 Jacob Holm
 Laurent Mignon
 Malthe Borch
 Marius Gedminas
 Martijn Faassen
+Martin Aspeli
 Michael Howitz
 Michael Kerrin
 Paul Carduner
-Martin Aspeli

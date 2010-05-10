@@ -8,6 +8,10 @@ CHANGES
 - Bugfix: applyChanges should not try to compare old and new values of the old
   value can not be accessed.
 
+- Fix DictionaryField to conform to the IDataManager spec: get() should raise
+  an exception if no value can be found.
+
+
 2.3.3 (2010-04-20)
 ------------------
 

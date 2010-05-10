@@ -28,6 +28,7 @@ from zope.security.checker import canAccess, canWrite, Proxy
 
 from z3c.form import interfaces
 
+_marker = []
 
 class DataManager(object):
     """Data manager base class."""
@@ -117,7 +118,10 @@ class DictionaryField(DataManager):
 
     def get(self):
         """See z3c.form.interfaces.IDataManager"""
-        return self.data.get(self.field.__name__, self.field.missing_value)
+        value = self.data.get(self.field.__name__, _marker)
+        if value is _marker:
+            raise AttributeError
+        return value
 
     def query(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IDataManager"""

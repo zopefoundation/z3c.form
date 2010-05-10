@@ -45,7 +45,7 @@ def applyChanges(form, content, data):
             (content, field.field), interfaces.IDataManager)
         # Only update the data, if it is different
         # Or it is an Object, in case we'll never know
-        if (dm.get() != data[name]
+        if ((dm.canAccess() and dm.get() != data[name])
             or zope.schema.interfaces.IObject.providedBy(field.field)):
             dm.set(data[name])
             # Record the change using information required later

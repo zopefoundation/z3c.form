@@ -229,7 +229,7 @@ class ObjectWidget(widget.Widget):
                 interfaces.IValidator).validate(value)
 
             widget.value = converter.toWidgetValue(value)
-        except (zope.schema.ValidationError, ValueError), error:
+        except (zope.schema.ValidationError, ValueError):
             # on exception, setup the widget error message
             # set the wrong value as value
             # the widget itself ought to cry about the error

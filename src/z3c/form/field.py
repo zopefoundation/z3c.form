@@ -161,7 +161,6 @@ class Fields(util.SelectionManager):
         assert len(kwargs) == 0
         if prefix:
             names = [util.expandPrefix(prefix) + name for name in names]
-        fields = [field for field in self.values()]
         return self.__class__(
             *[field for name, field in self.items()
               if not ((name in names and interface is None) or

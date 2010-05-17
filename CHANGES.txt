@@ -2,7 +2,13 @@
 CHANGES
 =======
 
-2.3.4 (unreleased)
+2.3.5 (unreleased)
+------------------
+
+- ...
+
+
+2.3.4 (2010-05-17)
 ------------------
 
 - Bugfix: applyChanges should not try to compare old and new values if the old

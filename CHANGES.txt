@@ -5,7 +5,7 @@ CHANGES
 2.3.4 (unreleased)
 ------------------
 
-- Bugfix: applyChanges should not try to compare old and new values of the old
+- Bugfix: applyChanges should not try to compare old and new values if the old
   value can not be accessed.
 
 - Fix DictionaryField to conform to the IDataManager spec: get() should raise

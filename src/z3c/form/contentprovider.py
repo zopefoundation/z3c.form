@@ -2,6 +2,7 @@ import zope.component
 import zope.interface
 import zope.location
 import zope.schema.interfaces
+from z3c.form.error import MultipleErrors
 from zope.contentprovider.interfaces import IContentProvider
 
 from z3c.form.field import FieldWidgets
@@ -53,7 +54,6 @@ class FieldWidgetsAndProviders(FieldWidgets):
 
     def update(self):
         super(FieldWidgetsAndProviders, self).update()
-
         uniqueOrderedKeys = self._data_keys
         for name in self.form.contentProviders:
             factory = self.form.contentProviders[name]
@@ -67,3 +67,47 @@ class FieldWidgetsAndProviders(FieldWidgets):
             # allways ensure that we add all keys and keep the order given from
             # button items
             self._data_keys = uniqueOrderedKeys
+
+    def extract(self):
+        """See interfaces.IWidgets"""
+        data = {}
+        errors = ()
+        for name, widget in self.items():
+            if IContentProvider.providedBy(widget):
+                continue
+            if widget.mode == interfaces.DISPLAY_MODE:
+                continue
+            value = widget.field.missing_value
+            try:
+                widget.setErrors = self.setErrors
+                raw = widget.extract()
+                if raw is not interfaces.NO_VALUE:
+                    value = interfaces.IDataConverter(widget).toFieldValue(raw)
+                zope.component.getMultiAdapter(
+                    (self.content,
+                     self.request,
+                     self.form,
+                     getattr(widget, 'field', None),
+                     widget),
+                    interfaces.IValidator).validate(value)
+            except (zope.interface.Invalid,
+                    ValueError, MultipleErrors), error:
+                view = zope.component.getMultiAdapter(
+                    (error, self.request, widget, widget.field,
+                     self.form, self.content), interfaces.IErrorViewSnippet)
+                view.update()
+                if self.setErrors:
+                    widget.error = view
+                errors += (view,)
+            else:
+                name = widget.__name__
+                data[name] = value
+        for error in self.validate(data):
+            view = zope.component.getMultiAdapter(
+                (error, self.request, None, None, self.form, self.content),
+                interfaces.IErrorViewSnippet)
+            view.update()
+            errors += (view,)
+        if self.setErrors:
+            self.errors = errors
+        return data, errors

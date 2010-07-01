@@ -44,9 +44,11 @@ def applyChanges(form, content, data):
         dm = zope.component.getMultiAdapter(
             (content, field.field), interfaces.IDataManager)
         # Only update the data, if it is different
+        # Or we can not get the original value, in which case we can not check
         # Or it is an Object, in case we'll never know
-        if (dm.get() != data[name]
-            or zope.schema.interfaces.IObject.providedBy(field.field)):
+        if (not dm.canAccess() or 
+            dm.get() != data[name] or 
+            zope.schema.interfaces.IObject.providedBy(field.field)):
             dm.set(data[name])
             # Record the change using information required later
             changes.setdefault(dm.field.interface, []).append(name)

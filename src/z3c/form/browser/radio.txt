@@ -115,8 +115,8 @@ Check HIDDEN_MODE:
   ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
   ...     IPageTemplate, name='hidden')
 
-  >>> widget.value = 'true'
+  >>> widget.value = ['true']
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> print widget.render()
-  <input id="widget-id" name="widget.name" value="true" class="hidden-widget" type="hidden" />
+  <input id="widget-id-0" name="widget.name:list" value="true" class="hidden-widget" type="hidden" />
   

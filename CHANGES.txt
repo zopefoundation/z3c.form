@@ -2,7 +2,23 @@
 CHANGES
 =======
 
-2.3.3 (unreleased)
+2.3.5 (unreleased)
+------------------
+
+- Bug: Radio widget was not treating value as a list in hidden mode.
+
+
+2.3.4 (2010-05-17)
+------------------
+
+- Bugfix: applyChanges should not try to compare old and new values if the old
+  value can not be accessed.
+
+- Fix DictionaryField to conform to the IDataManager spec: get() should raise
+  an exception if no value can be found.
+
+
+2.3.3 (2010-04-20)
 ------------------
 
 - The last discriminator of the 'message' IValue adapter used in the

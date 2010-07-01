@@ -114,7 +114,7 @@ class NumberDataConverter(BaseDataConverter):
             return self.field.missing_value
         try:
             return self.formatter.parse(value)
-        except zope.i18n.format.NumberParseError, err:
+        except zope.i18n.format.NumberParseError:
             raise FormatterValidationError(self.errorMessage, value)
 
 class IntegerDataConverter(NumberDataConverter):
@@ -265,7 +265,7 @@ class SequenceDataConverter(BaseDataConverter):
         terms = widget.updateTerms()
         try:
             return [terms.getTerm(value).token]
-        except LookupError, err:
+        except LookupError:
             # Swallow lookup errors, in case the options changed.
             return []
 
@@ -274,7 +274,7 @@ class SequenceDataConverter(BaseDataConverter):
         widget = self.widget
         if not len(value) or value[0] == widget.noValueToken:
             return self.field.missing_value
-        terms = widget.updateTerms()
+        widget.updateTerms()
         return widget.terms.getValue(value[0])
 
 
@@ -326,7 +326,6 @@ class TextLinesConverter(BaseDataConverter):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
-        widget = self.widget
         collectionType = self.field._type
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]

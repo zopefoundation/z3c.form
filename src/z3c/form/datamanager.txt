@@ -283,6 +283,9 @@ The datamanager can really only deal with dictionaries and mapping types:
 Let's now access the name:
 
   >>> nameDm.get()
+  Traceback (most recent call last):
+  ...
+  AttributeError
 
   >>> nameDm.query()
   <NO_VALUE>

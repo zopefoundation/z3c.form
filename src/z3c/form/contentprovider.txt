@@ -1,17 +1,18 @@
-ContentProviders
-----------------
+=================
+Content Providers
+=================
 
 We want to mix fields and content providers.
 
 This allow to enrich the form by interlacing html snippets produced by content
 providers.
 
-For instance, we might want to include the table of results in a search form.
+For instance, we might want to render the table of results in a search form.
 
-We might also need to insert html close to a widget as a handle used when
+We might also need to render HTML close to a widget as a handle used when
 improving UI with Ajax.
 
-Adding html outside the widgets avoids the systematic need of 
+Adding HTML outside the widgets avoids the systematic need of 
 subclassing or changing the full widget rendering.
 
 Test setup
@@ -54,8 +55,18 @@ We define a simple test schema with fields::
   ...         required=True)
   ...
 
-We will insert a content provider between the fields. 
-We define a test content provider that prints extra help text::
+A class that implements the schema::
+
+  >>> class Person(object):
+  ...    id = 'james'
+  ...    fullname = 'James Bond'
+
+The usual request instance::
+
+  >>> request = TestRequest()
+
+We want to insert a content provider inbetween fields. 
+We define a test content provider that renders extra help text::
 
   >>> from zope.contentprovider.provider import ContentProviderBase
   >>> class ExtendedHelp(ContentProviderBase):
@@ -76,34 +87,40 @@ We define a form as usual by inheriting from ``form.Form``::
   >>> from z3c.form import field, form
   >>> from zope.interface import implements
 
-To insert content providers, the following steps are needed :
+To enable content providers, the form class must :
 
-  1. the form class must implement ``IFieldsAndContentProviderForm``
-  2. the class must have a ``contentProviders`` attribute that is an instance
-  of the ``ContentProviders`` class.
+  1. implement ``IFieldsAndContentProvidersForm``
+  2. have a ``contentProviders`` attribute that is 
+     an instance of the ``ContentProviders`` class.
 
 ::
 
+  >>> from z3c.form.interfaces import IFieldsAndContentProvidersForm
   >>> from z3c.form.contentprovider import ContentProviders
-  >>> from z3c.form.interfaces import IFieldsAndContentProviderForm
+
+Content provider assignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Content providers classes (factories) can be assigned directly to the
+``ContentProviders`` container:: 
 
   >>> class PersonForm(form.Form):
-  ...     implements(IFieldsAndContentProviderForm)
+  ...     implements(IFieldsAndContentProvidersForm)
   ...     fields = field.Fields(IPerson)
   ...     ignoreContext = True
   ...     contentProviders = ContentProviders()
   ...     contentProviders['longHelp'] = ExtendedHelp
   ...     contentProviders['longHelp'].position = 1
 
-  >>> request = TestRequest()
-  >>> class Person(object):
-  ...    id = 'james'
-  ...    fullname = 'James Bond'
-  >>> context = Person()
-  >>> personForm = PersonForm(context, request)
+Let's instantiate content and form instances::
+
+  >>> person = Person()
+  >>> personForm = PersonForm(person, request)
+
+Once the widget manager has been updated, it holds the content provider::
 
   >>> from z3c.form.contentprovider import FieldWidgetsAndProviders
-  >>> manager = FieldWidgetsAndProviders(personForm, request, context)
+  >>> manager = FieldWidgetsAndProviders(personForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
   >>> widgets = manager._data
@@ -120,7 +137,12 @@ To insert content providers, the following steps are needed :
   >>> manager.get('longHelp').render()
   '<div class="ex-help">Help about person james</div>'
 
-We can also define content provider by adaptation::
+Content provider lookup
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Forms can also refer by name to content providers.
+
+Let's register a content provider by name as usual::
 
   >>> from zope.component import provideAdapter
   >>> from zope.contentprovider.interfaces import IContentProvider
@@ -131,16 +153,22 @@ We can also define content provider by adaptation::
   ...                 zope.interface.Interface),
   ...                provides=IContentProvider, name='longHelp')
 
-  >>> class AdaptedPersonForm(form.Form):
-  ...     implements(IFieldsAndContentProviderForm)
+Let the form refer to it::
+
+  >>> class LookupPersonForm(form.Form):
+  ...     implements(IFieldsAndContentProvidersForm)
   ...     prefix = 'form.'
   ...     fields = field.Fields(IPerson)
   ...     ignoreContext = True
   ...     contentProviders = ContentProviders(['longHelp'])
   ...     contentProviders['longHelp'].position = 2
 
+  >>> lookupForm = LookupPersonForm(person, request)
+
+After update, the widget manager refers to the content provider::
+
   >>> from z3c.form.contentprovider import FieldWidgetsAndProviders
-  >>> manager = FieldWidgetsAndProviders(personForm, request, context)
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
   >>> widgets = manager._data
@@ -157,13 +185,81 @@ We can also define content provider by adaptation::
   >>> manager.get('longHelp').render()
   '<div class="ex-help">Help about person james</div>'
 
+Providers position
+~~~~~~~~~~~~~~~~~~
+
+Until here, we have defined position for content providers without explaining
+how it is used.
+
+A position needs to be defined for each provider. Let's forget to define a
+position::
+  
+  >>> class UndefinedPositionForm(form.Form):
+  ...     implements(IFieldsAndContentProvidersForm)
+  ...     prefix = 'form.'
+  ...     fields = field.Fields(IPerson)
+  ...     ignoreContext = True
+  ...     contentProviders = ContentProviders(['longHelp'])
+
+  >>> form = UndefinedPositionForm(person, request)
+  >>> manager = FieldWidgetsAndProviders(form, request, person)
+  >>> manager.ignoreContext = True
+
+When updating the widget manager, we get an exception::
+
+  >>> manager.update()
+  Traceback (most recent call last):
+  ...
+  ValueError: Position of the following content provider should be an integer: 'longHelp'.
+
+Let's check positioning of content providers::
+   
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 0
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<ExtendedHelp object at ...>, <TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>]
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 1
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <ExtendedHelp object at ...>, <TextWidget 'form.widgets.fullname'>]
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 2
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>, <ExtendedHelp object at ...>]
+
+Using value larger than sequence length implies end of sequence::
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 3
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>, <ExtendedHelp object at ...>]
+
+A negative value is interpreted same as ``insert`` method of Python lists::
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = -1
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <ExtendedHelp object at ...>, <TextWidget 'form.widgets.fullname'>]
+
 Rendering the form
 ------------------
 
-Once the update is complete we can render the form. Since we have not
-specified a template yet, we have to do this now. We have prepared a small and
-very simple template as part of this example:
+Once the form has been updated, it can be rendered.
 
+Since we have not assigned a template yet, we have to do it now.
+We have a small template as part of this example::
   
   >>> import os
   >>> from z3c.form import ptcompat as viewpagetemplatefile
@@ -180,17 +276,14 @@ To enable form updating, all widget adapters must be registered::
   >>> from z3c.form.testing import setupFormDefaults
   >>> setupFormDefaults()
 
-Let's update the form before rendering it.
+``FieldWidgetsAndProviders`` is registered as widget manager for 
+``IFieldsAndContentProvidersForm``::
 
   >>> personForm.update()
-
-Because ``personFrom`` implements ``IFieldsAndContentProviderForm``, 
-computed widgets is a ``FieldWidgetsAndProviders`` instance.
-
   >>> personForm.widgets
   <z3c.form.contentprovider.FieldWidgetsAndProviders object at ...>
 
-Let's now render the page::
+Let's render the form::
 
   >>> print personForm.render()
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -216,4 +309,3 @@ Let's now render the page::
       </form>
     </body>
   </html>
-

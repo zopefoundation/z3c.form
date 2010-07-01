@@ -1012,7 +1012,7 @@ class IFieldsForm(IForm):
                       'the form.'),
         schema=IFields)
 
-class IFieldsAndContentProviderForm(IForm):
+class IFieldsAndContentProvidersForm(IForm):
     """A form that is based upon defined fields and content providers"""
 
     contentProviders = zope.schema.Object(

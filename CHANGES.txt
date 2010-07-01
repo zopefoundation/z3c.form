@@ -5,6 +5,11 @@ CHANGES
 2.3.5 (unreleased)
 ------------------
 
+- Feature : mix fields and content providers in forms. This allow to enrich
+  the form by interlacing html snippets produced by content providers.
+  Adding html outside the widgets avoids the systematic need of 
+  subclassing or changing the full widget rendering.
+
 - Bug: Radio widget was not treating value as a list in hidden mode.
 
 

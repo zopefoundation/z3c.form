@@ -24,7 +24,6 @@ class ContentProviders(dict):
         if names is not None:
             for position, name in enumerate(names):
                 self[name] = lookup_
-                self[name].position = position
 
     def __setitem__(self, key, value):
         factory = ContentProviderFactory(factory=value, name=key)
@@ -49,7 +48,7 @@ class ContentProviderFactory(object):
 
 class FieldWidgetsAndProviders(FieldWidgets):
     zope.component.adapts(
-        interfaces.IFieldsAndContentProviderForm, interfaces.IFormLayer, zope.interface.Interface)
+        interfaces.IFieldsAndContentProvidersForm, interfaces.IFormLayer, zope.interface.Interface)
     zope.interface.implementsOnly(interfaces.IWidgets)
 
     def update(self):
@@ -57,6 +56,9 @@ class FieldWidgetsAndProviders(FieldWidgets):
         uniqueOrderedKeys = self._data_keys
         for name in self.form.contentProviders:
             factory = self.form.contentProviders[name]
+            if factory.position is None:
+                raise ValueError("Position of the following"
+                 " content provider should be an integer: '%s'." % name)
             contentProvider = factory(self)
             shortName = name
             contentProvider.update()

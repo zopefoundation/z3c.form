@@ -16,14 +16,12 @@
 $Id$
 """
 import os
-import xml.sax.saxutils
 from setuptools import setup, find_packages
 
 
 def read(*rnames):
     text = open(os.path.join(os.path.dirname(__file__), *rnames)).read()
-    text = unicode(text, 'utf-8').encode('ascii', 'xmlcharrefreplace')
-    return xml.sax.saxutils.escape(text)
+    return unicode(text, 'utf-8').encode('ascii', 'xmlcharrefreplace')
 
 
 chapters = '\n'.join(

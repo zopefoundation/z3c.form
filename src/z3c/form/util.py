@@ -149,6 +149,13 @@ class UniqueOrderedKeys(object):
             raise ValueError(value)
         self.data.append(value)
 
+    def insert(self, position, value):
+        if value in self.data:
+            raise ValueError(value)
+        self.data.insert(position, value)
+
+    #XXX TODO: Inherit from list
+
 
 class Manager(object):
     """Non-persistent IManager implementation."""
@@ -203,6 +210,10 @@ class Manager(object):
     def __contains__(self, name):
         return bool(self.get(name))
 
+    #XXX TODO:
+    # Add __setitem__ that will add key, value at the end of both lists as in PEP0372
+    # Add insertBefore(key)
+    #     insertAfter(key)
 
 class SelectionManager(Manager):
     """Non-persisents ISelectionManager implementation."""

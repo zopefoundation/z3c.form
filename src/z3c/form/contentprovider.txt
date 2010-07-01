@@ -1,0 +1,311 @@
+=================
+Content Providers
+=================
+
+We want to mix fields and content providers.
+
+This allow to enrich the form by interlacing html snippets produced by content
+providers.
+
+For instance, we might want to render the table of results in a search form.
+
+We might also need to render HTML close to a widget as a handle used when
+improving UI with Ajax.
+
+Adding HTML outside the widgets avoids the systematic need of 
+subclassing or changing the full widget rendering.
+
+Test setup
+----------
+Before we can use a widget manager, the ``IFieldWidget`` adapter
+has to be registered for the ``ITextLine`` field::
+
+  >>> import zope.component
+  >>> import zope.interface
+  >>> from z3c.form import interfaces, widget
+  >>> from z3c.form.browser import text
+  >>> from z3c.form.testing import TestRequest
+
+  >>> @zope.component.adapter(zope.schema.TextLine, TestRequest)
+  ... @zope.interface.implementer(interfaces.IFieldWidget)
+  ... def TextFieldWidget(field, request):
+  ...     return widget.FieldWidget(field, text.TextWidget(request))
+
+  >>> zope.component.provideAdapter(TextFieldWidget)
+
+  >>> from z3c.form import converter
+  >>> zope.component.provideAdapter(converter.FieldDataConverter)
+  >>> zope.component.provideAdapter(converter.FieldWidgetDataConverter)
+
+We define a simple test schema with fields::
+
+  >>> import zope.interface
+  >>> import zope.schema
+
+  >>> class IPerson(zope.interface.Interface):
+  ...
+  ...     id = zope.schema.TextLine(
+  ...         title=u'ID',
+  ...         description=u"The person's ID.",
+  ...         required=True)
+  ...
+  ...     fullname = zope.schema.TextLine(
+  ...         title=u'FullName',
+  ...         description=u"The person's name.",
+  ...         required=True)
+  ...
+
+A class that implements the schema::
+
+  >>> class Person(object):
+  ...    id = 'james'
+  ...    fullname = 'James Bond'
+
+The usual request instance::
+
+  >>> request = TestRequest()
+
+We want to insert a content provider inbetween fields. 
+We define a test content provider that renders extra help text::
+
+  >>> from zope.contentprovider.provider import ContentProviderBase
+  >>> class ExtendedHelp(ContentProviderBase):
+  ...
+  ...   def update(self):
+  ...       self.person = self.context.id
+  ...
+  ...   def render(self):
+  ...       return '<div class="ex-help">Help about person %s</div>' % self.person
+
+Form definition
+--------------- 
+
+The meat of the tests begins here.
+
+We define a form as usual by inheriting from ``form.Form``::
+
+  >>> from z3c.form import field, form
+  >>> from zope.interface import implements
+
+To enable content providers, the form class must :
+
+  1. implement ``IFieldsAndContentProvidersForm``
+  2. have a ``contentProviders`` attribute that is 
+     an instance of the ``ContentProviders`` class.
+
+::
+
+  >>> from z3c.form.interfaces import IFieldsAndContentProvidersForm
+  >>> from z3c.form.contentprovider import ContentProviders
+
+Content provider assignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Content providers classes (factories) can be assigned directly to the
+``ContentProviders`` container:: 
+
+  >>> class PersonForm(form.Form):
+  ...     implements(IFieldsAndContentProvidersForm)
+  ...     fields = field.Fields(IPerson)
+  ...     ignoreContext = True
+  ...     contentProviders = ContentProviders()
+  ...     contentProviders['longHelp'] = ExtendedHelp
+  ...     contentProviders['longHelp'].position = 1
+
+Let's instantiate content and form instances::
+
+  >>> person = Person()
+  >>> personForm = PersonForm(person, request)
+
+Once the widget manager has been updated, it holds the content provider::
+
+  >>> from z3c.form.contentprovider import FieldWidgetsAndProviders
+  >>> manager = FieldWidgetsAndProviders(personForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> widgets = manager._data
+  >>> ids = widgets.keys()
+  >>> ids.sort()
+  >>> ids
+  ['fullname', 'id', 'longHelp']
+  >>> widgets['longHelp']
+  <ExtendedHelp object at ...>
+  >>> widgets['id']
+  <TextWidget 'form.widgets.id'>
+  >>> widgets['fullname']
+  <TextWidget 'form.widgets.fullname'>
+  >>> manager.get('longHelp').render()
+  '<div class="ex-help">Help about person james</div>'
+
+Content provider lookup
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Forms can also refer by name to content providers.
+
+Let's register a content provider by name as usual::
+
+  >>> from zope.component import provideAdapter
+  >>> from zope.contentprovider.interfaces import IContentProvider
+  >>> from z3c.form.interfaces import IFormLayer
+  >>> provideAdapter(ExtendedHelp,
+  ...                (zope.interface.Interface,
+  ...                 IFormLayer,
+  ...                 zope.interface.Interface),
+  ...                provides=IContentProvider, name='longHelp')
+
+Let the form refer to it::
+
+  >>> class LookupPersonForm(form.Form):
+  ...     implements(IFieldsAndContentProvidersForm)
+  ...     prefix = 'form.'
+  ...     fields = field.Fields(IPerson)
+  ...     ignoreContext = True
+  ...     contentProviders = ContentProviders(['longHelp'])
+  ...     contentProviders['longHelp'].position = 2
+
+  >>> lookupForm = LookupPersonForm(person, request)
+
+After update, the widget manager refers to the content provider::
+
+  >>> from z3c.form.contentprovider import FieldWidgetsAndProviders
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> widgets = manager._data
+  >>> ids = widgets.keys()
+  >>> ids.sort()
+  >>> ids
+  ['fullname', 'id', 'longHelp']
+  >>> widgets['longHelp']
+  <ExtendedHelp object at ...>
+  >>> widgets['id']
+  <TextWidget 'form.widgets.id'>
+  >>> widgets['fullname']
+  <TextWidget 'form.widgets.fullname'>
+  >>> manager.get('longHelp').render()
+  '<div class="ex-help">Help about person james</div>'
+
+Providers position
+~~~~~~~~~~~~~~~~~~
+
+Until here, we have defined position for content providers without explaining
+how it is used.
+
+A position needs to be defined for each provider. Let's forget to define a
+position::
+  
+  >>> class UndefinedPositionForm(form.Form):
+  ...     implements(IFieldsAndContentProvidersForm)
+  ...     prefix = 'form.'
+  ...     fields = field.Fields(IPerson)
+  ...     ignoreContext = True
+  ...     contentProviders = ContentProviders(['longHelp'])
+
+  >>> form = UndefinedPositionForm(person, request)
+  >>> manager = FieldWidgetsAndProviders(form, request, person)
+  >>> manager.ignoreContext = True
+
+When updating the widget manager, we get an exception::
+
+  >>> manager.update()
+  Traceback (most recent call last):
+  ...
+  ValueError: Position of the following content provider should be an integer: 'longHelp'.
+
+Let's check positioning of content providers::
+   
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 0
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<ExtendedHelp object at ...>, <TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>]
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 1
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <ExtendedHelp object at ...>, <TextWidget 'form.widgets.fullname'>]
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 2
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>, <ExtendedHelp object at ...>]
+
+Using value larger than sequence length implies end of sequence::
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = 3
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>, <ExtendedHelp object at ...>]
+
+A negative value is interpreted same as ``insert`` method of Python lists::
+
+  >>> LookupPersonForm.contentProviders['longHelp'].position = -1
+  >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
+  >>> manager.ignoreContext = True
+  >>> manager.update()
+  >>> manager.values()
+  [<TextWidget 'form.widgets.id'>, <ExtendedHelp object at ...>, <TextWidget 'form.widgets.fullname'>]
+
+Rendering the form
+------------------
+
+Once the form has been updated, it can be rendered.
+
+Since we have not assigned a template yet, we have to do it now.
+We have a small template as part of this example::
+  
+  >>> import os
+  >>> from z3c.form import ptcompat as viewpagetemplatefile
+  >>> from z3c.form import tests
+  >>> def personTemplate(form):
+  ...     form.template = viewpagetemplatefile.bind_template(
+  ...         viewpagetemplatefile.ViewPageTemplateFile(
+  ...             'simple_edit_with_providers.pt', 
+  ...             os.path.dirname(tests.__file__)), form)
+  >>> personTemplate(personForm)
+
+To enable form updating, all widget adapters must be registered::
+  
+  >>> from z3c.form.testing import setupFormDefaults
+  >>> setupFormDefaults()
+
+``FieldWidgetsAndProviders`` is registered as widget manager for 
+``IFieldsAndContentProvidersForm``::
+
+  >>> personForm.update()
+  >>> personForm.widgets
+  <z3c.form.contentprovider.FieldWidgetsAndProviders object at ...>
+
+Let's render the form::
+
+  >>> print personForm.render()
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <body>
+      <form action=".">
+        <div class="row">
+          <label for="form-widgets-id">ID</label>
+          <input id="form-widgets-id" name="form.widgets.id"
+                 class="text-widget required textline-field"
+                 value="" type="text" />
+        </div>
+        <div class="row">
+          <div class="ex-help">Help about person james</div>
+        </div>
+        <div class="row">
+          <label for="form-widgets-fullname">FullName</label>
+          <input id="form-widgets-fullname"
+                 name="form.widgets.fullname"
+                 class="text-widget required textline-field"
+                 value="" type="text" />
+        </div>
+      </form>
+    </body>
+  </html>

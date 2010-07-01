@@ -19,10 +19,12 @@ import os
 import xml.sax.saxutils
 from setuptools import setup, find_packages
 
+
 def read(*rnames):
     text = open(os.path.join(os.path.dirname(__file__), *rnames)).read()
     text = unicode(text, 'utf-8').encode('ascii', 'xmlcharrefreplace')
     return xml.sax.saxutils.escape(text)
+
 
 chapters = '\n'.join(
     [read('src', 'z3c', 'form', name)
@@ -35,32 +37,33 @@ chapters = '\n'.join(
                  'zcml.txt',
                  'validator.txt',
                  'widget.txt',
+                 'contentprovider.txt',
                  'action.txt',
                  'value.txt',
                  'datamanager.txt',
                  'converter.txt',
                  'term.txt',
-                 'util.txt')])
+                 'util.txt',
+                 )])
 
 
-setup (
+setup(
     name='z3c.form',
-    version = '2.3.5dev',
-    author = "Stephan Richter, Roger Ineichen and the Zope Community",
-    author_email = "zope-dev@zope.org",
-    description = "An advanced form and widget framework for Zope 3",
+    version='2.3.5dev',
+    author="Stephan Richter, Roger Ineichen and the Zope Community",
+    author_email="zope-dev@zope.org",
+    description="An advanced form and widget framework for Zope 3",
     long_description=(
         read('README.txt')
         + '\n\n' +
         'Detailed Documentation\n'
         '**********************\n'
         + '\n' + chapters
-        + '\n\n' +
-        read('CHANGES.txt')
-        ),
-    license = "ZPL 2.1",
-    keywords = "zope3 form widget",
-    classifiers = [
+        + '\n\n'
+        + read('CHANGES.txt')),
+    license="ZPL 2.1",
+    keywords="zope3 form widget",
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
@@ -70,17 +73,17 @@ setup (
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope3'],
-    url = 'http://pypi.python.org/pypi/z3c.form',
-    packages = find_packages('src'),
-    include_package_data = True,
-    package_dir = {'':'src'},
-    namespace_packages = ['z3c'],
-    extras_require = dict(
-        extra = [
+    url='http://pypi.python.org/pypi/z3c.form',
+    packages=find_packages('src'),
+    include_package_data=True,
+    package_dir={'': 'src'},
+    namespace_packages=['z3c'],
+    extras_require=dict(
+        extra=[
             'z3c.pt >= 1.0b4',
             'z3c.ptcompat',
         ],
-        test = [
+        test=[
             'lxml >= 2.1.1',
             'z3c.coverage',
             'z3c.template',
@@ -93,16 +96,16 @@ setup (
             'zope.app.testing',
             'zope.testing',
             ],
-        zope34 = [
+        zope34=[
             'zope.app.component',
             ],
-        latest = [
+        latest=[
             'zope.site',
             ],
-        adding = ['zope.app.container'],
-        docs = ['z3c.recipe.sphinxdoc'],
+        adding=['zope.app.container'],
+        docs=['z3c.recipe.sphinxdoc'],
         ),
-    install_requires = [
+    install_requires=[
         'setuptools',
         'zope.browser',
         'zope.component',
@@ -122,5 +125,5 @@ setup (
         #'zope.site' or 'zope.app.component',
         'zope.traversing',
         ],
-    zip_safe = False,
+    zip_safe=False,
     )

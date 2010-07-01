@@ -228,6 +228,11 @@ class IFields(ISelectionManager):
         specification.
         """
 
+class IContentProviders(IManager):
+    """
+    A content provider manager
+    """
+
 # ----[ Data Managers ]------------------------------------------------------
 
 class IDataManager(zope.interface.Interface):
@@ -1007,6 +1012,14 @@ class IFieldsForm(IForm):
                       'the form.'),
         schema=IFields)
 
+class IFieldsAndContentProvidersForm(IForm):
+    """A form that is based upon defined fields and content providers"""
+
+    contentProviders = zope.schema.Object(
+        title=_('Content providers'),
+        description=_('A manager describing the content providers to be used for '
+                      'the form.'),
+        schema=IContentProviders)
 
 class IButtonForm(IForm):
     """A form that is based upon defined buttons."""

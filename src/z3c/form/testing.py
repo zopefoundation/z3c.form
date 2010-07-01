@@ -34,8 +34,8 @@ from zope.testing.doctest import register_optionflag
 
 from z3c.form import browser, button, converter, datamanager, error, field
 from z3c.form import form, interfaces, term, validator, widget
+from z3c.form import contentprovider
 from z3c.form.browser import radio, select, text, textarea
-from z3c.form.browser import file as fileWidget
 
 from z3c.form.ptcompat import AVAILABLE
 
@@ -205,6 +205,9 @@ def setupFormDefaults():
     zope.component.provideAdapter(datamanager.AttributeField)
     # Adapter to use form.fields to generate widgets
     zope.component.provideAdapter(field.FieldWidgets)
+    # Adapter that uses form.fields to generate widgets
+    # AND interlace content providers
+    zope.component.provideAdapter(contentprovider.FieldWidgetsAndProviders)
     # Adapters to lookup the widget for a field
     # Text Field Widget
     zope.component.provideAdapter(

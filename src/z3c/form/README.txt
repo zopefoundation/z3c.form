@@ -48,6 +48,11 @@ files. The documents are ordered in the way they should be read:
   Explains in detail the design goals surrounding widgets and widget managers
   and how they were realized with the implemented API.
 
+- ``contentprovider.txt`` [advanced users]
+
+  Explains how to mix content providers in forms to render more html around
+  widgets.
+
 - ``action.txt`` [advanced users]
 
   Explains in detail the design goals surrounding action managers and

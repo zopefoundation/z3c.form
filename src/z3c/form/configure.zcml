@@ -30,6 +30,10 @@
       factory=".field.FieldWidgets"
       />
 
+  <adapter
+      factory=".contentprovider.FieldWidgetsAndProviders"
+      />
+
   <!-- Data Converters -->
   <adapter
       factory=".converter.FieldDataConverter"

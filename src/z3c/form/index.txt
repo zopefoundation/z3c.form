@@ -15,6 +15,7 @@ Contents:
    zcml
    validator
    widget
+   contentprovider
    action
    datamanager
    converter

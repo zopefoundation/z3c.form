@@ -46,8 +46,8 @@ def applyChanges(form, content, data):
         # Only update the data, if it is different
         # Or we can not get the original value, in which case we can not check
         # Or it is an Object, in case we'll never know
-        if (not dm.canAccess() or 
-            dm.get() != data[name] or 
+        if (not dm.canAccess() or
+            dm.query() != data[name] or
             zope.schema.interfaces.IObject.providedBy(field.field)):
             dm.set(data[name])
             # Record the change using information required later
@@ -213,11 +213,11 @@ class Form(BaseForm):
 
     def __call__(self):
         self.update()
-        
+
         # Don't render anything if we are doing a redirect
         if self.request.response.getStatus() in (300, 301, 302, 303, 304, 305, 307,):
             return u''
-        
+
         return self.render()
 
 

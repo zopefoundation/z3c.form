@@ -108,6 +108,7 @@ setup(
         'zope.browser',
         'zope.component',
         'zope.configuration',
+        'zope.contentprovider',
         'zope.event',
         'zope.i18n',
         'zope.i18nmessageid',

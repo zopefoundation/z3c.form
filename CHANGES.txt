@@ -5,15 +5,15 @@ CHANGES
 2.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added missing dependency on ``zope.contentprovider``.
 
 
 2.4.0 (2010-07-01)
 ------------------
 
-- Feature : mix fields and content providers in forms. This allow to enrich
+- Feature: mix fields and content providers in forms. This allow to enrich
   the form by interlacing html snippets produced by content providers.
-  Adding html outside the widgets avoids the systematic need of 
+  Adding html outside the widgets avoids the systematic need of
   subclassing or changing the full widget rendering.
 
 - Bug: Radio widget was not treating value as a list in hidden mode.
@@ -42,7 +42,7 @@ CHANGES
   adapter being more specific on a discriminator that comes later in the
   discriminator list (e.g. 'form' for an ErrorViewMessage), then depending on
   the order in which these two were set up, the adapter specialisation may
-  differ, giving unexpected results that make it look like the adapter 
+  differ, giving unexpected results that make it look like the adapter
   registry is picking the wrong adapter.
 
 - Fix trivial test failures on Python 2.4 stemming from differences in

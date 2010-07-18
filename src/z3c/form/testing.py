@@ -11,26 +11,22 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Common z3c.form test setups
+"""Common z3c.form test setups"""
 
-$Id$
-"""
-__docformat__ = 'restructuredtext'
 import os
-
 import zope.component
+import zope.configuration.xmlconfig
 import zope.interface
 import zope.schema
-from zope.schema.fieldproperty import FieldProperty
-import zope.configuration.xmlconfig
 
+from doctest import register_optionflag
+from zope.app.testing import setup
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.publisher.browser import TestRequest
+from zope.schema.fieldproperty import FieldProperty
+from zope.security import checker
 from zope.security.interfaces import IInteraction
 from zope.security.interfaces import ISecurityPolicy
-from zope.security import checker
-from zope.app.testing import setup
-from zope.testing.doctest import register_optionflag
 
 from z3c.form import browser, button, converter, datamanager, error, field
 from z3c.form import form, interfaces, term, validator, widget

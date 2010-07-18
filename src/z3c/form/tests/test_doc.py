@@ -11,16 +11,14 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""z3c.form Test Module
+"""z3c.form Test Module"""
 
-$Id$
-"""
-__docformat__ = "reStructuredText"
-import unittest
+import doctest
 import itertools
 import re
+import unittest
 
-from zope.testing import doctest, renormalizing
+from zope.testing import renormalizing
 from zope.app.testing import placelesssetup
 
 from z3c.form import testing

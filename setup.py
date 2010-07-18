@@ -47,16 +47,14 @@ chapters = '\n'.join(
 
 setup(
     name='z3c.form',
-    version = '2.4.1dev',
+    version='2.4.1',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="An advanced form and widget framework for Zope 3",
     long_description=(
         read('README.txt')
         + '\n\n' +
-        'Detailed Documentation\n'
-        '**********************\n'
-        + '\n' + chapters
+        '.. contents:: \n\n' + chapters
         + '\n\n'
         + read('CHANGES.txt')),
     license="ZPL 2.1",

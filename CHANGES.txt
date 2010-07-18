@@ -5,6 +5,13 @@ CHANGES
 2.4.1 (unreleased)
 ------------------
 
+- Since version 2.3.4 ``applyChanges`` required that the value exists
+  when the field had a ``DictionaryField`` data manager otherwise it
+  broke with an ``AttributeError``. Restored previous behavior that
+  values need not to be exist before ``applyChanges`` was called by
+  using ``datamanager.query()`` instead of ``datamanager.get()`` to
+  get the previous value.
+
 - Added missing dependency on ``zope.contentprovider``.
 
 

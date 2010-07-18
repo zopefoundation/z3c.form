@@ -8,8 +8,8 @@ tested.
   >>> from z3c.form import util
 
 
-``creeateId(name)`` Function
-----------------------------
+``createId(name)`` Function
+---------------------------
 
 This function converts an arbitrary unicode string into a valid Python
 identifier. If the name is a valid identifier, then it is just returned, but
@@ -408,15 +408,15 @@ For an interface, it simply returns the interface:
   >>> import zope.interface
   >>> class IFoo(zope.interface.Interface):
   ...     pass
-  
+
   >>> util.getSpecification(IFoo) == IFoo
   True
-  
+
 Ditto for a class:
-  
+
   >>> class Bar(object):
   ...     pass
-  
+
   >>> util.getSpecification(Bar) == Bar
   True
 
@@ -440,6 +440,6 @@ marker each time:
   False
 
   >>> bazMarker1 == bazMarker2
-  True  
+  True
   >>> bazMarker1 is bazMarker2
   True

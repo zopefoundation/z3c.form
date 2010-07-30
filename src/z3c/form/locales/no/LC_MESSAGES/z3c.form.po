@@ -1,0 +1,617 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Foundation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Tue Oct 13 16:21:54 2009\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/z3c/form/browser/multi.py:66
+#: src/z3c/form/form.py:226
+msgid "Add"
+msgstr "Legg til"
+
+#: src/z3c/form/browser/multi.py:71
+msgid "Remove selected"
+msgstr "Fjern valgte"
+
+#: src/z3c/form/browser/select.py:39
+msgid "no value"
+msgstr "ingen"
+
+#: src/z3c/form/browser/select.py:40
+msgid "select a value ..."
+msgstr "Velg ..."
+
+#: src/z3c/form/converter.py:125
+msgid "The entered value is not a valid integer literal."
+msgstr "Du må angi ett heltall."
+
+#: src/z3c/form/converter.py:132
+#: src/z3c/form/converter.py:139
+msgid "The entered value is not a valid decimal literal."
+msgstr "Du må ingi ett desimaltal."
+
+#: src/z3c/form/converter.py:240
+msgid "Bytes data are not a file object"
+msgstr "Byte data er ikke en fil objekt"
+
+#: src/z3c/form/error.py:93
+msgid "The system could not process the given value."
+msgstr "Systemet kunne ikke behandle gitt verdi."
+
+#: src/z3c/form/form.py:109
+msgid "<span class=\"required\">*</span>&ndash; required"
+msgstr "<span class=\"required\">*</span>&ndash; obligatoriske"
+
+#: src/z3c/form/form.py:184
+#: src/z3c/form/subform.py:29
+msgid "There were some errors."
+msgstr "Det var noen feil."
+
+#: src/z3c/form/form.py:263
+#: src/z3c/form/subform.py:30
+msgid "Data successfully updated."
+msgstr "Data er oppdatert."
+
+#: src/z3c/form/form.py:264
+#: src/z3c/form/subform.py:31
+msgid "No changes were applied."
+msgstr "Ingen endringer ble anvendt."
+
+#: src/z3c/form/form.py:281
+msgid "Apply"
+msgstr "Bruk"
+
+#: src/z3c/form/interfaces.py:1005
+msgid "Fields"
+msgstr "Felt"
+
+#: src/z3c/form/interfaces.py:1006
+msgid "A field manager describing the fields to be used for the form."
+msgstr "Et felt manager beskriver feltene som skal brukes til skjemaet."
+
+#: src/z3c/form/interfaces.py:1015
+msgid "Buttons"
+msgstr "Knapper"
+
+#: src/z3c/form/interfaces.py:1016
+msgid "A button manager describing the buttons to be used for the form."
+msgstr "En knapp manager beskriver knappene som skal brukes til skjemaet."
+
+#: src/z3c/form/interfaces.py:1041
+msgid "The widget for which the event was created."
+msgstr "Enheten som hendelsen ble opprettet."
+
+#: src/z3c/form/interfaces.py:107
+#: src/z3c/form/interfaces.py:821
+msgid "Context"
+msgstr "Kontekst"
+
+#: src/z3c/form/interfaces.py:108
+msgid "The context in which the data are validated."
+msgstr "Konteksten hvor data er validert."
+
+#: src/z3c/form/interfaces.py:148
+#: src/z3c/form/interfaces.py:1040
+msgid "Widget"
+msgstr "Widget"
+
+#: src/z3c/form/interfaces.py:149
+msgid "The widget that the view is on"
+msgstr "Den widget som vyen er på"
+
+#: src/z3c/form/interfaces.py:153
+#: src/z3c/form/interfaces.py:404
+#: src/z3c/form/interfaces.py:698
+msgid "Error"
+msgstr "Feil"
+
+#: src/z3c/form/interfaces.py:154
+msgid "Error the view is for."
+msgstr "Feil vyen er for."
+
+#: src/z3c/form/interfaces.py:174
+#: src/z3c/form/interfaces.py:672
+msgid "Title"
+msgstr "Tittel"
+
+#: src/z3c/form/interfaces.py:175
+msgid "The name of the field within the form."
+msgstr "Navnet på feltet i skjemaet."
+
+#: src/z3c/form/interfaces.py:179
+msgid "Schema Field"
+msgstr "Skjema Felt"
+
+#: src/z3c/form/interfaces.py:180
+msgid "The schema field that is to be rendered."
+msgstr "Skjemaet feltet som skal gjengis."
+
+#: src/z3c/form/interfaces.py:184
+#: src/z3c/form/interfaces.py:570
+#: src/z3c/form/interfaces.py:576
+#: src/z3c/form/interfaces.py:888
+msgid "Prefix"
+msgstr "Prefiks"
+
+#: src/z3c/form/interfaces.py:185
+msgid "The prefix of the field used to avoid name clashes."
+msgstr "Prefikset til feltet som brukes for å unngå sammenstøt navn."
+
+#: src/z3c/form/interfaces.py:189
+#: src/z3c/form/interfaces.py:391
+#: src/z3c/form/interfaces.py:847
+msgid "Mode"
+msgstr "Modus"
+
+#: src/z3c/form/interfaces.py:190
+msgid "The mode in which to render the widget for the field."
+msgstr "Hvilken modus til å gjengi widget for feltet."
+
+#: src/z3c/form/interfaces.py:194
+msgid "Interface"
+msgstr "Interface"
+
+#: src/z3c/form/interfaces.py:195
+msgid "The interface from which the field is coming."
+msgstr "Grensesnittet som feltet kommer."
+
+#: src/z3c/form/interfaces.py:199
+#: src/z3c/form/interfaces.py:589
+#: src/z3c/form/interfaces.py:826
+#: src/z3c/form/interfaces.py:852
+msgid "Ignore Context"
+msgstr "Ignorer Kontekst"
+
+#: src/z3c/form/interfaces.py:200
+#: src/z3c/form/interfaces.py:827
+msgid "A flag, when set, forces the widget not to look at the context for a value."
+msgstr "Et flagg som anger att widgeten ikke skall se på context etter en verdi."
+
+#: src/z3c/form/interfaces.py:205
+msgid "Widget Factory"
+msgstr "Widget Fabrikk"
+
+#: src/z3c/form/interfaces.py:206
+msgid "The widget factory."
+msgstr "Widgeten fabrikken."
+
+#: src/z3c/form/interfaces.py:334
+msgid "True-value Label"
+msgstr "Sant-verdi Label"
+
+#: src/z3c/form/interfaces.py:335
+msgid "The label for a true value of the Bool field."
+msgstr "Etiketten på en sann verdi av bool feltet."
+
+#: src/z3c/form/interfaces.py:339
+msgid "False-value Label"
+msgstr "Falskt-verdi Label"
+
+#: src/z3c/form/interfaces.py:340
+msgid "The label for a false value of the Bool field."
+msgstr "Etiketten for en falsk verdi av Bool feltet."
+
+#: src/z3c/form/interfaces.py:374
+#: src/z3c/form/interfaces.py:666
+#: src/z3c/form/interfaces.py:937
+msgid "Name"
+msgstr "Navn"
+
+#: src/z3c/form/interfaces.py:375
+msgid "The name the widget is known under."
+msgstr "Navnet widgeten er kjent under."
+
+#: src/z3c/form/interfaces.py:379
+#: src/z3c/form/interfaces.py:876
+msgid "Label"
+msgstr "Label"
+
+#: src/z3c/form/interfaces.py:380
+msgid ""
+"\n"
+"        The widget label.\n"
+"\n"
+"        Label may be translated for the request.\n"
+"\n"
+"        The attribute may be implemented as either a read-write or read-only\n"
+"        property, depending on the requirements for a specific implementation.\n"
+"        "
+msgstr ""
+"\n"
+"        Widgetens etikett.\n"
+"\n"
+"        Etiketten kan bli oversatt.\n"
+"\n"
+"        Attributten kan implementeres as som enten en lese-skrive eller lese-bare\n"
+"        property, avhengig av kravene til en bestemt implementering.\n"
+"        "
+
+#: src/z3c/form/interfaces.py:392
+msgid "A widget mode."
+msgstr "En widget modus."
+
+#: src/z3c/form/interfaces.py:397
+msgid "Required"
+msgstr "Påkrevd"
+
+#: src/z3c/form/interfaces.py:398
+msgid "If true the widget should be displayed as required input."
+msgstr "Hvis sann skal widgeten vises som påkrevd."
+
+#: src/z3c/form/interfaces.py:405
+msgid "If an error occurred during any step, the error view stored here."
+msgstr "Hvis en feil oppstod under noen skritt, lagren feil-vyen her."
+
+#: src/z3c/form/interfaces.py:410
+msgid "Value"
+msgstr "Verdi"
+
+#: src/z3c/form/interfaces.py:411
+msgid "The value that the widget represents."
+msgstr "Verdien som widget representerer."
+
+#: src/z3c/form/interfaces.py:417
+#: src/z3c/form/interfaces.py:595
+#: src/z3c/form/interfaces.py:858
+msgid "Ignore Request"
+msgstr "Ignorer Forespørsel"
+
+#: src/z3c/form/interfaces.py:418
+msgid "A flag, when set, forces the widget not to look at the request for a value."
+msgstr "Et flagg som angir att widgeten ikke skal se på requesten om en verdi."
+
+#: src/z3c/form/interfaces.py:425
+#: src/z3c/form/interfaces.py:615
+msgid "Set errors"
+msgstr "Set feil"
+
+#: src/z3c/form/interfaces.py:426
+msgid "A flag, when set, the widget sets error messages on calling extract()."
+msgstr "Et flagg som angir att widget lagrer feilmeldinger vid extract()."
+
+#: src/z3c/form/interfaces.py:471
+msgid "NO_VALUE Token"
+msgstr "INGET_VERDI Token"
+
+#: src/z3c/form/interfaces.py:472
+msgid "The token to be used, if no value has been selected."
+msgstr "Det token som skal brukes, hvis ingen verdi er valgt."
+
+#: src/z3c/form/interfaces.py:475
+msgid "Terms"
+msgstr "Vilkår"
+
+#: src/z3c/form/interfaces.py:476
+msgid "A component that provides the options for selection."
+msgstr "En komponent som gir muligheter for valg."
+
+#: src/z3c/form/interfaces.py:506
+msgid "Prompt"
+msgstr "Spør"
+
+#: src/z3c/form/interfaces.py:507
+msgid "A flag, when set, enables a choice explicitely requesting the user to choose a value."
+msgstr "Et flagg som angir att brukeren må velge en verdi."
+
+#: src/z3c/form/interfaces.py:512
+msgid "Items"
+msgstr "Elementer"
+
+#: src/z3c/form/interfaces.py:513
+msgid "A collection of dictionaries containing all pieces of information for rendering. The following keys must be in each dictionary: id, value, content, selected"
+msgstr "En samling av ordbøker som inneholder alle typer informasjon for rendrering. Følgende nøkler må fnnes i hvert dictionary: id, value, content, selected"
+
+#: src/z3c/form/interfaces.py:518
+msgid "No-Value Message"
+msgstr "Inget-Verdi Melding"
+
+#: src/z3c/form/interfaces.py:519
+#: src/z3c/form/interfaces.py:524
+msgid "A human-readable text that is displayed to refer the missing value."
+msgstr "En lesbar tekst som vises til å referere den manglende verdien."
+
+#: src/z3c/form/interfaces.py:523
+msgid "Prompt Message"
+msgstr "Spør melding"
+
+#: src/z3c/form/interfaces.py:571
+#: src/z3c/form/interfaces.py:577
+msgid "The prefix of the widgets."
+msgstr "Prefikset til widgets."
+
+#: src/z3c/form/interfaces.py:582
+msgid "Errors"
+msgstr "Feil"
+
+#: src/z3c/form/interfaces.py:583
+msgid "The collection of errors that occured during validation."
+msgstr "Samlingen av feil som oppstod under validering."
+
+#: src/z3c/form/interfaces.py:590
+#: src/z3c/form/interfaces.py:853
+msgid "If set the context is ignored to retrieve a value."
+msgstr "Hvis angitt, er context ignorert før å hente en verdi."
+
+#: src/z3c/form/interfaces.py:596
+#: src/z3c/form/interfaces.py:859
+msgid "If set the request is ignored to retrieve a value."
+msgstr "Hvis satt ignoreres requesten før å hente en verdi."
+
+#: src/z3c/form/interfaces.py:601
+#: src/z3c/form/interfaces.py:864
+msgid "Ignore Readonly"
+msgstr "Ignorer Lese-bare"
+
+#: src/z3c/form/interfaces.py:602
+#: src/z3c/form/interfaces.py:865
+msgid "If set then readonly fields will also be shown."
+msgstr "Hvis satt så vil også skrivebeskyttede felt bli vist."
+
+#: src/z3c/form/interfaces.py:607
+msgid "Has required fields"
+msgstr "Har påkrevde felt"
+
+#: src/z3c/form/interfaces.py:608
+msgid "A flag set when at least one field is marked as required"
+msgstr "Et flagg sett når minst ett felt er merket som påkrevt"
+
+#: src/z3c/form/interfaces.py:616
+msgid "A flag, when set, the contained widgets set error messages on calling extract()."
+msgstr "Et flagg som angir att widgetenes feilmeldinger settes vid extract()."
+
+#: src/z3c/form/interfaces.py:637
+#: src/z3c/form/zcml.py:70
+msgid "Field"
+msgstr "Field"
+
+#: src/z3c/form/interfaces.py:638
+msgid "The schema field which the widget is representing."
+msgstr "Skjema-feltet som widget representerer."
+
+#: src/z3c/form/interfaces.py:667
+msgid "The object name."
+msgstr "Objektets navn."
+
+#: src/z3c/form/interfaces.py:673
+msgid "The action title."
+msgstr "Handlingens tittel."
+
+#: src/z3c/form/interfaces.py:688
+#: src/z3c/form/interfaces.py:931
+msgid "Action"
+msgstr "Handling"
+
+#: src/z3c/form/interfaces.py:689
+msgid "The action for which the event is created."
+msgstr "Handlingen der hendelsen er opprettet."
+
+#: src/z3c/form/interfaces.py:699
+msgid "The error that occurred during the action."
+msgstr "Feilen som oppstod under aksjonen."
+
+#: src/z3c/form/interfaces.py:725
+msgid "Access Key"
+msgstr "Access Nøkkel"
+
+#: src/z3c/form/interfaces.py:726
+msgid "The key when pressed causes the button to be pressed."
+msgstr "Nøkkelen når trykket gjør at knappen trykkes."
+
+#: src/z3c/form/interfaces.py:732
+msgid "Action Factory"
+msgstr "Handlingsfabrikk"
+
+#: src/z3c/form/interfaces.py:733
+msgid "The action factory."
+msgstr "Handlingsfabrikken."
+
+#: src/z3c/form/interfaces.py:743
+msgid "Image Path"
+msgstr "Bildesti"
+
+#: src/z3c/form/interfaces.py:744
+msgid "A relative image path to the root of the resources."
+msgstr "En relativ bilde sti til roten av ressursene."
+
+#: src/z3c/form/interfaces.py:790
+msgid "Handlers"
+msgstr "Hånterere"
+
+#: src/z3c/form/interfaces.py:791
+msgid "A list of action handlers defined on the form."
+msgstr "En liste over handlingshånterere definert i skjemaet."
+
+#: src/z3c/form/interfaces.py:800
+msgid "Actions"
+msgstr "Handlinger"
+
+#: src/z3c/form/interfaces.py:801
+msgid "A list of actions defined on the form"
+msgstr "En liste av handlinger som er definert på formen"
+
+#: src/z3c/form/interfaces.py:806
+msgid "Refresh actions"
+msgstr "Oppdater handlinger"
+
+#: src/z3c/form/interfaces.py:807
+msgid "A flag, when set, causes form actions to be updated again after their execution."
+msgstr "Et flagg som angir att skjema handlinger skal oppdateres igjen etter utføring."
+
+#: src/z3c/form/interfaces.py:822
+msgid "The context in which the widget is displayed."
+msgstr "Konteksten der widgeten vises."
+
+#: src/z3c/form/interfaces.py:848
+msgid "The mode in which to render the widgets."
+msgstr "Hvilken modus for å gjengi widgets."
+
+#: src/z3c/form/interfaces.py:870
+msgid "Widgets"
+msgstr "Widgets"
+
+#: src/z3c/form/interfaces.py:871
+msgid "A widget manager containing the widgets to be used in the form."
+msgstr "En widget manager som inneholder ting som skal brukes i skjemaet."
+
+#: src/z3c/form/interfaces.py:877
+msgid "A human readable text describing the form that can be used in the UI."
+msgstr "En lesbar tekst som beskriver skjemaet som kan brukes i brukergrensesnittet."
+
+#: src/z3c/form/interfaces.py:882
+msgid "Label required"
+msgstr "Label nødvendig"
+
+#: src/z3c/form/interfaces.py:883
+msgid "A human readable text describing the form that can be used in the UI for rendering a required info legend."
+msgstr "En lesbar tekst som beskriver skjemaet som kan brukes i brukergrensesnittet for å gjengi en nødvendig info legende."
+
+#: src/z3c/form/interfaces.py:889
+msgid "The prefix of the form used to uniquely identify it."
+msgstr "Prefikset av skjemaet som brukes for å identifisere den."
+
+#: src/z3c/form/interfaces.py:893
+msgid "Status"
+msgstr "Status"
+
+#: src/z3c/form/interfaces.py:894
+msgid "The status message of the form."
+msgstr "Statusmeldingen av skjemaet."
+
+#: src/z3c/form/interfaces.py:932
+msgid "The action defines the URI to which the form data are sent."
+msgstr "Handlingen definerer URI til hvilke form dataene blir sendt."
+
+#: src/z3c/form/interfaces.py:938
+msgid "The name of the form used to identify it."
+msgstr "Navnet på skjemaet som brukes til å identifisere den."
+
+#: src/z3c/form/interfaces.py:942
+msgid "Id"
+msgstr "Id"
+
+#: src/z3c/form/interfaces.py:943
+msgid "The id of the form used to identify it."
+msgstr "Det id av skjemaet som brukes til å identifisere den."
+
+#: src/z3c/form/interfaces.py:947
+msgid "Method"
+msgstr "Metode"
+
+#: src/z3c/form/interfaces.py:948
+msgid "The HTTP method used to submit the form."
+msgstr "HTTP-metoden som brukes til å sende inn skjemaet."
+
+#: src/z3c/form/interfaces.py:954
+msgid "Encoding Type"
+msgstr "Kodingstypen"
+
+#: src/z3c/form/interfaces.py:955
+msgid "The data encoding used to submit the data safely."
+msgstr "Datakodingen som brukes til å sende dataene trygt."
+
+#: src/z3c/form/interfaces.py:960
+msgid "Accepted Character Sets"
+msgstr "Akseptert tegnsett"
+
+#: src/z3c/form/interfaces.py:961
+msgid "This is a list of character sets the server accepts. By default this is unknown."
+msgstr "Dette er en liste over tegnsett serveren godtar. Som standard er dette ukjent."
+
+#: src/z3c/form/interfaces.py:966
+msgid "Accepted Content Types"
+msgstr "Akseptert Innholdstyper"
+
+#: src/z3c/form/interfaces.py:967
+msgid "This is a list of content types the server can safely handle."
+msgstr "Dette er en liste over innholdstyper serveren kan trygt håndtere."
+
+#: src/z3c/form/term.py:152
+msgid "yes"
+msgstr "ja"
+
+#: src/z3c/form/term.py:153
+msgid "no"
+msgstr "nei"
+
+#: src/z3c/form/util.py:114
+msgid "Missing filename extension."
+msgstr "Mangler filtypen."
+
+#: src/z3c/form/zcml.py:39
+msgid "Layout template."
+msgstr "Layout mal."
+
+#: src/z3c/form/zcml.py:40
+msgid "Refers to a file containing a page template (should end in extension ``.pt`` or ``.html``)."
+msgstr "Refererer til en fil som inneholder en sidemal (må ende i forlengelsen ``. Pt `` eller ``. HTML ``)."
+
+#: src/z3c/form/zcml.py:45
+msgid "The mode of the template."
+msgstr "Modusen i malen."
+
+#: src/z3c/form/zcml.py:46
+msgid "The mode is used to define input and display templates"
+msgstr "Modusen brukes til å definere input og vise maler"
+
+#: src/z3c/form/zcml.py:52
+#: src/z3c/form/zcml.py:64
+#: src/z3c/form/zcml.py:76
+msgid "View"
+msgstr "Vis"
+
+#: src/z3c/form/zcml.py:53
+#: src/z3c/form/zcml.py:65
+msgid "The view for which the template should be available"
+msgstr "Utsikten som malen skal være tilgjengelig"
+
+#: src/z3c/form/zcml.py:58
+msgid "Layer"
+msgstr "Layer"
+
+#: src/z3c/form/zcml.py:59
+msgid "The layer for which the template should be available"
+msgstr "Det laget som malen skal være tilgjengelig"
+
+#: src/z3c/form/zcml.py:71
+msgid "The field for which the template should be available"
+msgstr "Feltet som malen skal være tilgjengelig"
+
+#: src/z3c/form/zcml.py:77
+msgid "The widget for which the template should be available"
+msgstr "Enheten som malen skal være tilgjengelig"
+
+#: src/z3c/form/zcml.py:82
+msgid "Content Type"
+msgstr "Content Type"
+
+#: src/z3c/form/zcml.py:83
+msgid "The content type identifies the type of data."
+msgstr "Innholdet type identifiserer hvilken type data."
+
+#: src/z3c/form/zcml.py:89
+msgid "Schema"
+msgstr "Skjema"
+
+#: src/z3c/form/zcml.py:90
+msgid "The schema of the field for which the template should be available"
+msgstr "Skjemaet i feltet som malen skal være tilgjengelig"
+

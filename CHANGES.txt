@@ -5,7 +5,9 @@ CHANGES
 2.4.2 (unreleased)
 ------------------
 
-- Added norwegian translation, thanks to Helge Tesdal and Martijn Pieters.
+- Added Norwegian translation, thanks to Helge Tesdal and Martijn Pieters.
+
+- Updated German translation.
 
 
 2.4.1 (2010-07-18)

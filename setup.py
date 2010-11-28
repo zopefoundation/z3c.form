@@ -45,7 +45,6 @@ chapters = '\n'.join(
                  )])
 
 
-
 setup(
     name='z3c.form',
     version='2.4.2dev',

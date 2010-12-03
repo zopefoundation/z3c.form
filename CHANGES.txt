@@ -5,6 +5,9 @@ CHANGES
 2.4.2 (unreleased)
 ------------------
 
+- Add English translation (generated from translation template using
+  msgen z3c.form.pot > en/LC_MESSAGES/z3c.form.po).
+
 - Added Norwegian translation, thanks to Helge Tesdal and Martijn Pieters.
 
 - Updated German translation.

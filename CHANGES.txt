@@ -5,6 +5,12 @@ CHANGES
 2.4.2 (unreleased)
 ------------------
 
+- Security issue, removed IBrowserRequest from IFormLayer. This prevents to
+  mixin IBrowserRequest into non IBrowserRequest e.g. IJSONRPCRequest.
+  This should be compatible since a browser request using z3c.form already
+  provides IBrowserRequest and the IFormLayer is only a marker interface used
+  as skin layer.
+
 - Add English translation (generated from translation template using
   msgen z3c.form.pot > en/LC_MESSAGES/z3c.form.po).
 

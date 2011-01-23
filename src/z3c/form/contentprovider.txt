@@ -65,11 +65,15 @@ The usual request instance::
 
   >>> request = TestRequest()
 
-We want to insert a content provider inbetween fields. 
+We want to insert a content provider in between fields. 
 We define a test content provider that renders extra help text::
 
-  >>> from zope.contentprovider.provider import ContentProviderBase
-  >>> class ExtendedHelp(ContentProviderBase):
+  >>> from zope.publisher.browser import BrowserView
+  >>> from zope.contentprovider.interfaces import IContentProvider
+  >>> class ExtendedHelp(BrowserView):
+  ...   def __init__(self, context, request, view):
+  ...       super(ExtendedHelp, self).__init__(context, request)
+  ...       self.__parent__ = view
   ...
   ...   def update(self):
   ...       self.person = self.context.id

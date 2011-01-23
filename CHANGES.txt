@@ -2,8 +2,12 @@
 CHANGES
 =======
 
-2.4.2 (unreleased)
+2.4.2 (2011-01-22)
 ------------------
+
+- Adjust test for the contentprovider feature to not depend on the
+  ContentProviderBase class that was introduced in zope.contentprovider 3.5.0.
+  This restores compatibility with Zope 2.10.
 
 - Security issue, removed IBrowserRequest from IFormLayer. This prevents to
   mixin IBrowserRequest into non IBrowserRequest e.g. IJSONRPCRequest.

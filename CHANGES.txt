@@ -5,6 +5,7 @@ CHANGES
 2.4.3 (unreleased)
 ------------------
 
+- Added base of Czech translation.
 
 2.4.2 (2011-01-22)
 ------------------

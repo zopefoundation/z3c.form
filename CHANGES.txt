@@ -7,6 +7,8 @@ CHANGES
 
 - Added base of Czech translation.
 
+- Added Portuguese Brazilian translation.
+
 2.4.2 (2011-01-22)
 ------------------
 

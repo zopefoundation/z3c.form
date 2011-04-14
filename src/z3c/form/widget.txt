@@ -519,10 +519,10 @@ items. The ``widget`` module provides a basic widget implementation to support
 this use case.
 
 The `MultiWidget` allows to store none, one or more values for a sequence
-field.  Don't get cinfused by the term sequence. Ther sequence used in
+field.  Don't get confused by the term sequence. The sequence used in
 `SequenceWidget` means that the widget can choose from a sequence of values
-which is a really a collection. The `MultiWidget` can collect values for build
-and store a sequence of values like used in `ITuple` or `IList` field.
+which is really a collection. The `MultiWidget` can collect values to build
+and store a sequence of values like those used in `ITuple` or `IList` field.
 
   >>> request = TestRequest()
   >>> multiWidget = widget.MultiWidget(request)

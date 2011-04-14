@@ -588,8 +588,8 @@ displaying the values, they can be used as they are:
   >>> multiWidget.value
   [u'42', u'43']
 
-Each widget normaly gets first processed by it's update method call after
-intialization. This update call forces to call extract, which first will get
+Each widget normally gets first processed by it's update method call after
+initialization. This update call forces to call extract, which first will get
 the right amount of (sub) widgets by the given counter value. Based on that
 counter value the right amount of widgets will get created. Each widget will
 return it's own value and this collected values get returned by the extract
@@ -598,9 +598,9 @@ as multi widget value argument. If extract doesn't return a value the multi
 widget update method will use it's default value. If we store a given value
 from the extract as multi widget value, this will force to setup the multi
 widget widgets based on the given values and apply the right value for them.
-After that the mutli widget is ready for rendering. The good thing about that
+After that the multi widget is ready for rendering. The good thing about that
 pattern is that it is possible to set a value before or after the update method
-is called. At any time if we change the mutli widget value the (sub) widgets
+is called. At any time if we change the multi widget value the (sub) widgets
 get updated within the new relevant value.
 
   >>> multiRequest = TestRequest(form={'multi.name.count':'2',
@@ -689,7 +689,7 @@ Switch the multiWidget mode:
 
   >>> multiWidget.mode = interfaces.DISPLAY_MODE
 
-Yes, all subwigets switch mode:
+Yes, all subwidgets switch mode:
 
   >>> [w.mode for w in multiWidget.widgets]
   ['display', 'display', 'display', 'display', 'display', 'display']

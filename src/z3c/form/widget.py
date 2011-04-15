@@ -248,6 +248,7 @@ class MultiWidget(Widget):
 
     widgets = None
     _value = None
+    _widgets_updated = False
 
     _mode = FieldProperty(interfaces.IWidget['mode'])
 
@@ -344,6 +345,11 @@ class MultiWidget(Widget):
         """Setup internal widgets based on the value_type for each value item.
         """
         oldLen = len(self.widgets)
+        # Ensure at least min_length widgets are shown
+        if (zope.schema.interfaces.IMinMaxLen.providedBy(self.field) and
+            self.mode == interfaces.INPUT_MODE and self.allowAdding and
+            oldLen < self.field.min_length):
+            oldLen = self.field.min_length
         self.widgets = []
         idx = 0
         if self.value:
@@ -359,6 +365,7 @@ class MultiWidget(Widget):
                 widget = self.getWidget(idx)
                 self.widgets.append(widget)
                 idx += 1
+        self._widgets_updated = True
 
     def updateAllowAddRemove(self):
         """Update the allowAdding/allowRemoving attributes
@@ -382,6 +389,13 @@ class MultiWidget(Widget):
             # ensure that we apply our new values to the widgets
             self.updateWidgets()
         return property(get, set)
+
+    def update(self):
+        """See z3c.form.interfaces.IWidget."""
+        # Ensure that updateWidgets is called.
+        super(MultiWidget, self).update()
+        if not self._widgets_updated:
+            self.updateWidgets()
 
     def extract(self, default=interfaces.NO_VALUE):
         # This method is responsible to get the widgets value based on the

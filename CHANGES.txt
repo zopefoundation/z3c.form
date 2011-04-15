@@ -5,6 +5,9 @@ CHANGES
 2.4.3 (unreleased)
 ------------------
 
+- Ensure at least min_length widgets are rendered for a MultiWidget in input
+  mode.
+
 - Added base of Czech translation.
 
 - Added Portuguese Brazilian translation.

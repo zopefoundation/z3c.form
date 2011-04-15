@@ -642,6 +642,12 @@ a widget for it.
   >>> request = TestRequest()
   >>> multiWidget = widget.FieldWidget(multiField, widget.MultiWidget(request))
 
+Lets ensure that the minimum number of widgets are created.
+
+  >>> multiWidget.update()
+  >>> len(multiWidget.widgets)
+  2
+
 Now, let's check if the function will do the right thing depending on
 the value:
 

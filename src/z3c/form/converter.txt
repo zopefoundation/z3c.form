@@ -196,8 +196,10 @@ Again, you can format and parse values:
   >>> floatdc.toWidgetValue(10239.43)
   u'10,239.43'
 
-  >>> floatdc.toFieldValue(u'7.43')
-  7.4299999999999997
+  >>> floatdc.toFieldValue(u'7.43') == 7.43
+  True
+  >>> type(floatdc.toFieldValue(u'7.43'))
+  <type 'float'>
   >>> floatdc.toFieldValue(u'10,239.43')
   10239.43
 

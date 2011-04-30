@@ -5,6 +5,9 @@ CHANGES
 2.4.3 (unreleased)
 ------------------
 
+- Fixed test failure due to change in floating point representation in Python
+  2.7.
+
 - Ensure at least min_length widgets are rendered for a MultiWidget in input
   mode.
 

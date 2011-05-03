@@ -549,11 +549,13 @@ If we provide no request we will get no value:
   >>> multiWidget.extract()
   <NO_VALUE>
 
-If we provide an empty counter we will get no value:
+If we provide an empty counter we will get an empty list.
+This is accordance with Widget.extract(), where a missing request value
+is <NO_VALUE> and an empty ('') request value is ''.
 
   >>> multiWidget.request = TestRequest(form={'multi.name.count':'0'})
   >>> multiWidget.extract()
-  <NO_VALUE>
+  []
 
 If we provide real values within the request, we will get it back:
 
@@ -571,8 +573,8 @@ Our widget update process will validate this bad value later:
   >>> multiWidget.extract()
   [u'bad']
 
-Storing a widget value forces to update the (sub) widgets. this forces also to
-validate the (sub) widget values. For showing this we nee dot register a
+Storing a widget value forces to update the (sub) widgets. This forces also to
+validate the (sub) widget values. To show this we need to register a
 validator:
 
   >>> from z3c.form.validator import SimpleFieldValidator

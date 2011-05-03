@@ -5,6 +5,11 @@ CHANGES
 2.4.3 (unreleased)
 ------------------
 
+- Clarify MultiWidget.extract(), when there are zero items,
+  this is now [] instead of <NO_VALUE>
+
+- Some typos fixed
+
 - Fixed test failure due to change in floating point representation in Python
   2.7.
 

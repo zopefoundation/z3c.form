@@ -270,7 +270,7 @@ class MultiWidget(Widget):
 
     @apply
     def mode():
-        """This invokes updateWidgets on any value change e.g. update/extract."""
+        """This sets the subwidgets modes."""
         def get(self):
             return self._mode
         def set(self, mode):
@@ -415,9 +415,6 @@ class MultiWidget(Widget):
         for idx in range(counter):
             widget = self.getWidget(idx)
             append(widget.value)
-        if len(values) == 0:
-            # no multi value found
-            return interfaces.NO_VALUE
         return values
 
 

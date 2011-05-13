@@ -28,6 +28,7 @@ class TextLinesWidget(textarea.TextAreaWidget):
     zope.interface.implementsOnly(interfaces.ITextLinesWidget)
 
 
+@zope.interface.implementer(interfaces.IFieldWidget)
 def TextLinesFieldWidget(field, request):
     """IFieldWidget factory for TextLinesWidget."""
     return widget.FieldWidget(field, TextLinesWidget(request))

@@ -5,6 +5,8 @@ CHANGES
 2.4.3 (unreleased)
 ------------------
 
+- Declare TextLinesFieldWidget as an IFieldWidget implementer.
+
 - Clarify MultiWidget.extract(), when there are zero items,
   this is now [] instead of <NO_VALUE>
 

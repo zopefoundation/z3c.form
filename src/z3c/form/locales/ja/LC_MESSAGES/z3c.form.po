@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Sun Aug 15 14:53:46 2010\n"
-"PO-Revision-Date: 2011-05-16 12:28+0900\n"
+"PO-Revision-Date: 2011-05-21 00:31+0900\n"
 "Last-Translator: Takeshi Yamamoto <tyam@mac.com>\n"
 "Language-Team: Zope 3 Developers <zope-dev@zope.org>\n"
 "MIME-Version: 1.0\n"
@@ -458,7 +458,7 @@ msgstr "フォームにおいて定義されたアクションのリスト"
 
 #: src/z3c/form/interfaces.py:811
 msgid "Refresh actions"
-msgstr "り"
+msgstr "リフレッシュアクション"
 
 #: src/z3c/form/interfaces.py:812
 msgid "A flag, when set, causes form actions to be updated again after their execution."
@@ -554,11 +554,11 @@ msgstr "サーバが安全に取り扱えるコンテンツタイプのリスト
 
 #: src/z3c/form/term.py:152
 msgid "yes"
-msgstr "yes"
+msgstr "Yes"
 
 #: src/z3c/form/term.py:153
 msgid "no"
-msgstr "no"
+msgstr "No"
 
 #: src/z3c/form/util.py:125
 msgid "Missing filename extension."

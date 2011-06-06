@@ -88,7 +88,6 @@ setup(
             # zope.app.container pulls in zope.container, if newer version
             'zope.app.container',
             'zope.app.pagetemplate',
-            'zope.app.security',
             'zope.app.testing',
             'zope.testing',
             ],

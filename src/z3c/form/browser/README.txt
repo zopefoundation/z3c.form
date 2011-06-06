@@ -16,15 +16,12 @@ configuration.
   >>> from zope.configuration import xmlconfig
   >>> import zope.component
   >>> import zope.app.component
-  >>> import zope.app.security
   >>> import zope.i18n
   >>> import z3c.form
   >>> xmlconfig.XMLConfig('meta.zcml', zope.component)()
   >>> xmlconfig.XMLConfig('meta.zcml', zope.app.component)()
-  >>> xmlconfig.XMLConfig('meta.zcml', zope.app.security)()
   >>> xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
   >>> xmlconfig.XMLConfig('meta.zcml', z3c.form)()
-  >>> xmlconfig.XMLConfig('configure.zcml', zope.app.security)()
   >>> xmlconfig.XMLConfig('configure.zcml', z3c.form)()
 
 This utility is setup by hand, since its ZCML loads to many unwanted files:

@@ -60,3 +60,7 @@ class TestApplyChangesDictDatamanager(unittest.TestCase):
         changes = z3c.form.form.applyChanges(form, content, data)
         self.assertEqual({TestInterface: ['text']}, changes)
         self.assertEqual({'text': 'a'}, content)
+
+
+def test_suite():
+    return unittest.makeSuite(TestApplyChangesDictDatamanager)

@@ -259,6 +259,10 @@ class ButtonActions(action.Actions):
             # Step 1: Only create an action for the button, if the condition is
             #         fulfilled.
             if button.condition is not None and not button.condition(self.form):
+                # Step 1.1: If the action already existed, but now the
+                #           condition became false, remove the old action.
+                if name in self._data:
+                    del self._data[name]
                 continue
             # Step 2: Get the action for the given button.
             newButton = True
@@ -288,12 +292,12 @@ class ButtonActions(action.Actions):
             # Step 7: Add the widget to the manager
             uniqueOrderedKeys.append(name)
             if newButton:
-                self._data_values.append(buttonAction)
                 self._data[name] = buttonAction
                 zope.location.locate(buttonAction, self, name)
-            # allways ensure that we add all keys and keep the order given from
-            # button items
-            self._data_keys = uniqueOrderedKeys
+        # always ensure that we add all keys and keep the order given from
+        # button items
+        self._data_keys = uniqueOrderedKeys
+        self._data_values = [self._data[name] for name in uniqueOrderedKeys]
 
 
 class ButtonActionHandler(action.ActionHandlerBase):

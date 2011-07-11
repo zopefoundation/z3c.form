@@ -375,7 +375,7 @@ returning a truth-value. If the condition is not fulfilled, the button will not
 be converted to an action:
 
   >>> class Form(object):
-  ...     prefix='form'
+  ...     prefix = 'form'
   ...     showApply = True
   ...
   ...     @button.buttonAndHandler(
@@ -395,9 +395,10 @@ is available as action:
 If we set the show-apply attribute to false, the action will not be available.
 
   >>> myform.showApply = False
-  >>> actions = button.ButtonActions(myform, TestRequest(), None)
   >>> actions.update()
   >>> actions.keys()
+  []
+  >>> actions.values()
   []
 
 This feature is very helpful in multi-forms and wizards.

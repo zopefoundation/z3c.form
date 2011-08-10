@@ -46,7 +46,10 @@ class BaseDataConverter(object):
         """See interfaces.IDataConverter"""
         if value == u'':
             return self.field.missing_value
-        return self.field.fromUnicode(value)
+        if type(value) is unicode:
+            return self.field.fromUnicode(value)
+        else:
+            return self.field.fromUnicode(unicode(value))
 
     def __repr__(self):
         return '<%s converts from %s to %s>' %(

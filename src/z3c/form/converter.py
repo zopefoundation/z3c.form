@@ -113,7 +113,10 @@ class NumberDataConverter(BaseDataConverter):
         if value == u'':
             return self.field.missing_value
         try:
-            return self.formatter.parse(value)
+            if type(value) is unicode:
+                return self.formatter.parse(value)
+            else:
+                return self.formatter.parse(unicode(value))
         except zope.i18n.format.NumberParseError:
             raise FormatterValidationError(self.errorMessage, value)
 

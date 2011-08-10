@@ -5,7 +5,7 @@ CHANGES
 2.4.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Avoid fail when converting integer with spaces if value is not send in unicode.
 
 
 2.4.4 (2011-07-11)

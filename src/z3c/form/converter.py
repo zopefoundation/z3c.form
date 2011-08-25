@@ -46,10 +46,7 @@ class BaseDataConverter(object):
         """See interfaces.IDataConverter"""
         if value == u'':
             return self.field.missing_value
-        if type(value) is unicode:
-            return self.field.fromUnicode(value)
-        else:
-            return self.field.fromUnicode(unicode(value))
+        return self.field.fromUnicode(value)
 
     def __repr__(self):
         return '<%s converts from %s to %s>' %(
@@ -116,10 +113,7 @@ class NumberDataConverter(BaseDataConverter):
         if value == u'':
             return self.field.missing_value
         try:
-            if type(value) is unicode:
-                return self.formatter.parse(value)
-            else:
-                return self.formatter.parse(unicode(value))
+            return self.formatter.parse(value)
         except zope.i18n.format.NumberParseError:
             raise FormatterValidationError(self.errorMessage, value)
 

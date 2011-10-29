@@ -126,7 +126,7 @@ We need a custom widget template
   ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
   ...       tal:omit-tag="">
   ...    <div class="object-widget" tal:attributes="class view/klass">
-  ...    yeah, this can get comlex
+  ...    yeah, this can get complex
   ...    </div>
   ... </html>
   ... ''')
@@ -184,12 +184,12 @@ and check it:
 Let's use the template within the widget.
 
   >>> print template(myObjectWidget)
-  <div class="object-widget">yeah, this can get comlex</div>
+  <div class="object-widget">yeah, this can get complex</div>
 
 We normally render the widget which returns the registered template.
 
   >>> print myObjectWidget.render()
-  <div class="object-widget">yeah, this can get comlex</div>
+  <div class="object-widget">yeah, this can get complex</div>
 
 If the template does not exist, then the widget directive should fail
 immediately:

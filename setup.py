@@ -47,7 +47,7 @@ chapters = '\n'.join(
 
 setup(
     name='z3c.form',
-    version = '2.4.5dev',
+    version = '2.5.0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="An advanced form and widget framework for Zope 3",
@@ -76,8 +76,9 @@ setup(
     namespace_packages=['z3c'],
     extras_require=dict(
         extra=[
-            'z3c.pt >= 1.0b4',
-            'z3c.ptcompat',
+            'z3c.pt >= 2.1',
+            'z3c.ptcompat>=1.0',
+            'zope.pagetemplate >= 3.6.2',
         ],
         test=[
             'lxml >= 2.1.1',
@@ -112,7 +113,7 @@ setup(
         'zope.interface',
         'zope.lifecycleevent',
         'zope.location',
-        'zope.pagetemplate',
+        'zope.pagetemplate', # >= 3.6.2 if z3c.pt is used
         'zope.publisher',
         'zope.schema >= 3.6.0',
         'zope.security',

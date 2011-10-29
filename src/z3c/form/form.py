@@ -21,13 +21,13 @@ import zope.interface
 import zope.component
 import zope.event
 import zope.lifecycleevent
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.publisher import browser
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
 
 from z3c.form import button, field, interfaces, util
 from z3c.form.i18n import MessageFactory as _
-from z3c.form import ptcompat
 
 
 def applyChanges(form, content, data):
@@ -303,8 +303,7 @@ class FormTemplateFactory(object):
 
     def __init__(self, filename, contentType='text/html', form=None,
         request=None):
-        self.template = ptcompat.ViewPageTemplateFile(
-            filename, content_type=contentType)
+        self.template = ViewPageTemplateFile(filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(form),
             util.getSpecification(request))(self)

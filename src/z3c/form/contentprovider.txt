@@ -266,11 +266,12 @@ Since we have not assigned a template yet, we have to do it now.
 We have a small template as part of this example::
   
   >>> import os
-  >>> from z3c.form import ptcompat as viewpagetemplatefile
+  >>> from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
+  >>> from zope.browserpage.viewpagetemplatefile import BoundPageTemplate
   >>> from z3c.form import tests
   >>> def personTemplate(form):
-  ...     form.template = viewpagetemplatefile.bind_template(
-  ...         viewpagetemplatefile.ViewPageTemplateFile(
+  ...     form.template = BoundPageTemplate(
+  ...         ViewPageTemplateFile(
   ...             'simple_edit_with_providers.pt', 
   ...             os.path.dirname(tests.__file__)), form)
   >>> personTemplate(personForm)

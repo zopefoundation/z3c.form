@@ -74,7 +74,7 @@ Let's get the template
 
 and check it:
 
-  >>> from z3c.form.ptcompat import ViewPageTemplateFile
+  >>> from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
   >>> isinstance(template, ViewPageTemplateFile)
   True
 

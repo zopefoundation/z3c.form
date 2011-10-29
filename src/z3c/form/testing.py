@@ -33,8 +33,6 @@ from z3c.form import form, interfaces, term, validator, widget
 from z3c.form import contentprovider
 from z3c.form.browser import radio, select, text, textarea
 
-from z3c.form.ptcompat import AVAILABLE
-
 import lxml.html
 import lxml.doctestcompare
 
@@ -182,16 +180,14 @@ def setUp(test):
     test.globs = {'root': setup.placefulSetUp(True)}
 
 def setUpZPT(suite):
-    if AVAILABLE:
-        import z3c.ptcompat
-        z3c.ptcompat.config.disable()
     setUp(suite)
 
 def setUpZ3CPT(suite):
+    import z3c.pt
     import z3c.ptcompat
-    z3c.ptcompat.config.enable()
     setUp(suite)
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.pt)()
+    zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.ptcompat)()
 
 def setupFormDefaults():
     # Validator adapters

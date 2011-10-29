@@ -8,16 +8,16 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 import zope.configuration.xmlconfig
+import zope.interface
+import zope.component
+import zope.component.globalregistry
+import zope.schema
+from zope.pagetemplate.interfaces import IPageTemplateEngine
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
+
 import z3c.pt
-
-from zope import interface
-from zope import component
-from zope import schema
-
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
-
+import z3c.ptcompat.engine
 from z3c.pt.pagetemplate import ViewPageTemplateFile as z3cViewPageTemplateFile
-import z3c.ptcompat as compat
 
 from z3c.form import form
 from z3c.form import term
@@ -44,32 +44,32 @@ def timing(func, *args, **kwargs):
         t2 = time.time()
     return 100*(t2-t1)/i
 
-class ISmallForm(interface.Interface):
-    name = schema.TextLine(
+class ISmallForm(zope.interface.Interface):
+    name = zope.schema.TextLine(
         title=u"Name",
         description=u"Please enter your first and last name.")
 
-    address = schema.TextLine(
+    address = zope.schema.TextLine(
         title=u"Address",
         description=u"Please enter a valid address.")
 
-class ILargeDataSetsForm(interface.Interface):
-    lucky_numer = schema.Choice(
+class ILargeDataSetsForm(zope.interface.Interface):
+    lucky_numer = zope.schema.Choice(
         range(500),
         title=u"Lucky number",
         description=u"Choose your lucky number.")
 
-    favorite_letters = schema.Set(
+    favorite_letters = zope.schema.Set(
         title=u"Favorite letter",
         description=u"Choose your favorite letter.",
-        value_type=schema.Choice(
+        value_type=zope.schema.Choice(
            ["".join(chr(random.randint(65, 90)) for i in range(10))]
         ))
 
 def build_many_fields(size):
     for i in range(size):
         name = "".join(chr(random.randint(65, 90)) for i in range(10))
-        yield schema.TextLine(
+        yield zope.schema.TextLine(
             __name__=name,
             description=u"This field renders %s" % name,
             title=u"Title of %s" % name.capitalize())
@@ -81,10 +81,24 @@ class BaseTestCase(unittest.TestCase):
         testing.setUp(suite)
         testing.setupFormDefaults()
         zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.pt)()
-        component.provideAdapter(term.CollectionTerms)
+        zope.component.provideAdapter(term.CollectionTerms)
 
     def _tearDown(suite):
         testing.tearDown(suite)
+
+
+def enableZ3CPT():
+    """Enable z3c.pt engine"""
+    base = zope.component.globalregistry.base
+    base.registerUtility(z3c.ptcompat.engine.Program, IPageTemplateEngine,
+        name=u'', event=False)
+    
+def disableZ3CPT():
+    """Disable z3c.pt engine"""
+    base = zope.component.globalregistry.base
+    base.unregisterUtility(z3c.ptcompat.engine.Program, IPageTemplateEngine,
+        name=u'')
+
 
 class BenchmarkTestCase(BaseTestCase):
     def simple_form(self, cls, iface):
@@ -105,8 +119,8 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, ISmallForm)(context, request)
 
-        t_z3c = self.benchmark(compat.config.enable, f_z3c)
-        t_zope = self.benchmark(compat.config.disable, f_zope)
+        t_z3c = self.benchmark(enableZ3CPT, f_z3c)
+        t_zope = self.benchmark(disableZ3CPT, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
         print "zope.pagetemplate: %.3f" % t_zope
@@ -122,8 +136,8 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, ILargeDataSetsForm)(context, request)
 
-        t_z3c = self.benchmark(compat.config.enable, f_z3c)
-        t_zope = self.benchmark(compat.config.disable, f_zope)
+        t_z3c = self.benchmark(enableZ3CPT, f_z3c)
+        t_zope = self.benchmark(disableZ3CPT, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
         print "zope.pagetemplate: %.3f" % t_zope
@@ -139,8 +153,8 @@ class BenchmarkTestCase(BaseTestCase):
         f_zope = self.simple_form(
             ViewPageTemplateFile, IManyFields)(context, request)
 
-        t_z3c = self.benchmark(compat.config.enable, f_z3c)
-        t_zope = self.benchmark(compat.config.disable, f_zope)
+        t_z3c = self.benchmark(enableZ3CPT, f_z3c)
+        t_zope = self.benchmark(disableZ3CPT, f_zope)
 
         print "z3c.pt:            %.3f" % t_z3c
         print "zope.pagetemplate: %.3f" % t_zope
@@ -162,4 +176,3 @@ def test_suite():
 
 if __name__ == "__main__":
     unittest.main(defaultTest="test_suite")
-

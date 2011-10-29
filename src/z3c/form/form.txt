@@ -298,11 +298,12 @@ specified a template yet, we have to do this now. We have prepared a small and
 very simple template as part of this example:
 
   >>> import os
-  >>> from z3c.form import ptcompat as viewpagetemplatefile
+  >>> from zope.browserpage.viewpagetemplatefile import BoundPageTemplate
+  >>> from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
   >>> from z3c.form import tests
   >>> def addTemplate(form):
-  ...     form.template = viewpagetemplatefile.bind_template(
-  ...         viewpagetemplatefile.ViewPageTemplateFile(
+  ...     form.template = BoundPageTemplate(
+  ...         ViewPageTemplateFile(
   ...             'simple_edit.pt', os.path.dirname(tests.__file__)), form)
   >>> addTemplate(addForm)
 
@@ -1147,7 +1148,7 @@ Creating a display form is simple; just instantiate, update and render it:
 
   >>> class PersonDisplayForm(form.DisplayForm):
   ...     fields = field.Fields(IPerson)
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_display.pt', os.path.dirname(tests.__file__))
 
   >>> display = PersonDisplayForm(stephan, TestRequest())

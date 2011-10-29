@@ -23,13 +23,22 @@ import unittest
 
 from z3c.form import testing
 from z3c.form import outputchecker
-from z3c.form.ptcompat import AVAILABLE, Z3CPT_AVAILABLE
 
+Z3CPT_AVAILABLE = False
+try:
+    import z3c.pt
+    import z3c.ptcompat
+except ImportError:
+    Z3CPT_AVAILABLE = False
 
 def test_suite():
     checker = outputchecker.OutputChecker(doctest)
 
-    if AVAILABLE and Z3CPT_AVAILABLE:
+    # This package will setup z3c.pt support for testing by default.
+    # The Z3CPT_AVAILABLE option allows to run z3c.form test from a 
+    # custom setup which doesn't use z3c.pt. But do we really need this?
+    # I guess not or is there a reason to support this?
+    if Z3CPT_AVAILABLE:
         setups = (testing.setUpZPT, testing.setUpZ3CPT)
     else:
         setups = (testing.setUpZPT, )

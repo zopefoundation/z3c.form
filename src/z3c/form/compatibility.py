@@ -16,11 +16,9 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import datetime
-import decimal
+
 import sys
 import types
-import zope.interface
 
 def addHooks():
     try:

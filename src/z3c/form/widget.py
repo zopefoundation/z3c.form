@@ -21,12 +21,12 @@ import zope.interface
 import zope.component
 import zope.location
 import zope.schema.interfaces
-from zope.pagetemplate.interfaces import IPageTemplate
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.i18n import translate
+from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
 
 from z3c.form import interfaces, util, value
-from z3c.form import ptcompat as viewpagetemplatefile
 
 PLACEHOLDER = object()
 
@@ -438,8 +438,7 @@ class WidgetTemplateFactory(object):
     def __init__(self, filename, contentType='text/html',
                  context=None, request=None, view=None,
                  field=None, widget=None):
-        self.template = viewpagetemplatefile.ViewPageTemplateFile(
-            filename, content_type=contentType)
+        self.template = ViewPageTemplateFile(filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(context),
             util.getSpecification(request),

@@ -20,11 +20,11 @@ import os
 import zope.component
 import zope.interface
 import zope.schema
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.pagetemplate.interfaces import IPageTemplate
 
 import z3c.form
 from z3c.form import interfaces, util, value
-from z3c.form import ptcompat
 from z3c.form.i18n import MessageFactory as _
 
 ErrorViewMessage = value.StaticValueCreator(
@@ -131,8 +131,7 @@ class ErrorViewTemplateFactory(object):
     template = None
 
     def __init__(self, filename, contentType='text/html'):
-        self.template = ptcompat.ViewPageTemplateFile(
-            filename, content_type=contentType)
+        self.template = ViewPageTemplateFile(filename, content_type=contentType)
 
     def __call__(self, errorView, request):
         return self.template

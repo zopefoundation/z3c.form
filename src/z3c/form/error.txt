@@ -129,11 +129,11 @@ Even though message attribute values will solve most of our customization
 needs, sometimes one wishes to register a custom view to have more complex
 views. In this example we wish to register a custom error message:
 
-  >>> from z3c.form import ptcompat as viewpagetemplatefile
+  >>> from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
   >>> from z3c.form import tests
 
   >>> class NegativeAgeView(error.ErrorViewSnippet):
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'custom_error.pt', os.path.dirname(tests.__file__))
 
 We now need to assert the special discriminators specific to this view:

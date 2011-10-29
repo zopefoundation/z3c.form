@@ -1,7 +1,6 @@
 import zope.component
 import zope.interface
 import zope.location
-import zope.schema.interfaces
 from z3c.form.error import MultipleErrors
 from zope.contentprovider.interfaces import IContentProvider
 

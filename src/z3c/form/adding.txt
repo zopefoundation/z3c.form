@@ -52,12 +52,12 @@ To be able to create a person using ``IAdding``, we need to create an add form
 for it now:
 
   >>> import os
-  >>> from z3c.form import ptcompat as viewpagetemplatefile
+  >>> from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
   >>> from z3c.form import tests, field
   >>> from z3c.form.adding import AddForm
 
   >>> class AddPersonForm(AddForm):
-  ...     template = viewpagetemplatefile.ViewPageTemplateFile(
+  ...     template = ViewPageTemplateFile(
   ...         'simple_edit.pt', os.path.dirname(tests.__file__))
   ...
   ...     fields = field.Fields(IPerson)

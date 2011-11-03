@@ -17,7 +17,7 @@ examples:
   >>> from z3c.form import testing
   >>> testing.setupFormDefaults()
 
-Note, since version 2.4.2 the IFomrLayer doesn't provide IBrowserRequest
+Note, since version 2.4.2 the IFormLayer doesn't provide IBrowserRequest
 anymore. This is usefull if you like to use z3c.form components for other
 requets then the IBrowserRequest.
 
@@ -394,7 +394,7 @@ when it is published:
         </div>
       </form>
     </body>
-  </html>  
+  </html>
 
 Note that we don't actually call render if the response has been set to a 3xx
 type status code (e.g. a redirect or not modified response), since the browser
@@ -402,7 +402,7 @@ would not render it anyway:
 
   >>> request.response.setStatus(304)
   >>> print addForm()
-  
+
 Let's go back to a normal status to continue the test.
 
   >>> request.response.setStatus(200)

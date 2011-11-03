@@ -5,8 +5,7 @@ CHANGES
 2.5.1 (unreleased)
 ------------------
 
-...
-
+- Pinned minimum version of test dependency `z3c.template`.
 
 2.5.0 (2011-10-29)
 ------------------
@@ -17,13 +16,13 @@ CHANGES
   Traversing the repeat wwrapper is not done the same way. ZPT uses the
   following pattern:
   <tal:block condition="not:repeat/value/end">, </tal:block>
- 
+
   Chameleon only supports python style traversing:
   <tal:block condition="not:python:repeat['value'].end">, </tal:block>
 
 - Upgrade to chameleon 2.0 template engine and use the newest z3c.pt and
   z3c.ptcompat packages adjusted to work with chameleon 2.0.
-  
+
   See the notes from the z3c.ptcompat package:
 
   Update z3c.ptcompat implementation to use component-based template engine
@@ -35,12 +34,12 @@ CHANGES
   Also, note that the ``PREFER_Z3C_PT`` environment option has been
   rendered obsolete; instead, this is now managed via component
   configuration.
-  
+
   Attention: You need to include the configure.zcml file from z3c.ptcompat
-  for enable the z3c.pt template engine. The configure.zcml will plugin the 
+  for enable the z3c.pt template engine. The configure.zcml will plugin the
   template engine. Also remove any custom built hooks which will import
   z3c.ptcompat in your tests or other places.
-  
+
   You can directly use the BoundPageTemplate and ViewPageTempalteFile from
   zope.browserpage.viewpagetemplatefile if needed. This templates will implicit
   use the z3c.pt template engine if the z3c.ptcompat configure.zcml is

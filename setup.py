@@ -83,7 +83,7 @@ setup(
         test=[
             'lxml >= 2.1.1',
             'z3c.coverage',
-            'z3c.template',
+            'z3c.template >= 1.3',
             'zc.sourcefactory',
             'zope.app.component',
             # zope.app.container pulls in zope.container, if newer version

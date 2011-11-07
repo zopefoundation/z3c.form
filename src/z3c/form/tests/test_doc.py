@@ -45,6 +45,12 @@ def test_suite():
 
     tests = ((
         doctest.DocFileSuite(
+            '../form.txt',
+            setUp=setUp, tearDown=testing.tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
+            ),
+        doctest.DocFileSuite(
             '../action.txt',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
@@ -160,43 +166,5 @@ def test_suite():
             checker=checker,
             ))
         for setUp in setups)
-
-    tests = tuple(tests) + ((
-
-        # the form.txt test will include the select_display widget which uses
-        # another pattern for iterate the repeat dict.
-        
-        # z3c.pt and chameleon are not compatible right now. Traversing the
-        # repeat wwrapper is not done the same way. ZPT uses the following
-        # pattern
-        # <tal:block condition="not:repeat/value/end">, </tal:block>
-        #
-        # chameleon only supports python style traversin:
-        # <tal:block condition="not:python:repeat['value'].end">, </tal:block>
-        # 
-        # this is not a show stopper at all but I hope chameleon will support
-        # the path travers style for repeat in the future.
-        doctest.DocFileSuite(
-            '../form.txt',
-            setUp=testing.setUpZPT, tearDown=testing.tearDown,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-            checker=checker,
-            ),
-        
-        # see line: 1157 for the error
-        # run this test with setUp=testing.setUpZPT to see that this
-        # test is not failing with ZPT
-        # remove this test file and let the form.txt test run with both setup
-        # after fixing the chameleon issue
-        doctest.DocFileSuite(
-            '../form-chameleon-issue-repeat-addons.txt',
-            setUp=testing.setUpZ3CPT, tearDown=testing.tearDown,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-            checker=checker,
-            ),
-        ))
-
-
-
 
     return unittest.TestSuite(itertools.chain(*tests))

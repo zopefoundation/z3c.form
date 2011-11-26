@@ -2,15 +2,20 @@
 CHANGES
 =======
 
-2.5.1 (unreleased)
+2.5.1 (2011-11-26)
 ------------------
 
+- Better compatibility with Chameleon 2.x.
+
+- Added \*.mo files missing in version 2.5.0.
+
 - Pinned minimum version of test dependency `z3c.template`.
+
 
 2.5.0 (2011-10-29)
 ------------------
 
-- fix coverage report generator script buildout setup
+- Fixed coverage report generator script buildout setup.
 
 - Note: z3c.pt and chameleon are not fully compatible right now ith TAL.
   Traversing the repeat wwrapper is not done the same way. ZPT uses the

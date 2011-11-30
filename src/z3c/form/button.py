@@ -23,7 +23,7 @@ import zope.location
 import zope.schema
 import zope.traversing.api
 
-from zope.site import hooks
+from zope.component import hooks
 from zope.interface import adapter
 from zope.schema.fieldproperty import FieldProperty
 from z3c.form import action, interfaces, util, value

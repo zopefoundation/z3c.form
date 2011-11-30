@@ -21,8 +21,15 @@ import sys
 import types
 
 def addHooks():
+    import zope.component
+    try:
+        from zope.component import hooks
+        return # yay, we have modern software
+    except ImportError:
+        pass
     try:
         from zope.site import hooks
+        zope.component.hooks = hooks
         return
     except AttributeError:
         #this is a crappy situation
@@ -31,22 +38,23 @@ def addHooks():
         zope.location.interfaces.IRoot = zope.traversing.interfaces.IContainmentRoot
         import zope.site
         import zope.app.component.hooks
-        zope.site.hooks = zope.app.component.hooks
+        zope.component.hooks = zope.app.component.hooks
     except ImportError:
         import zope.app.component.hooks
-        site = types.ModuleType('site')
-        site.hooks = zope.app.component.hooks
-        sys.modules['zope.site'] = site
+        zope.component.hooks = zope.app.component.hooks
 
 def addBTree():
     try:
         import zope.container.btree
         return
     except ImportError:
-        import zope.app.container.btree
-        container = types.ModuleType('container')
-        container.btree = zope.app.container.btree
-        sys.modules['zope.container'] = container
+        try:
+            import zope.app.container.btree
+            container = types.ModuleType('container')
+            container.btree = zope.app.container.btree
+            sys.modules['zope.container'] = container
+        except ImportError:
+            pass # only for tests
 
 def apply():
     addHooks()

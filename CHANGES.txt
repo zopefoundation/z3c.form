@@ -5,8 +5,10 @@ CHANGES
 2.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove dependency on zope.site.hooks, which was moved to zope.component in
+  3.8.0 (present in ZTK 1.0 and above).
 
+- Make zope.container dependency more optional (it is only used in tests)
 
 2.5.1 (2011-11-26)
 ------------------
@@ -16,7 +18,6 @@ CHANGES
 - Added \*.mo files missing in version 2.5.0.
 
 - Pinned minimum version of test dependency `z3c.template`.
-
 
 2.5.0 (2011-10-29)
 ------------------

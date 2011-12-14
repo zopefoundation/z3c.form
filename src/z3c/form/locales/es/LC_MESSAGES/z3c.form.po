@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Sun Aug 15 14:53:46 2010\n"
-"PO-Revision-Date: 2011-12-14 12:57-0600\n"
+"PO-Revision-Date: 2011-12-14 13:09-0600\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Zope 3 Developers <zope-dev@zope.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Prefijo"
 
 #: src/z3c/form/interfaces.py:185
 msgid "The prefix of the field used to avoid name clashes."
-msgstr "El prefijo del campo utilizado para evitar colisión en el nombre."
+msgstr "El prefijo del campo utilizado para evitar conflictos en el nombre."
 
 #: src/z3c/form/interfaces.py:189
 #: src/z3c/form/interfaces.py:396

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Sun Aug 15 14:53:46 2010\n"
-"PO-Revision-Date: 2011-12-14 13:09-0600\n"
+"PO-Revision-Date: 2011-12-14 14:42-0600\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Zope 3 Developers <zope-dev@zope.org>\n"
 "MIME-Version: 1.0\n"
@@ -518,7 +518,7 @@ msgstr "Id"
 
 #: src/z3c/form/interfaces.py:948
 msgid "The id of the form used to identify it."
-msgstr "La id del formulario usado para identificarlo."
+msgstr "El id del formulario usado para identificarlo."
 
 #: src/z3c/form/interfaces.py:952
 msgid "Method"

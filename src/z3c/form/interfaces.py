@@ -47,10 +47,10 @@ class IFormLayer(zope.interface.Interface):
 
     It is intended that someone can just use this layer as a base layer when
     using this package.
-    
+
     Since version 2.4.2, this layer doesn't provide IBrowserRequst anymore.
     This makes it possible to use the IFormLayer within z3c.jsonrpc without
-    to apply the IBrowserRequest into the jsonrpc request. 
+    to apply the IBrowserRequest into the jsonrpc request.
     """
 
 

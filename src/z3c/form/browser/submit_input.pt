@@ -2,7 +2,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag="">
 <input id="" name="" class="" value=""
-       accesskey="" type="submit" 
+       accesskey="" type="submit"
        tal:attributes="id view/id;
                        name view/name;
                        class view/klass;

@@ -61,12 +61,12 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         selecteditems = []
         notselecteditems = []
         for selecteditem in self.selectedItems:
-            selecteditems.append(selecteditem['content']) 
+            selecteditems.append(selecteditem['content'])
         for item in self.items:
             if not item['content'] in selecteditems:
                 notselecteditems.append(item)
         return notselecteditems
-                
+
 
 @zope.component.adapter(zope.schema.interfaces.ISequence, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

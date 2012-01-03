@@ -186,7 +186,7 @@ function selectionError()
           >&larr;</button>
     </td>
     <td>
-      <select id="to" name="to" class="" multiple="" size="5" 
+      <select id="to" name="to" class="" multiple="" size="5"
           tal:attributes="id string:${view/id}-to;
                           name string:${view/name}.to;
                           class view/klass;

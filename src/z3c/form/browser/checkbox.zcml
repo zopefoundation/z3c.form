@@ -41,5 +41,5 @@
       layer="z3c.form.interfaces.IFormLayer"
       template="checkbox_hidden.pt"
       />
-      
+
 </configure>

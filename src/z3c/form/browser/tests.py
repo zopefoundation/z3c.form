@@ -35,7 +35,7 @@ def test_suite():
     checker = outputchecker.OutputChecker(doctest)
 
     # This package will setup z3c.pt support for testing by default.
-    # The Z3CPT_AVAILABLE option allows to run z3c.form test from a 
+    # The Z3CPT_AVAILABLE option allows to run z3c.form test from a
     # custom setup which doesn't use z3c.pt. But do we really need this?
     # I guess not or is there a reason to support this?
     if Z3CPT_AVAILABLE:

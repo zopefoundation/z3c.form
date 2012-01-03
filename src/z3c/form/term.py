@@ -101,7 +101,7 @@ def ChoiceTerms(context, request, form, field, widget):
 
 
 class ChoiceTermsVocabulary(Terms):
-    """ITerms adapter for zope.schema.IChoice based implementations using 
+    """ITerms adapter for zope.schema.IChoice based implementations using
     vocabulary."""
 
     zope.component.adapts(
@@ -177,7 +177,7 @@ def CollectionTerms(context, request, form, field, widget):
         interfaces.ITerms)
 
 class CollectionTermsVocabulary(Terms):
-    """ITerms adapter for zope.schema.ICollection based implementations using 
+    """ITerms adapter for zope.schema.ICollection based implementations using
     vocabulary."""
 
     zope.component.adapts(

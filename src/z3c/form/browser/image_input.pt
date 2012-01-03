@@ -2,7 +2,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag="">
 <input id="" name="" class="" src="" value=""
-       accesskey="" type="image" 
+       accesskey="" type="image"
        tal:attributes="id view/id;
                        name view/name;
                        class view/klass;

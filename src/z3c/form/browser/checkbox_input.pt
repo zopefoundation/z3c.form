@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
      xmlns:tal="http://xml.zope.org/namespaces/tal"
-     tal:omit-tag=""> 
+     tal:omit-tag="">
 <span class="option"
       tal:repeat="item view/items">
   <input type="checkbox" id="" name="" class="" alt="" title=""
@@ -35,7 +35,7 @@
                          onselect view/onselect"
   /><input id="" name="" class="" alt="" title="" tabindex=""
            disabled="" readonly="" accesskey="" value=""
-           type="checkbox" 
+           type="checkbox"
          tal:condition="not:item/checked"
          tal:attributes="id item/id;
                          name item/name;

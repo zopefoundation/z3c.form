@@ -92,7 +92,7 @@ def enableZ3CPT():
     base = zope.component.globalregistry.base
     base.registerUtility(z3c.ptcompat.engine.Program, IPageTemplateEngine,
         name=u'', event=False)
-    
+
 def disableZ3CPT():
     """Disable z3c.pt engine"""
     base = zope.component.globalregistry.base

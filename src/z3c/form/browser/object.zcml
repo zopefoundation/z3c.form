@@ -36,5 +36,5 @@
       layer="z3c.form.interfaces.IFormLayer"
       template="object_input.pt"
       />
-  
+
 </configure>

@@ -2,7 +2,7 @@
      xmlns:tal="http://xml.zope.org/namespaces/tal"
      tal:omit-tag="">
 <span class="option"
-      tal:repeat="item view/items">     
+      tal:repeat="item view/items">
   <input id="" name="" value="" class="hidden-widget" title=""
          tabindex="" accesskey=""
          type="hidden"
@@ -31,6 +31,6 @@
                          readonly view/readonly;
                          alt view/alt;
                          accesskey view/accesskey;
-                         onselect view/onselect" />         
-</span>                       
+                         onselect view/onselect" />
+</span>
 </html>

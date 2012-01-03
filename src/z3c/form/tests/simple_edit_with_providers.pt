@@ -16,7 +16,7 @@
 
       <div class="row" tal:define="is_widget snippet/id | nothing">
 
-        <tal:widget condition="is_widget" 
+        <tal:widget condition="is_widget"
                     define="widget snippet">
         <b tal:condition="widget/error"
            tal:content="structure widget/error/render"
@@ -30,7 +30,7 @@
         <tal:provider condition="not:is_widget"
                       define="contentprovider snippet"
                       replace="structure contentprovider/render" />
-                      
+
       </div>
 
       </tal:snippets>

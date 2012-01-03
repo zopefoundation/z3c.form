@@ -56,16 +56,16 @@ def getSpecification(spec, force=False):
         (spec is not None and
          not zope.interface.interfaces.ISpecification.providedBy(spec)
          and not isinstance(spec, classTypes)) ):
-        
+
         # Step 1: Calculate an interface name
         ifaceName = 'IGeneratedForObject_%i' %hash(spec)
-        
+
         # Step 2: Find out if we already have such an interface
         existingInterfaces = [
                 i for i in zope.interface.directlyProvidedBy(spec)
                     if i.__name__ == ifaceName
             ]
-        
+
         # Step 3a: Return an existing interface if there is one
         if len(existingInterfaces) > 0:
             spec = existingInterfaces[0]

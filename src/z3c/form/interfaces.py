@@ -1036,7 +1036,7 @@ class IButtonForm(IForm):
 class IGroup(IForm):
     """A group of fields/widgets within a form."""
 
-class IGroupForm(object):
+class IGroupForm(IForm):
     """A form that supports groups."""
 
     groups = zope.schema.Tuple(

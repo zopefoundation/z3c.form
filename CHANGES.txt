@@ -10,6 +10,12 @@ CHANGES
 
 - Make zope.container dependency more optional (it is only used in tests)
 
+- Cleaned whitespace in page templates.
+
+- Fix ``IGroupForm`` interface and actually use it in the ``GroupForm``
+  class. See LP580839.
+
+
 2.5.1 (2011-11-26)
 ------------------
 

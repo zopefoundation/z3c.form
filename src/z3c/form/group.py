@@ -84,6 +84,7 @@ class Group(form.BaseForm):
 
 class GroupForm(object):
     """A mix-in class for add and edit forms to support groups."""
+    implements(interfaces.IGroupForm)
 
     groups = ()
 

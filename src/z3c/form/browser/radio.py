@@ -46,7 +46,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
             id = '%s-%i' % (self.id, count)
-            label = term.token
+            label = unicode(term.value)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 label = translate(term.title, context=self.request,
                                   default=term.title)

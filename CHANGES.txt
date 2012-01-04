@@ -8,6 +8,11 @@ CHANGES
 - Remove ":list" from radio inputs, since radio buttons can be only one value
   by definition. See LP580840.
 
+- Changed radio button and checkbox widget labels from token to value (wrapped
+  by a unicode conversion) to make it consistent with the parent
+  ``SequenceWidget`` class. This way, edit and display views of the widgets
+  show the same label. See LP623210.
+
 - Remove dependency on zope.site.hooks, which was moved to zope.component in
   3.8.0 (present in ZTK 1.0 and above).
 

@@ -220,8 +220,10 @@ function selectionError()
             tal:attributes="id string:${view/id}-toDataContainer">
         <script type="text/javascript" tal:content="string:
           copyDataForSubmit('${view/id}');">
+          /*  <![CDATA[ */
           // initial copying of field "field.to" --> "field"
           copyDataForSubmit("<i tal:replace="${view/id}"/>");
+          /* ]]> */
         </script>
       </span>
     </td>

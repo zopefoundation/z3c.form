@@ -18,11 +18,15 @@ CHANGES
 
 - Make zope.container dependency more optional (it is only used in tests)
 
+- Properly escape JS code in script tag for the ordered-select widget. See
+  LP829484.
+
 - Cleaned whitespace in page templates.
 
 - Fix ``IGroupForm`` interface and actually use it in the ``GroupForm``
   class. See LP580839.
 
+- Added Spanish translation.
 
 2.5.1 (2011-11-26)
 ------------------

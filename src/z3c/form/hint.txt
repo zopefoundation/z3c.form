@@ -313,7 +313,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-boolField-0">
       <input id="form-widgets-boolField-0"
-             name="form.widgets.boolField:list"
+             name="form.widgets.boolField"
              class="radio-widget required bool-field"
              title="This is a Bool field." value="true"
              checked="checked" type="radio" />
@@ -323,7 +323,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-boolField-1">
       <input id="form-widgets-boolField-1"
-             name="form.widgets.boolField:list"
+             name="form.widgets.boolField"
              class="radio-widget required bool-field"
              title="This is a Bool field." value="false"
              type="radio" />
@@ -337,7 +337,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-checkboxBoolField-0">
       <input id="form-widgets-checkboxBoolField-0"
-             name="form.widgets.checkboxBoolField:list"
+             name="form.widgets.checkboxBoolField"
              class="radio-widget required bool-field"
              title="This is a Bool field displayed suing a checkbox."
              value="true" checked="checked" type="radio" />
@@ -347,7 +347,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-checkboxBoolField-1">
       <input id="form-widgets-checkboxBoolField-1"
-             name="form.widgets.checkboxBoolField:list"
+             name="form.widgets.checkboxBoolField"
              class="radio-widget required bool-field"
              title="This is a Bool field displayed suing a checkbox."
              value="false" type="radio" />
@@ -481,7 +481,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-listField-0">
       <input id="form-widgets-listField-0"
-             name="form.widgets.listField:list"
+             name="form.widgets.listField"
              class="radio-widget required list-field"
              title="This is a List field." value="1"
              checked="checked" type="radio" />
@@ -491,7 +491,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-listField-1">
       <input id="form-widgets-listField-1"
-             name="form.widgets.listField:list"
+             name="form.widgets.listField"
              class="radio-widget required list-field"
              title="This is a List field." value="2"
              type="radio" />
@@ -501,7 +501,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-listField-2">
       <input id="form-widgets-listField-2"
-             name="form.widgets.listField:list"
+             name="form.widgets.listField"
              class="radio-widget required list-field"
              title="This is a List field." value="3"
              checked="checked" type="radio" />
@@ -511,7 +511,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-listField-3">
       <input id="form-widgets-listField-3"
-             name="form.widgets.listField:list"
+             name="form.widgets.listField"
              class="radio-widget required list-field"
              title="This is a List field." value="4"
              type="radio" />
@@ -521,7 +521,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-listField-4">
       <input id="form-widgets-listField-4"
-             name="form.widgets.listField:list"
+             name="form.widgets.listField"
              class="radio-widget required list-field"
              title="This is a List field." value="5"
              type="radio" />
@@ -593,7 +593,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-tupleField-0">
       <input id="form-widgets-tupleField-0"
-             name="form.widgets.tupleField:list"
+             name="form.widgets.tupleField"
              class="radio-widget required tuple-field"
              title="This is a Tuple field." value="1"
              checked="checked" type="radio" />
@@ -603,7 +603,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-tupleField-1">
       <input id="form-widgets-tupleField-1"
-             name="form.widgets.tupleField:list"
+             name="form.widgets.tupleField"
              class="radio-widget required tuple-field"
              title="This is a Tuple field." value="2"
              type="radio" />
@@ -613,7 +613,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-tupleField-2">
       <input id="form-widgets-tupleField-2"
-             name="form.widgets.tupleField:list"
+             name="form.widgets.tupleField"
              class="radio-widget required tuple-field"
              title="This is a Tuple field." value="3"
              checked="checked" type="radio" />
@@ -623,7 +623,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-tupleField-3">
       <input id="form-widgets-tupleField-3"
-             name="form.widgets.tupleField:list"
+             name="form.widgets.tupleField"
              class="radio-widget required tuple-field"
              title="This is a Tuple field." value="4"
              type="radio" />
@@ -633,7 +633,7 @@ Now test the hints in our widgets:
   <span class="option">
     <label for="form-widgets-tupleField-4">
       <input id="form-widgets-tupleField-4"
-             name="form.widgets.tupleField:list"
+             name="form.widgets.tupleField"
              class="radio-widget required tuple-field"
              title="This is a Tuple field." value="5"
              type="radio" />

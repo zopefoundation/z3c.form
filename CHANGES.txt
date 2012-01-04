@@ -2,8 +2,11 @@
 CHANGES
 =======
 
-2.5.2 (unreleased)
+2.6.0 (unreleased)
 ------------------
+
+- Remove ":list" from radio inputs, since radio buttons can be only one value
+  by definition. See LP580840.
 
 - Remove dependency on zope.site.hooks, which was moved to zope.component in
   3.8.0 (present in ZTK 1.0 and above).

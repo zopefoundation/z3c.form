@@ -72,13 +72,13 @@ Now let's try if we get widget values:
   >>> print widget.render()
   <span class="option">
     <label for="widget-id-0">
-      <input type="radio" id="widget-id-0" name="widget.name:list"
+      <input type="radio" id="widget-id-0" name="widget.name"
              class="radio-widget" value="true" />
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <label for="widget-id-1">
-      <input type="radio" id="widget-id-1" name="widget.name:list"
+      <input type="radio" id="widget-id-1" name="widget.name"
              class="radio-widget" value="false" />
       <span class="label">no</span>
     </label>
@@ -93,13 +93,13 @@ get rendered with a checked flag:
   >>> print widget.render()
   <span class="option">
     <label for="widget-id-0">
-      <input type="radio" id="widget-id-0" name="widget.name:list"
+      <input type="radio" id="widget-id-0" name="widget.name"
              class="radio-widget" value="true" checked="checked" />
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <label for="widget-id-1">
-      <input type="radio" id="widget-id-1" name="widget.name:list"
+      <input type="radio" id="widget-id-1" name="widget.name"
              class="radio-widget" value="false" />
       <span class="label">no</span>
     </label>
@@ -118,5 +118,6 @@ Check HIDDEN_MODE:
   >>> widget.value = ['true']
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> print widget.render()
-  <input id="widget-id-0" name="widget.name:list" value="true" class="hidden-widget" type="hidden" />
-  
+  <input id="widget-id-0" name="widget.name" value="true"
+         class="hidden-widget" type="hidden" />
+

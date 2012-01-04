@@ -103,14 +103,14 @@ Bool
   >>> print widget.render()
   <span class="option">
     <label for="foo-0">
-      <input type="radio" id="foo-0" name="bar:list"
+      <input type="radio" id="foo-0" name="bar"
              class="radio-widget required bool-field" value="true"
              checked="checked" />
       <span class="label">yes</span>
     </label>
   </span><span class="option">
     <label for="foo-1">
-      <input type="radio" id="foo-1" name="bar:list"
+      <input type="radio" id="foo-1" name="bar"
              class="radio-widget required bool-field" value="false" />
       <span class="label">no</span>
     </label>

@@ -51,7 +51,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
                 label = translate(term.title, context=self.request,
                                   default=term.title)
             self.items.append(
-                {'id':id, 'name':self.name + ':list', 'value':term.token,
+                {'id':id, 'name':self.name, 'value':term.token,
                  'label':label, 'checked':checked})
 
 

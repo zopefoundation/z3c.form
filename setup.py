@@ -118,7 +118,7 @@ setup(
         'zope.schema >= 3.6.0',
         'zope.security',
         # Since the required package depends on the versions of the other
-        # packages, so not require it directly.
+        # packages, do not require it directly. See extras_require.
         #'zope.site' or 'zope.app.component',
         'zope.traversing',
         ],

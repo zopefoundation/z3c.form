@@ -28,6 +28,8 @@ CHANGES
 
 - Added Spanish translation.
 
+- Added Hungarian translation.
+
 2.5.1 (2011-11-26)
 ------------------
 

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-2.6.0 (unreleased)
+2.6.0 (2012-01-30)
 ------------------
 
 - Remove ":list" from radio inputs, since radio buttons can be only one value

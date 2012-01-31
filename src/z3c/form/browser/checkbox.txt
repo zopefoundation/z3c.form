@@ -130,6 +130,23 @@ Check HIDDEN_MODE:
            class="checkbox-widget" value="false" />
   </span>
 
+Make sure that we produce a proper label when we have no title for a term and
+the value (which is used as a backup label) contains non-ASCII characters:
+
+  >>> terms = SimpleVocabulary.fromValues(['yes\012', 'no\243'])
+  >>> widget.terms = terms
+  >>> widget.update()
+  >>> print widget.items
+  [{'label': u'yes\n',
+    'checked': False,
+    'id': 'widget-id-0',
+    'value': 'yes\n',
+    'name': 'widget.name:list'},
+    {'label': u'no',
+     'checked': False,
+      'id': 'widget-id-1',
+      'value': 'no\xa3',
+      'name': 'widget.name:list'}]
 
 Single Checkbox Widget
 ----------------------

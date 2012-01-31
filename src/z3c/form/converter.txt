@@ -377,6 +377,17 @@ datetime value:
   >>> tddc.toFieldValue(u'1 day, 1:01:01')
   datetime.timedelta(1, 3661)
 
+If no day is available, the following short form is used:
+
+  >>> noDay = datetime.timedelta(0, 3600+60+1)
+  >>> tddc.toWidgetValue(noDay)
+  u'1:01:01'
+
+And now back to the field value:
+
+  >>> tddc.toFieldValue(u'1:01:01')
+  datetime.timedelta(0, 3661)
+
 By default the converter converts missing input to missin_input value:
 
   >>> tddc.toFieldValue(u'') is None

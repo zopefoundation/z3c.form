@@ -198,8 +198,13 @@ class TimedeltaDataConverter(FieldDataConverter):
         """See interfaces.IDataConverter"""
         if value == u'':
             return self.field.missing_value
-        daysString, crap, timeString = value.split(' ')
-        days = int(daysString)
+        try:
+            daysString, crap, timeString = value.split(' ')
+        except ValueError:
+            timeString = value
+            days = 0
+        else:
+            days = int(daysString)
         seconds = [int(part)*60**(2-n)
                    for n, part in enumerate(timeString.split(':'))]
         return datetime.timedelta(days, sum(seconds))

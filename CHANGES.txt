@@ -2,10 +2,14 @@
 CHANGES
 =======
 
-2.6.1 (unreleased)
+2.6.1 (2012-01-30)
 ------------------
 
-- Nothing changed yet.
+- Fixed a potential problem where a non-ascii vocabulary/source term value
+  could cause the checkbox and readio widget to crash.
+
+- Fixed a problem with the ``datetime.timedelta`` converter, which failed to
+  convert back to the field value, when the day part was missing.
 
 
 2.6.0 (2012-01-30)

@@ -66,7 +66,7 @@ msgstr "Les données ont été modifiées avec succès."
 
 #: src/z3c/form/form.py:264 src/z3c/form/subform.py:31
 msgid "No changes were applied."
-msgstr "Aucuns changements n'a été effectué."
+msgstr "Aucun changement n'a été effectué."
 
 #: src/z3c/form/form.py:281
 msgid "Apply"
@@ -289,7 +289,7 @@ msgstr "Symbole NO_VALUE"
 
 #: src/z3c/form/interfaces.py:472
 msgid "The token to be used, if no value has been selected."
-msgstr "Le symbole à utiliser lorsqu'aucune valeur n'est choisie."
+msgstr "Le symbole à utiliser lorsque aucune valeur n'est choisie."
 
 #: src/z3c/form/interfaces.py:475
 msgid "Terms"
@@ -322,7 +322,7 @@ msgid ""
 msgstr ""
 "Une collection de dictionnaires contenant toutes les informations "
 "nécessaires au rendu. Les clés suivantes doivent apparaître dans "
-"chaquedictionnaire : id, value, content, selected"
+"chaque dictionnaire : id, value, content, selected"
 
 #: src/z3c/form/interfaces.py:518
 msgid "No-Value Message"

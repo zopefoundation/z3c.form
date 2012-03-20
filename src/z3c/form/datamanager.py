@@ -20,8 +20,6 @@ __docformat__ = "reStructuredText"
 import zope.interface
 import zope.component
 import zope.schema
-import persistent.mapping
-import persistent.dict
 from zope.interface.common import mapping
 from zope.security.interfaces import ForbiddenAttribute
 from zope.security.checker import canAccess, canWrite, Proxy
@@ -29,6 +27,16 @@ from zope.security.checker import canAccess, canWrite, Proxy
 from z3c.form import interfaces
 
 _marker = []
+
+ALLOWED_DATA_CLASSES = [dict]
+try:
+    import persistent.mapping
+    import persistent.dict
+    ALLOWED_DATA_CLASSES.append(persistent.mapping.PersistentMapping)
+    ALLOWED_DATA_CLASSES.append(persistent.dict.PersistentDict)
+except ImportError:
+    pass
+
 
 class DataManager(object):
     """Data manager base class."""
@@ -103,11 +111,7 @@ class DictionaryField(DataManager):
     zope.component.adapts(
         dict, zope.schema.interfaces.IField)
 
-    _allowed_data_classes = (
-        dict,
-        persistent.mapping.PersistentMapping,
-        persistent.dict.PersistentDict,
-        )
+    _allowed_data_classes = tuple(ALLOWED_DATA_CLASSES)
 
     def __init__(self, data, field):
         if (not isinstance(data, self._allowed_data_classes) and

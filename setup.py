@@ -92,6 +92,7 @@ setup(
             'zope.app.publisher',
             'zope.app.testing',
             'zope.testing',
+            'ZODB3',
             ],
         zope34=[
             'zope.app.component',

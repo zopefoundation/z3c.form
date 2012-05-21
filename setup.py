@@ -106,6 +106,7 @@ setup(
     install_requires=[
         'setuptools',
         'zope.browser',
+        'zope.browserresource',
         'zope.component',
         'zope.configuration',
         'zope.contentprovider',

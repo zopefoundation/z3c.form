@@ -498,13 +498,11 @@ setup some of the traversing machinery:
   ...     resource, (None, None), ITraversable, name="resource")
 
   # New absolute URL adapter for resources, if available
-  >>> import zope.app.publisher.browser.resource
-  >>> if hasattr(zope.app.publisher.browser.resource, 'AbsoluteURL'):
-  ...     zope.component.provideAdapter(
-  ...         zope.app.publisher.browser.resource.AbsoluteURL)
+  >>> from zope.browserresource.resource import AbsoluteURL
+  >>> zope.component.provideAdapter(AbsoluteURL)
 
   # Register the "pressme.png" resource
-  >>> from zope.app.publisher.browser.resource import Resource
+  >>> from zope.browserresource.resource import Resource
   >>> testing.browserResource('pressme.png', Resource)
 
 Now we are ready to instantiate the widget:

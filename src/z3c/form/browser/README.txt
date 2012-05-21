@@ -15,11 +15,11 @@ configuration.
 
   >>> from zope.configuration import xmlconfig
   >>> import zope.component
-  >>> import zope.app.component
+  >>> import zope.security
   >>> import zope.i18n
   >>> import z3c.form
   >>> xmlconfig.XMLConfig('meta.zcml', zope.component)()
-  >>> xmlconfig.XMLConfig('meta.zcml', zope.app.component)()
+  >>> xmlconfig.XMLConfig('meta.zcml', zope.security)()
   >>> xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
   >>> xmlconfig.XMLConfig('meta.zcml', z3c.form)()
   >>> xmlconfig.XMLConfig('configure.zcml', z3c.form)()

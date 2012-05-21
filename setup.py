@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Setup
-
-$Id$
 """
 import os
 from setuptools import setup, find_packages
@@ -90,9 +88,6 @@ setup(
             'zope.app.testing',
             'zope.testing',
             'ZODB3',
-            ],
-        zope34=[
-            'zope.app.component',
             ],
         latest=[
             'zope.site',

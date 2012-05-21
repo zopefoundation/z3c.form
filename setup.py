@@ -47,7 +47,7 @@ chapters = '\n'.join(
 
 setup(
     name='z3c.form',
-    version='2.6.2dev',
+    version='2.7.0dev',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="An advanced form and widget framework for Zope 3",
@@ -86,8 +86,7 @@ setup(
             'z3c.template >= 1.3',
             'zc.sourcefactory',
             'zope.app.component',
-            # zope.app.container pulls in zope.container, if newer version
-            'zope.app.container',
+            'zope.app.container >= 3.7',
             'zope.app.pagetemplate',
             'zope.app.publisher',
             'zope.app.testing',
@@ -100,7 +99,7 @@ setup(
         latest=[
             'zope.site',
             ],
-        adding=['zope.app.container'],
+        adding=['zope.app.container >= 3.7'],
         docs=['z3c.recipe.sphinxdoc'],
         ),
     install_requires=[

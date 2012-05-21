@@ -43,19 +43,6 @@ def addHooks():
         import zope.app.component.hooks
         zope.component.hooks = zope.app.component.hooks
 
-def addBTree():
-    try:
-        import zope.container.btree
-        return
-    except ImportError:
-        try:
-            import zope.app.container.btree
-            container = types.ModuleType('container')
-            container.btree = zope.app.container.btree
-            sys.modules['zope.container'] = container
-        except ImportError:
-            pass # only for tests
 
 def apply():
     addHooks()
-    addBTree()

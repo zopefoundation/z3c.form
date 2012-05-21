@@ -87,8 +87,6 @@ setup(
             'zc.sourcefactory',
             'zope.app.component',
             'zope.app.container >= 3.7',
-            'zope.app.pagetemplate',
-            'zope.app.publisher',
             'zope.app.testing',
             'zope.testing',
             'ZODB3',

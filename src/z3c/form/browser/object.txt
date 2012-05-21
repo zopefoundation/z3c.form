@@ -927,29 +927,6 @@ And of course, the object values do not get modified:
   >>> root['first'].subobject.barfield
   999
 
-
-#Let's make an other error, by typing a newline into name:
-#
-#  >>> request = TestRequest(form={
-#  ...     'form.widgets.subobject.widgets.foofield':u'1',
-#  ...     'form.widgets.subobject.widgets.barfield':u'2',
-#  ...     'form.widgets.name':u'first\nline',
-#  ...     'form.widgets.subobject-empty-marker':u'1',
-#  ...     'form.buttons.apply':'Apply'})
-#
-#  >>> editform.request = request
-#  >>> eventlog=[]
-#  >>> editform.update()
-
-THIS IS BAD:
-
-  #>>> len(eventlog)
-  #0
-  #>>> printEvents()
-  #<zope.app.event.objectevent.ObjectModifiedEvent object at 0x97f688c>
-  #<InterfaceClass z3c.form.testing.IMySubObject>
-  #('foofield', 'barfield')
-
 Simple but often used use-case is the display form:
 
   >>> editform = MyEditForm(root['first'], TestRequest())

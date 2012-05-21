@@ -83,7 +83,6 @@ setup(
             'z3c.coverage',
             'z3c.template >= 1.3',
             'zc.sourcefactory',
-            'zope.app.component',
             'zope.app.container >= 3.7',
             'zope.app.testing',
             'zope.testing',
@@ -108,13 +107,10 @@ setup(
         'zope.interface',
         'zope.lifecycleevent',
         'zope.location',
-        'zope.pagetemplate', # >= 3.6.2 if z3c.pt is used
+        'zope.pagetemplate',  # >= 3.6.2 if z3c.pt is used
         'zope.publisher',
         'zope.schema >= 3.6.0',
         'zope.security',
-        # Since the required package depends on the versions of the other
-        # packages, do not require it directly. See extras_require.
-        #'zope.site' or 'zope.app.component',
         'zope.traversing',
         ],
     zip_safe=False,

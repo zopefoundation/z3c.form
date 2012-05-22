@@ -347,8 +347,13 @@ def setupFormDefaults():
     zope.component.provideAdapter(error.InvalidErrorViewSnippet)
     zope.component.provideAdapter(error.StandardErrorViewTemplate)
 
+
 def tearDown(test):
-    setup.placefulTearDown()
+    from zope.testing import cleanup
+    from zope.component import hooks
+    cleanup.cleanUp()
+    hooks.resetHooks()
+    hooks.setSite()
 
 
 ##########################

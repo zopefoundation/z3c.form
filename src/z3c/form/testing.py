@@ -38,6 +38,7 @@ import lxml.doctestcompare
 # register lxml doctest option flags
 lxml.doctestcompare.NOPARSE_MARKUP = register_optionflag('NOPARSE_MARKUP')
 
+
 class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
     """A special file upload data converter that works with testing."""
     zope.component.adapts(
@@ -45,19 +46,21 @@ class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
 
     def toFieldValue(self, value):
         if value is None or value == '':
-            value = self.widget.request.get(self.widget.name+'.testing', '')
+            value = self.widget.request.get(self.widget.name + '.testing', '')
             encoding = self.widget.request.get(
-                self.widget.name+'.encoding', 'plain')
+                self.widget.name + '.encoding', 'plain')
 
             # allow for the case where the file contents are base64 encoded.
-            if encoding!='plain':
+            if encoding != 'plain':
                 value = value.decode(encoding)
             self.widget.request.form[self.widget.name] = value
 
         return super(TestingFileUploadDataConverter, self).toFieldValue(value)
 
+
 class TestRequest(TestRequest):
     zope.interface.implements(interfaces.IFormLayer)
+
 
 class SimpleSecurityPolicy(object):
     """Allow all access."""
@@ -81,6 +84,7 @@ class SimpleSecurityPolicy(object):
                 return True
         return False
 
+
 def getPath(filename):
     return os.path.join(os.path.dirname(browser.__file__), filename)
 
@@ -100,17 +104,20 @@ class IMySubObject(zope.interface.Interface):
         default=2222,
         required=False)
 
+
 class MySubObject(object):
     zope.interface.implements(IMySubObject)
 
     foofield = FieldProperty(IMySubObject['foofield'])
     barfield = FieldProperty(IMySubObject['barfield'])
 
+
 class IMySecond(zope.interface.Interface):
     subfield = zope.schema.Object(
         title=u"Second-subobject",
         schema=IMySubObject)
     moofield = zope.schema.TextLine(title=u"Something")
+
 
 class MySecond(object):
     zope.interface.implements(IMySecond)
@@ -123,11 +130,13 @@ class IMyObject(zope.interface.Interface):
     subobject = zope.schema.Object(title=u'my object', schema=IMySubObject)
     name = zope.schema.TextLine(title=u'name')
 
+
 class MyObject(object):
     zope.interface.implements(IMyObject)
+
     def __init__(self, name=u'', subobject=None):
-        self.subobject=subobject
-        self.name=name
+        self.subobject = subobject
+        self.name = name
 
 
 class IMyComplexObject(zope.interface.Interface):
@@ -138,7 +147,7 @@ class IMyComplexObject(zope.interface.Interface):
 class IMySubObjectMulti(zope.interface.Interface):
     foofield = zope.schema.Int(
         title=u"My foo field",
-        default=None, #default is None here!
+        default=None,  # default is None here!
         max=9999,
         required=True)
     barfield = zope.schema.Int(
@@ -146,20 +155,23 @@ class IMySubObjectMulti(zope.interface.Interface):
         default=2222,
         required=False)
 
+
 class MySubObjectMulti(object):
     zope.interface.implements(IMySubObjectMulti)
 
     foofield = FieldProperty(IMySubObjectMulti['foofield'])
     barfield = FieldProperty(IMySubObjectMulti['barfield'])
 
+
 class IMyMultiObject(zope.interface.Interface):
     listOfObject = zope.schema.List(
-        title = u"My list field",
-        value_type = zope.schema.Object(
+        title=u"My list field",
+        value_type=zope.schema.Object(
             title=u'my object widget',
             schema=IMySubObjectMulti),
     )
     name = zope.schema.TextLine(title=u'name')
+
 
 class MyMultiObject(object):
     zope.interface.implements(IMyMultiObject)
@@ -173,34 +185,19 @@ class MyMultiObject(object):
 
 
 def setUp(test):
-    from zope.component.testing import setUp as co_setup
-    from zope.component.eventtesting import setUp as ev_setup
-    from zope.i18n.testing import setUp as i18n_setup
-    from zope.container.testing import setUp as con_setup
-
-    co_setup()
-    ev_setup()
-    con_setup()
-    i18n_setup()
-
-    from zope.security.testing import addCheckerPublic
-    addCheckerPublic()
-
-    from zope.security.management import newInteraction
-    newInteraction()
-
+    from zope.component.testing import setUp
+    setUp()
+    from zope.container.testing import setUp
+    setUp()
     from zope.component import hooks
     hooks.setHooks()
-
     from zope.traversing.testing import setUp
     setUp()
-
     from zope.site.folder import rootFolder
     site = rootFolder()
-
     from zope.site.site import LocalSiteManager
-    import zope.component.interfaces
-    if not zope.component.interfaces.ISite.providedBy(site):
+    from zope.component.interfaces import ISite
+    if not ISite.providedBy(site):
         site.setSiteManager(LocalSiteManager(site))
     hooks.setSite(site)
     test.globs = {'root': site}
@@ -209,12 +206,14 @@ def setUp(test):
 def setUpZPT(suite):
     setUp(suite)
 
+
 def setUpZ3CPT(suite):
     import z3c.pt
     import z3c.ptcompat
     setUp(suite)
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.pt)()
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.ptcompat)()
+
 
 def setupFormDefaults():
     # Validator adapters

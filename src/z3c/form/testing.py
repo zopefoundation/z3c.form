@@ -183,47 +183,17 @@ def setUp(test):
     con_setup()
     i18n_setup()
 
-    from zope.password.testing import setUpPasswordManagers
-    from zope.traversing.browser.interfaces import IAbsoluteURL
-    from zope.traversing.browser.absoluteurl import AbsoluteURL
-
-    setUpPasswordManagers()
-    from zope.component import getGlobalSiteManager
-    from zope.interface import Interface
-    from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-    gsm = getGlobalSiteManager()
-    gsm.registerAdapter(AbsoluteURL, (IDefaultBrowserLayer, ), IAbsoluteURL,
-        '', event=False)
-    gsm.registerAdapter(AbsoluteURL, (IDefaultBrowserLayer, ), Interface,
-        'absolute_url', event=False)
-
     from zope.security.testing import addCheckerPublic
     addCheckerPublic()
 
     from zope.security.management import newInteraction
     newInteraction()
 
-    from zope.schema.vocabulary import setVocabularyRegistry
-    setVocabularyRegistry(None)
-
     from zope.component import hooks
     hooks.setHooks()
 
-    from zope.component import provideAdapter
-    from zope.annotation.attribute import AttributeAnnotations
-    provideAdapter(AttributeAnnotations)
-
-    from zope.traversing.interfaces import ITraversable
-    from zope.container.interfaces import ISimpleReadContainer
-    from zope.container.traversal import ContainerTraversable
     from zope.traversing.testing import setUp
     setUp()
-    provideAdapter(ContainerTraversable, (ISimpleReadContainer,), ITraversable)
-
-    from zope.site.site import SiteManagerAdapter
-    from zope.component.interfaces import IComponentLookup
-    from zope.interface import Interface
-    provideAdapter(SiteManagerAdapter, (Interface,), IComponentLookup)
 
     from zope.site.folder import rootFolder
     site = rootFolder()

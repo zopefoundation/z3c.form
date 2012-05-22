@@ -20,7 +20,6 @@ import zope.interface
 import zope.schema
 
 from doctest import register_optionflag
-from zope.app.testing import setup
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.publisher.browser import TestRequest
 from zope.schema.fieldproperty import FieldProperty
@@ -172,12 +171,70 @@ class MyMultiObject(object):
         self.listOfObject = listOfObject
         self.name = name
 
-#
-#
-#############################
 
 def setUp(test):
-    test.globs = {'root': setup.placefulSetUp(True)}
+    from zope.component.testing import setUp as co_setup
+    from zope.component.eventtesting import setUp as ev_setup
+    from zope.i18n.testing import setUp as i18n_setup
+    from zope.container.testing import setUp as con_setup
+
+    co_setup()
+    ev_setup()
+    con_setup()
+    i18n_setup()
+
+    from zope.password.testing import setUpPasswordManagers
+    from zope.traversing.browser.interfaces import IAbsoluteURL
+    from zope.traversing.browser.absoluteurl import AbsoluteURL
+
+    setUpPasswordManagers()
+    from zope.component import getGlobalSiteManager
+    from zope.interface import Interface
+    from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+    gsm = getGlobalSiteManager()
+    gsm.registerAdapter(AbsoluteURL, (IDefaultBrowserLayer, ), IAbsoluteURL,
+        '', event=False)
+    gsm.registerAdapter(AbsoluteURL, (IDefaultBrowserLayer, ), Interface,
+        'absolute_url', event=False)
+
+    from zope.security.testing import addCheckerPublic
+    addCheckerPublic()
+
+    from zope.security.management import newInteraction
+    newInteraction()
+
+    from zope.schema.vocabulary import setVocabularyRegistry
+    setVocabularyRegistry(None)
+
+    from zope.component import hooks
+    hooks.setHooks()
+
+    from zope.component import provideAdapter
+    from zope.annotation.attribute import AttributeAnnotations
+    provideAdapter(AttributeAnnotations)
+
+    from zope.traversing.interfaces import ITraversable
+    from zope.container.interfaces import ISimpleReadContainer
+    from zope.container.traversal import ContainerTraversable
+    from zope.traversing.testing import setUp
+    setUp()
+    provideAdapter(ContainerTraversable, (ISimpleReadContainer,), ITraversable)
+
+    from zope.site.site import SiteManagerAdapter
+    from zope.component.interfaces import IComponentLookup
+    from zope.interface import Interface
+    provideAdapter(SiteManagerAdapter, (Interface,), IComponentLookup)
+
+    from zope.site.folder import rootFolder
+    site = rootFolder()
+
+    from zope.site.site import LocalSiteManager
+    import zope.component.interfaces
+    if not zope.component.interfaces.ISite.providedBy(site):
+        site.setSiteManager(LocalSiteManager(site))
+    hooks.setSite(site)
+    test.globs = {'root': site}
+
 
 def setUpZPT(suite):
     setUp(suite)

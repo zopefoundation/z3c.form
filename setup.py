@@ -84,7 +84,7 @@ setup(
             'z3c.template >= 1.3',
             'zc.sourcefactory',
             'zope.app.container >= 3.7',
-            'zope.app.testing',
+            'zope.password',
             'zope.testing',
             'ZODB3',
             ],

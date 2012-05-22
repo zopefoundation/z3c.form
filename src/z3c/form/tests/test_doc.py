@@ -19,7 +19,6 @@ import re
 import unittest
 
 from zope.testing import renormalizing
-from zope.app.testing import placelesssetup
 
 from z3c.form import testing
 from z3c.form import outputchecker
@@ -58,7 +57,7 @@ def test_suite():
             ),
         doctest.DocFileSuite(
             '../datamanager.txt',
-            setUp=placelesssetup.setUp, tearDown=placelesssetup.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),
@@ -76,7 +75,7 @@ def test_suite():
             ),
         doctest.DocFileSuite(
             '../value.txt',
-            setUp=placelesssetup.setUp, tearDown=placelesssetup.tearDown,
+            setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
             checker=checker,
             ),

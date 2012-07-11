@@ -304,6 +304,21 @@ constructor that are used to set up the fields:
     >>> manager['country'].ignoreContext
     False
 
+* ``showDefault``
+
+  The ``showDefault`` can be set on fields.
+
+    >>> manager = field.Fields(IPerson)
+    >>> manager['country'].showDefault
+
+    >>> manager = field.Fields(IPerson, showDefault=True)
+    >>> manager['country'].showDefault
+    True
+
+    >>> manager = field.Fields(IPerson, showDefault=False)
+    >>> manager['country'].showDefault
+    False
+
 
 Fields Widget Manager
 ---------------------
@@ -330,12 +345,12 @@ definitions and create widgets for them. Thus, let's create a schema first:
 
   >>> class LastNameTooShort(zope.schema.interfaces.ValidationError):
   ...     """The last name is too short."""
-  
+
   >>> def lastNameConstraint(value):
   ...     if value and value == value.lower():
   ...         raise zope.interface.Invalid(u"Name must have at least one capital letter")
   ...     return True
-  
+
   >>> class IPerson(zope.interface.Interface):
   ...     id = zope.schema.TextLine(
   ...         title=u'ID',
@@ -628,6 +643,28 @@ this selection for you:
   'input'
 
 
+``showDefault``
+---------------
+
+``showDefault`` by default is True
+
+  >>> manager['firstName'].showDefault
+  True
+
+``showDefault`` gets set on the widget based on the field's setting.
+
+  >>> personForm.fields['firstName'].showDefault = False
+
+  >>> manager.update()
+  >>> manager['firstName'].showDefault
+  False
+
+  >>> personForm.fields['firstName'].showDefault = True
+
+  >>> manager.update()
+  >>> manager['firstName'].showDefault
+  True
+
 Required fields
 ---------------
 
@@ -735,7 +772,7 @@ a convenient way to raise errors where we mainly care about providing a custom
 error message.
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan', 
+  ...     'form.widgets.firstName': u'Stephan',
   ...     'form.widgets.lastName': u'richter',
   ...     'form.widgets.id': u'srichter'})
   >>> manager = field.FieldWidgets(personForm, request, context)
@@ -744,7 +781,7 @@ error message.
   >>> extracted = manager.extract()
   >>> extracted
   ({'firstName': u'Stephan'}, (<InvalidErrorViewSnippet for Invalid>,))
-  
+
   >>> extracted[1][0].createMessage()
   u'Name must have at least one capital letter'
 

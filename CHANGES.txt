@@ -12,6 +12,12 @@ CHANGES
 
 - Avoid dependency on ZODB3.
 
+- Added IField.showDefault and IWidget.showDefault
+  That controls whether the widget should look for field default values
+  to display. This can be really helpful in EditForms, where you don't
+  want to have default values instead of actual (missing) values.
+  By default it is True to provide backwards compatibility.
+
 2.6.1 (2012-01-30)
 ------------------
 

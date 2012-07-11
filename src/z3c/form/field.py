@@ -21,7 +21,7 @@ import zope.interface
 import zope.location
 import zope.schema.interfaces
 
-from z3c.form import interfaces, util, error
+from z3c.form import interfaces, util
 from z3c.form.error import MultipleErrors
 from z3c.form.widget import AfterWidgetUpdateEvent
 
@@ -67,7 +67,7 @@ class Field(object):
     widgetFactory = WidgetFactoryProperty()
 
     def __init__(self, field, name=None, prefix='', mode=None, interface=None,
-                 ignoreContext=None):
+                 ignoreContext=None, showDefault=None):
         self.field = field
         if name is None:
             name = field.__name__
@@ -79,6 +79,7 @@ class Field(object):
             interface = field.interface
         self.interface = interface
         self.ignoreContext = ignoreContext
+        self.showDefault = showDefault
 
     def __repr__(self):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)
@@ -138,7 +139,6 @@ class Fields(util.SelectionManager):
             self._data_keys.append(name)
             self._data[name] = form_field
 
-
     def select(self, *names, **kwargs):
         """See interfaces.IFields"""
         prefix = kwargs.pop('prefix', None)
@@ -152,7 +152,6 @@ class Fields(util.SelectionManager):
                             for field in self.values()
                             if field.field.interface is interface])
         return self.__class__(*[mapping[name] for name in names])
-
 
     def omit(self, *names, **kwargs):
         """See interfaces.IFields"""
@@ -269,6 +268,8 @@ class FieldWidgets(util.Manager):
             # Step 6: Set some variables
             widget.ignoreContext = ignoreContext
             widget.ignoreRequest = self.ignoreRequest
+            if field.showDefault is not None:
+                widget.showDefault = field.showDefault
             # Step 7: Set the mode of the widget
             widget.mode = mode
             # Step 8: Update the widget

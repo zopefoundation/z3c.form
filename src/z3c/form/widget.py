@@ -53,6 +53,7 @@ class Widget(zope.location.Location):
     template = None
     ignoreRequest = FieldProperty(interfaces.IWidget['ignoreRequest'])
     setErrors = FieldProperty(interfaces.IWidget['setErrors'])
+    showDefault = FieldProperty(interfaces.IWidget['showDefault'])
 
     # The following attributes are for convenience. They are declared in
     # extensions to the simple widget.
@@ -106,12 +107,14 @@ class Widget(zope.location.Location):
             # that requires fixing zope.schema first
             if ((value is self.field.missing_value or
                  value is interfaces.NO_VALUE) and
-                self.field.default is not None):
+                self.field.default is not None and
+                self.showDefault):
                 value = self.field.default
                 lookForDefault = True
         # Step 1.3: If we still have not found a value, then we try to get it
         #           from an attribute value
-        if value is interfaces.NO_VALUE or lookForDefault:
+        if ((value is interfaces.NO_VALUE or lookForDefault)
+            and self.showDefault):
             adapter = zope.component.queryMultiAdapter(
                 (self.context, self.request, self.form, self.field, self),
                 interfaces.IValue, name='default')

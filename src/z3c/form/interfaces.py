@@ -211,6 +211,13 @@ class IField(zope.interface.Interface):
         default=None,
         missing_value=None)
 
+    showDefault = zope.schema.Bool(
+        title=_('Show default value'),
+        description=_('A flag, when set, makes the widget to display'
+                      'field|adapter provided default values.'),
+        default=True,
+        required=False)
+
 
 class IFields(ISelectionManager):
     """IField manager."""
@@ -433,6 +440,13 @@ class IWidget(ILocation):
         title=_('Set errors'),
         description=_('A flag, when set, the widget sets error messages '
                       'on calling extract().'),
+        default=True,
+        required=False)
+
+    showDefault = zope.schema.Bool(
+        title=_('Show default value'),
+        description=_('A flag, when set, makes the widget to display'
+                      'field|adapter provided default values.'),
         default=True,
         required=False)
 

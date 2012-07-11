@@ -227,8 +227,9 @@ be set as the context of the widget:
 
   >>> class Person(object):
   ...     age = 45
+  >>> person = Person()
 
-  >>> ageWidget.context = Person()
+  >>> ageWidget.context = person
   >>> zope.interface.alsoProvides(ageWidget, interfaces.IContextAware)
 
 The result is that the context value takes over precendence over the default
@@ -249,6 +250,26 @@ the context. Registering a data manager for the widget does the trick:
   >>> ageWidget.update()
   >>> print ageWidget.render()
   <input type="text" name="age" value="45" />
+
+If the context value is unknown (None), the default value kicks in.
+
+  >>> person.age = None
+
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="30" />
+
+Unless the widget is explicitely asked to not to show defaults.
+This is handy for EditForms.
+
+  >>> ageWidget.showDefault = False
+
+  >>> ageWidget.update()
+  >>> print ageWidget.render()
+  <input type="text" name="age" value="" />
+
+  >>> ageWidget.showDefault = True
+  >>> person.age = 45
 
 The context can be explicitely ignored, making the widget display the default
 value again:

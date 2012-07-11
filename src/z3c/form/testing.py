@@ -193,6 +193,13 @@ def setUp(test):
     hooks.setHooks()
     from zope.traversing.testing import setUp
     setUp()
+
+    from zope.publisher.browser import BrowserLanguages
+    from zope.publisher.interfaces.http import IHTTPRequest
+    from zope.i18n.interfaces import IUserPreferredLanguages
+    zope.component.provideAdapter(BrowserLanguages, [IHTTPRequest],
+                   IUserPreferredLanguages)
+
     from zope.site.folder import rootFolder
     site = rootFolder()
     from zope.site.site import LocalSiteManager

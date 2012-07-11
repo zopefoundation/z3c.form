@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-2.7.0 (unreleased)
+2.7.0 (2012-07-11)
 ------------------
 
 - Remove `zope34` extra, use an older version of z3c.form if you need to

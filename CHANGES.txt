@@ -8,10 +8,10 @@ CHANGES
 - Fixed broken release, my python 2.7 windows setup didn't release the new
   widget.zcml, widget_layout.pt and widget_layout_hidden.pt files. After
   enhance the pattern in MANIFEST.in everything seems fine. That's probably
-  because I patched my python version with the *build exclude pattern patch.
+  because I patched my python version with the \*build exclude pattern patch.
   And yes, the new files where added to the svn repos! After deep into this
-  again, it seems that only previous added *.txt, *.pt files get added to
-  the release. A fresh checkout sdist release only contains the *.py and *.mo
+  again, it seems that only previous added \*.txt, \*.pt files get added to
+  the release. A fresh checkout sdist release only contains the \*.py and \*.mo
   files. Anyway the enhanced MANIFEST.in file solved the problem.
 
 

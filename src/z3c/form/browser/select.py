@@ -33,6 +33,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     zope.interface.implementsOnly(interfaces.ISelectWidget)
 
     klass = u'select-widget'
+    css = u'select'
     prompt = False
 
     noValueMessage = _('no value')

@@ -1,0 +1,23 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     tal:omit-tag="">
+<div id="" class="row"
+     tal:attributes="id string:${view/id}-row;
+                     class python:view.getCSSClass('row')">
+  <div class="label">
+    <label tal:attributes="for view/id">
+      <span i18n:translate=""
+          tal:content="view/label">label</span>
+      <span class="required"
+            tal:condition="view/required">*</span>
+    </label>
+  </div>
+  <div class="widget" tal:content="structure view/render">
+    <input type="text" size="24" value="" />
+  </div>
+  <div class="error"
+       tal:condition="view/error">
+    <span tal:replace="structure view/error/render">error</span>
+  </div>
+</div>
+</div>

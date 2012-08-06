@@ -30,6 +30,7 @@ class TextAreaWidget(widget.HTMLTextAreaWidget, Widget):
     zope.interface.implementsOnly(interfaces.ITextAreaWidget)
 
     klass = u'textarea-widget'
+    css = u'textarea'
     value = u''
 
     def update(self):

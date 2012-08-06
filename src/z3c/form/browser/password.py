@@ -28,6 +28,7 @@ class PasswordWidget(text.TextWidget):
     zope.interface.implementsOnly(interfaces.IPasswordWidget)
 
     klass = u'password-widget'
+    css = u'password'
 
 
 @zope.component.adapter(zope.schema.interfaces.IPassword, interfaces.IFormLayer)

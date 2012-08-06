@@ -18,4 +18,6 @@
   <include file="textlines.zcml" />
   <include file="object.zcml" />
 
+  <include file="widget.zcml" />
+
 </configure>

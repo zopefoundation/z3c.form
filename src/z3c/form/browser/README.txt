@@ -65,6 +65,46 @@ ASCII
   <span id="foo" class="textarea-widget required ascii-field">This is
    ASCII.</span>
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="textarea-widget required ascii-field">This is
+   ASCII.</span>
+  </div>
+  </div>
+
+As you can see, we will get an additional error class called ``row-error`` if
+we render a widget with an error view assinged:
+
+  >>> class DummyErrorView(object):
+  ...    def render(self):
+  ...        return u'Dummy Error'
+  >>> widget.error = (DummyErrorView())
+  >>> print widget()
+  <div id="foo-row" class="row-error row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="textarea-widget required ascii-field">This is
+   ASCII.</span>
+  </div>
+    <div class="error">
+      Dummy Error
+    </div>
+  </div>
+
 
 ASCIILine
 ---------
@@ -86,6 +126,22 @@ ASCIILine
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="text-widget required asciiline-field">An ASCII line.</span>
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required asciiline-field">An ASCII line.</span>
+  </div>
+  </div>
+
 
 Bool
 ----
@@ -122,6 +178,21 @@ Bool
   <span id="foo" class="radio-widget required bool-field"><span
       class="selected-option">yes</span></span>
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span>Check me</span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+  <span id="foo" class="radio-widget required bool-field"><span class="selected-option">yes</span></span>
+  </div>
+  </div>
+
 For the boolean, the checkbox widget can be used as well:
 
   >>> from z3c.form.browser import checkbox
@@ -152,6 +223,21 @@ For the boolean, the checkbox widget can be used as well:
   <span id="foo" class="checkbox-widget required bool-field"><span
       class="selected-option">yes</span></span>
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span>Check me</span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+  <span id="foo" class="checkbox-widget required bool-field"><span class="selected-option">yes</span></span>
+  </div>
+  </div>
+
 We can also have a single checkbox button for the boolean.
 
   >>> widget = checkbox.SingleCheckBoxFieldWidget(field, TestRequest())
@@ -180,6 +266,21 @@ Note that the widget label is not repeated twice:
 
   >>> widget.label
   u''
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+  <span id="foo" class="single-checkbox-widget required bool-field"><span class="selected-option">Check me</span></span>
+  </div>
+  </div>
 
 
 Button
@@ -243,6 +344,21 @@ Bytes
   >>> widget.render().strip('\n')
   u'<span id="foo" class="file-widget required bytes-field">Default bytes</span>'
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+  <span id="foo" class="file-widget required bytes-field">Default bytes</span>
+  </div>
+  </div>
+
 
 BytesLine
 ---------
@@ -264,6 +380,21 @@ BytesLine
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="text-widget required bytesline-field">A Bytes line.</span>
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required bytesline-field">A Bytes line.</span>
+  </div>
+  </div>
 
 
 Choice
@@ -296,6 +427,21 @@ Choice
   <span id="foo" class="select-widget required choice-field"><span
     class="selected-option">Yes</span></span>
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+  <span id="foo" class="select-widget required choice-field"><span class="selected-option">Yes</span></span>
+  </div>
+  </div>
+
 
 Date
 ----
@@ -319,6 +465,21 @@ Date
   >>> print widget.render()
   <span id="foo" class="text-widget required date-field">07/04/01</span>
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required date-field">07/04/01</span>
+  </div>
+  </div>
+
 
 Datetime
 --------
@@ -340,6 +501,21 @@ Datetime
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="text-widget required datetime-field">07/04/01 12:00</span>
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required datetime-field">07/04/01 12:00</span>
+  </div>
+  </div>
 
 
 Decimal
@@ -363,6 +539,21 @@ Decimal
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="text-widget required decimal-field">1,265.87</span>
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required decimal-field">1,265.87</span>
+  </div>
+  </div>
 
 
 Dict
@@ -393,6 +584,21 @@ DottedName
   >>> print widget.render()
   <span id="foo" class="text-widget required dottedname-field">z3c.form</span>
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required dottedname-field">z3c.form</span>
+  </div>
+  </div>
+
 
 Float
 -----
@@ -414,6 +620,21 @@ Float
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="text-widget required float-field">1,265.8</span>
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required float-field">1,265.8</span>
+  </div>
+  </div>
 
 
 FrozenSet
@@ -447,6 +668,20 @@ FrozenSet
     class="selected-option">1</span>, <span
     class="selected-option">3</span></span>
 
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+  <span id="foo" class="select-widget required frozenset-field"><span class="selected-option">1</span>, <span class="selected-option">3</span></span>
+  </div>
+  </div>
 
 Id
 --
@@ -468,6 +703,21 @@ Id
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="text-widget required id-field">z3c.form</span>
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required id-field">z3c.form</span>
+  </div>
+  </div>
 
 
 ImageButton
@@ -3066,3 +3316,18 @@ URI
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> print widget.render()
   <span id="foo" class="text-widget required uri-field">http://zope.org</span>
+
+Calling the widget will return the widget including the layout
+
+  >>> print widget()
+  <div id="foo-row" class="row-required row">
+    <div class="label">
+      <label for="foo">
+        <span></span>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <div class="widget">
+      <span id="foo" class="text-widget required uri-field">http://zope.org</span>
+  </div>
+  </div>

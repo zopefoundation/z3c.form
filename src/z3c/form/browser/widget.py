@@ -22,7 +22,99 @@ from zope.schema.fieldproperty import FieldProperty
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.browser import interfaces
 
-class HTMLFormElement(object):
+
+class WidgetLayoutSupport(object):
+    """Widget layout support"""
+
+    def wrapCSSClass(self, klass, pattern='s(class)%'):
+        """Return a list of css class names wrapped with given pattern"""
+        if klass is not None and pattern is not None:
+            return [pattern % {'class': k} for k in klass.split()]
+        else:
+            return []
+
+    def getCSSClass(self, klass=None, error=None, required=None,
+        classPattern='%(class)s', errorPattern='%(class)s-error',
+        requiredPattern='%(class)s-required'):
+        """Setup given css class (klass) with error and required postfix
+        
+        If no klass name is given the widget.wrapper class name/names get used.
+        It is also possible if more then one (empty space separated) names 
+        are given as klass argument.
+
+        This method can get used from your form or widget template or widget
+        layout template without to re-implement the widget itself just because
+        you a different CSS class concept. 
+
+        The following sample:
+        
+        <div tal:attributes="class python:widget.getCSSClass('foo bar')">
+          label widget and error
+        </div>
+        
+        will render a div tag if the widget field defines required=True:
+        
+        <div class="foo-error bar-error foo-required bar-required foo bar">
+          label widget and error
+        </div>
+
+        And the following sample:
+        
+        <div tal:attributes="class python:widget.getCSSClass('row')">
+          label widget and error
+        </div>
+        
+        will render a div tag if the widget field defines required=True
+        and an error occurs:
+        
+        <div class="row-error row-required row">
+          label widget and error
+        </div>
+
+        Note; you need to define a globale widget property if you use
+        python:widget (in your form template). And you need to use the
+        view scope in your widget or layout templates.
+
+        Note, you can set the pattern to None for skip error or required
+        rendering. Or you can use a pattern like 'error' or 'required' if
+        you like to skip postfixing your default css klass name for error or
+        required rendering.
+
+        """
+        classes = []
+        # setup class names
+        if klass is not None:
+            kls = klass
+        else:
+            kls = self.css
+
+        # setup error class names
+        if error is not None:
+            error = error
+        else:
+            error = kls
+
+        # setup required class names
+        if required is not None:
+            required = required
+        else:
+            required = kls
+
+        # append error class names
+        if self.error is not None:
+            classes += self.wrapCSSClass(error, errorPattern)
+        # append required class names
+        if self.required:
+            classes += self.wrapCSSClass(required, requiredPattern)
+        # append given class names
+        classes += self.wrapCSSClass(kls, classPattern)
+        # remove duplicated class names but keep order
+        unique = []
+        [unique.append(kls) for kls in classes if kls not in unique]
+        return ' '.join(unique)
+
+
+class HTMLFormElement(WidgetLayoutSupport):
     zope.interface.implements(interfaces.IHTMLFormElement)
 
     id = FieldProperty(interfaces.IHTMLFormElement['id'])
@@ -48,6 +140,9 @@ class HTMLFormElement(object):
     onfocus = FieldProperty(interfaces.IHTMLFormElement['onfocus'])
     onblur = FieldProperty(interfaces.IHTMLFormElement['onblur'])
     onchange = FieldProperty(interfaces.IHTMLFormElement['onchange'])
+
+    # layout support
+    css = FieldProperty(interfaces.IHTMLFormElement['css'])
 
     def addClass(self, klass):
         """See interfaces.IHTMLFormElement"""

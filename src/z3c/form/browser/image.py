@@ -31,8 +31,11 @@ from z3c.form.browser.interfaces import IHTMLImageWidget
 class ImageWidget(button.ButtonWidget):
     """A image button of a form."""
     zope.interface.implementsOnly(interfaces.IImageWidget)
+
     src = FieldProperty(IHTMLImageWidget['src'])
+
     klass = u'image-widget'
+    css = u'image'
 
     def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""

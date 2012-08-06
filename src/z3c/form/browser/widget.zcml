@@ -1,0 +1,27 @@
+<configure
+    xmlns:zope="http://namespaces.zope.org/zope"
+    xmlns="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="z3c.form">
+
+  <!-- widget layout templates -->
+  <z3c:widgetLayout
+      mode="display"
+      widget="z3c.form.interfaces.IWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="widget_layout.pt"
+      />
+  <z3c:widgetLayout
+      mode="input"
+      widget="z3c.form.interfaces.IWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="widget_layout.pt"
+      />
+  <z3c:widgetLayout
+      mode="hidden"
+      widget="z3c.form.interfaces.IWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="widget_layout_hidden.pt"
+      />
+
+</configure>

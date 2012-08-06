@@ -271,6 +271,22 @@ def setupFormDefaults():
     zope.component.provideAdapter(
         text.TextFieldWidget,
         adapts=(zope.schema.interfaces.IURI, interfaces.IFormLayer))
+
+    # Widget Layout
+    zope.component.provideAdapter(
+        widget.WidgetLayoutFactory(getPath('widget_layout.pt'), 'text/html'),
+        (None, None, None, None, interfaces.IWidget),
+        interfaces.IWidgetLayoutTemplate, name=interfaces.INPUT_MODE)
+    zope.component.provideAdapter(
+        widget.WidgetLayoutFactory(getPath('widget_layout.pt'), 'text/html'),
+        (None, None, None, None, interfaces.IWidget),
+        interfaces.IWidgetLayoutTemplate, name=interfaces.DISPLAY_MODE)
+    zope.component.provideAdapter(
+        widget.WidgetLayoutFactory(getPath('widget_layout_hidden.pt'), 'text/html'),
+        (None, None, None, None, interfaces.IWidget),
+        interfaces.IWidgetLayoutTemplate, name=interfaces.HIDDEN_MODE)
+
+    # Text Field Widget
     zope.component.provideAdapter(
         widget.WidgetTemplateFactory(getPath('text_input.pt'), 'text/html'),
         (None, None, None, None, interfaces.ITextWidget),

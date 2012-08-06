@@ -2,10 +2,36 @@
 CHANGES
 =======
 
-2.7.1 (unreleased)
+2.8.0 (2012-08-06)
 ------------------
 
-- Nothing changed yet.
+- Feature: Implemented widget layout concept similar to z3c.pagelet. The new
+  layout concept allows to register layout templates additional to the widget
+  templates. Such a layout template only get used if a widget get called.
+  This enhacement is optional and compatible with all previous z3c.form
+  versions and dosn't affect existing code and customm implementations
+  except if you implemented a own __call__ method for widgets which
+  wasn't implemented in previous versions. The new __call__ method will lookup
+  and return a layout template which supports additional HTML code used as
+  a wrapper for the HTML code returned from the widget render method.
+  This concept allows to define additional HTML construct provided for all
+  widget and render specific CSS classes arround the widget per context, view,
+  request, etc discriminators. Such a HTML constuct was normaly supported in
+  form macros which can't get customized on a per widget, view or context base.
+
+  Summary; the new layout concept allows us to define a wrapper CSS elements
+  for the widget element (label, widget, error) on a per widgte base and skip
+  the generic form macros offered from z3c.formui.
+
+  Note; you only could get into trouble if you define a widget in tal without
+  to prefix them with ``nocall:`` e.g. tal:define="widget view/widgets/foo"
+  Just add a nocall like tal:define="widget nocall:view/widgets/foo" if your
+  rendering engine calls the __call__method by default. Also note that the
+  following will also call the __call__ method tal:define="widget myWidget".
+
+- Fixed content type extraction test which returned different values. This
+  probably depends on a newer version of guess_content_type. Just allow
+  image/x-png and image/pjpeg as valid values.
 
 
 2.7.0 (2012-07-11)

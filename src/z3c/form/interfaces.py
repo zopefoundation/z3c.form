@@ -379,6 +379,16 @@ class ISubformFactory(zope.interface.Interface):
         """Return a default object created to be populated.
         """
 
+# ----[ Widget layout template ]----------------------------------------------
+
+class IWidgetLayoutTemplate(zope.interface.Interface):
+    """Widget layout template marker used for render the widget layout.
+    
+    It is important that we don't inherit this template from IPageTemplate.
+    otherwise we will get into trouble since we lookup an IPageTemplate
+    in the widget/render method.
+
+    """
 
 # ----[ Widgets ]------------------------------------------------------------
 
@@ -427,6 +437,7 @@ class IWidget(ILocation):
         required=False)
 
     template = zope.interface.Attribute('''The widget template''')
+    layout = zope.interface.Attribute('''The widget layout template''')
 
     ignoreRequest = zope.schema.Bool(
         title=_('Ignore Request'),
@@ -470,7 +481,10 @@ class IWidget(ILocation):
         """Setup all of the widget information used for displaying."""
 
     def render():
-        """Return the widget's text representation."""
+        """Render the plain widget without additional layout"""
+
+    def __call__():
+        """Render a layout template which is calling widget/render"""
 
 
 class ISequenceWidget(IWidget):

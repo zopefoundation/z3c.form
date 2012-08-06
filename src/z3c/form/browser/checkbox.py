@@ -34,6 +34,7 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
     zope.interface.implementsOnly(interfaces.ICheckBoxWidget)
 
     klass = u'checkbox-widget'
+    css = u'checkbox'
     items = ()
 
     def isChecked(self, term):

@@ -11,6 +11,12 @@
         />
 
     <meta:directive
+        name="widgetLayout"
+        schema=".zcml.IWidgetTemplateDirective"
+        handler=".zcml.widgetLayoutTemplateDirective"
+        />
+
+    <meta:directive
         name="objectWidgetTemplate"
         schema=".zcml.IObjectWidgetTemplateDirective"
         handler=".zcml.objectWidgetTemplateDirective"

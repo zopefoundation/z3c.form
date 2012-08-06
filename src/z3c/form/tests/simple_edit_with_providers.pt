@@ -17,7 +17,7 @@
       <div class="row" tal:define="is_widget snippet/id | nothing">
 
         <tal:widget condition="is_widget"
-                    define="widget snippet">
+                    define="widget nocall:snippet">
         <b tal:condition="widget/error"
            tal:content="structure widget/error/render"
         /><label tal:condition="widget/id"
@@ -28,7 +28,7 @@
         </tal:widget>
 
         <tal:provider condition="not:is_widget"
-                      define="contentprovider snippet"
+                      define="contentprovider nocall:snippet"
                       replace="structure contentprovider/render" />
 
       </div>

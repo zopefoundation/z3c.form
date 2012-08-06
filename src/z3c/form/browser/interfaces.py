@@ -20,6 +20,30 @@ import zope.interface
 import zope.schema
 
 
+class IWidgetLayoutSupport(zope.interface.Interface):
+
+    css = zope.schema.TextLine(
+        title=u'Widget layout CSS class name(s)',
+        description=(u'This attribute defines one or more layout class names.'),
+        default=u'row',
+        required=False)
+
+    def getCSSClass(klass=None, error=None, required=None,
+        classPattern='%(class)s', errorPattern='%(class)s-error',
+        requiredPattern='%(class)s-required'):
+        """Setup given css class (klass) with error and required postfix
+
+        If no klass name is given the widget.wrapper class name/names get used.
+        It is also possible if more then one (empty space separated) names 
+        are given as klass argument.
+
+        This method can get used from your form or widget template or widget
+        layout template without to re-implement the widget itself just because
+        you a different CSS class concept. 
+
+        """
+
+
 class IHTMLCoreAttributes(zope.interface.Interface):
     """The HTML element 'core' attributes."""
 
@@ -126,8 +150,9 @@ class IHTMLEventsAttributes(zope.interface.Interface):
 
 class IHTMLFormElement(IHTMLCoreAttributes,
                        IHTMLI18nAttributes,
-                       IHTMLEventsAttributes):
-    """A generic form-related element."""
+                       IHTMLEventsAttributes,
+                       IWidgetLayoutSupport):
+    """A generic form-related element including layout template support."""
 
     disabled = zope.schema.Choice(
         title=u'Disabled',

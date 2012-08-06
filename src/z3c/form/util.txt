@@ -229,6 +229,11 @@ the filename:
 There is also a method which is able to extract the content type for a given
 file upload. We can use the stub form from the previous test.
 
+Not sure if this an error but on my windows system this test returns
+image/pjpeg (progressive jpeg) for foo.jpg and image/x-png for foo.png. So
+let's allow this too since this depends on guess_content_type and is not
+really a part of z3c.form.
+
   >>> uploadForm = FileUploadFormStub()
   >>> uploadForm.setFakeFileName('foo.txt')
   >>> util.extractContentType(uploadForm, 'form.widgets.data')
@@ -240,11 +245,11 @@ file upload. We can use the stub form from the previous test.
 
   >>> uploadForm.setFakeFileName('foo.jpg')
   >>> util.extractContentType(uploadForm, 'form.widgets.data')
-  'image/jpeg'
+  'image/...jpeg'
 
   >>> uploadForm.setFakeFileName('foo.png')
   >>> util.extractContentType(uploadForm, 'form.widgets.data')
-  'image/png'
+  'image/...png'
 
   >>> uploadForm.setFakeFileName('foo.tif')
   >>> util.extractContentType(uploadForm, 'form.widgets.data')

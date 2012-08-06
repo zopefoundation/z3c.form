@@ -33,6 +33,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
     zope.interface.implementsOnly(interfaces.IRadioWidget)
 
     klass = u'radio-widget'
+    css = u'radio'
     items = ()
 
     def isChecked(self, term):

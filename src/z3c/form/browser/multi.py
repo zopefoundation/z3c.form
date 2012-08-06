@@ -40,6 +40,7 @@ class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
 
     prefix = 'widget'
     klass = u'multi-widget'
+    css = u'multi'
     items = ()
 
     showLabel = True # show labels for item subwidgets or not

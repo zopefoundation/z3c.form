@@ -30,6 +30,7 @@ from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
 from z3c.form.widget import WidgetTemplateFactory
 from z3c.form.object import ObjectWidgetTemplateFactory
+from z3c.form.widget import WidgetLayoutFactory
 
 
 class IWidgetTemplateDirective(zope.interface.Interface):
@@ -108,6 +109,25 @@ def widgetTemplateDirective(
     # register the template
     zope.component.zcml.adapter(_context, (factory,), IPageTemplate,
         (for_, layer, view, field, widget), name=mode)
+
+
+def widgetLayoutTemplateDirective(
+    _context, template, for_=zope.interface.Interface,
+    layer=IDefaultBrowserLayer, view=None, field=None, widget=None,
+    mode=interfaces.INPUT_MODE, contentType='text/html'):
+
+    # Make sure that the template exists
+    template = os.path.abspath(str(_context.path(template)))
+    if not os.path.isfile(template):
+        raise ConfigurationError("No such file", template)
+
+    factory = WidgetLayoutFactory(template, contentType)
+    zope.interface.directlyProvides(factory, interfaces.IWidgetLayoutTemplate)
+
+    # register the template
+    zope.component.zcml.adapter(_context, (factory,),
+        interfaces.IWidgetLayoutTemplate, (for_, layer, view, field, widget),
+        name=mode)
 
 
 def objectWidgetTemplateDirective(

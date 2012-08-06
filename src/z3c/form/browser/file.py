@@ -29,6 +29,7 @@ class FileWidget(text.TextWidget):
     zope.interface.implementsOnly(interfaces.IFileWidget)
 
     klass = u'file-widget'
+    css = u'file'
 
     # Filename and headers attribute get set by ``IDataConverter`` to the widget
     # provided by the FileUpload object of the form.

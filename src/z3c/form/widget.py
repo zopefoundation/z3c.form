@@ -51,6 +51,7 @@ class Widget(zope.location.Location):
     error = FieldProperty(interfaces.IWidget['error'])
     value = FieldProperty(interfaces.IWidget['value'])
     template = None
+    layout = None
     ignoreRequest = FieldProperty(interfaces.IWidget['ignoreRequest'])
     setErrors = FieldProperty(interfaces.IWidget['setErrors'])
     showDefault = FieldProperty(interfaces.IWidget['showDefault'])
@@ -134,8 +135,12 @@ class Widget(zope.location.Location):
                 if value is not None:
                     setattr(self, attrName, value.get())
 
-    def render(self):
+    def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""
+        return self.request.get(self.name, default)
+
+    def render(self):
+        """Render the plain widget without additional layout"""
         template = self.template
         if template is None:
             template = zope.component.getMultiAdapter(
@@ -143,9 +148,14 @@ class Widget(zope.location.Location):
                 IPageTemplate, name=self.mode)
         return template(self)
 
-    def extract(self, default=interfaces.NO_VALUE):
-        """See z3c.form.interfaces.IWidget."""
-        return self.request.get(self.name, default)
+    def __call__(self):
+        """Get and return layout template which is calling widget/render"""
+        layout = self.layout
+        if layout is None:
+            layout = zope.component.getMultiAdapter(
+                (self.context, self.request, self.form, self.field, self),
+                interfaces.IWidgetLayoutTemplate, name=self.mode)
+        return layout(self)
 
     def __repr__(self):
         return '<%s %r>' % (self.__class__.__name__, self.name)
@@ -449,6 +459,25 @@ class WidgetTemplateFactory(object):
             util.getSpecification(field),
             util.getSpecification(widget))(self)
         zope.interface.implementer(IPageTemplate)(self)
+
+    def __call__(self, context, request, view, field, widget):
+        return self.template
+
+
+class WidgetLayoutFactory(object):
+    """Widget layout template factory."""
+
+    def __init__(self, filename, contentType='text/html',
+                 context=None, request=None, view=None,
+                 field=None, widget=None):
+        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        zope.component.adapter(
+            util.getSpecification(context),
+            util.getSpecification(request),
+            util.getSpecification(view),
+            util.getSpecification(field),
+            util.getSpecification(widget))(self)
+        zope.interface.implementer(interfaces.IWidgetLayoutTemplate)(self)
 
     def __call__(self, context, request, view, field, widget):
         return self.template

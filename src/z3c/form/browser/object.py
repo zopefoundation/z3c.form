@@ -29,6 +29,7 @@ class ObjectWidget(widget.HTMLFormElement, object.ObjectWidget):
     zope.interface.implements(interfaces.IObjectWidget)
 
     klass = u'object-widget'
+    css = u'object'
 
 @zope.component.adapter(zope.schema.interfaces.IObject, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

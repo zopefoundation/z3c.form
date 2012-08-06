@@ -1,1 +1,9 @@
-global-include *.mo *.py *.pt *.zcml *.txt
+global-include *.mo
+include *.txt
+recursive-include src/z3c/form *.zcml *.pt *.txt *.png *.dot *.ps
+recursive-include benchmark *.py
+prune bin
+prune develop-eggs
+prune dist
+prune docs
+prune parts

@@ -1,1 +1,1 @@
-global-include *.mo
+global-include *.mo *.py *.pt *.zcml *.txt

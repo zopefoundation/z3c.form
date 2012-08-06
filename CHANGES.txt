@@ -28,7 +28,7 @@ CHANGES
   layout concept allows to register layout templates additional to the widget
   templates. Such a layout template only get used if a widget get called.
   This enhacement is optional and compatible with all previous z3c.form
-  versions and dosn't affect existing code and customm implementations
+  versions and doesn't affect existing code and custom implementations
   except if you implemented a own __call__ method for widgets which
   wasn't implemented in previous versions. The new __call__ method will lookup
   and return a layout template which supports additional HTML code used as

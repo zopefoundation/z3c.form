@@ -181,6 +181,7 @@ class FieldWidgets(util.Manager):
     ignoreContext = False
     ignoreRequest = False
     ignoreReadonly = False
+    ignoreRequiredOnExtract = False
     setErrors = True
 
     def __init__(self, form, request, content):
@@ -300,6 +301,7 @@ class FieldWidgets(util.Manager):
                 raw = widget.extract()
                 if raw is not interfaces.NO_VALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
+                widget.ignoreRequiredOnValidation = self.ignoreRequiredOnExtract
                 zope.component.getMultiAdapter(
                     (self.content,
                      self.request,

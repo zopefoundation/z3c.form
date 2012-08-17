@@ -373,7 +373,9 @@ definitions and create widgets for them. Thus, let's create a schema first:
   ...
   ...     @zope.interface.invariant
   ...     def twiceAsLong(person):
-  ...         if len(person.lastName) >= 2 * len(person.firstName):
+  ...         # note: we're protecting here values against being None
+  ...         # just in case ignoreRequiredOnExtract lets that through
+  ...         if len(person.lastName or '') >= 2 * len(person.firstName or ''):
   ...             raise LastNameTooShort()
 
 Next we need a form that specifies the fields to be added:
@@ -766,6 +768,22 @@ name:
   >>> manager.update()
   >>> manager.extract()
   ({'firstName': u'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
+
+We can also turn off ``required`` checking for data extraction:
+
+  >>> request = TestRequest(form={
+  ...     'form.widgets.firstName': u'Stephan', 'form.widgets.id': u'srichter'})
+  >>> manager = field.FieldWidgets(personForm, request, context)
+  >>> manager.ignoreContext = True
+  >>> manager.ignoreRequiredOnExtract = True
+  >>> manager.update()
+
+Here we get the required field as ``None`` and no errors:
+
+  >>> manager.extract()
+  ({'lastName': None, 'firstName': u'Stephan'}, ())
+
+  >>> manager.ignoreRequiredOnExtract = False
 
 Or, we could violate a constraint. This constraint raises Invalid, which is
 a convenient way to raise errors where we mainly care about providing a custom

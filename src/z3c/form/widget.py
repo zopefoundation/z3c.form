@@ -53,6 +53,8 @@ class Widget(zope.location.Location):
     template = None
     layout = None
     ignoreRequest = FieldProperty(interfaces.IWidget['ignoreRequest'])
+    ignoreRequiredOnValidation = FieldProperty(
+        interfaces.IWidget['ignoreRequiredOnValidation'])
     setErrors = FieldProperty(interfaces.IWidget['setErrors'])
     showDefault = FieldProperty(interfaces.IWidget['showDefault'])
 

@@ -5,7 +5,14 @@ CHANGES
 2.8.2 (unreleased)
 ------------------
 
-- ...
+- Feature: Added ``IForm.ignoreRequiredOnValidation``,
+  ``IWidgets.ignoreRequiredOnValidation``,
+  ``IWidget.ignoreRequiredOnValidation``.
+  Those enable ``extract`` and ``extractData`` to return without errors in
+  case a required field is not filled.
+  That also means the usual "Missing value" error will not get displayed.
+  But the ``required-info`` (usually the ``*``) yes.
+  This is handy to store partial state.
 
 
 2.8.1 (2012-08-06)

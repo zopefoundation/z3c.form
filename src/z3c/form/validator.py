@@ -16,6 +16,9 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
+
+import copy
+
 import zope.component
 import zope.interface
 import zope.schema
@@ -45,6 +48,10 @@ class SimpleFieldValidator(object):
         context = self.context
         field = self.field
         widget = self.widget
+        if field.required and widget and widget.ignoreRequiredOnValidation:
+            # make the field not-required while checking
+            field = copy.copy(field)
+            field.required = False
         if context is not None:
             field = field.bind(context)
         if value is interfaces.NOT_CHANGED:

@@ -383,7 +383,7 @@ class ISubformFactory(zope.interface.Interface):
 
 class IWidgetLayoutTemplate(zope.interface.Interface):
     """Widget layout template marker used for render the widget layout.
-    
+
     It is important that we don't inherit this template from IPageTemplate.
     otherwise we will get into trouble since we lookup an IPageTemplate
     in the widget/render method.
@@ -446,13 +446,22 @@ class IWidget(ILocation):
         default=False,
         required=False)
 
-    #ugly thing to remove setErrors parameter from extract
+    # ugly thing to remove setErrors parameter from extract
     setErrors = zope.schema.Bool(
         title=_('Set errors'),
         description=_('A flag, when set, the widget sets error messages '
                       'on calling extract().'),
         default=True,
         required=False)
+
+    # a bit different from ignoreRequiredOnExtract, because we record
+    # here the fact, but for IValidator, because the check happens there
+    ignoreRequiredOnValidation = zope.schema.Bool(
+        title=_('Ignore Required validation'),
+        description=_("If set then required fields will pass validation "
+                      "regardless whether they're filled in or not"),
+        default=False,
+        required=True)
 
     showDefault = zope.schema.Bool(
         title=_('Show default value'),
@@ -636,6 +645,13 @@ class IWidgets(IManager):
     ignoreReadonly = zope.schema.Bool(
         title=_('Ignore Readonly'),
         description=_('If set then readonly fields will also be shown.'),
+        default=False,
+        required=True)
+
+    ignoreRequiredOnExtract = zope.schema.Bool(
+        title=_('Ignore Required validation on extract'),
+        description=_("If set then required fields will pass validation "
+                      "on extract regardless whether they're filled in or not"),
         default=False,
         required=True)
 
@@ -899,6 +915,13 @@ class IForm(zope.interface.Interface):
     ignoreReadonly = zope.schema.Bool(
         title=_('Ignore Readonly'),
         description=_('If set then readonly fields will also be shown.'),
+        default=False,
+        required=True)
+
+    ignoreRequiredOnExtract = zope.schema.Bool(
+        title=_('Ignore Required validation on extract'),
+        description=_("If set then required fields will pass validation "
+                      "on extract regardless whether they're filled in or not"),
         default=False,
         required=True)
 

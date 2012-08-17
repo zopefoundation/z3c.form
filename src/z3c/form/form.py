@@ -112,12 +112,13 @@ class BaseForm(browser.BrowserPage):
     prefix = 'form.'
     status = ''
     template = None
-    widgets  = None
+    widgets = None
 
     mode = interfaces.INPUT_MODE
     ignoreContext = False
     ignoreRequest = False
     ignoreReadonly = False
+    ignoreRequiredOnExtract = False
 
     def getContent(self):
         '''See interfaces.IForm'''
@@ -142,6 +143,7 @@ class BaseForm(browser.BrowserPage):
     def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
         self.widgets.setErrors = setErrors
+        self.widgets.ignoreRequiredOnExtract = self.ignoreRequiredOnExtract
         return self.widgets.extract()
 
     def update(self):

@@ -300,6 +300,50 @@ Clean-up
   True
 
 
+Ignoring required
+~~~~~~~~~~~~~~~~~
+
+Sometimes we want to ignore ``required`` checking.
+That's because we want to have *all* fields extracted from the form
+regardless whether required fields are filled.
+And have no required-errors displayed.
+
+  >>> class IPersonRequired(zope.interface.Interface):
+  ...     login = zope.schema.TextLine(
+  ...         title=u'Login',
+  ...         required=True)
+  ...
+  ...     email = zope.schema.TextLine(
+  ...         title=u'E-mail')
+
+  >>> simple = validator.SimpleFieldValidator(
+  ...     None, None, None, IPersonRequired['login'], None)
+
+  >>> simple.validate(None)
+  Traceback (most recent call last):
+  ...
+  RequiredMissing: login
+
+Ooops we need a widget too.
+
+  >>> widget = z3c.form.widget.Widget(None)
+  >>> widget.field = IPersonRequired['login']
+
+  >>> simple = validator.SimpleFieldValidator(
+  ...     None, None, None, IPersonRequired['login'], widget)
+
+  >>> simple.validate(None)
+  Traceback (most recent call last):
+  ...
+  RequiredMissing: login
+
+Meeeh, need to signal that we need to ignore ``required``:
+
+  >>> widget.ignoreRequiredOnValidation = True
+
+  >>> simple.validate(None)
+
+
 Widget Manager Validators
 -------------------------
 
@@ -463,4 +507,3 @@ the form.
   'Invalid'
   >>> errors[0].args[0]
   'The login not part of email.'
-

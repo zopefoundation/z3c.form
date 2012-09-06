@@ -5,7 +5,8 @@ CHANGES
 2.8.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- ``SequenceWidget`` DISPLAY_MODE: silently ignore missing tokens,
+  because INPUT_MODE and HIDDEN_MODE does that too
 
 
 2.8.2 (2012-08-17)

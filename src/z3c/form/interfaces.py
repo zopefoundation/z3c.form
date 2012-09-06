@@ -1124,3 +1124,5 @@ class ForgivingChoice(zope.schema.Choice):
         if self.context is not None:
             if self.query(self.context) == value:
                 return
+
+        super(ForgivingChoice, self)._validate(value)

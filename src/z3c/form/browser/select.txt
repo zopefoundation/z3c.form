@@ -91,6 +91,20 @@ If we select item "b", then it should be selected:
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
+Let's see what happens if we have values that are not in the vocabulary:
+
+  >>> widget.value = ['x', 'y']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <select id="widget-id" name="widget.name:list"
+          class="select-widget" size="1">
+  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-0" value="a">a</option>
+  <option id="widget-id-1" value="b">b</option>
+  <option id="widget-id-2" value="c">c</option>
+  </select>
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
+
 Let's now make sure that we can extract user entered data from a widget:
 
   >>> widget.request = TestRequest(form={'widget.name': ['c']})
@@ -255,6 +269,13 @@ register it first:
     <span class="selected-option">c</span>
   </span>
 
+Let's see what happens if we have values that are not in the vocabulary:
+
+  >>> widget.value = ['x', 'y']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <span id="widget-id" class="select-widget required"></span>
+
 Hidden Widget
 -------------
 
@@ -274,5 +295,13 @@ We can now set our widget's mode to hidden and render it:
   >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
   <input type="hidden" name="widget.name:list"
          class="hidden-widget" value="b" id="widget-id-1" />
+  <input name="widget.name-empty-marker" type="hidden"
+         value="1" />
+
+Let's see what happens if we have values that are not in the vocabulary:
+
+  >>> widget.value = ['x', 'y']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
   <input name="widget.name-empty-marker" type="hidden"
          value="1" />

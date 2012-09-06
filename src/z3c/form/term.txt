@@ -134,6 +134,23 @@ We should now be able to get all terms as before:
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
 
+Missing terms
+
+Sometimes it happens that a term goes away from the vocabulary, but our
+stored objects still reference that term.
+
+  >>> zope.component.provideAdapter(term.MissingChoiceTermsVocabulary)
+
+  >>> terms = term.ChoiceTerms(
+  ...     None, request, None, ratingField, widget)
+  >>> term = terms.getTermByToken('42')
+  >>> term.token
+  '42'
+  >>> term.value
+  '42'
+  >>> term.title
+  u'Missing: ${token}'
+
 Bool fields
 +++++++++++
 

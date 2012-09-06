@@ -66,16 +66,35 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
                 'content': message,
                 'selected': self.value == []
                 })
-        for count, term in enumerate(self.terms):
+
+        ignored = set(self.value)
+
+        def addItem(idx, term, prefix=''):
             selected = self.isSelected(term)
-            id = '%s-%i' % (self.id, count)
+            if selected:
+                ignored.remove(term.token)
+            id = '%s-%s%i' % (self.id, prefix, idx)
             content = term.token
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 content = translate(
                     term.title, context=self.request, default=term.title)
             items.append(
-                {'id':id, 'value':term.token, 'content':content,
-                 'selected':selected})
+                {'id': id, 'value': term.token, 'content': content,
+                 'selected': selected})
+
+        for idx, term in enumerate(self.terms):
+            addItem(idx, term)
+
+        if ignored:
+            # some values are not displayed, probably they went away from the vocabulary
+            for idx, token in enumerate(sorted(ignored)):
+                try:
+                    term = self.terms.getTermByToken(token)
+                except LookupError:
+                    # just in case the term really went away
+                    continue
+
+                addItem(idx, term, prefix='missing-')
         return items
 
 

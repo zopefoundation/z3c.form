@@ -87,6 +87,9 @@
       factory=".term.ChoiceTermsVocabulary"
       />
   <adapter
+      factory=".term.MissingChoiceTermsVocabulary"
+      />
+  <adapter
       factory=".term.ChoiceTermsSource"
       />
   <adapter

@@ -1,0 +1,213 @@
+============================
+Select Widget, missing terms
+============================
+
+The select widget allows you to select one or more values from a set of given
+options. The "SELECT" and "OPTION" elements are described here:
+
+http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#edef-SELECT
+
+As for all widgets, the select widget must provide the new ``IWidget``
+interface:
+
+  >>> from z3c.form import interfaces
+  >>> from z3c.form.browser import select
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+
+  >>> widget = select.SelectWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget-id'
+  >>> widget.name = 'widget.name'
+
+We also need to register the template for at least the widget and request:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('select_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ISelectWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+Let's provide some values for this widget. We can do this by defining a source
+providing ``ITerms``. This source uses descriminators which will fit our setup.
+
+  >>> import zope.schema.interfaces
+  >>> from zope.schema.vocabulary import SimpleVocabulary
+  >>> from zope.schema.vocabulary import SimpleTerm
+  >>> import z3c.form.term
+
+  >>> class SelectionTerms(z3c.form.term.MissingChoiceTermsVocabulary):
+  ...     def __init__(self, context, request, form, field, widget):
+  ...         self.terms = SimpleVocabulary.fromValues(['a', 'b', 'c'])
+  ...
+  ...     def makeMissingTerm(self, token):
+  ...         if token == 'x':
+  ...             return super(SelectionTerms, self).makeMissingTerm(token)
+  ...         else:
+  ...             raise LookupError
+
+  >>> zope.component.provideAdapter(SelectionTerms,
+  ...     (None, interfaces.IFormLayer, None, None, interfaces.ISelectWidget) )
+
+Now let's try if we get widget values:
+
+  >>> widget.update()
+  >>> print widget.render()
+  <select id="widget-id" name="widget.name:list"
+          class="select-widget" size="1">
+  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-0" value="a">a</option>
+  <option id="widget-id-1" value="b">b</option>
+  <option id="widget-id-2" value="c">c</option>
+  </select>
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
+
+If we select item "x", then it should be selected:
+
+  >>> widget.value = ['x']
+  >>> widget.update()
+  >>> print widget.render()
+  <select id="widget-id" name="widget.name:list"
+          class="select-widget" size="1">
+  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-0" value="a">a</option>
+  <option id="widget-id-1" value="b">b</option>
+  <option id="widget-id-2" value="c">c</option>
+  <option id="widget-id-missing-0" selected="selected" value="x">Missing: x</option>
+  </select>
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
+
+If we select item "y", then it should not be around:
+
+  >>> widget.value = ['y']
+  >>> widget.update()
+  >>> print widget.render()
+  <select id="widget-id" name="widget.name:list"
+          class="select-widget" size="1">
+  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-0" value="a">a</option>
+  <option id="widget-id-1" value="b">b</option>
+  <option id="widget-id-2" value="c">c</option>
+  </select>
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
+
+Let's now make sure that we can extract user entered data from a widget:
+
+  >>> widget.request = TestRequest(form={'widget.name': ['c']})
+  >>> widget.update()
+  >>> widget.extract()
+  ['c']
+
+When "no value" is selected, then no verification against the terms is done:
+
+  >>> widget.request = TestRequest(form={'widget.name': ['--NOVALUE--']})
+  >>> widget.update()
+  >>> widget.extract(default=1)
+  ['--NOVALUE--']
+
+Let's now make sure that we can extract user entered missing data from a widget:
+
+  >>> widget.request = TestRequest(form={'widget.name': ['x']})
+  >>> widget.update()
+  >>> widget.extract()
+  ['x']
+
+  >>> widget.request = TestRequest(form={'widget.name': ['y']})
+  >>> widget.update()
+  >>> widget.extract()
+  <NO_VALUE>
+
+Unfortunately, when nothing is selected, we do not get an empty list sent into
+the request, but simply no entry at all. For this we have the empty marker, so
+that:
+
+  >>> widget.request = TestRequest(form={'widget.name-empty-marker': '1'})
+  >>> widget.update()
+  >>> widget.extract()
+  []
+
+If nothing is found in the request, the default is returned:
+
+  >>> widget.request = TestRequest()
+  >>> widget.update()
+  >>> widget.extract(default=1)
+  1
+
+Let's now make sure that a bogus value causes extract to return the default as
+described by the interface:
+
+  >>> widget.request = TestRequest(form={'widget.name': ['y']})
+  >>> widget.update()
+  >>> widget.extract(default=1)
+  1
+
+Display Widget
+--------------
+
+The select widget comes with a template for ``DISPLAY_MODE``. Let's
+register it first:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('select_display.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ISelectWidget),
+  ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
+
+  >>> widget.required = True
+  >>> widget.mode = interfaces.DISPLAY_MODE
+  >>> widget.value = ['b', 'c']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <span id="widget-id" class="select-widget required">
+    <span class="selected-option">b</span>,
+    <span class="selected-option">c</span>
+  </span>
+
+Let's see what happens if we have values that are not in the vocabulary:
+
+  >>> widget.value = ['b', 'x', 'y']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <span id="widget-id" class="select-widget required">
+  <span class="selected-option">b</span>,
+  <span class="selected-option">Missing: x</span>
+  </span>
+
+Hidden Widget
+-------------
+
+The select widget comes with a template for ``HIDDEN_MODE``.  Let's
+register it first:
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('select_hidden.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.ISelectWidget),
+  ...     IPageTemplate, name=interfaces.HIDDEN_MODE)
+
+We can now set our widget's mode to hidden and render it:
+
+  >>> widget.mode = interfaces.HIDDEN_MODE
+  >>> widget.value = ['b']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <input type="hidden" name="widget.name:list"
+         class="hidden-widget" value="b" id="widget-id-1" />
+  <input name="widget.name-empty-marker" type="hidden"
+         value="1" />
+
+Let's see what happens if we have values that are not in the vocabulary:
+
+  >>> widget.value = ['b', 'x', 'y']
+  >>> widget.update()
+  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  <input id="widget-id-1" name="widget.name:list" value="b" class="hidden-widget" type="hidden" />
+  <input id="widget-id-missing-0" name="widget.name:list" value="x" class="hidden-widget" type="hidden" />
+  <input name="widget.name-empty-marker" type="hidden" value="1" />

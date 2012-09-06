@@ -104,6 +104,12 @@ def test_suite():
             checker=checker,
             ),
         doctest.DocFileSuite(
+            '../widget-miss.txt',
+            setUp=setUp, tearDown=testing.tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
+            ),
+        doctest.DocFileSuite(
             '../button.txt',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,

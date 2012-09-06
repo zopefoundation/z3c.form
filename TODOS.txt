@@ -22,7 +22,7 @@ Widgets
   for the ISequence field.
 
 - The values defined in "browser" widgets, like ``klass`` or ``onclick``
-  should be overridable by value adapters. 
+  should be overridable by value adapters.
 
 - File upload widget and converter should have a "clear current" option
   available to clear current value if there's any and the field is not required.
@@ -44,3 +44,6 @@ Improvements
 
 Add explicit difference between error and confirmation message e.g.
 "There were some errors." and "No changes were applied."
+
+Think about making the framework use NOT_CHANGED on every widget that does not
+change it's value.

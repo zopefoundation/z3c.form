@@ -491,6 +491,12 @@ values, they have to be converted to the title of the term:
   >>> seqWidget.displayValue
   [u'Value 1', u'Value 2']
 
+Unknown values/terms get silently ignored.
+
+  >>> seqWidget.value = ('v3', 'v4')
+  >>> seqWidget.displayValue
+  [u'Value 3']
+
 When input forms are directly switched to display forms within the same
 request, it can happen that the value contains the "--NOVALUE--" token
 entry. This entry should be silently ignored:

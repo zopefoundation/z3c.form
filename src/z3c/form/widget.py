@@ -193,7 +193,12 @@ class SequenceWidget(Widget):
             # Ignore no value entries. They are in the request only.
             if token == self.noValueToken:
                 continue
-            term = self.terms.getTermByToken(token)
+            try:
+                term = self.terms.getTermByToken(token)
+            except LookupError:
+                # silently ignore missing tokens, because INPUT_MODE and
+                # HIDDEN_MODE does that too
+                continue
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 value.append(translate(
                     term.title, context=self.request, default=term.title))
@@ -217,7 +222,7 @@ class SequenceWidget(Widget):
     def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""
         if (self.name not in self.request and
-            self.name+'-empty-marker' in self.request):
+            self.name + '-empty-marker' in self.request):
             return []
         value = self.request.get(self.name, default)
         if value != default:

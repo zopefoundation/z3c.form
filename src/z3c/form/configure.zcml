@@ -9,22 +9,6 @@
       type="zope.publisher.interfaces.browser.IBrowserSkinType"
       />
 
-  <!-- Validators -->
-  <adapter
-      factory=".validator.SimpleFieldValidator"
-      />
-  <adapter
-      factory=".validator.InvariantsValidator"
-      />
-
-  <!-- Data Managers -->
-  <adapter
-      factory=".datamanager.AttributeField"
-      />
-  <adapter
-      factory=".datamanager.DictionaryField"
-      />
-
   <!-- Widget Manager -->
   <adapter
       factory=".field.FieldWidgets"
@@ -34,201 +18,19 @@
       factory=".contentprovider.FieldWidgetsAndProviders"
       />
 
-  <!-- Data Converters -->
-  <adapter
-      factory=".converter.FieldDataConverter"
-      />
-  <adapter
-      factory=".converter.IntegerDataConverter"
-      />
-  <adapter
-      factory=".converter.FloatDataConverter"
-      />
-  <adapter
-      factory=".converter.DecimalDataConverter"
-      />
-  <adapter
-      factory=".converter.DateDataConverter"
-      />
-  <adapter
-      factory=".converter.TimeDataConverter"
-      />
-  <adapter
-      factory=".converter.DatetimeDataConverter"
-      />
-  <adapter
-      factory=".converter.TimedeltaDataConverter"
-      />
-  <include file="file.zcml" />
-  <adapter
-      factory=".converter.SequenceDataConverter"
-      />
-  <adapter
-      factory=".converter.CollectionSequenceDataConverter"
-      />
-  <adapter
-      factory=".converter.BoolSingleCheckboxDataConverter"
-      />
-  <adapter
-      factory=".converter.FieldWidgetDataConverter"
-      />
-  <adapter
-      factory=".converter.TextLinesConverter"
-      />
-  <adapter
-      factory=".converter.MultiConverter"
-      />
-
-  <!-- ITerms -->
-  <adapter
-      factory=".term.ChoiceTerms"
-      />
-  <!--<adapter
-      factory=".term.ChoiceTermsVocabulary"
-      />-->
-  <adapter
-      factory=".term.MissingChoiceTermsVocabulary"
-      />
-  <adapter
-      factory=".term.ChoiceTermsSource"
-      />
-  <adapter
-      factory=".term.CollectionTerms"
-      />
-  <adapter
-      factory=".term.CollectionTermsVocabulary"
-      />
-  <adapter
-      factory=".term.CollectionTermsSource"
-      />
-  <adapter
-      factory=".term.BoolTerms"
-      />
-
   <!-- Actions, Action Managers and Handlers -->
-  <adapter
-      factory=".button.ButtonAction"
-      provides=".interfaces.IButtonAction"
-      />
-  <adapter
-      factory=".button.ImageButtonAction"
-      provides=".interfaces.IButtonAction"
-      />
-  <adapter
-      factory=".button.ButtonActions"
-      />
-  <adapter
-      factory=".button.ButtonActionHandler"
-      />
   <subscriber
       handler=".form.handleActionError"
       />
 
-  <!-- Error Views -->
-  <adapter
-      factory=".error.ErrorViewSnippet"
-      trusted="True"
-      permission="zope.Public"
-      />
-  <adapter
-      factory=".error.InvalidErrorViewSnippet"
-      trusted="True"
-      permission="zope.Public"
-      />
-  <adapter
-      factory=".error.ValueErrorViewSnippet"
-      trusted="True"
-      permission="zope.Public"
-      />
-  <adapter
-      factory=".error.MultipleErrorViewSnippet"
-      trusted="True"
-      permission="zope.Public"
-      />
-  <adapter
-      factory=".error.StandardErrorViewTemplate"
-      />
-
-  <!-- APIDoc documentation -->
-  <configure
-      xmlns:zcml="http://namespaces.zope.org/zcml"
-      xmlns:apidoc="http://namespaces.zope.org/apidoc"
-      zcml:condition="have apidoc">
-
-    <apidoc:bookchapter
-        id="z3c-form"
-        title="z3c.form - Widgets and Forms"
-        doc_path="README.txt"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-form"
-        title="Forms"
-        doc_path="form.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-subform"
-        title="Sub-Forms"
-        doc_path="subform.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-field"
-        title="Fields"
-        doc_path="field.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-button"
-        title="Buttons"
-        doc_path="button.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-validator"
-        title="Validators"
-        doc_path="validator.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-zcml"
-        title="ZCML Directives"
-        doc_path="zcml.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-widget"
-        title="Widgets"
-        doc_path="widget.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-action"
-        title="Actions"
-        doc_path="action.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-value"
-        title="Attribute Values"
-        doc_path="value.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-datamanager"
-        title="Data Managers"
-        doc_path="datamanager.txt"
-        parent="z3c-form"
-        />
-    <apidoc:bookchapter
-        id="z3c-form-converter"
-        title="Data Converters"
-        doc_path="converter.txt"
-        parent="z3c-form"
-        />
-  </configure>
-
   <include file="object.zcml" />
+  <include file="apidoc.zcml" />
+  <include file="button.zcml" />
+  <include file="converter.zcml" />
+  <include file="datamanager.zcml" />
+  <include file="error.zcml" />
+  <include file="term.zcml" />
+  <include file="validator.zcml" />
 
   <include package=".browser" />
 

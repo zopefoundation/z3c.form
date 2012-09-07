@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="z3c.form">
+
+  <!-- ITerms -->
+  <adapter
+      factory=".term.ChoiceTerms"
+      />
+  <adapter
+      factory=".term.MissingChoiceTermsVocabulary"
+      />
+  <adapter
+      factory=".term.ChoiceTermsSource"
+      />
+  <adapter
+      factory=".term.CollectionTerms"
+      />
+  <adapter
+      factory=".term.CollectionTermsVocabulary"
+      />
+  <adapter
+      factory=".term.CollectionTermsSource"
+      />
+  <adapter
+      factory=".term.BoolTerms"
+      />
+
+</configure>

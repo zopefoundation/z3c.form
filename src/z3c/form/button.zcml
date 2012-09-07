@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="z3c.form">
+
+  <!-- Actions, Action Managers and Handlers -->
+  <adapter
+      factory=".button.ButtonAction"
+      provides=".interfaces.IButtonAction"
+      />
+  <adapter
+      factory=".button.ImageButtonAction"
+      provides=".interfaces.IButtonAction"
+      />
+  <adapter
+      factory=".button.ButtonActions"
+      />
+  <adapter
+      factory=".button.ButtonActionHandler"
+      />
+
+</configure>

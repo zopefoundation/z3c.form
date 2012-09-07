@@ -114,7 +114,7 @@ class IData(zope.interface.Interface):
 class IValidator(zope.interface.Interface):
     """A validator for a particular value."""
 
-    def validate(value):
+    def validate(value, force=False):
         """Validate the value.
 
         If successful, return ``None``. Otherwise raise an ``Invalid`` error.

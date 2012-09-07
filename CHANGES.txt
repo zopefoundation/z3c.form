@@ -2,12 +2,21 @@
 CHANGES
 =======
 
-2.8.3 (unreleased)
+2.9.0 (unreleased)
 ------------------
 
 - ``SequenceWidget`` DISPLAY_MODE: silently ignore missing tokens,
   because INPUT_MODE and HIDDEN_MODE does that too
 
+- Missing terms in vocabularies: this was a pain until now.
+  Now it's possible to have the same (missing) value unchanged on the object
+  with an EditForm after save as it was before editing.
+  That brings some changes with it:
+  - *MAJOR*: unchanged values/fields do not get validated anymore
+  - A temporary ``SimpleTerm`` gets created for the missing value
+    Title is by default "Missing: ${value}". See MissingTermsMixin.
+
+- Split ``configure.zcml``
 
 2.8.2 (2012-08-17)
 ------------------

@@ -189,54 +189,59 @@ just cry about it in the HTML:
   >>> widget.update()
   >>> print widget.render()
   <div class="multi-widget required">
-      <div id="foo-0-row" class="row">
-          <div class="label">
-            <label for="foo-0">
-              <span>my object widget</span>
-              <span class="required">*</span>
-            </label>
-          </div>
-          <div class="error">Wrong contained type</div>
-          <div class="widget">
-            <div class="multi-widget-checkbox">
-              <input id="foo-0-remove" name="foo.0.remove"
-                     class="multi-widget-checkbox checkbox-widget"
-                     type="checkbox" value="1" />
+    <div class="row" id="foo-0-row">
+      <div class="label">
+        <label for="foo-0">
+          <span>my object widget</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="error">Wrong contained type</div>
+      <div class="widget">
+        <div class="multi-widget-checkbox">
+          <input class="multi-widget-checkbox checkbox-widget"
+                 id="foo-0-remove" name="foo.0.remove" type="checkbox" value="1">
+        </div>
+        <div class="multi-widget-input">
+          <div class="object-widget required">
+            <div class="label">
+              <label for="foo-0-widgets-foofield">
+                <span>My foo field</span>
+                <span class="required">*</span>
+              </label>
             </div>
-            <div class="multi-widget-input"><div class="object-widget required">
-              <div class="label">
-                <label for="foo-0-widgets-foofield">
-                  <span>My foo field</span>
-                  <span class="required">*</span>
-                </label>
-              </div>
-              <div class="error">Required input is missing.</div>
-              <div class="widget">
-                <input id="foo-0-widgets-foofield" name="foo.0.widgets.foofield"
-                       class="text-widget required int-field" type="text" />
-              </div>
-              <div class="label">
-                <label for="foo-0-widgets-barfield">
-                  <span>My dear bar</span>
-                </label>
-              </div>
-              <div class="widget">
-                <input id="foo-0-widgets-barfield" name="foo.0.widgets.barfield"
-                       class="text-widget int-field" value="666" type="text" />
-              </div>
-              <input name="foo.0-empty-marker" type="hidden" value="1" />
+            <div class="error">Required input is missing.</div>
+            <div class="widget">
+              <input class="text-widget required int-field"
+                     id="foo-0-widgets-foofield" name="foo.0.widgets.foofield"
+                     type="text">
             </div>
+            <div class="label">
+              <label for="foo-0-widgets-barfield">
+                <span>My dear bar</span>
+              </label>
+            </div>
+            <div class="widget">
+              <input class="text-widget int-field"
+                     id="foo-0-widgets-barfield" name="foo.0.widgets.barfield"
+                     type="text" value="666">
+            </div>
+            <input name="foo.0-empty-marker" type="hidden" value="1">
           </div>
         </div>
+      </div>
     </div>
     <div class="buttons">
       <input id="foo-buttons-add" name="foo.buttons.add"
-             class="submit-widget button-field" value="Add" type="submit" />
-      <input id="foo-buttons-remove" name="foo.buttons.remove"
-             class="submit-widget button-field" value="Remove selected" type="submit" />
+             class="submit-widget button-field" value="Add"
+             type="submit" />
+      <input id="foo-buttons-remove"
+             name="foo.buttons.remove"
+             class="submit-widget button-field" value="Remove selected"
+             type="submit" />
     </div>
   </div>
-  <input type="hidden" name="foo.count" value="1" />
+  <input name="foo.count" type="hidden" value="1">
 
 Let's set acceptable values:
 

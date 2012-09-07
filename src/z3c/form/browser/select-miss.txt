@@ -49,7 +49,7 @@ providing ``ITerms``. This source uses descriminators which will fit our setup.
   ...     def __init__(self, context, request, form, field, widget):
   ...         self.terms = SimpleVocabulary.fromValues(['a', 'b', 'c'])
   ...
-  ...     def makeMissingTerm(self, token):
+  ...     def _makeMissingTerm(self, token):
   ...         if token == 'x':
   ...             return super(SelectionTerms, self).makeMissingTerm(token)
   ...         else:

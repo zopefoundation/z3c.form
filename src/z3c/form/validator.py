@@ -26,8 +26,10 @@ import zope.schema
 from z3c.form import interfaces, util
 
 
-class SimpleFieldValidator(object):
-    """Simple Field Validator"""
+class StrictSimpleFieldValidator(object):
+    """Strict Simple Field Validator
+
+    validates all incoming values"""
     zope.interface.implements(interfaces.IValidator)
     zope.component.adapts(
         zope.interface.Interface,
@@ -43,12 +45,8 @@ class SimpleFieldValidator(object):
         self.field = field
         self.widget = widget
 
-    def validate(self, value):
+    def validate(self, value, force=False):
         """See interfaces.IValidator"""
-        if value is interfaces.NOT_CHANGED:
-            # no need to validate unchanged values
-            return
-
         context = self.context
         field = self.field
         widget = self.widget
@@ -58,10 +56,23 @@ class SimpleFieldValidator(object):
             field.required = False
         if context is not None:
             field = field.bind(context)
-
-        if widget and not util.changedWidget(widget, value, field=field):
-            # if new value == old value, no need to validate
-            return
+        if value is interfaces.NOT_CHANGED:
+            if (interfaces.IContextAware.providedBy(widget) and
+                not widget.ignoreContext):
+                # get value from context
+                value = zope.component.getMultiAdapter(
+                    (context, field),
+                    interfaces.IDataManager).query()
+            else:
+                value = interfaces.NO_VALUE
+            if value is interfaces.NO_VALUE:
+                # look up default value
+                value = field.default
+                adapter = zope.component.queryMultiAdapter(
+                    (context, self.request, self.view, field, widget),
+                    interfaces.IValue, name='default')
+                if adapter:
+                    value = adapter.get()
         return field.validate(value)
 
     def __repr__(self):
@@ -69,6 +80,27 @@ class SimpleFieldValidator(object):
             self.__class__.__name__,
             self.field.interface.getName(),
             self.field.__name__)
+
+
+class SimpleFieldValidator(StrictSimpleFieldValidator):
+    """Simple Field Validator
+
+    ignores unchanged values"""
+
+    def validate(self, value, force=False):
+        """See interfaces.IValidator"""
+        if not force:
+            if value is interfaces.NOT_CHANGED:
+                # no need to validate unchanged values
+                return
+
+            if self.widget and not util.changedWidget(
+                self.widget, value, field=self.field, context=self.context):
+                # if new value == old value, no need to validate
+                return
+
+        # otherwise StrictSimpleFieldValidator will do the job
+        return super(SimpleFieldValidator, self).validate(value)
 
 
 def WidgetValidatorDiscriminators(

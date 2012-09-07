@@ -1,0 +1,50 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="z3c.form">
+
+  <!-- Data Converters -->
+  <adapter
+      factory=".converter.FieldDataConverter"
+      />
+  <adapter
+      factory=".converter.IntegerDataConverter"
+      />
+  <adapter
+      factory=".converter.FloatDataConverter"
+      />
+  <adapter
+      factory=".converter.DecimalDataConverter"
+      />
+  <adapter
+      factory=".converter.DateDataConverter"
+      />
+  <adapter
+      factory=".converter.TimeDataConverter"
+      />
+  <adapter
+      factory=".converter.DatetimeDataConverter"
+      />
+  <adapter
+      factory=".converter.TimedeltaDataConverter"
+      />
+  <include file="file.zcml" />
+  <adapter
+      factory=".converter.SequenceDataConverter"
+      />
+  <adapter
+      factory=".converter.CollectionSequenceDataConverter"
+      />
+  <adapter
+      factory=".converter.BoolSingleCheckboxDataConverter"
+      />
+  <adapter
+      factory=".converter.FieldWidgetDataConverter"
+      />
+  <adapter
+      factory=".converter.TextLinesConverter"
+      />
+  <adapter
+      factory=".converter.MultiConverter"
+      />
+
+</configure>

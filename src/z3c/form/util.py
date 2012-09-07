@@ -140,6 +140,9 @@ def changedField(field, value, context=None):
     Comparing the value of the context attribute and the given value"""
     if context is None:
         context = field.context
+    if context is None:
+        # IObjectWidget madness
+        return True
 
     # Get the datamanager and get the original value
     dm = zope.component.getMultiAdapter(
@@ -155,7 +158,7 @@ def changedField(field, value, context=None):
         return False
 
 
-def changedWidget(widget, value, field=None):
+def changedWidget(widget, value, field=None, context=None):
     """figure if a widget's value changed
 
     Comparing the value of the widget context attribute and the given value"""
@@ -164,7 +167,7 @@ def changedWidget(widget, value, field=None):
         # if the widget is context aware, figure if it's field changed
         if field is None:
             field = widget.field
-        return changedField(field, value)
+        return changedField(field, value, context=context)
     # otherwise we cannot, return 'always changed'
     return True
 

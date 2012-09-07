@@ -11,7 +11,7 @@ many places:
   The schema field consists of a ``validate()`` method. Validation is
   automatically invoked when converting a unicode string to a field value
   using ``fromUnicode()``. This makes it very hard to customize the field
-  validation. No hooks were provided to exert dditional restriction at the
+  validation. No hooks were provided to exert additional restriction at the
   presentation level.
 
 * Schema/Form Validation
@@ -83,6 +83,10 @@ well-defined. Thus, we first need to create a schema.
   ...     def isLoginPartOfEmail(person):
   ...         if not person.email.startswith(person.login):
   ...             raise zope.interface.Invalid("The login not part of email.")
+  >>> class Person(object):
+  ...     zope.interface.implements(IPerson)
+  ...     login = None
+  ...     email = None
 
 
 Widget Validators
@@ -181,6 +185,64 @@ again:
   ...     (None, None, None, IPerson['email'], None),
   ...     interfaces.IValidator)
 
+Ignoring unchanged values
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Most of the time we want to ignore unchanged fields/values at validation.
+A common usecase for this is if a value went away from a vocabulary and we want
+to keep the old value after editing.
+In case you want to strict behaviour, register ``StrictSimpleFieldValidator``
+for your layer.
+
+  >>> simple = validator.SimpleFieldValidator(
+  ...     None, None, None, IPerson['login'], None)
+
+NOT_CHANGED never gets validated.
+
+  >>> simple.validate(interfaces.NOT_CHANGED)
+
+Current value gets extracted by ``IDataManager``
+via the widget, field and context
+
+  >>> from z3c.form.datamanager import AttributeField
+  >>> zope.component.provideAdapter(AttributeField)
+
+  >>> import z3c.form.testing
+  >>> request = z3c.form.testing.TestRequest()
+  >>> import z3c.form.widget
+  >>> widget = z3c.form.widget.Widget(request)
+  >>> context = Person()
+
+  >>> widget.context = context
+  >>> from z3c.form import interfaces
+  >>> zope.interface.alsoProvides(widget, interfaces.IContextAware)
+
+  >>> simple = validator.SimpleFieldValidator(
+  ...     context, request, None, IPerson['login'], widget)
+
+OK, let's see checking after setup.
+Works like a StrictSimpleFieldValidator until we have to validate a different value:
+
+  >>> context.login = u'john'
+  >>> simple.validate(u'carter')
+  >>> simple.validate(u'hippocratiusxy')
+  Traceback (most recent call last):
+  ...
+  TooLong: (u'hippocratiusxy', 10)
+
+Validating the unchanged value works despite it would be an error.
+
+  >>> context.login = u'hippocratiusxy'
+  >>> simple.validate(u'hippocratiusxy')
+
+Unless we want to force validation:
+
+  >>> simple.validate(u'hippocratiusxy', force=True)
+  Traceback (most recent call last):
+  ...
+  TooLong: (u'hippocratiusxy', 10)
+
+
 Widget Validators and File-Uploads
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -212,11 +274,11 @@ context. So the not required field validates successfully but the
 required one has an required missing error, as the default value of
 the field is looked up on the field:
 
-  >>> simple_thumb = validator.SimpleFieldValidator(
+  >>> simple_thumb = validator.StrictSimpleFieldValidator(
   ...     None, None, None, IPhoto['thumb'], None)
   >>> simple_thumb.validate(interfaces.NOT_CHANGED)
 
-  >>> simple_data = validator.SimpleFieldValidator(
+  >>> simple_data = validator.StrictSimpleFieldValidator(
   ...     None, None, None, IPhoto['data'], None)
   >>> simple_data.validate(interfaces.NOT_CHANGED)
   Traceback (most recent call last):
@@ -232,11 +294,11 @@ behavior is the same as if there was no widget:
   >>> widget = z3c.form.widget.Widget(None)
   >>> zope.interface.alsoProvides(widget, interfaces.IContextAware)
   >>> widget.ignoreContext = True
-  >>> simple_thumb = validator.SimpleFieldValidator(
+  >>> simple_thumb = validator.StrictSimpleFieldValidator(
   ...     None, None, None, IPhoto['thumb'], widget)
   >>> simple_thumb.validate(interfaces.NOT_CHANGED)
 
-  >>> simple_data = validator.SimpleFieldValidator(
+  >>> simple_data = validator.StrictSimpleFieldValidator(
   ...     None, None, None, IPhoto['data'], widget)
   >>> simple_data.validate(interfaces.NOT_CHANGED)
   Traceback (most recent call last):
@@ -272,14 +334,14 @@ the value is looked up on the context using a data manager:
   >>> widget.ignoreContext = False
   >>> zope.component.provideAdapter(z3c.form.datamanager.AttributeField)
 
-  >>> simple_thumb = validator.SimpleFieldValidator(
+  >>> simple_thumb = validator.StrictSimpleFieldValidator(
   ...     photo, None, None, IPhoto['thumb'], widget)
   >>> simple_thumb.validate(interfaces.NOT_CHANGED)
 
 If the value is not set on the context it is a required missing as
 neither context nor input have a valid value:
 
-  >>> simple_data = validator.SimpleFieldValidator(
+  >>> simple_data = validator.StrictSimpleFieldValidator(
   ...     photo, None, None, IPhoto['data'], widget)
   >>> simple_data.validate(interfaces.NOT_CHANGED)
   Traceback (most recent call last):

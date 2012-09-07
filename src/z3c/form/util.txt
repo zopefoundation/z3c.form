@@ -46,6 +46,9 @@ All other characters will be converted to ordinal numbers:
   >>> util.createCSSId(u'This has spaces')
   'This20has20spaces'
 
+  >>> util.createCSSId(unicode(dict({1:'x', 'foobar': 42})))
+  '7b13a2027x272c2027foobar273a20427d'
+
 
 ``getWidgetById(form, id)`` Function
 ------------------------------------

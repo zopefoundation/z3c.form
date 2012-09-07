@@ -45,6 +45,10 @@ class SimpleFieldValidator(object):
 
     def validate(self, value):
         """See interfaces.IValidator"""
+        if value is interfaces.NOT_CHANGED:
+            # no need to validate unchanged values
+            return True
+
         context = self.context
         field = self.field
         widget = self.widget
@@ -54,23 +58,10 @@ class SimpleFieldValidator(object):
             field.required = False
         if context is not None:
             field = field.bind(context)
-        if value is interfaces.NOT_CHANGED:
-            if (interfaces.IContextAware.providedBy(widget) and
-                not widget.ignoreContext):
-                # get value from context
-                value = zope.component.getMultiAdapter(
-                    (context, field),
-                    interfaces.IDataManager).query()
-            else:
-                value = interfaces.NO_VALUE
-            if value is interfaces.NO_VALUE:
-                # look up default value
-                value = field.default
-                adapter = zope.component.queryMultiAdapter(
-                    (context, self.request, self.view, field, widget),
-                    interfaces.IValue, name='default')
-                if adapter:
-                    value = adapter.get()
+
+        if widget and not util.changedWidget(widget, value, field=field):
+            # if new value == old value, no need to validate
+            return True
         return field.validate(value)
 
     def __repr__(self):

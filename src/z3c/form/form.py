@@ -34,22 +34,19 @@ def applyChanges(form, content, data):
     changes = {}
     for name, field in form.fields.items():
         # If the field is not in the data, then go on to the next one
-        if name not in data:
+        try:
+            newValue = data[name]
+        except KeyError:
             continue
         # If the value is NOT_CHANGED, ignore it, since the widget/converter
         # sent a strong message not to do so.
-        if data[name] is interfaces.NOT_CHANGED:
+        if newValue is interfaces.NOT_CHANGED:
             continue
-        # Get the datamanager and get the original value
-        dm = zope.component.getMultiAdapter(
-            (content, field.field), interfaces.IDataManager)
-        # Only update the data, if it is different
-        # Or we can not get the original value, in which case we can not check
-        # Or it is an Object, in case we'll never know
-        if (not dm.canAccess() or
-            dm.query() != data[name] or
-            zope.schema.interfaces.IObject.providedBy(field.field)):
-            dm.set(data[name])
+        if util.changedField(field.field, newValue, context=content):
+            # Only update the data, if it is different
+            dm = zope.component.getMultiAdapter(
+                (content, field.field), interfaces.IDataManager)
+            dm.set(newValue)
             # Record the change using information required later
             changes.setdefault(dm.field.interface, []).append(name)
     return changes

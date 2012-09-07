@@ -1111,18 +1111,3 @@ class IWidgetEvent(zope.interface.Interface):
 class IAfterWidgetUpdateEvent(IWidgetEvent):
     """An event sent out after the widget was updated."""
 
-
-
-
-class IForgivingChoice(zope.schema.interfaces.IChoice):
-    pass
-
-class ForgivingChoice(zope.schema.Choice):
-    zope.interface.implements(IForgivingChoice)
-
-    def _validate(self, value):
-        if self.context is not None:
-            if self.query(self.context) == value:
-                return
-
-        super(ForgivingChoice, self)._validate(value)

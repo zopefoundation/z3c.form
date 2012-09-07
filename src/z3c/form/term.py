@@ -22,6 +22,7 @@ import zope.schema
 from zope.schema import vocabulary
 
 from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.i18n import MessageFactory as _
 
 
@@ -135,14 +136,13 @@ class MissingTermsMixin(object):
             return self.makeMissingTerm(value)
 
     def makeToken(self, value):
-        return unicode(value).encode('utf8').encode('base64').strip()
+        # create a unique valid ASCII token
+        return util.createCSSId(unicode(value))
 
-    def makeMissingTerm(self, value, token=None):
+    def makeMissingTerm(self, value):
         """Return a term that should be displayed for the missing token or
         raise LookupError if it's really invalid"""
-        if token is None:
-            token = self.makeToken(value)
-        return vocabulary.SimpleTerm(value, token,
+        return vocabulary.SimpleTerm(value, self.makeToken(value),
             title=_(u'Missing: ${value}', mapping=dict(value=unicode(value))))
 
     def getTermByToken(self, token):
@@ -154,7 +154,12 @@ class MissingTermsMixin(object):
                 value = zope.component.getMultiAdapter(
                     (self.widget.context, self.widget.field),
                     interfaces.IDataManager).query()
-                return self.makeMissingTerm(value, token=token)
+                term = self.makeMissingTerm(value)
+                if term.token == token:
+                    # check if the given token matches the value, if not
+                    # fall back on LookupError, otherwise we might accept
+                    # any crap coming from the request
+                    return term
 
             raise LookupError(token)
 
@@ -162,14 +167,6 @@ class MissingTermsMixin(object):
 class MissingChoiceTermsVocabulary(MissingTermsMixin, ChoiceTermsVocabulary):
     """ITerms adapter for zope.schema.IChoice based implementations using
     vocabulary with missing terms support"""
-
-    zope.component.adapts(
-        zope.interface.Interface,
-        interfaces.IFormLayer,
-        zope.interface.Interface,
-        interfaces.IForgivingChoice,
-        zope.schema.interfaces.IBaseVocabulary,
-        interfaces.IWidget)
 
 
 class ChoiceTermsSource(SourceTerms):

@@ -144,12 +144,84 @@ stored objects still reference that term.
   >>> terms = term.ChoiceTerms(
   ...     None, request, None, ratingField, widget)
   >>> term = terms.getTermByToken('42')
-  >>> term.token
+  Traceback (most recent call last):
+  ...
+  LookupError: 42
+
+The same goes with looking up a term by value:
+
+  >>> term = terms.getTerm('42')
+  Traceback (most recent call last):
+  ...
+  LookupError: 42
+
+Ooops, well this works only if the context has the right value for us.
+This is because we don't want to accept any crap that's coming from HTML.
+
+  >>> class IPerson(zope.interface.Interface):
+  ...     gender = zope.schema.Choice(title=u'Gender', vocabulary='Genders')
+  >>> class Person(object):
+  ...     zope.interface.implements(IPerson)
+  ...     gender = None
+  >>> gendersVocabulary = vocabulary.SimpleVocabulary([
+  ...     vocabulary.SimpleVocabulary.createTerm(1, 'male', u'Male'),
+  ...     vocabulary.SimpleVocabulary.createTerm(2, 'female', u'Female'),
+  ...     ])
+  >>> def GendersVocabulary(obj):
+  ...     return ratings
+  >>> vr.register('Genders', GendersVocabulary)
+
+  >>> ctx = Person()
+  >>> ctx.gender = 42
+
+  >>> genderWidget = z3c.form.widget.Widget(request)
+  >>> genderWidget.context = ctx
+  >>> from z3c.form import interfaces
+  >>> zope.interface.alsoProvides(genderWidget, interfaces.IContextAware)
+  >>> from z3c.form.datamanager import AttributeField
+  >>> zope.component.provideAdapter(AttributeField)
+
+  >>> terms = term.ChoiceTerms(
+  ...     ctx, request, None, IPerson['gender'], genderWidget)
+
+Here we go:
+
+  >>> missingTerm = terms.getTermByToken('42')
+
+We get the term, we passed the token, the value is coming from the context.
+
+  >>> missingTerm.token
   '42'
-  >>> term.value
+  >>> missingTerm.value
+  42
+
+We cannot figure the title, so we construct one.
+Override ``makeMissingTerm`` if you want your own.
+
+  >>> missingTerm.title
+  u'Missing: ${value}'
+
+Still we raise LookupError if the token does not fit the context's value:
+
+  >>> missingTerm = terms.getTermByToken('99')
+  Traceback (most recent call last):
+  ...
+  LookupError: 99
+
+The same goes with looking up a term by value.
+We get the term if the context's value fits:
+
+  >>> missingTerm = terms.getTerm(42)
+  >>> missingTerm.token
   '42'
-  >>> term.title
-  u'Missing: ${token}'
+
+And an exception if it does not:
+
+  >>> missingTerm = terms.getTerm(99)
+  Traceback (most recent call last):
+  ...
+  LookupError: 99
+
 
 Bool fields
 +++++++++++

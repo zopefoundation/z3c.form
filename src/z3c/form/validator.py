@@ -47,7 +47,7 @@ class SimpleFieldValidator(object):
         """See interfaces.IValidator"""
         if value is interfaces.NOT_CHANGED:
             # no need to validate unchanged values
-            return True
+            return
 
         context = self.context
         field = self.field
@@ -61,7 +61,7 @@ class SimpleFieldValidator(object):
 
         if widget and not util.changedWidget(widget, value, field=field):
             # if new value == old value, no need to validate
-            return True
+            return
         return field.validate(value)
 
     def __repr__(self):

@@ -133,16 +133,23 @@ class MissingTermsMixin(object):
         try:
             return self.terms.getTerm(value)
         except LookupError:
-            return self.makeMissingTerm(value)
+            if (interfaces.IContextAware.providedBy(self.widget) and
+                not self.widget.ignoreContext):
+                curValue = zope.component.getMultiAdapter(
+                    (self.widget.context, self.field),
+                    interfaces.IDataManager).query()
+                if curValue == value:
+                    return self._makeMissingTerm(value)
 
-    def makeToken(self, value):
-        # create a unique valid ASCII token
+            raise
+
+    def _makeToken(self, value):
+        """create a unique valid ASCII token"""
         return util.createCSSId(unicode(value))
 
-    def makeMissingTerm(self, value):
-        """Return a term that should be displayed for the missing token or
-        raise LookupError if it's really invalid"""
-        return vocabulary.SimpleTerm(value, self.makeToken(value),
+    def _makeMissingTerm(self, value):
+        """Return a term that should be displayed for the missing token"""
+        return vocabulary.SimpleTerm(value, self._makeToken(value),
             title=_(u'Missing: ${value}', mapping=dict(value=unicode(value))))
 
     def getTermByToken(self, token):
@@ -152,9 +159,9 @@ class MissingTermsMixin(object):
             if (interfaces.IContextAware.providedBy(self.widget) and
                 not self.widget.ignoreContext):
                 value = zope.component.getMultiAdapter(
-                    (self.widget.context, self.widget.field),
+                    (self.widget.context, self.field),
                     interfaces.IDataManager).query()
-                term = self.makeMissingTerm(value)
+                term = self._makeMissingTerm(value)
                 if term.token == token:
                     # check if the given token matches the value, if not
                     # fall back on LookupError, otherwise we might accept

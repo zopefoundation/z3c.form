@@ -194,7 +194,8 @@ field is required the other one not:
 
   >>> class IPhoto(zope.interface.Interface):
   ...     data = zope.schema.Bytes(
-  ...         title=u'Photo')
+  ...         title=u'Photo',
+  ...         required=True)
   ...
   ...     thumb = zope.schema.Bytes(
   ...         title=u'Thumbnail',

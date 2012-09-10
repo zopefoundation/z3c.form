@@ -143,6 +143,8 @@ def changedField(field, value, context=None):
     if context is None:
         # IObjectWidget madness
         return True
+    if zope.schema.interfaces.IObject.providedBy(field):
+        return True
 
     # Get the datamanager and get the original value
     dm = zope.component.getMultiAdapter(
@@ -150,9 +152,7 @@ def changedField(field, value, context=None):
     # now figure value chaged status
     # Or we can not get the original value, in which case we can not check
     # Or it is an Object, in case we'll never know
-    if (not dm.canAccess() or
-        dm.query() != value or
-        zope.schema.interfaces.IObject.providedBy(field)):
+    if (not dm.canAccess() or dm.query() != value):
         return True
     else:
         return False
@@ -167,6 +167,8 @@ def changedWidget(widget, value, field=None, context=None):
         # if the widget is context aware, figure if it's field changed
         if field is None:
             field = widget.field
+        if context is None:
+            context = widget.context
         return changedField(field, value, context=context)
     # otherwise we cannot, return 'always changed'
     return True

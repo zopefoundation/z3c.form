@@ -451,3 +451,102 @@ marker each time:
   True
   >>> bazMarker1 is bazMarker2
   True
+
+`changedField()` function
+-------------------------
+
+Decide whether a field was changed/modified.
+
+  >>> class IPerson(zope.interface.Interface):
+  ...     login = zope.schema.TextLine(
+  ...         title=u'Login')
+  ...     address = zope.schema.Object(
+  ...         schema=zope.interface.Interface)
+
+  >>> class Person(object):
+  ...     zope.interface.implements(IPerson)
+  ...     login = 'johndoe'
+  >>> person = Person()
+
+field.context is None and no context passed:
+
+  >>> util.changedField(IPerson['login'], 'foo')
+  True
+
+IObject field:
+
+  >>> util.changedField(IPerson['address'], object(), context = person)
+  True
+
+field.context or context passed:
+
+  >>> import z3c.form.datamanager
+  >>> zope.component.provideAdapter(z3c.form.datamanager.AttributeField)
+
+  >>> util.changedField(IPerson['login'], 'foo', context = person)
+  True
+  >>> util.changedField(IPerson['login'], 'johndoe', context = person)
+  False
+
+  >>> fld = IPerson['login'].bind(person)
+  >>> util.changedField(fld, 'foo')
+  True
+  >>> util.changedField(fld, 'johndoe')
+  False
+
+No access:
+
+  >>> save = z3c.form.datamanager.AttributeField.canAccess
+  >>> z3c.form.datamanager.AttributeField.canAccess = lambda self: False
+
+  >>> util.changedField(IPerson['login'], 'foo', context = person)
+  True
+  >>> util.changedField(IPerson['login'], 'johndoe', context = person)
+  True
+
+  >>> z3c.form.datamanager.AttributeField.canAccess = save
+
+
+`changedWidget()` function
+---------------------------
+
+Decide whether a widget value was changed/modified.
+
+  >>> import z3c.form.testing
+  >>> request = z3c.form.testing.TestRequest()
+  >>> import z3c.form.widget
+  >>> widget = z3c.form.widget.Widget(request)
+
+If the widget is not IContextAware, there's nothing to check:
+
+  >>> from z3c.form import interfaces
+  >>> interfaces.IContextAware.providedBy(widget)
+  False
+
+  >>> util.changedWidget(widget, 'foo')
+  True
+
+Make it IContextAware:
+
+  >>> widget.context = person
+  >>> zope.interface.alsoProvides(widget, interfaces.IContextAware)
+
+  >>> widget.field = IPerson['login']
+
+  >> util.changedWidget(widget, 'foo')
+  True
+
+  >>> util.changedWidget(widget, 'johndoe')
+  False
+
+Field and context is also overridable:
+
+  >>> widget.field = None
+  >>> util.changedWidget(widget, 'johndoe', field=IPerson['login'])
+  False
+
+  >>> p2 = Person()
+  >>> p2.login = 'foo'
+
+  >>> util.changedWidget(widget, 'foo', field=IPerson['login'], context=p2)
+  False

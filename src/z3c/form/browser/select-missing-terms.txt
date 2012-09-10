@@ -37,6 +37,16 @@ We also need to register the template for at least the widget and request:
   ...     (None, None, None, None, interfaces.ISelectWidget),
   ...     IPageTemplate, name=interfaces.INPUT_MODE)
 
+We need some context:
+
+  >>> class IPerson(zope.interface.Interface):
+  ...     rating = zope.schema.Choice(
+  ...     vocabulary='Ratings')
+
+  >>> class Person(object):
+  ...     zope.interface.implements(IPerson)
+  >>> person = Person()
+
 Let's provide some values for this widget. We can do this by defining a source
 providing ``ITerms``. This source uses descriminators which will fit our setup.
 
@@ -45,18 +55,37 @@ providing ``ITerms``. This source uses descriminators which will fit our setup.
   >>> from zope.schema.vocabulary import SimpleTerm
   >>> import z3c.form.term
 
+  >>> from zope.schema import vocabulary
+  >>> ratings = vocabulary.SimpleVocabulary([
+  ...     vocabulary.SimpleVocabulary.createTerm(0, '0', u'bad'),
+  ...     vocabulary.SimpleVocabulary.createTerm(1, '1', u'okay'),
+  ...     vocabulary.SimpleVocabulary.createTerm(2, '2', u'good')
+  ...     ])
+
+  >>> def RatingsVocabulary(obj):
+  ...     return ratings
+
+  >>> vr = vocabulary.getVocabularyRegistry()
+  >>> vr.register('Ratings', RatingsVocabulary)
+
   >>> class SelectionTerms(z3c.form.term.MissingChoiceTermsVocabulary):
   ...     def __init__(self, context, request, form, field, widget):
-  ...         self.terms = SimpleVocabulary.fromValues(['a', 'b', 'c'])
+  ...         self.context = context
+  ...         self.field = field
+  ...         self.terms = ratings
+  ...         self.widget = widget
   ...
   ...     def _makeMissingTerm(self, token):
   ...         if token == 'x':
-  ...             return super(SelectionTerms, self).makeMissingTerm(token)
+  ...             return super(SelectionTerms, self)._makeMissingTerm(token)
   ...         else:
   ...             raise LookupError
 
   >>> zope.component.provideAdapter(SelectionTerms,
   ...     (None, interfaces.IFormLayer, None, None, interfaces.ISelectWidget) )
+
+  >>> import z3c.form.datamanager
+  >>> zope.component.provideAdapter(z3c.form.datamanager.AttributeField)
 
 Now let's try if we get widget values:
 
@@ -65,28 +94,34 @@ Now let's try if we get widget values:
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
-  <option id="widget-id-0" value="a">a</option>
-  <option id="widget-id-1" value="b">b</option>
-  <option id="widget-id-2" value="c">c</option>
+  <option id="widget-id-0" value="0">bad</option>
+  <option id="widget-id-1" value="1">okay</option>
+  <option id="widget-id-2" value="2">good</option>
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
-If we select item "x", then it should be selected:
+If we set the widget value to "x", then it should be present and selected:
 
   >>> widget.value = ['x']
+  >>> widget.context = person
+  >>> widget.field = IPerson['rating']
+  >>> zope.interface.alsoProvides(widget, interfaces.IContextAware)
+  >>> person.rating = 'x'
+  >>> widget.terms = None
+
   >>> widget.update()
   >>> print widget.render()
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
-  <option id="widget-id-0" value="a">a</option>
-  <option id="widget-id-1" value="b">b</option>
-  <option id="widget-id-2" value="c">c</option>
+  <option id="widget-id-0" value="0">bad</option>
+  <option id="widget-id-1" value="1">okay</option>
+  <option id="widget-id-2" value="2">good</option>
   <option id="widget-id-missing-0" selected="selected" value="x">Missing: x</option>
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
-If we select item "y", then it should not be around:
+If we set the widget value to "y", then it should NOT be around:
 
   >>> widget.value = ['y']
   >>> widget.update()
@@ -94,9 +129,9 @@ If we select item "y", then it should not be around:
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
-  <option id="widget-id-0" value="a">a</option>
-  <option id="widget-id-1" value="b">b</option>
-  <option id="widget-id-2" value="c">c</option>
+  <option id="widget-id-0" value="0">bad</option>
+  <option id="widget-id-1" value="1">okay</option>
+  <option id="widget-id-2" value="2">good</option>
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
@@ -105,7 +140,14 @@ Let's now make sure that we can extract user entered data from a widget:
   >>> widget.request = TestRequest(form={'widget.name': ['c']})
   >>> widget.update()
   >>> widget.extract()
-  ['c']
+  <NO_VALUE>
+
+Well, only of it matches the context's current value:
+
+  >>> widget.request = TestRequest(form={'widget.name': ['x']})
+  >>> widget.update()
+  >>> widget.extract()
+  ['x']
 
 When "no value" is selected, then no verification against the terms is done:
 
@@ -161,24 +203,17 @@ register it first:
   ...     (None, None, None, None, interfaces.ISelectWidget),
   ...     IPageTemplate, name=interfaces.DISPLAY_MODE)
 
-  >>> widget.required = True
-  >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> widget.value = ['b', 'c']
-  >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
-  <span id="widget-id" class="select-widget required">
-    <span class="selected-option">b</span>,
-    <span class="selected-option">c</span>
-  </span>
-
 Let's see what happens if we have values that are not in the vocabulary:
 
-  >>> widget.value = ['b', 'x', 'y']
+  >>> widget.required = True
+  >>> widget.mode = interfaces.DISPLAY_MODE
+  >>> widget.value = ['0', '1', 'x']
   >>> widget.update()
   >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
   <span id="widget-id" class="select-widget required">
-  <span class="selected-option">b</span>,
-  <span class="selected-option">Missing: x</span>
+    <span class="selected-option">bad</span>,
+    <span class="selected-option">okay</span>,
+    <span class="selected-option">Missing: x</span>
   </span>
 
 Hidden Widget
@@ -192,22 +227,12 @@ register it first:
   ...     (None, None, None, None, interfaces.ISelectWidget),
   ...     IPageTemplate, name=interfaces.HIDDEN_MODE)
 
-We can now set our widget's mode to hidden and render it:
-
-  >>> widget.mode = interfaces.HIDDEN_MODE
-  >>> widget.value = ['b']
-  >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
-  <input type="hidden" name="widget.name:list"
-         class="hidden-widget" value="b" id="widget-id-1" />
-  <input name="widget.name-empty-marker" type="hidden"
-         value="1" />
-
 Let's see what happens if we have values that are not in the vocabulary:
 
-  >>> widget.value = ['b', 'x', 'y']
+  >>> widget.mode = interfaces.HIDDEN_MODE
+  >>> widget.value = ['0', 'x']
   >>> widget.update()
   >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
-  <input id="widget-id-1" name="widget.name:list" value="b" class="hidden-widget" type="hidden" />
+  <input id="widget-id-0" name="widget.name:list" value="0" class="hidden-widget" type="hidden" />
   <input id="widget-id-missing-0" name="widget.name:list" value="x" class="hidden-widget" type="hidden" />
   <input name="widget.name-empty-marker" type="hidden" value="1" />

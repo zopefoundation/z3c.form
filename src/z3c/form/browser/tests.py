@@ -94,7 +94,7 @@ def test_suite():
                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
                      checker=checker,
                      ),
-        DocFileSuite('select-miss.txt',
+        DocFileSuite('select-missing-terms.txt',
                      setUp=setUp, tearDown=testing.tearDown,
                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
                      checker=checker,

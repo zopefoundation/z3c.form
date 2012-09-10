@@ -51,7 +51,6 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         super(SelectWidget, self).update()
         widget.addFieldClass(self)
 
-    @property
     def items(self):
         if self.terms is None:  # update() has not been called yet
             return ()

@@ -222,7 +222,13 @@ class ObjectWidget(widget.Widget):
         """Validate and apply value to given widget.
         """
         if self.context is None:
-            widget.value = value
+            converter = interfaces.IDataConverter(widget)
+            try:
+                widget.value = converter.toWidgetValue(value)
+            except TypeError:
+                # we're not checking the value, because there's no context
+                # in case of problems just set a bad value
+                widget.value = value
         else:
             context = None
             if not self.ignoreContext:

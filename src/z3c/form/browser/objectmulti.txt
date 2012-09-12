@@ -214,7 +214,7 @@ just cry about it in the HTML:
             <div class="widget">
               <input class="text-widget required int-field"
                      id="foo-0-widgets-foofield" name="foo.0.widgets.foofield"
-                     type="text">
+                     type="text" value="">
             </div>
             <div class="label">
               <label for="foo-0-widgets-barfield">

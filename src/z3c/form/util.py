@@ -21,6 +21,7 @@ import types
 import string
 import zope.interface
 import zope.contenttype
+import zope.schema
 
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
@@ -28,18 +29,23 @@ from z3c.form.i18n import MessageFactory as _
 
 _identifier = re.compile('[A-Za-z][a-zA-Z0-9_]*$')
 
+
 def createId(name):
     if _identifier.match(name):
         return str(name).lower()
     return name.encode('utf-8').encode('hex')
 
+
 _acceptableChars = string.letters + string.digits + '_-'
+
+
 def createCSSId(name):
     return str(''.join([((char in _acceptableChars and char) or
                          char.encode('utf-8').encode('hex'))
                         for char in name]))
 
 classTypes = type, types.ClassType
+
 
 def getSpecification(spec, force=False):
     """Get the specification of the given object.
@@ -126,6 +132,46 @@ def extractFileName(form, id, cleanup=True, allowEmptyPostfix=False):
     if cleanup:
         return cleanFileName
     return widget.filename
+
+
+def changedField(field, value, context=None):
+    """Figure if a field's value changed
+
+    Comparing the value of the context attribute and the given value"""
+    if context is None:
+        context = field.context
+    if context is None:
+        # IObjectWidget madness
+        return True
+    if zope.schema.interfaces.IObject.providedBy(field):
+        return True
+
+    # Get the datamanager and get the original value
+    dm = zope.component.getMultiAdapter(
+        (context, field), interfaces.IDataManager)
+    # now figure value chaged status
+    # Or we can not get the original value, in which case we can not check
+    # Or it is an Object, in case we'll never know
+    if (not dm.canAccess() or dm.query() != value):
+        return True
+    else:
+        return False
+
+
+def changedWidget(widget, value, field=None, context=None):
+    """figure if a widget's value changed
+
+    Comparing the value of the widget context attribute and the given value"""
+    if (interfaces.IContextAware.providedBy(widget)
+        and not widget.ignoreContext):
+        # if the widget is context aware, figure if it's field changed
+        if field is None:
+            field = widget.field
+        if context is None:
+            context = widget.context
+        return changedField(field, value, context=context)
+    # otherwise we cannot, return 'always changed'
+    return True
 
 
 class UniqueOrderedKeys(object):

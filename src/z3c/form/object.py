@@ -31,8 +31,10 @@ from z3c.form import form, interfaces, util, widget
 from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
 
+
 def getIfName(iface):
-    return iface.__module__+'.'+iface.__name__
+    return iface.__module__ + '.' + iface.__name__
+
 
 class ObjectSubForm(form.BaseForm):
     zope.interface.implements(interfaces.ISubForm)
@@ -61,7 +63,7 @@ class ObjectSubForm(form.BaseForm):
                      self.parentForm,
                      getattr(widget, 'field', None),
                      widget),
-                    interfaces.IValidator).validate(value)
+                    interfaces.IValidator).validate(value, force=True)
             except (zope.schema.ValidationError, ValueError), error:
                 # on exception, setup the widget error message
                 view = zope.component.getMultiAdapter(
@@ -86,6 +88,7 @@ class ObjectSubForm(form.BaseForm):
 
     def getContent(self):
         return self.__parent__._value
+
 
 class ObjectConverter(BaseDataConverter):
     """Data converter for IObjectWidget."""
@@ -218,22 +221,38 @@ class ObjectWidget(widget.Widget):
     def applyValue(self, widget, value=interfaces.NO_VALUE):
         """Validate and apply value to given widget.
         """
-        converter = interfaces.IDataConverter(widget)
-        try:
-            zope.component.getMultiAdapter(
-                (self.context,
-                 self.request,
-                 self.form,
-                 getattr(widget, 'field', None),
-                 widget),
-                interfaces.IValidator).validate(value)
+        if self.context is None:
+            converter = interfaces.IDataConverter(widget)
+            try:
+                widget.value = converter.toWidgetValue(value)
+            except TypeError:
+                # we're not checking the value, because there's no context
+                # in case of problems just set a bad value
+                widget.value = value
+        else:
+            context = None
+            if not self.ignoreContext:
+                # ahem, the context is not ours to check,
+                # but the context's right attribute
+                dm = zope.component.getMultiAdapter(
+                    (self.context, self.field), interfaces.IDataManager)
+                context = dm.query(default=None)
+            try:
+                zope.component.getMultiAdapter(
+                    (context,
+                     self.request,
+                     self.form,
+                     getattr(widget, 'field', None),
+                     widget),
+                    interfaces.IValidator).validate(value)
 
-            widget.value = converter.toWidgetValue(value)
-        except (zope.schema.ValidationError, ValueError):
-            # on exception, setup the widget error message
-            # set the wrong value as value
-            # the widget itself ought to cry about the error
-            widget.value = value
+                converter = interfaces.IDataConverter(widget)
+                widget.value = converter.toWidgetValue(value)
+            except (zope.schema.ValidationError, ValueError):
+                # on exception, setup the widget error message
+                # set the wrong value as value
+                # the widget itself ought to cry about the error
+                widget.value = value
 
     @apply
     def value():
@@ -241,7 +260,7 @@ class ObjectWidget(widget.Widget):
         def get(self):
             #value (get) cannot raise an exception, then we return insane values
             try:
-                self.setErrors=True
+                self.setErrors = True
                 return self.extract()
             except MultipleErrors:
                 value = {}
@@ -260,17 +279,16 @@ class ObjectWidget(widget.Widget):
 
         return property(get, set)
 
-
     def extract(self, default=interfaces.NO_VALUE):
-        if self.name+'-empty-marker' in self.request:
+        if self.name + '-empty-marker' in self.request:
             self.updateWidgets(setErrors=False)
 
             value, errors = self.subform.extractData(setErrors=self.setErrors)
 
             if errors:
-                #very-very-nasty: skip raising exceptions in extract
-                #while we're updating -- that happens when the widget
-                #is updated and update calls extract()
+                # very-very-nasty: skip raising exceptions in extract
+                # while we're updating -- that happens when the widget
+                # is updated and update calls extract()
                 if self._updating:
                     return default
 

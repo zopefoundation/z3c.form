@@ -26,8 +26,10 @@ import zope.schema
 from z3c.form import interfaces, util
 
 
-class SimpleFieldValidator(object):
-    """Simple Field Validator"""
+class StrictSimpleFieldValidator(object):
+    """Strict Simple Field Validator
+
+    validates all incoming values"""
     zope.interface.implements(interfaces.IValidator)
     zope.component.adapts(
         zope.interface.Interface,
@@ -43,7 +45,7 @@ class SimpleFieldValidator(object):
         self.field = field
         self.widget = widget
 
-    def validate(self, value):
+    def validate(self, value, force=False):
         """See interfaces.IValidator"""
         context = self.context
         field = self.field
@@ -80,6 +82,46 @@ class SimpleFieldValidator(object):
             self.field.__name__)
 
 
+class SimpleFieldValidator(StrictSimpleFieldValidator):
+    """Simple Field Validator
+
+    ignores unchanged values"""
+
+    def validate(self, value, force=False):
+        """See interfaces.IValidator"""
+        if value is self.field.missing_value:
+            # let missing values run into stricter validation
+            # most important case is not let required fields pass
+            return super(SimpleFieldValidator, self).validate(value, force)
+
+        if not force:
+            if value is interfaces.NOT_CHANGED:
+                # no need to validate unchanged values
+                return
+
+            if self.widget and not util.changedWidget(
+                self.widget, value, field=self.field, context=self.context):
+                # if new value == old value, no need to validate
+                return
+
+        # otherwise StrictSimpleFieldValidator will do the job
+        return super(SimpleFieldValidator, self).validate(value, force)
+
+
+class FileUploadValidator(StrictSimpleFieldValidator):
+    """File upload validator
+    """
+    zope.component.adapts(
+        zope.interface.Interface,
+        zope.interface.Interface,
+        zope.interface.Interface,
+        zope.schema.interfaces.IBytes,
+        interfaces.IFileWidget)
+    # only FileUploadDataConverter seems to use NOT_CHANGED, but that needs
+    # to be validated, because file upload is a special case
+    # the most special case if when an ad-hoc IBytes field is required
+
+
 def WidgetValidatorDiscriminators(
     validator, context=None, request=None, view=None, field=None, widget=None):
     zope.component.adapter(
@@ -102,6 +144,7 @@ class NoInputData(zope.interface.Invalid):
     This exception is part of the internal implementation of checkInvariants.
 
     """
+
 
 class Data(object):
     zope.interface.implements(interfaces.IData)

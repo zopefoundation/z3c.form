@@ -284,7 +284,7 @@ class FieldWidgets(util.Manager):
                 self._data_values.append(widget)
                 self._data[shortName] = widget
                 zope.location.locate(widget, self, shortName)
-            # allways ensure that we add all keys and keep the order given from
+            # always ensure that we add all keys and keep the order given from
             # button items
             self._data_keys = uniqueOrderedKeys
 

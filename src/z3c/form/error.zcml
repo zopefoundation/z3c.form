@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="z3c.form">
+
+  <!-- Error Views -->
+  <adapter
+      factory=".error.ErrorViewSnippet"
+      trusted="True"
+      permission="zope.Public"
+      />
+  <adapter
+      factory=".error.InvalidErrorViewSnippet"
+      trusted="True"
+      permission="zope.Public"
+      />
+  <adapter
+      factory=".error.ValueErrorViewSnippet"
+      trusted="True"
+      permission="zope.Public"
+      />
+  <adapter
+      factory=".error.MultipleErrorViewSnippet"
+      trusted="True"
+      permission="zope.Public"
+      />
+  <adapter
+      factory=".error.StandardErrorViewTemplate"
+      />
+
+</configure>

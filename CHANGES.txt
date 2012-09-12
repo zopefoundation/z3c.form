@@ -13,6 +13,7 @@ CHANGES
   with an EditForm after save as it was before editing.
   That brings some changes with it:
   - *MAJOR*: unchanged values/fields do not get validated anymore
+    (unless they are empty or are FileUploads)
   - A temporary ``SimpleTerm`` gets created for the missing value
     Title is by default "Missing: ${value}". See MissingTermsMixin.
 

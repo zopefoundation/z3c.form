@@ -74,7 +74,8 @@ well-defined. Thus, we first need to create a schema.
   ...     login = zope.schema.TextLine(
   ...         title=u'Login',
   ...         min_length=1,
-  ...         max_length=10)
+  ...         max_length=10,
+  ...         required=True)
   ...
   ...     email = zope.schema.TextLine(
   ...         title=u'E-mail')
@@ -186,7 +187,7 @@ again:
   ...     interfaces.IValidator)
 
 Ignoring unchanged values
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the time we want to ignore unchanged fields/values at validation.
 A common usecase for this is if a value went away from a vocabulary and we want
@@ -241,6 +242,15 @@ Unless we want to force validation:
   Traceback (most recent call last):
   ...
   TooLong: (u'hippocratiusxy', 10)
+
+Some exceptions:
+
+``missing_value`` gets validated
+
+  >>> simple.validate(IPerson['login'].missing_value)
+  Traceback (most recent call last):
+  ...
+  RequiredMissing: login
 
 
 Widget Validators and File-Uploads

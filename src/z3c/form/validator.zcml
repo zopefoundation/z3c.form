@@ -7,6 +7,9 @@
       factory=".validator.SimpleFieldValidator"
       />
   <adapter
+      factory=".validator.FileUploadValidator"
+      />
+  <adapter
       factory=".validator.InvariantsValidator"
       />
 

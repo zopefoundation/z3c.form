@@ -2,6 +2,16 @@
 CHANGES
 =======
 
+In next release ...
+
+- Initialize widgets in ``update`` step. The ``updateWidgets`` method
+  is now responsible only for actually updating the widgets.
+
+  This allows updating the common widgets prefix before the individual
+  widgets are updated, useful for situations where neither a form, nor
+  a widgets prefix is desired.
+
+
 2.8.3 (unreleased)
 ------------------
 

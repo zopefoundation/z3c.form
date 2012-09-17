@@ -12,19 +12,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: z3c.form\n"
 "Report-Msgid-Bugs-To: Zope 3 Developers <zope3-dev@zope.org>\n"
-"POT-Creation-Date: Tue Oct 13 16:21:54 2009\n"
+"POT-Creation-Date: Mon Sep 17 15:11:41 2012\n"
 "PO-Revision-Date: 2009-10-13 16:22+0200\n"
 "Last-Translator: Christophe Combelles <ccomb@free.fr>\n"
 "Language-Team: Zope 3 French Users <zope3-french-user@lists.afpy.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/z3c/form/browser/multi.py:66 src/z3c/form/form.py:226
+#: src/z3c/form/browser/multi.py:67 src/z3c/form/form.py:232
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/z3c/form/browser/multi.py:71
+#: src/z3c/form/browser/multi.py:72
 msgid "Remove selected"
 msgstr "Supprimer"
 
@@ -44,7 +45,7 @@ msgstr "La valeur fournie n'est pas un entier valable"
 msgid "The entered value is not a valid decimal literal."
 msgstr "La valeur fournie n'est pas un nombre décimal valable"
 
-#: src/z3c/form/converter.py:240
+#: src/z3c/form/converter.py:245
 msgid "Bytes data are not a file object"
 msgstr "Les données binaires ne sont pas un objet fichier"
 
@@ -52,166 +53,156 @@ msgstr "Les données binaires ne sont pas un objet fichier"
 msgid "The system could not process the given value."
 msgstr "Le système n'a pas pu traiter la valeur fournie."
 
-#: src/z3c/form/form.py:109
+#: src/z3c/form/form.py:108
 msgid "<span class=\"required\">*</span>&ndash; required"
 msgstr "<span class=\"required\">*</span>&ndash; requis"
 
-#: src/z3c/form/form.py:184 src/z3c/form/subform.py:29
+#: src/z3c/form/form.py:185 src/z3c/form/subform.py:29
 msgid "There were some errors."
 msgstr "Il y a des erreurs."
 
-#: src/z3c/form/form.py:263 src/z3c/form/subform.py:30
+#: src/z3c/form/form.py:269 src/z3c/form/subform.py:30
 msgid "Data successfully updated."
 msgstr "Les données ont été modifiées avec succès."
 
-#: src/z3c/form/form.py:264 src/z3c/form/subform.py:31
+#: src/z3c/form/form.py:270 src/z3c/form/subform.py:31
 msgid "No changes were applied."
 msgstr "Aucun changement n'a été effectué."
 
-#: src/z3c/form/form.py:281
+#: src/z3c/form/form.py:287
 msgid "Apply"
 msgstr "Appliquer"
 
-#: src/z3c/form/interfaces.py:1005
-msgid "Fields"
-msgstr "Champs"
-
-#: src/z3c/form/interfaces.py:1006
-msgid "A field manager describing the fields to be used for the form."
-msgstr ""
-"Un gestionnaire de champs décrivant les champs à utiliser dans le formulaire."
-
-#: src/z3c/form/interfaces.py:1015
-msgid "Buttons"
-msgstr "Boutons"
-
-#: src/z3c/form/interfaces.py:1016
-msgid "A button manager describing the buttons to be used for the form."
-msgstr ""
-"Un gestionnaire de boutons décrivant les boutons à utiliser dans le "
-"formulaire."
-
-#: src/z3c/form/interfaces.py:1041
-msgid "The widget for which the event was created."
-msgstr "Le widget pour lequel l'événement a été créé."
-
-#: src/z3c/form/interfaces.py:107 src/z3c/form/interfaces.py:821
+#: src/z3c/form/interfaces.py:110 src/z3c/form/interfaces.py:873
 msgid "Context"
 msgstr "Contexte"
 
-#: src/z3c/form/interfaces.py:108
+#: src/z3c/form/interfaces.py:111
 msgid "The context in which the data are validated."
 msgstr "Le contexte dans lequel les données sont validées."
 
-#: src/z3c/form/interfaces.py:148 src/z3c/form/interfaces.py:1040
+#: src/z3c/form/interfaces.py:151 src/z3c/form/interfaces.py:1107
 msgid "Widget"
 msgstr "Widget"
 
-#: src/z3c/form/interfaces.py:149
+#: src/z3c/form/interfaces.py:152
 msgid "The widget that the view is on"
 msgstr "Le widget sur lequel est la vue"
 
-#: src/z3c/form/interfaces.py:153 src/z3c/form/interfaces.py:404
-#: src/z3c/form/interfaces.py:698
+#: src/z3c/form/interfaces.py:156 src/z3c/form/interfaces.py:429
+#: src/z3c/form/interfaces.py:750
 msgid "Error"
 msgstr "Erreur"
 
-#: src/z3c/form/interfaces.py:154
+#: src/z3c/form/interfaces.py:157
 msgid "Error the view is for."
 msgstr "L'erreur pour laquelle la vue est définie."
 
-#: src/z3c/form/interfaces.py:174 src/z3c/form/interfaces.py:672
+#: src/z3c/form/interfaces.py:177 src/z3c/form/interfaces.py:724
 msgid "Title"
 msgstr "Titre"
 
-#: src/z3c/form/interfaces.py:175
+#: src/z3c/form/interfaces.py:178
 msgid "The name of the field within the form."
 msgstr "Le nom du champ à l'intérieur du formulaire."
 
-#: src/z3c/form/interfaces.py:179
+#: src/z3c/form/interfaces.py:182
 msgid "Schema Field"
 msgstr "Champ de schéma"
 
-#: src/z3c/form/interfaces.py:180
+#: src/z3c/form/interfaces.py:183
 msgid "The schema field that is to be rendered."
 msgstr "Le champ du schéma qui doit être rendu"
 
-#: src/z3c/form/interfaces.py:184 src/z3c/form/interfaces.py:570
-#: src/z3c/form/interfaces.py:576 src/z3c/form/interfaces.py:888
+#: src/z3c/form/interfaces.py:187 src/z3c/form/interfaces.py:615
+#: src/z3c/form/interfaces.py:621 src/z3c/form/interfaces.py:947
 msgid "Prefix"
 msgstr "Préfixe"
 
-#: src/z3c/form/interfaces.py:185
+#: src/z3c/form/interfaces.py:188
 msgid "The prefix of the field used to avoid name clashes."
 msgstr "Le préfixe du champ utilisé pour éviter les conflits de noms."
 
-#: src/z3c/form/interfaces.py:189 src/z3c/form/interfaces.py:391
-#: src/z3c/form/interfaces.py:847
+#: src/z3c/form/interfaces.py:192 src/z3c/form/interfaces.py:416
+#: src/z3c/form/interfaces.py:899
 msgid "Mode"
 msgstr "Mode"
 
-#: src/z3c/form/interfaces.py:190
+#: src/z3c/form/interfaces.py:193
 msgid "The mode in which to render the widget for the field."
 msgstr "Le mode dans lequel le widget du champ doit être rendu."
 
-#: src/z3c/form/interfaces.py:194
+#: src/z3c/form/interfaces.py:197
 msgid "Interface"
 msgstr "Interface"
 
-#: src/z3c/form/interfaces.py:195
+#: src/z3c/form/interfaces.py:198
 msgid "The interface from which the field is coming."
 msgstr "L'interface d'où provient le champ."
 
-#: src/z3c/form/interfaces.py:199 src/z3c/form/interfaces.py:589
-#: src/z3c/form/interfaces.py:826 src/z3c/form/interfaces.py:852
+#: src/z3c/form/interfaces.py:202 src/z3c/form/interfaces.py:634
+#: src/z3c/form/interfaces.py:878 src/z3c/form/interfaces.py:904
 msgid "Ignore Context"
 msgstr "Ignorer le contexte"
 
-#: src/z3c/form/interfaces.py:200 src/z3c/form/interfaces.py:827
+#: src/z3c/form/interfaces.py:203 src/z3c/form/interfaces.py:879
 msgid ""
 "A flag, when set, forces the widget not to look at the context for a value."
 msgstr ""
 "Un marqueur qui force le widget à ne pas tenir compte du contexte pour sa "
 "valeur."
 
-#: src/z3c/form/interfaces.py:205
+#: src/z3c/form/interfaces.py:208
 msgid "Widget Factory"
 msgstr "Fabrique de widgets"
 
-#: src/z3c/form/interfaces.py:206
+#: src/z3c/form/interfaces.py:209
 msgid "The widget factory."
 msgstr "La fabrique de widgets."
 
-#: src/z3c/form/interfaces.py:334
+#: src/z3c/form/interfaces.py:215 src/z3c/form/interfaces.py:467
+msgid "Show default value"
+msgstr ""
+
+#: src/z3c/form/interfaces.py:216 src/z3c/form/interfaces.py:468
+#, fuzzy
+msgid ""
+"A flag, when set, makes the widget to displayfield|adapter provided default "
+"values."
+msgstr ""
+"Un marqueur qui force le widget à ne pas tenir compte du contexte pour sa "
+"valeur."
+
+#: src/z3c/form/interfaces.py:349
 msgid "True-value Label"
 msgstr "Libellé de la valeur vraie"
 
-#: src/z3c/form/interfaces.py:335
+#: src/z3c/form/interfaces.py:350
 msgid "The label for a true value of the Bool field."
 msgstr "Le libellé de la valeur vraie pour un champ booléen."
 
-#: src/z3c/form/interfaces.py:339
+#: src/z3c/form/interfaces.py:354
 msgid "False-value Label"
 msgstr "Libellé de la valeur fausse"
 
-#: src/z3c/form/interfaces.py:340
+#: src/z3c/form/interfaces.py:355
 msgid "The label for a false value of the Bool field."
 msgstr "Le libellé de la valeur fausse pour un champ booléen."
 
-#: src/z3c/form/interfaces.py:374 src/z3c/form/interfaces.py:666
-#: src/z3c/form/interfaces.py:937
+#: src/z3c/form/interfaces.py:399 src/z3c/form/interfaces.py:718
+#: src/z3c/form/interfaces.py:996
 msgid "Name"
 msgstr "Nom"
 
-#: src/z3c/form/interfaces.py:375
+#: src/z3c/form/interfaces.py:400
 msgid "The name the widget is known under."
 msgstr "Le nom sous lequel est connu le widget."
 
-#: src/z3c/form/interfaces.py:379 src/z3c/form/interfaces.py:876
+#: src/z3c/form/interfaces.py:404 src/z3c/form/interfaces.py:935
 msgid "Label"
 msgstr "Libellé"
 
-#: src/z3c/form/interfaces.py:380
+#: src/z3c/form/interfaces.py:405
 msgid ""
 "\n"
 "        The widget label.\n"
@@ -234,146 +225,167 @@ msgstr ""
 "        en lecture seule ou en lecture/écriture.\n"
 "        "
 
-#: src/z3c/form/interfaces.py:392
+#: src/z3c/form/interfaces.py:417
 msgid "A widget mode."
 msgstr "Un mode de widget."
 
-#: src/z3c/form/interfaces.py:397
+#: src/z3c/form/interfaces.py:422
 msgid "Required"
 msgstr "Obligatoire"
 
-#: src/z3c/form/interfaces.py:398
+#: src/z3c/form/interfaces.py:423
 msgid "If true the widget should be displayed as required input."
 msgstr ""
 "Si vrai, le widget doit être affiché comme étant une entrée obligatoire."
 
-#: src/z3c/form/interfaces.py:405
+#: src/z3c/form/interfaces.py:430
 msgid "If an error occurred during any step, the error view stored here."
 msgstr ""
 "Si une erreur survient pendant n'importe quelle étape, la vue de l'erreur "
 "est stockée ici."
 
-#: src/z3c/form/interfaces.py:410
+#: src/z3c/form/interfaces.py:435
 msgid "Value"
 msgstr "Valeur"
 
-#: src/z3c/form/interfaces.py:411
+#: src/z3c/form/interfaces.py:436
 msgid "The value that the widget represents."
 msgstr "La valeur représentée par le widget."
 
-#: src/z3c/form/interfaces.py:417 src/z3c/form/interfaces.py:595
-#: src/z3c/form/interfaces.py:858
+#: src/z3c/form/interfaces.py:443 src/z3c/form/interfaces.py:640
+#: src/z3c/form/interfaces.py:910
 msgid "Ignore Request"
 msgstr "Ignorer la requête"
 
-#: src/z3c/form/interfaces.py:418
+#: src/z3c/form/interfaces.py:444
 msgid ""
 "A flag, when set, forces the widget not to look at the request for a value."
 msgstr ""
 "Un marqueur qui force le widget à ne pas tenir compte de la requête pour sa "
 "valeur."
 
-#: src/z3c/form/interfaces.py:425 src/z3c/form/interfaces.py:615
+#: src/z3c/form/interfaces.py:451 src/z3c/form/interfaces.py:667
 msgid "Set errors"
 msgstr "Activer les erreurs"
 
-#: src/z3c/form/interfaces.py:426
+#: src/z3c/form/interfaces.py:452
 msgid "A flag, when set, the widget sets error messages on calling extract()."
 msgstr ""
 "Un marqueur qui active les messages d'erreur du widget lors de l'appel à "
 "extract()."
 
-#: src/z3c/form/interfaces.py:471
+#: src/z3c/form/interfaces.py:460
+#, fuzzy
+msgid "Ignore Required validation"
+msgstr "Ignorer la requête"
+
+#: src/z3c/form/interfaces.py:461
+msgid ""
+"If set then required fields will pass validation regardless whether they're "
+"filled in or not"
+msgstr ""
+
+#: src/z3c/form/interfaces.py:516
 msgid "NO_VALUE Token"
 msgstr "Symbole NO_VALUE"
 
-#: src/z3c/form/interfaces.py:472
+#: src/z3c/form/interfaces.py:517
 msgid "The token to be used, if no value has been selected."
 msgstr "Le symbole à utiliser lorsque aucune valeur n'est choisie."
 
-#: src/z3c/form/interfaces.py:475
+#: src/z3c/form/interfaces.py:520
 msgid "Terms"
 msgstr "Termes"
 
-#: src/z3c/form/interfaces.py:476
+#: src/z3c/form/interfaces.py:521
 msgid "A component that provides the options for selection."
 msgstr "Un composant qui fournit les options de sélection."
 
-#: src/z3c/form/interfaces.py:506
+#: src/z3c/form/interfaces.py:551
 msgid "Prompt"
 msgstr "Invite"
 
-#: src/z3c/form/interfaces.py:507
+#: src/z3c/form/interfaces.py:552
 msgid ""
 "A flag, when set, enables a choice explicitely requesting the user to choose "
 "a value."
 msgstr ""
 "Un marqueur qui active un choix forçant l'utilisateur à choisir une valeur"
 
-#: src/z3c/form/interfaces.py:512
+#: src/z3c/form/interfaces.py:557
 msgid "Items"
 msgstr "Éléments"
 
-#: src/z3c/form/interfaces.py:513
+#: src/z3c/form/interfaces.py:558
 msgid ""
 "A collection of dictionaries containing all pieces of information for "
 "rendering. The following keys must be in each dictionary: id, value, "
 "content, selected"
 msgstr ""
 "Une collection de dictionnaires contenant toutes les informations "
-"nécessaires au rendu. Les clés suivantes doivent apparaître dans "
-"chaque dictionnaire : id, value, content, selected"
+"nécessaires au rendu. Les clés suivantes doivent apparaître dans chaque "
+"dictionnaire : id, value, content, selected"
 
-#: src/z3c/form/interfaces.py:518
+#: src/z3c/form/interfaces.py:563
 msgid "No-Value Message"
 msgstr "Message « pas de valeur »"
 
-#: src/z3c/form/interfaces.py:519 src/z3c/form/interfaces.py:524
+#: src/z3c/form/interfaces.py:564 src/z3c/form/interfaces.py:569
 msgid "A human-readable text that is displayed to refer the missing value."
 msgstr ""
 "Un texte à destination des utilisateurs, en rapport avec la valeur manquante."
 
-#: src/z3c/form/interfaces.py:523
+#: src/z3c/form/interfaces.py:568
 msgid "Prompt Message"
 msgstr "Message d'invite"
 
-#: src/z3c/form/interfaces.py:571 src/z3c/form/interfaces.py:577
+#: src/z3c/form/interfaces.py:616 src/z3c/form/interfaces.py:622
 msgid "The prefix of the widgets."
 msgstr "Le préfixe des widgets."
 
-#: src/z3c/form/interfaces.py:582
+#: src/z3c/form/interfaces.py:627
 msgid "Errors"
 msgstr "Erreurs"
 
-#: src/z3c/form/interfaces.py:583
+#: src/z3c/form/interfaces.py:628
 msgid "The collection of errors that occured during validation."
 msgstr "L'ensemble des erreurs survenues pendant la validation."
 
-#: src/z3c/form/interfaces.py:590 src/z3c/form/interfaces.py:853
+#: src/z3c/form/interfaces.py:635 src/z3c/form/interfaces.py:905
 msgid "If set the context is ignored to retrieve a value."
 msgstr "Si défini, le contexte est ignoré pour récupérer la valeur."
 
-#: src/z3c/form/interfaces.py:596 src/z3c/form/interfaces.py:859
+#: src/z3c/form/interfaces.py:641 src/z3c/form/interfaces.py:911
 msgid "If set the request is ignored to retrieve a value."
 msgstr "Si défini, la requête est ignorée pour récupérer la valeur."
 
-#: src/z3c/form/interfaces.py:601 src/z3c/form/interfaces.py:864
+#: src/z3c/form/interfaces.py:646 src/z3c/form/interfaces.py:916
 msgid "Ignore Readonly"
 msgstr "Ignorer le mode lecture seule"
 
-#: src/z3c/form/interfaces.py:602 src/z3c/form/interfaces.py:865
+#: src/z3c/form/interfaces.py:647 src/z3c/form/interfaces.py:917
 msgid "If set then readonly fields will also be shown."
 msgstr "Si défini, les champs en lecture seule sont aussi affichés."
 
-#: src/z3c/form/interfaces.py:607
+#: src/z3c/form/interfaces.py:652 src/z3c/form/interfaces.py:922
+msgid "Ignore Required validation on extract"
+msgstr ""
+
+#: src/z3c/form/interfaces.py:653 src/z3c/form/interfaces.py:923
+msgid ""
+"If set then required fields will pass validation on extract regardless "
+"whether they're filled in or not"
+msgstr ""
+
+#: src/z3c/form/interfaces.py:659
 msgid "Has required fields"
 msgstr "A des champs obligatoires"
 
-#: src/z3c/form/interfaces.py:608
+#: src/z3c/form/interfaces.py:660
 msgid "A flag set when at least one field is marked as required"
 msgstr "Un marqueur activé lorsqu'au moins un champ est obligatoire"
 
-#: src/z3c/form/interfaces.py:616
+#: src/z3c/form/interfaces.py:668
 msgid ""
 "A flag, when set, the contained widgets set error messages on calling extract"
 "()."
@@ -381,79 +393,79 @@ msgstr ""
 "Un marqueur qui active les message d'erreurs des widgets lors de l'appel "
 "extract()"
 
-#: src/z3c/form/interfaces.py:637 src/z3c/form/zcml.py:70
+#: src/z3c/form/interfaces.py:689 src/z3c/form/zcml.py:71
 msgid "Field"
 msgstr "Champ"
 
-#: src/z3c/form/interfaces.py:638
+#: src/z3c/form/interfaces.py:690
 msgid "The schema field which the widget is representing."
 msgstr "Le champ de schéma que le widget représente"
 
-#: src/z3c/form/interfaces.py:667
+#: src/z3c/form/interfaces.py:719
 msgid "The object name."
 msgstr "Le nom de l'objet."
 
-#: src/z3c/form/interfaces.py:673
+#: src/z3c/form/interfaces.py:725
 msgid "The action title."
 msgstr "Le titre de l'action."
 
-#: src/z3c/form/interfaces.py:688 src/z3c/form/interfaces.py:931
+#: src/z3c/form/interfaces.py:740 src/z3c/form/interfaces.py:990
 msgid "Action"
 msgstr "Action"
 
-#: src/z3c/form/interfaces.py:689
+#: src/z3c/form/interfaces.py:741
 msgid "The action for which the event is created."
 msgstr "L'action pour laquelle l'événement est créé."
 
-#: src/z3c/form/interfaces.py:699
+#: src/z3c/form/interfaces.py:751
 msgid "The error that occurred during the action."
 msgstr "L'erreur survenue pendant l'action."
 
-#: src/z3c/form/interfaces.py:725
+#: src/z3c/form/interfaces.py:777
 msgid "Access Key"
 msgstr "Touche de raccourci"
 
-#: src/z3c/form/interfaces.py:726
+#: src/z3c/form/interfaces.py:778
 msgid "The key when pressed causes the button to be pressed."
 msgstr "La touche qui correspond à l'enclenchement du bouton."
 
-#: src/z3c/form/interfaces.py:732
+#: src/z3c/form/interfaces.py:784
 msgid "Action Factory"
 msgstr "Fabrique d'actions"
 
-#: src/z3c/form/interfaces.py:733
+#: src/z3c/form/interfaces.py:785
 msgid "The action factory."
 msgstr "La fabrique d'actions."
 
-#: src/z3c/form/interfaces.py:743
+#: src/z3c/form/interfaces.py:795
 msgid "Image Path"
 msgstr "Chemin de l'image"
 
-#: src/z3c/form/interfaces.py:744
+#: src/z3c/form/interfaces.py:796
 msgid "A relative image path to the root of the resources."
 msgstr "Un chemin d'une image relatif à la racine des ressources."
 
-#: src/z3c/form/interfaces.py:790
+#: src/z3c/form/interfaces.py:842
 msgid "Handlers"
 msgstr "Gestionnaires"
 
-#: src/z3c/form/interfaces.py:791
+#: src/z3c/form/interfaces.py:843
 msgid "A list of action handlers defined on the form."
 msgstr "Une liste de gestionnaires d'actions définis pour le formulaire."
 
-#: src/z3c/form/interfaces.py:800
+#: src/z3c/form/interfaces.py:852
 msgid "Actions"
 msgstr "Actions"
 
-#: src/z3c/form/interfaces.py:801
+#: src/z3c/form/interfaces.py:853
 msgid "A list of actions defined on the form"
 msgstr "Une liste d'actions définies pour le formulaire"
 
-#: src/z3c/form/interfaces.py:806
+#: src/z3c/form/interfaces.py:858
 msgid "Refresh actions"
 msgstr "Rafraîchir les actions"
 
-#: src/z3c/form/interfaces.py:807
+#: src/z3c/form/interfaces.py:859
 msgid ""
 "A flag, when set, causes form actions to be updated again after their "
 "execution."
@@ -461,35 +473,35 @@ msgstr ""
 "Un marqueur qui permet de réactualiser les actions de formulaires après leur "
 "exécution."
 
-#: src/z3c/form/interfaces.py:822
+#: src/z3c/form/interfaces.py:874
 msgid "The context in which the widget is displayed."
 msgstr "Le contexte dans lequel le widget est affiché."
 
-#: src/z3c/form/interfaces.py:848
+#: src/z3c/form/interfaces.py:900
 msgid "The mode in which to render the widgets."
 msgstr "Le mode dans lequel les widgets doivent être rendus."
 
-#: src/z3c/form/interfaces.py:870
+#: src/z3c/form/interfaces.py:929
 msgid "Widgets"
 msgstr "Widgets"
 
-#: src/z3c/form/interfaces.py:871
+#: src/z3c/form/interfaces.py:930
 msgid "A widget manager containing the widgets to be used in the form."
 msgstr ""
 "Un gestionnaire de widgets contenant les widgets à utiliser dans le "
 "formulaire."
 
-#: src/z3c/form/interfaces.py:877
+#: src/z3c/form/interfaces.py:936
 msgid "A human readable text describing the form that can be used in the UI."
 msgstr ""
 "Un texte décrivant le formulaire et pouvant être utilisé dans l'interface "
 "utilisateur."
 
-#: src/z3c/form/interfaces.py:882
+#: src/z3c/form/interfaces.py:941
 msgid "Label required"
 msgstr "Libellé obligatoire"
 
-#: src/z3c/form/interfaces.py:883
+#: src/z3c/form/interfaces.py:942
 msgid ""
 "A human readable text describing the form that can be used in the UI for "
 "rendering a required info legend."
@@ -497,56 +509,56 @@ msgstr ""
 "Un texte décrivant le formulaire et pouvant être utilisédans l'interface "
 "utilisateur."
 
-#: src/z3c/form/interfaces.py:889
+#: src/z3c/form/interfaces.py:948
 msgid "The prefix of the form used to uniquely identify it."
 msgstr "Le préfixe du formulaire, utilisé pour l'identifier de manière unique."
 
-#: src/z3c/form/interfaces.py:893
+#: src/z3c/form/interfaces.py:952
 msgid "Status"
 msgstr "Statut"
 
-#: src/z3c/form/interfaces.py:894
+#: src/z3c/form/interfaces.py:953
 msgid "The status message of the form."
 msgstr "Le message de statut du formulaire."
 
-#: src/z3c/form/interfaces.py:932
+#: src/z3c/form/interfaces.py:991
 msgid "The action defines the URI to which the form data are sent."
 msgstr ""
 "L'action définit l'URI à laquelle les données du formulaire sont envoyées."
 
-#: src/z3c/form/interfaces.py:938
+#: src/z3c/form/interfaces.py:997
 msgid "The name of the form used to identify it."
 msgstr "Le nom du formulaire, servant à l'identifier."
 
-#: src/z3c/form/interfaces.py:942
+#: src/z3c/form/interfaces.py:1001
 msgid "Id"
 msgstr "Id"
 
-#: src/z3c/form/interfaces.py:943
+#: src/z3c/form/interfaces.py:1002
 msgid "The id of the form used to identify it."
 msgstr "L'identifiant du formulaire, servant à l'identifier."
 
-#: src/z3c/form/interfaces.py:947
+#: src/z3c/form/interfaces.py:1006
 msgid "Method"
 msgstr "Méthode"
 
-#: src/z3c/form/interfaces.py:948
+#: src/z3c/form/interfaces.py:1007
 msgid "The HTTP method used to submit the form."
 msgstr "La méthode HTTP utilisée pour soumettre le formulaire."
 
-#: src/z3c/form/interfaces.py:954
+#: src/z3c/form/interfaces.py:1013
 msgid "Encoding Type"
 msgstr "Type d'encodage"
 
-#: src/z3c/form/interfaces.py:955
+#: src/z3c/form/interfaces.py:1014
 msgid "The data encoding used to submit the data safely."
 msgstr "L'encodage utilisé pour soumettre les données de manière sûre."
 
-#: src/z3c/form/interfaces.py:960
+#: src/z3c/form/interfaces.py:1019
 msgid "Accepted Character Sets"
 msgstr "Jeux de caractères acceptés"
 
-#: src/z3c/form/interfaces.py:961
+#: src/z3c/form/interfaces.py:1020
 msgid ""
 "This is a list of character sets the server accepts. By default this is "
 "unknown."
@@ -554,33 +566,72 @@ msgstr ""
 "Une liste de jeux de caractères que le serveur accepte. Par défaut elle est "
 "inconnue."
 
-#: src/z3c/form/interfaces.py:966
+#: src/z3c/form/interfaces.py:1025
 msgid "Accepted Content Types"
 msgstr "Types de contenus acceptés"
 
-#: src/z3c/form/interfaces.py:967
+#: src/z3c/form/interfaces.py:1026
 msgid "This is a list of content types the server can safely handle."
 msgstr ""
 "Une liste de types de contenus que le serveur peut prendre en charge de "
 "manière sûre."
 
-#: src/z3c/form/term.py:152
+#: src/z3c/form/interfaces.py:1064
+msgid "Fields"
+msgstr "Champs"
+
+#: src/z3c/form/interfaces.py:1065
+msgid "A field manager describing the fields to be used for the form."
+msgstr ""
+"Un gestionnaire de champs décrivant les champs à utiliser dans le formulaire."
+
+#: src/z3c/form/interfaces.py:1073
+#, fuzzy
+msgid "Content providers"
+msgstr "Type de contenu"
+
+#: src/z3c/form/interfaces.py:1074
+#, fuzzy
+msgid "A manager describing the content providers to be used for the form."
+msgstr ""
+"Un gestionnaire de boutons décrivant les boutons à utiliser dans le "
+"formulaire."
+
+#: src/z3c/form/interfaces.py:1082
+msgid "Buttons"
+msgstr "Boutons"
+
+#: src/z3c/form/interfaces.py:1083
+msgid "A button manager describing the buttons to be used for the form."
+msgstr ""
+"Un gestionnaire de boutons décrivant les boutons à utiliser dans le "
+"formulaire."
+
+#: src/z3c/form/interfaces.py:1108
+msgid "The widget for which the event was created."
+msgstr "Le widget pour lequel l'événement a été créé."
+
+#: src/z3c/form/term.py:153
+msgid "Missing: ${value}"
+msgstr ""
+
+#: src/z3c/form/term.py:205
 msgid "yes"
 msgstr "oui"
 
-#: src/z3c/form/term.py:153
+#: src/z3c/form/term.py:206
 msgid "no"
 msgstr "non"
 
-#: src/z3c/form/util.py:114
+#: src/z3c/form/util.py:131
 msgid "Missing filename extension."
 msgstr "Extension de nom de fichier manquante."
 
-#: src/z3c/form/zcml.py:39
+#: src/z3c/form/zcml.py:40
 msgid "Layout template."
 msgstr "Template de mise en page."
 
-#: src/z3c/form/zcml.py:40
+#: src/z3c/form/zcml.py:41
 msgid ""
 "Refers to a file containing a page template (should end in extension ``.pt`` "
 "or ``.html``)."
@@ -588,52 +639,52 @@ msgstr ""
 "Pointe vers un fichier contenant un template de page (doit se terminer en « ."
 "pt » ou « .html »)"
 
-#: src/z3c/form/zcml.py:45
+#: src/z3c/form/zcml.py:46
 msgid "The mode of the template."
 msgstr "Le mode du template."
 
-#: src/z3c/form/zcml.py:46
+#: src/z3c/form/zcml.py:47
 msgid "The mode is used to define input and display templates"
 msgstr ""
 "Le mode est utilisé pour définir les templates d'affichage et d'édition."
 
-#: src/z3c/form/zcml.py:52 src/z3c/form/zcml.py:64 src/z3c/form/zcml.py:76
+#: src/z3c/form/zcml.py:53 src/z3c/form/zcml.py:65 src/z3c/form/zcml.py:77
 msgid "View"
 msgstr "Vue"
 
-#: src/z3c/form/zcml.py:53 src/z3c/form/zcml.py:65
+#: src/z3c/form/zcml.py:54 src/z3c/form/zcml.py:66
 msgid "The view for which the template should be available"
 msgstr "La vue pour laquelle le template doit être disponible"
 
-#: src/z3c/form/zcml.py:58
+#: src/z3c/form/zcml.py:59
 msgid "Layer"
 msgstr "Couche"
 
-#: src/z3c/form/zcml.py:59
+#: src/z3c/form/zcml.py:60
 msgid "The layer for which the template should be available"
 msgstr "La couche (layer) dans laquelle le template doit être disponible"
 
-#: src/z3c/form/zcml.py:71
+#: src/z3c/form/zcml.py:72
 msgid "The field for which the template should be available"
 msgstr "Le champ pour lequel le gabarit doit être disponible"
 
-#: src/z3c/form/zcml.py:77
+#: src/z3c/form/zcml.py:78
 msgid "The widget for which the template should be available"
 msgstr "Le widget pour lequel le gabarit doit être disponible"
 
-#: src/z3c/form/zcml.py:82
+#: src/z3c/form/zcml.py:83
 msgid "Content Type"
 msgstr "Type de contenu"
 
-#: src/z3c/form/zcml.py:83
+#: src/z3c/form/zcml.py:84
 msgid "The content type identifies the type of data."
 msgstr "Le type de contenu identifie le type des données."
 
-#: src/z3c/form/zcml.py:89
+#: src/z3c/form/zcml.py:90
 msgid "Schema"
 msgstr "Schéma"
 
-#: src/z3c/form/zcml.py:90
+#: src/z3c/form/zcml.py:91
 msgid "The schema of the field for which the template should be available"
 msgstr "Le schéma du champ pour lequel le template doit être disponible"
 

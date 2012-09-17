@@ -16,13 +16,6 @@ CHANGES
 
 - Split ``configure.zcml``
 
-- Initialize widgets in ``update`` step. The ``updateWidgets`` method
-  is now responsible only for actually updating the widgets.
-
-  This allows updating the common widgets prefix before the individual
-  widgets are updated, useful for situations where neither a form, nor
-  a widgets prefix is desired.
-
 - ``SequenceWidget`` DISPLAY_MODE: silently ignore missing tokens,
   because INPUT_MODE and HIDDEN_MODE does that too
 

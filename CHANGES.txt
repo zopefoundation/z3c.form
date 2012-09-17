@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-2.9.0 (unreleased)
+2.9.0 (2012-09-17)
 ------------------
 
 - Missing terms in vocabularies: this was a pain until now.

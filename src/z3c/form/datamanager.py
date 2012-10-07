@@ -55,6 +55,13 @@ class AttributeField(DataManager):
     def adapted_context(self):
         # get the right adapter or context
         context = self.context
+        # NOTE: zope.schema fields defined in inherited interfaces will point
+        # to the inherited interface. This could end in adapting the wrong item.
+        # This is very bad because the widget field offers an explicit interface
+        # argument which doesn't get used in Widget setup during IDataManager
+        # lookup. We should find a concept which allows to adapt the
+        # IDataManager use the widget field interface instead of the zope.schema
+        # field.interface, ri
         if self.field.interface is not None:
             context = self.field.interface(context)
         return context

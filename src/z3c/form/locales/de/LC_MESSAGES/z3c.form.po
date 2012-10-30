@@ -34,11 +34,11 @@ msgid "Remove selected"
 msgstr "Löschen"
 
 #: src/z3c/form/browser/select.py:39
-msgid "no value"
+msgid "No value"
 msgstr "Kein Wert"
 
 #: src/z3c/form/browser/select.py:40
-msgid "select a value ..."
+msgid "Select a value ..."
 msgstr "Bitte eine Auswahl treffen..."
 
 #: src/z3c/form/converter.py:125

@@ -385,7 +385,7 @@ Now test the hints in our widgets:
           class="select-widget choice-field" size="1"
           title="This is a non-required choice field.">
   <option id="form-widgets-optionalChoiceField-novalue"
-          value="--NOVALUE--" selected="selected">no value</option>
+          value="--NOVALUE--" selected="selected">No value</option>
   <option id="form-widgets-optionalChoiceField-0" value="1">One</option>
   <option id="form-widgets-optionalChoiceField-1" value="2">Two</option>
   <option id="form-widgets-optionalChoiceField-2" value="3">Three</option>
@@ -401,7 +401,7 @@ Now test the hints in our widgets:
           class="select-widget choice-field" size="1"
           title="This is a choice field with an explicit prompt.">
   <option id="form-widgets-promptChoiceField-novalue"
-          value="--NOVALUE--" selected="selected">no value</option>
+          value="--NOVALUE--" selected="selected">No value</option>
   <option id="form-widgets-promptChoiceField-0" value="1">One</option>
   <option id="form-widgets-promptChoiceField-1" value="2">Two</option>
   <option id="form-widgets-promptChoiceField-2" value="3">Three</option>

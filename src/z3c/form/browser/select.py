@@ -36,8 +36,8 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     css = u'select'
     prompt = False
 
-    noValueMessage = _('no value')
-    promptMessage = _('select a value ...')
+    noValueMessage = _('No value')
+    promptMessage = _('Select a value ...')
 
     # Internal attributes
     _adapterValueAttributes = SequenceWidget._adapterValueAttributes + \

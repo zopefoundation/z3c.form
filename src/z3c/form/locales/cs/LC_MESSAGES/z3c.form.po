@@ -33,12 +33,12 @@ msgid "Remove selected"
 msgstr "Odebrat vybrané"
 
 #: src/z3c/form/browser/select.py:39
-msgid "no value"
-msgstr "žádná hodnota"
+msgid "No value"
+msgstr "Žádná hodnota"
 
 #: src/z3c/form/browser/select.py:40
-msgid "select a value ..."
-msgstr "vyberte hodnotu ..."
+msgid "Select a value ..."
+msgstr "Vyberte hodnotu ..."
 
 #: src/z3c/form/converter.py:125
 msgid "The entered value is not a valid integer literal."

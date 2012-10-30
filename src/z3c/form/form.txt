@@ -331,7 +331,7 @@ Let's now render the page:
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--">no value</option>
+                    value="--NOVALUE--">No value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
           </select>
@@ -376,7 +376,7 @@ when it is published:
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--">no value</option>
+                    value="--NOVALUE--">No value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
           </select>
@@ -499,7 +499,7 @@ Let's now render the form:
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--">no value</option>
+                    value="--NOVALUE--">No value</option>
             <option id="form-widgets-gender-0" value="male"
                     selected="selected">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
@@ -848,7 +848,7 @@ After adding a template, we can look at the form:
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--">no value</option>
+                    value="--NOVALUE--">No value</option>
             <option id="form-widgets-gender-0" value="male"
                     selected="selected">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
@@ -914,7 +914,7 @@ Let's now submit the form having some invalid data.
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--">no value</option>
+                    value="--NOVALUE--">No value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female"
                     selected="selected">female</option>
@@ -1094,7 +1094,7 @@ We can now use the form as usual:
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
             <option id="form-widgets-gender-novalue"
-                    value="--NOVALUE--" selected="selected">no value</option>
+                    value="--NOVALUE--" selected="selected">No value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
           </select>

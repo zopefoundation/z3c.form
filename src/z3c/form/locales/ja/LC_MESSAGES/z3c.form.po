@@ -33,11 +33,11 @@ msgid "Remove selected"
 msgstr "選ばれたものを削除"
 
 #: src/z3c/form/browser/select.py:39
-msgid "no value"
+msgid "No value"
 msgstr "値なし"
 
 #: src/z3c/form/browser/select.py:40
-msgid "select a value ..."
+msgid "Select a value ..."
 msgstr "値を選択 ..."
 
 #: src/z3c/form/converter.py:125

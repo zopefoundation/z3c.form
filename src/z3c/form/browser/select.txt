@@ -70,7 +70,7 @@ Now let's try if we get widget values:
   >>> print widget.render()
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
-  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
   <option id="widget-id-0" value="a">a</option>
   <option id="widget-id-1" value="b">b</option>
   <option id="widget-id-2" value="c">c</option>
@@ -84,7 +84,7 @@ If we select item "b", then it should be selected:
   >>> print widget.render()
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
-  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
   <option id="widget-id-0" value="a">a</option>
   <option id="widget-id-1" value="b" selected="selected">b</option>
   <option id="widget-id-2" value="c">c</option>
@@ -98,7 +98,7 @@ Let's see what happens if we have values that are not in the vocabulary:
   >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
-  <option id="widget-id-novalue" value="--NOVALUE--">no value</option>
+  <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
   <option id="widget-id-0" value="a">a</option>
   <option id="widget-id-1" value="b">b</option>
   <option id="widget-id-2" value="c">c</option>
@@ -112,7 +112,7 @@ Let's now make sure that we can extract user entered data from a widget:
   >>> widget.extract()
   ['c']
 
-When "no value" is selected, then no verification against the terms is done:
+When "No value" is selected, then no verification against the terms is done:
 
   >>> widget.request = TestRequest(form={'widget.name': ['--NOVALUE--']})
   >>> widget.update()
@@ -148,11 +148,11 @@ Custom No Value Messages
 ------------------------
 
 Additionally to the standard dynamic attribute values, the select widget also
-allows dynamic values for the "no value message". Initially, we have the
+allows dynamic values for the "No value message". Initially, we have the
 default message:
 
   >>> widget.noValueMessage
-  u'no value'
+  u'No value'
 
 Let's now register an attribute value:
 
@@ -183,7 +183,7 @@ cases you just have to set the ``prompt`` attribute to ``True``:
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--"
-          selected="selected">select a value ...</option>
+          selected="selected">Select a value ...</option>
   <option id="widget-id-0" value="a">a</option>
   <option id="widget-id-1" value="b">b</option>
   <option id="widget-id-2" value="c">c</option>
@@ -201,7 +201,7 @@ required:
   <select id="widget-id" name="widget.name:list"
           class="select-widget required" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--"
-          selected="selected">select a value ...</option>
+          selected="selected">Select a value ...</option>
   <option id="widget-id-0" value="a">a</option>
   <option id="widget-id-1" value="b">b</option>
   <option id="widget-id-2" value="c">c</option>
@@ -209,23 +209,23 @@ required:
   <input name="widget.name-empty-marker" type="hidden"
          value="1" />
 
-Since the prompy uses the "no value" as the value for the selection, all
-behavior is identical to selecting "no value". As for the no-value message,
+Since the prompy uses the "No value" as the value for the selection, all
+behavior is identical to selecting "No value". As for the no-value message,
 the prompt message, which is available under
 
   >>> widget.promptMessage
-  u'select a value ...'
+  u'Select a value ...'
 
 can also be changed using an attribute value adapter:
 
-  >>> PromptMessage = StaticWidgetAttribute(u'please select a value')
+  >>> PromptMessage = StaticWidgetAttribute(u'Please select a value')
   >>> zope.component.provideAdapter(PromptMessage, name='promptMessage')
 
 So after updating the widget you have the custom value:
 
   >>> widget.update()
   >>> widget.promptMessage
-  u'please select a value'
+  u'Please select a value'
 
 Additionally, the select widget also allows dynamic value for the ``prompt``
 attribute . Initially, value is ``False``:

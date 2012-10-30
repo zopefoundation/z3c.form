@@ -5,8 +5,9 @@ CHANGES
 2.9.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Capitalize the messages 'no value' and 'select a value'. This change
+  has been applied also to the existing translations (where
+  applicable).
 
 2.9.0 (2012-09-17)
 ------------------

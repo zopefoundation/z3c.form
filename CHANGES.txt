@@ -2,8 +2,19 @@
 CHANGES
 =======
 
-2.9.1 (unreleased)
+2.10.0 (unreleased)
 ------------------
+
+- Initialize widgets in ``update`` step. The ``updateWidgets`` method
+  is now responsible only for actually updating the widgets.
+
+  This allows updating the common widgets prefix before the individual
+  widgets are updated, useful for situations where neither a form, nor
+  a widgets prefix is desired.
+
+  In addition, the ``updateWidgets`` method has learned an argument
+  ``prefix`` which allows setting the prefix of the field widgets
+  adapter.
 
 - Capitalize the messages 'no value' and 'select a value'. This change
   has been applied also to the existing translations (where

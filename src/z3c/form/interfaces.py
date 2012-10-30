@@ -957,11 +957,14 @@ class IForm(zope.interface.Interface):
     def getContent():
         '''Return the content to be displayed and/or edited.'''
 
-    def updateWidgets():
+    def updateWidgets(prefix=None):
         '''Update the widgets for the form.
 
         This method is commonly called from the ``update()`` method and is
         mainly meant to be a hook for subclasses.
+
+        Note that you can pass an argument for ``prefix`` to override
+        the default value of ``"widgets."``.
         '''
 
     def extractData(setErrors=True):

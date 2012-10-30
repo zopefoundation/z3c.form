@@ -1225,6 +1225,24 @@ Now, if we change those values before updating the widgets, ...
   >>> display.widgets.ignoreReadonly
   True
 
+We can also set the widget prefix when we update the widgets:
+
+  >>> display.updateWidgets(prefix="person")
+  >>> display.widgets.prefix
+  'person'
+
+This will affect the individual widgets' names:
+
+  >>> display.widgets['id'].name
+  'form.person.id'
+
+To use unqualified names, we must clear both the form prefix and the
+widgets prefix:
+
+  >>> display.prefix = ""
+  >>> display.updateWidgets(prefix="")
+  >>> display.widgets['id'].name
+  'id'
 
 Extending Forms
 ---------------

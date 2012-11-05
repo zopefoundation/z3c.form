@@ -32,12 +32,14 @@ class Group(form.BaseForm):
         self.request = request
         self.parentForm = self.__parent__ = parentForm
 
-    def updateWidgets(self):
+    def updateWidgets(self, prefix=None):
         '''See interfaces.IForm'''
         for attrName in ('mode', 'ignoreRequest', 'ignoreContext',
                          'ignoreReadonly'):
             value = getattr(self.parentForm.widgets, attrName)
             setattr(self.widgets, attrName, value)
+        if prefix is not None:
+            self.widgets.prefix = prefix
         self.widgets.update()
 
     def update(self):
@@ -119,9 +121,9 @@ class GroupForm(object):
 
         return changed
 
-    def updateWidgets(self):
+    def updateWidgets(self, prefix=None):
         '''See interfaces.IForm'''
-        super(GroupForm, self).updateWidgets()
+        super(GroupForm, self).updateWidgets(prefix=prefix)
 
         groups = []
         for groupClass in self.groups:

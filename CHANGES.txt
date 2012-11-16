@@ -3,7 +3,7 @@ CHANGES
 =======
 
 2.10.0 (unreleased)
-------------------
+-------------------
 
 - Initialize widgets in ``update`` step. The ``updateWidgets`` method
   is now responsible only for actually updating the widgets.
@@ -27,6 +27,7 @@ CHANGES
   Now it's possible to have the same (missing) value unchanged on the object
   with an EditForm after save as it was before editing.
   That brings some changes with it:
+
   - *MAJOR*: unchanged values/fields do not get validated anymore
     (unless they are empty or are FileUploads)
   - A temporary ``SimpleTerm`` gets created for the missing value

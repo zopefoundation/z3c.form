@@ -20,6 +20,12 @@ CHANGES
   has been applied also to the existing translations (where
   applicable).
 
+- `TextLinesConverter`: do not ignore newlines at the end of the inputted
+  string, thus do not eat blank items
+
+- `TextLinesConverter`: toFieldValue, convert conversion exceptions to
+  `FormatterValidationError`, for cases like got a string instead of int
+
 2.9.0 (2012-09-17)
 ------------------
 

@@ -300,7 +300,7 @@ class CollectionSequenceDataConverter(BaseDataConverter):
         for entry in value:
             try:
                 values.append(widget.terms.getTerm(entry).token)
-            except LookupError, err:
+            except LookupError:
                 # Swallow lookup errors, in case the options changed.
                 pass
         return values
@@ -339,7 +339,17 @@ class TextLinesConverter(BaseDataConverter):
         valueType = self.field.value_type._type
         if isinstance(valueType, tuple):
             valueType = valueType[0]
-        return collectionType(valueType(v) for v in value.splitlines())
+        # having a blank line at the end matters, one might want to have a blank
+        # entry at the end, resp. do not eat it once we have one
+        # splitlines ate that, so need to use split now
+        value = value.replace('\r\n', '\n')
+        items = []
+        for v in value.split('\n'):
+            try:
+                items.append(valueType(v))
+            except ValueError, err:
+                raise FormatterValidationError(str(err), v)
+        return collectionType(items)
 
 
 class MultiConverter(BaseDataConverter):

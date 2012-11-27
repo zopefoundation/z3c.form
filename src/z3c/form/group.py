@@ -34,6 +34,8 @@ class Group(form.BaseForm):
 
     def updateWidgets(self, prefix=None):
         '''See interfaces.IForm'''
+        self.widgets = zope.component.getMultiAdapter(
+            (self, self.request, self.getContent()), interfaces.IWidgets)
         for attrName in ('mode', 'ignoreRequest', 'ignoreContext',
                          'ignoreReadonly'):
             value = getattr(self.parentForm.widgets, attrName)
@@ -44,7 +46,7 @@ class Group(form.BaseForm):
 
     def update(self):
         '''See interfaces.IForm'''
-        super(Group, self).update()
+        self.updateWidgets()
         groups = []
         for groupClass in self.groups:
             # only instantiate the groupClass if it hasn't already
@@ -121,10 +123,9 @@ class GroupForm(object):
 
         return changed
 
-    def updateWidgets(self, prefix=None):
+    def update(self):
         '''See interfaces.IForm'''
-        super(GroupForm, self).updateWidgets(prefix=prefix)
-
+        self.updateWidgets()
         groups = []
         for groupClass in self.groups:
             # only instantiate the groupClass if it hasn't already
@@ -136,3 +137,5 @@ class GroupForm(object):
             group.update()
             groups.append(group)
         self.groups = tuple(groups)
+        self.updateActions()
+        self.actions.execute()

@@ -123,6 +123,8 @@ class BaseForm(browser.BrowserPage):
 
     def updateWidgets(self, prefix=None):
         '''See interfaces.IForm'''
+        self.widgets = zope.component.getMultiAdapter(
+            (self, self.request, self.getContent()), interfaces.IWidgets)
         if prefix is not None:
             self.widgets.prefix = prefix
         self.widgets.mode = self.mode
@@ -145,8 +147,6 @@ class BaseForm(browser.BrowserPage):
 
     def update(self):
         '''See interfaces.IForm'''
-        self.widgets = zope.component.getMultiAdapter(
-            (self, self.request, self.getContent()), interfaces.IWidgets)
         self.updateWidgets()
 
     def render(self):

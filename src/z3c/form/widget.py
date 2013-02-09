@@ -105,15 +105,18 @@ class Widget(zope.location.Location):
                     (self.context, self.field),
                     interfaces.IDataManager).query()
             # Step 1.2.2: If we still do not have a value, we can always use
-            #             the default value of the field, id set
+            #             the default value of the field, if set
             # NOTE: It should check field.default is not missing_value, but
             # that requires fixing zope.schema first
-            if ((value is self.field.missing_value or
-                 value is interfaces.NO_VALUE) and
-                self.field.default is not None and
-                self.showDefault):
-                value = self.field.default
-                lookForDefault = True
+            # We get a clone of the field with the context binded
+            field = self.field.bind(self.context)
+
+            if value is field.missing_value or value is interfaces.NO_VALUE:
+                default_value = field.default
+                if default_value is not None and self.showDefault:
+                    value = field.default
+                    lookForDefault = True
+
         # Step 1.3: If we still have not found a value, then we try to get it
         #           from an attribute value
         if ((value is interfaces.NO_VALUE or lookForDefault)

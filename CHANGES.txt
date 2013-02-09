@@ -5,7 +5,8 @@ CHANGES
 2.9.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Make sure the call to the method that returns the default value
+  is made with a field which has its context binded.
 
 
 2.9.1 (2012-11-27)

@@ -2,6 +2,14 @@
 TODOS
 =====
 
+Python 3
+--------
+
+- Activate parts as packages get ported.
+
+- Support new schema fields, ``NativeString`` and ``NativeStringLine``.
+
+
 Framework
 ---------
 

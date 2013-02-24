@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.0.0a1 (unreleased)
+3.0.0a1 (2013-02-24)
 --------------------
 
 - Removed several parts to be installed by default, since some packages are

@@ -25,9 +25,9 @@ from z3c.form.widget import Widget, FieldWidget
 from z3c.form.browser import widget
 
 
+@zope.interface.implementer_only(interfaces.ITextAreaWidget)
 class TextAreaWidget(widget.HTMLTextAreaWidget, Widget):
     """Textarea widget implementation."""
-    zope.interface.implementsOnly(interfaces.ITextAreaWidget)
 
     klass = u'textarea-widget'
     css = u'textarea'

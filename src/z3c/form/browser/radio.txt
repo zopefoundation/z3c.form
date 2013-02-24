@@ -46,7 +46,7 @@ We also need to register the template for at least the widget and request:
 
 If we render the widget we only get the empty marker:
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
 Let's provide some values for this widget. We can do this by defining a source
@@ -69,7 +69,7 @@ providing ITerms. This source uses descriminators wich will fit for our setup.
 Now let's try if we get widget values:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <span class="option">
     <label for="widget-id-0">
       <input type="radio" id="widget-id-0" name="widget.name"
@@ -90,7 +90,7 @@ get rendered with a checked flag:
 
   >>> widget.value = 'true'
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <span class="option">
     <label for="widget-id-0">
       <input type="radio" id="widget-id-0" name="widget.name"
@@ -117,7 +117,7 @@ Check HIDDEN_MODE:
 
   >>> widget.value = ['true']
   >>> widget.mode = interfaces.HIDDEN_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <input id="widget-id-0" name="widget.name" value="true"
          class="hidden-widget" type="hidden" />
 
@@ -125,17 +125,20 @@ Make sure that we produce a proper label when we have no title for a term and
 the value (which is used as a backup label) contains non-ASCII characters:
 
   >>> from zope.schema.vocabulary import SimpleVocabulary
-  >>> terms = SimpleVocabulary.fromValues(['yes\012', 'no\243'])
+  >>> terms = SimpleVocabulary.fromValues([b'yes\012', b'no\243'])
   >>> widget.terms = terms
   >>> widget.update()
-  >>> print widget.items
-  [{'label': u'yes\n',
-    'checked': False,
+  >>> pprint(widget.items)
+  [{'checked': False,
     'id': 'widget-id-0',
-    'value': 'yes\n',
-    'name': 'widget.name'},
-    {'label': u'no',
-     'checked': False,
-     'id': 'widget-id-1',
-     'value': 'no\xa3',
-     'name': 'widget.name'}]
+    'label': 'yes\n',
+    'name': 'widget.name',
+    'value': 'yes\n'},
+   {'checked': False,
+    'id': 'widget-id-1',
+    'label': 'no',
+    'name': 'widget.name',
+    'value': 'no...'}]
+
+Note: The "\234" character is interpreted differently in Pytohn 2 and 3
+here. (This is mostly due to changes int he SimpleVocabulary code.)

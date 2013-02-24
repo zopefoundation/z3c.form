@@ -19,10 +19,10 @@ __docformat__ = "reStructuredText"
 from doctest import DocFileSuite
 import doctest
 import itertools
+import re
 import unittest
 
 from z3c.form import testing
-from z3c.form import outputchecker
 
 Z3CPT_AVAILABLE = False
 try:
@@ -32,7 +32,10 @@ except ImportError:
     Z3CPT_AVAILABLE = False
 
 def test_suite():
-    checker = outputchecker.OutputChecker(doctest)
+    flags = \
+        doctest.NORMALIZE_WHITESPACE | \
+        doctest.ELLIPSIS | \
+        doctest.IGNORE_EXCEPTION_DETAIL
 
     # This package will setup z3c.pt support for testing by default.
     # The Z3CPT_AVAILABLE option allows to run z3c.form test from a
@@ -46,98 +49,79 @@ def test_suite():
     tests = ((
         DocFileSuite('README.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('button.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('checkbox.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('file.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('file-testing.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('image.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('orderedselect.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('password.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('radio.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('select.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('select-missing-terms.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('select-source.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('submit.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('text.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('textarea.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('textlines.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('object.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('objectmulti.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ),
         DocFileSuite('multi.txt',
                      setUp=setUp, tearDown=testing.tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     checker=checker,
+                     optionflags=flags, checker=testing.outputChecker,
                      ))
              for setUp in setups)
 

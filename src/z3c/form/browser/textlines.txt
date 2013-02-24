@@ -42,7 +42,7 @@ We also need to register the template for at least the widget and request:
 
 If we render the widget we get an empty textarea widget:
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="id" name="name" class="textarea-widget"></textarea>
 
 Adding some more attributes to the widget will make it display more:
@@ -51,7 +51,7 @@ Adding some more attributes to the widget will make it display more:
   >>> widget.name = 'name'
   >>> widget.value = u'foo\nbar'
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="id" name="name" class="textarea-widget">foo
   bar</textarea>
 
@@ -74,7 +74,7 @@ The field widget needs a field:
   >>> widget.name = 'name'
   >>> widget.value = u'foo\nbar'
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="id" name="name" class="textarea-widget">foo
   bar</textarea>
 
@@ -91,6 +91,6 @@ TextLinesFieldWidgetFactory
   >>> widget.name = 'name'
   >>> widget.value = u'foo\nbar'
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="id" name="name" class="textarea-widget">foo
   bar</textarea>

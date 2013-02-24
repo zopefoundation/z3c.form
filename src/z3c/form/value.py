@@ -21,10 +21,9 @@ import zope.component
 
 from z3c.form import interfaces, util
 
+@zope.interface.implementer(interfaces.IValue)
 class StaticValue(object):
     """Static value adapter."""
-
-    zope.interface.implements(interfaces.IValue)
 
     def __init__(self, value):
         self.value = value
@@ -36,10 +35,9 @@ class StaticValue(object):
         return '<%s %r>' % (self.__class__.__name__, self.value)
 
 
+@zope.interface.implementer(interfaces.IValue)
 class ComputedValue(object):
     """Static value adapter."""
-
-    zope.interface.implements(interfaces.IValue)
 
     def __init__(self, func):
         self.func = func

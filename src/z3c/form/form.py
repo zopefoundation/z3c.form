@@ -97,10 +97,10 @@ def handleActionError(event):
         form.status = form.formErrorsMessage
 
 
+@zope.interface.implementer(interfaces.IForm,
+                              interfaces.IFieldsForm)
 class BaseForm(browser.BrowserPage):
     """A base form."""
-    zope.interface.implements(interfaces.IForm,
-                              interfaces.IFieldsForm)
 
     fields = field.Fields()
 
@@ -159,19 +159,18 @@ class BaseForm(browser.BrowserPage):
         return self.template()
 
 
+@zope.interface.implementer(interfaces.IDisplayForm)
 class DisplayForm(BaseForm):
-
-    zope.interface.implements(interfaces.IDisplayForm)
 
     mode = interfaces.DISPLAY_MODE
     ignoreRequest = True
 
 
-class Form(BaseForm):
-    """The Form."""
-    zope.interface.implements(
+@zope.interface.implementer(
         interfaces.IInputForm, interfaces.IButtonForm,
         interfaces.IHandlerForm, interfaces.IActionForm)
+class Form(BaseForm):
+    """The Form."""
 
     buttons = button.Buttons()
 
@@ -222,9 +221,9 @@ class Form(BaseForm):
         return self.render()
 
 
+@zope.interface.implementer(interfaces.IAddForm)
 class AddForm(Form):
     """A field and button based add form."""
-    zope.interface.implements(interfaces.IAddForm)
 
     ignoreContext = True
     ignoreReadonly = True
@@ -264,9 +263,9 @@ class AddForm(Form):
         return super(AddForm, self).render()
 
 
+@zope.interface.implementer(interfaces.IEditForm)
 class EditForm(Form):
     """A simple edit form with an apply button."""
-    zope.interface.implements(interfaces.IEditForm)
 
     successMessage = _('Data successfully updated.')
     noChangesMessage = _('No changes were applied.')

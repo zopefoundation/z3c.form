@@ -16,7 +16,10 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
+import binascii
 import re
+import six
+import sys
 import types
 import string
 import zope.interface
@@ -26,26 +29,48 @@ import zope.schema
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
 
-
 _identifier = re.compile('[A-Za-z][a-zA-Z0-9_]*$')
+classTypes = six.class_types
+_acceptableChars = string.ascii_letters + string.digits + '_-'
 
+PY3 = sys.version_info[0] >= 3
+
+try:
+    unicode
+except NameError:
+    # Py3: Define unicode.
+    unicode = str
+
+def toUnicode(obj):
+    if isinstance(obj, bytes):
+        return obj.decode('utf-8', 'ignore')
+    if PY3:
+        return str(obj)
+    else:
+        return unicode(obj)
+
+def toBytes(obj):
+    if isinstance(obj, bytes):
+        return obj
+    if isinstance(obj, unicode):
+        return obj.encode('utf-8')
+    if PY3:
+        return str(obj).encode('utf-8')
+    else:
+        return str(obj)
 
 def createId(name):
+    """Returns a *native* string as id of the given name."""
     if _identifier.match(name):
         return str(name).lower()
-    return name.encode('utf-8').encode('hex')
-
-
-_acceptableChars = string.letters + string.digits + '_-'
-
+    id = binascii.hexlify(name.encode('utf-8'))
+    return id.decode() if PY3 else id
 
 def createCSSId(name):
-    return str(''.join([((char in _acceptableChars and char) or
-                         char.encode('utf-8').encode('hex'))
-                        for char in name]))
-
-classTypes = type, types.ClassType
-
+    return str(''.join([
+                (char if char in _acceptableChars else
+                      binascii.hexlify(char.encode('utf-8')).decode())
+                for char in name]))
 
 def getSpecification(spec, force=False):
     """Get the specification of the given object.
@@ -64,7 +89,7 @@ def getSpecification(spec, force=False):
          and not isinstance(spec, classTypes)) ):
 
         # Step 1: Calculate an interface name
-        ifaceName = 'IGeneratedForObject_%i' %hash(spec)
+        ifaceName = 'IGeneratedForObject_%i' %id(spec)
 
         # Step 2: Find out if we already have such an interface
         existingInterfaces = [
@@ -203,26 +228,26 @@ class UniqueOrderedKeys(object):
     #XXX TODO: Inherit from list
 
 
+@zope.interface.implementer(interfaces.IManager)
 class Manager(object):
     """Non-persistent IManager implementation."""
-    zope.interface.implements(interfaces.IManager)
 
     def __init__(self, *args, **kw):
         self.__data_keys = UniqueOrderedKeys()
         self._data_values = []
         self._data = {}
 
-    @apply
-    def _data_keys():
+    @property
+    def _data_keys(self):
         """Use a special ordered list which will check for duplicated keys."""
-        def get(self):
-            return self.__data_keys
-        def set(self, values):
-            if isinstance(values, UniqueOrderedKeys):
-                self.__data_keys = values
-            else:
-                self.__data_keys = UniqueOrderedKeys(values)
-        return property(get, set)
+        return self.__data_keys
+
+    @_data_keys.setter
+    def _data_keys(self, values):
+        if isinstance(values, UniqueOrderedKeys):
+            self.__data_keys = values
+        else:
+            self.__data_keys = UniqueOrderedKeys(values)
 
     def __len__(self):
         return len(self._data_values)
@@ -261,9 +286,9 @@ class Manager(object):
     # Add insertBefore(key)
     #     insertAfter(key)
 
+@zope.interface.implementer(interfaces.ISelectionManager)
 class SelectionManager(Manager):
     """Non-persisents ISelectionManager implementation."""
-    zope.interface.implements(interfaces.ISelectionManager)
 
     managerInterface = None
 

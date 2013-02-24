@@ -47,7 +47,7 @@ class IWidgetLayoutSupport(zope.interface.Interface):
 class IHTMLCoreAttributes(zope.interface.Interface):
     """The HTML element 'core' attributes."""
 
-    id = zope.schema.BytesLine(
+    id = zope.schema.ASCIILine(
         title=u'Id',
         description=(u'This attribute assigns a name to an element. This '
                      u'name must be unique in a document.'),

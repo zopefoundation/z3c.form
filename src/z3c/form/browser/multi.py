@@ -28,13 +28,14 @@ from z3c.form import button
 from z3c.form.browser.widget import HTMLFormElement
 
 
+@zope.interface.implementer(interfaces.IButtonForm, interfaces.IHandlerForm)
 class FormMixin(object):
-    zope.interface.implements(interfaces.IButtonForm, interfaces.IHandlerForm)
+    pass
 
 
+@zope.interface.implementer(interfaces.IMultiWidget)
 class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
     """Multi widget implementation."""
-    zope.interface.implements(interfaces.IMultiWidget)
 
     buttons = button.Buttons()
 

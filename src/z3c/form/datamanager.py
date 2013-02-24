@@ -38,9 +38,9 @@ except ImportError:
     pass
 
 
+@zope.interface.implementer(interfaces.IDataManager)
 class DataManager(object):
     """Data manager base class."""
-    zope.interface.implements(interfaces.IDataManager)
 
 class AttributeField(DataManager):
     """Attribute field."""
@@ -74,7 +74,7 @@ class AttributeField(DataManager):
         """See z3c.form.interfaces.IDataManager"""
         try:
             return self.get()
-        except ForbiddenAttribute, e:
+        except ForbiddenAttribute as e:
             raise e
         except AttributeError:
             return default

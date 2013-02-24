@@ -23,14 +23,14 @@ import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
 
-from z3c.form import interfaces
+from z3c.form import interfaces, util
 from z3c.form.widget import SequenceWidget, FieldWidget
 from z3c.form.browser import widget
 
 
+@zope.interface.implementer_only(interfaces.IRadioWidget)
 class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
     """Input type radio widget implementation."""
-    zope.interface.implementsOnly(interfaces.IRadioWidget)
 
     klass = u'radio-widget'
     css = u'radio'
@@ -47,8 +47,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
             id = '%s-%i' % (self.id, count)
-            label = unicode(term.value) if not isinstance(term.value, str) \
-                else unicode(term.value, 'utf-8', errors='ignore')
+            label = util.toUnicode(term.value)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 label = translate(term.title, context=self.request,
                                   default=term.title)

@@ -36,12 +36,14 @@ our three discriminators, just enough to get it working:
 
   >>> import zope.interface
   >>> from z3c.form import interfaces
-  >>> class Form(object):
-  ...     zope.interface.implements(interfaces.IForm)
+  >>> @zope.interface.implementer(interfaces.IForm)
+  ... class Form(object):
+  ...     pass
   >>> form = Form()
 
-  >>> class Content(object):
-  ...     zope.interface.implements(zope.interface.Interface)
+  >>> @zope.interface.implementer(zope.interface.Interface)
+  ... class Content(object):
+  ...     pass
   >>> content = Content()
 
   >>> from z3c.form.testing import TestRequest
@@ -170,7 +172,7 @@ the only method that needs to be implemented:
   ...     zope.component.adapts(
   ...         None, TestRequest, None, util.getSpecification(apply))
   ...     def __call__(self):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
 
   >>> zope.component.provideAdapter(SimpleActionHandler)
 

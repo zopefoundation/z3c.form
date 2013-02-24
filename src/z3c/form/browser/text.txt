@@ -41,7 +41,7 @@ We also need to register the template for at least the widget and request:
 
 If we render the widget we get the HTML:
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" class="text-widget" value="" />
 
 Adding some more attributes to the widget will make it display more:
@@ -51,7 +51,7 @@ Adding some more attributes to the widget will make it display more:
   >>> widget.value = u'value'
   >>> widget.style = u'color: blue'
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="id" name="name" class="text-widget"
          style="color: blue" value="value" />
 
@@ -68,7 +68,7 @@ Check DISPLAY_MODE:
   >>> widget.value = u'foobar'
   >>> widget.style = None
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="id" class="text-widget">foobar</span>
 
 Check HIDDEN_MODE:
@@ -82,5 +82,5 @@ Check HIDDEN_MODE:
 
   >>> widget.value = u'foobar'
   >>> widget.mode = interfaces.HIDDEN_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <input id="id" name="name" value="foobar" class="hidden-widget" type="hidden" />

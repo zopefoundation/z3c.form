@@ -45,7 +45,7 @@ view:
   ...     error.ErrorViewTemplateFactory(filename, 'text/html'),
   ...     (interfaces.IErrorViewSnippet, None), IPageTemplate)
 
-  >>> print view.render()
+  >>> print(view.render())
   <div class="error">Value is too small</div>
 
 
@@ -67,7 +67,7 @@ let's create somewhat more interesting setup:
 You must agree, that the follwoing message is pretty dull when entering a
 negative age:
 
-  >>> print view.render()
+  >>> print(view.render())
   <div class="error">Value is too small</div>
 
 So let's register a better message for this particular situation:
@@ -86,7 +86,7 @@ error view message for ``TooSmall`` of the age field:
   ...     TooSmall(), TestRequest(), None, IPerson['age'], None, None)
 
   >>> view.update()
-  >>> print view.render()
+  >>> print(view.render())
   <div class="error">A negative age is not sensible.</div>
 
 Much better, isn't it?
@@ -118,7 +118,7 @@ Now, the error view snippet will show dynamically generated message:
   >>> view = error.ErrorViewSnippet(
   ...     TooSmall(), TestRequest(), None, IAdult['age'], None, None)
   >>> view.update()
-  >>> print view.render()
+  >>> print(view.render())
   <div class="error">Given age is smaller than 18, you are not adult.</div>
 
 
@@ -180,7 +180,7 @@ error view for them:
 It uses the same template:
 
   >>> errorView.update()
-  >>> print errorView.render()
+  >>> print(errorView.render())
   <div class="error">The system could not process the given value.</div>
 
 Unfortunately, we cannot make use of the original string representation of the
@@ -194,7 +194,7 @@ message. Of course, the message can be overridden:
 Let's now render the snippet again:
 
   >>> errorView.update()
-  >>> print errorView.render()
+  >>> print(errorView.render())
   <div class="error">The entered value is not valid.</div>
 
 
@@ -213,7 +213,7 @@ of errors:
 Since the same template as before is used, the error simply renders:
 
   >>> errorView.update()
-  >>> print errorView.render()
+  >>> print(errorView.render())
   <div class="error">The data was invalid.</div>
 
 As you can see, the first argument to the exception is used as the explanatory

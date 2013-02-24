@@ -580,8 +580,8 @@ security declarations:
 
   >>> from zope.security import checker
 
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
   ...
   ...     def __init__(self, firstName, lastName):
   ...         self.id = firstName[0].lower() + lastName.lower()
@@ -780,8 +780,8 @@ We can also turn off ``required`` checking for data extraction:
 
 Here we get the required field as ``None`` and no errors:
 
-  >>> manager.extract()
-  ({'lastName': None, 'firstName': u'Stephan'}, ())
+  >>> pprint(manager.extract())
+  ({'firstName': u'Stephan', 'lastName': None}, ())
 
   >>> manager.ignoreRequiredOnExtract = False
 
@@ -968,7 +968,7 @@ is pretty much a standard dictionary that also manages a default value:
 When getting a value for a key, if the key is not found, the default is
 returned:
 
-  >>> factories.keys()
+  >>> sorted(factories.keys())
   ['display']
 
   >>> factories[interfaces.DISPLAY_MODE]

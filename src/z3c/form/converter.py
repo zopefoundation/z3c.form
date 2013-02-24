@@ -25,12 +25,12 @@ import zope.schema
 import zope.publisher.browser
 
 from z3c.form.i18n import MessageFactory as _
-from z3c.form import interfaces
+from z3c.form import interfaces, util
 
 
+@zope.interface.implementer(interfaces.IDataConverter)
 class BaseDataConverter(object):
     """A base implementation of the data converter."""
-    zope.interface.implements(interfaces.IDataConverter)
 
     def __init__(self, field, widget):
         self.field = field
@@ -40,7 +40,7 @@ class BaseDataConverter(object):
         """See interfaces.IDataConverter"""
         if value is self.field.missing_value:
             return u''
-        return unicode(value)
+        return util.toUnicode(value)
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
@@ -162,7 +162,7 @@ class CalendarDataConverter(BaseDataConverter):
             return self.field.missing_value
         try:
             return self.formatter.parse(value)
-        except zope.i18n.format.DateTimeParseError, err:
+        except zope.i18n.format.DateTimeParseError as err:
             raise FormatterValidationError(err.args[0], value)
 
 
@@ -221,7 +221,7 @@ class FileUploadDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
-        return value
+        return value.decode()
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
@@ -241,7 +241,7 @@ class FileUploadDataConverter(BaseDataConverter):
             try:
                 seek = value.seek
                 read = value.read
-            except AttributeError, e:
+            except AttributeError as e:
                 raise ValueError(_('Bytes data are not a file object'), e)
             else:
                 seek(0)
@@ -251,7 +251,7 @@ class FileUploadDataConverter(BaseDataConverter):
                 else:
                     return self.field.missing_value
         else:
-            return str(value)
+            return util.toBytes(value)
 
 
 class SequenceDataConverter(BaseDataConverter):
@@ -327,7 +327,7 @@ class TextLinesConverter(BaseDataConverter):
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
             return u''
-        return u'\n'.join(unicode(v) for v in value)
+        return u'\n'.join(util.toUnicode(v) for v in value)
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
@@ -347,7 +347,7 @@ class TextLinesConverter(BaseDataConverter):
         for v in value.split('\n'):
             try:
                 items.append(valueType(v))
-            except ValueError, err:
+            except ValueError as err:
                 raise FormatterValidationError(str(err), v)
         return collectionType(items)
 

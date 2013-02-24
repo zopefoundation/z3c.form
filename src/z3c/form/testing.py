@@ -12,8 +12,11 @@
 #
 ##############################################################################
 """Common z3c.form test setups"""
-
+from __future__ import print_function
+import base64
+import pprint
 import os
+import re
 import zope.component
 import zope.configuration.xmlconfig
 import zope.interface
@@ -30,6 +33,7 @@ from zope.security.interfaces import ISecurityPolicy
 from z3c.form import browser, button, converter, datamanager, error, field
 from z3c.form import form, interfaces, term, validator, widget
 from z3c.form import contentprovider
+from z3c.form import outputchecker
 from z3c.form.browser import radio, select, text, textarea
 
 import lxml.html
@@ -38,6 +42,16 @@ import lxml.doctestcompare
 # register lxml doctest option flags
 lxml.doctestcompare.NOPARSE_MARKUP = register_optionflag('NOPARSE_MARKUP')
 
+outputChecker = outputchecker.OutputChecker(
+    patterns =(
+        # Py3 compatibility.
+        (re.compile("u('.*?')"), r"\1"),
+        (re.compile("b('.*?')"), r"\1"),
+        (re.compile("__builtin__"), r"builtins"),
+        (re.compile("<type"), r"<class"),
+        (re.compile("set\(\[(.*?)\]\)"), r"{\1}"),
+    )
+)
 
 class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
     """A special file upload data converter that works with testing."""
@@ -51,21 +65,22 @@ class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
                 self.widget.name + '.encoding', 'plain')
 
             # allow for the case where the file contents are base64 encoded.
-            if encoding != 'plain':
-                value = value.decode(encoding)
+            if encoding == 'base64':
+                value = base64.b64decode(value)
             self.widget.request.form[self.widget.name] = value
 
         return super(TestingFileUploadDataConverter, self).toFieldValue(value)
 
 
+@zope.interface.implementer(interfaces.IFormLayer)
 class TestRequest(TestRequest):
-    zope.interface.implements(interfaces.IFormLayer)
+    pass
 
 
+@zope.interface.implementer(IInteraction)
+@zope.interface.provider(ISecurityPolicy)
 class SimpleSecurityPolicy(object):
     """Allow all access."""
-    zope.interface.implements(IInteraction)
-    zope.interface.classProvides(ISecurityPolicy)
 
     loggedIn = False
     allowedPermissions = ()
@@ -105,8 +120,8 @@ class IMySubObject(zope.interface.Interface):
         required=False)
 
 
+@zope.interface.implementer(IMySubObject)
 class MySubObject(object):
-    zope.interface.implements(IMySubObject)
 
     foofield = FieldProperty(IMySubObject['foofield'])
     barfield = FieldProperty(IMySubObject['barfield'])
@@ -119,8 +134,8 @@ class IMySecond(zope.interface.Interface):
     moofield = zope.schema.TextLine(title=u"Something")
 
 
+@zope.interface.implementer(IMySecond)
 class MySecond(object):
-    zope.interface.implements(IMySecond)
 
     subfield = FieldProperty(IMySecond['subfield'])
     moofield = FieldProperty(IMySecond['moofield'])
@@ -131,8 +146,8 @@ class IMyObject(zope.interface.Interface):
     name = zope.schema.TextLine(title=u'name')
 
 
+@zope.interface.implementer(IMyObject)
 class MyObject(object):
-    zope.interface.implements(IMyObject)
 
     def __init__(self, name=u'', subobject=None):
         self.subobject = subobject
@@ -156,8 +171,8 @@ class IMySubObjectMulti(zope.interface.Interface):
         required=False)
 
 
+@zope.interface.implementer(IMySubObjectMulti)
 class MySubObjectMulti(object):
-    zope.interface.implements(IMySubObjectMulti)
 
     foofield = FieldProperty(IMySubObjectMulti['foofield'])
     barfield = FieldProperty(IMySubObjectMulti['barfield'])
@@ -173,8 +188,8 @@ class IMyMultiObject(zope.interface.Interface):
     name = zope.schema.TextLine(title=u'name')
 
 
+@zope.interface.implementer(IMyMultiObject)
 class MyMultiObject(object):
-    zope.interface.implements(IMyMultiObject)
 
     listOfObject = FieldProperty(IMyMultiObject['listOfObject'])
     name = FieldProperty(IMyMultiObject['name'])
@@ -207,7 +222,10 @@ def setUp(test):
     if not ISite.providedBy(site):
         site.setSiteManager(LocalSiteManager(site))
     hooks.setSite(site)
-    test.globs = {'root': site}
+    test.globs = {
+        'print_function': print_function,
+        'root': site,
+        'pprint': pprint.pprint}
 
 
 def setUpZPT(suite):

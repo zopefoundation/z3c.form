@@ -160,8 +160,8 @@ This is because we don't want to accept any crap that's coming from HTML.
 
   >>> class IPerson(zope.interface.Interface):
   ...     gender = zope.schema.Choice(title=u'Gender', vocabulary='Genders')
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
   ...     gender = None
   >>> gendersVocabulary = vocabulary.SimpleVocabulary([
   ...     vocabulary.SimpleVocabulary.createTerm(1, 'male', u'Male'),

@@ -43,7 +43,7 @@ We also need to register the template for at least the widget and request:
 
 If we render the widget we get an empty widget:
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   </select>
@@ -67,7 +67,7 @@ providing ``ITerms``. This source uses descriminators which will fit our setup.
 Now let's try if we get widget values:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
@@ -81,7 +81,7 @@ If we select item "b", then it should be selected:
 
   >>> widget.value = ['b']
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
@@ -95,7 +95,7 @@ Let's see what happens if we have values that are not in the vocabulary:
 
   >>> widget.value = ['x', 'y']
   >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
@@ -179,7 +179,7 @@ cases you just have to set the ``prompt`` attribute to ``True``:
 
   >>> widget.prompt = True
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--"
@@ -197,7 +197,7 @@ required:
 
   >>> widget.required = True
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget required" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--"
@@ -263,7 +263,7 @@ register it first:
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> widget.value = ['b', 'c']
   >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  >>> print(widget.render())
   <span id="widget-id" class="select-widget required">
     <span class="selected-option">b</span>,
     <span class="selected-option">c</span>
@@ -273,7 +273,7 @@ Let's see what happens if we have values that are not in the vocabulary:
 
   >>> widget.value = ['x', 'y']
   >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  >>> print(widget.render())
   <span id="widget-id" class="select-widget required"></span>
 
 Hidden Widget
@@ -292,7 +292,7 @@ We can now set our widget's mode to hidden and render it:
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> widget.value = ['b']
   >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  >>> print(widget.render())
   <input type="hidden" name="widget.name:list"
          class="hidden-widget" value="b" id="widget-id-1" />
   <input name="widget.name-empty-marker" type="hidden"
@@ -302,6 +302,6 @@ Let's see what happens if we have values that are not in the vocabulary:
 
   >>> widget.value = ['x', 'y']
   >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  >>> print(widget.render())
   <input name="widget.name-empty-marker" type="hidden"
          value="1" />

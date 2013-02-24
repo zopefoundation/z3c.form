@@ -101,7 +101,7 @@ We also need to register the templates for the widget and request:
 We can now render the widget:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <html>
     <body>
       <div class="object-widget required">
@@ -150,7 +150,7 @@ Let's provide a more meaningful value:
 
   >>> widget.update()
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <html>
     <body>
       <div class="object-widget required">
@@ -193,7 +193,7 @@ Let's fill in some values via the request:
   ...                                    'subobject.widgets.barfield':u'999',
   ...                                    'subobject-empty-marker':u'1'})
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <html>
     <body>
       <div class="object-widget required">
@@ -228,8 +228,8 @@ Let's fill in some values via the request:
 Widget value comes from the request:
 
   >>> wv = widget.value
-  >>> wv
-  {'foofield': 2, 'barfield': 999}
+  >>> pprint(wv)
+  {'barfield': 999, 'foofield': 2}
 
 But our object will not be modified, since there was no "apply"-like control.
 
@@ -284,7 +284,7 @@ Setting missing values on the widget works too:
 
 Default values get rendered:
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="object-widget required">
     <div class="label">
       <label for="subobject-widgets-foofield">
@@ -312,8 +312,8 @@ Default values get rendered:
 
 But on the return we get default values back:
 
-  >>> widget.value
-  {'foofield': 2, 'barfield': 999}
+  >>> pprint(widget.value)
+  {'barfield': 999, 'foofield': 2}
 
   >>> value = converter.toFieldValue(widget.value)
   >>> value
@@ -331,7 +331,7 @@ I'm tempted to leave it out as no widgets seem to do this.
 #
 #
 #  >>> widget.update()
-#  >>> print widget.render()
+#  >>> print(widget.render())
 #  <html>
 #    <body>
 #      <div class="object-widget required">
@@ -410,23 +410,24 @@ for those:
 
   >>> def printEvents():
   ...     for event in eventlog:
-  ...         print str(event)
+  ...         print(str(event))
   ...         if isinstance(event, zope.lifecycleevent.ObjectModifiedEvent):
   ...             for attr in event.descriptions:
-  ...                 print attr.interface
-  ...                 print attr.attributes
+  ...                 print(attr.interface)
+  ...                 print(sorted(attr.attributes))
 
 We define an interface containing a subobject, and an addform for it:
 
   >>> from z3c.form import form, field
   >>> from z3c.form.testing import MyObject, IMyObject
 
-Note, that creating an object will print some information about it:
+Note, that creating an object will print(some information about it:)
 
   >>> class MyAddForm(form.AddForm):
   ...     fields = field.Fields(IMyObject)
   ...     def create(self, data):
-  ...         print "MyAddForm.create", str(data)
+  ...         print("MyAddForm.create")
+  ...         pprint(data)
   ...         return MyObject(**data)
   ...     def add(self, obj):
   ...         self.context[obj.name] = obj
@@ -472,7 +473,7 @@ If we want to render the addform, we must give it a template:
 
 Now rendering the addform renders the subform as well:
 
-  >>> print myaddform.render()
+  >>> print(myaddform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -537,8 +538,9 @@ Let's try to add an object:
   >>> myaddform.request = request
 
   >>> myaddform.update()
-  MyAddForm.create {'subobject': <z3c.form.testing.MySubObject object at ...>,
-  'name': u'first'}
+  MyAddForm.create
+  {'name': u'first',
+   'subobject': <z3c.form.testing.MySubObject object at ...>}
 
 Wow, it got added:
 
@@ -564,7 +566,7 @@ Let's see our event log:
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObject>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...contained.ContainerModifiedEvent object at ...>
 
@@ -582,7 +584,7 @@ Let's try to edit that newly added object:
 
 Watch for the widget values in the HTML:
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -663,10 +665,10 @@ Let's see our event log:
   >>> printEvents()
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObject>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMyObject>
-  ('subobject',)
+  ['subobject']
 
 
   >>> eventlog=[]
@@ -675,7 +677,7 @@ Let's see our event log:
 After the update the form says that the values got updated and renders the new
 values:
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>Data successfully updated.</i>
@@ -779,7 +781,7 @@ Eventlog must be clean:
 Watch for the error message in the HTML:
 it has to appear at the field itself and at the top of the form:
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
@@ -859,7 +861,7 @@ Now we enter 'bad' and '999999', where '999999' hits the upper limit of the fiel
 
 Both errors must appear at the top of the form:
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
@@ -933,7 +935,7 @@ Simple but often used use-case is the display form:
   >>> addTemplate(editform)
   >>> editform.mode = interfaces.DISPLAY_MODE
   >>> editform.update()
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -994,7 +996,7 @@ Note, that the labels and the button is there because the form template for test
 does/should not care about the form being hidden.
 What matters is that the objectwidget is rendered hidden.
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -1039,7 +1041,7 @@ Editforms might use dicts as context:
 
 Watch for the widget values in the HTML:
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -1118,10 +1120,10 @@ Until updating the form:
   >>> printEvents()
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObject>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMyObject>
-  ('subobject', 'name')
+  ['name', 'subobject']
 
 
 Object in an Object situation
@@ -1138,7 +1140,7 @@ Note, that creating an object will print some information about it:
   >>> class MyAddForm(form.AddForm):
   ...     fields = field.Fields(IMyComplexObject)
   ...     def create(self, data):
-  ...         print "MyAddForm.create", str(data)
+  ...         print("MyAddForm.create", str(data))
   ...         return MyObject(**data)
   ...     def add(self, obj):
   ...         self.context[obj.name] = obj
@@ -1179,7 +1181,7 @@ If we want to render the addform, we must give it a template:
 
 Now rendering the addform renders the subform as well:
 
-  >>> print myaddform.render()
+  >>> print(myaddform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">

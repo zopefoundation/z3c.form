@@ -28,8 +28,14 @@ If a name is not a valid identifier, a hex code of the string is created:
 
 The function can also handle non-ASCII characters:
 
-  >>> util.createId(u'Ändern')
-  'c383c2846e6465726e'
+  >>> id = util.createId(u'Ändern')
+
+Since the output depends on how Python is compiled (UCS-2 or 4), we only check
+that we have a valid id:
+
+  >>> util._identifier.match(id) is not None
+  True
+
 
 ``createCSSId(name)`` Function
 ------------------------------
@@ -41,13 +47,14 @@ All other characters will be converted to ordinal numbers:
 
   >>> util.createCSSId(u'NormalId')
   'NormalId'
-  >>> util.createCSSId(u'عَرَ')
-  'c398c2b9c399c28ec398c2b1c399c28e'
+  >>> id = util.createCSSId(u'عَرَ')
+  >>> util._identifier.match(id) is not None
+  True
   >>> util.createCSSId(u'This has spaces')
   'This20has20spaces'
 
-  >>> util.createCSSId(unicode(dict({1:'x', 'foobar': 42})))
-  '7b13a2027x272c2027foobar273a20427d'
+  >>> util.createCSSId(str([(1, 'x'), ('foobar', 42)]))
+  '5b2812c2027x27292c202827foobar272c2042295d'
 
 
 ``getWidgetById(form, id)`` Function
@@ -463,8 +470,8 @@ Decide whether a field was changed/modified.
   ...     address = zope.schema.Object(
   ...         schema=zope.interface.Interface)
 
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
   ...     login = 'johndoe'
   >>> person = Person()
 

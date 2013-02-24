@@ -42,7 +42,7 @@ class IWidgetTemplateDirective(zope.interface.Interface):
                       'end in extension ``.pt`` or ``.html``).'),
         required=True)
 
-    mode = zope.schema.BytesLine(
+    mode = zope.schema.ASCIILine(
         title=_('The mode of the template.'),
         description=_('The mode is used to define input and display '
                       'templates'),
@@ -79,7 +79,7 @@ class IWidgetTemplateDirective(zope.interface.Interface):
         default=interfaces.IWidget,
         required=False)
 
-    contentType = zope.schema.BytesLine(
+    contentType = zope.schema.ASCIILine(
         title=_('Content Type'),
         description=_('The content type identifies the type of data.'),
         default='text/html',

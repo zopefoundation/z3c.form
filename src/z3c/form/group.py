@@ -19,11 +19,11 @@ __docformat__ = "reStructuredText"
 import zope.component
 
 from z3c.form import form, interfaces
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(interfaces.IGroup)
 class Group(form.BaseForm):
-    implements(interfaces.IGroup)
 
     groups = ()
 
@@ -84,9 +84,9 @@ class Group(form.BaseForm):
         return changed
 
 
+@implementer(interfaces.IGroupForm)
 class GroupForm(object):
     """A mix-in class for add and edit forms to support groups."""
-    implements(interfaces.IGroupForm)
 
     groups = ()
 

@@ -24,9 +24,9 @@ from z3c.form.widget import Widget, FieldWidget
 from z3c.form.browser import widget
 
 
+@zope.interface.implementer_only(interfaces.IButtonWidget)
 class ButtonWidget(widget.HTMLInputWidget, Widget):
     """A simple button of a form."""
-    zope.interface.implementsOnly(interfaces.IButtonWidget)
 
     klass = u'button-widget'
     css = u'button'

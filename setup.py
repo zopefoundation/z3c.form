@@ -19,8 +19,24 @@ from setuptools import setup, find_packages
 
 def read(*rnames):
     text = open(os.path.join(os.path.dirname(__file__), *rnames)).read()
-    return unicode(text, 'utf-8').encode('ascii', 'xmlcharrefreplace')
+    if isinstance(text, bytes):
+        text = text.decode('utf-8')
+    return text.encode('ascii', 'xmlcharrefreplace').decode()
 
+def alltests():
+    import os
+    import sys
+    import unittest
+    # use the zope.testrunner machinery to find all the
+    # test suites we've put under ourselves
+    import zope.testrunner.find
+    import zope.testrunner.options
+    here = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
+    args = sys.argv[:]
+    defaults = ["--test-path", here]
+    options = zope.testrunner.options.get_options(args, defaults)
+    suites = list(zope.testrunner.find.find_suites(options))
+    return unittest.TestSuite(suites)
 
 chapters = '\n'.join(
     [read('src', 'z3c', 'form', name)
@@ -45,7 +61,7 @@ chapters = '\n'.join(
 
 setup(
     name='z3c.form',
-    version='2.9.2.dev0',
+    version='3.0.0a1.dev0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="An advanced form and widget framework for Zope 3",
@@ -63,6 +79,12 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: Implementation :: CPython',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
@@ -80,22 +102,20 @@ setup(
         ],
         test=[
             'lxml >= 2.1.1',
+            'persistent',
             'z3c.coverage',
             'z3c.template >= 1.3',
             'zc.sourcefactory',
-            'zope.app.container >= 3.7',
+            'zope.container',
             'zope.password',
             'zope.testing',
-            'ZODB3',
-            ],
-        latest=[
-            'zope.site',
             ],
         adding=['zope.app.container >= 3.7'],
         docs=['z3c.recipe.sphinxdoc'],
         ),
     install_requires=[
         'setuptools',
+        'six',
         'zope.browser',
         'zope.browserresource',
         'zope.component',
@@ -111,7 +131,19 @@ setup(
         'zope.publisher',
         'zope.schema >= 3.6.0',
         'zope.security',
+        'zope.site',
         'zope.traversing',
         ],
+      tests_require = [
+        'lxml >= 2.1.1',
+        'persistent',
+        'z3c.template >= 1.3',
+        'zc.sourcefactory',
+        'zope.container',
+        'zope.password',
+        'zope.testing',
+        'zope.testrunner',
+        ],
+      test_suite = '__main__.alltests',
     zip_safe=False,
     )

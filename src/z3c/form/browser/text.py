@@ -24,9 +24,9 @@ from z3c.form import interfaces
 from z3c.form.widget import Widget, FieldWidget
 from z3c.form.browser import widget
 
+@zope.interface.implementer_only(interfaces.ITextWidget)
 class TextWidget(widget.HTMLTextInputWidget, Widget):
     """Input type text widget implementation."""
-    zope.interface.implementsOnly(interfaces.ITextWidget)
 
     klass = u'text-widget'
     css = u'text'

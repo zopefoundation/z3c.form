@@ -24,9 +24,9 @@ from z3c.form import interfaces, widget
 from z3c.form.browser import text
 
 
+@zope.interface.implementer_only(interfaces.IFileWidget)
 class FileWidget(text.TextWidget):
     """Input type text widget implementation."""
-    zope.interface.implementsOnly(interfaces.IFileWidget)
 
     klass = u'file-widget'
     css = u'file'

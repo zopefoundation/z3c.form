@@ -46,8 +46,8 @@ field it is managing the data for.
   ...     phone = zope.schema.TextLine(
   ...         title=u'Phone')
 
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
   ...     name = u''
   ...     def __init__(self, name):
   ...         self.name = name
@@ -172,18 +172,17 @@ will attempt to find an adapter. Let's give the person an address for example:
   >>> class IAddress(zope.interface.Interface):
   ...     city = zope.schema.TextLine(title=u'City')
 
-  >>> class Address(object):
+  >>> @zope.interface.implementer(IAddress)
+  ... class Address(object):
   ...     zope.component.adapts(IPerson)
-  ...     zope.interface.implements(IAddress)
   ...     def __init__(self, person):
   ...         self.person = person
-  ...     @apply
-  ...     def city():
-  ...         def get(self):
-  ...             return getattr(self.person, '_city', None)
-  ...         def set(self, value):
-  ...             self.person._city = value
-  ...         return property(get, set)
+  ...     @property
+  ...     def city(self):
+  ...         return getattr(self.person, '_city', None)
+  ...     @city.setter
+  ...     def city(self, value):
+  ...         self.person._city = value
 
   >>> zope.component.provideAdapter(Address)
 
@@ -264,8 +263,9 @@ The datamanager can really only deal with dictionaries and mapping types:
   >>> import zope.interface.common.mapping
   >>> import persistent.mapping
   >>> import persistent.dict
-  >>> class MyMapping(object):
-  ...     zope.interface.implements(zope.interface.common.mapping.IMapping)
+  >>> @zope.interface.implementer(zope.interface.common.mapping.IMapping)
+  ... class MyMapping(object):
+  ...     pass
   >>> datamanager.DictionaryField(MyMapping(), IPerson['name'])
   <z3c.form.datamanager.DictionaryField object at ...>
   >>> datamanager.DictionaryField(persistent.mapping.PersistentMapping(),

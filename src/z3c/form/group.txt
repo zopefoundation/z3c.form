@@ -28,8 +28,8 @@ multiple groups:
   ...     make = zope.schema.TextLine(title=u'Make')
   ...     year = zope.schema.TextLine(title=u'Year')
 
-  >>> class VehicleRegistration(object):
-  ...     zope.interface.implements(IVehicleRegistration)
+  >>> @zope.interface.implementer(IVehicleRegistration)
+  ... class VehicleRegistration(object):
   ...
   ...     def __init__(self, **kw):
   ...         for name, value in kw.items():
@@ -105,7 +105,7 @@ already been converted to instances ares skipped.
 
 We can now render the form:
 
-  >>> print add.render()
+  >>> print(add.render())
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
@@ -188,10 +188,10 @@ Let's now submit the form, but forgetting to enter the address:
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print testing.render(add, './/xmlns:i')
+  >>> print(testing.render(add, './/xmlns:i'))
   <i>There were some errors.</i>
 
-  >>> print testing.render(add, './/xmlns:fieldset[1]/xmlns:ul')
+  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))
   <ul>
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -213,10 +213,10 @@ happens, if errors happen inside and outside a group?
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print testing.render(add, './/xmlns:i')
+  >>> print(testing.render(add, './/xmlns:i'))
   <i>There were some errors.</i>
 
-  >>> print testing.render(add, './/xmlns:ul[1]')
+  >>> print(testing.render(add, './/xmlns:ul[1]'))
   <ul>
     <li>
     Last Name:
@@ -230,7 +230,7 @@ happens, if errors happen inside and outside a group?
     </li>
   </ul>
 
-  >>> print testing.render(add, './/xmlns:fieldset[1]/xmlns:ul')
+  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))
   <ul>
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -291,7 +291,7 @@ Let's now have a look at an edit form for the vehicle registration:
 
 After updating the form, we can render the HTML:
 
-  >>> print edit.render()
+  >>> print(edit.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -373,10 +373,10 @@ The behavior when an error occurs is identical to that of the add form:
 
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
-  >>> print testing.render(edit, './/xmlns:i')
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i>There were some errors.</i>
 
-  >>> print testing.render(edit, './/xmlns:ul')
+  >>> print(testing.render(edit, './/xmlns:ul'))
   <ul>
     <li>
     Address:
@@ -384,7 +384,7 @@ The behavior when an error occurs is identical to that of the add form:
     </li>
   </ul>
 
-  >>> print testing.render(edit, './/xmlns:fieldset/xmlns:ul')
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
   <ul>
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -421,7 +421,7 @@ Let's now complete the form successfully:
 
 The success message will be shown on the form, ...
 
-  >>> print testing.render(edit, './/xmlns:i')
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i>Data successfully updated.</i>
 
 and the data are correctly updated:
@@ -479,7 +479,7 @@ Instanciate the form and use a group class and a group instance:
   >>> carGroupInstance = CarGroup(edit.context, request, edit)
   >>> edit.groups = (LicenseGroup, carGroupInstance)
   >>> edit.update()
-  >>> print edit.render()
+  >>> print(edit.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -573,15 +573,15 @@ fields.
 
 Now let's create simple implementations of these two interfaces.
 
-  >>> class VehicleOwner(object):
-  ...     zope.interface.implements(IVehicleOwner)
+  >>> @zope.interface.implementer(IVehicleOwner)
+  ... class VehicleOwner(object):
   ...
   ...     def __init__(self, **kw):
   ...         for name, value in kw.items():
   ...             setattr(self, name, value)
 
-  >>> class VehicleRegistration(object):
-  ...     zope.interface.implements(IVehicleRegistration)
+  >>> @zope.interface.implementer(IVehicleRegistration)
+  ... class VehicleRegistration(object):
   ...
   ...     def __init__(self, **kw):
   ...         for name, value in kw.items():
@@ -625,7 +625,7 @@ field which is taken care of with the group.
 When we render the form, the group appears as we would expect but with
 the ``owner`` prefix for the fields.
 
-  >>> print edit.render()
+  >>> print(edit.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -707,7 +707,7 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print testing.render(edit, './/xmlns:i')
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i>Data successfully updated.</i>
 
 Now the owner object should have updated fields.
@@ -786,7 +786,7 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print testing.render(edit, './/xmlns:i')
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i>Data successfully updated.</i>
 
 Now the owner object should have updated fields.
@@ -825,10 +825,10 @@ invalid object for the test missing input errors:
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
   >>> data, errors = edit.extractData()
-  >>> print testing.render(edit, './/xmlns:i')
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >There were some errors.</i>
 
-  >>> print testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul')
+  >>> print(testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul'))
   <ul>
     <li>
     License:
@@ -895,7 +895,7 @@ additional line of code in the update method:
 Update and render:
 
   >>> edit.update()
-  >>> print edit.render()
+  >>> print(edit.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -982,10 +982,10 @@ Now test the error handling if just one missing value is given in a group:
 
   >>> edit.update()
   >>> data, errors = edit.extractData()
-  >>> print testing.render(edit, './/xmlns:i')
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >There were some errors.</i>
 
-  >>> print testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul')
+  >>> print(testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul'))
   <ul>
     <li>
     Last Name:

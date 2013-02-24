@@ -22,9 +22,9 @@ from z3c.form import action, button, form, interfaces
 from z3c.form.i18n import MessageFactory as _
 
 
-class EditSubForm(form.BaseForm):
-    zope.interface.implements(
+@zope.interface.implementer(
         interfaces.ISubForm, interfaces.IHandlerForm)
+class EditSubForm(form.BaseForm):
 
     formErrorsMessage = _('There were some errors.')
     successMessage = _('Data successfully updated.')

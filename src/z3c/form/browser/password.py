@@ -23,9 +23,9 @@ import zope.schema.interfaces
 from z3c.form import interfaces, widget
 from z3c.form.browser import text
 
+@zope.interface.implementer_only(interfaces.IPasswordWidget)
 class PasswordWidget(text.TextWidget):
     """Input type password widget implementation."""
-    zope.interface.implementsOnly(interfaces.IPasswordWidget)
 
     klass = u'password-widget'
     css = u'password'

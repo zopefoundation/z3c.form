@@ -39,9 +39,9 @@ ComputedButtonActionAttribute = value.ComputedValueCreator(
     )
 
 
+@zope.interface.implementer(interfaces.IButton)
 class Button(zope.schema.Field):
     """A simple button in a form."""
-    zope.interface.implements(interfaces.IButton)
 
     accessKey = FieldProperty(interfaces.IButton['accessKey'])
     actionFactory = FieldProperty(interfaces.IButton['actionFactory'])
@@ -65,9 +65,9 @@ class Button(zope.schema.Field):
             self.__class__.__name__, self.__name__, self.title)
 
 
+@zope.interface.implementer(interfaces.IImageButton)
 class ImageButton(Button):
     """A simple image button in a form."""
-    zope.interface.implements(interfaces.IImageButton)
 
     image = FieldProperty(interfaces.IImageButton['image'])
 
@@ -80,9 +80,9 @@ class ImageButton(Button):
             self.__class__.__name__, self.__name__, self.image)
 
 
+@zope.interface.implementer(interfaces.IButtons)
 class Buttons(util.SelectionManager):
     """Button manager."""
-    zope.interface.implements(interfaces.IButtons)
 
     managerInterface = interfaces.IButtons
     prefix = 'buttons'
@@ -115,9 +115,9 @@ class Buttons(util.SelectionManager):
         self._data = byname
 
 
+@zope.interface.implementer(interfaces.IButtonHandlers)
 class Handlers(object):
     """Action Handlers for a Button-based form."""
-    zope.interface.implements(interfaces.IButtonHandlers)
 
     def __init__(self):
         self._registry = adapter.AdapterRegistry()
@@ -159,8 +159,8 @@ class Handlers(object):
         return '<Handlers %r>' %[handler for button, handler in self._handlers]
 
 
+@zope.interface.implementer(interfaces.IButtonHandler)
 class Handler(object):
-    zope.interface.implements(interfaces.IButtonHandler)
 
     def __init__(self, button, func):
         self.button = button
@@ -201,8 +201,8 @@ def buttonAndHandler(title, **kwargs):
     return handler(button)
 
 
+@zope.interface.implementer(interfaces.IButtonAction)
 class ButtonAction(action.Action, submit.SubmitWidget, zope.location.Location):
-    zope.interface.implements(interfaces.IButtonAction)
     zope.component.adapts(interfaces.IFormLayer, interfaces.IButton)
 
     def __init__(self, request, field):
@@ -234,7 +234,7 @@ class ImageButtonAction(image.ImageWidget, ButtonAction):
     @property
     def src(self):
         site = hooks.getSite()
-        src = unicode(zope.traversing.api.traverse(
+        src = util.toUnicode(zope.traversing.api.traverse(
             site, '++resource++' + self.field.image, request=self.request)())
         return src
 

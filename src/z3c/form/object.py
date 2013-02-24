@@ -36,8 +36,8 @@ def getIfName(iface):
     return iface.__module__ + '.' + iface.__name__
 
 
+@zope.interface.implementer(interfaces.ISubForm)
 class ObjectSubForm(form.BaseForm):
-    zope.interface.implements(interfaces.ISubForm)
 
     def __init__(self, context, request, parentWidget):
         self.context = context
@@ -64,7 +64,7 @@ class ObjectSubForm(form.BaseForm):
                      getattr(widget, 'field', None),
                      widget),
                     interfaces.IValidator).validate(value, force=True)
-            except (zope.schema.ValidationError, ValueError), error:
+            except (zope.schema.ValidationError, ValueError) as error:
                 # on exception, setup the widget error message
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,
@@ -182,8 +182,8 @@ class ObjectConverter(BaseDataConverter):
         return removeSecurityProxy(obj)
 
 
+@zope.interface.implementer(interfaces.IObjectWidget)
 class ObjectWidget(widget.Widget):
-    zope.interface.implements(interfaces.IObjectWidget)
 
     subform = None
     _value = interfaces.NO_VALUE
@@ -254,30 +254,29 @@ class ObjectWidget(widget.Widget):
                 # the widget itself ought to cry about the error
                 widget.value = value
 
-    @apply
-    def value():
+    @property
+    def value(self):
         """This invokes updateWidgets on any value change e.g. update/extract."""
-        def get(self):
-            #value (get) cannot raise an exception, then we return insane values
-            try:
-                self.setErrors = True
-                return self.extract()
-            except MultipleErrors:
-                value = {}
-                for name in zope.schema.getFieldNames(self.field.schema):
-                    value[name] = self.subform.widgets[name].value
-                return value
-        def set(self, value):
-            self._value = value
-            self.updateWidgets()
+        # value (get) cannot raise an exception, then we return insane values
+        try:
+            self.setErrors = True
+            return self.extract()
+        except MultipleErrors:
+            value = {}
+            for name in zope.schema.getFieldNames(self.field.schema):
+                value[name] = self.subform.widgets[name].value
+            return value
 
-            # ensure that we apply our new values to the widgets
-            if value is not interfaces.NO_VALUE:
-                for name in zope.schema.getFieldNames(self.field.schema):
-                    self.applyValue(self.subform.widgets[name],
-                                    value.get(name, interfaces.NO_VALUE))
+    @value.setter
+    def value(self, value):
+        self._value = value
+        self.updateWidgets()
 
-        return property(get, set)
+        # ensure that we apply our new values to the widgets
+        if value is not interfaces.NO_VALUE:
+            for name in zope.schema.getFieldNames(self.field.schema):
+                self.applyValue(self.subform.widgets[name],
+                                value.get(name, interfaces.NO_VALUE))
 
     def extract(self, default=interfaces.NO_VALUE):
         if self.name + '-empty-marker' in self.request:
@@ -316,11 +315,13 @@ class ObjectWidget(widget.Widget):
 
 def makeDummyObject(iface):
     if iface is not None:
+        @zope.interface.implementer(iface)
         class DummyObject(object):
-            zope.interface.implements(iface)
+            pass
     else:
+        @zope.interface.implementer(zope.interface.Interface)
         class DummyObject(object):
-            zope.interface.implements(zope.interface.Interface)
+            pass
 
     dummy = DummyObject()
     return dummy
@@ -349,10 +350,9 @@ class ObjectWidgetTemplateFactory(object):
 
 ######## default adapters
 
+@zope.interface.implementer(interfaces.ISubformFactory)
 class SubformAdapter(object):
     """Most basic-default subform factory adapter"""
-
-    zope.interface.implements(interfaces.ISubformFactory)
     zope.component.adapts(zope.interface.Interface, #widget value
                           interfaces.IFormLayer,    #request
                           zope.interface.Interface, #widget context
@@ -377,10 +377,9 @@ class SubformAdapter(object):
         obj = self.factory(self.context, self.request, self.widget)
         return obj
 
+@zope.interface.implementer(interfaces.IObjectFactory)
 class FactoryAdapter(object):
     """Most basic-default object factory adapter"""
-
-    zope.interface.implements(interfaces.IObjectFactory)
     zope.component.adapts(
         zope.interface.Interface, #context
         interfaces.IFormLayer,    #request

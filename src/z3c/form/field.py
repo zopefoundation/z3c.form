@@ -60,9 +60,9 @@ class WidgetFactoryProperty(object):
         inst._widgetFactories.default = value
 
 
+@zope.interface.implementer(interfaces.IField)
 class Field(object):
     """Field implementation."""
-    zope.interface.implements(interfaces.IField)
 
     widgetFactory = WidgetFactoryProperty()
 
@@ -85,9 +85,9 @@ class Field(object):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)
 
 
+@zope.interface.implementer(interfaces.IFields)
 class Fields(util.SelectionManager):
     """Field manager."""
-    zope.interface.implements(interfaces.IFields)
     managerInterface = interfaces.IFields
 
     def __init__(self, *args, **kw):
@@ -167,12 +167,12 @@ class Fields(util.SelectionManager):
                        field.field.__name__ in names)) ])
 
 
+@zope.interface.implementer_only(interfaces.IWidgets)
 class FieldWidgets(util.Manager):
     """Widget manager for IFieldWidget."""
 
     zope.component.adapts(
         interfaces.IFieldsForm, interfaces.IFormLayer, zope.interface.Interface)
-    zope.interface.implementsOnly(interfaces.IWidgets)
 
     prefix = 'widgets.'
     mode = interfaces.INPUT_MODE
@@ -310,7 +310,7 @@ class FieldWidgets(util.Manager):
                      widget),
                     interfaces.IValidator).validate(value)
             except (zope.interface.Invalid,
-                    ValueError, MultipleErrors), error:
+                    ValueError, MultipleErrors) as error:
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,
                      self.form, self.content), interfaces.IErrorViewSnippet)

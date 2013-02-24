@@ -67,7 +67,7 @@ Our submit buttons will need a template as well:
 We can now render the widget:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
     <div class="buttons">
       <input type="submit" id="widget-name-buttons-add"
@@ -97,7 +97,7 @@ the widget does not know what sub-widgets to display. So let's register a
 Let's now update the widget and check it again.
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
     <div class="buttons">
       <input type="submit" id="widget-name-buttons-add"
@@ -129,7 +129,7 @@ gets rendered. Now let's define a field for this widget and check it again:
 
   >>> widget = FieldWidget(field, widget)
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
     <div class="buttons">
       <input type="submit" id="foo-buttons-add"
@@ -187,7 +187,7 @@ just cry about it in the HTML:
 
   >>> widget.value = [{'foofield': None, 'barfield': 666}]
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
     <div class="row" id="foo-0-row">
       <div class="label">
@@ -248,7 +248,7 @@ Let's set acceptable values:
   >>> widget.value = [dict(foofield=42, barfield=666),
   ...     dict(foofield=789, barfield=321)]
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -369,7 +369,7 @@ a new value:
   ...                                    'foo.1-empty-marker':u'1',
   ...                                    'foo.buttons.add':'Add'})
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
     <div class="row" id="foo-0-row">
       <div class="label">
@@ -518,8 +518,8 @@ a new value:
 Let's see what we get on value extraction:
 
   >>> value = widget.extract()
-  >>> value
-  [{'foofield': 42, 'barfield': 666}, {'foofield': 789, 'barfield': 321}]
+  >>> pprint(value)
+  [{'barfield': 666, 'foofield': 42}, {'barfield': 321, 'foofield': 789}]
   >>> converter = interfaces.IDataConverter(widget)
 
   >>> value = converter.toFieldValue(value)
@@ -548,7 +548,7 @@ Now let's store the new value:
   ...                                    'foo.2-empty-marker':u'1',
   ...                                    })
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
     <div class="row" id="foo-0-row">
       <div class="label">
@@ -679,10 +679,10 @@ Now let's store the new value:
 Let's see what we get on value extraction:
 
   >>> value = widget.extract()
-  >>> value
-  [{'foofield': 42, 'barfield': 666},
-  {'foofield': 789, 'barfield': 321},
-  {'foofield': 46, 'barfield': 98}]
+  >>> pprint(value)
+  [{'barfield': 666, 'foofield': 42},
+   {'barfield': 321, 'foofield': 789},
+   {'barfield': 98, 'foofield': 46}]
   >>> converter = interfaces.IDataConverter(widget)
 
   >>> value = converter.toFieldValue(value)
@@ -713,7 +713,7 @@ remove an existing value:
   ...                                    'foo.1.remove':u'1',
   ...                                    'foo.buttons.remove':'Remove selected'})
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
     <div class="row" id="foo-0-row">
       <div class="label">
@@ -806,10 +806,10 @@ Let's see what we get on value extraction:
 (this is good so, because Remove selected is a widget-internal submit)
 
   >>> value = widget.extract()
-  >>> value
-  [{'foofield': 42, 'barfield': 666},
-  {'foofield': 789, 'barfield': 321},
-  {'foofield': 46, 'barfield': 98}]
+  >>> pprint(value)
+  [{'barfield': 666, 'foofield': 42},
+   {'barfield': 321, 'foofield': 789},
+   {'barfield': 98, 'foofield': 46}]
   >>> converter = interfaces.IDataConverter(widget)
 
   >>> value = converter.toFieldValue(value)
@@ -841,7 +841,7 @@ as input for our internal (sub) widget.
   ...                                    })
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
     <div class="row" id="foo-0-row">
       <div class="label">
@@ -925,9 +925,9 @@ as input for our internal (sub) widget.
 Let's see what we get on value extraction:
 
   >>> value = widget.extract()
-  >>> value
-  [{'foofield': 42, 'barfield': 666},
-  {'foofield': u'bad', 'barfield': u'98'}]
+  >>> pprint(value)
+  [{'barfield': 666, 'foofield': 42},
+   {'barfield': '98', 'foofield': 'bad'}]
 
 
 Label
@@ -951,7 +951,7 @@ if you like to skip the label rendering for all widgets.
   ...     dict(foofield=789, barfield=321)]
   >>> widget.showLabel = False
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
     <div class="row" id="foo-0-row">
       <div class="widget">
@@ -1045,11 +1045,11 @@ for those:
 
   >>> def printEvents():
   ...     for event in eventlog:
-  ...         print str(event)
+  ...         print(event)
   ...         if isinstance(event, zope.lifecycleevent.ObjectModifiedEvent):
   ...             for attr in event.descriptions:
-  ...                 print attr.interface
-  ...                 print attr.attributes
+  ...                 print(attr.interface)
+  ...                 print(sorted(attr.attributes))
 
 We need to provide the widgets for the List
 
@@ -1069,7 +1069,8 @@ Note, that creating an object will print some information about it:
   >>> class MyAddForm(form.AddForm):
   ...     fields = field.Fields(IMyMultiObject)
   ...     def create(self, data):
-  ...         print "MyAddForm.create", str(data)
+  ...         print("MyAddForm.create")
+  ...         pprint(data)
   ...         return MyMultiObject(**data)
   ...     def add(self, obj):
   ...         self.context[obj.name] = obj
@@ -1105,7 +1106,7 @@ If we want to render the addform, we must give it a template:
 
 Now rendering the addform renders no items yet:
 
-  >>> print myaddform.render()
+  >>> print(myaddform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -1156,7 +1157,7 @@ Update with the request:
 
 Render the form:
 
-  >>> print myaddform.render()
+  >>> print(myaddform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -1248,8 +1249,10 @@ Now we can fill in some values to the object, and a name to the whole schema:
 Update the form with the request:
 
   >>> myaddform.update()
-  MyAddForm.create {'name': u'first',
-  'listOfObject': [<z3c.form.testing.MySubObjectMulti object at ...>]}
+  MyAddForm.create
+  {'listOfObject': [<z3c.form.testing.MySubObjectMulti ...],
+   'name': 'first'}
+
 
 Wow, it got added:
 
@@ -1277,11 +1280,11 @@ Let's see our event log:
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...contained.ContainerModifiedEvent object at ...>
 
@@ -1299,7 +1302,7 @@ Let's try to edit that newly added object:
 
 Watch for the widget values in the HTML:
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -1416,18 +1419,18 @@ Let's see our event log:
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
-  ('foofield', 'barfield')
+  ['barfield', 'foofield']
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMyMultiObject>
-  ('listOfObject',)
+  ['listOfObject']
 
   >>> eventlog=[]
 
@@ -1435,7 +1438,7 @@ Let's see our event log:
 After the update the form says that the values got updated and renders the new
 values:
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>Data successfully updated.</i>
@@ -1584,7 +1587,7 @@ Watch for the error message in the HTML:
 it has to appear at the field itself and at the top of the form:
 ((not nice: at the top ``Object is of wrong type.`` appears))
 
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
@@ -1689,7 +1692,7 @@ Simple but often used use-case is the display form:
   >>> addTemplate(editform)
   >>> editform.mode = interfaces.DISPLAY_MODE
   >>> editform.update()
-  >>> print editform.render()
+  >>> print(editform.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">

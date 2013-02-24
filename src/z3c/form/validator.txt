@@ -84,8 +84,8 @@ well-defined. Thus, we first need to create a schema.
   ...     def isLoginPartOfEmail(person):
   ...         if not person.email.startswith(person.login):
   ...             raise zope.interface.Invalid("The login not part of email.")
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
   ...     login = None
   ...     email = None
 
@@ -323,7 +323,7 @@ adapter. Whether the adapter is found, its value is used as default,
 so the validation of the required field is successful here:
 
   >>> data_default = z3c.form.widget.StaticWidgetAttribute(
-  ...     'data', context=None, request=None, view=None,
+  ...     b'data', context=None, request=None, view=None,
   ...     field=IPhoto['data'], widget=widget)
   >>> zope.component.provideAdapter(data_default, name='default')
   >>> simple_data.validate(interfaces.NOT_CHANGED)
@@ -335,9 +335,8 @@ Look up value from context
 If there is a context aware widget which does not ignore its context,
 the value is looked up on the context using a data manager:
 
-  >>> class Photo(object):
-  ...     zope.interface.implements(IPhoto)
-  ...
+  >>> @zope.interface.implementer(IPhoto)
+  ... class Photo(object):
   ...     data = None
   ...     thumb = None
   >>> photo = Photo()
@@ -359,7 +358,7 @@ neither context nor input have a valid value:
 
 After setting the value validation is successful:
 
-  >>> photo.data = 'data'
+  >>> photo.data = b'data'
   >>> simple_data.validate(interfaces.NOT_CHANGED)
 
 
@@ -438,8 +437,8 @@ Widget manager validators have the option to validate a data dictionary,
 
 or an object implementing the schema:
 
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
   ...     login = u'srichter'
   ...     email = u'srichter@foo.com'
   >>> stephan = Person()
@@ -455,7 +454,7 @@ was successful. Let's now generate a failure:
   ...     {'login': u'srichter', 'email': u'strichter@foo.com'})
 
   >>> for e in errors:
-  ...     print e.__class__.__name__ + ':', e
+  ...     print(e.__class__.__name__ + ':', e)
   Invalid: The login not part of email.
 
 Let's now have a look at writing a custom validator. In this case, we want to
@@ -481,7 +480,7 @@ we can use the validator:
   >>> errors = custom.validate(
   ...     {'login': u'srichter', 'email': u'srichter@foobar.com'})
   >>> for e in errors:
-  ...     print e.__class__.__name__ + ':', e
+  ...     print(e.__class__.__name__ + ':', e)
   Invalid: Email too long.
 
 To register the custom validator only for this schema, we have to use the

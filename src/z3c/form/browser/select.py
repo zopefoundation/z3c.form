@@ -28,9 +28,9 @@ from z3c.form.widget import SequenceWidget, FieldWidget
 from z3c.form.browser import widget
 
 
+@zope.interface.implementer_only(interfaces.ISelectWidget)
 class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Select widget implementation."""
-    zope.interface.implementsOnly(interfaces.ISelectWidget)
 
     klass = u'select-widget'
     css = u'select'

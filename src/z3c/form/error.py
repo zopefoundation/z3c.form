@@ -48,11 +48,11 @@ def ErrorViewDiscriminators(
         util.getSpecification(content))(errorView)
 
 
+@zope.interface.implementer(interfaces.IErrorViewSnippet)
 class ErrorViewSnippet(object):
     """Error view snippet."""
     zope.component.adapts(
         zope.schema.ValidationError, None, None, None, None, None)
-    zope.interface.implements(interfaces.IErrorViewSnippet)
 
     def __init__(self, error, request, widget, field, form, content):
         self.error = self.context = error
@@ -117,9 +117,9 @@ class MultipleErrorViewSnippet(ErrorViewSnippet):
         return ''.join([view.render() for view in self.error.errors])
 
 
+@zope.interface.implementer(interfaces.IMultipleErrors)
 class MultipleErrors(Exception):
     """An error that contains many errors"""
-    zope.interface.implements(interfaces.IMultipleErrors)
 
     def __init__(self, errors):
         self.errors = errors

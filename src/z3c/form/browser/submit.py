@@ -24,9 +24,9 @@ from z3c.form.widget import FieldWidget
 from z3c.form.browser import button
 
 
+@zope.interface.implementer_only(interfaces.ISubmitWidget)
 class SubmitWidget(button.ButtonWidget):
     """A submit button of a form."""
-    zope.interface.implementsOnly(interfaces.ISubmitWidget)
 
     klass = u'submit-widget'
     css = u'submit'

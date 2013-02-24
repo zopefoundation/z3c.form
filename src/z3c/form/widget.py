@@ -38,10 +38,9 @@ ComputedWidgetAttribute = value.ComputedValueCreator(
     )
 
 
+@zope.interface.implementer(interfaces.IWidget)
 class Widget(zope.location.Location):
     """Widget base class."""
-
-    zope.interface.implements(interfaces.IWidget)
 
     # widget specific attributes
     name = FieldProperty(interfaces.IWidget['name'])
@@ -166,6 +165,7 @@ class Widget(zope.location.Location):
         return '<%s %r>' % (self.__class__.__name__, self.name)
 
 
+@zope.interface.implementer(interfaces.ISequenceWidget)
 class SequenceWidget(Widget):
     """Term based sequence widget base.
 
@@ -181,8 +181,6 @@ class SequenceWidget(Widget):
     See also the MultiWidget for build sequence values based on none collection
     based values. e.g. IList of ITextLine
     """
-
-    zope.interface.implements(interfaces.ISequenceWidget)
 
     value = ()
     terms = None
@@ -242,6 +240,7 @@ class SequenceWidget(Widget):
         return value
 
 
+@zope.interface.implementer(interfaces.IMultiWidget)
 class MultiWidget(Widget):
     """None Term based sequence widget base.
 
@@ -263,8 +262,6 @@ class MultiWidget(Widget):
     should not be a problem since sequence of collection will use the
     SequenceWidget as base.
     """
-
-    zope.interface.implements(interfaces.IMultiWidget)
 
     allowAdding = True
     allowRemoving = True
@@ -291,17 +288,17 @@ class MultiWidget(Widget):
         return '<input type="hidden" name="%s" value="%d" />' % (
             self.counterName, len(self.widgets))
 
-    @apply
-    def mode():
+    @property
+    def mode(self):
         """This sets the subwidgets modes."""
-        def get(self):
-            return self._mode
-        def set(self, mode):
-            self._mode = mode
-            # ensure that we apply the new mode to the widgets
-            for w in self.widgets:
-                w.mode = mode
-        return property(get, set)
+        return self._mode
+
+    @mode.setter
+    def mode(self, mode):
+        self._mode = mode
+        # ensure that we apply the new mode to the widgets
+        for w in self.widgets:
+            w.mode = mode
 
     def getWidget(self, idx):
         """Setup widget based on index id with or without value."""
@@ -354,7 +351,7 @@ class MultiWidget(Widget):
                     interfaces.IValidator).validate(fvalue)
                 # convert field value to widget value
                 widget.value = converter.toWidgetValue(fvalue)
-            except (zope.schema.ValidationError, ValueError), error:
+            except (zope.schema.ValidationError, ValueError) as error:
                 # on exception, setup the widget error message
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,
@@ -384,7 +381,7 @@ class MultiWidget(Widget):
         missing = oldLen - len(self.widgets)
         if missing > 0:
             # add previous existing new added widgtes
-            for i in xrange(missing):
+            for i in range(missing):
                 widget = self.getWidget(idx)
                 self.widgets.append(widget)
                 idx += 1
@@ -402,16 +399,16 @@ class MultiWidget(Widget):
         self.allowAdding = bool((not max_length) or (num_items < max_length))
         self.allowRemoving = bool(num_items and (num_items > min_length))
 
-    @apply
-    def value():
+    @property
+    def value(self):
         """This invokes updateWidgets on any value change e.g. update/extract."""
-        def get(self):
-            return self._value
-        def set(self, value):
-            self._value = value
-            # ensure that we apply our new values to the widgets
-            self.updateWidgets()
-        return property(get, set)
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+        # ensure that we apply our new values to the widgets
+        self.updateWidgets()
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
@@ -493,8 +490,8 @@ class WidgetLayoutFactory(object):
         return self.template
 
 
+@zope.interface.implementer(interfaces.IWidgetEvent)
 class WidgetEvent(object):
-    zope.interface.implements(interfaces.IWidgetEvent)
 
     def __init__(self, widget):
         self.widget = widget
@@ -502,5 +499,6 @@ class WidgetEvent(object):
     def __repr__(self):
         return '<%s %r>' %(self.__class__.__name__, self.widget)
 
+@zope.interface.implementer_only(interfaces.IAfterWidgetUpdateEvent)
 class AfterWidgetUpdateEvent(WidgetEvent):
-    zope.interface.implementsOnly(interfaces.IAfterWidgetUpdateEvent)
+    pass

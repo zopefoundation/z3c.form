@@ -22,8 +22,8 @@ import zope.component
 from z3c.form import interfaces, util
 
 
+@zope.interface.implementer(interfaces.IActionEvent)
 class ActionEvent(object):
-    zope.interface.implements(interfaces.IActionEvent)
 
     def __init__(self, action):
         self.action = action
@@ -32,10 +32,10 @@ class ActionEvent(object):
         return '<%s for %r>' %(self.__class__.__name__, self.action)
 
 
+@zope.interface.implementer(interfaces.IActionErrorEvent)
 class ActionErrorOccurred(ActionEvent):
     """An event telling the system that an error occurred during action
     execution."""
-    zope.interface.implements(interfaces.IActionErrorEvent)
 
     def __init__(self, action, error):
         super(ActionErrorOccurred, self).__init__(action)
@@ -46,10 +46,9 @@ class ActionSuccessful(ActionEvent):
     """An event signalizing that an action has been successfully executed."""
 
 
+@zope.interface.implementer(interfaces.IAction)
 class Action(object):
     """Action class."""
-
-    zope.interface.implements(interfaces.IAction)
 
     __name__ = __parent__ = None
 
@@ -67,9 +66,9 @@ class Action(object):
         return '<%s %r %r>' % (self.__class__.__name__, self.name, self.title)
 
 
+@zope.interface.implementer_only(interfaces.IActions)
 class Actions(util.Manager):
     """Action manager class."""
-    zope.interface.implementsOnly(interfaces.IActions)
 
     __name__ = __parent__ = None
 
@@ -97,7 +96,7 @@ class Actions(util.Manager):
             if handler is not None:
                 try:
                     result = handler()
-                except interfaces.ActionExecutionError, error:
+                except interfaces.ActionExecutionError as error:
                     zope.event.notify(ActionErrorOccurred(action, error))
                 else:
                     zope.event.notify(ActionSuccessful(action))
@@ -107,10 +106,9 @@ class Actions(util.Manager):
         return '<%s %r>' % (self.__class__.__name__, self.__name__)
 
 
+@zope.interface.implementer(interfaces.IActionHandler)
 class ActionHandlerBase(object):
     """Action handler base adapter."""
-
-    zope.interface.implements(interfaces.IActionHandler)
 
     def __init__(self, form, request, content, action):
         self.form = form

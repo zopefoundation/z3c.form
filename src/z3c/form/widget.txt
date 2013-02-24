@@ -76,7 +76,8 @@ widget. The first step is to define the template:
 
   >>> import tempfile
   >>> textWidgetTemplate = tempfile.mktemp('text.pt')
-  >>> open(textWidgetTemplate, 'w').write('''
+  >>> with open(textWidgetTemplate, 'w') as file:
+  ...     _ = file.write('''
   ... <html xmlns="http://www.w3.org/1999/xhtml"
   ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
   ...       tal:omit-tag="">
@@ -129,7 +130,7 @@ kinds of modes as needed for a project. The default mode is "input":
 Once everything is set up, the widget is updated and then rendered:
 
   >>> age.update()
-  >>> print age.render()
+  >>> print(age.render())
   <input type="text" name="age" value="39" />
 
 If a value is found in the request, it takes precedence, since the user
@@ -137,7 +138,7 @@ entered the value:
 
   >>> age.request = TestRequest(form={'age': '25'})
   >>> age.update()
-  >>> print age.render()
+  >>> print(age.render())
   <input type="text" name="age" value="25" />
 
 However, there is an option to turn off all request data:
@@ -145,7 +146,7 @@ However, there is an option to turn off all request data:
   >>> age.value = '39'
   >>> age.ignoreRequest = True
   >>> age.update()
-  >>> print age.render()
+  >>> print(age.render())
   <input type="text" name="age" value="39" />
 
 
@@ -185,7 +186,7 @@ adapters look like this:
 Now we just have to update and render the widget:
 
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" />
 
 There is no initial value for the widget, since there is no value in the
@@ -208,14 +209,14 @@ that defines how to convert from the field value to the widget value.
   >>> zope.component.provideAdapter(converter.FieldDataConverter)
 
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="30" />
 
 Again, the request value is honored above everything else:
 
   >>> ageWidget.request = TestRequest(form={'age': '25'})
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="25" />
 
 
@@ -248,7 +249,7 @@ the context. Registering a data manager for the widget does the trick:
   >>> zope.component.provideAdapter(datamanager.AttributeField)
 
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="45" />
 
 If the context value is unknown (None), the default value kicks in.
@@ -256,7 +257,7 @@ If the context value is unknown (None), the default value kicks in.
   >>> person.age = None
 
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="30" />
 
 Unless the widget is explicitely asked to not to show defaults.
@@ -265,7 +266,7 @@ This is handy for EditForms.
   >>> ageWidget.showDefault = False
 
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="" />
 
   >>> ageWidget.showDefault = True
@@ -276,7 +277,7 @@ value again:
 
   >>> ageWidget.ignoreContext = True
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="30" />
 
 Again, the request value is honored above everything else:
@@ -284,7 +285,7 @@ Again, the request value is honored above everything else:
   >>> ageWidget.request = TestRequest(form={'age': '25'})
   >>> ageWidget.ignoreContext = False
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="25" />
 
 But what happens if the object we are working on is security proxied? In
@@ -408,7 +409,7 @@ Let's now instantiate, update and render the widget to see the default value:
   >>> ageWidget = zope.component.getMultiAdapter((ageField, request),
   ...     interfaces.IFieldWidget)
   >>> ageWidget.update()
-  >>> print ageWidget.render()
+  >>> print(ageWidget.render())
   <input type="text" name="age" value="50" />
 
 
@@ -434,8 +435,8 @@ adapter. Those term objects must provide ``ITerms``. There is no simple
 default implementation, so we have to provide one ourselves:
 
   >>> from zope.schema import vocabulary
-  >>> class Terms(vocabulary.SimpleVocabulary):
-  ...     zope.interface.implements(interfaces.ITerms)
+  >>> @zope.interface.implementer(interfaces.ITerms)
+  ... class Terms(vocabulary.SimpleVocabulary):
   ...     def getValue(self, token):
   ...         return self.getTermByToken(token).value
 

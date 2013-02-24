@@ -60,8 +60,8 @@ Before we can start writing forms, we must have the content to work with:
   ...                 "The id and name cannot be the same.")
 
   >>> from zope.schema.fieldproperty import FieldProperty
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
   ...     id = FieldProperty(IPerson['id'])
   ...     name = FieldProperty(IPerson['name'])
   ...     gender = FieldProperty(IPerson['gender'])
@@ -309,7 +309,7 @@ very simple template as part of this example:
 
 Let's now render the page:
 
-  >>> print addForm.render()
+  >>> print(addForm.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -354,7 +354,7 @@ Let's now render the page:
 The update()/render() cycle is what happens when the form is called, i.e.
 when it is published:
 
-  >>> print addForm()
+  >>> print(addForm())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -394,15 +394,15 @@ when it is published:
         </div>
       </form>
     </body>
-  </html>  
+  </html>
 
 Note that we don't actually call render if the response has been set to a 3xx
 type status code (e.g. a redirect or not modified response), since the browser
 would not render it anyway:
 
   >>> request.response.setStatus(304)
-  >>> print addForm()
-  
+  >>> print(addForm())
+
 Let's go back to a normal status to continue the test.
 
   >>> request.response.setStatus(200)
@@ -471,7 +471,7 @@ message:
 Let's now render the form:
 
   >>> addTemplate(addForm)
-  >>> print addForm.render()
+  >>> print(addForm.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
@@ -540,7 +540,7 @@ error now:
 
 and see how the form looks like:
 
-  >>> print addForm.render() # doctest: +NOPARSE_MARKUP
+  >>> print(addForm.render()) # doctest: +NOPARSE_MARKUP
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
@@ -572,7 +572,7 @@ Let's try to provide a negative age, which is not possible either:
 
 But the error message for a negative age is too generic:
 
-  >>> print addForm.widgets['age'].error.render()
+  >>> print(addForm.widgets['age'].error.render())
   <div class="error">Value is too small</div>
 
 It would be better to say that negative values are disallowed. So let's
@@ -593,7 +593,7 @@ register a new error view snippet for the ``TooSmall`` error:
 
   >>> addForm = PersonAddForm(root, request)
   >>> addForm.update()
-  >>> print addForm.widgets['age'].error.render()
+  >>> print(addForm.widgets['age'].error.render())
   <div class="error">The value cannot be a negative number.</div>
 
 Note: The ``adapts()`` declaration might look strange. An error view
@@ -661,7 +661,7 @@ Let's register our new template-based adapter factory:
 
 Now the factory will be used to provide a template:
 
-  >>> print addForm.render() # doctest: +NOPARSE_MARKUP
+  >>> print(addForm.render()) # doctest: +NOPARSE_MARKUP
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
@@ -671,7 +671,7 @@ Since a form can also be used as a page itself, it is callable. When
 you call it will invoke both the ``update()`` and ``render()``
 methods:
 
-  >>> print addForm() # doctest: +NOPARSE_MARKUP
+  >>> print(addForm()) # doctest: +NOPARSE_MARKUP
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
@@ -715,7 +715,7 @@ When the form renders, the label has now changed:
   >>> addForm = PersonAddForm(root, TestRequest())
   >>> addTemplate(addForm)
   >>> addForm.update()
-  >>> print testing.render(addForm, './/xmlns:div[2][@class="row"]')
+  >>> print(testing.render(addForm, './/xmlns:div[2][@class="row"]'))
   <div class="row">
     <label for="form-widgets-name">Full Name</label>
     <input class="text-widget required textline-field"
@@ -759,7 +759,7 @@ After registering the new action manager,
 the add form should display a cancel button:
 
   >>> addForm.update()
-  >>> print testing.render(addForm, './/xmlns:div[@class="action"]')
+  >>> print(testing.render(addForm, './/xmlns:div[@class="action"]'))
   <div class="action">
     <input type="submit" id="form-buttons-add" name="form.buttons.add"
            class="submit-widget button-field" value="Add" />
@@ -828,7 +828,7 @@ After adding a template, we can look at the form:
 
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print editForm.render()
+  >>> print(editForm.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -888,7 +888,7 @@ Let's now submit the form having some invalid data.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print editForm.render()
+  >>> print(editForm.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <i>There were some errors.</i>
@@ -952,7 +952,7 @@ Let's now resubmit the form with valid data, so the data should be updated.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print testing.render(editForm, './/xmlns:i')
+  >>> print(testing.render(editForm, './/xmlns:i'))
   <i>Data successfully updated.</i>
 
   >>> stephan = root[u'srichter']
@@ -1015,7 +1015,7 @@ When submitting the form without any changes, the form will tell you so.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print testing.render(editForm, './/xmlns:i')
+  >>> print(testing.render(editForm, './/xmlns:i'))
   <i>No changes were applied.</i>
 
 
@@ -1040,7 +1040,7 @@ Let's now change the ``noChangesMessage``:
 
   >>> editForm.noChangesMessage = u'No changes were detected in the form data.'
   >>> editForm.update()
-  >>> print testing.render(editForm, './/xmlns:i')
+  >>> print(testing.render(editForm, './/xmlns:i'))
   <i>No changes were detected in the form data.</i>
 
 When even more flexibility is required within a project, one could also
@@ -1073,7 +1073,7 @@ We can now use the form as usual:
   >>> editForm = PersonDictEditForm(None, TestRequest())
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print editForm.render()
+  >>> print(editForm.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <form action=".">
@@ -1153,7 +1153,7 @@ Creating a display form is simple; just instantiate, update and render it:
 
   >>> display = PersonDisplayForm(stephan, TestRequest())
   >>> display.update()
-  >>> print display.render()
+  >>> print(display.render())
   <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
       <div class="row">
@@ -1258,7 +1258,7 @@ demonstrate the problem:
   ...
   ...     @button.buttonAndHandler(u'Apply')
   ...     def handleApply(self, action):
-  ...         print 'success'
+  ...         print('success')
 
   >>> BaseForm.fields.keys()
   ['name']
@@ -1274,7 +1274,7 @@ Let's now derive a form from the base form:
   ...
   ...     @button.buttonAndHandler(u'Cancel')
   ...     def handleCancel(self, action):
-  ...         print 'cancel'
+  ...         print('cancel')
 
   >>> DerivedForm.fields.keys()
   ['gender']
@@ -1295,7 +1295,7 @@ over:
   ...
   ...     @button.buttonAndHandler(u'Cancel')
   ...     def handleCancel(self, action):
-  ...         print 'cancel'
+  ...         print('cancel')
 
   >>> DerivedForm.fields.keys()
   ['name', 'gender']
@@ -1316,7 +1316,7 @@ method that will do the extending for you:
   ...
   ...     @button.buttonAndHandler(u'Cancel')
   ...     def handleCancel(self, action):
-  ...         print 'cancel'
+  ...         print('cancel')
 
   >>> DerivedForm.fields.keys()
   ['name', 'gender']
@@ -1336,7 +1336,7 @@ If you, for example do not want to extend the buttons, you can turn that off:
   ...
   ...     @button.buttonAndHandler(u'Cancel')
   ...     def handleCancel(self, action):
-  ...         print 'cancel'
+  ...         print('cancel')
 
   >>> DerivedForm.fields.keys()
   ['name', 'gender']
@@ -1356,7 +1356,7 @@ If you, for example do not want to extend the handlers, you can turn that off:
   ...
   ...     @button.buttonAndHandler(u'Cancel')
   ...     def handleCancel(self, action):
-  ...         print 'cancel'
+  ...         print('cancel')
 
   >>> DerivedForm.fields.keys()
   ['name', 'gender']
@@ -1398,7 +1398,7 @@ We can see that the custom widget gets used in the rendered form:
   >>> myEdit = MyEditForm(root[u'srichter'], TestRequest())
   >>> addTemplate(myEdit)
   >>> myEdit.update()
-  >>> print testing.render(myEdit, './/xmlns:input[@id="form-widgets-name"]')
+  >>> print(testing.render(myEdit, './/xmlns:input[@id="form-widgets-name"]'))
   <input type="text" id="form-widgets-name"
          name="form.widgets.name" class="MyCSS required textline-field"
          value="Claudia Richter" />
@@ -1425,7 +1425,7 @@ We can see that the widget gets rendered as hidden:
   >>> hiddenEdit = HiddenFieldEditForm(root[u'srichter'], TestRequest())
   >>> addTemplate(hiddenEdit)
   >>> hiddenEdit.update()
-  >>> print testing.render(hiddenEdit, './/xmlns:input[@id="form-widgets-age"]')
+  >>> print(testing.render(hiddenEdit, './/xmlns:input[@id="form-widgets-age"]'))
   <input type="hidden" id="form-widgets-age"
          name="form.widgets.age" class="hidden-widget"
          value="29" />
@@ -1578,7 +1578,7 @@ The button will be available when context is not empty.
   >>> myForm = SequenceForm(context, request)
   >>> myForm.update()
   >>> addTemplate(myForm)
-  >>> print testing.render(myForm, './/xmlns:div[@class="action"]')
+  >>> print(testing.render(myForm, './/xmlns:div[@class="action"]'))
   <div class="action">
     <input type="submit" id="form-buttons-empty" name="form.buttons.empty"
            class="submit-widget button-field" value="Empty" />
@@ -1591,7 +1591,7 @@ The button will not be available when the context is empty.
   >>> myForm = SequenceForm(context, request)
   >>> myForm.update()
   >>> addTemplate(myForm)
-  >>> print testing.render(myForm, './/xmlns:form')
+  >>> print(testing.render(myForm, './/xmlns:form'))
   <form action=".">
   </form>
 
@@ -1607,7 +1607,7 @@ be updated to new conditions.
   >>> myForm = SequenceForm(context, request)
   >>> myForm.update()
   >>> addTemplate(myForm)
-  >>> print testing.render(myForm, './/xmlns:form')
+  >>> print(testing.render(myForm, './/xmlns:form'))
   <form action=".">
   </form>
 

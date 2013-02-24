@@ -55,7 +55,7 @@ Our submit buttons will need a template as well:
 We can now render the widget:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
     <div class="buttons">
       <input type="submit" id="widget-name-buttons-add"
@@ -85,7 +85,7 @@ the widget does not know what sub-widgets to display. So let's register a
 Let's now update the widget and check it again.
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
     <div class="buttons">
       <input type="submit" id="widget-name-buttons-add"
@@ -107,7 +107,7 @@ gets rendered. Now let's define a field for this widget and check it again:
   ...     )
   >>> widget.field = field
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
     <div class="buttons">
       <input type="submit" id="widget-name-buttons-add"
@@ -130,7 +130,7 @@ for our multi widget and the data converter dispatcher adapter:
 
   >>> widget.value = [u'42', u'43']
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -195,7 +195,7 @@ a new value:
   >>> widget.extract()
   [u'42', u'43']
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -279,7 +279,7 @@ Now let's store the new value:
   >>> widget.extract()
   [u'42', u'43', u'44']
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -369,7 +369,7 @@ This is good so, because the Remove selected is an widget-internal submit action
   >>> widget.extract()
   [u'42', u'43', u'44']
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -429,7 +429,7 @@ Change again a value after delete:
   ...                                    'widget.name.1':u'45'})
   >>> widget.update()
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -494,7 +494,7 @@ as input for our internal (sub) widget.
   >>> widget.extract()
   [u'42', u'bad']
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -569,7 +569,7 @@ Let's test with minimum sequence, there should be no remove button:
   >>> widget.request = TestRequest(form={'widget.name.count':u'1',
   ...                                    'widget.name.0':u'42'})
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -605,7 +605,7 @@ Now, with middle-length sequence. All buttons should be there.
   ...                                    'widget.name.0':u'42',
   ...                                    'widget.name.1':u'43'})
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -666,7 +666,7 @@ no add button:
   ...                                    'widget.name.1':u'43',
   ...                                    'widget.name.2':u'44'})
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="widget-id-0-row" class="row">
           <div class="label">
@@ -770,7 +770,7 @@ We also need to register the template for at least the widget and request:
 We can now render the widget:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget" id="widget-id"></div>
 
 As you can see the widget is empty and doesn't provide values. This is because
@@ -785,7 +785,7 @@ the widget does not know what sub-widgets to display. So let's register a
 Let's now update the widget and check it again.
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget" id="widget-id"></div>
 
 It's still the same. Since the widget doesn't provide a field nothing useful
@@ -797,7 +797,7 @@ gets rendered. Now let's define a field for this widget and check it again:
   ...     )
   >>> widget.field = field
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget" id="widget-id"></div>
 
 As you can see, there is still no input value. Let's provide some values for
@@ -806,7 +806,7 @@ for our multi widget and the data converter dispatcher adapter:
 
   >>> widget.update()
   >>> widget.value = [u'42', u'43']
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget" id="widget-id">
     <div class="row" id="widget-id-0-row">
       <div class="label">
@@ -870,7 +870,7 @@ We also need to register the template for at least the widget and request:
 We can now render the widget:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <input name="widget.name.count" type="hidden" value="0">
 
 As you can see the widget is empty and doesn't provide values. This is because
@@ -885,7 +885,7 @@ the widget does not know what sub-widgets to display. So let's register a
 Let's now update the widget and check it again.
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <input name="widget.name.count" type="hidden" value="0">
 
 It's still the same. Since the widget doesn't provide a field nothing useful
@@ -897,7 +897,7 @@ gets rendered. Now let's define a field for this widget and check it again:
   ...     )
   >>> widget.field = field
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <input name="widget.name.count" type="hidden" value="0">
 
 As you can see, there is still no input value. Let's provide some values for
@@ -906,7 +906,7 @@ for our multi widget and the data converter dispatcher adapter:
 
   >>> widget.update()
   >>> widget.value = [u'42', u'43']
-  >>> print widget.render()
+  >>> print(widget.render())
   <input class="hidden-widget"
          id="widget-id-0" name="widget.name.0" type="hidden" value="42">
   <input class="hidden-widget"
@@ -935,7 +935,7 @@ See below for an example.
   >>> widget.value = [u'42', u'43']
   >>> widget.showLabel = False
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="None-0-row" class="row">
           <div class="widget">
@@ -985,7 +985,7 @@ to set the ``showLabel``. Let's see.
   >>> zope.component.provideAdapter(doShowLabel, name="showLabel")
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget">
       <div id="None-0-row" class="row">
           <div class="label">
@@ -1060,7 +1060,7 @@ Coverage happiness
   >>> widget.value = [u'42', u'43', u'44']
   >>> widget.value = [u'99']
 
-  >>> print widget.render()
+  >>> print(widget.render())
     <html>
     <body>
       <div class="multi-widget">

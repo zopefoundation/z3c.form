@@ -27,9 +27,9 @@ from z3c.form.widget import SequenceWidget, FieldWidget
 from z3c.form.browser import widget
 
 
+@zope.interface.implementer_only(interfaces.IOrderedSelectWidget)
 class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Ordered-Select widget implementation."""
-    zope.interface.implementsOnly(interfaces.IOrderedSelectWidget)
 
     size = 5
     multiple = u'multiple'

@@ -43,7 +43,7 @@ We also need to register the template for at least the widget and request:
 
 If we render the widget we get an empty widget:
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <script type="text/javascript">
   ...
   </script>
@@ -103,9 +103,9 @@ providing ``ITerms``. This source uses descriminators wich will fit our setup.
   ...      interfaces.IOrderedSelectWidget) )
 
 Now let's try if we get widget values:
-  
+
   >>> widget.update()
-  >>> print testing.render(widget, './/table//td[1]')
+  >>> print(testing.render(widget, './/table//td[1]'))
   <td>
     <select id="widget-id-from" name="widget.name.from"
             size="5" multiple="multiple">
@@ -119,7 +119,7 @@ If we select item "b", then it should be selected:
 
   >>> widget.value = ['b']
   >>> widget.update()
-  >>> print testing.render(widget, './/table//select[@id="widget-id-from"]/..')
+  >>> print(testing.render(widget, './/table//select[@id="widget-id-from"]/..'))
   <td>
     <select id="widget-id-from" name="widget.name.from"
             size="5" multiple="multiple">
@@ -128,7 +128,7 @@ If we select item "b", then it should be selected:
     </select>
   </td>
 
-  >>> print testing.render(widget, './/table//select[@id="widget-id-to"]')
+  >>> print(testing.render(widget, './/table//select[@id="widget-id-to"]'))
   <select id="widget-id-to" name="widget.name.to"
           size="5" multiple="multiple">
     <option value="b">B</option>
@@ -168,7 +168,7 @@ described by the interface:
 Finally, let's check correctness of widget rendering in one rare case when
 we got selection terms with callable values and without titles. For example,
 you can get those terms when you using the "Content Types" vocabulary from
-zope.app.content. 
+zope.app.content.
 
   >>> class CallableValue(object):
   ...     def __init__(self, value):
@@ -189,7 +189,7 @@ zope.app.content.
   >>> widget.terms = SelectionTermsWithCallableValues(
   ...     None, testing.TestRequest(), None, None, widget)
   >>> widget.update()
-  >>> print testing.render(widget, './/table//select[@id="widget-id-from"]')
+  >>> print(testing.render(widget, './/table//select[@id="widget-id-from"]'))
   <select id="widget-id-from" name="widget.name.from"
           size="5" multiple="multiple">
     <option value="a">Callable Value 1</option>

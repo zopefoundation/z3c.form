@@ -15,8 +15,8 @@ class BaseProvider(object):
 lookup_ = BaseProvider()
 
 
+@zope.interface.implementer(IContentProviders)
 class ContentProviders(dict):
-    zope.interface.implements(IContentProviders)
 
     def __init__(self, names=None):
         super(ContentProviders, self).__init__()
@@ -45,10 +45,10 @@ class ContentProviderFactory(object):
         return contentProvider
 
 
+@zope.interface.implementer_only(interfaces.IWidgets)
 class FieldWidgetsAndProviders(FieldWidgets):
     zope.component.adapts(
         interfaces.IFieldsAndContentProvidersForm, interfaces.IFormLayer, zope.interface.Interface)
-    zope.interface.implementsOnly(interfaces.IWidgets)
 
     def update(self):
         super(FieldWidgetsAndProviders, self).update()
@@ -92,7 +92,7 @@ class FieldWidgetsAndProviders(FieldWidgets):
                      widget),
                     interfaces.IValidator).validate(value)
             except (zope.interface.Invalid,
-                    ValueError, MultipleErrors), error:
+                    ValueError, MultipleErrors) as error:
                 view = zope.component.getMultiAdapter(
                     (error, self.request, widget, widget.field,
                      self.form, self.content), interfaces.IErrorViewSnippet)

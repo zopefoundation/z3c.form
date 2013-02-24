@@ -26,11 +26,11 @@ import zope.schema
 from z3c.form import interfaces, util
 
 
+@zope.interface.implementer(interfaces.IValidator)
 class StrictSimpleFieldValidator(object):
     """Strict Simple Field Validator
 
     validates all incoming values"""
-    zope.interface.implements(interfaces.IValidator)
     zope.component.adapts(
         zope.interface.Interface,
         zope.interface.Interface,
@@ -146,8 +146,8 @@ class NoInputData(zope.interface.Invalid):
     """
 
 
+@zope.interface.implementer(interfaces.IData)
 class Data(object):
-    zope.interface.implements(interfaces.IData)
 
     def __init__(self, schema, data, context):
         self._Data_data___ = data
@@ -179,9 +179,9 @@ class Data(object):
         return value
 
 
+@zope.interface.implementer(interfaces.IManagerValidator)
 class InvariantsValidator(object):
     """Simple Field Validator"""
-    zope.interface.implements(interfaces.IManagerValidator)
     zope.component.adapts(
         zope.interface.Interface,
         zope.interface.Interface,

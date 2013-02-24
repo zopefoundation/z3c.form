@@ -41,7 +41,7 @@ We also need to register the template for at least the widget and request:
 
 If we render the widget we get the HTML:
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea class="textarea-widget"></textarea>
 
 Adding some more attributes to the widget will make it display more:
@@ -50,7 +50,7 @@ Adding some more attributes to the widget will make it display more:
   >>> widget.name = 'name'
   >>> widget.value = u'value'
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="id" name="name" class="textarea-widget">value</textarea>
 
 Check DISPLAY_MODE:
@@ -64,7 +64,7 @@ Check DISPLAY_MODE:
 
   >>> widget.value = u'foobar'
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="id" class="textarea-widget">foobar</span>
 
 Check HIDDEN_MODE:
@@ -78,6 +78,6 @@ Check HIDDEN_MODE:
 
   >>> widget.value = u'foobar'
   >>> widget.mode = interfaces.HIDDEN_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <input class="hidden-widget" id="id" name="name"
          type="hidden" value="foobar">

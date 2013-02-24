@@ -27,15 +27,15 @@ In reality, only the title and name is relevant. Let's now create a form that
 provides those buttons.
 
   >>> from z3c.form import interfaces
-  >>> class Form(object):
-  ...     zope.interface.implements(
-  ...         interfaces.IButtonForm, interfaces.IHandlerForm)
+  >>> @zope.interface.implementer(
+  ...     interfaces.IButtonForm, interfaces.IHandlerForm)
+  ... class Form(object):
   ...     buttons = button.Buttons(IButtons)
   ...     prefix = 'form'
   ...
   ...     @button.handler(IButtons['apply'])
   ...     def apply(self, action):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
   ...
   ...     @button.handler(IButtons['cancel'])
   ...     def cancel(self, action):
@@ -117,7 +117,7 @@ Alternatively, customize an individual button by setting its
 actionFactory attribute.
 
   >>> def customButtonActionFactory(request, field):
-  ...     print "This button factory creates a button only once."
+  ...     print("This button factory creates a button only once.")
   ...     button = CustomButtonAction(request, field)
   ...     button.css = "happy"
   ...     return button
@@ -184,7 +184,7 @@ register a template for the submit widget:
 A widget template has many discriminators: context, request, view, field, and
 widget. We can now render each action:
 
-  >>> print actions['apply'].render()
+  >>> print(actions['apply'].render())
   <input type="submit" id="form-buttons-apply"
          name="form.buttons.apply" class="submit-widget button-field"
          value="Apply" />
@@ -239,16 +239,16 @@ Some readers might find it cumbersome to declare a full schema just to create
 some buttons. A faster method is to write simple arguments to the button
 manager:
 
-  >>> class Form(object):
-  ...     zope.interface.implements(
-  ...         interfaces.IButtonForm, interfaces.IHandlerForm)
+  >>> @zope.interface.implementer(
+  ...     interfaces.IButtonForm, interfaces.IHandlerForm)
+  ... class Form(object):
   ...     buttons = button.Buttons(
   ...         button.Button('apply', title=u'Apply'))
   ...     prefix = 'form.'
   ...
   ...     @button.handler(buttons['apply'])
   ...     def apply(self, action):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
 
 The first argument of the ``Button`` class constructor is the name of the
 button. Optionally, this can also be one of the following keyword arguments:
@@ -303,14 +303,14 @@ When sending in the right information, the actions are executed:
 An even simpler method -- resembling closest the API provided by formlib -- is
 to create the button and handler at the same time:
 
-  >>> class Form(object):
-  ...     zope.interface.implements(
-  ...         interfaces.IButtonForm, interfaces.IHandlerForm)
+  >>> @zope.interface.implementer(
+  ...     interfaces.IButtonForm, interfaces.IHandlerForm)
+  ... class Form(object):
   ...     prefix = 'form.'
   ...
   ...     @button.buttonAndHandler(u'Apply')
   ...     def apply(self, action):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
 
 In this case the ``buttonAndHandler`` decorator creates a button and a handler
 for it. By default the name is computed from the title of the button, which is
@@ -330,7 +330,7 @@ hex-encoded string:
   ...
   ...     @button.buttonAndHandler(u'Apply and Next')
   ...     def apply(self, action):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
 
   >>> Form.buttons.keys()
   ['4170706c7920616e64204e657874']
@@ -342,7 +342,7 @@ yourself. The decorator, however, also allows the keyword ``name``:
   ...
   ...     @button.buttonAndHandler(u'Apply and Next', name='applyNext')
   ...     def apply(self, action):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
 
   >>> Form.buttons.keys()
   ['applyNext']
@@ -359,7 +359,7 @@ multitude of things, including handler discrimination and UI layout:
   ...
   ...     @button.buttonAndHandler(u'Apply', provides=(IMyButton,))
   ...     def apply(self, action):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
 
   >>> IMyButton.providedBy(Form.buttons['apply'])
   True
@@ -381,7 +381,7 @@ be converted to an action:
   ...     @button.buttonAndHandler(
   ...         u'Apply', condition=lambda form: form.showApply)
   ...     def apply(self, action):
-  ...         print 'successfully applied'
+  ...         print('successfully applied')
 
 In this case a form variable specifies the availability. Initially the button
 is available as action:

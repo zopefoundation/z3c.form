@@ -35,9 +35,8 @@ Let's create a couple of simple widgets and forms first:
   ...     anotherLine = zope.schema.TextLine(
   ...         title=u'Other')
 
-  >>> class Content(object):
-  ...     zope.interface.implements(IContent)
-  ...
+  >>> @zope.interface.implementer(IContent)
+  ... class Content(object):
   ...     textLine = None
   ...     otherLine = None
   ...
@@ -54,13 +53,13 @@ Let's create a couple of simple widgets and forms first:
 As you can see, there is no title value set for our widgets:
 
   >>> hintForm.update()
-  >>> print hintForm.widgets['textLine'].render()
+  >>> print(hintForm.widgets['textLine'].render())
   <input id="form-widgets-textLine"
          name="form.widgets.textLine"
          class="text-widget required textline-field"
          value="" type="text" />
 
-  >>> print hintForm.widgets['anotherLine'].render()
+  >>> print(hintForm.widgets['anotherLine'].render())
   <input id="form-widgets-anotherLine"
          name="form.widgets.anotherLine"
          class="text-widget required textline-field"
@@ -75,7 +74,7 @@ If we update our form, we can see that the title is used based on the schema
 field description:
 
   >>> hintForm.update()
-  >>> print hintForm.widgets['textLine'].render()
+  >>> print(hintForm.widgets['textLine'].render())
   <input id="form-widgets-textLine"
          name="form.widgets.textLine"
          class="text-widget required textline-field"
@@ -85,7 +84,7 @@ field description:
 If the field has no description as it is with the second one, no "title"
 will be set for the widget:
 
-  >>> print hintForm.widgets['anotherLine'].render()
+  >>> print(hintForm.widgets['anotherLine'].render())
   <input id="form-widgets-anotherLine"
          name="form.widgets.anotherLine"
          class="text-widget required textline-field"
@@ -137,7 +136,7 @@ Let's setup a simple vocabulary:
   ...     bytesLineField = zope.schema.BytesLine(
   ...         title=u'Bytes Line',
   ...         description=u'This is a bytes line field.',
-  ...         default='A Bytes line.')
+  ...         default=b'A Bytes line.')
   ...
   ...     choiceField = zope.schema.Choice(
   ...         title=u'Choice',
@@ -257,9 +256,8 @@ Let's setup a simple vocabulary:
   ...         description=u'This is a hidden TextLine field.',
   ...         default=u'Some Hidden Text.')
 
-  >>> class AllInOne(object):
-  ...     zope.interface.implements(IAllInOne)
-  ...
+  >>> @zope.interface.implementer(IAllInOne)
+  ... class AllInOne(object):
   ...     asciiField = None
   ...     asciiLineField = None
   ...     boolField = None
@@ -295,21 +293,21 @@ Now test the hints in our widgets:
 
   >>> allInOneForm = AllInOneForm(allInOne, request)
   >>> allInOneForm.update()
-  >>> print allInOneForm.widgets['asciiField'].render()
+  >>> print(allInOneForm.widgets['asciiField'].render())
   <textarea id="form-widgets-asciiField"
             name="form.widgets.asciiField"
             class="textarea-widget required ascii-field"
             title="This is an ASCII field.">This is
    ASCII.</textarea>
 
-  >>> print allInOneForm.widgets['asciiLineField'].render()
+  >>> print(allInOneForm.widgets['asciiLineField'].render())
   <input id="form-widgets-asciiLineField"
          name="form.widgets.asciiLineField"
          class="text-widget required asciiline-field"
          title="This is an ASCII-Line field."
          value="An ASCII line." type="text" />
 
-  >>> print allInOneForm.widgets['boolField'].render()
+  >>> print(allInOneForm.widgets['boolField'].render())
   <span class="option">
     <label for="form-widgets-boolField-0">
       <input id="form-widgets-boolField-0"
@@ -333,7 +331,7 @@ Now test the hints in our widgets:
   <input name="form.widgets.boolField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['checkboxBoolField'].render()
+  >>> print(allInOneForm.widgets['checkboxBoolField'].render())
   <span class="option">
     <label for="form-widgets-checkboxBoolField-0">
       <input id="form-widgets-checkboxBoolField-0"
@@ -357,14 +355,14 @@ Now test the hints in our widgets:
   <input name="form.widgets.checkboxBoolField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['bytesLineField'].render()
+  >>> print(allInOneForm.widgets['bytesLineField'].render())
   <input id="form-widgets-bytesLineField"
          name="form.widgets.bytesLineField"
          class="text-widget required bytesline-field"
          title="This is a bytes line field."
          value="A Bytes line." type="text" />
 
-  >>> print allInOneForm.widgets['choiceField'].render()
+  >>> print(allInOneForm.widgets['choiceField'].render())
   <select id="form-widgets-choiceField"
           name="form.widgets.choiceField:list"
           class="select-widget required choice-field" size="1"
@@ -379,7 +377,7 @@ Now test the hints in our widgets:
   <input name="form.widgets.choiceField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['optionalChoiceField'].render()
+  >>> print(allInOneForm.widgets['optionalChoiceField'].render())
   <select id="form-widgets-optionalChoiceField"
           name="form.widgets.optionalChoiceField:list"
           class="select-widget choice-field" size="1"
@@ -395,7 +393,7 @@ Now test the hints in our widgets:
   <input name="form.widgets.optionalChoiceField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['promptChoiceField'].render()
+  >>> print(allInOneForm.widgets['promptChoiceField'].render())
   <select id="form-widgets-promptChoiceField"
           name="form.widgets.promptChoiceField:list"
           class="select-widget choice-field" size="1"
@@ -411,42 +409,42 @@ Now test the hints in our widgets:
   <input name="form.widgets.promptChoiceField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['dateField'].render()
+  >>> print(allInOneForm.widgets['dateField'].render())
   <input id="form-widgets-dateField"
          name="form.widgets.dateField"
          class="text-widget required date-field"
          title="This is a Date field." value="07/04/01"
          type="text" />
 
-  >>> print allInOneForm.widgets['datetimeField'].render()
+  >>> print(allInOneForm.widgets['datetimeField'].render())
   <input id="form-widgets-datetimeField"
          name="form.widgets.datetimeField"
          class="text-widget required datetime-field"
          title="This is a Datetime field."
          value="07/04/01 12:00" type="text" />
 
-  >>> print allInOneForm.widgets['decimalField'].render()
+  >>> print(allInOneForm.widgets['decimalField'].render())
   <input id="form-widgets-decimalField"
          name="form.widgets.decimalField"
          class="text-widget required decimal-field"
          title="This is a Decimal field." value="12.87"
          type="text" />
 
-  >>> print allInOneForm.widgets['dottedNameField'].render()
+  >>> print(allInOneForm.widgets['dottedNameField'].render())
   <input id="form-widgets-dottedNameField"
          name="form.widgets.dottedNameField"
          class="text-widget required dottedname-field"
          title="This is a DottedName field."
          value="z3c.form" type="text" />
 
-  >>> print allInOneForm.widgets['floatField'].render()
+  >>> print(allInOneForm.widgets['floatField'].render())
   <input id="form-widgets-floatField"
          name="form.widgets.floatField"
          class="text-widget required float-field"
          title="This is a Float field." value="12.8"
          type="text" />
 
-  >>> print allInOneForm.widgets['frozenSetField'].render()
+  >>> print(allInOneForm.widgets['frozenSetField'].render())
   <select id="form-widgets-frozenSetField"
           name="form.widgets.frozenSetField:list"
           class="select-widget required frozenset-field"
@@ -463,21 +461,21 @@ Now test the hints in our widgets:
   <input name="form.widgets.frozenSetField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['idField'].render()
+  >>> print(allInOneForm.widgets['idField'].render())
   <input id="form-widgets-idField"
          name="form.widgets.idField"
          class="text-widget required id-field"
          title="This is a Id field." value="z3c.form"
          type="text" />
 
-  >>> print allInOneForm.widgets['intField'].render()
+  >>> print(allInOneForm.widgets['intField'].render())
   <input id="form-widgets-intField"
          name="form.widgets.intField"
          class="text-widget required int-field"
          title="This is a Int field." value="12,345"
          type="text" />
 
-  >>> print allInOneForm.widgets['listField'].render()
+  >>> print(allInOneForm.widgets['listField'].render())
   <span class="option">
     <label for="form-widgets-listField-0">
       <input id="form-widgets-listField-0"
@@ -531,14 +529,14 @@ Now test the hints in our widgets:
   <input name="form.widgets.listField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['passwordField'].render()
+  >>> print(allInOneForm.widgets['passwordField'].render())
   <input id="form-widgets-passwordField"
          name="form.widgets.passwordField"
          class="text-widget password-field"
          title="This is a Password field." value="mypwd"
          type="text" />
 
-  >>> print allInOneForm.widgets['setField'].render()
+  >>> print(allInOneForm.widgets['setField'].render())
   <select id="form-widgets-setField"
           name="form.widgets.setField:list"
           class="select-widget required set-field"
@@ -555,41 +553,41 @@ Now test the hints in our widgets:
   <input name="form.widgets.setField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['sourceTextField'].render()
+  >>> print(allInOneForm.widgets['sourceTextField'].render())
   <textarea id="form-widgets-sourceTextField"
             name="form.widgets.sourceTextField"
             class="textarea-widget required sourcetext-field"
             title="This is a SourceText field.">&lt;source /&gt;</textarea>
 
-  >>> print allInOneForm.widgets['textField'].render()
+  >>> print(allInOneForm.widgets['textField'].render())
   <textarea id="form-widgets-textField"
             name="form.widgets.textField"
             class="textarea-widget required text-field"
             title="This is a Text field.">Some
    Text.</textarea>
 
-  >>> print allInOneForm.widgets['textLineField'].render()
+  >>> print(allInOneForm.widgets['textLineField'].render())
   <input id="form-widgets-textLineField"
          name="form.widgets.textLineField"
          class="text-widget required textline-field"
          title="This is a TextLine field."
          value="Some Text line." type="text" />
 
-  >>> print allInOneForm.widgets['timeField'].render()
+  >>> print(allInOneForm.widgets['timeField'].render())
   <input id="form-widgets-timeField"
          name="form.widgets.timeField"
          class="text-widget required time-field"
          title="This is a Time field." value="12:00"
          type="text" />
 
-  >>> print allInOneForm.widgets['timedeltaField'].render()
+  >>> print(allInOneForm.widgets['timedeltaField'].render())
   <input id="form-widgets-timedeltaField"
          name="form.widgets.timedeltaField"
          class="text-widget required timedelta-field"
          title="This is a Timedelta field."
          value="3 days, 0:00:00" type="text" />
 
-  >>> print allInOneForm.widgets['tupleField'].render()
+  >>> print(allInOneForm.widgets['tupleField'].render())
   <span class="option">
     <label for="form-widgets-tupleField-0">
       <input id="form-widgets-tupleField-0"
@@ -643,14 +641,14 @@ Now test the hints in our widgets:
   <input name="form.widgets.tupleField-empty-marker"
          type="hidden" value="1" />
 
-  >>> print allInOneForm.widgets['uriField'].render()
+  >>> print(allInOneForm.widgets['uriField'].render())
   <input id="form-widgets-uriField"
          name="form.widgets.uriField"
          class="text-widget required uri-field"
          title="This is a URI field."
          value="http://zope.org" type="text" />
 
-  >>> print allInOneForm.widgets['hiddenField'].render()
+  >>> print(allInOneForm.widgets['hiddenField'].render())
   <input id="form-widgets-hiddenField"
          name="form.widgets.hiddenField"
          class="text-widget required textline-field"

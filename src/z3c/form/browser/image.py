@@ -22,15 +22,15 @@ import zope.traversing.api
 from zope.schema.fieldproperty import FieldProperty
 from zope.component import hooks
 
-from z3c.form import interfaces
+from z3c.form import interfaces, util
 from z3c.form.widget import FieldWidget
 from z3c.form.browser import button
 from z3c.form.browser.interfaces import IHTMLImageWidget
 
 
+@zope.interface.implementer_only(interfaces.IImageWidget)
 class ImageWidget(button.ButtonWidget):
     """A image button of a form."""
-    zope.interface.implementsOnly(interfaces.IImageWidget)
 
     src = FieldProperty(IHTMLImageWidget['src'])
 
@@ -54,6 +54,6 @@ def ImageFieldWidget(field, request):
     image.value = field.title
     # Get the full resource URL for the image:
     site = hooks.getSite()
-    image.src = unicode(zope.traversing.api.traverse(
+    image.src = util.toUnicode(zope.traversing.api.traverse(
         site, '++resource++' + field.image, request=request)())
     return image

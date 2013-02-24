@@ -25,8 +25,8 @@ from z3c.form import interfaces, object
 from z3c.form.widget import FieldWidget
 from z3c.form.browser import widget
 
+@zope.interface.implementer(interfaces.IObjectWidget)
 class ObjectWidget(widget.HTMLFormElement, object.ObjectWidget):
-    zope.interface.implements(interfaces.IObjectWidget)
 
     klass = u'object-widget'
     css = u'object'

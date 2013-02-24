@@ -24,14 +24,14 @@ import zope.schema.interfaces
 from zope.schema import vocabulary
 from zope.i18n import translate
 
-from z3c.form import interfaces, term
+from z3c.form import interfaces, term, util
 from z3c.form.widget import SequenceWidget, FieldWidget
 from z3c.form.browser import widget
 
 
+@zope.interface.implementer_only(interfaces.ICheckBoxWidget)
 class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
     """Input type checkbox widget implementation."""
-    zope.interface.implementsOnly(interfaces.ICheckBoxWidget)
 
     klass = u'checkbox-widget'
     css = u'checkbox'
@@ -48,8 +48,7 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
             id = '%s-%i' % (self.id, count)
-            label = unicode(term.value) if not isinstance(term.value, str) \
-                else unicode(term.value, 'utf-8', errors='ignore')
+            label = util.toUnicode(term.value)
             if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
                 label = translate(term.title, context=self.request,
                                   default=term.title)
@@ -65,9 +64,9 @@ def CheckBoxFieldWidget(field, request):
     return FieldWidget(field, CheckBoxWidget(request))
 
 
+@zope.interface.implementer_only(interfaces.ISingleCheckBoxWidget)
 class SingleCheckBoxWidget(CheckBoxWidget):
     """Single Input type checkbox widget implementation."""
-    zope.interface.implementsOnly(interfaces.ISingleCheckBoxWidget)
 
     klass = u'single-checkbox-widget'
 

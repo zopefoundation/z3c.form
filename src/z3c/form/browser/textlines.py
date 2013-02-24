@@ -23,9 +23,9 @@ from z3c.form import widget
 from z3c.form.browser import textarea
 
 
+@zope.interface.implementer_only(interfaces.ITextLinesWidget)
 class TextLinesWidget(textarea.TextAreaWidget):
     """Input type sequence widget implementation."""
-    zope.interface.implementsOnly(interfaces.ITextLinesWidget)
 
 
 @zope.interface.implementer(interfaces.IFieldWidget)

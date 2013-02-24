@@ -22,6 +22,11 @@ from zope.schema.fieldproperty import FieldProperty
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.browser import interfaces
 
+try:
+    unicode
+except NameError:
+    # Py3: Define unicode.
+    unicode = str
 
 class WidgetLayoutSupport(object):
     """Widget layout support"""
@@ -37,36 +42,36 @@ class WidgetLayoutSupport(object):
         classPattern='%(class)s', errorPattern='%(class)s-error',
         requiredPattern='%(class)s-required'):
         """Setup given css class (klass) with error and required postfix
-        
+
         If no klass name is given the widget.wrapper class name/names get used.
-        It is also possible if more then one (empty space separated) names 
+        It is also possible if more then one (empty space separated) names
         are given as klass argument.
 
         This method can get used from your form or widget template or widget
         layout template without to re-implement the widget itself just because
-        you a different CSS class concept. 
+        you a different CSS class concept.
 
         The following sample:
-        
+
         <div tal:attributes="class python:widget.getCSSClass('foo bar')">
           label widget and error
         </div>
-        
+
         will render a div tag if the widget field defines required=True:
-        
+
         <div class="foo-error bar-error foo-required bar-required foo bar">
           label widget and error
         </div>
 
         And the following sample:
-        
+
         <div tal:attributes="class python:widget.getCSSClass('row')">
           label widget and error
         </div>
-        
+
         will render a div tag if the widget field defines required=True
         and an error occurs:
-        
+
         <div class="row-error row-required row">
           label widget and error
         </div>
@@ -114,8 +119,8 @@ class WidgetLayoutSupport(object):
         return ' '.join(unique)
 
 
+@zope.interface.implementer(interfaces.IHTMLFormElement)
 class HTMLFormElement(WidgetLayoutSupport):
-    zope.interface.implements(interfaces.IHTMLFormElement)
 
     id = FieldProperty(interfaces.IHTMLFormElement['id'])
     klass = FieldProperty(interfaces.IHTMLFormElement['klass'])
@@ -167,8 +172,8 @@ class HTMLFormElement(WidgetLayoutSupport):
             self.addClass('required')
 
 
+@zope.interface.implementer(interfaces.IHTMLInputWidget)
 class HTMLInputWidget(HTMLFormElement):
-    zope.interface.implements(interfaces.IHTMLInputWidget)
 
     readonly = FieldProperty(interfaces.IHTMLInputWidget['readonly'])
     alt = FieldProperty(interfaces.IHTMLInputWidget['alt'])
@@ -176,15 +181,15 @@ class HTMLInputWidget(HTMLFormElement):
     onselect = FieldProperty(interfaces.IHTMLInputWidget['onselect'])
 
 
+@zope.interface.implementer(interfaces.IHTMLTextInputWidget)
 class HTMLTextInputWidget(HTMLInputWidget):
-    zope.interface.implements(interfaces.IHTMLTextInputWidget)
 
     size = FieldProperty(interfaces.IHTMLTextInputWidget['size'])
     maxlength = FieldProperty(interfaces.IHTMLTextInputWidget['maxlength'])
 
 
+@zope.interface.implementer(interfaces.IHTMLTextAreaWidget)
 class HTMLTextAreaWidget(HTMLFormElement):
-    zope.interface.implements(interfaces.IHTMLTextAreaWidget)
 
     rows = FieldProperty(interfaces.IHTMLTextAreaWidget['rows'])
     cols = FieldProperty(interfaces.IHTMLTextAreaWidget['cols'])
@@ -193,8 +198,8 @@ class HTMLTextAreaWidget(HTMLFormElement):
     onselect = FieldProperty(interfaces.IHTMLTextAreaWidget['onselect'])
 
 
+@zope.interface.implementer(interfaces.IHTMLSelectWidget)
 class HTMLSelectWidget(HTMLFormElement):
-    zope.interface.implements(interfaces.IHTMLSelectWidget)
 
     multiple = FieldProperty(interfaces.IHTMLSelectWidget['multiple'])
     size = FieldProperty(interfaces.IHTMLSelectWidget['size'])

@@ -43,8 +43,9 @@ We need some context:
   ...     rating = zope.schema.Choice(
   ...     vocabulary='Ratings')
 
-  >>> class Person(object):
-  ...     zope.interface.implements(IPerson)
+  >>> @zope.interface.implementer(IPerson)
+  ... class Person(object):
+  ...     pass
   >>> person = Person()
 
 Let's provide some values for this widget. We can do this by defining a source
@@ -90,7 +91,7 @@ providing ``ITerms``. This source uses descriminators which will fit our setup.
 Now let's try if we get widget values:
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
@@ -110,7 +111,7 @@ If we set the widget value to "x", then it should be present and selected:
   >>> widget.terms = None
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
@@ -125,7 +126,7 @@ If we set the widget value to "y", then it should NOT be around:
 
   >>> widget.value = ['y']
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
   <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
@@ -209,7 +210,7 @@ Let's see what happens if we have values that are not in the vocabulary:
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> widget.value = ['0', '1', 'x']
   >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  >>> print(widget.render())
   <span id="widget-id" class="select-widget required">
     <span class="selected-option">bad</span>,
     <span class="selected-option">okay</span>,
@@ -232,7 +233,7 @@ Let's see what happens if we have values that are not in the vocabulary:
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> widget.value = ['0', 'x']
   >>> widget.update()
-  >>> print widget.render() # doctest: +NORMALIZE_WHITESPACE
+  >>> print(widget.render())
   <input id="widget-id-0" name="widget.name:list" value="0" class="hidden-widget" type="hidden" />
   <input id="widget-id-missing-0" name="widget.name:list" value="x" class="hidden-widget" type="hidden" />
   <input name="widget.name-empty-marker" type="hidden" value="1" />

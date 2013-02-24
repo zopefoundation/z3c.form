@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Form and Widget Framework Interfaces
-
-$Id$
 """
 __docformat__ = "reStructuredText"
 import zope.i18nmessageid
@@ -395,7 +393,7 @@ class IWidgetLayoutTemplate(zope.interface.Interface):
 class IWidget(ILocation):
     """A widget within a form"""
 
-    name = zope.schema.BytesLine(
+    name = zope.schema.ASCIILine(
         title=_('Name'),
         description=_('The name the widget is known under.'),
         required=True)
@@ -412,7 +410,7 @@ class IWidget(ILocation):
         '''),
         required=True)
 
-    mode = zope.schema.BytesLine(
+    mode = zope.schema.ASCIILine(
         title=_('Mode'),
         description=_('A widget mode.'),
         default=INPUT_MODE,
@@ -611,13 +609,13 @@ class IObjectWidget(IWidget):
 class IWidgets(IManager):
     """A widget manager"""
 
-    prefix = zope.schema.BytesLine(
+    prefix = zope.schema.ASCIILine(
         title=_('Prefix'),
         description=_('The prefix of the widgets.'),
         default='widgets.',
         required=True)
 
-    mode = zope.schema.BytesLine(
+    mode = zope.schema.ASCIILine(
         title=_('Prefix'),
         description=_('The prefix of the widgets.'),
         default=INPUT_MODE,
@@ -943,7 +941,7 @@ class IForm(zope.interface.Interface):
                       'used in the UI for rendering a required info legend.'),
         required=False)
 
-    prefix = zope.schema.BytesLine(
+    prefix = zope.schema.ASCIILine(
         title=_('Prefix'),
         description=_('The prefix of the form used to uniquely identify it.'),
         default='form.')

@@ -26,10 +26,9 @@ from z3c.form import util
 from z3c.form.i18n import MessageFactory as _
 
 
+@zope.interface.implementer(interfaces.ITerms)
 class Terms(object):
     """Base implementation for custom ITerms."""
-
-    zope.interface.implements(interfaces.ITerms)
 
     def getTerm(self, value):
         return self.terms.getTerm(value)
@@ -50,10 +49,9 @@ class Terms(object):
         return self.terms.__contains__(value)
 
 
+@zope.interface.implementer(interfaces.ITerms)
 class SourceTerms(Terms):
     """Base implementation for ITerms using a source instead of a vocabulary."""
-
-    zope.interface.implements(interfaces.ITerms)
 
     def __init__(self, context, request, form, field, source, widget):
         self.context = context
@@ -102,6 +100,7 @@ def ChoiceTerms(context, request, form, field, widget):
         interfaces.ITerms)
 
 
+@zope.interface.implementer(interfaces.ITerms)
 class ChoiceTermsVocabulary(Terms):
     """ITerms adapter for zope.schema.IChoice based implementations using
     vocabulary."""
@@ -113,8 +112,6 @@ class ChoiceTermsVocabulary(Terms):
         zope.schema.interfaces.IChoice,
         zope.schema.interfaces.IBaseVocabulary,
         interfaces.IWidget)
-
-    zope.interface.implements(interfaces.ITerms)
 
     def __init__(self, context, request, form, field, vocabulary, widget):
         self.context = context
@@ -145,12 +142,14 @@ class MissingTermsMixin(object):
 
     def _makeToken(self, value):
         """create a unique valid ASCII token"""
-        return util.createCSSId(unicode(value))
+        return util.createCSSId(util.toUnicode(value))
 
     def _makeMissingTerm(self, value):
         """Return a term that should be displayed for the missing token"""
-        return vocabulary.SimpleTerm(value, self._makeToken(value),
-            title=_(u'Missing: ${value}', mapping=dict(value=unicode(value))))
+        uvalue = util.toUnicode(value)
+        return vocabulary.SimpleTerm(
+            value, self._makeToken(value),
+            title=_(u'Missing: ${value}', mapping=dict(value=uvalue)))
 
     def getTermByToken(self, token):
         try:
@@ -176,6 +175,7 @@ class MissingChoiceTermsVocabulary(MissingTermsMixin, ChoiceTermsVocabulary):
     vocabulary with missing terms support"""
 
 
+@zope.interface.implementer(interfaces.ITerms)
 class ChoiceTermsSource(SourceTerms):
     "ITerms adapter for zope.schema.IChoice based implementations using source."
 
@@ -187,9 +187,8 @@ class ChoiceTermsSource(SourceTerms):
         zope.schema.interfaces.IIterableSource,
         interfaces.IWidget)
 
-    zope.interface.implements(interfaces.ITerms)
 
-
+@zope.interface.implementer_only(interfaces.IBoolTerms)
 class BoolTerms(Terms):
     """Default yes and no terms are used by default for IBool fields."""
 
@@ -199,8 +198,6 @@ class BoolTerms(Terms):
         zope.interface.Interface,
         zope.schema.interfaces.IBool,
         interfaces.IWidget)
-
-    zope.interface.implementsOnly(interfaces.IBoolTerms)
 
     trueLabel = _('yes')
     falseLabel = _('no')
@@ -258,6 +255,7 @@ class MissingCollectionTermsVocabulary(MissingTermsMixin,
     vocabulary with missing terms support."""
 
 
+@zope.interface.implementer(interfaces.ITerms)
 class CollectionTermsSource(SourceTerms):
     """ITerms adapter for zope.schema.ICollection based implementations using
     source."""
@@ -269,5 +267,3 @@ class CollectionTermsSource(SourceTerms):
         zope.schema.interfaces.ICollection,
         zope.schema.interfaces.IIterableSource,
         interfaces.IWidget)
-
-    zope.interface.implements(interfaces.ITerms)

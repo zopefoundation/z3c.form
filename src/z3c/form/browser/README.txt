@@ -56,18 +56,18 @@ ASCII
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from ASCII to TextAreaWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="foo" name="bar" class="textarea-widget required ascii-field">This is
    ASCII.</textarea>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="textarea-widget required ascii-field">This is
    ASCII.</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -88,7 +88,7 @@ we render a widget with an error view assinged:
   ...    def render(self):
   ...        return u'Dummy Error'
   >>> widget.error = (DummyErrorView())
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-error row-required row">
     <div class="label">
       <label for="foo">
@@ -119,17 +119,17 @@ ASCIILine
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from ASCIILine to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar"
          class="text-widget required asciiline-field" value="An ASCII line." />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required asciiline-field">An ASCII line.</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -156,7 +156,7 @@ Bool
   >>> interfaces.IDataConverter(widget)
   <SequenceDataConverter converts from Bool to RadioWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <span class="option">
     <label for="foo-0">
       <input type="radio" id="foo-0" name="bar"
@@ -174,13 +174,13 @@ Bool
   <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="radio-widget required bool-field"><span
       class="selected-option">yes</span></span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -201,7 +201,7 @@ For the boolean, the checkbox widget can be used as well:
   >>> widget.name = 'bar'
   >>> widget.update()
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <span class="option">
     <input type="checkbox" id="foo-0" name="bar:list"
            class="checkbox-widget required bool-field" value="true"
@@ -219,13 +219,13 @@ For the boolean, the checkbox widget can be used as well:
   <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="checkbox-widget required bool-field"><span
       class="selected-option">yes</span></span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -245,7 +245,7 @@ We can also have a single checkbox button for the boolean.
   >>> widget.name = 'bar'
   >>> widget.update()
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <span class="option">
     <input type="checkbox" id="foo-0" name="bar:list"
            class="single-checkbox-widget required bool-field"
@@ -257,7 +257,7 @@ We can also have a single checkbox button for the boolean.
   <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo"
         class="single-checkbox-widget required bool-field"><span
       class="selected-option">Check me</span></span>
@@ -269,7 +269,7 @@ Note that the widget label is not repeated twice:
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -294,12 +294,12 @@ Button
   >>> widget.__class__
   <class 'z3c.form.browser.submit.SubmitWidget'>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="submit" id="foo" name="bar"
          class="submit-widget button-field" value="Press me!" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="submit" id="foo" name="bar"
          class="submit-widget button-field" value="Press me!"
          disabled="disabled" />
@@ -313,12 +313,12 @@ is not used by default, but available for use:
   >>> widget.name = "bar"
 
   >>> widget.update()
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="button" id="foo" name="bar"
          class="button-widget button-field" value="Press me!" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="button" id="foo" name="bar"
          class="button-widget button-field" value="Press me!"
          disabled="disabled" />
@@ -327,7 +327,7 @@ is not used by default, but available for use:
 Bytes
 -----
 
-  >>> field = zope.schema.Bytes(default='Default bytes')
+  >>> field = zope.schema.Bytes(default=b'Default bytes')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -337,7 +337,7 @@ Bytes
   >>> interfaces.IDataConverter(widget)
   <FileUploadDataConverter converts from Bytes to FileWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="file" id="foo" name="bar" class="file-widget required bytes-field" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
@@ -346,7 +346,7 @@ Bytes
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -363,7 +363,7 @@ Calling the widget will return the widget including the layout
 BytesLine
 ---------
 
-  >>> field = zope.schema.BytesLine(default='A Bytes line.')
+  >>> field = zope.schema.BytesLine(default=b'A Bytes line.')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -373,17 +373,17 @@ BytesLine
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from BytesLine to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required bytesline-field"
          value="A Bytes line." />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required bytesline-field">A Bytes line.</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -414,7 +414,7 @@ Choice
   >>> interfaces.IDataConverter(widget)
   <SequenceDataConverter converts from Choice to SelectWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="foo" name="bar:list" class="select-widget required choice-field"
           size="1">
     <option id="foo-0" value="yes" selected="selected">Yes</option>
@@ -423,13 +423,13 @@ Choice
   <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="select-widget required choice-field"><span
     class="selected-option">Yes</span></span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -457,17 +457,17 @@ Date
   >>> interfaces.IDataConverter(widget)
   <DateDataConverter converts from Date to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required date-field"
          value="07/04/01" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required date-field">07/04/01</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -494,17 +494,17 @@ Datetime
   >>> interfaces.IDataConverter(widget)
   <DatetimeDataConverter converts from Datetime to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required datetime-field"
          value="07/04/01 12:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required datetime-field">07/04/01 12:00</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -532,17 +532,17 @@ Decimal
   >>> interfaces.IDataConverter(widget)
   <DecimalDataConverter converts from Decimal to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required decimal-field"
          value="1,265.87" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required decimal-field">1,265.87</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -576,17 +576,17 @@ DottedName
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from DottedName to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required dottedname-field"
          value="z3c.form" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required dottedname-field">z3c.form</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -613,17 +613,17 @@ Float
   >>> interfaces.IDataConverter(widget)
   <FloatDataConverter converts from Float to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required float-field"
          value="1,265.8" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required float-field">1,265.8</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -652,7 +652,7 @@ FrozenSet
   >>> interfaces.IDataConverter(widget)
   <CollectionSequenceDataConverter converts from FrozenSet to SelectWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="foo" name="bar:list" class="select-widget required frozenset-field"
           multiple="multiple" size="5">
     <option id="foo-0" value="1" selected="selected">1</option>
@@ -663,14 +663,14 @@ FrozenSet
   <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="select-widget required frozenset-field"><span
     class="selected-option">1</span>, <span
     class="selected-option">3</span></span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -696,17 +696,17 @@ Id
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from Id to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required id-field"
          value="z3c.form" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required id-field">z3c.form</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">
@@ -763,14 +763,14 @@ Now we are ready to instantiate the widget:
   >>> widget.__class__
   <class 'z3c.form.browser.image.ImageWidget'>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="image" id="foo" name="bar"
          class="image-widget imagebutton-field"
          src="http://127.0.0.1/@@/pressme.png"
          value="Press me!" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="image" id="foo" name="bar"
          class="image-widget imagebutton-field"
          src="http://127.0.0.1/@@/pressme.png"
@@ -790,12 +790,12 @@ Int
   >>> interfaces.IDataConverter(widget)
   <IntegerDataConverter converts from Int to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required int-field"
          value="1,200" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required int-field">1,200</span>
 
 
@@ -816,7 +816,7 @@ List - ASCII
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -885,7 +885,7 @@ List - ASCIILine
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -952,7 +952,7 @@ List - Choice
   >>> interfaces.IDataConverter(widget)
   <CollectionSequenceDataConverter converts from List to OrderedSelectWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <script type="text/javascript">
   ...
   </script>
@@ -998,7 +998,7 @@ List - Choice
   </table>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="required list-field"><span
       class="selected-option">1</span>, <span
       class="selected-option">3</span></span>
@@ -1021,7 +1021,7 @@ List - Date
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1091,7 +1091,7 @@ List - Datetime
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1160,7 +1160,7 @@ List - Decimal
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1228,7 +1228,7 @@ List - DottedName
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1297,7 +1297,7 @@ List - Float
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1365,7 +1365,7 @@ List - Id
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1434,7 +1434,7 @@ List - Int
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1501,7 +1501,7 @@ List - Password
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1568,7 +1568,7 @@ List - SourceText
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1635,7 +1635,7 @@ List - Text
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1704,7 +1704,7 @@ List - TextLine
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1773,7 +1773,7 @@ List - Time
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1840,7 +1840,7 @@ List - Timedelta
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1909,7 +1909,7 @@ List - URI
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from List to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -1981,12 +1981,12 @@ Password
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from Password to PasswordWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="password" id="foo" name="bar"
          class="password-widget required password-field" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="password-widget required password-field">mypwd</span>
 
 
@@ -2005,7 +2005,7 @@ Set
   >>> interfaces.IDataConverter(widget)
   <CollectionSequenceDataConverter converts from Set to SelectWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <select id="foo" name="bar:list" class="select-widget required set-field"
           multiple="multiple"  size="5">
     <option id="foo-0" value="1" selected="selected">1</option>
@@ -2016,7 +2016,7 @@ Set
   <input name="bar-empty-marker" type="hidden" value="1" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="select-widget required set-field"><span
       class="selected-option">1</span>, <span
       class="selected-option">3</span></span>
@@ -2035,12 +2035,12 @@ SourceText
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from SourceText to TextAreaWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="foo" name="bar"
             class="textarea-widget required sourcetext-field">&lt;source /&gt;</textarea>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="textarea-widget required sourcetext-field">&lt;source /&gt;</span>
 
 
@@ -2057,12 +2057,12 @@ Text
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from Text to TextAreaWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <textarea id="foo" name="bar" class="textarea-widget required text-field">Some
    Text.</textarea>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="textarea-widget required text-field">Some
     Text.</span>
 
@@ -2080,12 +2080,12 @@ TextLine
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from TextLine to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required textline-field"
          value="Some Text line." />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required textline-field">Some Text line.</span>
 
 
@@ -2103,12 +2103,12 @@ Time
   <TimeDataConverter converts from Time to TextWidget>
 
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required time-field"
          value="12:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required time-field">12:00</span>
 
 
@@ -2125,12 +2125,12 @@ Timedelta
   >>> interfaces.IDataConverter(widget)
   <TimedeltaDataConverter converts from Timedelta to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required timedelta-field"
          value="3 days, 0:00:00" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required timedelta-field">3 days, 0:00:00</span>
 
 
@@ -2151,7 +2151,7 @@ Tuple - ASCII
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2220,7 +2220,7 @@ Tuple - ASCIILine
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2287,7 +2287,7 @@ Tuple - Choice
   >>> interfaces.IDataConverter(widget)
   <CollectionSequenceDataConverter converts from Tuple to OrderedSelectWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <script type="text/javascript">
   ...
   </script>
@@ -2333,7 +2333,7 @@ Tuple - Choice
   </table>
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="required tuple-field"><span
     class="selected-option">1</span>, <span
     class="selected-option">3</span></span>
@@ -2356,7 +2356,7 @@ Tuple - Date
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2426,7 +2426,7 @@ Tuple - Datetime
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2495,7 +2495,7 @@ Tuple - Decimal
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2563,7 +2563,7 @@ Tuple - DottedName
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2632,7 +2632,7 @@ Tuple - Float
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2700,7 +2700,7 @@ Tuple - Id
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2769,7 +2769,7 @@ Tuple - Int
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2836,7 +2836,7 @@ Tuple - Password
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2903,7 +2903,7 @@ Tuple - SourceText
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -2970,7 +2970,7 @@ Tuple - Text
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -3039,7 +3039,7 @@ Tuple - TextLine
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -3108,7 +3108,7 @@ Tuple - Time
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -3175,7 +3175,7 @@ Tuple - Timedelta
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -3244,7 +3244,7 @@ Tuple - URI
   >>> interfaces.IDataConverter(widget)
   <MultiConverter converts from Tuple to MultiWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <div class="multi-widget required">
       <div id="foo-0-row" class="row">
           <div class="label">
@@ -3309,17 +3309,17 @@ URI
   >>> interfaces.IDataConverter(widget)
   <FieldDataConverter converts from URI to TextWidget>
 
-  >>> print widget.render()
+  >>> print(widget.render())
   <input type="text" id="foo" name="bar" class="text-widget required uri-field"
          value="http://zope.org" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> print widget.render()
+  >>> print(widget.render())
   <span id="foo" class="text-widget required uri-field">http://zope.org</span>
 
 Calling the widget will return the widget including the layout
 
-  >>> print widget()
+  >>> print(widget())
   <div id="foo-row" class="row-required row">
     <div class="label">
       <label for="foo">

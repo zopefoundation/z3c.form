@@ -17,8 +17,9 @@ We need a custom widget template
 
   >>> import os, tempfile
   >>> temp_dir = tempfile.mkdtemp()
-  >>> file = os.path.join(temp_dir, 'widget.pt')
-  >>> open(file, 'w').write('''
+  >>> widget_file = os.path.join(temp_dir, 'widget.pt')
+  >>> with open(widget_file, 'w') as file:
+  ...     _ = file.write('''
   ... <html xmlns="http://www.w3.org/1999/xhtml"
   ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
   ...       tal:omit-tag="">
@@ -41,8 +42,9 @@ and a widget class:
 
   >>> from z3c.form.testing import TestRequest
   >>> from z3c.form.browser import text
-  >>> class MyWidget(text.TextWidget):
-  ...     zope.interface.implements(IMyWidget)
+  >>> @zope.interface.implementer(IMyWidget)
+  ... class MyWidget(text.TextWidget):
+  ...     pass
   >>> request = TestRequest()
   >>> myWidget = MyWidget(request)
 
@@ -63,7 +65,7 @@ directive:
   ...       widget="custom.IMyWidget"
   ...       />
   ... </configure>
-  ... """ % file, context=context)
+  ... """ % widget_file, context=context)
 
 Let's get the template
 
@@ -80,12 +82,12 @@ and check it:
 
 Let's use the template within the widget.
 
-  >>> print template(myWidget)
+  >>> print(template(myWidget))
   <input type="text" value="" />
 
 We normally render the widget which returns the registered template.
 
-  >>> print myWidget.render()
+  >>> print(myWidget.render())
   <input type="text" value="" />
 
 If the template does not exist, then the widget directive should fail
@@ -120,8 +122,9 @@ custom subwidget.
 
 We need a custom widget template
 
-  >>> file = os.path.join(temp_dir, 'widget.pt')
-  >>> open(file, 'w').write('''
+  >>> widget_file = os.path.join(temp_dir, 'widget.pt')
+  >>> with open(widget_file, 'w') as file:
+  ...     _ = file.write('''
   ... <html xmlns="http://www.w3.org/1999/xhtml"
   ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
   ...       tal:omit-tag="">
@@ -139,8 +142,9 @@ and a interface
 and a widget class:
 
   >>> from z3c.form.browser import object
-  >>> class MyObjectWidget(object.ObjectWidget):
-  ...     zope.interface.implements(IMyObjectWidget)
+  >>> @zope.interface.implementer(IMyObjectWidget)
+  ... class MyObjectWidget(object.ObjectWidget):
+  ...     pass
   >>> request = TestRequest()
   >>> myObjectWidget = MyObjectWidget(request)
 
@@ -169,7 +173,7 @@ directive:
   ...       widget="custom.IMyObjectWidget"
   ...       />
   ... </configure>
-  ... """ % file, context=context)
+  ... """ % widget_file, context=context)
 
 Let's get the template
 
@@ -183,12 +187,12 @@ and check it:
 
 Let's use the template within the widget.
 
-  >>> print template(myObjectWidget)
+  >>> print(template(myObjectWidget))
   <div class="object-widget">yeah, this can get complex</div>
 
 We normally render the widget which returns the registered template.
 
-  >>> print myObjectWidget.render()
+  >>> print(myObjectWidget.render())
   <div class="object-widget">yeah, this can get complex</div>
 
 If the template does not exist, then the widget directive should fail
@@ -214,8 +218,9 @@ Register a specific template for a schema:
 
 We need a custom widget template
 
-  >>> file = os.path.join(temp_dir, 'widgetspec.pt')
-  >>> open(file, 'w').write('''
+  >>> widgetspec_file = os.path.join(temp_dir, 'widgetspec.pt')
+  >>> with open(widgetspec_file, 'w') as file:
+  ...     _ = file.write('''
   ... <html xmlns="http://www.w3.org/1999/xhtml"
   ...       xmlns:tal="http://xml.zope.org/namespaces/tal"
   ...       tal:omit-tag="">
@@ -234,7 +239,7 @@ We need a custom widget template
   ...       schema="z3c.form.testing.IMySubObject"
   ...       />
   ... </configure>
-  ... """ % file, context=context)
+  ... """ % widgetspec_file, context=context)
 
 Let's get the template
 
@@ -243,7 +248,7 @@ Let's get the template
 
 and check it:
 
-  >>> print myObjectWidget.render()
+  >>> print(myObjectWidget.render())
   <div class="object-widget">this one is specific</div>
 
 

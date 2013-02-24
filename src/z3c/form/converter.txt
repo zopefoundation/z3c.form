@@ -426,9 +426,12 @@ fields storage stub ...
 
 and a ``FileUpload`` component:
 
-  >>> import cStringIO
+  >>> try:
+  ...     from cStringIO import StringIO
+  ... except ImportError:
+  ...     from io import StringIO
   >>> from zope.publisher.browser import FileUpload
-  >>> myfile = cStringIO.StringIO('File upload contents.')
+  >>> myfile = StringIO('File upload contents.')
   >>> aFieldStorage = FieldStorageStub(myfile)
   >>> myUpload = FileUpload(aFieldStorage)
 
@@ -454,7 +457,7 @@ the upload, since you are normaly not able to upload a file without a filename:
   ...         self.file = file
   ...         self.headers = {}
   ...         self.filename = ''
-  >>> myfile = cStringIO.StringIO('')
+  >>> myfile = StringIO('')
   >>> aFieldStorage = EmptyFilenameFieldStorageStub(myfile)
   >>> myUpload = FileUpload(aFieldStorage)
   >>> bytes = zope.schema.Bytes()
@@ -478,7 +481,7 @@ There is also a ``ValueError`` if we don't get a seekable file from the
 When converting to the widget value, not conversion should be done, since
 bytes are not convertable in that sense.
 
-  >>> fudc.toWidgetValue('bytes')
+  >>> fudc.toWidgetValue(b'bytes')
   'bytes'
 
 When the file upload widget is not used and a text-based widget is desired,
@@ -940,8 +943,10 @@ for instance zope.schema.Int declares its type as (int, long).
 
 Let's illustrate the problem:
 
-  >>> zope.schema.Int._type
-  (<type 'int'>, <type 'long'>)
+  >>> zope.schema.Int._type == zope.schema._compat.integer_types
+  True
+
+  Note: Should be int and long in Python 2.
 
 The converter will use the first one.
 

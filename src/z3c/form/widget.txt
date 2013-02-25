@@ -546,7 +546,7 @@ A common use case in user interfaces is to ask the user to define one or more
 items. The ``widget`` module provides a basic widget implementation to support
 this use case.
 
-The `MultiWidget` allows to store none, one or more values for a sequence
+The `MultiWidget` allows to store none, one or more values for a sequence or dictionary
 field.  Don't get confused by the term sequence. The sequence used in
 `SequenceWidget` means that the widget can choose from a sequence of values
 which is really a collection. The `MultiWidget` can collect values to build
@@ -566,7 +566,8 @@ Let's define a field for our multi widget:
   ...     value_type=zope.schema.Int(default=42))
   >>> multiWidget.field = multiField
 
-The value of a multi widget is always list. When extracting values from the
+If the multi is used with a schema.List the value of a multi widget is always list.
+When extracting values from the
 request, the values must be a list of valid values based on the value_type
 field used from the used sequence field. The widget also uses a counter which
 is required for processing the input from a request. The counter is a marker
@@ -729,6 +730,68 @@ Yes, all subwidgets switch mode:
 
   >>> [w.mode for w in multiWidget.widgets]
   ['display', 'display', 'display', 'display', 'display', 'display']
+
+
+Multi Dict Widget
+-----------------
+
+We can also use a multiWidget in Dict mode by just using a field which a Dict:
+
+  >>> multiField = zope.schema.Dict(
+  ...     key_type=zope.schema.Int(),
+  ...     value_type=zope.schema.Int(default=42))
+  >>> multiWidget.field = multiField
+  >>> multiWidget.name = 'multi.name'
+
+Now if we set the value to a list we get an error:
+
+  >>> multiWidget.value = [u'3', u'5', u'8', u'6', u'42', u'45']
+  Traceback (most recent call last):
+  ...
+  AttributeError: 'list' object has no attribute 'items'
+
+but a dictionary is good.
+
+  >>> multiWidget.value = {u'1':u'3', u'2':u'5', u'3':u'8', u'4':u'6', u'5':u'42', u'6':u'45'}
+
+and our requests now have to include keys as well as values
+
+  >>> multiWidget.request = TestRequest(form={'multi.name.count':'2',
+  ...                                         'multi.name.key.0':u'1',
+  ...                                         'multi.name.0':u'42',
+  ...                                         'multi.name.key.1':u'2',
+  ...                                         'multi.name.1':u'43'})
+  >>> multiWidget.extract()
+  {u'1': u'42', u'2': u'43'}
+
+Let's define a field with min and max length constraints and create
+a widget for it.
+
+  >>> multiField = zope.schema.Dict(
+  ...     key_type=zope.schema.Int(),
+  ...     value_type=zope.schema.Int(default=42),
+  ...     min_length=2,
+  ...     max_length=5)
+
+
+  >>> request = TestRequest()
+  >>> multiWidget = widget.FieldWidget(multiField, widget.MultiWidget(request))
+
+Lets ensure that the minimum number of widgets are created.
+
+  >>> multiWidget.update()
+  >>> len(multiWidget.widgets)
+  2
+
+We can add new items
+
+  >>> multiWidget.appendAddingWidget()
+  >>> multiWidget.appendAddingWidget()
+
+  >>> multiWidget.update()
+  >>> len(multiWidget.widgets)
+  4
+
 
 Widget Events
 -------------

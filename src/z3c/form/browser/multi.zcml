@@ -10,6 +10,20 @@
         />
   </class>
 
+    <adapter
+        factory=".multi.multiFieldWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.IDict
+             z3c.form.interfaces.IFormLayer"
+        />
+    <adapter
+        factory=".multi.MultiFieldWidget"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.IDict
+             zope.schema.interfaces.IField
+             z3c.form.interfaces.IFormLayer"
+        />
+
   <adapter
       factory=".multi.MultiFieldWidget"
       provides="z3c.form.interfaces.IFieldWidget"

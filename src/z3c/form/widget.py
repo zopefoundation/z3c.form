@@ -267,6 +267,8 @@ class MultiWidget(Widget):
     allowRemoving = True
 
     widgets = None
+    key_widgets = None
+    is_dict = False
     _value = None
     _widgets_updated = False
 
@@ -275,7 +277,9 @@ class MultiWidget(Widget):
     def __init__(self, request):
         super(MultiWidget, self).__init__(request)
         self.widgets = []
+        self.key_widgets = []
         self._value = []
+        self.is_dict = getattr(self.field, 'key_type', None) is not None
 
     @property
     def counterName(self):
@@ -299,13 +303,17 @@ class MultiWidget(Widget):
         # ensure that we apply the new mode to the widgets
         for w in self.widgets:
             w.mode = mode
+        for w in self.key_widgets:
+            if w is not None:
+                w.mode = mode
+        return property(get, set)
 
-    def getWidget(self, idx):
+    def getWidget(self, idx, prefix=None, type_field="value_type"):
         """Setup widget based on index id with or without value."""
-        valueType = self.field.value_type
+        valueType = getattr(self.field.value_type)
         widget = zope.component.getMultiAdapter((valueType, self.request),
             interfaces.IFieldWidget)
-        self.setName(widget, idx)
+        self.setName(widget, idx, prefix)
         widget.mode = self.mode
         #set widget.form (objectwidget needs this)
         if interfaces.IFormAware.providedBy(self):
@@ -315,9 +323,10 @@ class MultiWidget(Widget):
         widget.update()
         return widget
 
-    def setName(self, widget, idx):
-        widget.name = '%s.%i' % (self.name, idx)
-        widget.id = '%s-%i' % (self.id, idx)
+    def setName(self, widget, idx, prefix=None):
+        names =  lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
+        widget.name = '.'.join([str(self.name)]+names(None))
+        widget.id = '-'.join([str(self.id)]+names(None))
 
     def appendAddingWidget(self):
         """Simply append a new empty widget with correct (counter) name."""
@@ -325,6 +334,29 @@ class MultiWidget(Widget):
         idx = len(self.widgets)
         widget = self.getWidget(idx)
         self.widgets.append(widget)
+        is_dict = getattr(self.field, 'key_type', None) is not None
+        if is_dict:
+            widget = self.getWidget(idx, "key", "key_type")
+            self.key_widgets.append(widget)
+        else:
+            self.key_widgets.append(None)
+
+    def removeWidgets(self, names):
+        """
+        :param names: list of widget.name to remove from the value
+        :return: None
+        """
+        is_dict = getattr(self.field, 'key_type', None) is not None
+        zipped = zip(self.key_widgets,self.widgets)
+        self.key_widgets = [k for k,v in zipped if v.name not in names]
+        self.widgets = [v for k,v in zipped if v.name not in names]
+        if is_dict:
+            self.value = dict([(k.value, v.value) for k,v in zip(self.key_widgets, self.widgets)])
+        else:
+            self.value = [widget.value for widget in self.widgets]
+
+
+
 
     def applyValue(self, widget, value=interfaces.NO_VALUE):
         """Validate and apply value to given widget.
@@ -371,12 +403,26 @@ class MultiWidget(Widget):
             oldLen < self.field.min_length):
             oldLen = self.field.min_length
         self.widgets = []
+        self.key_widgets = []
         idx = 0
+        is_dict = getattr(self.field, 'key_type', None) is not None
         if self.value:
-            for v in self.value:
+            if is_dict:
+                # mainly sorting for testing reasons
+                items = sorted(self.value.items())
+            else:
+                items = zip([None]*len(self.value),self.value)
+            for key, v in items:
                 widget = self.getWidget(idx)
                 self.applyValue(widget, v)
                 self.widgets.append(widget)
+                if is_dict:
+                    widget = self.getWidget(idx, "key", "key_type")
+                    self.applyValue(widget, key)
+                    self.key_widgets.append(widget)
+                else:
+                    #makes the template easier to have this the same length
+                    self.key_widgets.append(None)
                 idx += 1
         missing = oldLen - len(self.widgets)
         if missing > 0:
@@ -384,6 +430,11 @@ class MultiWidget(Widget):
             for i in range(missing):
                 widget = self.getWidget(idx)
                 self.widgets.append(widget)
+                if is_dict:
+                    widget = self.getWidget(idx, "key", "key_type")
+                    self.key_widgets.append(widget)
+                else:
+                    self.key_widgets.append(None)
                 idx += 1
         self._widgets_updated = True
 
@@ -429,13 +480,23 @@ class MultiWidget(Widget):
             # counter marker not found
             return interfaces.NO_VALUE
         counter = int(self.request.get(self.counterName, 0))
-        values = []
-        append = values.append
         # extract value for existing widgets
-        for idx in range(counter):
-            widget = self.getWidget(idx)
-            append(widget.value)
-        return values
+        is_dict = getattr(self.field, 'key_type', None) is not None
+        if is_dict:
+            dict_value = {}
+            for idx in range(counter):
+                widget = self.getWidget(idx)
+                key_widget = self.getWidget(idx, "key", "key_type")
+                dict_value[key_widget.value] = widget.value
+            return dict_value
+        else:
+            values = []
+            append = values.append
+            # extract value for existing widgets
+            for idx in range(counter):
+                widget = self.getWidget(idx)
+                append(widget.value)
+            return values
 
 
 def FieldWidget(field, widget):

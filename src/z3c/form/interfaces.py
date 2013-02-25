@@ -530,7 +530,7 @@ class ISequenceWidget(IWidget):
 class IMultiWidget(IWidget):
     """None Term based sequence widget base.
 
-    The multi widget is used for ITuple or IList if no other widget is defined.
+    The multi widget is used for ITuple, IList or IDict if no other widget is defined.
 
     Some IList or ITuple are using another specialized widget if they can
     choose from a collection. e.g. a IList of IChoice. The base class of such

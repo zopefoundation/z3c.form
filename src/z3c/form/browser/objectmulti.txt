@@ -1058,6 +1058,8 @@ We need to provide the widgets for the List
   ...     (zope.schema.interfaces.IList, z3c.form.interfaces.IFormLayer))
   >>> zope.component.provideAdapter(multiFieldWidgetFactory,
   ...     (zope.schema.interfaces.ITuple, z3c.form.interfaces.IFormLayer))
+  >>> zope.component.provideAdapter(multiFieldWidgetFactory,
+  ...     (zope.schema.interfaces.IDict, z3c.form.interfaces.IFormLayer))
 
 We define an interface containing a subobject, and an addform for it:
 

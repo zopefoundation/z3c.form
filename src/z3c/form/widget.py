@@ -244,9 +244,9 @@ class SequenceWidget(Widget):
 class MultiWidget(Widget):
     """None Term based sequence widget base.
 
-    The multi widget is used for ITuple or IList if no other widget is defined.
+    The multi widget is used for ITuple, IList or IDict if no other widget is defined.
 
-    Some IList or ITuple are using another specialized widget if they can
+    Some IList, ITuple or IDict are using another specialized widget if they can
     choose from a collection. e.g. a IList of IChoice. The base class of such
     widget is the ISequenceWidget.
 
@@ -268,7 +268,6 @@ class MultiWidget(Widget):
 
     widgets = None
     key_widgets = None
-    is_dict = False
     _value = None
     _widgets_updated = False
 
@@ -279,7 +278,10 @@ class MultiWidget(Widget):
         self.widgets = []
         self.key_widgets = []
         self._value = []
-        self.is_dict = getattr(self.field, 'key_type', None) is not None
+
+    @property
+    def is_dict(self):
+        return getattr(self.field, 'key_type', None) is not None
 
     @property
     def counterName(self):
@@ -306,11 +308,10 @@ class MultiWidget(Widget):
         for w in self.key_widgets:
             if w is not None:
                 w.mode = mode
-        return property(get, set)
 
     def getWidget(self, idx, prefix=None, type_field="value_type"):
         """Setup widget based on index id with or without value."""
-        valueType = getattr(self.field.value_type)
+        valueType = getattr(self.field, type_field)
         widget = zope.component.getMultiAdapter((valueType, self.request),
             interfaces.IFieldWidget)
         self.setName(widget, idx, prefix)
@@ -334,8 +335,7 @@ class MultiWidget(Widget):
         idx = len(self.widgets)
         widget = self.getWidget(idx)
         self.widgets.append(widget)
-        is_dict = getattr(self.field, 'key_type', None) is not None
-        if is_dict:
+        if self.is_dict:
             widget = self.getWidget(idx, "key", "key_type")
             self.key_widgets.append(widget)
         else:
@@ -346,11 +346,10 @@ class MultiWidget(Widget):
         :param names: list of widget.name to remove from the value
         :return: None
         """
-        is_dict = getattr(self.field, 'key_type', None) is not None
         zipped = zip(self.key_widgets,self.widgets)
         self.key_widgets = [k for k,v in zipped if v.name not in names]
         self.widgets = [v for k,v in zipped if v.name not in names]
-        if is_dict:
+        if self.is_dict:
             self.value = dict([(k.value, v.value) for k,v in zip(self.key_widgets, self.widgets)])
         else:
             self.value = [widget.value for widget in self.widgets]
@@ -405,9 +404,8 @@ class MultiWidget(Widget):
         self.widgets = []
         self.key_widgets = []
         idx = 0
-        is_dict = getattr(self.field, 'key_type', None) is not None
         if self.value:
-            if is_dict:
+            if self.is_dict:
                 # mainly sorting for testing reasons
                 items = sorted(self.value.items())
             else:
@@ -416,7 +414,7 @@ class MultiWidget(Widget):
                 widget = self.getWidget(idx)
                 self.applyValue(widget, v)
                 self.widgets.append(widget)
-                if is_dict:
+                if self.is_dict:
                     widget = self.getWidget(idx, "key", "key_type")
                     self.applyValue(widget, key)
                     self.key_widgets.append(widget)
@@ -430,7 +428,7 @@ class MultiWidget(Widget):
             for i in range(missing):
                 widget = self.getWidget(idx)
                 self.widgets.append(widget)
-                if is_dict:
+                if self.is_dict:
                     widget = self.getWidget(idx, "key", "key_type")
                     self.key_widgets.append(widget)
                 else:
@@ -481,8 +479,7 @@ class MultiWidget(Widget):
             return interfaces.NO_VALUE
         counter = int(self.request.get(self.counterName, 0))
         # extract value for existing widgets
-        is_dict = getattr(self.field, 'key_type', None) is not None
-        if is_dict:
+        if self.is_dict:
             dict_value = {}
             for idx in range(counter):
                 widget = self.getWidget(idx)

@@ -836,6 +836,67 @@ for our multi widget and the data converter dispatcher adapter:
     </div>
   </div>
 
+We can also use the multi widget with dictionaries
+
+  >>> field = zope.schema.Dict(
+  ...     __name__=u'foo',
+  ...     key_type=zope.schema.Int(title=u'Number'),
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.value = {u'1':u'42', u'2':u'43'}
+  >>> print(widget.render())
+  <div class="multi-widget" id="widget-id">
+    <div class="row" id="widget-id-0-row">
+      <div class="label">
+        <label for="widget-id-key-0">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-key-0">1</span>
+        </div>
+      </div>
+      <div class="label">
+        <label for="widget-id-0">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-0">42</span>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="widget-id-1-row">
+      <div class="label">
+        <label for="widget-id-key-1">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-key-1">2</span>
+        </div>
+      </div>
+      <div class="label">
+        <label for="widget-id-1">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-1">43</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 Hidden mode
 -----------
@@ -909,6 +970,26 @@ for our multi widget and the data converter dispatcher adapter:
   >>> print(widget.render())
   <input class="hidden-widget"
          id="widget-id-0" name="widget.name.0" type="hidden" value="42">
+  <input class="hidden-widget"
+         id="widget-id-1" name="widget.name.1" type="hidden" value="43">
+  <input name="widget.name.count" type="hidden" value="2">
+
+We can also use the multi widget with dictionaries
+
+  >>> field = zope.schema.Dict(
+  ...     __name__=u'foo',
+  ...     key_type=zope.schema.Int(title=u'Number'),
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.value = {u'1':u'42', u'2':u'43'}
+  >>> print(widget.render())
+  <input class="hidden-widget"
+         id="widget-id-key-0" name="widget.name.key.0" type="hidden" value="1">
+  <input class="hidden-widget"
+         id="widget-id-0" name="widget.name.0" type="hidden" value="42">
+  <input class="hidden-widget"
+         id="widget-id-key-1" name="widget.name.key.1" type="hidden" value="2">
   <input class="hidden-widget"
          id="widget-id-1" name="widget.name.1" type="hidden" value="43">
   <input name="widget.name.count" type="hidden" value="2">

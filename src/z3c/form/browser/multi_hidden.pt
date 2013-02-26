@@ -2,12 +2,16 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       tal:omit-tag="">
-<tal:block repeat="widget view/widgets">
+<tal:block repeat="widget view/widgets"><tal:block
+        define="key_widget python:view.key_widgets[repeat['widget'].index()];">
     <metal:block define-macro="widget-row">
+        <div tal:replace="structure key_widget/render" tal:condition="python: key_widget is not None">
+          <input size="24" value="" type="text" />
+        </div>
       <div tal:replace="structure widget/render">
         <input size="24" value="" type="text" />
       </div>
     </metal:block>
-</tal:block>
+</tal:block></tal:block>
 <input type="hidden" tal:replace="structure view/counterMarker" />
 </html>

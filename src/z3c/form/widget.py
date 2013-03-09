@@ -403,21 +403,31 @@ class MultiWidget(Widget):
             oldLen = self.field.min_length
         self.widgets = []
         self.key_widgets = []
+        keys = set()
         idx = 0
         if self.value:
             if self.is_dict:
                 # mainly sorting for testing reasons
-                items = sorted(self.value.items())
+                items = self.value
             else:
                 items = zip([None]*len(self.value),self.value)
             for key, v in items:
                 widget = self.getWidget(idx)
                 self.applyValue(widget, v)
                 self.widgets.append(widget)
+
                 if self.is_dict:
                     widget = self.getWidget(idx, "key", "key_type")
                     self.applyValue(widget, key)
+                    if key in keys and widget.error is None:
+                        error = zope.interface.Invalid(u'Duplicate key')
+                        view = zope.component.getMultiAdapter(
+                            (error, self.request, widget, widget.field,
+                             self.form, self.context), interfaces.IErrorViewSnippet)
+                        view.update()
+                        widget.error = view
                     self.key_widgets.append(widget)
+                    keys.add(key)
                 else:
                     #makes the template easier to have this the same length
                     self.key_widgets.append(None)
@@ -479,21 +489,17 @@ class MultiWidget(Widget):
             return interfaces.NO_VALUE
         counter = int(self.request.get(self.counterName, 0))
         # extract value for existing widgets
-        if self.is_dict:
-            dict_value = {}
-            for idx in range(counter):
-                widget = self.getWidget(idx)
+        values = []
+        append = values.append
+        # extract value for existing widgets
+        for idx in range(counter):
+            widget = self.getWidget(idx)
+            if self.is_dict:
                 key_widget = self.getWidget(idx, "key", "key_type")
-                dict_value[key_widget.value] = widget.value
-            return dict_value
-        else:
-            values = []
-            append = values.append
-            # extract value for existing widgets
-            for idx in range(counter):
-                widget = self.getWidget(idx)
+                append( (key_widget.value, widget.value) )
+            else:
                 append(widget.value)
-            return values
+        return values
 
 
 def FieldWidget(field, widget):

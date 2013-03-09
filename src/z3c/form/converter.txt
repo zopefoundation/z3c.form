@@ -1088,7 +1088,7 @@ We now use the field and widget to instantiate the converter:
 We can now convert a dict of integers to the multi-widget internal
 representation:
 
-  >>> sorted(conv.toWidgetValue({1:1, 2:4, 3:9}).items())
+  >>> sorted(conv.toWidgetValue({1:1, 2:4, 3:9}))
   [(u'1', u'1'), (u'2', u'4'), (u'3', u'9')]
 
 If the value is the missing value, an empty dict is returned:
@@ -1098,7 +1098,7 @@ If the value is the missing value, an empty dict is returned:
 
 Now, let's look at the reverse:
 
-  >>> conv.toFieldValue({u'1':u'1', u'2':u'4', u'3':u'9'})
+  >>> conv.toFieldValue([(u'1',u'1'), (u'2',u'4'), (u'3',u'9')])
   {1: 1, 2: 4, 3: 9}
 
 If the list is empty, the missing value is returned:

@@ -430,7 +430,7 @@ class DictMultiConverter(BaseDataConverter):
         key_converter = self._getConverter(self.field.key_type)
 
         # we always return a list of values for the widget
-        return dict([(key_converter.toWidgetValue(k), converter.toWidgetValue(v)) for k,v in value.items()])
+        return [(key_converter.toWidgetValue(k), converter.toWidgetValue(v)) for k,v in value.items()]
 
     def toFieldValue(self, value):
         """Just dispatch it."""
@@ -440,7 +440,7 @@ class DictMultiConverter(BaseDataConverter):
         converter = self._getConverter(self.field.value_type)
         key_converter = self._getConverter(self.field.key_type)
 
-        return dict([(key_converter.toFieldValue(k), converter.toFieldValue(v)) for k,v in value.items()])
+        return dict([(key_converter.toFieldValue(k), converter.toFieldValue(v)) for k,v in value])
 
 class BoolSingleCheckboxDataConverter(BaseDataConverter):
     "A special converter between boolean fields and single checkbox widgets."

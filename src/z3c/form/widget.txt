@@ -748,11 +748,11 @@ Now if we set the value to a list we get an error:
   >>> multiWidget.value = [u'3', u'5', u'8', u'6', u'42', u'45']
   Traceback (most recent call last):
   ...
-  AttributeError: 'list' object has no attribute 'items'
+  ValueError: need more than 1 value to unpack
 
 but a dictionary is good.
 
-  >>> multiWidget.value = {u'1':u'3', u'2':u'5', u'3':u'8', u'4':u'6', u'5':u'42', u'6':u'45'}
+  >>> multiWidget.value = [(u'1', u'3'), (u'2', u'5'), (u'3', u'8'), (u'4', u'6'), (u'5', u'42'), (u'6', u'45')]
 
 and our requests now have to include keys as well as values
 
@@ -762,7 +762,7 @@ and our requests now have to include keys as well as values
   ...                                         'multi.name.key.1':u'2',
   ...                                         'multi.name.1':u'43'})
   >>> multiWidget.extract()
-  {u'1': u'42', u'2': u'43'}
+  [(u'1', u'42'), (u'2', u'43')]
 
 Let's define a field with min and max length constraints and create
 a widget for it.

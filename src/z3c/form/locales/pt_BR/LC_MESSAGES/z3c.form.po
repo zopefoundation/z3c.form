@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Mon Sep 17 15:11:41 2012\n"
-"PO-Revision-Date: 2011-12-14 13:07-0600\n"
+"PO-Revision-Date: 2013-04-06 14:59+0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Zope 3 Developers <zope-dev@zope.org>\n"
 "Language: \n"
@@ -165,15 +165,14 @@ msgstr "O contrutor dos widgets."
 
 #: src/z3c/form/interfaces.py:215 src/z3c/form/interfaces.py:467
 msgid "Show default value"
-msgstr ""
+msgstr "Exibir valor padrão"
 
 #: src/z3c/form/interfaces.py:216 src/z3c/form/interfaces.py:468
-#, fuzzy
 msgid ""
 "A flag, when set, makes the widget to displayfield|adapter provided default "
 "values."
 msgstr ""
-"Uma marcação que quando habilitada força o widget a não considerar o "
+"Uma marcação que, quando habilitada, força o widget a não considerar o "
 "contexto para a exibição do valor."
 
 #: src/z3c/form/interfaces.py:349
@@ -277,15 +276,15 @@ msgstr ""
 "erro ao chamar o método extract()."
 
 #: src/z3c/form/interfaces.py:460
-#, fuzzy
 msgid "Ignore Required validation"
-msgstr "Ignora a Requisição"
+msgstr "Ignorar a validacão requerida"
 
 #: src/z3c/form/interfaces.py:461
 msgid ""
 "If set then required fields will pass validation regardless whether they're "
 "filled in or not"
 msgstr ""
+"Caso selecionado os campos requeridos passarão a validação mesmo que não estejam preenchidos"
 
 #: src/z3c/form/interfaces.py:516
 msgid "NO_VALUE Token"
@@ -371,13 +370,13 @@ msgstr "Caso marcado, os campos apenas-leitura também serão exibidos."
 
 #: src/z3c/form/interfaces.py:652 src/z3c/form/interfaces.py:922
 msgid "Ignore Required validation on extract"
-msgstr ""
+msgstr "Ignorar a validação de campos requeridos na extração"
 
 #: src/z3c/form/interfaces.py:653 src/z3c/form/interfaces.py:923
 msgid ""
 "If set then required fields will pass validation on extract regardless "
 "whether they're filled in or not"
-msgstr ""
+msgstr "Caso selecionado os campos marcados como requeridos passarão na validação mesmo que não tenham sido preenchidos"
 
 #: src/z3c/form/interfaces.py:659
 msgid "Has required fields"
@@ -610,7 +609,7 @@ msgstr "O widget para o evento foi criado."
 
 #: src/z3c/form/term.py:153
 msgid "Missing: ${value}"
-msgstr ""
+msgstr "Faltando: ${value}"
 
 #: src/z3c/form/term.py:205
 msgid "yes"

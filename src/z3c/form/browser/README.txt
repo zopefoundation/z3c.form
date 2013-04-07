@@ -341,7 +341,7 @@ Bytes
   <input type="file" id="foo" name="bar" class="file-widget required bytes-field" />
 
   >>> widget.mode = interfaces.DISPLAY_MODE
-  >>> widget.render().strip('\n')
+  >>> widget.render().strip('\r\n')
   u'<span id="foo" class="file-widget required bytes-field">Default bytes</span>'
 
 Calling the widget will return the widget including the layout

@@ -350,7 +350,7 @@ class MultiWidget(Widget):
         self.key_widgets = [k for k,v in zipped if v.name not in names]
         self.widgets = [v for k,v in zipped if v.name not in names]
         if self.is_dict:
-            self.value = dict([(k.value, v.value) for k,v in zip(self.key_widgets, self.widgets)])
+            self.value = [(k.value, v.value) for k,v in zip(self.key_widgets, self.widgets)]
         else:
             self.value = [widget.value for widget in self.widgets]
 

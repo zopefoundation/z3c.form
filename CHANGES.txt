@@ -5,7 +5,9 @@ CHANGES
 3.0.0a3 (unreleased)
 --------------------
 
-- Updated pt_BR translation 
+- Updated pt_BR translation.
+
+- Fixed a bug where file input value was interpeted as UTF-8.
 
 
 3.0.0a2 (2013-02-26)

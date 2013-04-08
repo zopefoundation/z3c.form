@@ -221,7 +221,7 @@ class FileUploadDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
-        return value.decode()
+        return None
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""

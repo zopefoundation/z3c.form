@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.0.0a3 (unreleased)
+3.0.0a3 (2013-04-08)
 --------------------
 
 - Updated pt_BR translation.

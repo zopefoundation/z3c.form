@@ -8,8 +8,27 @@
   <tal:block repeat="widget view/widgets">
     <div id="" class="row"
          tal:attributes="id string:${widget/id}-row"
-         tal:condition="python:widget.mode != 'hidden'">
+         tal:condition="python:widget.mode != 'hidden'"
+         tal:define="key_widget python:view.key_widgets[repeat['widget'].index()];">
       <metal:block define-macro="widget-row">
+        <tal:condition tal:condition="key_widget/id|nothing">
+          <div class="label" tal:condition="view/showLabel">
+            <label tal:attributes="for key_widget/id">
+              <span i18n:translate=""
+                  tal:content="key_widget/label">label</span>
+              <span class="required"
+                    tal:condition="key_widget/required">*</span>
+            </label>
+          </div>
+          <div tal:condition="key_widget/error"
+               tal:replace="structure key_widget/error/render">error</div>
+          <div class="widget">
+              <div class="multi-widget-input-key"
+                   tal:content="structure key_widget/render">
+                <input size="24" value="" type="text" />
+              </div>
+          </div>
+        </tal:condition>
         <div class="label" tal:condition="view/showLabel">
           <label tal:attributes="for widget/id">
             <span i18n:translate=""

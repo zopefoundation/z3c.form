@@ -736,6 +736,224 @@ no add button:
   </div>
   <input type="hidden" name="widget.name.count" value="3" />
 
+Dictionaries
+------------
+
+The multi widget also supports IDict schemas.
+
+  >>> field = zope.schema.Dict(
+  ...     __name__=u'foo',
+  ...     key_type=zope.schema.Int(title=u'Number'),
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.widgets = []
+  >>> widget.value = [(u'1',u'42')]
+  >>> print(widget.render())
+    <div class="multi-widget">
+        <div id="widget-id-0-row" class="row">
+              <div class="label">
+                <label for="widget-id-key-0">
+                  <span>Number</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="widget">
+                  <div class="multi-widget-input-key">
+        <input id="widget-id-key-0" name="widget.name.key.0" class="text-widget required int-field" value="1" type="text" />
+    </div>
+              </div>
+            <div class="label">
+              <label for="widget-id-0">
+                <span>Number</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <div class="multi-widget-checkbox">
+                <input id="widget-id-0-remove" name="widget.name.0.remove" class="multi-widget-checkbox checkbox-widget" type="checkbox" value="1" />
+              </div>
+              <div class="multi-widget-input">
+        <input id="widget-id-0" name="widget.name.0" class="text-widget required int-field" value="42" type="text" />
+    </div>
+            </div>
+        </div>
+     <div class="buttons">
+    <input id="widget-name-buttons-remove" name="widget.name.buttons.remove" class="submit-widget button-field" value="Remove selected" type="submit" />
+       </div>
+    </div>
+    <input type="hidden" name="widget.name.count" value="1" />
+
+If we now click on the ``Add`` button, we will get a new input field for entering
+a new value:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'1',
+  ...                                    'widget.name.key.0':u'1',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.buttons.add':'Add'})
+  >>> widget.update()
+
+  >>> widget.extract()
+  [('1', '42')]
+
+  >>> print(widget.render())
+  <html>
+    <body>
+      <div class="multi-widget">
+        <div class="row" id="widget-id-0-row">
+          <div class="label">
+            <label for="widget-id-key-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-input-key">
+              <input class="text-widget required int-field" id="widget-id-key-0" name="widget.name.key.0" type="text" value="1">
+            </div>
+          </div>
+          <div class="label">
+            <label for="widget-id-0">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input class="multi-widget-checkbox checkbox-widget" id="widget-id-0-remove" name="widget.name.0.remove" type="checkbox" value="1">
+            </div>
+            <div class="multi-widget-input">
+              <input class="text-widget required int-field" id="widget-id-0" name="widget.name.0" type="text" value="42">
+            </div>
+          </div>
+        </div>
+        <div class="row" id="widget-id-1-row">
+          <div class="label">
+            <label for="widget-id-key-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-input-key">
+              <input class="text-widget required int-field" id="widget-id-key-1" name="widget.name.key.1" type="text" value="">
+            </div>
+          </div>
+          <div class="label">
+            <label for="widget-id-1">
+              <span>Number</span>
+              <span class="required">*</span>
+            </label>
+          </div>
+          <div class="widget">
+            <div class="multi-widget-checkbox">
+              <input class="multi-widget-checkbox checkbox-widget" id="widget-id-1-remove" name="widget.name.1.remove" type="checkbox" value="1">
+            </div>
+            <div class="multi-widget-input">
+              <input class="text-widget required int-field" id="widget-id-1" name="widget.name.1" type="text" value="">
+            </div>
+          </div>
+        </div>
+        <div class="buttons">
+          <input class="submit-widget button-field" id="widget-name-buttons-add" name="widget.name.buttons.add" type="submit" value="Add">
+          <input class="submit-widget button-field" id="widget-name-buttons-remove" name="widget.name.buttons.remove" type="submit" value="Remove selected">
+        </div>
+      </div>
+      <input name="widget.name.count" type="hidden" value="2">
+    </body>
+  </html>
+
+Now let's store the new value:
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
+  ...                                    'widget.name.key.0':u'1',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.key.1':u'2',
+  ...                                    'widget.name.1':u'43'})
+  >>> widget.update()
+
+  >>> widget.extract()
+  [('1', '42'), ('2', '43')]
+
+We will get an error if we try and set the same key twice
+
+  >>> from z3c.form.error import InvalidErrorViewSnippet
+  >>> zope.component.provideAdapter(InvalidErrorViewSnippet)
+
+  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
+  ...                                    'widget.name.key.0':u'1',
+  ...                                    'widget.name.0':u'42',
+  ...                                    'widget.name.key.1':u'1',
+  ...                                    'widget.name.1':u'43'})
+  >>> widget.update()
+
+  >>> widget.extract()
+  [('1', '42'), ('1', '43')]
+
+  >>> print(widget.render())
+    <div class="multi-widget">
+        <div id="widget-id-0-row" class="row">
+              <div class="label">
+                <label for="widget-id-key-0">
+                  <span>Number</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+              <div class="widget">
+                  <div class="multi-widget-input-key">
+        <input id="widget-id-key-0" name="widget.name.key.0" class="text-widget required int-field" value="1" type="text" />
+    </div>
+              </div>
+            <div class="label">
+              <label for="widget-id-0">
+                <span>Number</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <div class="multi-widget-checkbox">
+                <input id="widget-id-0-remove" name="widget.name.0.remove" class="multi-widget-checkbox checkbox-widget" type="checkbox" value="1" />
+              </div>
+              <div class="multi-widget-input">
+        <input id="widget-id-0" name="widget.name.0" class="text-widget required int-field" value="42" type="text" />
+    </div>
+            </div>
+        </div>
+        <div id="widget-id-1-row" class="row">
+              <div class="label">
+                <label for="widget-id-key-1">
+                  <span>Number</span>
+                  <span class="required">*</span>
+                </label>
+              </div>
+      <div class="error">Duplicate key</div>
+              <div class="widget">
+                  <div class="multi-widget-input-key">
+        <input id="widget-id-key-1" name="widget.name.key.1" class="text-widget required int-field" value="1" type="text" />
+    </div>
+              </div>
+            <div class="label">
+              <label for="widget-id-1">
+                <span>Number</span>
+                <span class="required">*</span>
+              </label>
+            </div>
+            <div class="widget">
+              <div class="multi-widget-checkbox">
+                <input id="widget-id-1-remove" name="widget.name.1.remove" class="multi-widget-checkbox checkbox-widget" type="checkbox" value="1" />
+              </div>
+              <div class="multi-widget-input">
+        <input id="widget-id-1" name="widget.name.1" class="text-widget required int-field" value="43" type="text" />
+    </div>
+            </div>
+        </div>
+      <div class="buttons">
+    <input id="widget-name-buttons-add" name="widget.name.buttons.add" class="submit-widget button-field" value="Add" type="submit" />
+    <input id="widget-name-buttons-remove" name="widget.name.buttons.remove" class="submit-widget button-field" value="Remove selected" type="submit" />
+       </div>
+    </div>
+    <input type="hidden" name="widget.name.count" value="2" />
+
 
 Displaying
 ----------
@@ -836,6 +1054,67 @@ for our multi widget and the data converter dispatcher adapter:
     </div>
   </div>
 
+We can also use the multi widget with dictionaries
+
+  >>> field = zope.schema.Dict(
+  ...     __name__=u'foo',
+  ...     key_type=zope.schema.Int(title=u'Number'),
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.value = [(u'1', u'42'), (u'2', u'43')]
+  >>> print(widget.render())
+  <div class="multi-widget" id="widget-id">
+    <div class="row" id="widget-id-0-row">
+      <div class="label">
+        <label for="widget-id-key-0">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-key-0">1</span>
+        </div>
+      </div>
+      <div class="label">
+        <label for="widget-id-0">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-0">42</span>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="widget-id-1-row">
+      <div class="label">
+        <label for="widget-id-key-1">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-key-1">2</span>
+        </div>
+      </div>
+      <div class="label">
+        <label for="widget-id-1">
+          <span>Number</span>
+          <span class="required">*</span>
+        </label>
+      </div>
+      <div class="widget">
+        <div class="multi-widget-display">
+          <span class="text-widget required int-field" id="widget-id-1">43</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 Hidden mode
 -----------
@@ -909,6 +1188,26 @@ for our multi widget and the data converter dispatcher adapter:
   >>> print(widget.render())
   <input class="hidden-widget"
          id="widget-id-0" name="widget.name.0" type="hidden" value="42">
+  <input class="hidden-widget"
+         id="widget-id-1" name="widget.name.1" type="hidden" value="43">
+  <input name="widget.name.count" type="hidden" value="2">
+
+We can also use the multi widget with dictionaries
+
+  >>> field = zope.schema.Dict(
+  ...     __name__=u'foo',
+  ...     key_type=zope.schema.Int(title=u'Number'),
+  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     )
+  >>> widget.field = field
+  >>> widget.value = [(u'1', u'42'), (u'2', u'43')]
+  >>> print(widget.render())
+  <input class="hidden-widget"
+         id="widget-id-key-0" name="widget.name.key.0" type="hidden" value="1">
+  <input class="hidden-widget"
+         id="widget-id-0" name="widget.name.0" type="hidden" value="42">
+  <input class="hidden-widget"
+         id="widget-id-key-1" name="widget.name.key.1" type="hidden" value="2">
   <input class="hidden-widget"
          id="widget-id-1" name="widget.name.1" type="hidden" value="43">
   <input name="widget.name.count" type="hidden" value="2">

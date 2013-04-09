@@ -400,6 +400,47 @@ class MultiConverter(BaseDataConverter):
         collectionType = self.field._type
         return collectionType(values)
 
+class DictMultiConverter(BaseDataConverter):
+    """Data converter for IMultiWidget."""
+
+    zope.component.adapts(
+        zope.schema.interfaces.IDict, interfaces.IMultiWidget)
+
+    def _getConverter(self, field):
+        # We rely on the default registered widget, this is probably a
+        # restriction for custom widgets. If so use your own MultiWidget and
+        # register your own converter which will get the right widget for the
+        # used value_type.
+        widget = zope.component.getMultiAdapter((field, self.widget.request),
+            interfaces.IFieldWidget)
+        if interfaces.IFormAware.providedBy(self.widget):
+            # form property required by objectwidget
+            widget.form = self.widget.form
+            zope.interface.alsoProvides(widget, interfaces.IFormAware)
+        converter = zope.component.getMultiAdapter((field, widget),
+            interfaces.IDataConverter)
+        return converter
+
+
+    def toWidgetValue(self, value):
+        """Just dispatch it."""
+        if value is self.field.missing_value:
+            return {}
+        converter = self._getConverter(self.field.value_type)
+        key_converter = self._getConverter(self.field.key_type)
+
+        # we always return a list of values for the widget
+        return [(key_converter.toWidgetValue(k), converter.toWidgetValue(v)) for k,v in value.items()]
+
+    def toFieldValue(self, value):
+        """Just dispatch it."""
+        if not len(value):
+            return self.field.missing_value
+
+        converter = self._getConverter(self.field.value_type)
+        key_converter = self._getConverter(self.field.key_type)
+
+        return dict([(key_converter.toFieldValue(k), converter.toFieldValue(v)) for k,v in value])
 
 class BoolSingleCheckboxDataConverter(BaseDataConverter):
     "A special converter between boolean fields and single checkbox widgets."

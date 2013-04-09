@@ -5,14 +5,13 @@ CHANGES
 3.0.0a4 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Added support for IDict Widget in MultiWidget.
 
 
 3.0.0a3 (2013-04-08)
 --------------------
 
 - Updated pt_BR translation.
-
 - Fixed a bug where file input value was interpeted as UTF-8.
 
 

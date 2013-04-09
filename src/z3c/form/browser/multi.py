@@ -73,17 +73,16 @@ class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
     @button.buttonAndHandler(_('Remove selected'), name='remove',
                              condition=attrgetter('allowRemoving'))
     def handleRemove(self, action):
-        self.widgets = [widget for widget in self.widgets
-                        if ('%s.remove' % (widget.name)) not in self.request]
-        self.value = [widget.value for widget in self.widgets]
+        self.removeWidgets([widget.name for widget in self.widgets
+                        if ('%s.remove' % (widget.name)) in self.request])
 
 @zope.interface.implementer(interfaces.IFieldWidget)
 def multiFieldWidgetFactory(field, request):
-    """IFieldWidget factory for TextLinesWidget."""
+    """IFieldWidget factory for MultiWidget."""
     return widget.FieldWidget(field, MultiWidget(request))
 
 
 @zope.interface.implementer(interfaces.IFieldWidget)
 def MultiFieldWidget(field, value_type, request):
-    """IFieldWidget factory for TextLinesWidget."""
+    """IFieldWidget factory for MultiWidget."""
     return multiFieldWidgetFactory(field, request)

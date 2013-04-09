@@ -427,11 +427,11 @@ fields storage stub ...
 and a ``FileUpload`` component:
 
   >>> try:
-  ...     from cStringIO import StringIO
+  ...     from cStringIO import StringIO as BytesIO
   ... except ImportError:
-  ...     from io import StringIO
+  ...     from io import BytesIO
   >>> from zope.publisher.browser import FileUpload
-  >>> myfile = StringIO('File upload contents.')
+  >>> myfile = BytesIO(b'File upload contents.')
   >>> aFieldStorage = FieldStorageStub(myfile)
   >>> myUpload = FileUpload(aFieldStorage)
 
@@ -457,7 +457,7 @@ the upload, since you are normaly not able to upload a file without a filename:
   ...         self.file = file
   ...         self.headers = {}
   ...         self.filename = ''
-  >>> myfile = StringIO('')
+  >>> myfile = BytesIO(b'')
   >>> aFieldStorage = EmptyFilenameFieldStorageStub(myfile)
   >>> myUpload = FileUpload(aFieldStorage)
   >>> bytes = zope.schema.Bytes()
@@ -481,8 +481,7 @@ There is also a ``ValueError`` if we don't get a seekable file from the
 When converting to the widget value, not conversion should be done, since
 bytes are not convertable in that sense.
 
-  >>> fudc.toWidgetValue(b'bytes')
-  'bytes'
+  >>> fudc.toWidgetValue(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x04')
 
 When the file upload widget is not used and a text-based widget is desired,
 then the regular field data converter will be chosen. Using a text widget,

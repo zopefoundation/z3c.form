@@ -342,7 +342,7 @@ Bytes
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> widget.render().strip('\r\n')
-  u'<span id="foo" class="file-widget required bytes-field">Default bytes</span>'
+  u'<span id="foo" class="file-widget required bytes-field"></span>'
 
 Calling the widget will return the widget including the layout
 
@@ -355,7 +355,7 @@ Calling the widget will return the widget including the layout
       </label>
     </div>
     <div class="widget">
-  <span id="foo" class="file-widget required bytes-field">Default bytes</span>
+  <span id="foo" class="file-widget required bytes-field"></span>
   </div>
   </div>
 

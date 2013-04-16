@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""T Widget Implementation
+"""File Widget Implementation
 
 $Id$
 """

@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Text Widget Implementation
+"""Select Widget Implementation
 
 $Id$
 """

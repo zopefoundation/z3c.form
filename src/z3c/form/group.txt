@@ -216,7 +216,7 @@ happens, if errors happen inside and outside a group?
   >>> print(testing.render(add, './/xmlns:i'))
   <i>There were some errors.</i>
 
-  >>> print(testing.render(add, './/xmlns:ul[1]'))
+  >>> print(testing.render(add, './/xmlns:ul'))
   <ul>
     <li>
     Last Name:
@@ -828,7 +828,7 @@ invalid object for the test missing input errors:
   >>> print(testing.render(edit, './/xmlns:i'))
   <i >There were some errors.</i>
 
-  >>> print(testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul'))
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
   <ul>
     <li>
     License:
@@ -985,7 +985,7 @@ Now test the error handling if just one missing value is given in a group:
   >>> print(testing.render(edit, './/xmlns:i'))
   <i >There were some errors.</i>
 
-  >>> print(testing.render(edit, './/xmlns:fieldset[1]/xmlns:ul'))
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
   <ul>
     <li>
     Last Name:

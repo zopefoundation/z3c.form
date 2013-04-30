@@ -117,6 +117,7 @@ setup(
         'setuptools',
         'six',
         'zope.browser',
+        'zope.browserpage',
         'zope.browserresource',
         'zope.component',
         'zope.configuration',

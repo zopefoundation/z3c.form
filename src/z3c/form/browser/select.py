@@ -70,7 +70,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
 
         def addItem(idx, term, prefix=''):
             selected = self.isSelected(term)
-            if selected:
+            if selected and term.token in ignored:
                 ignored.remove(term.token)
             id = '%s-%s%i' % (self.id, prefix, idx)
             content = term.token

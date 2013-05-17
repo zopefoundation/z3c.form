@@ -835,7 +835,7 @@ After adding a template, we can look at the form:
         <div class="row">
             <label for="form-widgets-id">ID</label>
             <span id="form-widgets-id"
-                  class="text-widget required textline-field">srichter</span>
+                  class="text-widget textline-field">srichter</span>
         </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
@@ -901,7 +901,7 @@ Let's now submit the form having some invalid data.
         <div class="row">
             <label for="form-widgets-id">ID</label>
             <span id="form-widgets-id"
-                  class="text-widget required textline-field">srichter</span>
+                  class="text-widget textline-field">srichter</span>
         </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
@@ -1080,7 +1080,7 @@ We can now use the form as usual:
         <div class="row">
           <label for="form-widgets-id">ID</label>
           <span id="form-widgets-id"
-                class="text-widget required textline-field">rineichen</span>
+                class="text-widget textline-field">rineichen</span>
         </div>
         <div class="row">
           <label for="form-widgets-name">Full Name</label>
@@ -1158,11 +1158,11 @@ Creating a display form is simple; just instantiate, update and render it:
     <body>
       <div class="row">
         <span id="form-widgets-id"
-              class="text-widget required textline-field">srichter</span>
+              class="text-widget textline-field">srichter</span>
       </div>
       <div class="row">
         <span id="form-widgets-name"
-              class="text-widget required textline-field">Claudia Richter</span>
+              class="text-widget textline-field">Claudia Richter</span>
       </div>
       <div class="row">
         <span id="form-widgets-gender"

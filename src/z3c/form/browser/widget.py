@@ -19,6 +19,7 @@ __docformat__ = "reStructuredText"
 import zope.interface
 from zope.schema.fieldproperty import FieldProperty
 
+from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.browser import interfaces
 
@@ -168,7 +169,7 @@ class HTMLFormElement(WidgetLayoutSupport):
     def update(self):
         """See z3c.form.interfaces.IWidget"""
         super(HTMLFormElement, self).update()
-        if self.required:
+        if self.mode == INPUT_MODE and self.required:
             self.addClass('required')
 
 

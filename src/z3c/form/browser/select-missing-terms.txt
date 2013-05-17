@@ -211,7 +211,7 @@ Let's see what happens if we have values that are not in the vocabulary:
   >>> widget.value = ['0', '1', 'x']
   >>> widget.update()
   >>> print(widget.render())
-  <span id="widget-id" class="select-widget required">
+  <span id="widget-id" class="select-widget">
     <span class="selected-option">bad</span>,
     <span class="selected-option">okay</span>,
     <span class="selected-option">Missing: x</span>

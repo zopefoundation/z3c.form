@@ -941,7 +941,7 @@ Simple but often used use-case is the display form:
       <form action=".">
         <div class="row">
           <label for="form-widgets-subobject">my object</label>
-          <div class="object-widget required">
+          <div class="object-widget">
             <div class="label">
               <label for="form-widgets-subobject-widgets-foofield">
                 <span>My foo field</span>
@@ -949,7 +949,7 @@ Simple but often used use-case is the display form:
               </label>
             </div>
             <div class="widget">
-              <span class="text-widget required int-field"
+              <span class="text-widget int-field"
               id="form-widgets-subobject-widgets-foofield">666</span>
             </div>
             <div class="label">
@@ -965,7 +965,7 @@ Simple but often used use-case is the display form:
         </div>
         <div class="row">
           <label for="form-widgets-name">name</label>
-          <span class="text-widget required textline-field"
+          <span class="text-widget textline-field"
           id="form-widgets-name">first</span>
         </div>
         <div class="action">

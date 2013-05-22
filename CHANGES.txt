@@ -8,6 +8,10 @@ CHANGES
 - Only add the 'required' CSS class to widgets when they are in input mode.
 
 - Added support for IDict Widget in MultiWidget.
+- Catch bug where if a select value was set as from hidden input 
+  or through a rest url as a single value, it won't error out
+  when trying to remove from ignored list. Probably not the 100%
+  right fix but it catches core dumps and is sane anyways.
 
 
 3.0.0a3 (2013-04-08)

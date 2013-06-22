@@ -78,6 +78,7 @@ Now, there are several terms implementations that were designed for particular
 fields. Within the framework, terms are used as adapters with the follwoing
 discriminators: context, request, form, field, vocabulary/source and widget.
 
+
 Choice field
 ~~~~~~~~~~~~
 
@@ -134,7 +135,9 @@ We should now be able to get all terms as before:
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
 
+
 Missing terms
++++++++++++++
 
 Sometimes it happens that a term goes away from the vocabulary, but our
 stored objects still reference that term.
@@ -224,7 +227,7 @@ And an exception if it does not:
 
 
 Bool fields
-+++++++++++
+~~~~~~~~~~~
 
 A similar terms implementation exists for a ``Bool`` field:
 
@@ -245,8 +248,9 @@ can subclass the ``BoolTerms`` class to control the display labels.
   >>> [entry.title for entry in terms]
   [u'True', u'False']
 
+
 Collections
-+++++++++++
+~~~~~~~~~~~
 
 Finally, there are a terms adapters for all collections. But we have to
 register some adapters before using it:

@@ -2,8 +2,8 @@
 CHANGES
 =======
 
-3.0.0a4 (unreleased)
---------------------
+3.0 (2013-06-24)
+----------------
 
 - Only add the 'required' CSS class to widgets when they are in input mode.
 

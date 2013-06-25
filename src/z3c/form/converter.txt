@@ -1056,7 +1056,7 @@ If the list is empty, the missing value is returned:
   True
 
 Dict Multi Data Converter
---------------------
+-------------------------
 
 For multi widgets and fields that work with a dictionary of other basic types, a
 separate data converter is required. Let's create a dict of integers field and

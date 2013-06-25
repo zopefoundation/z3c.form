@@ -5,7 +5,8 @@ CHANGES
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- The alpha slipped out as 3.0.0, removed ``ZODB-4.0.0dev.tar.gz``
+  to reduce damage
 
 
 3.0 (2013-06-24)
@@ -14,7 +15,8 @@ CHANGES
 - Only add the 'required' CSS class to widgets when they are in input mode.
 
 - Added support for IDict Widget in MultiWidget.
-- Catch bug where if a select value was set as from hidden input 
+
+- Catch bug where if a select value was set as from hidden input
   or through a rest url as a single value, it won't error out
   when trying to remove from ignored list. Probably not the 100%
   right fix but it catches core dumps and is sane anyways.
@@ -24,6 +26,7 @@ CHANGES
 --------------------
 
 - Updated pt_BR translation.
+
 - Fixed a bug where file input value was interpeted as UTF-8.
 
 

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.0.1 (unreleased)
+3.0.1 (2013-06-25)
 ------------------
 
 - The alpha slipped out as 3.0.0, removed ``ZODB-4.0.0dev.tar.gz``

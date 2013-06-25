@@ -8,6 +8,8 @@ CHANGES
 - The alpha slipped out as 3.0.0, removed ``ZODB-4.0.0dev.tar.gz``
   to reduce damage
 
+- Fixed a bug in ``widget.py`` ``def wrapCSSClass``
+
 
 3.0 (2013-06-24)
 ----------------

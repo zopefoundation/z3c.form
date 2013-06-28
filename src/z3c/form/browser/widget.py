@@ -157,13 +157,8 @@ class HTMLFormElement(WidgetLayoutSupport):
         else:
             #make sure items are not repeated
             parts = self.klass.split()+[unicode(klass)]
-            seen = {}
             unique = []
-            for item in parts:
-                if item in seen:
-                    continue
-                seen[item]=1
-                unique.append(item)
+            [unique.append(kls) for kls in parts if kls not in unique]
             self.klass = u' '.join(unique)
 
     def update(self):

@@ -5,7 +5,7 @@ CHANGES
 3.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Refactoring code ``widget.py`` ``HTMLFormElement`` ``def addClass``
 
 
 3.0.1 (2013-06-25)

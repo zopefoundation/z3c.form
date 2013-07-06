@@ -19,6 +19,7 @@ __docformat__ = "reStructuredText"
 import zope.interface
 from zope.schema.fieldproperty import FieldProperty
 
+from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.browser import interfaces
 
@@ -31,7 +32,7 @@ except NameError:
 class WidgetLayoutSupport(object):
     """Widget layout support"""
 
-    def wrapCSSClass(self, klass, pattern='s(class)%'):
+    def wrapCSSClass(self, klass, pattern='%(class)s'):
         """Return a list of css class names wrapped with given pattern"""
         if klass is not None and pattern is not None:
             return [pattern % {'class': k} for k in klass.split()]
@@ -168,7 +169,7 @@ class HTMLFormElement(WidgetLayoutSupport):
     def update(self):
         """See z3c.form.interfaces.IWidget"""
         super(HTMLFormElement, self).update()
-        if self.required:
+        if self.mode == INPUT_MODE and self.required:
             self.addClass('required')
 
 

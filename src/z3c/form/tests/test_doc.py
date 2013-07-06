@@ -141,12 +141,12 @@ def test_suite():
         for setUp in setups)
 
     if ADDING_AVAILABLE:
-        tests += ((
+        tests = itertools.chain(tests, ((
         doctest.DocFileSuite(
             '../adding.txt',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
             ),)
-        for setUp in setups)
+        for setUp in setups))
 
     return unittest.TestSuite(itertools.chain(*tests))

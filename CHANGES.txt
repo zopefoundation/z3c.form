@@ -2,16 +2,38 @@
 CHANGES
 =======
 
-3.0.0a4 (unreleased)
---------------------
+3.0.2 (unreleased)
+------------------
+
+- Fix unicode decode error in weird cases in checkbox.CheckboxWidget.update and radio.RadioWidget.update (eg: when term.value is an Plone Archetype ATFile)
+
+3.0.1 (2013-06-25)
+------------------
+
+- The alpha slipped out as 3.0.0, removed ``ZODB-4.0.0dev.tar.gz``
+  to reduce damage
+
+- Fixed a bug in ``widget.py`` ``def wrapCSSClass``
+
+
+3.0 (2013-06-24)
+----------------
+
+- Only add the 'required' CSS class to widgets when they are in input mode.
 
 - Added support for IDict Widget in MultiWidget.
+
+- Catch bug where if a select value was set as from hidden input
+  or through a rest url as a single value, it won't error out
+  when trying to remove from ignored list. Probably not the 100%
+  right fix but it catches core dumps and is sane anyways.
 
 
 3.0.0a3 (2013-04-08)
 --------------------
 
 - Updated pt_BR translation.
+
 - Fixed a bug where file input value was interpeted as UTF-8.
 
 

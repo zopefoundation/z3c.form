@@ -162,16 +162,14 @@ msgstr "La fabrique de widgets."
 
 #: src/z3c/form/interfaces.py:215 src/z3c/form/interfaces.py:467
 msgid "Show default value"
-msgstr ""
+msgstr "Montrer la valeur par défaut"
 
 #: src/z3c/form/interfaces.py:216 src/z3c/form/interfaces.py:468
-#, fuzzy
 msgid ""
 "A flag, when set, makes the widget to displayfield|adapter provided default "
 "values."
 msgstr ""
-"Un marqueur qui force le widget à ne pas tenir compte du contexte pour sa "
-"valeur."
+"Un marqueur qui force le widget à montrer la valeur par défaut."
 
 #: src/z3c/form/interfaces.py:349
 msgid "True-value Label"
@@ -275,15 +273,15 @@ msgstr ""
 "extract()."
 
 #: src/z3c/form/interfaces.py:460
-#, fuzzy
 msgid "Ignore Required validation"
-msgstr "Ignorer la requête"
+msgstr "Ignorer la validation des champs requis"
 
 #: src/z3c/form/interfaces.py:461
 msgid ""
 "If set then required fields will pass validation regardless whether they're "
 "filled in or not"
-msgstr ""
+msgstr "Si défini, les champs requis passent la validation, qu'ils soient "
+"remplis ou non"
 
 #: src/z3c/form/interfaces.py:516
 msgid "NO_VALUE Token"
@@ -310,7 +308,7 @@ msgid ""
 "A flag, when set, enables a choice explicitely requesting the user to choose "
 "a value."
 msgstr ""
-"Un marqueur qui active un choix forçant l'utilisateur à choisir une valeur"
+"Un marqueur qui active une invite forçant l'utilisateur à choisir une valeur"
 
 #: src/z3c/form/interfaces.py:557
 msgid "Items"
@@ -369,13 +367,14 @@ msgstr "Si défini, les champs en lecture seule sont aussi affichés."
 
 #: src/z3c/form/interfaces.py:652 src/z3c/form/interfaces.py:922
 msgid "Ignore Required validation on extract"
-msgstr ""
+msgstr "Ignorer la validation deschamps requis à l'extraction du formulaire"
 
 #: src/z3c/form/interfaces.py:653 src/z3c/form/interfaces.py:923
 msgid ""
 "If set then required fields will pass validation on extract regardless "
 "whether they're filled in or not"
-msgstr ""
+msgstr "Si défini, les champs requis passent la validation lors de l'extraction "
+"du formulaire, qu'ils soient remplis ou non"
 
 #: src/z3c/form/interfaces.py:659
 msgid "Has required fields"
@@ -586,15 +585,13 @@ msgstr ""
 "Un gestionnaire de champs décrivant les champs à utiliser dans le formulaire."
 
 #: src/z3c/form/interfaces.py:1073
-#, fuzzy
 msgid "Content providers"
-msgstr "Type de contenu"
+msgstr "Fournisseur de contenu"
 
 #: src/z3c/form/interfaces.py:1074
-#, fuzzy
 msgid "A manager describing the content providers to be used for the form."
 msgstr ""
-"Un gestionnaire de boutons décrivant les boutons à utiliser dans le "
+"Un gestionnaire décrivant les fournisseurs de contenu à utiliser dans le "
 "formulaire."
 
 #: src/z3c/form/interfaces.py:1082
@@ -613,7 +610,7 @@ msgstr "Le widget pour lequel l'événement a été créé."
 
 #: src/z3c/form/term.py:153
 msgid "Missing: ${value}"
-msgstr ""
+msgstr "Valeur manquante: ${value}"
 
 #: src/z3c/form/term.py:205
 msgid "yes"

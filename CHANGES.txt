@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.0.2 (unreleased)
+3.0.2 (2013-08-14)
 ------------------
 
 - Fix unicode decode error in weird cases in checkbox.CheckboxWidget.update and radio.RadioWidget.update (eg: when term.value is an Plone Archetype ATFile)

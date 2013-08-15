@@ -17,9 +17,9 @@ examples:
   >>> from z3c.form import testing
   >>> testing.setupFormDefaults()
 
-Note, since version 2.4.2 the IFomrLayer doesn't provide IBrowserRequest
-anymore. This is usefull if you like to use z3c.form components for other
-requets then the IBrowserRequest.
+Note, since version 2.4.2 the IFormLayer doesn't provide IBrowserRequest
+anymore. This is useful if you like to use z3c.form components for other
+requests than the IBrowserRequest.
 
   >>> from zope.publisher.interfaces.browser import IBrowserRequest
   >>> import z3c.form.interfaces

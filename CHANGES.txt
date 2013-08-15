@@ -13,6 +13,9 @@ CHANGES
   when trying to remove from ignored list. Probably not the 100%
   right fix but it catches core dumps and is sane anyways.
 
+- Version 2.9 introduced a solution for missing terms in
+  vocabularies. Adapted sources to this solution, too.
+
 
 3.0.0a3 (2013-04-08)
 --------------------

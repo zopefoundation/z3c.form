@@ -78,6 +78,7 @@ Now, there are several terms implementations that were designed for particular
 fields. Within the framework, terms are used as adapters with the follwoing
 discriminators: context, request, form, field, vocabulary/source and widget.
 
+
 Choice field
 ~~~~~~~~~~~~
 
@@ -134,7 +135,9 @@ We should now be able to get all terms as before:
   >>> [entry.title for entry in terms]
   [u'bad', u'okay', u'good']
 
+
 Missing terms
++++++++++++++
 
 Sometimes it happens that a term goes away from the vocabulary, but our
 stored objects still reference that term.
@@ -224,7 +227,7 @@ And an exception if it does not:
 
 
 Bool fields
-+++++++++++
+~~~~~~~~~~~
 
 A similar terms implementation exists for a ``Bool`` field:
 
@@ -245,8 +248,9 @@ can subclass the ``BoolTerms`` class to control the display labels.
   >>> [entry.title for entry in terms]
   [u'True', u'False']
 
+
 Collections
-+++++++++++
+~~~~~~~~~~~
 
 Finally, there are a terms adapters for all collections. But we have to
 register some adapters before using it:
@@ -338,6 +342,90 @@ With can test if a value is in the source:
   True
   >>> 25 in terms
   False
+
+Missing terms
+#############
+
+Sometimes it happens that a value goes away from the source, but our
+stored objects still has this value.
+
+  >>> zope.component.provideAdapter(term.MissingChoiceTermsSource)
+
+  >>> terms = term.ChoiceTerms(
+  ...     None, request, None, sourceRatingField, widget)
+  >>> terms.getTermByToken('42')
+  Traceback (most recent call last):
+  ...
+  LookupError: 42
+
+The same goes with looking up a term by value:
+
+  >>> terms.getTerm('42')
+  Traceback (most recent call last):
+  ...
+  LookupError: 42
+
+Ooops, well this works only if the context has the right value for us.
+This is because we don't want to accept any crap that's coming from HTML.
+
+  >>> class IRating(zope.interface.Interface):
+  ...     rating = zope.schema.Choice(title=u'Sourced Rating',
+  ...                                 source=RatingSourceFactory())
+  >>> @zope.interface.implementer(IRating)
+  ... class Rating(object):
+  ...     rating = None
+
+  >>> ctx = Rating()
+  >>> ctx.rating = 42
+
+  >>> ratingWidget = z3c.form.widget.Widget(request)
+  >>> ratingWidget.context = ctx
+  >>> from z3c.form import interfaces
+  >>> zope.interface.alsoProvides(ratingWidget, interfaces.IContextAware)
+  >>> from z3c.form.datamanager import AttributeField
+  >>> zope.component.provideAdapter(AttributeField)
+
+  >>> terms = term.ChoiceTerms(
+  ...     ctx, request, None, IRating['rating'], ratingWidget)
+
+Here we go:
+
+  >>> missingTerm = terms.getTermByToken('42')
+
+We get the term, we passed the token, the value is coming from the context.
+
+  >>> missingTerm.token
+  '42'
+  >>> missingTerm.value
+  42
+
+We cannot figure the title, so we construct one.
+Override ``makeMissingTerm`` if you want your own.
+
+  >>> missingTerm.title
+  u'Missing: ${value}'
+
+Still we raise LookupError if the token does not fit the context's value:
+
+  >>> missingTerm = terms.getTermByToken('99')
+  Traceback (most recent call last):
+  ...
+  LookupError: 99
+
+The same goes with looking up a term by value.
+We get the term if the context's value fits:
+
+  >>> missingTerm = terms.getTerm(42)
+  >>> missingTerm.token
+  '42'
+
+And an exception if it does not:
+
+  >>> missingTerm = terms.getTerm(99)
+  Traceback (most recent call last):
+  ...
+  LookupError: 99
+
 
 Collections
 +++++++++++

@@ -10,7 +10,7 @@
       factory=".term.MissingChoiceTermsVocabulary"
       />
   <adapter
-      factory=".term.ChoiceTermsSource"
+      factory=".term.MissingChoiceTermsSource"
       />
   <adapter
       factory=".term.CollectionTerms"

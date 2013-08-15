@@ -16,8 +16,9 @@
 $Id$
 """
 
-import zope.browser
+import zope.browser.interfaces
 import zope.component
+import zope.interface
 import zope.schema
 from zope.schema import vocabulary
 
@@ -64,12 +65,19 @@ class SourceTerms(Terms):
             (self.source, self.request),
             zope.browser.interfaces.ITerms)
 
+    def getTerm(self, value):
+        try:
+            return super(SourceTerms, self).getTerm(value)
+        except KeyError:
+            raise LookupError(value)
+
     def getTermByToken(self, token):
         # This is rather expensive
         for value in self.source:
             term = self.getTerm(value)
             if term.token == token:
                 return term
+        raise LookupError(token)
 
     def getValue(self, token):
         return self.terms.getValue(token)
@@ -128,7 +136,7 @@ class MissingTermsMixin(object):
 
     def getTerm(self, value):
         try:
-            return self.terms.getTerm(value)
+            return super(MissingTermsMixin, self).getTerm(value)
         except LookupError:
             if (interfaces.IContextAware.providedBy(self.widget) and
                 not self.widget.ignoreContext):
@@ -153,7 +161,7 @@ class MissingTermsMixin(object):
 
     def getTermByToken(self, token):
         try:
-            return self.terms.getTermByToken(token)
+            return super(MissingTermsMixin, self).getTermByToken(token)
         except LookupError:
             if (interfaces.IContextAware.providedBy(self.widget) and
                 not self.widget.ignoreContext):
@@ -186,6 +194,11 @@ class ChoiceTermsSource(SourceTerms):
         zope.schema.interfaces.IChoice,
         zope.schema.interfaces.IIterableSource,
         interfaces.IWidget)
+
+
+class MissingChoiceTermsSource(MissingTermsMixin, ChoiceTermsSource):
+    """ITerms adapter for zope.schema.IChoice based implementations using source
+       with missing terms support."""
 
 
 @zope.interface.implementer_only(interfaces.IBoolTerms)
@@ -267,3 +280,8 @@ class CollectionTermsSource(SourceTerms):
         zope.schema.interfaces.ICollection,
         zope.schema.interfaces.IIterableSource,
         interfaces.IWidget)
+
+
+class MissingCollectionTermsSource(MissingTermsMixin, CollectionTermsSource):
+    """ITerms adapter for zope.schema.ICollection based implementations using
+    source with missing terms support."""

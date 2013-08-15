@@ -5,7 +5,8 @@ CHANGES
 3.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Version 2.9 introduced a solution for missing terms in
+  vocabularies. Adapted sources to this solution, too.
 
 
 3.0.2 (2013-08-14)

@@ -5,7 +5,7 @@ CHANGES
 3.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed a typo in German translations.
 
 
 3.0.3 (2013-09-06)

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.0.3 (unreleased)
+3.0.3 (2013-09-06)
 ------------------
 
 - Version 2.9 introduced a solution for missing terms in

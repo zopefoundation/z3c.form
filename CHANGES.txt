@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.0.4 (unreleased)
+3.0.4 (2013-10-06)
 ------------------
 
 - Fixed a typo in German translations.

@@ -1,4 +1,5 @@
 *.pyc
+*.mo
 __pycache__
 src/*.egg-info
 benchmark/*.egg-info

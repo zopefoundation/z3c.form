@@ -5,6 +5,8 @@ CHANGES
 3.0.4 (unreleased)
 ------------------
 
+- Added a consistent id on ordered selection widget.
+
 - Fixed a typo in German translations.
 
 

@@ -6,6 +6,7 @@ benchmark/*.egg-info
 .installed.cfg
 .tox
 bin
+coverage
 develop-eggs
 docs
 parts

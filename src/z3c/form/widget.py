@@ -417,17 +417,21 @@ class MultiWidget(Widget):
                 self.widgets.append(widget)
 
                 if self.is_dict:
+                    # This is needed, since sequence widgets (such as for
+                    # choices) return lists of values.
+                    hash_key = key if not isinstance(key, list) else tuple(key)
                     widget = self.getWidget(idx, "key", "key_type")
                     self.applyValue(widget, key)
-                    if key in keys and widget.error is None:
+                    if hash_key in keys and widget.error is None:
                         error = zope.interface.Invalid(u'Duplicate key')
                         view = zope.component.getMultiAdapter(
                             (error, self.request, widget, widget.field,
-                             self.form, self.context), interfaces.IErrorViewSnippet)
+                             self.form, self.context),
+                            interfaces.IErrorViewSnippet)
                         view.update()
                         widget.error = view
                     self.key_widgets.append(widget)
-                    keys.add(key)
+                    keys.add(hash_key)
                 else:
                     #makes the template easier to have this the same length
                     self.key_widgets.append(None)

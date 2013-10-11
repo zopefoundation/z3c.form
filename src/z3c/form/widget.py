@@ -346,7 +346,7 @@ class MultiWidget(Widget):
         :param names: list of widget.name to remove from the value
         :return: None
         """
-        zipped = zip(self.key_widgets,self.widgets)
+        zipped = list(zip(self.key_widgets,self.widgets))
         self.key_widgets = [k for k,v in zipped if v.name not in names]
         self.widgets = [v for k,v in zipped if v.name not in names]
         if self.is_dict:

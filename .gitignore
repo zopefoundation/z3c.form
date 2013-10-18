@@ -3,7 +3,8 @@
 __pycache__
 src/*.egg-info
 benchmark/*.egg-info
-
+.project
+.pydevproject
 .installed.cfg
 .tox
 bin

@@ -2,84 +2,102 @@
 CHANGES
 =======
 
-3.0.4 (unreleased)
+3.0.6 (unreleased)
 ------------------
 
 - Added a consistent id on ordered selection widget.
 
-- Fixed a typo in German translations.
+
+3.0.5 (2013-10-09)
+------------------
+
+- Bug: Remove errors for cases where the key field of a dict field uses a
+  sequence widget (most notably choices). The sequence widget always returns
+  lists as widget values, which are not hashable. We convert those lists to
+  tuples now within the dict support.
+
+
+3.0.4 (2013-10-06)
+------------------
+
+- Feature: Moved registration of translation directories to a separate ZCML
+  file.
+
+- Bug: Fixed a typo in German translations.
 
 
 3.0.3 (2013-09-06)
 ------------------
 
-- Version 2.9 introduced a solution for missing terms in
+- Feature: Version 2.9 introduced a solution for missing terms in
   vocabularies. Adapted sources to this solution, too.
 
 
 3.0.2 (2013-08-14)
 ------------------
 
-- Fix unicode decode error in weird cases in checkbox.CheckboxWidget.update and radio.RadioWidget.update (eg: when term.value is an Plone Archetype ATFile)
+- Bug: Fix unicode decode error in weird cases in
+  ``checkbox.CheckboxWidget.update()`` and ``radio.RadioWidget.update()`` (eg:
+  when ``term.value`` is an Plone Archetype ATFile)
 
 3.0.1 (2013-06-25)
 ------------------
 
-- The alpha slipped out as 3.0.0, removed ``ZODB-4.0.0dev.tar.gz``
+- Bug: The alpha slipped out as 3.0.0, removed ``ZODB-4.0.0dev.tar.gz``
   to reduce damage
 
-- Fixed a bug in ``widget.py`` ``def wrapCSSClass``
+- Bug: Fixed a bug in ``widget.py`` ``def wrapCSSClass``
 
 
-3.0 (2013-06-24)
-----------------
+3.0.0 (2013-06-24)
+------------------
 
-- Only add the 'required' CSS class to widgets when they are in input mode.
+- Feature: Added support for ``IDict`` field in ``MultiWidget``.
 
-- Added support for IDict Widget in MultiWidget.
+- Bug: Only add the 'required' CSS class to widgets when they are in input mode.
 
-- Catch bug where if a select value was set as from hidden input
-  or through a rest url as a single value, it won't error out
-  when trying to remove from ignored list. Probably not the 100%
-  right fix but it catches core dumps and is sane anyways.
+- Bug: Catch bug where if a select value was set as from hidden input or
+  through a rest url as a single value, it won't error out when trying to
+  remove from ignored list. Probably not the 100% right fix but it catches
+  core dumps and is sane anyways.
 
 
 3.0.0a3 (2013-04-08)
 --------------------
 
-- Updated pt_BR translation.
+- Feature: Updated pt_BR translation.
 
-- Fixed a bug where file input value was interpeted as UTF-8.
+- Bug: Fixed a bug where file input value was interpeted as UTF-8.
 
 
 3.0.0a2 (2013-02-26)
 --------------------
 
-- The 3.0.0a1 release was missing some files (e.g. locales) due to an
-  incomplete MANIFEST.in.
+- Bug: The 3.0.0a1 release was missing some files (e.g. ``locales``) due to an
+  incomplete ``MANIFEST.in``.
 
 
 3.0.0a1 (2013-02-24)
 --------------------
 
-- Removed several parts to be installed by default, since some packages are
-  not ported yet.
+- Feature: Removed several parts to be installed by default, since some
+  packages are not ported yet.
 
-- Added support for Python 3.3.
+- Feature: Added support for Python 3.3.
 
-- Replaced deprecated ``zope.interface.implements`` usage with equivalent
-  ``zope.interface.implementer`` decorator.
+- Feature: Replaced deprecated ``zope.interface.implements`` usage with
+  equivalent ``zope.interface.implementer`` decorator.
 
-- Dropped support for Python 2.4 and 2.5.
+- Feature: Dropped support for Python 2.4 and 2.5.
 
-- Make sure the call to the method that returns the default value
+- Bug: Make sure the call to the method that returns the default value
   is made with a field which has its context bound.
 
 
 2.9.1 (2012-11-27)
 ------------------
 
-- The ``updateWidgets`` method has learned an argument
+- Feautre: The ``updateWidgets`` method has received an argument
   ``prefix`` which allows setting the prefix of the field widgets
   adapter.
 
@@ -87,32 +105,34 @@ CHANGES
   widgets are updated, useful for situations where neither a form, nor
   a widgets prefix is desired.
 
-- Capitalize the messages 'no value' and 'select a value'. This change
+- Bug: Capitalize the messages 'no value' and 'select a value'. This change
   has been applied also to the existing translations (where applicable).
 
-- ``TextLinesConverter``: do not ignore newlines at the end of the inputted
-  string, thus do not eat blank items
+- Bug: ``TextLinesConverter``: Do not ignore newlines at the end of the
+  inputted string, thus do not eat blank items
 
-- ``TextLinesConverter``: toFieldValue, convert conversion exceptions to
-  ``FormatterValidationError``, for cases like got a string instead of int
+- Bug: ``TextLinesConverter``: ``toFieldValue()``, convert conversion
+  exceptions to ``FormatterValidationError``, for cases like got a string
+  instead of int.
 
 2.9.0 (2012-09-17)
 ------------------
 
-- Missing terms in vocabularies: this was a pain until now.
+- Feature: Missing terms in vocabularies: this was a pain until now.
   Now it's possible to have the same (missing) value unchanged on the object
   with an EditForm after save as it was before editing.
   That brings some changes with it:
 
-  - *MAJOR*: unchanged values/fields do not get validated anymore
+  * *MAJOR*: unchanged values/fields do not get validated anymore
     (unless they are empty or are FileUploads)
-  - A temporary ``SimpleTerm`` gets created for the missing value
+
+  * A temporary ``SimpleTerm`` gets created for the missing value
     Title is by default "Missing: ${value}". See MissingTermsMixin.
 
-- Split ``configure.zcml``
+- Feature: Split ``configure.zcml``
 
-- ``SequenceWidget`` DISPLAY_MODE: silently ignore missing tokens,
-  because INPUT_MODE and HIDDEN_MODE does that too
+- Bug: ``SequenceWidget`` DISPLAY_MODE: silently ignore missing tokens,
+  because INPUT_MODE and HIDDEN_MODE does that too.
 
 2.8.2 (2012-08-17)
 ------------------

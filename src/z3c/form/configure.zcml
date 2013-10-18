@@ -31,9 +31,8 @@
   <include file="error.zcml" />
   <include file="term.zcml" />
   <include file="validator.zcml" />
+  <include file="translation.zcml" />
 
   <include package=".browser" />
-
-  <i18n:registerTranslations directory="locales" />
 
 </configure>

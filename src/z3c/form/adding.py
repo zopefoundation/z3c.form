@@ -21,9 +21,6 @@ from z3c.form import form
 class AddForm(form.AddForm):
     """An addform for the IAdding interface."""
 
-    def create(self, data):
-        raise NotImplementedError
-
     def add(self, object):
         ob = self.context.add(object)
         self._finishedAdd = True

@@ -47,7 +47,7 @@ If we render the widget we get an empty widget:
   <script type="text/javascript">
   ...
   </script>
-  <table border="0" class="ordered-selection-field">
+  <table border="0" class="ordered-selection-field" id="widget-id">
     <tr>
       <td>
         <select id="widget-id-from" name="widget.name.from"

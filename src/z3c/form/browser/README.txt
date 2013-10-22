@@ -956,7 +956,7 @@ List - Choice
   <script type="text/javascript">
   ...
   </script>
-  <table border="0" class="ordered-selection-field">
+  <table border="0" class="ordered-selection-field" id="foo">
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"
@@ -2291,7 +2291,7 @@ Tuple - Choice
   <script type="text/javascript">
   ...
   </script>
-  <table border="0" class="ordered-selection-field">
+  <table border="0" class="ordered-selection-field" id="foo">
     <tr>
       <td>
         <select id="foo-from" name="bar.from" size="5"

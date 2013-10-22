@@ -5,7 +5,7 @@ CHANGES
 3.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added a consistent id on ordered selection widget.
 
 
 3.0.5 (2013-10-09)
@@ -24,7 +24,6 @@ CHANGES
   file.
 
 - Bug: Fixed a typo in German translations.
-
 
 
 3.0.3 (2013-09-06)

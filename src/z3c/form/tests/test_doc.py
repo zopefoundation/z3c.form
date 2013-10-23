@@ -129,6 +129,11 @@ def test_suite():
             optionflags=flags, checker=testing.outputChecker,
             ),
         doctest.DocFileSuite(
+            '../term.txt',
+            setUp=setUp, tearDown=testing.tearDown,
+            optionflags=flags, checker=testing.outputChecker,
+            ),
+        doctest.DocFileSuite(
             '../util.txt',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,

@@ -1,11 +1,14 @@
 *.pyc
+*.mo
 __pycache__
 src/*.egg-info
 benchmark/*.egg-info
-
+.project
+.pydevproject
 .installed.cfg
 .tox
 bin
+coverage
 develop-eggs
 docs
 parts

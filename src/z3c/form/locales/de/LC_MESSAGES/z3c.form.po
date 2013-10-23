@@ -618,7 +618,7 @@ msgstr "Das Widget, für welches der Event erzeugt wurde."
 
 #: src/z3c/form/term.py:153
 msgid "Missing: ${value}"
-msgstr "Fehlender wert: ${value}"
+msgstr "Fehlender Wert: ${value}"
 
 #: src/z3c/form/term.py:205
 msgid "yes"

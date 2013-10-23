@@ -142,7 +142,8 @@ function selectionError()
 /* ]]> */
 </script>
 
-<table border="0" class="ordered-selection-field">
+<table border="0" class="ordered-selection-field"
+       tal:attributes="id view/id">
   <tr>
     <td>
       <select id="from" name="from" class=""  multiple="" size="5"

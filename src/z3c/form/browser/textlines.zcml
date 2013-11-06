@@ -26,4 +26,12 @@
       template="textlines_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="hidden"
+      widget="z3c.form.interfaces.ITextLinesWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="textlines_hidden.pt"
+      />
+
+
 </configure>

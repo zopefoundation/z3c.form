@@ -6,6 +6,7 @@ CHANGES
 ------------------
 
 - Added a consistent id on ordered selection widget.
+- Added a hidden template for the textlines widget.
 
 
 3.0.5 (2013-10-09)

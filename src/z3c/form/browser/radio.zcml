@@ -37,4 +37,11 @@
       template="radio_hidden.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="input_single"
+      widget="z3c.form.interfaces.IRadioWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="radio_input_single.pt"
+      />
+
 </configure>

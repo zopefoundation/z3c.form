@@ -22,6 +22,7 @@ import zope.interface
 import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
+from zope.pagetemplate.interfaces import IPageTemplate
 
 from z3c.form import interfaces, util
 from z3c.form.widget import SequenceWidget, FieldWidget
@@ -38,6 +39,17 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
 
     def isChecked(self, term):
         return term.token in self.value
+
+    def renderForValue(self, value):
+        term = self.terms.getTermByToken(value)
+        checked = self.isChecked(term)
+        id = '%s-%i' % (self.id, list(self.terms).index(term))
+        item = {'id': id, 'name': self.name, 'value': term.token,
+                'checked': checked}
+        template = zope.component.getMultiAdapter(
+            (self.context, self.request, self.form, self.field, self),
+            IPageTemplate, name=self.mode + '_single')
+        return template(self, item)
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""

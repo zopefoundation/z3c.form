@@ -579,6 +579,10 @@ class ISingleCheckBoxWidget(ICheckBoxWidget):
 class IRadioWidget(ISequenceWidget):
     """Radio widget."""
 
+    def renderForValue(value):
+        """Render a single radio button element for a given value"""
+
+
 class ISubmitWidget(IWidget):
     """Submit widget."""
 

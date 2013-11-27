@@ -43,6 +43,13 @@ We also need to register the template for at least the widget and request:
   >>> zope.component.provideAdapter(factory,
   ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
   ...     IPageTemplate, name='input')
+  >>> template_single = os.path.join(
+  ...     os.path.dirname(z3c.form.browser.__file__),
+  ...     'radio_input_single.pt')
+  >>> zope.component.provideAdapter(
+  ...     z3c.form.widget.WidgetTemplateFactory(template_single),
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='input_single')
 
 If we render the widget we only get the empty marker:
 
@@ -105,6 +112,16 @@ get rendered with a checked flag:
     </label>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
+
+We can also render the input elements for each value separately:
+
+   >>> print(widget.renderForValue('true'))
+   <input id="widget-id-0" name="widget.name" class="radio-widget"
+          value="true" checked="checked" type="radio" />
+
+   >>> print(widget.renderForValue('false'))
+   <input id="widget-id-1" name="widget.name" class="radio-widget"
+          value="false" type="radio" />
 
 Check HIDDEN_MODE:
 

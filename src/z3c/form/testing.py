@@ -345,9 +345,15 @@ def setupFormDefaults():
         (None, None, None, None, interfaces.IRadioWidget),
         IPageTemplate, name=interfaces.DISPLAY_MODE)
     zope.component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('radio_input_single.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(getPath('radio_input_single.pt'),
+                                     'text/html'),
         (None, None, None, None, interfaces.IRadioWidget),
         IPageTemplate, name='input_single')
+    zope.component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('radio_hidden_single.pt'),
+                                     'text/html'),
+        (None, None, None, None, interfaces.IRadioWidget),
+        IPageTemplate, name='hidden_single')
 
     # Select Widget
     zope.component.provideAdapter(select.ChoiceWidgetDispatcher)

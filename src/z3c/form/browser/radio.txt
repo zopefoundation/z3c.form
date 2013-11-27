@@ -132,11 +132,58 @@ Check HIDDEN_MODE:
   ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
   ...     IPageTemplate, name='hidden')
 
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'radio_hidden_single.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='hidden_single')
+
   >>> widget.value = ['true']
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> print(widget.render())
   <input id="widget-id-0" name="widget.name" value="true"
          class="hidden-widget" type="hidden" />
+
+And independently:
+
+   >>> print(widget.renderForValue('true'))
+   <input id="widget-id-0" name="widget.name" value="true"
+          class="hidden-widget" type="hidden" />
+
+   >>> print(widget.renderForValue('false'))
+
+
+Check DISPLAY_MODE:
+
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'radio_display.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='display')
+
+  >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
+  ...     'radio_display_single.pt')
+  >>> factory = z3c.form.widget.WidgetTemplateFactory(template)
+  >>> zope.component.provideAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='display_single')
+
+  >>> widget.value = ['true']
+  >>> widget.mode = interfaces.DISPLAY_MODE
+  >>> print(widget.render())
+  <span id="widget-id" class="radio-widget">
+    <span class="selected-option">yes</span>
+  </span>
+
+And independently:
+
+   >>> print(widget.renderForValue('true'))
+   <span id="widget-id" class="radio-widget"><span class="selected-option">yes</span></span>
+
+   >>> print(widget.renderForValue('false'))
+
 
 Make sure that we produce a proper label when we have no title for a term and
 the value (which is used as a backup label) contains non-ASCII characters:

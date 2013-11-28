@@ -580,8 +580,11 @@ class IRadioWidget(ISequenceWidget):
     """Radio widget."""
 
     def renderForValue(value):
-        """Render a single radio button element for a given value"""
+        """Render a single radio button element for a given value.
 
+        Here the word ``value`` is used in the HTML sense, in other
+        words it is a term token.
+        """
 
 class ISubmitWidget(IWidget):
     """Submit widget."""

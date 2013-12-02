@@ -2,12 +2,12 @@
 CHANGES
 =======
 
-3.0.6 (unreleased)
+3.1.0 (unreleased)
 ------------------
 
 - Added a consistent id on ordered selection widget.
 - Added a hidden template for the textlines widget.
-
+- Feature: added an API to render each radio button separately.
 
 3.0.5 (2013-10-09)
 ------------------

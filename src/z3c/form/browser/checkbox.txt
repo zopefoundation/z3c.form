@@ -186,7 +186,7 @@ For there to be a sensible output, we need to give the widget a label:
 
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="widget-id">
     <input type="checkbox" id="widget-id-0"
            name="widget.name:list"
            class="single-checkbox-widget" value="selected" />
@@ -206,7 +206,7 @@ will make the box checked:
 
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="widget-id">
     <input type="checkbox" id="widget-id-0"
            name="widget.name:list"
            class="single-checkbox-widget" value="selected"
@@ -228,7 +228,7 @@ field
   >>> widget.field = Bool(title=u"Do you REALLY want that?")
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="widget-id">
     <input type="checkbox" id="widget-id-0"
            name="widget.name:list"
            class="single-checkbox-widget" value="selected" />

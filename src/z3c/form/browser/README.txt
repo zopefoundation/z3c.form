@@ -246,7 +246,7 @@ We can also have a single checkbox button for the boolean.
   >>> widget.update()
 
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="foo">
     <input type="checkbox" id="foo-0" name="bar:list"
            class="single-checkbox-widget required bool-field"
            value="selected" checked="checked" />

@@ -1,8 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
      xmlns:tal="http://xml.zope.org/namespaces/tal"
-     tal:omit-tag="">
+     tal:omit-tag=""
+     tal:define="items view/items">
 <span class="option"
-      tal:repeat="item view/items">
+      tal:repeat="item items"
+      tal:attributes="id python:len(items) == 1 and view.id or None">
   <input type="checkbox" id="" name="" class="" alt="" title=""
          tabindex="" disabled="" readonly="" accesskey="" value=""
          checked="checked"

@@ -202,7 +202,8 @@ For the boolean, the checkbox widget can be used as well:
   >>> widget.update()
 
   >>> print(widget.render())
-  <span class="option">
+  <span id="foo">
+   <span class="option">
     <input type="checkbox" id="foo-0" name="bar:list"
            class="checkbox-widget required bool-field" value="true"
            checked="checked" />
@@ -215,6 +216,7 @@ For the boolean, the checkbox widget can be used as well:
     <label for="foo-1">
       <span class="label">no</span>
     </label>
+   </span>
   </span>
   <input name="bar-empty-marker" type="hidden" value="1" />
 
@@ -246,7 +248,7 @@ We can also have a single checkbox button for the boolean.
   >>> widget.update()
 
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="foo">
     <input type="checkbox" id="foo-0" name="bar:list"
            class="single-checkbox-widget required bool-field"
            value="selected" checked="checked" />

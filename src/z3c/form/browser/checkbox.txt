@@ -73,7 +73,8 @@ Now let's try if we get widget values:
 
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span id="widget-id">
+   <span class="option">
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
            class="checkbox-widget" value="true" />
     <label for="widget-id-0">
@@ -85,6 +86,7 @@ Now let's try if we get widget values:
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>
+   </span>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
@@ -94,7 +96,8 @@ field get rendered with a checked flag:
   >>> widget.value = 'true'
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span id="widget-id">
+   <span class="option">
     <input type="checkbox" id="widget-id-0" name="widget.name:list"
            class="checkbox-widget" value="true"
            checked="checked" />
@@ -107,6 +110,7 @@ field get rendered with a checked flag:
     <label for="widget-id-1">
       <span class="label">no</span>
     </label>
+   </span>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
@@ -186,7 +190,7 @@ For there to be a sensible output, we need to give the widget a label:
 
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="widget-id">
     <input type="checkbox" id="widget-id-0"
            name="widget.name:list"
            class="single-checkbox-widget" value="selected" />
@@ -206,7 +210,7 @@ will make the box checked:
 
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="widget-id">
     <input type="checkbox" id="widget-id-0"
            name="widget.name:list"
            class="single-checkbox-widget" value="selected"
@@ -228,7 +232,7 @@ field
   >>> widget.field = Bool(title=u"Do you REALLY want that?")
   >>> widget.update()
   >>> print(widget.render())
-  <span class="option">
+  <span class="option" id="widget-id">
     <input type="checkbox" id="widget-id-0"
            name="widget.name:list"
            class="single-checkbox-widget" value="selected" />
@@ -294,7 +298,8 @@ Check if a term which __str__ returns non ascii string does not crash the update
   >>> print(widget.render())
   <html>
     <body>
-      <span class="option">
+      <span id="widget-id">
+       <span class="option">
         <input class="checkbox-widget" id="widget-id-0" name="widget.name:list" type="checkbox" value="one">
         <label for="widget-id-0">
           <span class="label">One</span>
@@ -305,6 +310,7 @@ Check if a term which __str__ returns non ascii string does not crash the update
         <label for="widget-id-1">
           <span class="label">Two</span>
         </label>
+       </span>
       </span>
       <input name="widget.name-empty-marker" type="hidden" value="1">
     </body>

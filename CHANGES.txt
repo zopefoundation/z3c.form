@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.1.1 (unreleased)
+3.1.1 (2014-03-02)
 ------------------
 
 - Added a consistent id on single checkbox and multi checkbox widgets.

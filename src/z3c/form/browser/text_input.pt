@@ -31,5 +31,7 @@
                            accesskey view/accesskey;
                            onselect view/onselect;
                            size view/size;
-                           maxlength view/maxlength" />
+                           maxlength view/maxlength;
+                           placeholder view/placeholder;
+                           autocapitalize view/autocapitalize;" />
 </html>

@@ -5,8 +5,7 @@ CHANGES
 3.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added text and password widget HTML5 attributes required by plone.login.
 
 3.1.1 (2014-03-02)
 ------------------

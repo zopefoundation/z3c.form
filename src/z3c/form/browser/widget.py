@@ -187,6 +187,8 @@ class HTMLTextInputWidget(HTMLInputWidget):
 
     size = FieldProperty(interfaces.IHTMLTextInputWidget['size'])
     maxlength = FieldProperty(interfaces.IHTMLTextInputWidget['maxlength'])
+    placeholder = FieldProperty(interfaces.IHTMLTextInputWidget['placeholder'])
+    autocapitalize = FieldProperty(interfaces.IHTMLTextInputWidget['autocapitalize'])
 
 
 @zope.interface.implementer(interfaces.IHTMLTextAreaWidget)

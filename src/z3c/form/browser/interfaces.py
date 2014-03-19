@@ -251,6 +251,20 @@ class IHTMLTextInputWidget(IHTMLFormElement):
                      u'characters the user may enter.'),
         required=False)
 
+    placeholder = zope.schema.TextLine(
+        title=u'Placeholder Text',
+        description=(u'This attribute represents a short hint '
+                     u'(a word or short phrase) intended to aid the user '
+                     u'with data entry when the control has no value.'),
+        required=False)
+
+    autocapitalize = zope.schema.Choice(
+        title=u'Auto-Capitalization Control',
+        description=(u'This attribute controls whether the browser should '
+                     u'automatically capitalize the input value.'),
+        values=('off', 'on'),
+        required=False)
+
 
 class IHTMLTextAreaWidget(IHTMLFormElement):
     """A widget using the HTML TEXTAREA element."""

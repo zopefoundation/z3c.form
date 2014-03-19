@@ -50,9 +50,12 @@ Adding some more attributes to the widget will make it display more:
   >>> widget.name = 'name'
   >>> widget.value = u'value'
   >>> widget.style = u'color: blue'
+  >>> widget.placeholder = u'Email address'
+  >>> widget.autocapitalize = u'off'
 
   >>> print(widget.render())
   <input type="text" id="id" name="name" class="text-widget"
+         placeholder="Email address" autocapitalize="off"
          style="color: blue" value="value" />
 
 

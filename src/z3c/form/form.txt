@@ -408,12 +408,12 @@ Let's go back to a normal status to continue the test.
   >>> request.response.setStatus(200)
 
 
-Registering a custom event handler for the DataExctractedEvent
+Registering a custom event handler for the DataExtractedEvent
 --------------------------------------------------------------
 
   >>> data_extracted_eventlog = []
-  >>> from z3c.form.events import DataExctractedEvent
-  >>> @zope.component.adapter(DataExctractedEvent)
+  >>> from z3c.form.events import DataExtractedEvent
+  >>> @zope.component.adapter(DataExtractedEvent)
   ... def data_extracted_logger(event):
   ...     data_extracted_eventlog.append(event)
   >>> zope.component.provideHandler(data_extracted_logger)
@@ -454,7 +454,7 @@ the form with the "Add" button, the person should be added to the root folder:
   20
 
 
-Check, if DataExctractedEvent was thrown
+Check, if DataExtractedEvent was thrown
 -----------------------------------------
 
   >>> event = data_extracted_eventlog[0]

@@ -27,9 +27,10 @@ from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
 
 from z3c.form import button, field, interfaces, util
-from z3c.form.events import DataExctractedEvent
+from z3c.form.events import DataExtractedEvent
 from z3c.form.i18n import MessageFactory as _
 
+import zope.component.event
 
 def applyChanges(form, content, data):
     changes = {}
@@ -145,7 +146,8 @@ class BaseForm(browser.BrowserPage):
         self.widgets.setErrors = setErrors
         self.widgets.ignoreRequiredOnExtract = self.ignoreRequiredOnExtract
         data, errors = self.widgets.extract()
-        zope.event.notify(DataExctractedEvent(data, errors, self))
+        print("DataExtractedEvent")
+        zope.event.notify(DataExtractedEvent(data, errors, self))
         return data, errors
 
     def update(self):

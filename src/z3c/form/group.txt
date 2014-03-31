@@ -175,12 +175,12 @@ We can now render the form:
   </html>
 
 
-Registering a custom event handler for the DataExctractedEvent
+Registering a custom event handler for the DataExtractedEvent
 --------------------------------------------------------------
 
   >>> data_extracted_eventlog = []
-  >>> from z3c.form.events import DataExctractedEvent
-  >>> @zope.component.adapter(DataExctractedEvent)
+  >>> from z3c.form.events import DataExtractedEvent
+  >>> @zope.component.adapter(DataExtractedEvent)
   ... def data_extracted_logger(event):
   ...     data_extracted_eventlog.append(event)
   >>> zope.component.provideHandler(data_extracted_logger)
@@ -214,7 +214,7 @@ As you can see, the template is clever enough to just report the errors at the
 top of the form, but still report the actual problem within the group.
 
 
-Check, if DataExctractedEvent was thrown:
+Check, if DataExtractedEvent was thrown:
 
   >>> len(data_extracted_eventlog) > 0
   True

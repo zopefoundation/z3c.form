@@ -19,7 +19,7 @@ __docformat__ = "reStructuredText"
 
 from z3c.form import form, interfaces
 from zope.interface import implementer
-from z3c.form.events import DataExctractedEvent
+from z3c.form.events import DataExtractedEvent
 
 import zope.component
 import zope.event
@@ -73,7 +73,7 @@ class Group(form.BaseForm):
                     errors += groupErrors
                 else:
                     errors = groupErrors
-        zope.event.notify(DataExctractedEvent(data, errors, self))
+        zope.event.notify(DataExtractedEvent(data, errors, self))
         return data, errors
 
     def applyChanges(self, data):
@@ -104,7 +104,7 @@ class GroupForm(object):
                     errors += groupErrors
                 else:
                     errors = groupErrors
-        zope.event.notify(DataExctractedEvent(data, errors, self))
+        zope.event.notify(DataExtractedEvent(data, errors, self))
         return data, errors
 
     def applyChanges(self, data):

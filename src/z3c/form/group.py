@@ -1,4 +1,4 @@
-##############################################################################
+ #########################################################################
 #
 # Copyright (c) 2007 Zope Foundation and Contributors.
 # All Rights Reserved.
@@ -16,10 +16,13 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.component
 
 from z3c.form import form, interfaces
 from zope.interface import implementer
+from z3c.form.events import DataExctractedEvent
+
+import zope.component
+import zope.event
 
 
 @implementer(interfaces.IGroup)
@@ -70,11 +73,11 @@ class Group(form.BaseForm):
                     errors += groupErrors
                 else:
                     errors = groupErrors
+        zope.event.notify(DataExctractedEvent(data, errors, self))
         return data, errors
 
     def applyChanges(self, data):
         '''See interfaces.IEditForm'''
-        descriptions = []
         content = self.getContent()
         changed = form.applyChanges(self, content, data)
         for group in self.groups:
@@ -101,6 +104,7 @@ class GroupForm(object):
                     errors += groupErrors
                 else:
                     errors = groupErrors
+        zope.event.notify(DataExctractedEvent(data, errors, self))
         return data, errors
 
     def applyChanges(self, data):
@@ -118,8 +122,8 @@ class GroupForm(object):
                     zope.lifecycleevent.Attributes(interface, *names))
             # Send out a detailed object-modified event
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content,
-                    *descriptions))
+                zope.lifecycleevent.ObjectModifiedEvent(
+                    content, *descriptions))
 
         return changed
 

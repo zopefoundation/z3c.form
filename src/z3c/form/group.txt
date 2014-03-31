@@ -174,6 +174,18 @@ We can now render the form:
     </body>
   </html>
 
+
+Registering a custom event handler for the DataExctractedEvent
+--------------------------------------------------------------
+
+  >>> data_extracted_eventlog = []
+  >>> from z3c.form.events import DataExctractedEvent
+  >>> @zope.component.adapter(DataExctractedEvent)
+  ... def data_extracted_logger(event):
+  ...     data_extracted_eventlog.append(event)
+  >>> zope.component.provideHandler(data_extracted_logger)
+
+
 Let's now submit the form, but forgetting to enter the address:
 
   >>> request = testing.TestRequest(form={
@@ -199,8 +211,16 @@ Let's now submit the form, but forgetting to enter the address:
   </ul>
 
 As you can see, the template is clever enough to just report the errors at the
-top of the form, but still report the actual problem within the group. So what
-happens, if errors happen inside and outside a group?
+top of the form, but still report the actual problem within the group.
+
+
+Check, if DataExctractedEvent was thrown:
+
+  >>> len(data_extracted_eventlog) > 0
+  True
+
+
+So what happens, if errors happen inside and outside a group?
 
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.firstName': u'Stephan',

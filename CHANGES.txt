@@ -5,7 +5,8 @@ CHANGES
 3.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add DataExctractedEvent, which is thrown after data and errors are extracted
+  from widgets.
 
 
 3.2.0 (2014-03-18)

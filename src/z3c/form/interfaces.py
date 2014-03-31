@@ -1116,6 +1116,11 @@ class IWidgetEvent(zope.interface.Interface):
         description=_('The widget for which the event was created.'),
         schema=IWidget)
 
+
 class IAfterWidgetUpdateEvent(IWidgetEvent):
     """An event sent out after the widget was updated."""
 
+
+class IDataExtractedEvent(zope.interface.Interface):
+    """Event thrown after data and errors are extracted from widgets.
+    """

@@ -17,7 +17,6 @@ import doctest
 import itertools
 import re
 import unittest
-
 from zope.testing import renormalizing
 
 from z3c.form import testing

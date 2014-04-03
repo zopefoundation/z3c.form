@@ -4,5 +4,6 @@ include bootstrap.py
 include buildout.cfg
 include dev.cfg
 include tox.ini
+include .travis.yml
 recursive-include src/z3c/form *.zcml *.pt *.txt *.png *.dot *.ps *.po *.pot
 recursive-include benchmark *.py

@@ -18,7 +18,8 @@ from setuptools import setup, find_packages
 
 
 def read(*rnames):
-    text = open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
+        text = f.read()
     if isinstance(text, bytes):
         text = text.decode('utf-8')
     return text.encode('ascii', 'xmlcharrefreplace').decode()

@@ -1,9 +1,9 @@
 from z3c.form.interfaces import IDataExtractedEvent
-from zope.interface import implements
+import zope.interface
 
 
+@zope.interface.implementer(IDataExtractedEvent)
 class DataExtractedEvent(object):
-    implements(IDataExtractedEvent)
 
     def __init__(self, data, errors, form):
         self.data = data

@@ -23,6 +23,7 @@ def read(*rnames):
         text = text.decode('utf-8')
     return text.encode('ascii', 'xmlcharrefreplace').decode()
 
+
 def alltests():
     import os
     import sys
@@ -37,6 +38,7 @@ def alltests():
     options = zope.testrunner.options.get_options(args, defaults)
     suites = list(zope.testrunner.find.find_suites(options))
     return unittest.TestSuite(suites)
+
 
 chapters = '\n'.join(
     [read('src', 'z3c', 'form', name)
@@ -84,6 +86,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: Implementation :: CPython',
         'Natural Language :: English',
         'Operating System :: OS Independent',
@@ -109,10 +112,10 @@ setup(
             'zope.container',
             'zope.password',
             'zope.testing',
-            ],
+        ],
         adding=['zope.app.container >= 3.7'],
         docs=['z3c.recipe.sphinxdoc'],
-        ),
+    ),
     install_requires=[
         'setuptools',
         'six',
@@ -134,8 +137,8 @@ setup(
         'zope.security',
         'zope.site',
         'zope.traversing',
-        ],
-      tests_require = [
+    ],
+    tests_require=[
         'lxml >= 2.1.1',
         'persistent',
         'z3c.template >= 1.3',
@@ -144,7 +147,7 @@ setup(
         'zope.password',
         'zope.testing',
         'zope.testrunner',
-        ],
-      test_suite = '__main__.alltests',
+    ],
+    test_suite='__main__.alltests',
     zip_safe=False,
-    )
+)

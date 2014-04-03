@@ -1125,8 +1125,8 @@ class IDataExtractedEvent(zope.interface.Interface):
     """Event sent after data and errors are extracted from widgets.
     """
     data = zope.interface.Attribute(
-        "Extracted form data. Usally, the widgets extract fieldnames from the "
-        "request and return a dictionary of fieldnames and fieldvalues."
+        "Extracted form data. Usually, the widgets extract field names from "
+        "the request and return a dictionary of field names and field values."
     )
     errors = zope.interface.Attribute(
         "Tuple of errors providing IErrorViewSnippet."

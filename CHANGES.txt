@@ -5,7 +5,9 @@ CHANGES
 3.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Explicitly hide span in ``orderedselect_input.pt``.  This only
+  contains hidden inputs, but Internet Explorer 10 was showing them
+  anyway.  Fixes https://github.com/zopefoundation/z3c.form/issues/19
 
 
 3.2.0 (2014-03-18)

@@ -217,7 +217,7 @@ function selectionError()
       </select>
       <input name="foo-empty-marker" type="hidden"
         tal:attributes="name string:${view/name}-empty-marker"/>
-      <span id="toDataContainer"
+      <span id="toDataContainer" style="display: none"
             tal:attributes="id string:${view/id}-toDataContainer">
         <script type="text/javascript" tal:content="string:
           copyDataForSubmit('${view/id}');">

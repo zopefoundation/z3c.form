@@ -68,7 +68,7 @@ If we render the widget we get an empty widget:
                 size="5" multiple="multiple">
         </select>
         <input name="widget.name-empty-marker" type="hidden" />
-        <span id="widget-id-toDataContainer">
+        <span id="widget-id-toDataContainer" style="display: none">
           <script type="text/javascript">
             copyDataForSubmit('widget-id');</script>
         </span>

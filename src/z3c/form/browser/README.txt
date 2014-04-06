@@ -984,7 +984,7 @@ List - Choice
           <option value="3">3</option>
         </select>
         <input name="bar-empty-marker" type="hidden" />
-        <span id="foo-toDataContainer">
+        <span id="foo-toDataContainer" style="display: none">
           <script type="text/javascript">
             copyDataForSubmit('foo');</script>
         </span>
@@ -2319,7 +2319,7 @@ Tuple - Choice
           <option value="3">3</option>
         </select>
         <input name="bar-empty-marker" type="hidden" />
-        <span id="foo-toDataContainer">
+        <span id="foo-toDataContainer" style="display: none">
           <script type="text/javascript">
             copyDataForSubmit('foo');</script>
         </span>

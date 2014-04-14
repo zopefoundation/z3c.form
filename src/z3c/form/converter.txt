@@ -241,6 +241,19 @@ Again, the error message, is customized to the floating point:
       (u'The entered value is not a valid decimal literal.', u'fff')
 
 
+Text Data Converters
+----------------------
+
+Users often add empty spaces by mistake, for example when copy-pasting content
+into the form.
+
+  >>> name = zope.schema.TextLine()
+  >>> namewidget = widget.Widget(TestRequest())
+  >>> conv = converter.FieldDataConverter(name, namewidget)
+  >>> conv.toFieldValue(u'Einstein ')
+  'Einstein'
+
+
 Date Data Converter
 -------------------
 

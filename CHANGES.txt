@@ -5,6 +5,8 @@ CHANGES
 3.2.1 (unreleased)
 ------------------
 
+- Remove spaces at start and end of text field values.
+
 - Explicitly hide span in ``orderedselect_input.pt``.  This only
   contains hidden inputs, but Internet Explorer 10 was showing them
   anyway.  Fixes https://github.com/zopefoundation/z3c.form/issues/19

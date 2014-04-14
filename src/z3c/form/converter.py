@@ -46,6 +46,8 @@ class BaseDataConverter(object):
         """See interfaces.IDataConverter"""
         if value == u'':
             return self.field.missing_value
+        if value is not None:
+            value = value.strip()
         return self.field.fromUnicode(value)
 
     def __repr__(self):

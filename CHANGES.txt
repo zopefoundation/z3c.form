@@ -5,6 +5,9 @@ CHANGES
 3.2.1 (unreleased)
 ------------------
 
+- Add DataExtractedEvent, which is thrown after data and errors are extracted
+  from widgets. Fixes https://github.com/zopefoundation/z3c.form/pull/18 
+
 - Explicitly hide span in ``orderedselect_input.pt``.  This only
   contains hidden inputs, but Internet Explorer 10 was showing them
   anyway.  Fixes https://github.com/zopefoundation/z3c.form/issues/19

@@ -1116,6 +1116,19 @@ class IWidgetEvent(zope.interface.Interface):
         description=_('The widget for which the event was created.'),
         schema=IWidget)
 
+
 class IAfterWidgetUpdateEvent(IWidgetEvent):
     """An event sent out after the widget was updated."""
 
+
+class IDataExtractedEvent(zope.interface.Interface):
+    """Event sent after data and errors are extracted from widgets.
+    """
+    data = zope.interface.Attribute(
+        "Extracted form data. Usually, the widgets extract field names from "
+        "the request and return a dictionary of field names and field values."
+    )
+    errors = zope.interface.Attribute(
+        "Tuple of errors providing IErrorViewSnippet."
+    )
+    form = zope.interface.Attribute("Form instance.")

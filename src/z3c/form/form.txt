@@ -407,6 +407,18 @@ Let's go back to a normal status to continue the test.
 
   >>> request.response.setStatus(200)
 
+
+Registering a custom event handler for the DataExtractedEvent
+--------------------------------------------------------------
+
+  >>> data_extracted_eventlog = []
+  >>> from z3c.form.events import DataExtractedEvent
+  >>> @zope.component.adapter(DataExtractedEvent)
+  ... def data_extracted_logger(event):
+  ...     data_extracted_eventlog.append(event)
+  >>> zope.component.provideHandler(data_extracted_logger)
+
+
 Submitting an add form successfully
 -----------------------------------
 
@@ -442,6 +454,20 @@ the form with the "Add" button, the person should be added to the root folder:
   20
 
 
+Check, if DataExtractedEvent was thrown
+-----------------------------------------
+
+  >>> event = data_extracted_eventlog[0]
+  >>> 'name' in event.data
+  True
+
+  >>> event.errors
+  ()
+
+  >>> event.form
+  <PersonAddForm object at ...
+
+
 Submitting an add form with invalid data
 ----------------------------------------
 
@@ -467,6 +493,20 @@ message:
 
   >>> addForm.widgets['name'].error
   <ErrorViewSnippet for RequiredMissing>
+
+
+Check, if event was thrown:
+
+  >>> event = data_extracted_eventlog[-1]
+  >>> 'id' in event.data
+  True
+
+  >>> event.errors
+  (<ErrorViewSnippet for RequiredMissing>,)
+
+  >>> event.form
+  <PersonAddForm object at ...
+
 
 Let's now render the form:
 

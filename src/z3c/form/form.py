@@ -27,6 +27,7 @@ from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
 
 from z3c.form import button, field, interfaces, util
+from z3c.form.events import DataExtractedEvent
 from z3c.form.i18n import MessageFactory as _
 
 
@@ -98,7 +99,7 @@ def handleActionError(event):
 
 
 @zope.interface.implementer(interfaces.IForm,
-                              interfaces.IFieldsForm)
+                            interfaces.IFieldsForm)
 class BaseForm(browser.BrowserPage):
     """A base form."""
 
@@ -143,7 +144,9 @@ class BaseForm(browser.BrowserPage):
         '''See interfaces.IForm'''
         self.widgets.setErrors = setErrors
         self.widgets.ignoreRequiredOnExtract = self.ignoreRequiredOnExtract
-        return self.widgets.extract()
+        data, errors = self.widgets.extract()
+        zope.event.notify(DataExtractedEvent(data, errors, self))
+        return data, errors
 
     def update(self):
         '''See interfaces.IForm'''

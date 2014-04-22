@@ -44,10 +44,10 @@ class BaseDataConverter(object):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
+        if isinstance(value, basestring):
+            value = value.strip()
         if value == u'':
             return self.field.missing_value
-        if value is not None:
-            value = value.strip()
         return self.field.fromUnicode(value)
 
     def __repr__(self):

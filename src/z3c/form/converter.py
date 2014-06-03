@@ -31,6 +31,8 @@ from z3c.form import interfaces, util
 @zope.interface.implementer(interfaces.IDataConverter)
 class BaseDataConverter(object):
     """A base implementation of the data converter."""
+    
+    _strip_value = True # Remove spaces at start and end of text line
 
     def __init__(self, field, widget):
         self.field = field
@@ -44,7 +46,7 @@ class BaseDataConverter(object):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
-        if isinstance(value, basestring):
+        if self._strip_value and isinstance(value, basestring):
             value = value.strip()
         if value == u'':
             return self.field.missing_value

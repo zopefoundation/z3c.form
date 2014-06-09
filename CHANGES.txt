@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.2.1 (unreleased)
+3.2.1 (2014-06-09)
 ------------------
 
 - Add DataExtractedEvent, which is thrown after data and errors are extracted

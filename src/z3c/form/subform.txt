@@ -363,7 +363,7 @@ Let's now have a look at cases where an error happens. If an error occurs in
 the parent form, the sub-form is still submitted:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'Volvo\n',
+  ...     'car.widgets.model': u'Volvo\n~',
   ...     'car.widgets.make': u'450',
   ...     'car.buttons.apply': u'Apply',
   ...     'owner.widgets.name': u'Stephan Richter',
@@ -400,7 +400,7 @@ Let's look at the rendered form:
           <input type="text" id="car-widgets-model"
                  name="car.widgets.model"
                  class="text-widget required textline-field"
-                 value="Volvo " />
+                 value="Volvo ~" />
         </div>
         <div class="row">
           <label for="car-widgets-make">Make</label>

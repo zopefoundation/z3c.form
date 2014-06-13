@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Text Widget Implementation
+"""Multi Widget Implementation
 
 $Id: select.py 78513 2007-07-31 23:03:47Z srichter $
 """
@@ -44,7 +44,7 @@ class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
     css = u'multi'
     items = ()
 
-    showLabel = True # show labels for item subwidgets or not
+    showLabel = True  # show labels for item subwidgets or not
 
     # Internal attributes
     _adapterValueAttributes = widget.MultiWidget._adapterValueAttributes + \
@@ -63,7 +63,7 @@ class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
         super(MultiWidget, self).update()
         self.updateActions()
         self.actions.execute()
-        self.updateActions() # Update again, as conditions may change
+        self.updateActions()  # Update again, as conditions may change
 
     @button.buttonAndHandler(_('Add'), name='add',
                              condition=attrgetter('allowAdding'))
@@ -74,7 +74,8 @@ class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
                              condition=attrgetter('allowRemoving'))
     def handleRemove(self, action):
         self.removeWidgets([widget.name for widget in self.widgets
-                        if ('%s.remove' % (widget.name)) in self.request])
+                            if ('%s.remove' % (widget.name)) in self.request])
+
 
 @zope.interface.implementer(interfaces.IFieldWidget)
 def multiFieldWidgetFactory(field, request):

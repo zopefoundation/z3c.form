@@ -31,8 +31,8 @@ from z3c.form import interfaces, util
 @zope.interface.implementer(interfaces.IDataConverter)
 class BaseDataConverter(object):
     """A base implementation of the data converter."""
-    
-    _strip_value = True # Remove spaces at start and end of text line
+
+    _strip_value = True  # Remove spaces at start and end of text line
 
     def __init__(self, field, widget):
         self.field = field
@@ -50,6 +50,8 @@ class BaseDataConverter(object):
             value = value.strip()
         if value == u'':
             return self.field.missing_value
+        # this is going to burp with `Object is of wrong type.`
+        # if a non-unicode values comes in from the request
         return self.field.fromUnicode(value)
 
     def __repr__(self):
@@ -266,12 +268,11 @@ class SequenceDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         """Convert from Python bool to HTML representation."""
-        widget = self.widget
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
             return []
         # Look up the term in the terms
-        terms = widget.updateTerms()
+        terms = self.widget.updateTerms()
         try:
             return [terms.getTerm(value).token]
         except LookupError:

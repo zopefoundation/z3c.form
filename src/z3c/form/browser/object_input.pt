@@ -1,6 +1,6 @@
 <div class="object-widget"
      tal:attributes="class view/klass">
-    <tal:block repeat="widget view/subform/widgets/values">
+    <tal:block repeat="widget view/widgets/values">
         <div class="label">
           <label tal:attributes="for widget/id">
             <span i18n:translate=""

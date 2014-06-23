@@ -125,4 +125,19 @@ def test_suite():
                      ))
              for setUp in setups)
 
-    return unittest.TestSuite(itertools.chain(*tests))
+    integtests = (
+        DocFileSuite('object_single_integration.txt',
+                     setUp=testing.setUpIntegration, tearDown=testing.tearDown,
+                     optionflags=flags, checker=testing.outputChecker,
+                     ),
+        DocFileSuite('object_multi_integration.txt',
+                     setUp=testing.setUpIntegration, tearDown=testing.tearDown,
+                     optionflags=flags, checker=testing.outputChecker,
+                     ),
+        DocFileSuite('multi_list_integration.txt',
+                     setUp=testing.setUpIntegration, tearDown=testing.tearDown,
+                     optionflags=flags, checker=testing.outputChecker,
+                     ),
+        )
+
+    return unittest.TestSuite(tuple(itertools.chain(*tests)) + integtests)

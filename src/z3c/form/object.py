@@ -27,7 +27,7 @@ from zope.pagetemplate.interfaces import IPageTemplate
 
 from z3c.form.converter import BaseDataConverter
 
-from z3c.form import form, interfaces, util, widget
+from z3c.form import interfaces, util, widget, field
 from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
 
@@ -36,58 +36,16 @@ def getIfName(iface):
     return iface.__module__ + '.' + iface.__name__
 
 
-@zope.interface.implementer(interfaces.ISubForm)
-class ObjectSubForm(form.BaseForm):
+# our own placeholder instead of a simple None
+class ObjectWidget_NO_VALUE(object):
+    def __repr__(self):
+        return '<ObjectWidget_NO_VALUE>'
 
-    def __init__(self, context, request, parentWidget):
-        self.context = context
-        self.request = request
-        self.__parent__ = parentWidget
-        self.parentForm = parentWidget.form
-        self.ignoreContext = self.__parent__.ignoreContext
-        self.ignoreRequest = self.__parent__.ignoreRequest
-        if interfaces.IFormAware.providedBy(self.__parent__):
-            self.ignoreReadonly = self.parentForm.ignoreReadonly
-        self.prefix = self.__parent__.name
+ObjectWidget_NO_VALUE = ObjectWidget_NO_VALUE()
 
-    def _validate(self):
-        for widget in self.widgets.values():
-            try:
-                # convert widget value to field value
-                converter = interfaces.IDataConverter(widget)
-                value = converter.toFieldValue(widget.value)
-                # validate field value
-                zope.component.getMultiAdapter(
-                    (self.context,
-                     self.request,
-                     self.parentForm,
-                     getattr(widget, 'field', None),
-                     widget),
-                    interfaces.IValidator).validate(value, force=True)
-            except (zope.schema.ValidationError, ValueError) as error:
-                # on exception, setup the widget error message
-                view = zope.component.getMultiAdapter(
-                    (error, self.request, widget, widget.field,
-                     self.parentForm, self.context),
-                    interfaces.IErrorViewSnippet)
-                view.update()
-                widget.error = view
 
-    def setupFields(self):
-        self.fields = Fields(self.__parent__.field.schema)
-
-    def update(self):
-        if self.__parent__.field is None:
-            raise ValueError("%r .field is None, that's a blocking point" % self.__parent__)
-        #update stuff from parent to be sure
-        self.mode = self.__parent__.mode
-
-        self.setupFields()
-
-        super(ObjectSubForm, self).update()
-
-    def getContent(self):
-        return self.__parent__._value
+class ObjectWidgetValue(dict):
+    originalValue = ObjectWidget_NO_VALUE  # will store the original object
 
 
 class ObjectConverter(BaseDataConverter):
@@ -101,11 +59,36 @@ class ObjectConverter(BaseDataConverter):
         if value is self.field.missing_value:
             return interfaces.NO_VALUE
 
-        retval = {}
+        retval = ObjectWidgetValue()
+        retval.originalValue = value
+
         for name in zope.schema.getFieldNames(self.field.schema):
+            field = self.field.schema[name]
+
             dm = zope.component.getMultiAdapter(
-                (value, self.field.schema[name]), interfaces.IDataManager)
-            retval[name] = dm.query()
+                (value, field), interfaces.IDataManager)
+            subv = dm.query()
+
+            if subv is interfaces.NO_VALUE:
+                # look up default value
+                subv = field.default
+                # XXX: too many discriminators
+                #adapter = zope.component.queryMultiAdapter(
+                #    (context, self.request, self.view, field, widget),
+                #    interfaces.IValue, name='default')
+                #if adapter:
+                #    value = adapter.get()
+
+            widget = zope.component.getMultiAdapter((field, self.widget.request),
+                interfaces.IFieldWidget)
+            if interfaces.IFormAware.providedBy(self.widget):
+                # form property required by objectwidget
+                widget.form = self.widget.form
+                zope.interface.alsoProvides(widget, interfaces.IFormAware)
+            converter = zope.component.getMultiAdapter((field, widget),
+                interfaces.IDataConverter)
+
+            retval[name] = converter.toWidgetValue(subv)
 
         return retval
 
@@ -128,18 +111,20 @@ class ObjectConverter(BaseDataConverter):
 
         return obj
 
+    def adapted_obj(self, obj):
+        return self.field.schema(obj)
+
     def toFieldValue(self, value):
         """field value is an Object type, that provides field.schema"""
         if value is interfaces.NO_VALUE:
             return self.field.missing_value
 
-        if self.widget.subform is None:
-            #creepy situation when the widget is hanging in nowhere
-            obj = self.createObject(value)
-        else:
-            if self.widget.subform.ignoreContext:
+        if value.originalValue is ObjectWidget_NO_VALUE:
+            # if the originalValue did not survive the roundtrip
+            if self.widget.ignoreContext:
                 obj = self.createObject(value)
             else:
+                # try to get the original object from the context.field_name
                 dm = zope.component.getMultiAdapter(
                     (self.widget.context, self.field), interfaces.IDataManager)
                 try:
@@ -148,27 +133,40 @@ class ObjectConverter(BaseDataConverter):
                     obj = self.createObject(value)
                 except AttributeError:
                     obj = self.createObject(value)
+        else:
+            # reuse the object that we got in toWidgetValue
+            obj = value.originalValue
 
         if obj is None or obj == self.field.missing_value:
-            #if still None create one, otherwise following will burp
+            # if still None, create one, otherwise following will burp
             obj = self.createObject(value)
 
-        obj = self.field.schema(obj)
+        obj = self.adapted_obj(obj)
 
         names = []
         for name in zope.schema.getFieldNames(self.field.schema):
-            try:
+            field = self.field.schema[name]
+            if not field.readonly:
+                try:
+                    newvalRaw = value[name]
+                except KeyError:
+                    continue
+
+                widget = zope.component.getMultiAdapter(
+                    (field, self.widget.request), interfaces.IFieldWidget)
+                converter = zope.component.getMultiAdapter(
+                    (field, widget), interfaces.IDataConverter)
+                newval = converter.toFieldValue(newvalRaw)
+
                 dm = zope.component.getMultiAdapter(
                     (obj, self.field.schema[name]), interfaces.IDataManager)
                 oldval = dm.query()
-                if (oldval != value[name]
+                if (oldval != newval
                     or zope.schema.interfaces.IObject.providedBy(
                         self.field.schema[name])
                     ):
-                    dm.set(value[name])
+                    dm.set(newval)
                     names.append(name)
-            except KeyError:
-                pass
 
         if names:
             zope.event.notify(
@@ -185,116 +183,160 @@ class ObjectConverter(BaseDataConverter):
 @zope.interface.implementer(interfaces.IObjectWidget)
 class ObjectWidget(widget.Widget):
 
-    subform = None
+    _mode = interfaces.INPUT_MODE
     _value = interfaces.NO_VALUE
     _updating = False
+    prefix = ''
+    widgets = None
 
-    def _getForm(self, content):
-        form = getattr(self, 'form', None)
-        schema = getattr(self.field, 'schema', None)
+    @property
+    def mode(self):
+        """This sets the subwidgets modes."""
+        return self._mode
 
-        self.subform = zope.component.getMultiAdapter(
-            (content, self.request, self.context,
-             form, self, self.field, makeDummyObject(schema)),
-            interfaces.ISubformFactory)()
+    @mode.setter
+    def mode(self, mode):
+        self._mode = mode
+        # ensure that we apply the new mode to the widgets
+        if self.widgets:
+            for w in self.widgets.values():
+                w.mode = mode
 
     def updateWidgets(self, setErrors=True):
-        if self._value is not interfaces.NO_VALUE:
-            self._getForm(self._value)
-        else:
-            self._getForm(None)
-            self.subform.ignoreContext = True
+        if self.field is None:
+            raise ValueError("%r .field is None, that's a blocking point" % self)
 
-        self.subform.update()
-        if setErrors:
-            self.subform._validate()
+        self.prefix = self.name
+        self.fields = Fields(self.field.schema)
+
+        if self._value is interfaces.NO_VALUE:
+            value = ObjectWidgetValue()
+        else:
+            value = self._value
+
+        self.widgets = field.FieldWidgets(self, self.request, None)
+        self.widgets.mode = self.mode
+        # very-very important! otherwise the update() tries to set
+        # RAW values as field values
+        self.widgets.ignoreContext = True
+        self.widgets.ignoreRequest = self.ignoreRequest
+        self.widgets.update()
+
+        if not self._value is interfaces.NO_VALUE:
+            for name, widget in self.widgets.items():
+                try:
+                    v = value[name]
+                except KeyError:
+                    pass
+                else:
+                    self.applyValue(widget, v)
+
+    def applyValue(self, widget, value):
+        """Validate and apply value to given widget.
+
+        This method gets called on any ObjectWidget value change and is
+        responsible for validating the given value and setup an error message.
+
+        This is internal apply value and validation process is needed because
+        nothing outside this multi widget does know something about our
+        internal sub widgets.
+        """
+        if value is not interfaces.NO_VALUE:
+            try:
+                # convert widget value to field value
+                converter = interfaces.IDataConverter(widget)
+                fvalue = converter.toFieldValue(value)
+                # validate field value
+                zope.component.getMultiAdapter(
+                    (self.context,
+                     self.request,
+                     self.form,
+                     getattr(widget, 'field', None),
+                     widget),
+                    interfaces.IValidator).validate(fvalue)
+                # convert field value back to widget value
+                # that will probably format the value too
+                widget.value = converter.toWidgetValue(fvalue)
+            except (zope.schema.ValidationError, ValueError) as error:
+                # on exception, setup the widget error message
+                view = zope.component.getMultiAdapter(
+                    (error, self.request, widget, widget.field,
+                     self.form, self.context), interfaces.IErrorViewSnippet)
+                view.update()
+                widget.error = view
+                # set the wrong value as value despite it's wrong
+                # we want to re-show wrong values
+                widget.value = value
 
     def update(self):
         #very-very-nasty: skip raising exceptions in extract while we're updating
         self._updating = True
         try:
             super(ObjectWidget, self).update()
+            # create the subwidgets and set their values
             self.updateWidgets(setErrors=False)
         finally:
             self._updating = False
 
-    def applyValue(self, widget, value=interfaces.NO_VALUE):
-        """Validate and apply value to given widget.
-        """
-        if self.context is None:
-            converter = interfaces.IDataConverter(widget)
-            try:
-                widget.value = converter.toWidgetValue(value)
-            except TypeError:
-                # we're not checking the value, because there's no context
-                # in case of problems just set a bad value
-                widget.value = value
-        else:
-            context = None
-            if not self.ignoreContext:
-                # ahem, the context is not ours to check,
-                # but the context's right attribute
-                dm = zope.component.getMultiAdapter(
-                    (self.context, self.field), interfaces.IDataManager)
-                context = dm.query(default=None)
-            try:
-                zope.component.getMultiAdapter(
-                    (context,
-                     self.request,
-                     self.form,
-                     getattr(widget, 'field', None),
-                     widget),
-                    interfaces.IValidator).validate(value)
-
-                converter = interfaces.IDataConverter(widget)
-                widget.value = converter.toWidgetValue(value)
-            except (zope.schema.ValidationError, ValueError):
-                # on exception, setup the widget error message
-                # set the wrong value as value
-                # the widget itself ought to cry about the error
-                widget.value = value
-
     @property
     def value(self):
-        """This invokes updateWidgets on any value change e.g. update/extract."""
         # value (get) cannot raise an exception, then we return insane values
         try:
             self.setErrors = True
             return self.extract()
         except MultipleErrors:
-            value = {}
-            for name in zope.schema.getFieldNames(self.field.schema):
-                value[name] = self.subform.widgets[name].value
+            value = ObjectWidgetValue()
+            if self._value is not interfaces.NO_VALUE:
+                # send back the original object
+                value.originalValue = self._value.originalValue
+
+            for name, widget in self.widgets.items():
+                value[name] = widget.value
             return value
 
     @value.setter
     def value(self, value):
+        # This invokes updateWidgets on any value change e.g. update/extract.
+        if (not isinstance(value, ObjectWidgetValue)
+            and value is not interfaces.NO_VALUE):
+            value = ObjectWidgetValue(value)
         self._value = value
+
+        # create the subwidgets and set their values
         self.updateWidgets()
 
-        # ensure that we apply our new values to the widgets
-        if value is not interfaces.NO_VALUE:
-            for name in zope.schema.getFieldNames(self.field.schema):
-                self.applyValue(self.subform.widgets[name],
-                                value.get(name, interfaces.NO_VALUE))
+    def extractRaw(self, setErrors=True):
+        '''See interfaces.IForm'''
+        self.widgets.setErrors = setErrors
+        #self.widgets.ignoreRequiredOnExtract = self.ignoreRequiredOnExtract
+        data, errors = self.widgets.extractRaw()
+        value = ObjectWidgetValue()
+        if self._value is not interfaces.NO_VALUE:
+            # send back the original object
+            value.originalValue = self._value.originalValue
+        value.update(data)
+
+        return value, errors
 
     def extract(self, default=interfaces.NO_VALUE):
         if self.name + '-empty-marker' in self.request:
             self.updateWidgets(setErrors=False)
 
-            value, errors = self.subform.extractData(setErrors=self.setErrors)
+            # important: widget extract MUST return RAW values
+            # just an extractData is WRONG here
+            value, errors = self.extractRaw(setErrors=self.setErrors)
 
             if errors:
                 # very-very-nasty: skip raising exceptions in extract
                 # while we're updating -- that happens when the widget
                 # is updated and update calls extract()
                 if self._updating:
-                    return default
-
+                    # don't rebind value, send back the original object
+                    for name, widget in self.widgets.items():
+                        value[name] = widget.value
+                    return value
                 raise MultipleErrors(errors)
-
             return value
-
         else:
             return default
 
@@ -302,6 +344,7 @@ class ObjectWidget(widget.Widget):
         """See z3c.form.interfaces.IWidget."""
         template = self.template
         if template is None:
+            # one more discriminator than in widget.Widget
             template = zope.component.queryMultiAdapter(
                 (self.context, self.request, self.form, self.field, self,
                  makeDummyObject(self.field.schema)),
@@ -309,6 +352,7 @@ class ObjectWidget(widget.Widget):
             if template is None:
                 return super(ObjectWidget, self).render()
         return template(self)
+
 
 ######## make dummy objects providing a given interface to support
 ######## discriminating on field.schema
@@ -325,6 +369,7 @@ def makeDummyObject(iface):
 
     dummy = DummyObject()
     return dummy
+
 
 ######## special template factory that takes the field.schema into account
 ######## used by zcml.py
@@ -348,34 +393,8 @@ class ObjectWidgetTemplateFactory(object):
     def __call__(self, context, request, view, field, widget, schema):
         return self.template
 
+
 ######## default adapters
-
-@zope.interface.implementer(interfaces.ISubformFactory)
-class SubformAdapter(object):
-    """Most basic-default subform factory adapter"""
-    zope.component.adapts(zope.interface.Interface, #widget value
-                          interfaces.IFormLayer,    #request
-                          zope.interface.Interface, #widget context
-                          zope.interface.Interface, #form
-                          interfaces.IObjectWidget, #widget
-                          zope.interface.Interface, #field
-                          zope.interface.Interface) #field.schema
-
-    factory = ObjectSubForm
-
-    def __init__(self, context, request, widgetContext, form,
-                 widget, field, schema):
-        self.context = context
-        self.request = request
-        self.widgetContext = widgetContext
-        self.form = form
-        self.widget = widget
-        self.field = field
-        self.schema = schema
-
-    def __call__(self):
-        obj = self.factory(self.context, self.request, self.widget)
-        return obj
 
 @zope.interface.implementer(interfaces.IObjectFactory)
 class FactoryAdapter(object):
@@ -399,6 +418,7 @@ class FactoryAdapter(object):
         obj = self.factory()
         zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(obj))
         return obj
+
 
 # XXX: Probably we should offer an register factory method which allows to
 # use all discriminators e.g. context, request, form, widget as optional

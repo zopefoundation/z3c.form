@@ -682,6 +682,10 @@ class IWidgets(IManager):
         """Extract the values from the widgets and validate them.
         """
 
+    def extractRaw():
+        """Extract the RAW/string values from the widgets and validate them.
+        """
+
 
 class IFieldWidget(zope.interface.Interface):
     """Offers a field attribute.

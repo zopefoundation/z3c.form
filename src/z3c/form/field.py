@@ -288,8 +288,7 @@ class FieldWidgets(util.Manager):
             # button items
             self._data_keys = uniqueOrderedKeys
 
-    def extract(self):
-        """See interfaces.IWidgets"""
+    def _extract(self, returnRaw=False):
         data = {}
         errors = ()
         for name, widget in self.items():
@@ -320,7 +319,10 @@ class FieldWidgets(util.Manager):
                 errors += (view,)
             else:
                 name = widget.__name__
-                data[name] = value
+                if returnRaw:
+                    data[name] = raw
+                else:
+                    data[name] = value
         for error in self.validate(data):
             view = zope.component.getMultiAdapter(
                 (error, self.request, None, None, self.form, self.content),
@@ -330,3 +332,11 @@ class FieldWidgets(util.Manager):
         if self.setErrors:
             self.errors = errors
         return data, errors
+
+    def extract(self):
+        """See interfaces.IWidgets"""
+        return self._extract(returnRaw=False)
+
+    def extractRaw(self):
+        """See interfaces.IWidgets"""
+        return self._extract(returnRaw=True)

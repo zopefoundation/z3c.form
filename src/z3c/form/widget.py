@@ -325,7 +325,7 @@ class MultiWidget(Widget):
         return widget
 
     def setName(self, widget, idx, prefix=None):
-        names =  lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
+        names = lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
         widget.name = '.'.join([str(self.name)]+names(None))
         widget.id = '-'.join([str(self.id)]+names(None))
 
@@ -346,16 +346,15 @@ class MultiWidget(Widget):
         :param names: list of widget.name to remove from the value
         :return: None
         """
-        zipped = list(zip(self.key_widgets,self.widgets))
-        self.key_widgets = [k for k,v in zipped if v.name not in names]
-        self.widgets = [v for k,v in zipped if v.name not in names]
+        zipped = list(zip(self.key_widgets, self.widgets))
+        self.key_widgets = [k for k, v in zipped if v.name not in names]
+        self.widgets = [v for k, v in zipped if v.name not in names]
         if self.is_dict:
-            self.value = [(k.value, v.value) for k,v in zip(self.key_widgets, self.widgets)]
+            self.value = [
+                (k.value, v.value)
+                for k, v in zip(self.key_widgets, self.widgets)]
         else:
             self.value = [widget.value for widget in self.widgets]
-
-
-
 
     def applyValue(self, widget, value=interfaces.NO_VALUE):
         """Validate and apply value to given widget.
@@ -565,7 +564,8 @@ class WidgetEvent(object):
         self.widget = widget
 
     def __repr__(self):
-        return '<%s %r>' %(self.__class__.__name__, self.widget)
+        return '<%s %r>' % (self.__class__.__name__, self.widget)
+
 
 @zope.interface.implementer_only(interfaces.IAfterWidgetUpdateEvent)
 class AfterWidgetUpdateEvent(WidgetEvent):

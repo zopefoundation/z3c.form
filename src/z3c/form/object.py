@@ -89,55 +89,57 @@ class ObjectConverter(BaseDataConverter):
 
         return retval
 
-    def createObject(self, value):
-        #keep value passed, maybe some subclasses want it
-        #value here is the raw extracted from the widget's subform
-        #in the form of a dict key:fieldname, value:fieldvalue
-
-        name = getIfName(self.field.schema)
-        creator = zope.component.queryMultiAdapter(
-            (self.widget.context, self.widget.request,
-             self.widget.form, self.widget),
-            interfaces.IObjectFactory,
-            name=name)
-        if creator:
-            obj = creator(value)
-        else:
-            raise ValueError("No IObjectFactory adapter registered for %s" %
-                             name)
-
-        return obj
-
     def adapted_obj(self, obj):
         return self.field.schema(obj)
+
+    #def createObject(self, value):
+    #    #keep value passed, maybe some subclasses want it
+    #    #value here is the raw extracted from the widget's subform
+    #    #in the form of a dict key:fieldname, value:fieldvalue
+    #
+    #    name = getIfName(self.field.schema)
+    #    creator = zope.component.queryMultiAdapter(
+    #        (self.widget.context, self.widget.request,
+    #         self.widget.form, self.widget),
+    #        interfaces.IObjectFactory,
+    #        name=name)
+    #    if creator:
+    #        obj = creator(value)
+    #    else:
+    #        raise ValueError("No IObjectFactory adapter registered for %s" %
+    #                         name)
+    #
+    #    return obj
 
     def toFieldValue(self, value):
         """field value is an Object type, that provides field.schema"""
         if value is interfaces.NO_VALUE:
             return self.field.missing_value
 
-        if value.originalValue is ObjectWidget_NO_VALUE:
-            # if the originalValue did not survive the roundtrip
-            if self.widget.ignoreContext:
-                obj = self.createObject(value)
-            else:
-                # try to get the original object from the context.field_name
-                dm = zope.component.getMultiAdapter(
-                    (self.widget.context, self.field), interfaces.IDataManager)
-                try:
-                    obj = dm.get()
-                except KeyError:
-                    obj = self.createObject(value)
-                except AttributeError:
-                    obj = self.createObject(value)
-        else:
-            # reuse the object that we got in toWidgetValue
-            obj = value.originalValue
+        #if value.originalValue is ObjectWidget_NO_VALUE:
+        #    # if the originalValue did not survive the roundtrip
+        #    if self.widget.ignoreContext:
+        #        obj = self.createObject(value)
+        #    else:
+        #        # try to get the original object from the context.field_name
+        #        dm = zope.component.getMultiAdapter(
+        #            (self.widget.context, self.field), interfaces.IDataManager)
+        #        try:
+        #            obj = dm.get()
+        #        except KeyError:
+        #            obj = self.createObject(value)
+        #        except AttributeError:
+        #            obj = self.createObject(value)
+        #else:
+        #    # reuse the object that we got in toWidgetValue
+        #    obj = value.originalValue
+        #
+        #if obj is None or obj == self.field.missing_value:
+        #    # if still None, create one, otherwise following will burp
+        #    obj = self.createObject(value)
 
-        if obj is None or obj == self.field.missing_value:
-            # if still None, create one, otherwise following will burp
-            obj = self.createObject(value)
-
+        # try to get the original object, or if there's no chance an empty one
+        obj = self.widget.getObject(value)
         obj = self.adapted_obj(obj)
 
         names = []
@@ -183,6 +185,49 @@ class ObjectWidget(widget.Widget):
     prefix = ''
     widgets = None
 
+    def createObject(self, value):
+        # keep value passed, maybe some subclasses want it
+        # value here is the raw extracted from the widget's subform
+        # in the form of a dict key:fieldname, value:fieldvalue
+        name = getIfName(self.field.schema)
+        creator = zope.component.queryMultiAdapter(
+            (self.context, self.request, self.form, self),
+            interfaces.IObjectFactory,
+            name=name)
+        if creator:
+            obj = creator(value)
+        else:
+            # raise RuntimeError, that won't be swallowed
+            raise RuntimeError(
+                "No IObjectFactory adapter registered for %s" % name)
+
+        return obj
+
+    def getObject(self, value):
+        if value.originalValue is ObjectWidget_NO_VALUE:
+            # if the originalValue did not survive the roundtrip
+            if self.ignoreContext:
+                obj = self.createObject(value)
+            else:
+                # try to get the original object from the context.field_name
+                dm = zope.component.getMultiAdapter(
+                    (self.context, self.field), interfaces.IDataManager)
+                try:
+                    obj = dm.get()
+                except KeyError:
+                    obj = self.createObject(value)
+                except AttributeError:
+                    obj = self.createObject(value)
+        else:
+            # reuse the object that we got in toWidgetValue
+            obj = value.originalValue
+
+        if obj is None or obj == self.field.missing_value:
+            # if still None, create one, otherwise following will burp
+            obj = self.createObject(value)
+
+        return obj
+
     @property
     def mode(self):
         """This sets the subwidgets modes."""
@@ -217,14 +262,35 @@ class ObjectWidget(widget.Widget):
 
         self.setupWidgets()
 
-        if not self._value is interfaces.NO_VALUE:
+        if self._value is interfaces.NO_VALUE:
+            # XXX: maybe readonly fields/widgets should be reset here to
+            #      widget.mode = INPUT_MODE
+            pass
             for name, widget in self.widgets.items():
-                try:
-                    v = self._value[name]
-                except KeyError:
-                    pass
+                if widget.field.readonly:
+                    widget.mode = interfaces.INPUT_MODE
+                    widget.update()
+        else:
+            rawvalue = None
+
+            for name, widget in self.widgets.items():
+                if widget.mode == interfaces.DISPLAY_MODE:
+                    if rawvalue is None:
+                        # lazy evaluation
+                        converter = zope.component.getMultiAdapter(
+                            (self.field, self),
+                            interfaces.IDataConverter)
+                        obj = self.getObject(self._value)
+                        rawvalue = converter.toWidgetValue(obj)
+
+                    self.applyValue(widget, rawvalue[name])
                 else:
-                    self.applyValue(widget, v)
+                    try:
+                        v = self._value[name]
+                    except KeyError:
+                        pass
+                    else:
+                        self.applyValue(widget, v)
 
     def applyValue(self, widget, value):
         """Validate and apply value to given widget.

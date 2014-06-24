@@ -69,6 +69,9 @@ All blank and empty values:
   Date label
   *
   []
+  ReadOnly label
+  *
+  []
   [Apply]
 
 Some valid default values
@@ -80,7 +83,8 @@ Some valid default values
   ...     singleChoice='two',
   ...     singleChoiceOpt='six',
   ...     singleTextLine=u'some text one',
-  ...     singleDate=date(2014, 6, 20))
+  ...     singleDate=date(2014, 6, 20),
+  ...     singleReadOnly=u'some R/O text')
 
   >>> content = getForm(request, 'ObjectWidget_single_edit_simple.html')
 
@@ -106,6 +110,9 @@ Some valid default values
   Date label
   *
   [14/06/20]
+  ReadOnly label
+  *
+  some R/O text
   [Apply]
 
 
@@ -178,6 +185,11 @@ We should get lots of errors:
   <BLANKLINE>
   The datetime string did not match the pattern u'yy/MM/dd'.
   [foobar]
+  <BLANKLINE>
+  ReadOnly label
+  *
+  <BLANKLINE>
+  some R/O text
 
 Let's fix the values:
 
@@ -219,4 +231,7 @@ Let's fix the values:
   Date label
   *
   [14/06/21]
+  ReadOnly label
+  *
+  some R/O text
   [Apply]

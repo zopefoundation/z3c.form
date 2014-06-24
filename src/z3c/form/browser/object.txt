@@ -250,7 +250,7 @@ The marker must stay (we have to modify the same object):
   >>> value = converter.toFieldValue(wv)
   Traceback (most recent call last):
   ...
-  ValueError: No IObjectFactory adapter registered for z3c.form.testing.IMySubObject
+  RuntimeError: No IObjectFactory adapter registered for z3c.form.testing.IMySubObject
 
 We have to register object factory adapters to allow the objectwidget to
 create objects:

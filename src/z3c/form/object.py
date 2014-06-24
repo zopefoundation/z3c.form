@@ -61,9 +61,7 @@ class ObjectConverter(BaseDataConverter):
         retval = ObjectWidgetValue()
         retval.originalValue = value
 
-        for name in zope.schema.getFieldNames(self.field.schema):
-            field = self.field.schema[name]
-
+        for name, field in zope.schema.getFields(self.field.schema).items():
             dm = zope.component.getMultiAdapter(
                 (value, field), interfaces.IDataManager)
             subv = dm.query()
@@ -143,8 +141,7 @@ class ObjectConverter(BaseDataConverter):
         obj = self.adapted_obj(obj)
 
         names = []
-        for name in zope.schema.getFieldNames(self.field.schema):
-            field = self.field.schema[name]
+        for name, field in zope.schema.getFields(self.field.schema).items():
             if not field.readonly:
                 try:
                     newvalRaw = value[name]
@@ -158,12 +155,10 @@ class ObjectConverter(BaseDataConverter):
                 newval = converter.toFieldValue(newvalRaw)
 
                 dm = zope.component.getMultiAdapter(
-                    (obj, self.field.schema[name]), interfaces.IDataManager)
+                    (obj, field), interfaces.IDataManager)
                 oldval = dm.query()
                 if (oldval != newval
-                    or zope.schema.interfaces.IObject.providedBy(
-                        self.field.schema[name])
-                    ):
+                    or zope.schema.interfaces.IObject.providedBy(field)):
                     dm.set(newval)
                     names.append(name)
 

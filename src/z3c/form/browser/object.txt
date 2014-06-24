@@ -1103,8 +1103,6 @@ Until updating the form:
   >>> editform.request = request
   >>> eventlog=[]
 
-  >> from dbgp.client import brk; brk('127.0.0.1')
-
   >>> editform.update()
 
   >>> newsub.foofield

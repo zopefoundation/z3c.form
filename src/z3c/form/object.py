@@ -201,10 +201,13 @@ class ObjectWidget(widget.Widget):
             for w in self.widgets.values():
                 w.mode = mode
 
-    def setupWidgets(self):
-        self.prefix = self.name
+    def setupFields(self):
         self.fields = field.Fields(self.field.schema)
 
+    def setupWidgets(self):
+        self.setupFields()
+
+        self.prefix = self.name
         self.widgets = field.FieldWidgets(self, self.request, None)
         self.widgets.mode = self.mode
         # very-very important! otherwise the update() tries to set

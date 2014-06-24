@@ -286,7 +286,8 @@ class ObjectWidget(widget.Widget):
                 value.originalValue = self._value.originalValue
 
             for name, widget in self.widgets.items():
-                value[name] = widget.value
+                if widget.mode != interfaces.DISPLAY_MODE:
+                    value[name] = widget.value
             return value
 
     @value.setter
@@ -328,7 +329,8 @@ class ObjectWidget(widget.Widget):
                 if self._updating:
                     # don't rebind value, send back the original object
                     for name, widget in self.widgets.items():
-                        value[name] = widget.value
+                        if widget.mode != interfaces.DISPLAY_MODE:
+                            value[name] = widget.value
                     return value
                 raise MultipleErrors(errors)
             return value

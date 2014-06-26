@@ -901,3 +901,54 @@ Change key values, item values must stick to the new values.
     dictOfDate: {datetime.date(2014, 6, 25): datetime.date(2014, 6, 20), datetime.date(2012, 2, 20): datetime.date(2013, 5, 19)}
     dictOfInt: {42: 100, -101: -100, -1: 1}
     dictOfTextLine: {'foobar': 'some text one', 'lorem': 'ipsum'}>
+
+Bool was misbehaving
+---------------------
+
+  >>> obj.dictOfInt = {-101: -100, -1:1, 101:100}
+  >>> obj.dictOfBool = {True: False, False: True}
+  >>> obj.dictOfChoice = {'key1': 'three', 'key3': 'two'}
+  >>> obj.dictOfTextLine = {u'textkey1': u'some text one',
+  ...     u'textkey2': u'some txt two'}
+  >>> obj.dictOfDate = {
+  ...     date(2011, 1, 15): date(2014, 6, 20),
+  ...     date(2012, 2, 20): date(2013, 5, 19)}
+
+  >>> request = testing.TestRequest()
+  >>> content = getForm(request)
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.dictOfBool.0'] = u'false'
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj)
+  <MultiWidgetDictIntegration
+    dictOfBool: {False: False, True: False}
+    dictOfChoice: {'key3': 'two', 'key1': 'three'}
+    dictOfDate: {datetime.date(2011, 1, 15): datetime.date(2014, 6, 20), datetime.date(2012, 2, 20): datetime.date(2013, 5, 19)}
+    dictOfInt: {-101: -100, 101: 100, -1: 1}
+    dictOfTextLine: {u'textkey2': u'some txt two', u'textkey1': u'some text one'}>
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.dictOfBool.0'] = u'true'
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj)
+  <MultiWidgetDictIntegration
+    dictOfBool: {False: True, True: False}
+    dictOfChoice: {'key3': 'two', 'key1': 'three'}
+    dictOfDate: {datetime.date(2011, 1, 15): datetime.date(2014, 6, 20), datetime.date(2012, 2, 20): datetime.date(2013, 5, 19)}
+    dictOfInt: {-101: -100, 101: 100, -1: 1}
+    dictOfTextLine: {u'textkey2': u'some txt two', u'textkey1': u'some text one'}>

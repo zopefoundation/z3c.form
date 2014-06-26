@@ -951,3 +951,83 @@ Change key values, item values must stick to the new values.
     multiDate: datetime.date(2014, 6, 20)
     multiInt: -100
     multiTextLine: u'some text one'>}
+
+Bool was misbehaving
+---------------------
+
+  >>> sub1 = testing.ObjectWidgetMultiSubIntegration(
+  ...     multiInt=-100,
+  ...     multiBool=False,
+  ...     multiChoice='two',
+  ...     multiChoiceOpt='six',
+  ...     multiTextLine=u'some text one',
+  ...     multiDate=date(2014, 6, 20))
+
+  >>> sub2 = testing.ObjectWidgetMultiSubIntegration(
+  ...     multiInt=42,
+  ...     multiBool=True,
+  ...     multiChoice='one',
+  ...     multiChoiceOpt='four',
+  ...     multiTextLine=u'second txt',
+  ...     multiDate=date(2011, 3, 15))
+
+  >>> obj.dictOfObject = {u'subob1': sub1, u'subob2': sub2}
+
+  >>> request = testing.TestRequest()
+  >>> content = getForm(request)
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiBool'] = u'true'
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj.dictOfObject)
+  {u'subob1': <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 20)
+    multiInt: -100
+    multiTextLine: u'some text one'>,
+   u'subob2': <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'one'
+    multiChoiceOpt: 'four'
+    multiDate: datetime.date(2011, 3, 15)
+    multiInt: 42
+    multiTextLine: u'second txt'>}
+
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiBool'] = u'false'
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj.dictOfObject)
+  {u'subob1': <ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 20)
+    multiInt: -100
+    multiTextLine: u'some text one'>,
+   u'subob2': <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'one'
+    multiChoiceOpt: 'four'
+    multiDate: datetime.date(2011, 3, 15)
+    multiInt: 42
+    multiTextLine: u'second txt'>}
+

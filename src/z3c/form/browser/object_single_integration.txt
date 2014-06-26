@@ -54,9 +54,9 @@ All blank and empty values:
   []
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -95,9 +95,9 @@ Some valid default values
   [-100]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -115,6 +115,16 @@ Some valid default values
   some R/O text
   [Apply]
 
+  >>> pprint(obj.subobj)
+  <ObjectWidgetSingleSubIntegration
+    singleBool: False
+    singleChoice: 'two'
+    singleChoiceOpt: 'six'
+    singleDate: datetime.date(2014, 6, 20)
+    singleInt: -100
+    singleReadOnly: u'some R/O text'
+    singleTextLine: u'some text one'>
+
 
 Wrong values
 -------------
@@ -127,6 +137,17 @@ Set wrong values:
   >>> submit['form.widgets.subobj.widgets.singleDate'] = u'foobar'
 
   >>> submit['form.buttons.apply'] = 'Apply'
+
+  >>> pprint(obj.subobj)
+  <ObjectWidgetSingleSubIntegration
+    singleBool: False
+    singleChoice: 'two'
+    singleChoiceOpt: 'six'
+    singleDate: datetime.date(2014, 6, 20)
+    singleInt: -100
+    singleReadOnly: u'some R/O text'
+    singleTextLine: u'some text one'>
+
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -159,9 +180,9 @@ We should get lots of errors:
   Bool label
   *
   <BLANKLINE>
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   <BLANKLINE>
   Choice label
@@ -216,9 +237,9 @@ Let's fix the values:
   [1,042]
   Bool label
   *
-  [true]
+  (O)
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -235,3 +256,14 @@ Let's fix the values:
   *
   some R/O text
   [Apply]
+
+  >>> pprint(obj.subobj)
+  <ObjectWidgetSingleSubIntegration
+    singleBool: True
+    singleChoice: 'three'
+    singleChoiceOpt: 'four'
+    singleDate: datetime.date(2014, 6, 21)
+    singleInt: 1042
+    singleReadOnly: u'some R/O text'
+    singleTextLine: u'foobar'>
+

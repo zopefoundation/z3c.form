@@ -45,7 +45,6 @@ All blank and empty values:
 
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
   [Add]
   [Apply]
 
@@ -89,61 +88,39 @@ Some valid default values
   >>> content = getForm(request, 'ObjectMulti_dict_edit_simple.html')
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
-  Object key
-  *
+  Object key *
   [subob1]
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [-100]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [some text one]
-  Date label
-  *
+  Date label *
   [14/06/20]
-  Object key
-  *
+  Object key *
   [subob2]
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [42]
-  Bool label
-  *
-  (O)
-  yes
-  ( )
-  no
-  Choice label
-  *
+  Bool label *
+  (O) yes ( ) no
+  Choice label *
   [one]
   ChoiceOpt label
   [four]
-  TextLine label
-  *
+  TextLine label *
   [second txt]
-  Date label
-  *
+  Date label *
   [11/03/15]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 wrong input (Int)
@@ -164,37 +141,23 @@ for "foobar" and a new input.
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_int.html')
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-dictOfObject-0-row"]'))
-  Object key
-  *
-  <BLANKLINE>
+  Object key *
   [subob1]
-  <BLANKLINE>
-  Object label
-  *
-  <BLANKLINE>
+  Object label *
   The entered value is not a valid integer literal.
-  <BLANKLINE>
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [some text one]
-  Date label
-  *
+  Date label *
   [14/06/20]
 
 Submit again with the empty field:
@@ -212,42 +175,27 @@ Submit again with the empty field:
 
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-dictOfObject-2-row"]'))
-  Object key
-  *
-  <BLANKLINE>
+  Object key *
   Required input is missing.
-  <BLANKLINE>
   []
-  <BLANKLINE>
-  Object label
-  *
-  <BLANKLINE>
+  Object label *
   Wrong contained type
-  <BLANKLINE>
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
+  ( ) yes ( ) no
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   Required input is missing.
   []
 
@@ -261,39 +209,25 @@ Let's remove some items:
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_int.html')
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
-  Object key
-  *
-  <BLANKLINE>
+  Object key *
   [subob1]
-  <BLANKLINE>
-  Object label
-  *
+  Object label *
   The entered value is not a valid integer literal.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [some text one]
-  Date label
-  *
+  Date label *
   [14/06/20]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 The object is unchanged:
@@ -333,39 +267,25 @@ for "foo\nbar" and a new input.
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_textline.html')
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-dictOfObject-0-row"]'))
-  Object key
-  *
-  <BLANKLINE>
+  Object key *
   [subob1]
-  <BLANKLINE>
-  Object label
-  *
-  <BLANKLINE>
+  Object label *
   Constraint not satisfied
-  <BLANKLINE>
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   [14/06/20]
 
 Submit again with the empty field:
@@ -398,39 +318,27 @@ Let's remove some items:
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_textline.html')
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
-  Object key
-  *
+  Object key *
   [subob1]
-  Object label
-  *
+  Object label *
   Constraint not satisfied
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   [14/06/20]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 The object is unchanged:
@@ -470,66 +378,44 @@ for "foobar" and a new input.
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_date.html')
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
-  Object key
-  *
+  Object key *
   [subob1]
-  Object label
-  *
+  Object label *
   The datetime string did not match the pattern u'yy/MM/dd'.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   The datetime string did not match the pattern u'yy/MM/dd'.
   [foobar]
-  Object key
-  *
+  Object key *
   []
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   []
-  Bool label
-  *
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes ( ) no
+  Choice label *
   [[    ]]
   ChoiceOpt label
   [[    ]]
-  TextLine label
-  *
+  TextLine label *
   []
-  Date label
-  *
+  Date label *
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 Submit again with the empty field:
@@ -559,105 +445,73 @@ And fill in a valid value:
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_date2.html')
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
-  Object key
-  *
+  Object key *
   [subob1]
-  Object label
-  *
+  Object label *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
-  Object key
-  *
+  Object key *
   Required input is missing.
   []
-  Object label
-  *
+  Object label *
   Wrong contained type
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
+  ( ) yes ( ) no
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   Required input is missing.
   []
-  Object key
-  *
+  Object key *
   Required input is missing.
   []
-  Object label
-  *
+  Object label *
   Wrong contained type
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
+  ( ) yes ( ) no
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   [14/06/21]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 Let's remove some items:
@@ -669,73 +523,51 @@ Let's remove some items:
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_date.html')
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
-  Object key
-  *
+  Object key *
   [subob1]
-  Object label
-  *
+  Object label *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
-  Object key
-  *
+  Object key *
   Required input is missing.
   []
-  Object label
-  *
+  Object label *
   Wrong contained type
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
+  ( ) yes ( ) no
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   Required input is missing.
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 The object is unchanged:
@@ -771,35 +603,23 @@ Fix values
   >>> content = getForm(request, 'ObjectMulti_dict_edit_fix_values.html')
   >>> print(testing.plainText(content))
   DictOfObject label
-  <BLANKLINE>
-  Object key
-  *
+  Object key *
   [subob1]
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [1,042]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [moo900]
-  Date label
-  *
+  Date label *
   [14/06/23]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 The object is unchanged:
@@ -832,34 +652,23 @@ And apply
   <BLANKLINE>
   DictOfObject label
   <BLANKLINE>
-  Object key
-  *
+  Object key *
   [subob1]
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [1,042]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [moo900]
-  Date label
-  *
+  Date label *
   [14/06/23]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 Now the object gets updated:
@@ -1030,4 +839,3 @@ Bool was misbehaving
     multiDate: datetime.date(2011, 3, 15)
     multiInt: 42
     multiTextLine: u'second txt'>}
-

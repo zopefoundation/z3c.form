@@ -82,113 +82,74 @@ Some valid default values
   >>> print(testing.plainText(content))
   DictOfInt label
   <BLANKLINE>
-  Int key
-  *
+  Int key *
   [-101]
-  Int label
-  *
+  Int label *
   [ ]
   [-100]
-  Int key
-  *
+  Int key *
   [101]
-  Int label
-  *
+  Int label *
   [ ]
   [100]
-  Int key
-  *
+  Int key *
   [-1]
-  Int label
-  *
+  Int label *
   [ ]
   [1]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   DictOfBool label
   <BLANKLINE>
-  Bool key
-  *
-  ( )
-  yes
-  (O)
-  no
-  Bool label
-  *
+  Bool key *
+  ( ) yes (O) no
+  Bool label *
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  Bool key
-  *
-  (O)
-  yes
-  ( )
-  no
-  Bool label
-  *
+  (O) yes ( ) no
+  Bool key *
+  (O) yes ( ) no
+  Bool label *
   [ ]
-  ( )
-  yes
-  (O)
-  no
-  [Add]
-  [Remove selected]
+  ( ) yes (O) no
+  [Add] [Remove selected]
   DictOfChoice label
   <BLANKLINE>
-  Choice key
-  *
+  Choice key *
   [key3]
-  Choice label
-  *
+  Choice label *
   [ ]
   [two]
-  Choice key
-  *
+  Choice key *
   [key1]
-  Choice label
-  *
+  Choice label *
   [ ]
   [three]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   DictOfTextLine label
   <BLANKLINE>
-  TextLine key
-  *
+  TextLine key *
   [textkey2]
-  TextLine label
-  *
+  TextLine label *
   [ ]
   [some txt two]
-  TextLine key
-  *
+  TextLine key *
   [textkey1]
-  TextLine label
-  *
+  TextLine label *
   [ ]
   [some text one]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   DictOfDate label
   <BLANKLINE>
-  Date key
-  *
+  Date key *
   [11/01/15]
-  Date label
-  *
+  Date label *
   [ ]
   [14/06/20]
-  Date key
-  *
+  Date key *
   [12/02/20]
-  Date label
-  *
+  Date label *
   [ ]
   [13/05/19]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 dictOfInt
@@ -212,50 +173,41 @@ for "foobar" and a new input.
   ...     './/form/div[@id="row-form-widgets-dictOfInt"]'))
   DictOfInt label
   <BLANKLINE>
-  Int key
-  *
+  Int key *
   <BLANKLINE>
   [-101]
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   [ ]
   [-100]
-  Int key
-  *
+  Int key *
   <BLANKLINE>
   The entered value is not a valid integer literal.
   [foobar]
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   The entered value is not a valid integer literal.
   [ ]
   [foobar]
-  Int key
-  *
+  Int key *
   <BLANKLINE>
   [-1]
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   [ ]
   [1]
-  Int key
-  *
+  Int key *
   <BLANKLINE>
   []
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -281,30 +233,25 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-dictOfInt"]'))
   DictOfInt label
   <BLANKLINE>
-  Int key
-  *
+  Int key *
   <BLANKLINE>
   [-101]
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   [ ]
   [-100]
-  Int key
-  *
+  Int key *
   <BLANKLINE>
   Required input is missing.
   []
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   Required input is missing.
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetDictIntegration
@@ -331,56 +278,31 @@ Important is that we get a new input.
   ...     './/form/div[@id="row-form-widgets-dictOfBool"]'))
   DictOfBool label
   <BLANKLINE>
-  Bool key
-  *
+  Bool key *
   <BLANKLINE>
-  ( )
-  yes
-  (O)
-  no
+  ( ) yes (O) no
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   <BLANKLINE>
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  Bool key
-  *
+  (O) yes ( ) no
+  Bool key *
   <BLANKLINE>
-  (O)
-  yes
-  ( )
-  no
+  (O) yes ( ) no
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   <BLANKLINE>
   [ ]
-  ( )
-  yes
-  (O)
-  no
-  Bool key
-  *
+  ( ) yes (O) no
+  Bool key *
   <BLANKLINE>
-  ( )
-  yes
-  ( )
-  no
+  ( ) yes ( ) no
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   <BLANKLINE>
   [ ]
-  ( )
-  yes
-  ( )
-  no
-  [Add]
-  [Remove selected]
+  ( ) yes ( ) no
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -404,24 +326,15 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-dictOfBool"]'))
   DictOfBool label
   <BLANKLINE>
-  Bool key
-  *
+  Bool key *
   <BLANKLINE>
-  ( )
-  yes
-  (O)
-  no
+  ( ) yes (O) no
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   <BLANKLINE>
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  [Add]
-  [Remove selected]
+  (O) yes ( ) no
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetDictIntegration
@@ -448,38 +361,31 @@ Important is that we get a new input.
   ...     './/form/div[@id="row-form-widgets-dictOfChoice"]'))
   DictOfChoice label
   <BLANKLINE>
-  Choice key
-  *
+  Choice key *
   <BLANKLINE>
   [key3]
   <BLANKLINE>
-  Choice label
-  *
+  Choice label *
   <BLANKLINE>
   [ ]
   [two]
-  Choice key
-  *
+  Choice key *
   <BLANKLINE>
   [key1]
   <BLANKLINE>
-  Choice label
-  *
+  Choice label *
   <BLANKLINE>
   [ ]
   [three]
-  Choice key
-  *
+  Choice key *
   <BLANKLINE>
   [[    ]]
   <BLANKLINE>
-  Choice label
-  *
+  Choice label *
   <BLANKLINE>
   [ ]
   [[    ]]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -503,18 +409,15 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-dictOfChoice"]'))
   DictOfChoice label
   <BLANKLINE>
-  Choice key
-  *
+  Choice key *
   <BLANKLINE>
   [key3]
   <BLANKLINE>
-  Choice label
-  *
+  Choice label *
   <BLANKLINE>
   [ ]
   [two]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetDictIntegration
@@ -546,42 +449,35 @@ for "foo\nbar" and a new input.
   ...     './/form/div[@id="row-form-widgets-dictOfTextLine"]'))
   DictOfTextLine label
   <BLANKLINE>
-  TextLine key
-  *
+  TextLine key *
   <BLANKLINE>
   [textkey2]
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   [ ]
   [some txt two]
-  TextLine key
-  *
+  TextLine key *
   <BLANKLINE>
   Constraint not satisfied
   [foo
   bar]
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   Constraint not satisfied
   [ ]
   [foo
   bar]
-  TextLine key
-  *
+  TextLine key *
   <BLANKLINE>
   []
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -606,34 +502,29 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-dictOfTextLine"]'))
   DictOfTextLine label
   <BLANKLINE>
-  TextLine key
-  *
+  TextLine key *
   <BLANKLINE>
   Constraint not satisfied
   [foo
   bar]
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   Constraint not satisfied
   [ ]
   [foo
   bar]
-  TextLine key
-  *
+  TextLine key *
   <BLANKLINE>
   Required input is missing.
   []
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   Required input is missing.
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetDictIntegration
@@ -665,40 +556,33 @@ for "foobar" and a new input.
   ...     './/form/div[@id="row-form-widgets-dictOfDate"]'))
   DictOfDate label
   <BLANKLINE>
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
   [foobar]
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   [12/02/20]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   [ ]
   [13/05/19]
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   []
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -723,40 +607,33 @@ And fill in a valid value:
   ...     './/form/div[@id="row-form-widgets-dictOfDate"]'))
   DictOfDate label
   <BLANKLINE>
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
   [foobar]
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   [12/02/20]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   [ ]
   [13/05/19]
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   [14/05/12]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   [ ]
   [14/06/21]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Let's remove some items:
 
@@ -769,30 +646,25 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-dictOfDate"]'))
   DictOfDate label
   <BLANKLINE>
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
   [foobar]
-  Date key
-  *
+  Date key *
   <BLANKLINE>
   [12/02/20]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   [ ]
   [13/05/19]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetDictIntegration
@@ -810,10 +682,7 @@ And apply
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request)
   >>> print(testing.plainText(content))
-  There were some errors.
-  * DictOfInt label: Wrong contained type
-  * DictOfTextLine label: Constraint not satisfied
-  * DictOfDate label: The datetime string did not match the pattern u'yy/MM/dd'.
+  There were some errors. * DictOfInt label: Wrong contained type * DictOfTextLine label: Constraint not satisfied * DictOfDate label: The datetime string did not match the pattern u'yy/MM/dd'.
   ...
 
   >>> pprint(obj)

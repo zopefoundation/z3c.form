@@ -77,65 +77,43 @@ Some valid default values
   >>> print(testing.plainText(content))
   ListOfInt label
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   [ ]
   [-100]
-  Int label
-  *
+  Int label *
   [ ]
   [1]
-  Int label
-  *
+  Int label *
   [ ]
   [100]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   ListOfBool label
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  Bool label
-  *
+  (O) yes ( ) no
+  Bool label *
   [ ]
-  ( )
-  yes
-  (O)
-  no
-  Bool label
-  *
+  ( ) yes (O) no
+  Bool label *
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  [Add]
-  [Remove selected]
+  (O) yes ( ) no
+  [Add] [Remove selected]
   ListOfTextLine label
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   [ ]
   [some text one]
-  TextLine label
-  *
+  TextLine label *
   [ ]
   [some txt two]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   ListOfDate label
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   [ ]
   [14/06/20]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
   >>> pprint(obj)
@@ -166,25 +144,20 @@ for "foobar" and a new input.
   ...     './/form/div[@id="row-form-widgets-listOfInt"]'))
   ListOfInt label
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   [ ]
   [-100]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [ ]
   [foobar]
-  Int label
-  *
+  Int label *
   [ ]
   [100]
-  Int label
-  *
+  Int label *
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -208,19 +181,16 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-listOfInt"]'))
   ListOfInt label
   <BLANKLINE>
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   [ ]
   [-100]
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   Required input is missing.
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetListIntegration
@@ -247,40 +217,23 @@ Important is that we get a new input.
   ...     './/form/div[@id="row-form-widgets-listOfBool"]'))
   ListOfBool label
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   <BLANKLINE>
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  Bool label
-  *
+  (O) yes ( ) no
+  Bool label *
   <BLANKLINE>
   [ ]
-  ( )
-  yes
-  (O)
-  no
-  Bool label
-  *
+  ( ) yes (O) no
+  Bool label *
   <BLANKLINE>
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  Bool label
-  *
+  (O) yes ( ) no
+  Bool label *
   <BLANKLINE>
   [ ]
-  ( )
-  yes
-  ( )
-  no
-  [Add]
-  [Remove selected]
+  ( ) yes ( ) no
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -303,25 +256,16 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-listOfBool"]'))
   ListOfBool label
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   <BLANKLINE>
   [ ]
-  (O)
-  yes
-  ( )
-  no
-  Bool label
-  *
+  (O) yes ( ) no
+  Bool label *
   <BLANKLINE>
   Required input is missing.
   [ ]
-  ( )
-  yes
-  ( )
-  no
-  [Add]
-  [Remove selected]
+  ( ) yes ( ) no
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetListIntegration
@@ -352,25 +296,21 @@ for "foo\nbar" and a new input.
   ...     './/form/div[@id="row-form-widgets-listOfTextLine"]'))
   ListOfTextLine label
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   [ ]
   [some text one]
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   Constraint not satisfied
   [ ]
   [foo
   bar]
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -393,21 +333,18 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-listOfTextLine"]'))
   ListOfTextLine label
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   Constraint not satisfied
   [ ]
   [foo
   bar]
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   Required input is missing.
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetListIntegration
@@ -438,19 +375,16 @@ for "foobar" and a new input.
   ...     './/form/div[@id="row-form-widgets-listOfDate"]'))
   ListOfDate label
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   The datetime string did not match the pattern u'yy/MM/dd'.
   [ ]
   [foobar]
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Submit again with the empty field:
 
@@ -479,25 +413,21 @@ And fill in a valid value:
   ...     './/form/div[@id="row-form-widgets-listOfDate"]'))
   ListOfDate label
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   The datetime string did not match the pattern u'yy/MM/dd'.
   [ ]
   [foobar]
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   Required input is missing.
   [ ]
   []
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   [ ]
   [14/06/21]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
 Let's remove some items:
 
@@ -510,20 +440,17 @@ Let's remove some items:
   ...     './/div[@id="row-form-widgets-listOfDate"]'))
   ListOfDate label
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   The datetime string did not match the pattern u'yy/MM/dd'.
   [ ]
   [foobar]
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   Required input is missing.
   [ ]
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
 
   >>> pprint(obj)
   <MultiWidgetListIntegration
@@ -542,11 +469,7 @@ And apply
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request)
   >>> print(testing.plainText(content))
-  There were some errors.
-  * ListOfInt label: Wrong contained type
-  * ListOfBool label: Wrong contained type
-  * ListOfTextLine label: Constraint not satisfied
-  * ListOfDate label: The datetime string did not match the pattern 'yy/MM/dd'.
+  There were some errors. * ListOfInt label: Wrong contained type * ListOfBool label: Wrong contained type * ListOfTextLine label: Constraint not satisfied * ListOfDate label: The datetime string did not match the pattern 'yy/MM/dd'.
   ...
 
   >>> pprint(obj)

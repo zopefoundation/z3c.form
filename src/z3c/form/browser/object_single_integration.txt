@@ -49,28 +49,19 @@ All blank and empty values:
 
   >>> print(testing.plainText(content))
   Object label
-  Int label
-  *
+  Int label *
   []
-  Bool label
-  *
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes ( ) no
+  Choice label *
   [[    ]]
   ChoiceOpt label
   [[    ]]
-  TextLine label
-  *
+  TextLine label *
   []
-  Date label
-  *
+  Date label *
   []
-  ReadOnly label
-  *
+  ReadOnly label *
   []
   [Apply]
 
@@ -90,28 +81,19 @@ Some valid default values
 
   >>> print(testing.plainText(content))
   Object label
-  Int label
-  *
+  Int label *
   [-100]
-  Bool label
-  *
-  ( )
-  yes
-  (O)
-  no
-  Choice label
-  *
+  Bool label *
+  ( ) yes (O) no
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [some text one]
-  Date label
-  *
+  Date label *
   [14/06/20]
-  ReadOnly label
-  *
+  ReadOnly label *
   some R/O text
   [Apply]
 
@@ -171,22 +153,16 @@ We should get lots of errors:
   The entered value is not a valid integer literal.
   Constraint not satisfied
   The datetime string did not match the pattern u'yy/MM/dd'. Object label
-  Int label
-  *
+  Int label *
   <BLANKLINE>
   The entered value is not a valid integer literal.
   [foobar]
   <BLANKLINE>
-  Bool label
-  *
+  Bool label *
   <BLANKLINE>
-  ( )
-  yes
-  (O)
-  no
+  ( ) yes (O) no
   <BLANKLINE>
-  Choice label
-  *
+  Choice label *
   <BLANKLINE>
   [two]
   <BLANKLINE>
@@ -194,21 +170,18 @@ We should get lots of errors:
   <BLANKLINE>
   [six]
   <BLANKLINE>
-  TextLine label
-  *
+  TextLine label *
   <BLANKLINE>
   Constraint not satisfied
   [foo
   bar]
   <BLANKLINE>
-  Date label
-  *
+  Date label *
   <BLANKLINE>
   The datetime string did not match the pattern u'yy/MM/dd'.
   [foobar]
   <BLANKLINE>
-  ReadOnly label
-  *
+  ReadOnly label *
   <BLANKLINE>
   some R/O text
 
@@ -232,28 +205,19 @@ Let's fix the values:
   Data successfully updated.
   <BLANKLINE>
   Object label
-  Int label
-  *
+  Int label *
   [1,042]
-  Bool label
-  *
-  (O)
-  yes
-  ( )
-  no
-  Choice label
-  *
+  Bool label *
+  (O) yes ( ) no
+  Choice label *
   [three]
   ChoiceOpt label
   [four]
-  TextLine label
-  *
+  TextLine label *
   [foobar]
-  Date label
-  *
+  Date label *
   [14/06/21]
-  ReadOnly label
-  *
+  ReadOnly label *
   some R/O text
   [Apply]
 

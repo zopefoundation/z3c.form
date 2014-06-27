@@ -92,51 +92,10 @@ class ObjectConverter(BaseDataConverter):
     def adapted_obj(self, obj):
         return self.field.schema(obj)
 
-    #def createObject(self, value):
-    #    #keep value passed, maybe some subclasses want it
-    #    #value here is the raw extracted from the widget's subform
-    #    #in the form of a dict key:fieldname, value:fieldvalue
-    #
-    #    name = getIfName(self.field.schema)
-    #    creator = zope.component.queryMultiAdapter(
-    #        (self.widget.context, self.widget.request,
-    #         self.widget.form, self.widget),
-    #        interfaces.IObjectFactory,
-    #        name=name)
-    #    if creator:
-    #        obj = creator(value)
-    #    else:
-    #        raise ValueError("No IObjectFactory adapter registered for %s" %
-    #                         name)
-    #
-    #    return obj
-
     def toFieldValue(self, value):
         """field value is an Object type, that provides field.schema"""
         if value is interfaces.NO_VALUE:
             return self.field.missing_value
-
-        #if value.originalValue is ObjectWidget_NO_VALUE:
-        #    # if the originalValue did not survive the roundtrip
-        #    if self.widget.ignoreContext:
-        #        obj = self.createObject(value)
-        #    else:
-        #        # try to get the original object from the context.field_name
-        #        dm = zope.component.getMultiAdapter(
-        #            (self.widget.context, self.field), interfaces.IDataManager)
-        #        try:
-        #            obj = dm.get()
-        #        except KeyError:
-        #            obj = self.createObject(value)
-        #        except AttributeError:
-        #            obj = self.createObject(value)
-        #else:
-        #    # reuse the object that we got in toWidgetValue
-        #    obj = value.originalValue
-        #
-        #if obj is None or obj == self.field.missing_value:
-        #    # if still None, create one, otherwise following will burp
-        #    obj = self.createObject(value)
 
         # try to get the original object, or if there's no chance an empty one
         obj = self.widget.getObject(value)

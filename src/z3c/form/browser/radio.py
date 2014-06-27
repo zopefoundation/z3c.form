@@ -55,7 +55,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
         """See z3c.form.interfaces.IWidget."""
         super(RadioWidget, self).update()
         # XXX: this is to early for setup items. See select widget how this
-        # sould be done. Setup the items here doens't allow to override the
+        # should be done. Setup the items here doesn't allow to override the
         # widget.value in updateWidgets, ri
         widget.addFieldClass(self)
         self.items = []

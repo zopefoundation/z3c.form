@@ -76,15 +76,7 @@ class ObjectConverter(BaseDataConverter):
                 #if adapter:
                 #    value = adapter.get()
 
-            widget = zope.component.getMultiAdapter((field, self.widget.request),
-                interfaces.IFieldWidget)
-            if interfaces.IFormAware.providedBy(self.widget):
-                # form property required by objectwidget
-                widget.form = self.widget.form
-                zope.interface.alsoProvides(widget, interfaces.IFormAware)
-            converter = zope.component.getMultiAdapter((field, widget),
-                interfaces.IDataConverter)
-
+            converter = self._getConverter(field)
             retval[name] = converter.toWidgetValue(subv)
 
         return retval
@@ -109,10 +101,7 @@ class ObjectConverter(BaseDataConverter):
                 except KeyError:
                     continue
 
-                widget = zope.component.getMultiAdapter(
-                    (field, self.widget.request), interfaces.IFieldWidget)
-                converter = zope.component.getMultiAdapter(
-                    (field, widget), interfaces.IDataConverter)
+                converter = self._getConverter(field)
                 newval = converter.toFieldValue(newvalRaw)
 
                 dm = zope.component.getMultiAdapter(

@@ -5,7 +5,7 @@ CHANGES
 3.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Correctly handle noValueToken in RadioWidget
 
 
 3.2.1 (2014-06-09)

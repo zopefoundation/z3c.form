@@ -17,10 +17,12 @@ configuration.
   >>> import zope.component
   >>> import zope.security
   >>> import zope.i18n
+  >>> import zope.browserresource
   >>> import z3c.form
   >>> xmlconfig.XMLConfig('meta.zcml', zope.component)()
   >>> xmlconfig.XMLConfig('meta.zcml', zope.security)()
   >>> xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
+  >>> xmlconfig.XMLConfig('meta.zcml', zope.browserresource)()
   >>> xmlconfig.XMLConfig('meta.zcml', z3c.form)()
   >>> xmlconfig.XMLConfig('configure.zcml', z3c.form)()
 
@@ -955,9 +957,7 @@ List - Choice
   <CollectionSequenceDataConverter converts from List to OrderedSelectWidget>
 
   >>> print(widget.render())
-  <script type="text/javascript">
-  ...
-  </script>
+  <script src="++resource++orderedselect_input.js" type="text/javascript"></script>
   <table border="0" class="ordered-selection-field" id="foo">
     <tr>
       <td>
@@ -2290,9 +2290,7 @@ Tuple - Choice
   <CollectionSequenceDataConverter converts from Tuple to OrderedSelectWidget>
 
   >>> print(widget.render())
-  <script type="text/javascript">
-  ...
-  </script>
+  <script src="++resource++orderedselect_input.js" type="text/javascript"></script>
   <table border="0" class="ordered-selection-field" id="foo">
     <tr>
       <td>

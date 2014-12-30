@@ -45,7 +45,6 @@ If we render the widget we get an empty widget:
 
   >>> print(widget.render())
   <script type="text/javascript" src="++resource++orderedselect_input.js" />
-
   <table border="0" class="ordered-selection-field" id="widget-id">
     <tr>
       <td>

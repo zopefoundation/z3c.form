@@ -69,6 +69,12 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
         super(RadioWidget, self).update()
         widget.addFieldClass(self)
 
+    def json_data(self):
+        data = super(RadioWidget, self).json_data()
+        data['options'] = list(self.items())
+        data['type'] = 'radio'
+        return data
+
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

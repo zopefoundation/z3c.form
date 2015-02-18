@@ -490,6 +490,9 @@ class IWidget(ILocation):
     def render():
         """Render the plain widget without additional layout"""
 
+    def json_data():
+        """Returns a dictionary for the widget"""
+
     def __call__():
         """Render a layout template which is calling widget/render"""
 
@@ -986,6 +989,9 @@ class IForm(zope.interface.Interface):
 
     def render():
         '''Render the form.'''
+
+    def json():
+        '''Returns the form in json format'''
 
 class ISubForm(IForm):
     """A subform."""

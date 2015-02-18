@@ -46,6 +46,10 @@ class ImageWidget(button.ButtonWidget):
             'y': int(self.request[self.name + '.y']),
             'value': self.request[self.name]}
 
+    def json_data(self):
+        data = super(ImageWidget, self).json_data()
+        data['type'] = 'image'
+        return data
 
 @zope.component.adapter(interfaces.IImageButton, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

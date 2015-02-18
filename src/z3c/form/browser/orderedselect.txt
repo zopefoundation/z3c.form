@@ -81,6 +81,20 @@ If we render the widget we get an empty widget:
     </tr>
   </table>
 
+The json data representing the oredered select widget:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'mode': 'input',
+   'name': 'widget.name',
+   'notSelected': (),
+   'options': (),
+   'required': False,
+   'selected': (),
+   'type': 'multiSelect',
+   'value': ()}
+
 Let's provide some values for this widget. We can do this by defining a source
 providing ``ITerms``. This source uses descriminators wich will fit our setup.
 
@@ -131,6 +145,23 @@ If we select item "b", then it should be selected:
           size="5" multiple="multiple">
     <option value="b">B</option>
   </select>
+
+The json data representing the oredered select widget:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'mode': 'input',
+   'name': 'widget.name',
+   'notSelected': [{'content': 'A', 'id': 'widget-id-0', 'value': 'a'},
+                   {'content': 'C', 'id': 'widget-id-2', 'value': 'c'}],
+   'options': [{'content': 'A', 'id': 'widget-id-0', 'value': 'a'},
+               {'content': 'B', 'id': 'widget-id-1', 'value': 'b'},
+               {'content': 'C', 'id': 'widget-id-2', 'value': 'c'}],
+   'required': False,
+   'selected': [{'content': 'B', 'id': 'widget-id-0', 'value': 'b'}],
+   'type': 'multiSelect',
+   'value': ['b']}
 
 Let's now make sure that we can extract user entered data from a widget:
 

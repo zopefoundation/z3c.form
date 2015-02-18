@@ -46,10 +46,15 @@ class BaseDataConverter(object):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
-        if self._strip_value and isinstance(value, basestring):
+        try:
             value = value.strip()
+        except AttributeError:
+            # It just was not meant to be
+            pass
+
         if value == u'':
             return self.field.missing_value
+
         return self.field.fromUnicode(value)
 
     def __repr__(self):

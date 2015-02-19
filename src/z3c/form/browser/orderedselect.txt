@@ -86,6 +86,7 @@ The json data representing the oredered select widget:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'notSelected': (),
@@ -151,6 +152,7 @@ The json data representing the oredered select widget:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'notSelected': [{'content': 'A', 'id': 'widget-id-0', 'value': 'a'},

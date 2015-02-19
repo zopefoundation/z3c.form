@@ -95,6 +95,7 @@ The checkbox json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'checked': False,
@@ -140,6 +141,7 @@ The checkbox json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'checked': True,
@@ -181,6 +183,7 @@ The checkbox json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'hidden',
    'name': 'widget.name',
    'options': [{'checked': True,
@@ -269,6 +272,7 @@ The checkbox json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': 'Do you want that?',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'checked': False,

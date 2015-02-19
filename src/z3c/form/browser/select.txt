@@ -82,6 +82,7 @@ Select json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'content': 'No value',
@@ -123,6 +124,7 @@ Select json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'content': 'No value',
@@ -228,6 +230,7 @@ Select json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'content': '- nothing -',

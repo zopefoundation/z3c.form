@@ -58,6 +58,7 @@ The json data representing the textarea widget:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'id',
+   'label': '',
    'mode': 'input',
    'name': 'name',
    'required': False,

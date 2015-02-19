@@ -171,7 +171,8 @@ class BaseForm(browser.BrowserPage):
             'prefix': self.prefix,
             'status': self.status,
             'mode': self.mode,
-            'fields': [widget.json_data() for widget in self.widgets.values()]
+            'fields': [widget.json_data() for widget in self.widgets.values()],
+            'label': self.label or ''
         }
         return json.dumps(data)
 

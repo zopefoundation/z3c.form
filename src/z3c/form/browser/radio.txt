@@ -97,6 +97,7 @@ The radio json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'checked': False,
@@ -139,6 +140,7 @@ The radio json_data representation:
   >>> pprint(widget.json_data())
   {'error': '',
    'id': 'widget-id',
+   'label': '',
    'mode': 'input',
    'name': 'widget.name',
    'options': [{'checked': True,

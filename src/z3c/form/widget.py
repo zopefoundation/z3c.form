@@ -160,7 +160,8 @@ class Widget(zope.location.Location):
             'required': self.required,
             'name': self.name,
             'id': getattr(self, 'id', ''),
-            'type': 'text'
+            'type': 'text',
+            'label': self.label or ''
         }
 
     def __call__(self):

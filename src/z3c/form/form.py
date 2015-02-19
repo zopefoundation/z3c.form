@@ -162,8 +162,8 @@ class BaseForm(browser.BrowserPage):
             return template(self)
         return self.template()
 
-    def json(self):
-        data = {
+    def json_data(self):
+        return {
             'errors': [
                 error.message for error in
                 (self.widgets.errors or []) if error.field is None
@@ -174,7 +174,9 @@ class BaseForm(browser.BrowserPage):
             'fields': [widget.json_data() for widget in self.widgets.values()],
             'label': self.label or ''
         }
-        return json.dumps(data)
+
+    def json(self):
+        return json.dumps(self.json_data())
 
 
 @zope.interface.implementer(interfaces.IDisplayForm)

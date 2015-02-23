@@ -23,6 +23,8 @@ import zope.interface
 import zope.schema
 
 from doctest import register_optionflag
+from zope.browserpage.viewpagetemplatefile import BoundPageTemplate
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.publisher.browser import TestRequest
 from zope.schema.fieldproperty import FieldProperty
@@ -30,10 +32,12 @@ from zope.security import checker
 from zope.security.interfaces import IInteraction
 from zope.security.interfaces import ISecurityPolicy
 
+import z3c.form
 from z3c.form import browser, button, converter, datamanager, error, field
 from z3c.form import form, interfaces, term, validator, widget
 from z3c.form import contentprovider
 from z3c.form import outputchecker
+from z3c.form import tests
 from z3c.form.browser import radio, select, text, textarea
 
 import lxml.html
@@ -74,7 +78,24 @@ class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
 
 @zope.interface.implementer(interfaces.IFormLayer)
 class TestRequest(TestRequest):
-    pass
+    def __init__(self, body_instream=None, environ=None, form=None,
+                 skin=None, **kw):
+        if form is not None:
+            lists = {}
+            for k in list(form.keys()):
+                if isinstance(form[k], basestring):
+                    # ensure unicode otherwise z3c.forms burps on str
+                    form[k] = unicode(form[k])
+
+                if k.endswith(':list'):
+                    key = k.split(':', 1)[0]
+                    lists.setdefault(key, []).append(form[k])
+                    del form[k]
+
+            form.update(lists)
+
+        super(TestRequest, self).__init__(
+            body_instream, environ, form, skin, **kw)
 
 
 @zope.interface.implementer(IInteraction)
@@ -238,6 +259,15 @@ def setUpZ3CPT(suite):
     setUp(suite)
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.pt)()
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.ptcompat)()
+
+
+def setUpIntegration(test):
+    setUp(test)
+    zope.configuration.xmlconfig.XMLConfig('meta.zcml', zope.component)()
+    zope.configuration.xmlconfig.XMLConfig('meta.zcml', zope.security)()
+    zope.configuration.xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
+    zope.configuration.xmlconfig.XMLConfig('meta.zcml', z3c.form)()
+    zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.form)()
 
 
 def setupFormDefaults():
@@ -466,3 +496,341 @@ def render(view, xpath='.'):
     output = output.replace('"/>', '" />')
 
     return output
+
+
+def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
+    if isinstance(node, (list, tuple)):
+        return '\n'.join(textOfWithOptionalTitle(child, addTitle, showTooltips)
+                         for child in node)
+    text = []
+    if node is None:
+        return None
+
+    if node.tag == 'br':
+        return '\n'
+    if node.tag == 'input':
+        if addTitle:
+            title = node.get('name') or ''
+            title += ' '
+        else:
+            title = ''
+        if node.get('type') == 'radio':
+            return title + ('(O)' if node.get('checked') else '( )')
+        if node.get('type') == 'checkbox':
+            return title + ('[x]' if node.get('checked') else '[ ]')
+        if node.get('type') == 'hidden':
+            return ''
+        else:
+            return '%s[%s]' % (title, node.get('value') or '')
+    if node.tag == 'textarea':
+        if addTitle:
+            title = node.get('name') or ''
+            title += ' '
+            text.append(title)
+    if node.tag == 'select':
+        if addTitle:
+            title = node.get('name') or ''
+            title += ' '
+        else:
+            title = ''
+        option = node.find('option[@selected]')
+        return '%s[%s]' % (title, option.text if option is not None
+                                  else '[    ]')
+    if node.tag == 'li':
+        text.append('*')
+    if node.tag == 'script':
+        return
+
+    if node.text and node.text.strip():
+        text.append(node.text.strip())
+
+    for n, child in enumerate(node):
+        s = textOfWithOptionalTitle(child, addTitle, showTooltips)
+        if s:
+            text.append(s)
+        if child.tail and child.tail.strip():
+            text.append(child.tail)
+    text = ' '.join(text).strip()
+    # 'foo<br>bar' ends up as 'foo \nbar' due to the algorithm used above
+    text = text.replace(' \n', '\n').replace('\n ', '\n').replace('\n\n', '\n')
+    if u'\xA0' in text:
+        # don't just .replace, that'll sprinkle my tests with u''
+        text = text.replace(u'\xA0', ' ')  # nbsp -> space
+    if node.tag == 'li':
+        text += '\n'
+    if node.tag == 'div':
+        text += '\n'
+    return text
+
+
+def textOf(node):
+    """Return the contents of an HTML node as text.
+
+    Useful for functional tests, e.g. ::
+
+        print map(textOf, browser.etree.xpath('.//td'))
+
+    """
+    return textOfWithOptionalTitle(node, False)
+
+
+def plainText(content, xpath=None):
+    root = lxml.html.fromstring(content)
+    if xpath is not None:
+        nodes = root.xpath(xpath)
+        joinon = '\n'
+    else:
+        nodes = root
+        joinon = ''
+    text = joinon.join(map(textOf, nodes))
+    lines = [l.strip() for l in text.splitlines()]
+    text = '\n'.join(lines)
+    return text
+
+
+def getSubmitValues(content):
+    root = lxml.html.fromstring(content)
+    form = root.forms[0]
+    values = dict(form.form_values())
+    return values
+
+
+def addTemplate(form, fname):
+    form.template = BoundPageTemplate(
+        ViewPageTemplateFile(
+            fname, os.path.dirname(tests.__file__)), form)
+
+
+def saveHtml(content, fname):
+    path = os.path.join(os.getcwd(), 'htmls')
+    if not os.path.exists(path):
+        os.makedirs(path)
+    fullfname = os.path.join(path, fname)
+    open(fullfname, 'wb').write(content.encode('utf8'))
+
+    fullfname = os.path.join(path, 'integration.css')
+    cssfname = os.path.join(os.path.dirname(tests.__file__),
+                            'integration.css')
+    if os.path.exists(fullfname):
+        css = open(cssfname, 'rb').read()
+        if open(fullfname, 'rb').read() != css:
+            open(fullfname, 'wb').write(open(cssfname, 'rb').read())
+    else:
+        open(fullfname, 'wb').write(open(cssfname, 'rb').read())
+
+
+##########################################
+# integration test interfaces and classes
+
+class IntegrationBase(object):
+    def __init__(self, **kw):
+        for k, v in kw.items():
+            setattr(self, k, v)
+
+    def __repr__(self):
+        items = list(self.__dict__.items())
+        items.sort()
+        return ("<" + self.__class__.__name__+"\n  "
+            + "\n  ".join(["%s: %s" % (key, repr(value))
+            for key, value in items]) + ">")
+
+
+class IObjectWidgetSingleSubIntegration(zope.interface.Interface):
+    singleInt = zope.schema.Int(
+        title=u'Int label')
+    singleBool = zope.schema.Bool(
+        title=u'Bool label')
+    singleChoice = zope.schema.Choice(
+        title=u'Choice label',
+        values=('one', 'two', 'three'))
+    singleChoiceOpt = zope.schema.Choice(
+        title=u'ChoiceOpt label',
+        values=('four', 'five', 'six'),
+        required=False)
+    singleTextLine = zope.schema.TextLine(
+        title=u'TextLine label')
+    singleDate = zope.schema.Date(
+        title=u'Date label')
+    singleReadOnly = zope.schema.TextLine(
+        title=u'ReadOnly label',
+        readonly=True)
+
+
+@zope.interface.implementer(IObjectWidgetSingleSubIntegration)
+class ObjectWidgetSingleSubIntegration(IntegrationBase):
+
+    singleInt = FieldProperty(IObjectWidgetSingleSubIntegration['singleInt'])
+    singleBool = FieldProperty(IObjectWidgetSingleSubIntegration['singleBool'])
+    singleChoice = FieldProperty(IObjectWidgetSingleSubIntegration['singleChoice'])
+    singleChoiceOpt = FieldProperty(
+        IObjectWidgetSingleSubIntegration['singleChoiceOpt'])
+    singleTextLine = FieldProperty(
+        IObjectWidgetSingleSubIntegration['singleTextLine'])
+    singleDate = FieldProperty(IObjectWidgetSingleSubIntegration['singleDate'])
+    singleReadOnly = FieldProperty(
+        IObjectWidgetSingleSubIntegration['singleReadOnly'])
+
+
+class IObjectWidgetSingleIntegration(zope.interface.Interface):
+    subobj = zope.schema.Object(
+        title=u'Object label',
+        schema=IObjectWidgetSingleSubIntegration
+    )
+
+
+@zope.interface.implementer(IObjectWidgetSingleIntegration)
+class ObjectWidgetSingleIntegration(object):
+
+    subobj = FieldProperty(IObjectWidgetSingleIntegration['subobj'])
+
+
+class IObjectWidgetMultiSubIntegration(zope.interface.Interface):
+    multiInt = zope.schema.Int(
+        title=u'Int label')
+    multiBool = zope.schema.Bool(
+        title=u'Bool label')
+    multiChoice = zope.schema.Choice(
+        title=u'Choice label',
+        values=('one', 'two', 'three'))
+    multiChoiceOpt = zope.schema.Choice(
+        title=u'ChoiceOpt label',
+        values=('four', 'five', 'six'),
+        required=False)
+    multiTextLine = zope.schema.TextLine(
+        title=u'TextLine label')
+    multiDate = zope.schema.Date(
+        title=u'Date label')
+
+
+@zope.interface.implementer(IObjectWidgetMultiSubIntegration)
+class ObjectWidgetMultiSubIntegration(IntegrationBase):
+
+    multiInt = FieldProperty(IObjectWidgetMultiSubIntegration['multiInt'])
+    multiBool = FieldProperty(IObjectWidgetMultiSubIntegration['multiBool'])
+    multiChoice = FieldProperty(IObjectWidgetMultiSubIntegration['multiChoice'])
+    multiChoiceOpt = FieldProperty(
+        IObjectWidgetMultiSubIntegration['multiChoiceOpt'])
+    multiTextLine = FieldProperty(
+        IObjectWidgetMultiSubIntegration['multiTextLine'])
+    multiDate = FieldProperty(IObjectWidgetMultiSubIntegration['multiDate'])
+
+
+class IObjectWidgetMultiIntegration(zope.interface.Interface):
+    subobj = zope.schema.Object(
+        title=u'Object label',
+        schema=IObjectWidgetMultiSubIntegration
+    )
+
+
+@zope.interface.implementer(IObjectWidgetMultiIntegration)
+class ObjectWidgetMultiIntegration(object):
+
+    subobj = FieldProperty(IObjectWidgetMultiIntegration['subobj'])
+
+
+class IMultiWidgetListIntegration(zope.interface.Interface):
+    listOfInt = zope.schema.List(
+        title=u"ListOfInt label",
+        value_type=zope.schema.Int(
+            title=u'Int label'),
+    )
+    listOfBool = zope.schema.List(
+        title=u"ListOfBool label",
+        value_type=zope.schema.Bool(
+            title=u'Bool label'),
+    )
+    listOfChoice = zope.schema.List(
+        title=u"ListOfChoice label",
+        value_type=zope.schema.Choice(
+            title=u'Choice label',
+            values=('one', 'two', 'three')
+            ),
+    )
+    listOfTextLine = zope.schema.List(
+        title=u"ListOfTextLine label",
+        value_type=zope.schema.TextLine(
+            title=u'TextLine label'),
+    )
+    listOfDate = zope.schema.List(
+        title=u"ListOfDate label",
+        value_type=zope.schema.Date(
+            title=u'Date label'),
+    )
+    listOfObject = zope.schema.List(
+        title=u"ListOfObject label",
+        value_type=zope.schema.Object(
+            title=u'Object label',
+            schema=IObjectWidgetMultiSubIntegration),
+    )
+
+
+@zope.interface.implementer(IMultiWidgetListIntegration)
+class MultiWidgetListIntegration(IntegrationBase):
+
+    listOfInt = FieldProperty(IMultiWidgetListIntegration['listOfInt'])
+    listOfBool = FieldProperty(IMultiWidgetListIntegration['listOfBool'])
+    listOfChoice = FieldProperty(IMultiWidgetListIntegration['listOfChoice'])
+    listOfTextLine = FieldProperty(IMultiWidgetListIntegration['listOfTextLine'])
+    listOfDate = FieldProperty(IMultiWidgetListIntegration['listOfDate'])
+    listOfObject = FieldProperty(IMultiWidgetListIntegration['listOfObject'])
+
+
+class IMultiWidgetDictIntegration(zope.interface.Interface):
+    dictOfInt = zope.schema.Dict(
+        title=u"DictOfInt label",
+        key_type=zope.schema.Int(
+            title=u'Int key'),
+        value_type=zope.schema.Int(
+            title=u'Int label'),
+    )
+    dictOfBool = zope.schema.Dict(
+        title=u"DictOfBool label",
+        key_type=zope.schema.Bool(
+            title=u'Bool key'),
+        value_type=zope.schema.Bool(
+            title=u'Bool label'),
+    )
+    dictOfChoice = zope.schema.Dict(
+        title=u"DictOfChoice label",
+        key_type=zope.schema.Choice(
+            title=u'Choice key',
+            values=('key1', 'key2', 'key3')
+            ),
+        value_type=zope.schema.Choice(
+            title=u'Choice label',
+            values=('one', 'two', 'three')
+            ),
+    )
+    dictOfTextLine = zope.schema.Dict(
+        title=u"DictOfTextLine label",
+        key_type=zope.schema.TextLine(
+            title=u'TextLine key'),
+        value_type=zope.schema.TextLine(
+            title=u'TextLine label'),
+    )
+    dictOfDate = zope.schema.Dict(
+        title=u"DictOfDate label",
+        key_type=zope.schema.Date(
+            title=u'Date key'),
+        value_type=zope.schema.Date(
+            title=u'Date label'),
+    )
+    dictOfObject = zope.schema.Dict(
+        title=u"DictOfObject label",
+        key_type=zope.schema.TextLine(
+            title=u'Object key'),
+        value_type=zope.schema.Object(
+            title=u'Object label',
+            schema=IObjectWidgetMultiSubIntegration),
+    )
+
+
+@zope.interface.implementer(IMultiWidgetDictIntegration)
+class MultiWidgetDictIntegration(IntegrationBase):
+
+    dictOfInt = FieldProperty(IMultiWidgetDictIntegration['dictOfInt'])
+    dictOfBool = FieldProperty(IMultiWidgetDictIntegration['dictOfBool'])
+    dictOfChoice = FieldProperty(IMultiWidgetDictIntegration['dictOfChoice'])
+    dictOfTextLine = FieldProperty(IMultiWidgetDictIntegration['dictOfTextLine'])
+    dictOfDate = FieldProperty(IMultiWidgetDictIntegration['dictOfDate'])
+    dictOfObject = FieldProperty(IMultiWidgetDictIntegration['dictOfObject'])

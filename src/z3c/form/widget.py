@@ -152,6 +152,18 @@ class Widget(zope.location.Location):
                 IPageTemplate, name=self.mode)
         return template(self)
 
+    def json_data(self):
+        return {
+            'mode': self.mode,
+            'error': self.error.message if self.error else '',
+            'value': self.value,
+            'required': self.required,
+            'name': self.name,
+            'id': getattr(self, 'id', ''),
+            'type': 'text',
+            'label': self.label or ''
+        }
+
     def __call__(self):
         """Get and return layout template which is calling widget/render"""
         layout = self.layout
@@ -239,6 +251,11 @@ class SequenceWidget(Widget):
                     return default
         return value
 
+    def json_data(self):
+        data = super(SequenceWidget, self).json_data()
+        data['type'] = 'sequence'
+        return data
+
 
 @zope.interface.implementer(interfaces.IMultiWidget)
 class MultiWidget(Widget):
@@ -325,7 +342,7 @@ class MultiWidget(Widget):
         return widget
 
     def setName(self, widget, idx, prefix=None):
-        names =  lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
+        names = lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
         widget.name = '.'.join([str(self.name)]+names(None))
         widget.id = '-'.join([str(self.id)]+names(None))
 
@@ -346,16 +363,15 @@ class MultiWidget(Widget):
         :param names: list of widget.name to remove from the value
         :return: None
         """
-        zipped = list(zip(self.key_widgets,self.widgets))
-        self.key_widgets = [k for k,v in zipped if v.name not in names]
-        self.widgets = [v for k,v in zipped if v.name not in names]
+        zipped = list(zip(self.key_widgets, self.widgets))
+        self.key_widgets = [k for k, v in zipped if v.name not in names]
+        self.widgets = [v for k, v in zipped if v.name not in names]
         if self.is_dict:
-            self.value = [(k.value, v.value) for k,v in zip(self.key_widgets, self.widgets)]
+            self.value = [
+                (k.value, v.value)
+                for k, v in zip(self.key_widgets, self.widgets)]
         else:
             self.value = [widget.value for widget in self.widgets]
-
-
-
 
     def applyValue(self, widget, value=interfaces.NO_VALUE):
         """Validate and apply value to given widget.
@@ -505,6 +521,11 @@ class MultiWidget(Widget):
                 append(widget.value)
         return values
 
+    def json_data(self):
+        data = super(MultiWidget, self).json_data()
+        data['widgets'] = [widget.json_data() for widget in self.widgets]
+        data['type'] = 'multi'
+        return data
 
 def FieldWidget(field, widget):
     """Set the field for the widget."""
@@ -565,7 +586,8 @@ class WidgetEvent(object):
         self.widget = widget
 
     def __repr__(self):
-        return '<%s %r>' %(self.__class__.__name__, self.widget)
+        return '<%s %r>' % (self.__class__.__name__, self.widget)
+
 
 @zope.interface.implementer_only(interfaces.IAfterWidgetUpdateEvent)
 class AfterWidgetUpdateEvent(WidgetEvent):

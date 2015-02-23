@@ -67,6 +67,13 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
                 notselecteditems.append(item)
         return notselecteditems
 
+    def json_data(self):
+        data = super(OrderedSelectWidget, self).json_data()
+        data['options'] = self.items
+        data['selected'] = self.selectedItems
+        data['notSelected'] = self.notselectedItems
+        data['type'] = 'multiSelect'
+        return data
 
 @zope.component.adapter(zope.schema.interfaces.ISequence, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

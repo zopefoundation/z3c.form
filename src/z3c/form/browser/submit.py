@@ -31,7 +31,12 @@ class SubmitWidget(button.ButtonWidget):
     klass = u'submit-widget'
     css = u'submit'
 
+    def json_data(self):
+        data = super(SubmitWidget, self).json_data()
+        data['type'] = 'submit'
+        return data
 
+    
 @zope.component.adapter(interfaces.IButton, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def SubmitFieldWidget(field, request):

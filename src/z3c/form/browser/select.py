@@ -96,6 +96,12 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
                 addItem(idx, term, prefix='missing-')
         return items
 
+    def json_data(self):
+        data = super(SelectWidget, self).json_data()
+        data['options'] = self.items()
+        data['type'] = 'select'
+        return data
+
 
 @zope.component.adapter(zope.schema.interfaces.IChoice, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

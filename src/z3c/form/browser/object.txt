@@ -28,7 +28,6 @@ examples:
   >>> from z3c.form.testing import MySecond
 
   >>> import z3c.form.object
-  >>> zope.component.provideAdapter(z3c.form.object.SubformAdapter)
   >>> zope.component.provideAdapter(z3c.form.object.ObjectConverter)
 
   >>> from z3c.form.error import MultipleErrorViewSnippet
@@ -146,7 +145,7 @@ Let's provide a more meaningful value:
 
 
   >>> widget.ignoreContext = False
-  >>> widget.value = dict(foofield=42, barfield=666)
+  >>> widget.value = dict(foofield='42', barfield='666')
 
   >>> widget.update()
 
@@ -229,7 +228,7 @@ Widget value comes from the request:
 
   >>> wv = widget.value
   >>> pprint(wv)
-  {'barfield': 999, 'foofield': 2}
+  {'barfield': '999', 'foofield': '2'}
 
 But our object will not be modified, since there was no "apply"-like control.
 
@@ -251,7 +250,7 @@ The marker must stay (we have to modify the same object):
   >>> value = converter.toFieldValue(wv)
   Traceback (most recent call last):
   ...
-  ValueError: No IObjectFactory adapter registered for z3c.form.testing.IMySubObject
+  RuntimeError: No IObjectFactory adapter registered for z3c.form.testing.IMySubObject
 
 We have to register object factory adapters to allow the objectwidget to
 create objects:
@@ -313,7 +312,7 @@ Default values get rendered:
 But on the return we get default values back:
 
   >>> pprint(widget.value)
-  {'barfield': 999, 'foofield': 2}
+  {'barfield': '999', 'foofield': '2'}
 
   >>> value = converter.toFieldValue(widget.value)
   >>> value
@@ -449,14 +448,9 @@ As usual, the form contains a widget manager with the expected widget
   >>> myaddform.widgets.values()
   [<ObjectWidget 'form.widgets.subobject'>, <TextWidget 'form.widgets.name'>]
 
-The addform has our ObjectWidget which in turn contains a subform:
+The widget has sub-widgets:
 
-  >>> myaddform.widgets['subobject'].subform
-  <z3c.form.object.ObjectSubForm object at ...>
-
-Which in turn contains the sub-widgets:
-
-  >>> myaddform.widgets['subobject'].subform.widgets.keys()
+  >>> myaddform.widgets['subobject'].widgets.keys()
   ['foofield', 'barfield']
 
 If we want to render the addform, we must give it a template:
@@ -1108,6 +1102,7 @@ Until updating the form:
 
   >>> editform.request = request
   >>> eventlog=[]
+
   >>> editform.update()
 
   >>> newsub.foofield
@@ -1162,17 +1157,12 @@ As usual, the form contains a widget manager with the expected widget
   >>> myaddform.widgets.values()
   [<ObjectWidget 'form.widgets.subobject'>, <TextWidget 'form.widgets.name'>]
 
-The addform has our ObjectWidget which in turn contains a subform:
+The addform has our ObjectWidget which in turn contains the sub-widgets:
 
-  >>> myaddform.widgets['subobject'].subform
-  <z3c.form.object.ObjectSubForm object at ...>
-
-Which in turn contains the sub-widgets:
-
-  >>> myaddform.widgets['subobject'].subform.widgets.keys()
+  >>> myaddform.widgets['subobject'].widgets.keys()
   ['subfield', 'moofield']
 
-  >>> myaddform.widgets['subobject'].subform.widgets['subfield'].subform.widgets.keys()
+  >>> myaddform.widgets['subobject'].widgets['subfield'].widgets.keys()
   ['foofield', 'barfield']
 
 If we want to render the addform, we must give it a template:
@@ -1271,7 +1261,8 @@ All the story the create a widget:
   ...     title=u'my object widget',
   ...     schema=IMySubObject)
 
-  >>> wv = {'foofield': 2, 'barfield': 999}
+  >>> wv = z3c.form.object.ObjectWidgetValue(
+  ...     {'foofield': '2', 'barfield': '999'})
 
   >>> request = TestRequest()
   >>> widget = z3c.form.browser.object.ObjectWidget(request)
@@ -1322,7 +1313,8 @@ it just burps:
 One more.
 Value to convert misses a field. Should never happen actually:
 
-  >>> wv = {'foofield': 2}
+  >>> wv = z3c.form.object.ObjectWidgetValue(
+  ...     {'foofield': '2'})
   >>> value = converter.toFieldValue(wv)
 
 Known property is set:

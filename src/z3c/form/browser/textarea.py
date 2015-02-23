@@ -37,6 +37,11 @@ class TextAreaWidget(widget.HTMLTextAreaWidget, Widget):
         super(TextAreaWidget, self).update()
         widget.addFieldClass(self)
 
+    def json_data(self):
+        data = super(TextAreaWidget, self).json_data()
+        data['type'] = 'textarea'
+        return data
+
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

@@ -31,12 +31,27 @@ from z3c.form import interfaces, util
 @zope.interface.implementer(interfaces.IDataConverter)
 class BaseDataConverter(object):
     """A base implementation of the data converter."""
-    
-    _strip_value = True # Remove spaces at start and end of text line
+
+    _strip_value = True  # Remove spaces at start and end of text line
 
     def __init__(self, field, widget):
         self.field = field
         self.widget = widget
+
+    def _getConverter(self, field):
+        # We rely on the default registered widget, this is probably a
+        # restriction for custom widgets. If so use your own MultiWidget and
+        # register your own converter which will get the right widget for the
+        # used value_type.
+        widget = zope.component.getMultiAdapter((field, self.widget.request),
+            interfaces.IFieldWidget)
+        if interfaces.IFormAware.providedBy(self.widget):
+            # form property required by objectwidget
+            widget.form = self.widget.form
+            zope.interface.alsoProvides(widget, interfaces.IFormAware)
+        converter = zope.component.getMultiAdapter((field, widget),
+            interfaces.IDataConverter)
+        return converter
 
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
@@ -46,10 +61,15 @@ class BaseDataConverter(object):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
-        if self._strip_value and isinstance(value, basestring):
-            value = value.strip()
+        try:
+             value = value.strip()
+        except AttributeError:
+            # It just was not meant to be
+            pass
+
         if value == u'':
             return self.field.missing_value
+
         return self.field.fromUnicode(value)
 
     def __repr__(self):
@@ -266,12 +286,11 @@ class SequenceDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         """Convert from Python bool to HTML representation."""
-        widget = self.widget
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
             return []
         # Look up the term in the terms
-        terms = widget.updateTerms()
+        terms = self.widget.updateTerms()
         try:
             return [terms.getTerm(value).token]
         except LookupError:
@@ -366,20 +385,7 @@ class MultiConverter(BaseDataConverter):
         """Just dispatch it."""
         if value is self.field.missing_value:
             return []
-        # We rely on the default registered widget, this is probably a
-        # restriction for custom widgets. If so use your own MultiWidget and
-        # register your own converter which will get the right widget for the
-        # used value_type.
-        field = self.field.value_type
-        widget = zope.component.getMultiAdapter((field, self.widget.request),
-            interfaces.IFieldWidget)
-        if interfaces.IFormAware.providedBy(self.widget):
-            # form property required by objectwidget
-            widget.form = self.widget.form
-            zope.interface.alsoProvides(widget, interfaces.IFormAware)
-        converter = zope.component.getMultiAdapter((field, widget),
-            interfaces.IDataConverter)
-
+        converter = self._getConverter(self.field.value_type)
         # we always return a list of values for the widget
         return [converter.toWidgetValue(v) for v in value]
 
@@ -388,16 +394,7 @@ class MultiConverter(BaseDataConverter):
         if not len(value):
             return self.field.missing_value
 
-        field = self.field.value_type
-        widget = zope.component.getMultiAdapter((field, self.widget.request),
-            interfaces.IFieldWidget)
-        if interfaces.IFormAware.providedBy(self.widget):
-            #form property required by objecwidget
-            widget.form = self.widget.form
-            zope.interface.alsoProvides(widget, interfaces.IFormAware)
-        converter = zope.component.getMultiAdapter((field, widget),
-            interfaces.IDataConverter)
-
+        converter = self._getConverter(self.field.value_type)
         values = [converter.toFieldValue(v) for v in value]
 
         # convert the field values to a tuple or list
@@ -410,22 +407,6 @@ class DictMultiConverter(BaseDataConverter):
     zope.component.adapts(
         zope.schema.interfaces.IDict, interfaces.IMultiWidget)
 
-    def _getConverter(self, field):
-        # We rely on the default registered widget, this is probably a
-        # restriction for custom widgets. If so use your own MultiWidget and
-        # register your own converter which will get the right widget for the
-        # used value_type.
-        widget = zope.component.getMultiAdapter((field, self.widget.request),
-            interfaces.IFieldWidget)
-        if interfaces.IFormAware.providedBy(self.widget):
-            # form property required by objectwidget
-            widget.form = self.widget.form
-            zope.interface.alsoProvides(widget, interfaces.IFormAware)
-        converter = zope.component.getMultiAdapter((field, widget),
-            interfaces.IDataConverter)
-        return converter
-
-
     def toWidgetValue(self, value):
         """Just dispatch it."""
         if value is self.field.missing_value:
@@ -434,7 +415,8 @@ class DictMultiConverter(BaseDataConverter):
         key_converter = self._getConverter(self.field.key_type)
 
         # we always return a list of values for the widget
-        return [(key_converter.toWidgetValue(k), converter.toWidgetValue(v)) for k,v in value.items()]
+        return [(key_converter.toWidgetValue(k), converter.toWidgetValue(v))
+                for k, v in value.items()]
 
     def toFieldValue(self, value):
         """Just dispatch it."""
@@ -444,7 +426,8 @@ class DictMultiConverter(BaseDataConverter):
         converter = self._getConverter(self.field.value_type)
         key_converter = self._getConverter(self.field.key_type)
 
-        return dict([(key_converter.toFieldValue(k), converter.toFieldValue(v)) for k,v in value])
+        return dict([(key_converter.toFieldValue(k), converter.toFieldValue(v))
+                     for k, v in value])
 
 class BoolSingleCheckboxDataConverter(BaseDataConverter):
     "A special converter between boolean fields and single checkbox widgets."

@@ -16,6 +16,7 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
+import json
 import sys
 import zope.interface
 import zope.component
@@ -160,6 +161,22 @@ class BaseForm(browser.BrowserPage):
                 IPageTemplate)
             return template(self)
         return self.template()
+
+    def json_data(self):
+        return {
+            'errors': [
+                error.message for error in
+                (self.widgets.errors or []) if error.field is None
+            ],
+            'prefix': self.prefix,
+            'status': self.status,
+            'mode': self.mode,
+            'fields': [widget.json_data() for widget in self.widgets.values()],
+            'label': self.label or ''
+        }
+
+    def json(self):
+        return json.dumps(self.json_data())
 
 
 @zope.interface.implementer(interfaces.IDisplayForm)

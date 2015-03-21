@@ -5,7 +5,8 @@ CHANGES
 3.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- move js to separate file to prevent escaped entities in Plone 5.
+  [pbauer]
 
 
 3.2.1 (2014-06-09)

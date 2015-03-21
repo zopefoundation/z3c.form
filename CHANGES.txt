@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.2.2 (unreleased)
+3.2.2 (2015-03-21)
 ------------------
 
 - move js to separate file to prevent escaped entities in Plone 5.

@@ -5,7 +5,8 @@ CHANGES
 3.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- 3.2.2 was a brown bag release. Fix MANIFEST.in to include the js file that has been added in 3.2.2.
+ [timo]
 
 
 3.2.2 (2015-03-21)

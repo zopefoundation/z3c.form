@@ -1,5 +1,6 @@
 global-include *.mo
 include *.txt
+include *.js
 include bootstrap.py
 include buildout.cfg
 include dev.cfg

@@ -5,6 +5,9 @@ CHANGES
 3.2.4 (unreleased)
 ------------------
 
+- Fix ordered select input widget not working.
+  [vangheem]
+
 - ReSt fix.
   [timo]
 

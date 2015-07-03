@@ -2,7 +2,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       tal:omit-tag="">
-<script type="text/javascript" src="++resource++orderedselect_input.js" />
+<script type="text/javascript" src="++resource++orderedselect_input.js"></script>
 
 <table border="0" class="ordered-selection-field"
        tal:attributes="id view/id">
@@ -81,8 +81,7 @@
         tal:attributes="name string:${view/name}-empty-marker"/>
       <span id="toDataContainer" style="display: none"
             tal:attributes="id string:${view/id}-toDataContainer">
-        <script type="text/javascript" tal:content="string:
-          copyDataForSubmit('${view/id}');">
+        <script type="text/javascript" tal:content="string:copyDataForSubmit('${view/id}');">
           /*  <![CDATA[ */
           // initial copying of field "field.to" --> "field"
           copyDataForSubmit("<i tal:replace="${view/id}"/>");

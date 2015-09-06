@@ -5,8 +5,7 @@ CHANGES
 3.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added Finnish translation [petri]
 
 3.2.4 (2015-07-18)
 ------------------

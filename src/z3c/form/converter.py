@@ -18,6 +18,7 @@ $Id$
 __docformat__ = "reStructuredText"
 import datetime
 import decimal
+import six
 import zope.i18n.format
 import zope.interface
 import zope.component
@@ -46,7 +47,7 @@ class BaseDataConverter(object):
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
-        if self._strip_value and isinstance(value, basestring):
+        if self._strip_value and isinstance(value, six.string_types):
             value = value.strip()
         if value == u'':
             return self.field.missing_value

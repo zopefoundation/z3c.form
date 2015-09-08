@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.2.5 (unreleased)
+3.2.5 (2015-09-09)
 ------------------
 
 - Fixed error on Python 3: NameError: global name 'basestring' is not

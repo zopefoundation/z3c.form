@@ -93,7 +93,7 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope3'],
-    url='https://launchpad.net/z3c.form',
+    url='https://github.com/zopefoundation/z3c.form',
     packages=find_packages('src'),
     include_package_data=True,
     package_dir={'': 'src'},

@@ -26,7 +26,7 @@ msgstr ""
 "Language-Code: it\n"
 "Language-Name: Italiano\n"
 "X-Is-Fallback-For: it-ch it-it\n"
-
+"Language: it\n"
 
 #: src/z3c/form/browser/multi.py:67
 #: src/z3c/form/form.py:232

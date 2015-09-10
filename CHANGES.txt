@@ -5,6 +5,10 @@ CHANGES
 3.2.6 (unreleased)
 ------------------
 
+- Fixed warnings in headers of locales files.
+  Checked with `msgfmt -c`.
+  [maurits]
+
 - Added Finnish translation.
   [petri]
 

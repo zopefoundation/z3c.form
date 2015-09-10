@@ -5,6 +5,9 @@ CHANGES
 3.2.6 (unreleased)
 ------------------
 
+- Added Finnish translation.
+  [petri]
+
 - Added Traditional Chinese translation.
   [l34marr]
 

@@ -1,0 +1,671 @@
+# #############################################################################
+#
+# Copyright (c) 2003-2004 Zope Foundation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+# #############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Meaningless\n"
+"POT-Creation-Date: 2015-09-06 13:41+0300\n"
+"PO-Revision-Date: 2015-09-06 18:46+0300\n"
+"Language-Team: Zope 3 Developers <zope-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+"X-Generator: Poedit 1.8.4\n"
+"Last-Translator: Petri Savolainen <petri.savolainen@iki.fi>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: fi\n"
+
+#: src/z3c/form/browser/multi.py:67 src/z3c/form/form.py:232
+msgid "Add"
+msgstr "Lisää"
+
+#: src/z3c/form/browser/multi.py:72
+msgid "Remove selected"
+msgstr "Poista valittu"
+
+#: src/z3c/form/browser/select.py:39
+msgid "No value"
+msgstr "Ei arvoa"
+
+#: src/z3c/form/browser/select.py:40
+msgid "Select a value ..."
+msgstr "Valitse…"
+
+#: src/z3c/form/converter.py:125
+msgid "The entered value is not a valid integer literal."
+msgstr "Annettu arvo ei ole kelvollinen kokonaisluku."
+
+#: src/z3c/form/converter.py:132 src/z3c/form/converter.py:139
+msgid "The entered value is not a valid decimal literal."
+msgstr "Annettu arvo ei ole kelvollinen desimaaliluku."
+
+#: src/z3c/form/converter.py:245
+msgid "Bytes data are not a file object"
+msgstr "Bytes-tyyppi ei käy tiedostoksi"
+
+#: src/z3c/form/error.py:93
+msgid "The system could not process the given value."
+msgstr "Järjestelmä ei kyennyt käsittelemään annettua arvoa."
+
+#: src/z3c/form/form.py:108
+msgid "<span class=\"required\">*</span>&ndash; required"
+msgstr "<span class=\"required\">*</span>&ndash; Pakollinen"
+
+#: src/z3c/form/form.py:185 src/z3c/form/subform.py:29
+msgid "There were some errors."
+msgstr "Virheitä havaittu."
+
+#: src/z3c/form/form.py:269 src/z3c/form/subform.py:30
+msgid "Data successfully updated."
+msgstr "Tiedot päivitetty onnistuneesti."
+
+#: src/z3c/form/form.py:270 src/z3c/form/subform.py:31
+msgid "No changes were applied."
+msgstr "Muutoksia ei tallennettu."
+
+#: src/z3c/form/form.py:287
+msgid "Apply"
+msgstr "Tallenna"
+
+#: src/z3c/form/interfaces.py:110 src/z3c/form/interfaces.py:873
+msgid "Context"
+msgstr "Konteksti"
+
+#: src/z3c/form/interfaces.py:111
+msgid "The context in which the data are validated."
+msgstr "Tietojen tarkistuskonteksti."
+
+#: src/z3c/form/interfaces.py:151 src/z3c/form/interfaces.py:1107
+msgid "Widget"
+msgstr "Vimpain"
+
+#: src/z3c/form/interfaces.py:152
+msgid "The widget that the view is on"
+msgstr "Vimpain jonka kanssa näkymää käytetään"
+
+#: src/z3c/form/interfaces.py:156 src/z3c/form/interfaces.py:429
+#: src/z3c/form/interfaces.py:750
+msgid "Error"
+msgstr "Virhe"
+
+#: src/z3c/form/interfaces.py:157
+msgid "Error the view is for."
+msgstr "Virhe jonka kanssa näytintä käytetään."
+
+#: src/z3c/form/interfaces.py:177 src/z3c/form/interfaces.py:724
+msgid "Title"
+msgstr "Otsikko"
+
+#: src/z3c/form/interfaces.py:178
+msgid "The name of the field within the form."
+msgstr "Lomakkeen kentän nimi."
+
+#: src/z3c/form/interfaces.py:182
+msgid "Schema Field"
+msgstr "Kenttä"
+
+#: src/z3c/form/interfaces.py:183
+msgid "The schema field that is to be rendered."
+msgstr "Esitettävä tietorakenteen kenttä."
+
+#: src/z3c/form/interfaces.py:187 src/z3c/form/interfaces.py:615
+#: src/z3c/form/interfaces.py:621 src/z3c/form/interfaces.py:947
+msgid "Prefix"
+msgstr "Etuliite"
+
+#: src/z3c/form/interfaces.py:188
+msgid "The prefix of the field used to avoid name clashes."
+msgstr "Nimipäällekkäisyyksien estämiseksi käytetty kentän etuliite."
+
+#: src/z3c/form/interfaces.py:192 src/z3c/form/interfaces.py:416
+#: src/z3c/form/interfaces.py:899
+msgid "Mode"
+msgstr "Toimintatila"
+
+#: src/z3c/form/interfaces.py:193
+msgid "The mode in which to render the widget for the field."
+msgstr "Vimpaimen esitystapa."
+
+#: src/z3c/form/interfaces.py:197
+msgid "Interface"
+msgstr "Rajapinta"
+
+#: src/z3c/form/interfaces.py:198
+msgid "The interface from which the field is coming."
+msgstr "Rajapinta josta kenttä on peräisin."
+
+#: src/z3c/form/interfaces.py:202 src/z3c/form/interfaces.py:634
+#: src/z3c/form/interfaces.py:878 src/z3c/form/interfaces.py:904
+msgid "Ignore Context"
+msgstr "Ohita konteksti"
+
+#: src/z3c/form/interfaces.py:203 src/z3c/form/interfaces.py:879
+msgid ""
+"A flag, when set, forces the widget not to look at the context for a value."
+msgstr "Asetettu lippu pakottaa vimpaimen ohittamaan arvon kontekstin."
+
+#: src/z3c/form/interfaces.py:208
+msgid "Widget Factory"
+msgstr "Vimpainperustin"
+
+#: src/z3c/form/interfaces.py:209
+msgid "The widget factory."
+msgstr "Vimpainperustin."
+
+#: src/z3c/form/interfaces.py:215 src/z3c/form/interfaces.py:467
+msgid "Show default value"
+msgstr "Näytä oletusarvo"
+
+#: src/z3c/form/interfaces.py:216 src/z3c/form/interfaces.py:468
+msgid ""
+"A flag, when set, makes the widget to displayfield|adapter provided default "
+"values."
+msgstr ""
+"Asetettu lippu pakottaa vimpainen käyttämään kentän tai sovittimen "
+"oletusarvoja."
+
+#: src/z3c/form/interfaces.py:349
+msgid "True-value Label"
+msgstr "Tosi-arvon otsake"
+
+#: src/z3c/form/interfaces.py:350
+msgid "The label for a true value of the Bool field."
+msgstr "Tosi/epätosi-kentän tosi-arvon otsake."
+
+#: src/z3c/form/interfaces.py:354
+msgid "False-value Label"
+msgstr "Epätosi-arvon otsake"
+
+#: src/z3c/form/interfaces.py:355
+msgid "The label for a false value of the Bool field."
+msgstr "Tosi/epätosi-kentän epätosi-arvon otsake."
+
+#: src/z3c/form/interfaces.py:399 src/z3c/form/interfaces.py:718
+#: src/z3c/form/interfaces.py:996
+msgid "Name"
+msgstr "Nimi"
+
+#: src/z3c/form/interfaces.py:400
+msgid "The name the widget is known under."
+msgstr "Nimi jolla vimpain on tunnettu."
+
+#: src/z3c/form/interfaces.py:404 src/z3c/form/interfaces.py:935
+msgid "Label"
+msgstr "Otsake"
+
+#: src/z3c/form/interfaces.py:405
+msgid ""
+"\n"
+"        The widget label.\n"
+"\n"
+"        Label may be translated for the request.\n"
+"\n"
+"        The attribute may be implemented as either a read-write or read-"
+"only\n"
+"        property, depending on the requirements for a specific "
+"implementation.\n"
+"        "
+msgstr ""
+"\n"
+"        Vimpaimen otsake.\n"
+"\n"
+"        Otsake voi olla käännetty palvelupyyntöä varten.\n"
+"\n"
+"        Attribuutti voi olla toteutettu luku-kirjoitus tai vain luku \n"
+"        -tyyppisenä, riippuen toteutusvaatimuksista.\n"
+"        "
+
+#: src/z3c/form/interfaces.py:417
+msgid "A widget mode."
+msgstr "Vimpain-toimintotila."
+
+#: src/z3c/form/interfaces.py:422
+msgid "Required"
+msgstr "Pakollinen"
+
+#: src/z3c/form/interfaces.py:423
+msgid "If true the widget should be displayed as required input."
+msgstr "Mikäli tosi, vimpaimen tulisi näkyä pakollisena tiedonsyöttönä."
+
+#: src/z3c/form/interfaces.py:430
+msgid "If an error occurred during any step, the error view stored here."
+msgstr "Mikäli käsittelyssä tapahtui virhe, virhenäkymä tallennetaan tähän."
+
+#: src/z3c/form/interfaces.py:435
+msgid "Value"
+msgstr "Arvo"
+
+#: src/z3c/form/interfaces.py:436
+msgid "The value that the widget represents."
+msgstr "Vimpaimen esittämä arvo."
+
+#: src/z3c/form/interfaces.py:443 src/z3c/form/interfaces.py:640
+#: src/z3c/form/interfaces.py:910
+msgid "Ignore Request"
+msgstr "Ohita palvelupyyntö"
+
+#: src/z3c/form/interfaces.py:444
+msgid ""
+"A flag, when set, forces the widget not to look at the request for a value."
+msgstr ""
+"Asetettu lippu pakottaa vimpaimen olemaan käyttämättä palvelupyyntöä arvoa "
+"määritettäessä."
+
+#: src/z3c/form/interfaces.py:451 src/z3c/form/interfaces.py:667
+msgid "Set errors"
+msgstr "Aseta virheet"
+
+#: src/z3c/form/interfaces.py:452
+msgid "A flag, when set, the widget sets error messages on calling extract()."
+msgstr ""
+"Asetettu lippu kytkee päälle vimpaimen virheilmoittimen extract() - "
+"funktiota kutsuttaessa."
+
+#: src/z3c/form/interfaces.py:460
+msgid "Ignore Required validation"
+msgstr "Ohita pakollinen tarkistus"
+
+#: src/z3c/form/interfaces.py:461
+msgid ""
+"If set then required fields will pass validation regardless whether they're "
+"filled in or not"
+msgstr "Jos asetettu, pakolliset kentät läpäisevät tarkistuksen myös tyhjinä."
+
+#: src/z3c/form/interfaces.py:516
+msgid "NO_VALUE Token"
+msgstr "NO_VALUE -arvo"
+
+#: src/z3c/form/interfaces.py:517
+msgid "The token to be used, if no value has been selected."
+msgstr "Arvo jota käytetään jos arvoa ei ole valittu."
+
+#: src/z3c/form/interfaces.py:520
+msgid "Terms"
+msgstr "Termit"
+
+#: src/z3c/form/interfaces.py:521
+msgid "A component that provides the options for selection."
+msgstr "Komponentti joka tuottaa valintavaihtoehdot."
+
+#: src/z3c/form/interfaces.py:551
+msgid "Prompt"
+msgstr "Kehote"
+
+#: src/z3c/form/interfaces.py:552
+msgid ""
+"A flag, when set, enables a choice explicitely requesting the user to choose "
+"a value."
+msgstr ""
+"Lippu asetettaessa käyttäjää pyydetään valitsemaan arvo joukosta "
+"vaihtoehtoja."
+
+#: src/z3c/form/interfaces.py:557
+msgid "Items"
+msgstr "Kohteet"
+
+#: src/z3c/form/interfaces.py:558
+msgid ""
+"A collection of dictionaries containing all pieces of information for "
+"rendering. The following keys must be in each dictionary: id, value, "
+"content, selected"
+msgstr ""
+"Esittämistä varten tarvittavat tiedot sisältävä avain-arvo-tietorakenteiden "
+"joukko. Avaimina tulee olla ”id”, ”value”, ”content” ja ”selected”."
+
+#: src/z3c/form/interfaces.py:563
+msgid "No-Value Message"
+msgstr "Tyhjä viesti"
+
+#: src/z3c/form/interfaces.py:564 src/z3c/form/interfaces.py:569
+msgid "A human-readable text that is displayed to refer the missing value."
+msgstr ""
+"Käyttäjälle tarkoitettu teksti jota käytetään viittaamaan puuttuvaan arvoon."
+
+#: src/z3c/form/interfaces.py:568
+msgid "Prompt Message"
+msgstr "Kehoteviesti"
+
+#: src/z3c/form/interfaces.py:616 src/z3c/form/interfaces.py:622
+msgid "The prefix of the widgets."
+msgstr "Vimpainten etuliite"
+
+#: src/z3c/form/interfaces.py:627
+msgid "Errors"
+msgstr "Virheet"
+
+#: src/z3c/form/interfaces.py:628
+msgid "The collection of errors that occured during validation."
+msgstr "Tarkistettaessa ilmenneet virheet."
+
+#: src/z3c/form/interfaces.py:635 src/z3c/form/interfaces.py:905
+msgid "If set the context is ignored to retrieve a value."
+msgstr "Jos asetettu, kontekstista ei välitä arvoa haettaessa."
+
+#: src/z3c/form/interfaces.py:641 src/z3c/form/interfaces.py:911
+msgid "If set the request is ignored to retrieve a value."
+msgstr "Jos asetettu, palvelupyynnöstä ei välitä arvoa haettaessa."
+
+#: src/z3c/form/interfaces.py:646 src/z3c/form/interfaces.py:916
+msgid "Ignore Readonly"
+msgstr "Ohita vain luettavat"
+
+#: src/z3c/form/interfaces.py:647 src/z3c/form/interfaces.py:917
+msgid "If set then readonly fields will also be shown."
+msgstr "Jos asetettu, vain luku -kentät näytetään myös."
+
+#: src/z3c/form/interfaces.py:652 src/z3c/form/interfaces.py:922
+msgid "Ignore Required validation on extract"
+msgstr "Ohita pakollisuustarkitus extract() - jäsenfunktiota kutsuttaessa"
+
+#: src/z3c/form/interfaces.py:653 src/z3c/form/interfaces.py:923
+msgid ""
+"If set then required fields will pass validation on extract regardless "
+"whether they're filled in or not"
+msgstr ""
+"Jos asetettu, pakolliset kentät läpäisevät tarkastuksen extract() -"
+"jäsenfunktiota kutsuttaessa myös tyhjänä"
+
+#: src/z3c/form/interfaces.py:659
+msgid "Has required fields"
+msgstr "Sisältää pakollisia kenttiä"
+
+#: src/z3c/form/interfaces.py:660
+msgid "A flag set when at least one field is marked as required"
+msgstr ""
+"Lippu joka asetetaan kun ainakin yksi kentistä on määritelty pakolliseksi"
+
+#: src/z3c/form/interfaces.py:668
+msgid ""
+"A flag, when set, the contained widgets set error messages on calling "
+"extract()."
+msgstr ""
+"Asetettu lippu kytkee päälle käytettyjen vimpainten virheilmoittimet "
+"extract() - funktiota kutsuttaessa."
+
+#: src/z3c/form/interfaces.py:689 src/z3c/form/zcml.py:71
+msgid "Field"
+msgstr "Kenttä"
+
+#: src/z3c/form/interfaces.py:690
+msgid "The schema field which the widget is representing."
+msgstr "Tietorakenteen kenttä jonka vimpain esittää."
+
+#: src/z3c/form/interfaces.py:719
+msgid "The object name."
+msgstr "Olion nimi."
+
+#: src/z3c/form/interfaces.py:725
+msgid "The action title."
+msgstr "Toimenpiteen nimi."
+
+#: src/z3c/form/interfaces.py:740 src/z3c/form/interfaces.py:990
+msgid "Action"
+msgstr "Toimenpide"
+
+#: src/z3c/form/interfaces.py:741
+msgid "The action for which the event is created."
+msgstr "Toimenpide jota luotu tapahtuma koskee."
+
+#: src/z3c/form/interfaces.py:751
+msgid "The error that occurred during the action."
+msgstr "Toimenpidettä suoritettaessa ilmennyt virhe."
+
+#: src/z3c/form/interfaces.py:777
+msgid "Access Key"
+msgstr "Pikanäppäin"
+
+#: src/z3c/form/interfaces.py:778
+msgid "The key when pressed causes the button to be pressed."
+msgstr "Näppäinjoka laukaisee painallluksen."
+
+#: src/z3c/form/interfaces.py:784
+msgid "Action Factory"
+msgstr "Toimintoperustin"
+
+#: src/z3c/form/interfaces.py:785
+msgid "The action factory."
+msgstr "Toimintoperustin."
+
+#: src/z3c/form/interfaces.py:795
+msgid "Image Path"
+msgstr "Kuvan polku"
+
+#: src/z3c/form/interfaces.py:796
+msgid "A relative image path to the root of the resources."
+msgstr "Suhteellinen kuvan polku resurssien juurisijaintiin."
+
+#: src/z3c/form/interfaces.py:842
+msgid "Handlers"
+msgstr "Käsittelijät"
+
+#: src/z3c/form/interfaces.py:843
+msgid "A list of action handlers defined on the form."
+msgstr "Lomakkeen toimenpidekäsittelijät."
+
+#: src/z3c/form/interfaces.py:852
+msgid "Actions"
+msgstr "Toimenpiteet"
+
+#: src/z3c/form/interfaces.py:853
+msgid "A list of actions defined on the form"
+msgstr "Lomakkeeseen kohdistettavissa olevat toimenpiteet"
+
+#: src/z3c/form/interfaces.py:858
+msgid "Refresh actions"
+msgstr "Päivitä toimenpiteet"
+
+#: src/z3c/form/interfaces.py:859
+msgid ""
+"A flag, when set, causes form actions to be updated again after their "
+"execution."
+msgstr ""
+"Asetettu lippu aiheuttaa lomaketoimenpiteiden päivityksen niiden suorituksen "
+"jälkeen."
+
+#: src/z3c/form/interfaces.py:874
+msgid "The context in which the widget is displayed."
+msgstr "Vimpaimen esityskonteksti."
+
+#: src/z3c/form/interfaces.py:900
+msgid "The mode in which to render the widgets."
+msgstr "Vimpainten esitystapa."
+
+#: src/z3c/form/interfaces.py:929
+msgid "Widgets"
+msgstr "Vimpaimet"
+
+#: src/z3c/form/interfaces.py:930
+msgid "A widget manager containing the widgets to be used in the form."
+msgstr "Lomakkeen vimpainhallinnoija."
+
+#: src/z3c/form/interfaces.py:936
+msgid "A human readable text describing the form that can be used in the UI."
+msgstr "Käyttöliittymässä esitettävä lomaketta käyttäjälle kuvaava teksti."
+
+#: src/z3c/form/interfaces.py:941
+msgid "Label required"
+msgstr "Otsake vaaditaan"
+
+#: src/z3c/form/interfaces.py:942
+msgid ""
+"A human readable text describing the form that can be used in the UI for "
+"rendering a required info legend."
+msgstr ""
+"Käyttöliittymässä pakolliset tiedot -kohdassa esitettävä lomaketta "
+"käyttäjälle kuvaava teksti."
+
+#: src/z3c/form/interfaces.py:948
+msgid "The prefix of the form used to uniquely identify it."
+msgstr "Lomakkeen yksilöivä etuliite."
+
+#: src/z3c/form/interfaces.py:952
+msgid "Status"
+msgstr "Tila"
+
+#: src/z3c/form/interfaces.py:953
+msgid "The status message of the form."
+msgstr "Lomakkeen tilaviesti."
+
+#: src/z3c/form/interfaces.py:991
+msgid "The action defines the URI to which the form data are sent."
+msgstr "Toiminto asettaa URIn johon lomakkeen tiedot lähetetään."
+
+#: src/z3c/form/interfaces.py:997
+msgid "The name of the form used to identify it."
+msgstr "Lomakkeen yksilöivä nimi."
+
+#: src/z3c/form/interfaces.py:1001
+msgid "Id"
+msgstr "Tunniste"
+
+#: src/z3c/form/interfaces.py:1002
+msgid "The id of the form used to identify it."
+msgstr "Lomakkeen yksilöivä tunniste."
+
+#: src/z3c/form/interfaces.py:1006
+msgid "Method"
+msgstr "Menetelmä"
+
+#: src/z3c/form/interfaces.py:1007
+msgid "The HTTP method used to submit the form."
+msgstr "Lomakkeen lähetyksessä käytetty HTTP-kutsutyyppi."
+
+#: src/z3c/form/interfaces.py:1013
+msgid "Encoding Type"
+msgstr "Merkistökoodaus"
+
+#: src/z3c/form/interfaces.py:1014
+msgid "The data encoding used to submit the data safely."
+msgstr "Tietojen turvallista lähetystä varten käytetty koodaus."
+
+#: src/z3c/form/interfaces.py:1019
+msgid "Accepted Character Sets"
+msgstr "Hyväksytyt merkistökoodaukset"
+
+#: src/z3c/form/interfaces.py:1020
+msgid ""
+"This is a list of character sets the server accepts. By default this is "
+"unknown."
+msgstr "Palvelimen hyväksymät merkistöt (ei oletusarvoa)."
+
+#: src/z3c/form/interfaces.py:1025
+msgid "Accepted Content Types"
+msgstr "Sallitut sisältötyypit"
+
+#: src/z3c/form/interfaces.py:1026
+msgid "This is a list of content types the server can safely handle."
+msgstr "Palvelimen turvallisesti käsiteltävissä olevat sisältötyypit."
+
+#: src/z3c/form/interfaces.py:1064
+msgid "Fields"
+msgstr "Kentät"
+
+#: src/z3c/form/interfaces.py:1065
+msgid "A field manager describing the fields to be used for the form."
+msgstr "Lomakkeen kenttähallinnoija."
+
+#: src/z3c/form/interfaces.py:1073
+msgid "Content providers"
+msgstr "Sisällöntuottajat"
+
+#: src/z3c/form/interfaces.py:1074
+msgid "A manager describing the content providers to be used for the form."
+msgstr "Lomakkeen sisältötuotinhallinnoija."
+
+#: src/z3c/form/interfaces.py:1082
+msgid "Buttons"
+msgstr "Painikkeet"
+
+#: src/z3c/form/interfaces.py:1083
+msgid "A button manager describing the buttons to be used for the form."
+msgstr "Lomakkeen painikehallinnoija."
+
+#: src/z3c/form/interfaces.py:1108
+msgid "The widget for which the event was created."
+msgstr "Vimpain jota luotu tapahtuma koskee."
+
+#: src/z3c/form/term.py:153
+msgid "Missing: ${value}"
+msgstr "Puuttuu: ${value}"
+
+#: src/z3c/form/term.py:205
+msgid "yes"
+msgstr "kyllä"
+
+#: src/z3c/form/term.py:206
+msgid "no"
+msgstr "ei"
+
+#: src/z3c/form/util.py:131
+msgid "Missing filename extension."
+msgstr "Tiedostopääte puuttuu."
+
+#: src/z3c/form/zcml.py:40
+msgid "Layout template."
+msgstr "Sommitelmamalline"
+
+#: src/z3c/form/zcml.py:41
+msgid ""
+"Refers to a file containing a page template (should end in extension ``.pt`` "
+"or ``.html``)."
+msgstr ""
+"Viittaa sivumallineen sisältävään ”.pt”- tai ”.html”-päätteiseen tiedostoon."
+
+#: src/z3c/form/zcml.py:46
+msgid "The mode of the template."
+msgstr "Mallineen toimintatila"
+
+#: src/z3c/form/zcml.py:47
+msgid "The mode is used to define input and display templates"
+msgstr "Toimintatila asettaa syöttö- ja esitysmallineet"
+
+#: src/z3c/form/zcml.py:53 src/z3c/form/zcml.py:65 src/z3c/form/zcml.py:77
+msgid "View"
+msgstr "Näkymä"
+
+#: src/z3c/form/zcml.py:54 src/z3c/form/zcml.py:66
+msgid "The view for which the template should be available"
+msgstr "Näkymä jolle mallineen pitäisi olla käytettävissä"
+
+#: src/z3c/form/zcml.py:59
+msgid "Layer"
+msgstr "Taso"
+
+#: src/z3c/form/zcml.py:60
+msgid "The layer for which the template should be available"
+msgstr "Taso jonka kanssa mallinetta käytetään"
+
+#: src/z3c/form/zcml.py:72
+msgid "The field for which the template should be available"
+msgstr "Kenttä jonka kanssa mallinetta käytetään"
+
+#: src/z3c/form/zcml.py:78
+msgid "The widget for which the template should be available"
+msgstr "Vimpain jonka kanssa mallinetta käytetään"
+
+#: src/z3c/form/zcml.py:83
+msgid "Content Type"
+msgstr "Sisältötyyppi"
+
+#: src/z3c/form/zcml.py:84
+msgid "The content type identifies the type of data."
+msgstr "Sisältötyyppi kertoo minkälaisesta sisällöstä on kyse."
+
+#: src/z3c/form/zcml.py:90
+msgid "Schema"
+msgstr "Tietorakenne"
+
+#: src/z3c/form/zcml.py:91
+msgid "The schema of the field for which the template should be available"
+msgstr "Tietorakenne kentälle johon mallinetta käytetään"

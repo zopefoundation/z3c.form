@@ -13,9 +13,9 @@
 # #############################################################################
 msgid ""
 msgstr ""
-"Project-Id-Version: Development/Unknown\n"
+"Project-Id-Version: z3c.form\n"
 "POT-Creation-Date: Mon Sep 17 15:11:41 2012\n"
-"PO-Revision-Date: 2015-03-25 11:23+0800\n"
+"PO-Revision-Date: 2015-09-12 22:13+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Zope 3 Developers <zope-dev@zope.org>\n"
 "Language-Code: zh-tw\n"
@@ -44,19 +44,19 @@ msgstr "請選擇 ..."
 
 #: src/z3c/form/converter.py:125
 msgid "The entered value is not a valid integer literal."
-msgstr ""
+msgstr "輸入值並不是正確的整數。"
 
 #: src/z3c/form/converter.py:132 src/z3c/form/converter.py:139
 msgid "The entered value is not a valid decimal literal."
-msgstr ""
+msgstr "輸入值並不是正確的十進位。"
 
 #: src/z3c/form/converter.py:245
 msgid "Bytes data are not a file object"
-msgstr ""
+msgstr "Bytes Data 並不是檔案物件"
 
 #: src/z3c/form/error.py:93
 msgid "The system could not process the given value."
-msgstr ""
+msgstr "系統無法處理輸入值。"
 
 #: src/z3c/form/form.py:108
 msgid "<span class=\"required\">*</span>&ndash; required"
@@ -64,15 +64,15 @@ msgstr "<span class=\"required\">*</span>&ndash; 必填"
 
 #: src/z3c/form/form.py:185 src/z3c/form/subform.py:29
 msgid "There were some errors."
-msgstr ""
+msgstr "發生錯誤。"
 
 #: src/z3c/form/form.py:269 src/z3c/form/subform.py:30
 msgid "Data successfully updated."
-msgstr ""
+msgstr "資料成功更新。"
 
 #: src/z3c/form/form.py:270 src/z3c/form/subform.py:31
 msgid "No changes were applied."
-msgstr ""
+msgstr "沒有資料被更新。"
 
 #: src/z3c/form/form.py:287
 msgid "Apply"
@@ -105,7 +105,7 @@ msgstr ""
 
 #: src/z3c/form/interfaces.py:177 src/z3c/form/interfaces.py:724
 msgid "Title"
-msgstr ""
+msgstr "標題"
 
 #: src/z3c/form/interfaces.py:178
 msgid "The name of the field within the form."
@@ -398,78 +398,78 @@ msgstr "ウィジェットが表現するスキーマフィールド"
 
 #: src/z3c/form/interfaces.py:719
 msgid "The object name."
-msgstr "オブジェクト名"
+msgstr "物件名稱。"
 
 #: src/z3c/form/interfaces.py:725
 msgid "The action title."
-msgstr "アクションタイトル"
+msgstr "動作標題。"
 
 #: src/z3c/form/interfaces.py:740 src/z3c/form/interfaces.py:990
 msgid "Action"
-msgstr "アクション"
+msgstr "動作"
 
 #: src/z3c/form/interfaces.py:741
 msgid "The action for which the event is created."
-msgstr "イベントが作られる由来であるアクション"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:751
 msgid "The error that occurred during the action."
-msgstr "アクション中に起きたエラー"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:777
 msgid "Access Key"
-msgstr "アクセスキー"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:778
 msgid "The key when pressed causes the button to be pressed."
-msgstr "このキーが押されると、このボタンが押されるような結果を引き起こします"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:784
 msgid "Action Factory"
-msgstr "アクションファクトリ"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:785
 msgid "The action factory."
-msgstr "アクションファクトリ"
+msgstr "Action Factory"
 
 #: src/z3c/form/interfaces.py:795
 msgid "Image Path"
-msgstr "画像パス"
+msgstr "圖檔路徑"
 
 #: src/z3c/form/interfaces.py:796
 msgid "A relative image path to the root of the resources."
-msgstr "リソースのルートへの相対画像パス"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:842
 msgid "Handlers"
-msgstr "ハンドラ"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:843
 msgid "A list of action handlers defined on the form."
-msgstr "フォームにおいて定義されたアクションハンドラのリスト"
+msgstr "表單定義的 Action Handler 列表"
 
 #: src/z3c/form/interfaces.py:852
 msgid "Actions"
-msgstr "アクション"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:853
 msgid "A list of actions defined on the form"
-msgstr "フォームにおいて定義されたアクションのリスト"
+msgstr "表單定義的 Action 列表"
 
 #: src/z3c/form/interfaces.py:858
 msgid "Refresh actions"
-msgstr "リフレッシュアクション"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:859
 msgid ""
 "A flag, when set, causes form actions to be updated again after their "
 "execution."
 msgstr ""
-"このフラッグをセットすると、フォームアクションはその実行後に再度更新されます"
+""
 
 #: src/z3c/form/interfaces.py:874
 msgid "The context in which the widget is displayed."
-msgstr "ウィジェットが表示されるコンテクスト"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:900
 msgid "The mode in which to render the widgets."
@@ -507,7 +507,7 @@ msgstr "狀態"
 
 #: src/z3c/form/interfaces.py:953
 msgid "The status message of the form."
-msgstr ""
+msgstr "表單的狀態訊息。"
 
 #: src/z3c/form/interfaces.py:991
 msgid "The action defines the URI to which the form data are sent."
@@ -523,7 +523,7 @@ msgstr "ID"
 
 #: src/z3c/form/interfaces.py:1002
 msgid "The id of the form used to identify it."
-msgstr ""
+msgstr "表單的識別碼。"
 
 #: src/z3c/form/interfaces.py:1006
 msgid "Method"
@@ -561,7 +561,7 @@ msgstr ""
 
 #: src/z3c/form/interfaces.py:1064
 msgid "Fields"
-msgstr "Fields"
+msgstr ""
 
 #: src/z3c/form/interfaces.py:1065
 msgid "A field manager describing the fields to be used for the form."
@@ -617,7 +617,7 @@ msgstr ""
 
 #: src/z3c/form/zcml.py:46
 msgid "The mode of the template."
-msgstr ""
+msgstr "Template 的模式"
 
 #: src/z3c/form/zcml.py:47
 msgid "The mode is used to define input and display templates"

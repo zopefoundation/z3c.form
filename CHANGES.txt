@@ -5,6 +5,10 @@ CHANGES
 3.2.7 (unreleased)
 ------------------
 
+- Remove "cannot move farther up/down" messages
+  in ordered select widget. 
+  [esteele]
+
 - Updated Traditional Chinese translation.
   [l34marr]
 

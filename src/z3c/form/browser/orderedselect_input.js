@@ -65,9 +65,7 @@ function moveUp(name)
 
   if (toSel.selectedIndex == -1)
       selectionError();
-  else if (toSel.options[0].selected)
-      alert("Cannot move further up!");
-  else for (var i = 0; i < toSel.length; i++)
+  else for (var i = 1; i < toSel.length; i++)
     if (toSel.options[i].selected)
       {
       swapFields(toSel.options[i-1], toSel.options[i]);
@@ -83,10 +81,8 @@ function moveDown(name)
 
     if (toSel.selectedIndex == -1) {
         selectionError();
-    } else if (toSel.options[toSel.length-1].selected) {
-        alert("Cannot move further down!");
     } else {
-      for (var i = toSel.length-1; i >= 0; i--) {
+      for (var i = toSel.length-2; i >= 0; i--) {
         if (toSel.options[i].selected) {
           swapFields(toSel.options[i+1], toSel.options[i]);
         }

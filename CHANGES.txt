@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.2.7 (unreleased)
+3.2.7 (2015-09-20)
 ------------------
 
 - Remove "cannot move farther up/down" messages

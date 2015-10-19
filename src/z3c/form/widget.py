@@ -31,10 +31,10 @@ from z3c.form import interfaces, util, value
 PLACEHOLDER = object()
 
 StaticWidgetAttribute = value.StaticValueCreator(
-    discriminators = ('context', 'request', 'view', 'field', 'widget')
+    discriminators=('context', 'request', 'view', 'field', 'widget')
     )
 ComputedWidgetAttribute = value.ComputedValueCreator(
-    discriminators = ('context', 'request', 'view', 'field', 'widget')
+    discriminators=('context', 'request', 'view', 'field', 'widget')
     )
 
 
@@ -244,7 +244,8 @@ class SequenceWidget(Widget):
 class MultiWidget(Widget):
     """None Term based sequence widget base.
 
-    The multi widget is used for ITuple, IList or IDict if no other widget is defined.
+    The multi widget is used for ITuple, IList or IDict if no other widget is
+    defined.
 
     Some IList, ITuple or IDict are using another specialized widget if they can
     choose from a collection. e.g. a IList of IChoice. The base class of such
@@ -255,9 +256,9 @@ class MultiWidget(Widget):
     it's own relevant widget. e.g. IList of ITextLine or ITuple of IInt
 
     Each widget get rendered within a sequence value. This means each internal
-    widget will repressent one value from the mutli widget value. Based on the
+    widget will represent one value from the multi widget value. Based on the
     nature of this (sub) widget setup the internal widget do not have a real
-    context and can't get binded to it. This makes it impossible to use a
+    context and can't get bound to it. This makes it impossible to use a
     sequence of collection where the collection needs a context. But that
     should not be a problem since sequence of collection will use the
     SequenceWidget as base.
@@ -312,8 +313,8 @@ class MultiWidget(Widget):
     def getWidget(self, idx, prefix=None, type_field="value_type"):
         """Setup widget based on index id with or without value."""
         valueType = getattr(self.field, type_field)
-        widget = zope.component.getMultiAdapter((valueType, self.request),
-            interfaces.IFieldWidget)
+        widget = zope.component.getMultiAdapter(
+            (valueType, self.request), interfaces.IFieldWidget)
         self.setName(widget, idx, prefix)
         widget.mode = self.mode
         #set widget.form (objectwidget needs this)
@@ -325,7 +326,7 @@ class MultiWidget(Widget):
         return widget
 
     def setName(self, widget, idx, prefix=None):
-        names =  lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
+        names = lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
         widget.name = '.'.join([str(self.name)]+names(None))
         widget.id = '-'.join([str(self.id)]+names(None))
 
@@ -346,16 +347,14 @@ class MultiWidget(Widget):
         :param names: list of widget.name to remove from the value
         :return: None
         """
-        zipped = list(zip(self.key_widgets,self.widgets))
-        self.key_widgets = [k for k,v in zipped if v.name not in names]
-        self.widgets = [v for k,v in zipped if v.name not in names]
+        zipped = list(zip(self.key_widgets, self.widgets))
+        self.key_widgets = [k for k, v in zipped if v.name not in names]
+        self.widgets = [v for k, v in zipped if v.name not in names]
         if self.is_dict:
-            self.value = [(k.value, v.value) for k,v in zip(self.key_widgets, self.widgets)]
+            self.value = [(k.value, v.value)
+                          for k, v in zip(self.key_widgets, self.widgets)]
         else:
             self.value = [widget.value for widget in self.widgets]
-
-
-
 
     def applyValue(self, widget, value=interfaces.NO_VALUE):
         """Validate and apply value to given widget.
@@ -410,7 +409,7 @@ class MultiWidget(Widget):
                 # mainly sorting for testing reasons
                 items = self.value
             else:
-                items = zip([None]*len(self.value),self.value)
+                items = zip([None]*len(self.value), self.value)
             for key, v in items:
                 widget = self.getWidget(idx)
                 self.applyValue(widget, v)
@@ -487,7 +486,7 @@ class MultiWidget(Widget):
         # don't know how to do this for every field without the right widgets.
         # Later we will setup the widgets based on this values. This is needed
         # because we probably set a new value in the form for our multi widget
-        # which whould generate a different set of widgets.
+        # which would generate a different set of widgets.
         if self.request.get(self.counterName) is None:
             # counter marker not found
             return interfaces.NO_VALUE
@@ -500,7 +499,7 @@ class MultiWidget(Widget):
             widget = self.getWidget(idx)
             if self.is_dict:
                 key_widget = self.getWidget(idx, "key", "key_type")
-                append( (key_widget.value, widget.value) )
+                append((key_widget.value, widget.value))
             else:
                 append(widget.value)
         return values
@@ -565,7 +564,8 @@ class WidgetEvent(object):
         self.widget = widget
 
     def __repr__(self):
-        return '<%s %r>' %(self.__class__.__name__, self.widget)
+        return '<%s %r>' % (self.__class__.__name__, self.widget)
+
 
 @zope.interface.implementer_only(interfaces.IAfterWidgetUpdateEvent)
 class AfterWidgetUpdateEvent(WidgetEvent):

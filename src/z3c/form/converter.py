@@ -32,7 +32,7 @@ from z3c.form import interfaces, util
 @zope.interface.implementer(interfaces.IDataConverter)
 class BaseDataConverter(object):
     """A base implementation of the data converter."""
-    
+
     _strip_value = True # Remove spaces at start and end of text line
 
     def __init__(self, field, widget):
@@ -393,7 +393,7 @@ class MultiConverter(BaseDataConverter):
         widget = zope.component.getMultiAdapter((field, self.widget.request),
             interfaces.IFieldWidget)
         if interfaces.IFormAware.providedBy(self.widget):
-            #form property required by objecwidget
+            #form property required by objectwidget
             widget.form = self.widget.form
             zope.interface.alsoProvides(widget, interfaces.IFormAware)
         converter = zope.component.getMultiAdapter((field, widget),
@@ -404,6 +404,7 @@ class MultiConverter(BaseDataConverter):
         # convert the field values to a tuple or list
         collectionType = self.field._type
         return collectionType(values)
+
 
 class DictMultiConverter(BaseDataConverter):
     """Data converter for IMultiWidget."""
@@ -422,10 +423,9 @@ class DictMultiConverter(BaseDataConverter):
             # form property required by objectwidget
             widget.form = self.widget.form
             zope.interface.alsoProvides(widget, interfaces.IFormAware)
-        converter = zope.component.getMultiAdapter((field, widget),
-            interfaces.IDataConverter)
+        converter = zope.component.getMultiAdapter(
+            (field, widget), interfaces.IDataConverter)
         return converter
-
 
     def toWidgetValue(self, value):
         """Just dispatch it."""
@@ -435,7 +435,9 @@ class DictMultiConverter(BaseDataConverter):
         key_converter = self._getConverter(self.field.key_type)
 
         # we always return a list of values for the widget
-        return [(key_converter.toWidgetValue(k), converter.toWidgetValue(v)) for k,v in value.items()]
+        return [
+            (key_converter.toWidgetValue(k), converter.toWidgetValue(v))
+            for k, v in value.items()]
 
     def toFieldValue(self, value):
         """Just dispatch it."""
@@ -445,7 +447,10 @@ class DictMultiConverter(BaseDataConverter):
         converter = self._getConverter(self.field.value_type)
         key_converter = self._getConverter(self.field.key_type)
 
-        return dict([(key_converter.toFieldValue(k), converter.toFieldValue(v)) for k,v in value])
+        return dict([
+            (key_converter.toFieldValue(k), converter.toFieldValue(v))
+            for k, v in value])
+
 
 class BoolSingleCheckboxDataConverter(BaseDataConverter):
     "A special converter between boolean fields and single checkbox widgets."

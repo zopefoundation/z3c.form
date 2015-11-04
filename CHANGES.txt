@@ -5,7 +5,7 @@ CHANGES
 3.2.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Standardize namespace __init__
 
 
 3.2.7 (2015-09-20)

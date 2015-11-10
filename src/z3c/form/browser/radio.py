@@ -22,6 +22,7 @@ import zope.interface
 import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
+from zope.schema.vocabulary import SimpleTerm
 from zope.pagetemplate.interfaces import IPageTemplate
 
 from z3c.form import interfaces, util
@@ -41,9 +42,17 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
         return term.token in self.value
 
     def renderForValue(self, value):
-        term = self.terms.getTermByToken(value)
+        terms = list(self.terms)
+        try:
+            term = self.terms.getTermByToken(value)
+        except LookupError:
+            if value == SequenceWidget.noValueToken:
+                term = SimpleTerm(value)
+                terms.insert(0, term)
+            else:
+                raise
         checked = self.isChecked(term)
-        id = '%s-%i' % (self.id, list(self.terms).index(term))
+        id = '%s-%i' % (self.id, terms.index(term))
         item = {'id': id, 'name': self.name, 'value': term.token,
                 'checked': checked}
         template = zope.component.getMultiAdapter(

@@ -5,6 +5,9 @@ CHANGES
 3.2.9 (unreleased)
 ------------------
 
+- Correctly handle noValueToken in RadioWidget
+  [ale-rt]
+
 - Started on Dutch translations.
   [maurits]
 
@@ -70,7 +73,6 @@ CHANGES
 
 - move js to separate file to prevent escaped entities in Plone 5.
   [pbauer]
-- Correctly handle noValueToken in RadioWidget
 
 
 3.2.1 (2014-06-09)

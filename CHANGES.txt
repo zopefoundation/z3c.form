@@ -6,7 +6,7 @@ CHANGES
 ------------------
 
 - Correctly handle noValueToken in RadioWidget
-  [ale-rt]
+  [gaudenz,ale-rt]
 
 - Started on Dutch translations.
   [maurits]

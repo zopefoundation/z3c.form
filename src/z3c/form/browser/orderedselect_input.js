@@ -108,17 +108,9 @@ function copyDataForSubmit(name)
     {
     // create virtual node with suitable attributes
     var newNode = document.createElement("input");
-    var newAttr = document.createAttribute("name");
-    newAttr.nodeValue = name.replace(/-/g, '.')+':list';
-    newNode.setAttributeNode(newAttr);
-
-    newAttr = document.createAttribute("type");
-    newAttr.nodeValue = "hidden";
-    newNode.setAttributeNode(newAttr);
-
-    newAttr = document.createAttribute("value");
-    newAttr.nodeValue = toSel.options[i].value;
-    newNode.setAttributeNode(newAttr);
+    newNode.setAttribute("name", name.replace(/-/g, '.')+':list');
+    newNode.setAttribute("type", "hidden");
+    newNode.setAttribute("value",toSel.options[i].value );
 
     // actually append virtual node to DOM tree
     toDataContainer.appendChild(newNode);

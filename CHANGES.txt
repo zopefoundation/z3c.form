@@ -23,7 +23,7 @@ CHANGES
 3.2.8 (2015-11-09)
 ------------------
 
-- Standardize namespace __init__
+- Standardized namespace __init__.  [agroszer]
 
 
 3.2.7 (2015-09-20)

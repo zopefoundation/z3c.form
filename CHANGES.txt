@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.2.9 (unreleased)
+3.2.9 (2016-02-01)
 ------------------
 
 - Correctly handled ``noValueToken`` in RadioWidget.  This avoids a

@@ -5,6 +5,11 @@ CHANGES
 3.2.9 (unreleased)
 ------------------
 
+- Change javascript for updating ordered select widget hidden structure so it
+  works again on IE11 and doesn't send back an empty list that deletes all
+  selections on save. Fixes https://github.com/zopefoundation/z3c.form/issues/23
+  [fredvd]
+
 - Started on Dutch translations.
   [maurits]
 

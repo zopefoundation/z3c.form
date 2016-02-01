@@ -71,6 +71,11 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
                 {'id':id, 'name':self.name, 'value':term.token,
                  'label':label, 'checked':checked})
 
+    def json_data(self):
+        data = super(RadioWidget, self).json_data()
+        data['options'] = self.items
+        data['type'] = 'radio'
+        return data
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

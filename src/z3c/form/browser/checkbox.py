@@ -60,6 +60,11 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
                 {'id':id, 'name':self.name + ':list', 'value':term.token,
                  'label':label, 'checked':checked})
 
+    def json_data(self):
+        data = super(CheckBoxWidget, self).json_data()
+        data['options'] = self.items
+        data['type'] = 'check'
+        return data
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

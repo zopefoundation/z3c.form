@@ -149,6 +149,18 @@ However, there is an option to turn off all request data:
   >>> print(age.render())
   <input type="text" name="age" value="39" />
 
+Additionally the widget provides a dictionary representation of its data through a json_data() method:
+  >>> from pprint import pprint
+  >>> pprint(age.json_data())
+  {'error': '',
+   'id': '',
+   'label': 'Age',
+   'mode': 'input',
+   'name': 'age',
+   'required': False,
+   'type': 'text',
+   'value': '39'}
+
 
 Creating and Using Field Widgets
 --------------------------------
@@ -412,6 +424,18 @@ Let's now instantiate, update and render the widget to see the default value:
   >>> print(ageWidget.render())
   <input type="text" name="age" value="50" />
 
+This value is also respected by the json_data method:
+  >>> from pprint import pprint
+  >>> pprint(ageWidget.json_data())
+  {'error': '',
+   'id': 'age',
+   'label': 'Current Age',
+   'mode': 'input',
+   'name': 'age',
+   'required': False,
+   'type': 'text',
+   'value': '50'}
+
 
 Sequence Widget
 ---------------
@@ -535,6 +559,19 @@ the adapter is registered, everything should work as expected:
   >>> seqWidget.update()
   >>> seqWidget.terms
   <z3c.form.term.ChoiceTermsVocabulary object at ...>
+
+The representation of this widget as json looks a bit different:
+  >>> from pprint import pprint
+  >>> pprint(seqWidget.json_data())
+  {'error': '',
+   'id': '',
+   'label': 'Sequence Field',
+   'mode': 'input',
+   'name': '',
+   'required': True,
+   'type': 'sequence',
+   'value': ()}
+
 
 So that's it. Everything else is the same from then on.
 
@@ -731,6 +768,67 @@ Yes, all subwidgets switch mode:
   >>> [w.mode for w in multiWidget.widgets]
   ['display', 'display', 'display', 'display', 'display', 'display']
 
+The json data representing the multi widget:
+  >>> from pprint import pprint
+  >>> pprint(multiWidget.json_data())
+  {'error': '',
+   'id': '',
+   'label': '',
+   'mode': 'display',
+   'name': '',
+   'required': True,
+   'type': 'multi',
+   'value': ['3', '5', '8', '6', '42', '45'],
+   'widgets': [{'error': '',
+                'id': '-0',
+                'label': '',
+                'mode': 'display',
+                'name': '.0',
+                'required': True,
+                'type': 'text',
+                'value': '3'},
+               {'error': '',
+                'id': '-1',
+                'label': '',
+                'mode': 'display',
+                'name': '.1',
+                'required': True,
+                'type': 'text',
+                'value': '5'},
+               {'error': '',
+                'id': '-2',
+                'label': '',
+                'mode': 'display',
+                'name': '.2',
+                'required': True,
+                'type': 'text',
+                'value': '8'},
+               {'error': '',
+                'id': '-3',
+                'label': '',
+                'mode': 'display',
+                'name': '.3',
+                'required': True,
+                'type': 'text',
+                'value': '6'},
+               {'error': '',
+                'id': '-4',
+                'label': '',
+                'mode': 'display',
+                'name': '.4',
+                'required': True,
+                'type': 'text',
+                'value': '42'},
+               {'error': '',
+                'id': '-5',
+                'label': '',
+                'mode': 'display',
+                'name': '.5',
+                'required': True,
+                'type': 'text',
+                'value': '45'}]}
+
+
 
 Multi Dict Widget
 -----------------
@@ -792,6 +890,7 @@ We can add new items
   >>> len(multiWidget.widgets)
   4
 
+The json data representing the Multi Dict Widget is the same as the Multi widget:
 
 Widget Events
 -------------

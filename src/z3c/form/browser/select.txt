@@ -77,6 +77,34 @@ Now let's try if we get widget values:
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
+Select json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'content': 'No value',
+                'id': 'widget-id-novalue',
+                'selected': False,
+                'value': '--NOVALUE--'},
+               {'content': 'a',
+                'id': 'widget-id-0',
+                'selected': False,
+                'value': 'a'},
+               {'content': 'b',
+                'id': 'widget-id-1',
+                'selected': False,
+                'value': 'b'},
+               {'content': 'c',
+                'id': 'widget-id-2',
+                'selected': False,
+                'value': 'c'}],
+   'required': False,
+   'type': 'select',
+   'value': ()}
+
 If we select item "b", then it should be selected:
 
   >>> widget.value = ['b']
@@ -90,6 +118,34 @@ If we select item "b", then it should be selected:
   <option id="widget-id-2" value="c">c</option>
   </select>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
+
+Select json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'content': 'No value',
+                'id': 'widget-id-novalue',
+                'selected': False,
+                'value': '--NOVALUE--'},
+               {'content': 'a',
+                'id': 'widget-id-0',
+                'selected': False,
+                'value': 'a'},
+               {'content': 'b',
+                'id': 'widget-id-1',
+                'selected': True,
+                'value': 'b'},
+               {'content': 'c',
+                'id': 'widget-id-2',
+                'selected': False,
+                'value': 'c'}],
+   'required': False,
+   'type': 'select',
+   'value': ['b']}
 
 Let's see what happens if we have values that are not in the vocabulary:
 
@@ -169,6 +225,33 @@ by the adapter:
   >>> widget.noValueMessage
   u'- nothing -'
 
+Select json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'content': '- nothing -',
+                'id': 'widget-id-novalue',
+                'selected': True,
+                'value': '--NOVALUE--'},
+               {'content': 'a',
+                'id': 'widget-id-0',
+                'selected': False,
+                'value': 'a'},
+               {'content': 'b',
+                'id': 'widget-id-1',
+                'selected': False,
+                'value': 'b'},
+               {'content': 'c',
+                'id': 'widget-id-2',
+                'selected': False,
+                'value': 'c'}],
+   'required': False,
+   'type': 'select',
+   'value': []}
 
 Explicit Selection Prompt
 -------------------------

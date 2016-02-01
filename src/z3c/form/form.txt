@@ -293,9 +293,66 @@ occurred.
 Rendering the form
 ------------------
 
-Once the update is complete we can render the form. Since we have not
-specified a template yet, we have to do this now. We have prepared a small and
-very simple template as part of this example:
+Once the update is complete we can render the form using one of two methods reder or json.
+If we want to generate json data to be consumed by the client all we need to do is call json()
+ >>> import json
+ >>> from pprint import pprint
+ >>> pprint(json.loads(addForm.json()))
+ {'errors': [],
+  'fields': [{'error': '',
+              'id': 'form-widgets-id',
+              'label': 'ID',
+              'mode': 'input',
+              'name': 'form.widgets.id',
+              'required': True,
+              'type': 'text',
+              'value': ''},
+             {'error': '',
+              'id': 'form-widgets-name',
+              'label': 'Name',
+              'mode': 'input',
+              'name': 'form.widgets.name',
+              'required': True,
+              'type': 'text',
+              'value': ''},
+             {'error': '',
+              'id': 'form-widgets-gender',
+              'label': 'Gender',
+              'mode': 'input',
+              'name': 'form.widgets.gender',
+              'options': [{'content': 'No value',
+                            'id': 'form-widgets-gender-novalue',
+                            'selected': False,
+                            'value': '--NOVALUE--'},
+                           {'content': 'male',
+                            'id': 'form-widgets-gender-0',
+                            'selected': False,
+                            'value': 'male'},
+                           {'content': 'female',
+                            'id': 'form-widgets-gender-1',
+                            'selected': False,
+                            'value': 'female'}],
+              'required': False,
+              'type': 'select',
+              'value': []},
+             {'error': '',
+              'id': 'form-widgets-age',
+              'label': 'Age',
+              'mode': 'input',
+              'name': 'form.widgets.age',
+              'required': False,
+              'type': 'text',
+              'value': '20'}],
+ 'label': '',
+ 'mode': 'input',
+ 'prefix': 'form.',
+ 'status': ''}
+
+
+The other way we can render the form is using the render() method.
+
+The render method requires us to specify a template, we have to do this now.
+We have prepared a small and very simple template as part of this example:
 
   >>> import os
   >>> from zope.browserpage.viewpagetemplatefile import BoundPageTemplate
@@ -560,6 +617,61 @@ Let's now render the form:
     </body>
   </html>
 
+Notice the errors are present in the json output of the form as well
+  >>> import json
+  >>> from pprint import pprint
+  >>> pprint(json.loads(addForm.json()))
+  {'errors': [],
+   'fields': [{'error': '',
+                'id': 'form-widgets-id',
+                'label': 'ID',
+                'mode': 'input',
+                'name': 'form.widgets.id',
+                'required': True,
+                'type': 'text',
+                'value': 'srichter'},
+               {'error': 'Required input is missing.',
+                'id': 'form-widgets-name',
+                'label': 'Name',
+                'mode': 'input',
+                'name': 'form.widgets.name',
+                'required': True,
+                'type': 'text',
+                'value': ''},
+               {'error': '',
+                'id': 'form-widgets-gender',
+                'label': 'Gender',
+                'mode': 'input',
+                'name': 'form.widgets.gender',
+                'options': [{'content': 'No value',
+                              'id': 'form-widgets-gender-novalue',
+                              'selected': False,
+                              'value': '--NOVALUE--'},
+                             {'content': 'male',
+                              'id': 'form-widgets-gender-0',
+                              'selected': True,
+                              'value': 'male'},
+                             {'content': 'female',
+                              'id': 'form-widgets-gender-1',
+                              'selected': False,
+                              'value': 'female'}],
+                'required': False,
+                'type': 'select',
+                'value': ['male']},
+               {'error': '',
+                'id': 'form-widgets-age',
+                'label': 'Age',
+                'mode': 'input',
+                'name': 'form.widgets.age',
+                'required': False,
+                'type': 'text',
+                'value': '23'}],
+   'label': '',
+   'mode': 'input',
+   'prefix': 'form.',
+   'status': 'There were some errors.'}
+
+
 Note that the values of the field are now extracted from the request.
 
 Another way to receive an error is by not fulfilling the invariants of the
@@ -593,6 +705,60 @@ and see how the form looks like:
       ...
     </body>
   </html>
+
+and through as json:
+  >>> import json
+  >>> from pprint import pprint
+  >>> pprint(json.loads(addForm.json()))
+   {'errors': ['The id and name cannot be the same.'],
+    'fields': [{'error': '',
+                'id': 'form-widgets-id',
+                'label': 'ID',
+                'mode': 'input',
+                'name': 'form.widgets.id',
+                'required': True,
+                'type': 'text',
+                'value': 'Stephan'},
+               {'error': '',
+                'id': 'form-widgets-name',
+                'label': 'Name',
+                'mode': 'input',
+                'name': 'form.widgets.name',
+                'required': True,
+                'type': 'text',
+                'value': 'Stephan'},
+               {'error': '',
+                'id': 'form-widgets-gender',
+                'label': 'Gender',
+                'mode': 'input',
+                'name': 'form.widgets.gender',
+                'options': [{'content': 'No value',
+                              'id': 'form-widgets-gender-novalue',
+                              'selected': False,
+                              'value': '--NOVALUE--'},
+                             {'content': 'male',
+                              'id': 'form-widgets-gender-0',
+                              'selected': True,
+                              'value': 'male'},
+                             {'content': 'female',
+                              'id': 'form-widgets-gender-1',
+                              'selected': False,
+                              'value': 'female'}],
+                'required': False,
+                'type': 'select',
+                'value': ['male']},
+               {'error': '',
+                'id': 'form-widgets-age',
+                'label': 'Age',
+                'mode': 'input',
+                'name': 'form.widgets.age',
+                'required': False,
+                'type': 'text',
+                'value': '23'}],
+    'label': '',
+    'mode': 'input',
+    'prefix': 'form.',
+    'status': 'There were some errors.'}
 
 Let's try to provide a negative age, which is not possible either:
 

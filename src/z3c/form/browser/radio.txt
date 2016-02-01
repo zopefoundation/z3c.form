@@ -92,6 +92,28 @@ Now let's try if we get widget values:
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
+The radio json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'checked': False,
+                'id': 'widget-id-0',
+                'label': 'yes',
+                'name': 'widget.name',
+                'value': 'true'},
+                {'checked': False,
+                'id': 'widget-id-1',
+                'label': 'no',
+                'name': 'widget.name',
+                'value': 'false'}],
+   'required': False,
+   'type': 'radio',
+   'value': ()}
+
 If we set the value for the widget to ``yes``, we can se that the radio field
 get rendered with a checked flag:
 
@@ -112,6 +134,28 @@ get rendered with a checked flag:
     </label>
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
+
+The radio json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'checked': True,
+                'id': 'widget-id-0',
+                'label': 'yes',
+                'name': 'widget.name',
+                'value': 'true'},
+                {'checked': False,
+                'id': 'widget-id-1',
+                'label': 'no',
+                'name': 'widget.name',
+                'value': 'false'}],
+   'required': False,
+   'type': 'radio',
+   'value': 'true'}
 
 We can also render the input elements for each value separately:
 

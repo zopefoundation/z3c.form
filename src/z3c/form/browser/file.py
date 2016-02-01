@@ -36,6 +36,11 @@ class FileWidget(text.TextWidget):
     headers = None
     filename = None
 
+    def json_data(self):
+        data = super(FileWidget, self).json_data()
+        data['type'] = 'file'
+        return data
+
 
 @zope.component.adapter(zope.schema.interfaces.IBytes, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

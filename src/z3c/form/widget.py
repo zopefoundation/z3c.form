@@ -16,6 +16,7 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
+import json
 
 import zope.interface
 import zope.component
@@ -152,6 +153,18 @@ class Widget(zope.location.Location):
                 IPageTemplate, name=self.mode)
         return template(self)
 
+    def json_data(self):
+        return {
+            'mode': self.mode,
+            'error': self.error.message if self.error else '',
+            'value': self.value,
+            'required': self.required,
+            'name': self.name,
+            'id': getattr(self, 'id', ''),
+            'type': 'text',
+            'label': self.label or ''
+        }
+
     def __call__(self):
         """Get and return layout template which is calling widget/render"""
         layout = self.layout
@@ -238,6 +251,11 @@ class SequenceWidget(Widget):
                 except LookupError:
                     return default
         return value
+
+    def json_data(self):
+        data = super(SequenceWidget, self).json_data()
+        data['type'] = 'sequence'
+        return data
 
 
 @zope.interface.implementer(interfaces.IMultiWidget)
@@ -504,6 +522,11 @@ class MultiWidget(Widget):
                 append(widget.value)
         return values
 
+    def json_data(self):
+        data = super(MultiWidget, self).json_data()
+        data['widgets'] = [widget.json_data() for widget in self.widgets]
+        data['type'] = 'multi'
+        return data
 
 def FieldWidget(field, widget):
     """Set the field for the widget."""

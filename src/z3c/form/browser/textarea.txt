@@ -53,6 +53,18 @@ Adding some more attributes to the widget will make it display more:
   >>> print(widget.render())
   <textarea id="id" name="name" class="textarea-widget">value</textarea>
 
+The json data representing the textarea widget:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'id',
+   'label': '',
+   'mode': 'input',
+   'name': 'name',
+   'required': False,
+   'type': 'textarea',
+   'value': 'value'}
+
 Check DISPLAY_MODE:
 
   >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),

@@ -90,6 +90,28 @@ Now let's try if we get widget values:
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
+The checkbox json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'checked': False,
+                'id': 'widget-id-0',
+                'label': 'yes',
+                'name': 'widget.name:list',
+                'value': 'true'},
+               {'checked': False,
+                'id': 'widget-id-1',
+                'label': 'no',
+                'name': 'widget.name:list',
+                'value': 'false'}],
+   'required': False,
+   'type': 'check',
+   'value': ()}
+
 If we set the value for the widget to ``yes``, we can se that the checkbox
 field get rendered with a checked flag:
 
@@ -114,6 +136,28 @@ field get rendered with a checked flag:
   </span>
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
+The checkbox json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'checked': True,
+                'id': 'widget-id-0',
+                'label': 'yes',
+                'name': 'widget.name:list',
+                'value': 'true'},
+               {'checked': False,
+                'id': 'widget-id-1',
+                'label': 'no',
+                'name': 'widget.name:list',
+                'value': 'false'}],
+   'required': False,
+   'type': 'check',
+   'value': 'true'}
+
 Check HIDDEN_MODE:
 
   >>> template = os.path.join(os.path.dirname(z3c.form.browser.__file__),
@@ -133,6 +177,28 @@ Check HIDDEN_MODE:
     <input type="hidden" id="widget-id-1" name="widget.name:list"
            class="checkbox-widget" value="false" />
   </span>
+
+The checkbox json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': '',
+   'mode': 'hidden',
+   'name': 'widget.name',
+   'options': [{'checked': True,
+                'id': 'widget-id-0',
+                'label': 'yes',
+                'name': 'widget.name:list',
+                'value': 'true'},
+               {'checked': False,
+                'id': 'widget-id-1',
+                'label': 'no',
+                'name': 'widget.name:list',
+                'value': 'false'}],
+   'required': False,
+   'type': 'check',
+   'value': 'true'}
 
 Make sure that we produce a proper label when we have no title for a term and
 the value (which is used as a backup label) contains non-ASCII characters:
@@ -200,6 +266,23 @@ For there to be a sensible output, we need to give the widget a label:
   </span>
   <input name="widget.name-empty-marker" type="hidden"
          value="1" />
+
+The checkbox json_data representation:
+  >>> from pprint import pprint
+  >>> pprint(widget.json_data())
+  {'error': '',
+   'id': 'widget-id',
+   'label': 'Do you want that?',
+   'mode': 'input',
+   'name': 'widget.name',
+   'options': [{'checked': False,
+                'id': 'widget-id-0',
+                'label': 'Do you want that?',
+                'name': 'widget.name:list',
+                'value': 'selected'}],
+   'required': False,
+   'type': 'check',
+   'value': ()}
 
 Initially, the box is not checked. Changing the widget value to the selection
 value, ...

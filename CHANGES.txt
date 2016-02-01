@@ -5,6 +5,9 @@ CHANGES
 3.2.9 (unreleased)
 ------------------
 
+- Correctly handled ``noValueToken`` in RadioWidget.  This avoids a
+  ``LookupError: --NOVALUE--``.  [gaudenz,ale-rt]
+
 - Added ``json`` method for forms and ``json_data`` method for
   widgets.  [mmilkin]
 

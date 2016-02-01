@@ -294,7 +294,8 @@ Rendering the form
 ------------------
 
 Once the update is complete we can render the form using one of two methods reder or json.
-If we want to generate json data to be consumed by the client all we need to do is call json()
+If we want to generate json data to be consumed by the client all we need to do is call json()::
+
  >>> import json
  >>> from pprint import pprint
  >>> pprint(json.loads(addForm.json()))

@@ -163,8 +163,6 @@ Bunch of adapters to get objectwidget work:
   >>> zope.component.provideAdapter(z3c.form.object.ObjectConverter)
   >>> import z3c.form.error
   >>> zope.component.provideAdapter(z3c.form.error.ValueErrorViewSnippet)
-  >>> from z3c.form.object import SubformAdapter
-  >>> zope.component.provideAdapter(SubformAdapter)
 
   >>> from zope.pagetemplate.interfaces import IPageTemplate
   >>> from z3c.form.testing import getPath
@@ -185,7 +183,8 @@ Bunch of adapters to get objectwidget work:
 It must not fail if we assign values that do not meet the constraints,
 just cry about it in the HTML:
 
-  >>> widget.value = [{'foofield': None, 'barfield': 666}]
+  >>> widget.value = [z3c.form.object.ObjectWidgetValue(
+  ...     {'foofield': u'', 'barfield': '666'})]
   >>> widget.update()
   >>> print(widget.render())
   <div class="multi-widget required">
@@ -245,8 +244,9 @@ just cry about it in the HTML:
 
 Let's set acceptable values:
 
-  >>> widget.value = [dict(foofield=42, barfield=666),
-  ...     dict(foofield=789, barfield=321)]
+  >>> widget.value = [
+  ...     z3c.form.object.ObjectWidgetValue(dict(foofield=u'42', barfield=u'666')),
+  ...     z3c.form.object.ObjectWidgetValue(dict(foofield=u'789', barfield=u'321'))]
 
   >>> print(widget.render())
   <div class="multi-widget required">
@@ -519,7 +519,7 @@ Let's see what we get on value extraction:
 
   >>> value = widget.extract()
   >>> pprint(value)
-  [{'barfield': 666, 'foofield': 42}, {'barfield': 321, 'foofield': 789}]
+  [{'barfield': '666', 'foofield': '42'}, {'barfield': '321', 'foofield': '789'}]
   >>> converter = interfaces.IDataConverter(widget)
 
   >>> value = converter.toFieldValue(value)
@@ -680,9 +680,9 @@ Let's see what we get on value extraction:
 
   >>> value = widget.extract()
   >>> pprint(value)
-  [{'barfield': 666, 'foofield': 42},
-   {'barfield': 321, 'foofield': 789},
-   {'barfield': 98, 'foofield': 46}]
+  [{'barfield': '666', 'foofield': '42'},
+   {'barfield': '321', 'foofield': '789'},
+   {'barfield': '98', 'foofield': '46'}]
   >>> converter = interfaces.IDataConverter(widget)
 
   >>> value = converter.toFieldValue(value)
@@ -807,9 +807,9 @@ Let's see what we get on value extraction:
 
   >>> value = widget.extract()
   >>> pprint(value)
-  [{'barfield': 666, 'foofield': 42},
-   {'barfield': 321, 'foofield': 789},
-   {'barfield': 98, 'foofield': 46}]
+  [{'barfield': '666', 'foofield': '42'},
+   {'barfield': '321', 'foofield': '789'},
+   {'barfield': '98', 'foofield': '46'}]
   >>> converter = interfaces.IDataConverter(widget)
 
   >>> value = converter.toFieldValue(value)
@@ -885,7 +885,7 @@ as input for our internal (sub) widget.
           <span class="required">*</span>
         </label>
       </div>
-      <div class="error">Object is of wrong type.</div>
+      <div class="error">The entered value is not a valid integer literal.</div>
       <div class="widget">
         <div class="multi-widget-checkbox">
           <input class="multi-widget-checkbox checkbox-widget" id="foo-1-remove" name="foo.1.remove" type="checkbox" value="1">
@@ -926,7 +926,7 @@ Let's see what we get on value extraction:
 
   >>> value = widget.extract()
   >>> pprint(value)
-  [{'barfield': 666, 'foofield': 42},
+  [{'barfield': '666', 'foofield': '42'},
    {'barfield': '98', 'foofield': 'bad'}]
 
 
@@ -947,8 +947,9 @@ if you like to skip the label rendering for all widgets.
   >>> request = TestRequest()
   >>> widget = multi.MultiWidget(request)
   >>> widget = FieldWidget(field, widget)
-  >>> widget.value = [dict(foofield=42, barfield=666),
-  ...     dict(foofield=789, barfield=321)]
+  >>> widget.value = [
+  ...     z3c.form.object.ObjectWidgetValue(dict(foofield='42', barfield='666')),
+  ...     z3c.form.object.ObjectWidgetValue(dict(foofield='789', barfield='321'))]
   >>> widget.showLabel = False
   >>> widget.update()
   >>> print(widget.render())
@@ -1413,15 +1414,11 @@ Until we have updated the form:
 Let's see our event log:
 
   >>> len(eventlog)
-  7
+  5
 
 ((TODO: now this is real crap here, why is IMySubObjectMulti created 3 times???))
 
   >>> printEvents()
-  <zope...ObjectCreatedEvent object at ...>
-  <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
-  ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
   <InterfaceClass z3c.form.testing.IMySubObjectMulti>
@@ -1596,13 +1593,13 @@ it has to appear at the field itself and at the top of the form:
       <ul>
         <li>
         My list field:
-          <div class="error">Object is of wrong type.</div>
+          <div class="error">The entered value is not a valid integer literal.</div>
         </li>
       </ul>
       <form action=".">
         <div class="row">
           <b>
-            <div class="error">Object is of wrong type.</div>
+            <div class="error">The entered value is not a valid integer literal.</div>
           </b>
           <label for="form-widgets-listOfObject">My list field</label>
           <div class="multi-widget required">
@@ -1613,7 +1610,7 @@ it has to appear at the field itself and at the top of the form:
                   <span class="required">*</span>
                 </label>
               </div>
-              <div class="error">Object is of wrong type.</div>
+              <div class="error">The entered value is not a valid integer literal.</div>
               <div class="widget">
                 <div class="multi-widget-checkbox">
                   <input class="multi-widget-checkbox checkbox-widget"

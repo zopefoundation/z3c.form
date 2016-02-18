@@ -17,6 +17,7 @@ import base64
 import pprint
 import os
 import re
+import zope.browserresource
 import zope.component
 import zope.configuration.xmlconfig
 import zope.interface
@@ -266,6 +267,7 @@ def setUpIntegration(test):
     zope.configuration.xmlconfig.XMLConfig('meta.zcml', zope.component)()
     zope.configuration.xmlconfig.XMLConfig('meta.zcml', zope.security)()
     zope.configuration.xmlconfig.XMLConfig('meta.zcml', zope.i18n)()
+    zope.configuration.xmlconfig.XMLConfig('meta.zcml', zope.browserresource)()
     zope.configuration.xmlconfig.XMLConfig('meta.zcml', z3c.form)()
     zope.configuration.xmlconfig.XMLConfig('configure.zcml', z3c.form)()
 

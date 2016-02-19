@@ -18,6 +18,7 @@ import pprint
 import os
 import re
 import six
+import shutil
 import zope.browserresource
 import zope.component
 import zope.configuration.xmlconfig
@@ -612,17 +613,13 @@ def saveHtml(content, fname):
     if not os.path.exists(path):
         os.makedirs(path)
     fullfname = os.path.join(path, fname)
-    open(fullfname, 'wb').write(content.encode('utf8'))
+    with open(fullfname, 'wb') as fout:
+        fout.write(content.encode('utf8'))
 
     fullfname = os.path.join(path, 'integration.css')
     cssfname = os.path.join(os.path.dirname(tests.__file__),
                             'integration.css')
-    if os.path.exists(fullfname):
-        css = open(cssfname, 'rb').read()
-        if open(fullfname, 'rb').read() != css:
-            open(fullfname, 'wb').write(open(cssfname, 'rb').read())
-    else:
-        open(fullfname, 'wb').write(open(cssfname, 'rb').read())
+    shutil.copy(cssfname, fullfname)
 
 
 ##########################################

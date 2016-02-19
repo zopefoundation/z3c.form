@@ -17,6 +17,7 @@ import base64
 import pprint
 import os
 import re
+import six
 import zope.browserresource
 import zope.component
 import zope.configuration.xmlconfig
@@ -84,9 +85,9 @@ class TestRequest(TestRequest):
         if form is not None:
             lists = {}
             for k in list(form.keys()):
-                if isinstance(form[k], basestring):
+                if isinstance(form[k], six.string_types):
                     # ensure unicode otherwise z3c.forms burps on str
-                    form[k] = unicode(form[k])
+                    form[k] = six.text_type(form[k])
 
                 if k.endswith(':list'):
                     key = k.split(':', 1)[0]

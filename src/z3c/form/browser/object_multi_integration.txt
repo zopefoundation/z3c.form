@@ -10,8 +10,8 @@ a.k.a. list of objects widget
   >>> from z3c.form import testing
 
   >>> from z3c.form.object import registerFactoryAdapter
-  >>> registerFactoryAdapter(testing.IObjectWidgetSingleSubIntegration,
-  ...     testing.ObjectWidgetSingleSubIntegration)
+  >>> registerFactoryAdapter(testing.IObjectWidgetMultiSubIntegration,
+  ...     testing.ObjectWidgetMultiSubIntegration)
 
   >>> request = testing.TestRequest()
 
@@ -20,7 +20,7 @@ a.k.a. list of objects widget
   ...     fields = field.Fields(
   ...         testing.IMultiWidgetListIntegration).select('listOfObject')
 
-Our single content object:
+Our multi content object:
 
   >>> obj = testing.MultiWidgetListIntegration()
 
@@ -52,39 +52,39 @@ All blank and empty values:
 Some valid default values
 --------------------------
 
-  >>> sub1 = testing.ObjectWidgetSingleSubIntegration(
-  ...     singleInt=-100,
-  ...     singleBool=False,
-  ...     singleChoice='two',
-  ...     singleChoiceOpt='six',
-  ...     singleTextLine=u'some text one',
-  ...     singleDate=date(2014, 6, 20))
+  >>> sub1 = testing.ObjectWidgetMultiSubIntegration(
+  ...     multiInt=-100,
+  ...     multiBool=False,
+  ...     multiChoice='two',
+  ...     multiChoiceOpt='six',
+  ...     multiTextLine=u'some text one',
+  ...     multiDate=date(2014, 6, 20))
 
-  >>> sub2 = testing.ObjectWidgetSingleSubIntegration(
-  ...     singleInt=42,
-  ...     singleBool=True,
-  ...     singleChoice='one',
-  ...     singleChoiceOpt='four',
-  ...     singleTextLine=u'second txt',
-  ...     singleDate=date(2011, 3, 15))
+  >>> sub2 = testing.ObjectWidgetMultiSubIntegration(
+  ...     multiInt=42,
+  ...     multiBool=True,
+  ...     multiChoice='one',
+  ...     multiChoiceOpt='four',
+  ...     multiTextLine=u'second txt',
+  ...     multiDate=date(2011, 3, 15))
 
   >>> obj.listOfObject = [sub1, sub2]
 
   >>> pprint(obj.listOfObject)
-  [<ObjectWidgetSingleSubIntegration
-    singleBool: False
-    singleChoice: 'two'
-    singleChoiceOpt: 'six'
-    singleDate: datetime.date(2014, 6, 20)
-    singleInt: -100
-    singleTextLine: u'some text one'>,
-   <ObjectWidgetSingleSubIntegration
-    singleBool: True
-    singleChoice: 'one'
-    singleChoiceOpt: 'four'
-    singleDate: datetime.date(2011, 3, 15)
-    singleInt: 42
-    singleTextLine: u'second txt'>]
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 20)
+    multiInt: -100
+    multiTextLine: u'some text one'>,
+   <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'one'
+    multiChoiceOpt: 'four'
+    multiDate: datetime.date(2011, 3, 15)
+    multiInt: 42
+    multiTextLine: u'second txt'>]
 
   >>> content = getForm(request, 'ObjectMulti_list_edit_simple.html')
   >>> print(testing.plainText(content))
@@ -146,7 +146,7 @@ wrong input (Int)
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfObject.0.widgets.singleInt'] = u'foobar'
+  >>> submit['form.widgets.listOfObject.0.widgets.multiInt'] = u'foobar'
 
   >>> submit['form.widgets.listOfObject.buttons.add'] = u'Add'
 
@@ -276,20 +276,20 @@ Let's remove some items:
 The object is unchanged:
 
   >>> pprint(obj.listOfObject)
-  [<ObjectWidgetSingleSubIntegration
-    singleBool: False
-    singleChoice: 'two'
-    singleChoiceOpt: 'six'
-    singleDate: datetime.date(2014, 6, 20)
-    singleInt: -100
-    singleTextLine: u'some text one'>,
-   <ObjectWidgetSingleSubIntegration
-    singleBool: True
-    singleChoice: 'one'
-    singleChoiceOpt: 'four'
-    singleDate: datetime.date(2011, 3, 15)
-    singleInt: 42
-    singleTextLine: u'second txt'>]
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 20)
+    multiInt: -100
+    multiTextLine: u'some text one'>,
+   <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'one'
+    multiChoiceOpt: 'four'
+    multiDate: datetime.date(2011, 3, 15)
+    multiInt: 42
+    multiTextLine: u'second txt'>]
 
 
 wrong input (TextLine)
@@ -298,7 +298,7 @@ wrong input (TextLine)
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfObject.0.widgets.singleTextLine'] = u'foo\nbar'
+  >>> submit['form.widgets.listOfObject.0.widgets.multiTextLine'] = u'foo\nbar'
 
   >>> submit['form.widgets.listOfObject.buttons.add'] = u'Add'
 
@@ -404,20 +404,20 @@ Let's remove some items:
 The object is unchanged:
 
   >>> pprint(obj.listOfObject)
-  [<ObjectWidgetSingleSubIntegration
-    singleBool: False
-    singleChoice: 'two'
-    singleChoiceOpt: 'six'
-    singleDate: datetime.date(2014, 6, 20)
-    singleInt: -100
-    singleTextLine: u'some text one'>,
-   <ObjectWidgetSingleSubIntegration
-    singleBool: True
-    singleChoice: 'one'
-    singleChoiceOpt: 'four'
-    singleDate: datetime.date(2011, 3, 15)
-    singleInt: 42
-    singleTextLine: u'second txt'>]
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 20)
+    multiInt: -100
+    multiTextLine: u'some text one'>,
+   <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'one'
+    multiChoiceOpt: 'four'
+    multiDate: datetime.date(2011, 3, 15)
+    multiInt: 42
+    multiTextLine: u'second txt'>]
 
 
 wrong input (Date)
@@ -426,7 +426,7 @@ wrong input (Date)
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfObject.0.widgets.singleDate'] = u'foobar'
+  >>> submit['form.widgets.listOfObject.0.widgets.multiDate'] = u'foobar'
 
   >>> submit['form.widgets.listOfObject.buttons.add'] = u'Add'
 
@@ -516,7 +516,7 @@ Add one more field:
 And fill in a valid value:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfObject.2.widgets.singleDate'] = u'14/06/21'
+  >>> submit['form.widgets.listOfObject.2.widgets.multiDate'] = u'14/06/21'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_list_edit_submit_date2.html')
   >>> print(testing.plainText(content))
@@ -685,28 +685,28 @@ Let's remove some items:
 The object is unchanged:
 
   >>> pprint(obj.listOfObject)
-  [<ObjectWidgetSingleSubIntegration
-    singleBool: False
-    singleChoice: 'two'
-    singleChoiceOpt: 'six'
-    singleDate: datetime.date(2014, 6, 20)
-    singleInt: -100
-    singleTextLine: u'some text one'>,
-   <ObjectWidgetSingleSubIntegration
-    singleBool: True
-    singleChoice: 'one'
-    singleChoiceOpt: 'four'
-    singleDate: datetime.date(2011, 3, 15)
-    singleInt: 42
-    singleTextLine: u'second txt'>]
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 20)
+    multiInt: -100
+    multiTextLine: u'some text one'>,
+   <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'one'
+    multiChoiceOpt: 'four'
+    multiDate: datetime.date(2011, 3, 15)
+    multiInt: 42
+    multiTextLine: u'second txt'>]
 
 Fix values
 -----------
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfObject.0.widgets.singleInt'] = u'1042'
-  >>> submit['form.widgets.listOfObject.0.widgets.singleTextLine'] = u'moo900'
-  >>> submit['form.widgets.listOfObject.0.widgets.singleDate'] = u'14/06/23'
+  >>> submit['form.widgets.listOfObject.0.widgets.multiInt'] = u'1042'
+  >>> submit['form.widgets.listOfObject.0.widgets.multiTextLine'] = u'moo900'
+  >>> submit['form.widgets.listOfObject.0.widgets.multiDate'] = u'14/06/23'
 
   >>> submit['form.widgets.listOfObject.1.remove'] = u'1'
   >>> submit['form.widgets.listOfObject.buttons.remove'] = u'Remove selected'
@@ -746,20 +746,20 @@ Fix values
 The object is unchanged:
 
   >>> pprint(obj.listOfObject)
-  [<ObjectWidgetSingleSubIntegration
-    singleBool: False
-    singleChoice: 'two'
-    singleChoiceOpt: 'six'
-    singleDate: datetime.date(2014, 6, 20)
-    singleInt: -100
-    singleTextLine: u'some text one'>,
-   <ObjectWidgetSingleSubIntegration
-    singleBool: True
-    singleChoice: 'one'
-    singleChoiceOpt: 'four'
-    singleDate: datetime.date(2011, 3, 15)
-    singleInt: 42
-    singleTextLine: u'second txt'>]
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 20)
+    multiInt: -100
+    multiTextLine: u'some text one'>,
+   <ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'one'
+    multiChoiceOpt: 'four'
+    multiDate: datetime.date(2011, 3, 15)
+    multiInt: 42
+    multiTextLine: u'second txt'>]
 
 And apply
 
@@ -803,10 +803,10 @@ And apply
 Now the object gets updated:
 
   >>> pprint(obj.listOfObject)
-  [<ObjectWidgetSingleSubIntegration
-    singleBool: False
-    singleChoice: 'two'
-    singleChoiceOpt: 'six'
-    singleDate: datetime.date(2014, 6, 23)
-    singleInt: 1042
-    singleTextLine: u'moo900'>]
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 23)
+    multiInt: 1042
+    multiTextLine: u'moo900'>]

@@ -654,6 +654,9 @@ class IObjectWidgetSingleSubIntegration(zope.interface.Interface):
         title=u'TextLine label')
     singleDate = zope.schema.Date(
         title=u'Date label')
+    singleReadOnly = zope.schema.TextLine(
+        title=u'ReadOnly label',
+        readonly=True)
 
 
 @zope.interface.implementer(IObjectWidgetSingleSubIntegration)
@@ -667,6 +670,8 @@ class ObjectWidgetSingleSubIntegration(IntegrationBase):
     singleTextLine = FieldProperty(
         IObjectWidgetSingleSubIntegration['singleTextLine'])
     singleDate = FieldProperty(IObjectWidgetSingleSubIntegration['singleDate'])
+    singleReadOnly = FieldProperty(
+        IObjectWidgetSingleSubIntegration['singleReadOnly'])
 
 
 class IObjectWidgetSingleIntegration(zope.interface.Interface):
@@ -680,6 +685,50 @@ class IObjectWidgetSingleIntegration(zope.interface.Interface):
 class ObjectWidgetSingleIntegration(object):
 
     subobj = FieldProperty(IObjectWidgetSingleIntegration['subobj'])
+
+
+class IObjectWidgetMultiSubIntegration(zope.interface.Interface):
+    multiInt = zope.schema.Int(
+        title=u'Int label')
+    multiBool = zope.schema.Bool(
+        title=u'Bool label')
+    multiChoice = zope.schema.Choice(
+        title=u'Choice label',
+        values=('one', 'two', 'three'))
+    multiChoiceOpt = zope.schema.Choice(
+        title=u'ChoiceOpt label',
+        values=('four', 'five', 'six'),
+        required=False)
+    multiTextLine = zope.schema.TextLine(
+        title=u'TextLine label')
+    multiDate = zope.schema.Date(
+        title=u'Date label')
+
+
+@zope.interface.implementer(IObjectWidgetMultiSubIntegration)
+class ObjectWidgetMultiSubIntegration(IntegrationBase):
+
+    multiInt = FieldProperty(IObjectWidgetMultiSubIntegration['multiInt'])
+    multiBool = FieldProperty(IObjectWidgetMultiSubIntegration['multiBool'])
+    multiChoice = FieldProperty(IObjectWidgetMultiSubIntegration['multiChoice'])
+    multiChoiceOpt = FieldProperty(
+        IObjectWidgetMultiSubIntegration['multiChoiceOpt'])
+    multiTextLine = FieldProperty(
+        IObjectWidgetMultiSubIntegration['multiTextLine'])
+    multiDate = FieldProperty(IObjectWidgetMultiSubIntegration['multiDate'])
+
+
+class IObjectWidgetMultiIntegration(zope.interface.Interface):
+    subobj = zope.schema.Object(
+        title=u'Object label',
+        schema=IObjectWidgetMultiSubIntegration
+    )
+
+
+@zope.interface.implementer(IObjectWidgetMultiIntegration)
+class ObjectWidgetMultiIntegration(object):
+
+    subobj = FieldProperty(IObjectWidgetMultiIntegration['subobj'])
 
 
 class IMultiWidgetListIntegration(zope.interface.Interface):
@@ -714,7 +763,7 @@ class IMultiWidgetListIntegration(zope.interface.Interface):
         title=u"ListOfObject label",
         value_type=zope.schema.Object(
             title=u'Object label',
-            schema=IObjectWidgetSingleSubIntegration),
+            schema=IObjectWidgetMultiSubIntegration),
     )
 
 

@@ -202,17 +202,9 @@ class ObjectWidget(widget.Widget):
             for w in self.widgets.values():
                 w.mode = mode
 
-    def updateWidgets(self, setErrors=True):
-        if self.field is None:
-            raise ValueError("%r .field is None, that's a blocking point" % self)
-
+    def setupWidgets(self):
         self.prefix = self.name
         self.fields = Fields(self.field.schema)
-
-        if self._value is interfaces.NO_VALUE:
-            value = ObjectWidgetValue()
-        else:
-            value = self._value
 
         self.widgets = field.FieldWidgets(self, self.request, None)
         self.widgets.mode = self.mode
@@ -222,10 +214,16 @@ class ObjectWidget(widget.Widget):
         self.widgets.ignoreRequest = self.ignoreRequest
         self.widgets.update()
 
+    def updateWidgets(self, setErrors=True):
+        if self.field is None:
+            raise ValueError("%r .field is None, that's a blocking point" % self)
+
+        self.setupWidgets()
+
         if not self._value is interfaces.NO_VALUE:
             for name, widget in self.widgets.items():
                 try:
-                    v = value[name]
+                    v = self._value[name]
                 except KeyError:
                     pass
                 else:
@@ -238,7 +236,7 @@ class ObjectWidget(widget.Widget):
         responsible for validating the given value and setup an error message.
 
         This is internal apply value and validation process is needed because
-        nothing outside this multi widget does know something about our
+        nothing outside this widget does know something about our
         internal sub widgets.
         """
         if value is not interfaces.NO_VALUE:

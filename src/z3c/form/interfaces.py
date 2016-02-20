@@ -616,6 +616,10 @@ class IPasswordWidget(ITextWidget):
 class IObjectWidget(IWidget):
     """Object widget."""
 
+    def setupFields():
+        """setup fields on the widget, by default taking the fields of
+        self.schema"""
+
 class IWidgets(IManager):
     """A widget manager"""
 

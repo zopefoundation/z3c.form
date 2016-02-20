@@ -39,6 +39,21 @@ class BaseDataConverter(object):
         self.field = field
         self.widget = widget
 
+    def _getConverter(self, field):
+        # We rely on the default registered widget, this is probably a
+        # restriction for custom widgets. If so use your own MultiWidget and
+        # register your own converter which will get the right widget for the
+        # used value_type.
+        widget = zope.component.getMultiAdapter((field, self.widget.request),
+            interfaces.IFieldWidget)
+        if interfaces.IFormAware.providedBy(self.widget):
+            # form property required by objectwidget
+            widget.form = self.widget.form
+            zope.interface.alsoProvides(widget, interfaces.IFormAware)
+        converter = zope.component.getMultiAdapter(
+            (field, widget), interfaces.IDataConverter)
+        return converter
+
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
         if value is self.field.missing_value:
@@ -370,19 +385,7 @@ class MultiConverter(BaseDataConverter):
         """Just dispatch it."""
         if value is self.field.missing_value:
             return []
-        # We rely on the default registered widget, this is probably a
-        # restriction for custom widgets. If so use your own MultiWidget and
-        # register your own converter which will get the right widget for the
-        # used value_type.
-        field = self.field.value_type
-        widget = zope.component.getMultiAdapter((field, self.widget.request),
-            interfaces.IFieldWidget)
-        if interfaces.IFormAware.providedBy(self.widget):
-            # form property required by objectwidget
-            widget.form = self.widget.form
-            zope.interface.alsoProvides(widget, interfaces.IFormAware)
-        converter = zope.component.getMultiAdapter((field, widget),
-            interfaces.IDataConverter)
+        converter = self._getConverter(self.field.value_type)
 
         # we always return a list of values for the widget
         return [converter.toWidgetValue(v) for v in value]
@@ -392,16 +395,7 @@ class MultiConverter(BaseDataConverter):
         if not len(value):
             return self.field.missing_value
 
-        field = self.field.value_type
-        widget = zope.component.getMultiAdapter((field, self.widget.request),
-            interfaces.IFieldWidget)
-        if interfaces.IFormAware.providedBy(self.widget):
-            #form property required by objectwidget
-            widget.form = self.widget.form
-            zope.interface.alsoProvides(widget, interfaces.IFormAware)
-        converter = zope.component.getMultiAdapter((field, widget),
-            interfaces.IDataConverter)
-
+        converter = self._getConverter(self.field.value_type)
         values = [converter.toFieldValue(v) for v in value]
 
         # convert the field values to a tuple or list
@@ -414,21 +408,6 @@ class DictMultiConverter(BaseDataConverter):
 
     zope.component.adapts(
         zope.schema.interfaces.IDict, interfaces.IMultiWidget)
-
-    def _getConverter(self, field):
-        # We rely on the default registered widget, this is probably a
-        # restriction for custom widgets. If so use your own MultiWidget and
-        # register your own converter which will get the right widget for the
-        # used value_type.
-        widget = zope.component.getMultiAdapter((field, self.widget.request),
-            interfaces.IFieldWidget)
-        if interfaces.IFormAware.providedBy(self.widget):
-            # form property required by objectwidget
-            widget.form = self.widget.form
-            zope.interface.alsoProvides(widget, interfaces.IFormAware)
-        converter = zope.component.getMultiAdapter(
-            (field, widget), interfaces.IDataConverter)
-        return converter
 
     def toWidgetValue(self, value):
         """Just dispatch it."""

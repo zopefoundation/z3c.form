@@ -64,6 +64,14 @@ Some valid default values
   >>> obj.listOfTextLine = [u'some text one', u'some txt two']
   >>> obj.listOfDate = [date(2014, 6, 20)]
 
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False, True]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 20)]
+    listOfInt: [-100, 1, 100]
+    listOfTextLine: [u'some text one', u'some txt two']>
+
   >>> content = getForm(request, 'MultiWidget_list_edit_simple.html')
 
   >>> print(testing.plainText(content))
@@ -129,6 +137,14 @@ Some valid default values
   [Add]
   [Remove selected]
   [Apply]
+
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False, True]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 20)]
+    listOfInt: [-100, 1, 100]
+    listOfTextLine: [u'some text one', u'some txt two']>
 
 listOfInt
 ----------
@@ -205,6 +221,14 @@ Let's remove some items:
   []
   [Add]
   [Remove selected]
+
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False, True]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 20)]
+    listOfInt: [-100, 1, 100]
+    listOfTextLine: [u'some text one', u'some txt two']>
 
 
 listOfBool
@@ -299,6 +323,14 @@ Let's remove some items:
   [Add]
   [Remove selected]
 
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False, True]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 20)]
+    listOfInt: [-100, 1, 100]
+    listOfTextLine: [u'some text one', u'some txt two']>
+
 
 listOfTextLine
 ---------------
@@ -376,6 +408,14 @@ Let's remove some items:
   []
   [Add]
   [Remove selected]
+
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False, True]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 20)]
+    listOfInt: [-100, 1, 100]
+    listOfTextLine: [u'some text one', u'some txt two']>
 
 
 listOfDate
@@ -484,3 +524,60 @@ Let's remove some items:
   []
   [Add]
   [Remove selected]
+
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False, True]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 20)]
+    listOfInt: [-100, 1, 100]
+    listOfTextLine: [u'some text one', u'some txt two']>
+
+
+And apply
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  There were some errors.
+  * ListOfInt label: Wrong contained type
+  * ListOfBool label: Wrong contained type
+  * ListOfTextLine label: Constraint not satisfied
+  * ListOfDate label: The datetime string did not match the pattern 'yy/MM/dd'.
+  ...
+
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False, True]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 20)]
+    listOfInt: [-100, 1, 100]
+    listOfTextLine: [u'some text one', u'some txt two']>
+
+Let's fix the values
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.listOfInt.1'] = '42'
+  >>> submit['form.widgets.listOfBool.1'] = 'false'
+  >>> submit['form.widgets.listOfTextLine.0'] = 'ipsum lorem'
+  >>> submit['form.widgets.listOfTextLine.1'] = 'lorem ipsum'
+  >>> submit['form.widgets.listOfDate.0'] = '14/06/25'
+  >>> submit['form.widgets.listOfDate.1'] = '14/06/24'
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj)
+  <MultiWidgetListIntegration
+    listOfBool: [True, False]
+    listOfChoice: ['two', 'three']
+    listOfDate: [datetime.date(2014, 6, 25), datetime.date(2014, 6, 24)]
+    listOfInt: [-100, 42]
+    listOfTextLine: [u'ipsum lorem', u'lorem ipsum']>

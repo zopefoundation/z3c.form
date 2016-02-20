@@ -634,7 +634,7 @@ class IntegrationBase(object):
         items = list(self.__dict__.items())
         items.sort()
         return ("<" + self.__class__.__name__+"\n  "
-            + "\n  ".join(["%s: %s" % (key, repr(value))
+            + "\n  ".join(["%s: %s" % (key, pprint.pformat(value))
             for key, value in items]) + ">")
 
 
@@ -775,3 +775,65 @@ class MultiWidgetListIntegration(IntegrationBase):
     listOfChoice = FieldProperty(IMultiWidgetListIntegration['listOfChoice'])
     listOfTextLine = FieldProperty(IMultiWidgetListIntegration['listOfTextLine'])
     listOfDate = FieldProperty(IMultiWidgetListIntegration['listOfDate'])
+    listOfObject = FieldProperty(IMultiWidgetListIntegration['listOfObject'])
+
+
+class IMultiWidgetDictIntegration(zope.interface.Interface):
+    dictOfInt = zope.schema.Dict(
+        title=u"DictOfInt label",
+        key_type=zope.schema.Int(
+            title=u'Int key'),
+        value_type=zope.schema.Int(
+            title=u'Int label'),
+    )
+    dictOfBool = zope.schema.Dict(
+        title=u"DictOfBool label",
+        key_type=zope.schema.Bool(
+            title=u'Bool key'),
+        value_type=zope.schema.Bool(
+            title=u'Bool label'),
+    )
+    dictOfChoice = zope.schema.Dict(
+        title=u"DictOfChoice label",
+        key_type=zope.schema.Choice(
+            title=u'Choice key',
+            values=('key1', 'key2', 'key3')
+            ),
+        value_type=zope.schema.Choice(
+            title=u'Choice label',
+            values=('one', 'two', 'three')
+            ),
+    )
+    dictOfTextLine = zope.schema.Dict(
+        title=u"DictOfTextLine label",
+        key_type=zope.schema.TextLine(
+            title=u'TextLine key'),
+        value_type=zope.schema.TextLine(
+            title=u'TextLine label'),
+    )
+    dictOfDate = zope.schema.Dict(
+        title=u"DictOfDate label",
+        key_type=zope.schema.Date(
+            title=u'Date key'),
+        value_type=zope.schema.Date(
+            title=u'Date label'),
+    )
+    dictOfObject = zope.schema.Dict(
+        title=u"DictOfObject label",
+        key_type=zope.schema.TextLine(
+            title=u'Object key'),
+        value_type=zope.schema.Object(
+            title=u'Object label',
+            schema=IObjectWidgetMultiSubIntegration),
+    )
+
+
+@zope.interface.implementer(IMultiWidgetDictIntegration)
+class MultiWidgetDictIntegration(IntegrationBase):
+
+    dictOfInt = FieldProperty(IMultiWidgetDictIntegration['dictOfInt'])
+    dictOfBool = FieldProperty(IMultiWidgetDictIntegration['dictOfBool'])
+    dictOfChoice = FieldProperty(IMultiWidgetDictIntegration['dictOfChoice'])
+    dictOfTextLine = FieldProperty(IMultiWidgetDictIntegration['dictOfTextLine'])
+    dictOfDate = FieldProperty(IMultiWidgetDictIntegration['dictOfDate'])
+    dictOfObject = FieldProperty(IMultiWidgetDictIntegration['dictOfObject'])

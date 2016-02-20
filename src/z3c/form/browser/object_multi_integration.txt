@@ -315,7 +315,7 @@ for "foo\nbar" and a new input.
   Object label
   *
   <BLANKLINE>
-  Constraint not satisfied
+  The entered value is not a valid integer literal.
   <BLANKLINE>
   [ ]
   Int label
@@ -349,7 +349,7 @@ Submit again with the empty field:
   >>> content = getForm(request, 'ObjectMulti_list_edit_submit_textline_again.html')
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-listOfObject-0-row"]//div[@class="error"]'))
-  Constraint not satisfied
+  The entered value is not a valid integer literal.
   The entered value is not a valid integer literal.
   Constraint not satisfied
 
@@ -374,7 +374,7 @@ Let's remove some items:
   <BLANKLINE>
   Object label
   *
-  Constraint not satisfied
+  The entered value is not a valid integer literal.
   [ ]
   Int label
   *
@@ -443,7 +443,7 @@ for "foobar" and a new input.
   <BLANKLINE>
   Object label
   *
-  The datetime string did not match the pattern u'yy/MM/dd'.
+  The entered value is not a valid integer literal.
   [ ]
   Int label
   *
@@ -503,7 +503,7 @@ Submit again with the empty field:
   >>> content = getForm(request)
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-listOfObject-0-row"]//div[@class="error"]'))
-  The datetime string did not match the pattern 'yy/MM/dd'.
+  The entered value is not a valid integer literal.
   The entered value is not a valid integer literal.
   Constraint not satisfied
   The datetime string did not match the pattern 'yy/MM/dd'.
@@ -526,7 +526,7 @@ And fill in a valid value:
   <BLANKLINE>
   Object label
   *
-  The datetime string did not match the pattern 'yy/MM/dd'.
+  The entered value is not a valid integer literal.
   [ ]
   Int label
   *
@@ -625,7 +625,7 @@ Let's remove some items:
   <BLANKLINE>
   Object label
   *
-  The datetime string did not match the pattern 'yy/MM/dd'.
+  The entered value is not a valid integer literal.
   [ ]
   Int label
   *

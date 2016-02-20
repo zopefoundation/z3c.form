@@ -62,7 +62,7 @@ class ObjectConverter(BaseDataConverter):
         retval = ObjectWidgetValue()
         retval.originalValue = value
 
-        for name in zope.schema.getFieldNames(self.field.schema):
+        for name in zope.schema.getFieldNamesInOrder(self.field.schema):
             field = self.field.schema[name]
 
             dm = zope.component.getMultiAdapter(
@@ -144,7 +144,7 @@ class ObjectConverter(BaseDataConverter):
         obj = self.adapted_obj(obj)
 
         names = []
-        for name in zope.schema.getFieldNames(self.field.schema):
+        for name in zope.schema.getFieldNamesInOrder(self.field.schema):
             field = self.field.schema[name]
             if not field.readonly:
                 try:

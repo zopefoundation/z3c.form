@@ -28,7 +28,6 @@ from zope.pagetemplate.interfaces import IPageTemplate
 from z3c.form.converter import BaseDataConverter
 
 from z3c.form import interfaces, util, widget, field
-from z3c.form.field import Fields
 from z3c.form.error import MultipleErrors
 
 
@@ -204,7 +203,7 @@ class ObjectWidget(widget.Widget):
 
     def setupWidgets(self):
         self.prefix = self.name
-        self.fields = Fields(self.field.schema)
+        self.fields = field.Fields(self.field.schema)
 
         self.widgets = field.FieldWidgets(self, self.request, None)
         self.widgets.mode = self.mode

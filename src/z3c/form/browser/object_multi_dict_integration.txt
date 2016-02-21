@@ -204,14 +204,21 @@ Submit again with the empty field:
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_int_again.html')
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-dictOfObject-0-row"]//div[@class="error"]'))
-  The entered value is not a valid integer literal.
-  The entered value is not a valid integer literal.
+  Required input is missing.
+  Wrong contained type
+  Required input is missing.
+  Required input is missing.
+  Required input is missing.
+  Required input is missing.
+  Required input is missing.
 
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-dictOfObject-1-row"]//div[@class="error"]'))
+  The entered value is not a valid integer literal.
+  The entered value is not a valid integer literal.
 
   >>> print(testing.plainText(content,
-  ...     './/div[@id="form-widgets-dictOfObject-2-row"]'))
+  ...     './/div[@id="form-widgets-dictOfObject-0-row"]'))
   Object key
   *
   <BLANKLINE>
@@ -254,7 +261,7 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.1.remove'] = u'1'
+  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
   >>> submit['form.widgets.dictOfObject.2.remove'] = u'1'
   >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
   >>> request = testing.TestRequest(form=submit)
@@ -373,14 +380,9 @@ Submit again with the empty field:
   >>> submit = testing.getSubmitValues(content)
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_textline_again.html')
-  >>> print(testing.plainText(content,
-  ...     './/div[@id="form-widgets-dictOfObject-0-row"]//div[@class="error"]'))
-  The entered value is not a valid integer literal.
-  The entered value is not a valid integer literal.
-  Constraint not satisfied
 
   >>> print(testing.plainText(content,
-  ...     './/div[@id="form-widgets-dictOfObject-1-row"]//div[@class="error"]'))
+  ...     './/div[@id="form-widgets-dictOfObject-0-row"]//div[@class="error"]'))
   Required input is missing.
   Wrong contained type
   Required input is missing.
@@ -389,10 +391,16 @@ Submit again with the empty field:
   Required input is missing.
   Required input is missing.
 
+  >>> print(testing.plainText(content,
+  ...     './/div[@id="form-widgets-dictOfObject-1-row"]//div[@class="error"]'))
+  The entered value is not a valid integer literal.
+  The entered value is not a valid integer literal.
+  Constraint not satisfied
+
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.1.remove'] = u'1'
+  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
   >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_textline.html')
@@ -536,9 +544,9 @@ Submit again with the empty field:
 
   >>> submit = testing.getSubmitValues(content)
   >>> request = testing.TestRequest(form=submit)
-  >>> content = getForm(request)
+  >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_date_again.html')
   >>> print(testing.plainText(content,
-  ...     './/div[@id="form-widgets-dictOfObject-0-row"]//div[@class="error"]'))
+  ...     './/div[@id="form-widgets-dictOfObject-1-row"]//div[@class="error"]'))
   The entered value is not a valid integer literal.
   The entered value is not a valid integer literal.
   Constraint not satisfied
@@ -560,37 +568,6 @@ And fill in a valid value:
   >>> print(testing.plainText(content))
   DictOfObject label
   <BLANKLINE>
-  Object key
-  *
-  [subob1]
-  Object label
-  *
-  The entered value is not a valid integer literal.
-  [ ]
-  Int label
-  *
-  The entered value is not a valid integer literal.
-  [foobar]
-  Bool label
-  *
-  [true]
-  yes
-  [false]
-  no
-  Choice label
-  *
-  [two]
-  ChoiceOpt label
-  [six]
-  TextLine label
-  *
-  Constraint not satisfied
-  [foo
-  bar]
-  Date label
-  *
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  [foobar]
   Object key
   *
   Required input is missing.
@@ -656,20 +633,6 @@ And fill in a valid value:
   Date label
   *
   [14/06/21]
-  [Add]
-  [Remove selected]
-  [Apply]
-
-Let's remove some items:
-
-  >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.2.remove'] = u'1'
-  >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
-  >>> request = testing.TestRequest(form=submit)
-  >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_date.html')
-  >>> print(testing.plainText(content))
-  DictOfObject label
-  <BLANKLINE>
   Object key
   *
   [subob1]
@@ -701,6 +664,20 @@ Let's remove some items:
   *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
+  [Add]
+  [Remove selected]
+  [Apply]
+
+Let's remove some items:
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.dictOfObject.1.remove'] = u'1'
+  >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
+  >>> request = testing.TestRequest(form=submit)
+  >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_date.html')
+  >>> print(testing.plainText(content))
+  DictOfObject label
+  <BLANKLINE>
   Object key
   *
   Required input is missing.
@@ -734,6 +711,37 @@ Let's remove some items:
   *
   Required input is missing.
   []
+  Object key
+  *
+  [subob1]
+  Object label
+  *
+  The entered value is not a valid integer literal.
+  [ ]
+  Int label
+  *
+  The entered value is not a valid integer literal.
+  [foobar]
+  Bool label
+  *
+  [true]
+  yes
+  [false]
+  no
+  Choice label
+  *
+  [two]
+  ChoiceOpt label
+  [six]
+  TextLine label
+  *
+  Constraint not satisfied
+  [foo
+  bar]
+  Date label
+  *
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  [foobar]
   [Add]
   [Remove selected]
   [Apply]
@@ -760,11 +768,11 @@ Fix values
 -----------
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiInt'] = u'1042'
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiTextLine'] = u'moo900'
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = u'14/06/23'
+  >>> submit['form.widgets.dictOfObject.1.widgets.multiInt'] = u'1042'
+  >>> submit['form.widgets.dictOfObject.1.widgets.multiTextLine'] = u'moo900'
+  >>> submit['form.widgets.dictOfObject.1.widgets.multiDate'] = u'14/06/23'
 
-  >>> submit['form.widgets.dictOfObject.1.remove'] = u'1'
+  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
   >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
 
   >>> request = testing.TestRequest(form=submit)
@@ -927,8 +935,8 @@ Change key values, item values must stick to the new values.
 
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.key.0'] = u'subob2'  # was twisted
-  >>> submit['form.widgets.dictOfObject.key.1'] = u'subob1'  # was subob2
+  >>> submit['form.widgets.dictOfObject.key.1'] = u'subob2'  # was twisted
+  >>> submit['form.widgets.dictOfObject.key.0'] = u'subob1'  # was subob2
 
   >>> submit['form.buttons.apply'] = u'Apply'
 

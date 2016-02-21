@@ -85,6 +85,13 @@ Some valid default values
   <BLANKLINE>
   Int key
   *
+  [-1]
+  Int label
+  *
+  [ ]
+  [1]
+  Int key
+  *
   [-101]
   Int label
   *
@@ -97,13 +104,6 @@ Some valid default values
   *
   [ ]
   [100]
-  Int key
-  *
-  [-1]
-  Int label
-  *
-  [ ]
-  [1]
   [Add]
   [Remove selected]
   DictOfBool label
@@ -140,29 +140,22 @@ Some valid default values
   <BLANKLINE>
   Choice key
   *
-  [key3]
-  Choice label
-  *
-  [ ]
-  [two]
-  Choice key
-  *
   [key1]
   Choice label
   *
   [ ]
   [three]
+  Choice key
+  *
+  [key3]
+  Choice label
+  *
+  [ ]
+  [two]
   [Add]
   [Remove selected]
   DictOfTextLine label
   <BLANKLINE>
-  TextLine key
-  *
-  [textkey2]
-  TextLine label
-  *
-  [ ]
-  [some txt two]
   TextLine key
   *
   [textkey1]
@@ -170,6 +163,13 @@ Some valid default values
   *
   [ ]
   [some text one]
+  TextLine key
+  *
+  [textkey2]
+  TextLine label
+  *
+  [ ]
+  [some txt two]
   [Add]
   [Remove selected]
   DictOfDate label
@@ -198,8 +198,8 @@ dictOfInt
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfInt.key.1'] = u'foobar'
-  >>> submit['form.widgets.dictOfInt.1'] = u'foobar'
+  >>> submit['form.widgets.dictOfInt.key.2'] = u'foobar'
+  >>> submit['form.widgets.dictOfInt.2'] = u'foobar'
 
   >>> submit['form.widgets.dictOfInt.buttons.add'] = u'Add'
 
@@ -213,6 +213,16 @@ for "foobar" and a new input.
   ...     './/form/div[@id="row-form-widgets-dictOfInt"]'))
   DictOfInt label
   <BLANKLINE>
+  Int key
+  *
+  <BLANKLINE>
+  [-1]
+  <BLANKLINE>
+  Int label
+  *
+  <BLANKLINE>
+  [ ]
+  [1]
   Int key
   *
   <BLANKLINE>
@@ -235,16 +245,6 @@ for "foobar" and a new input.
   The entered value is not a valid integer literal.
   [ ]
   [foobar]
-  Int key
-  *
-  <BLANKLINE>
-  [-1]
-  <BLANKLINE>
-  Int label
-  *
-  <BLANKLINE>
-  [ ]
-  [1]
   Int key
   *
   <BLANKLINE>
@@ -265,16 +265,16 @@ Submit again with the empty field:
   >>> content = getForm(request, 'MultiWidget_dict_edit_submit_int2.html')
   >>> print(testing.plainText(content,
   ...     './/div[@id="row-form-widgets-dictOfInt"]//div[@class="error"]'))
-  The entered value is not a valid integer literal.
-  The entered value is not a valid integer literal.
   Required input is missing.
   Required input is missing.
+  The entered value is not a valid integer literal.
+  The entered value is not a valid integer literal.
 
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
   >>> submit['form.widgets.dictOfInt.1.remove'] = u'1'
-  >>> submit['form.widgets.dictOfInt.2.remove'] = u'1'
+  >>> submit['form.widgets.dictOfInt.3.remove'] = u'1'
   >>> submit['form.widgets.dictOfInt.buttons.remove'] = u'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_int.html')
@@ -285,6 +285,18 @@ Let's remove some items:
   Int key
   *
   <BLANKLINE>
+  Required input is missing.
+  []
+  <BLANKLINE>
+  Int label
+  *
+  <BLANKLINE>
+  Required input is missing.
+  [ ]
+  []
+  Int key
+  *
+  <BLANKLINE>
   [-101]
   <BLANKLINE>
   Int label
@@ -292,18 +304,6 @@ Let's remove some items:
   <BLANKLINE>
   [ ]
   [-100]
-  Int key
-  *
-  <BLANKLINE>
-  Required input is missing.
-  []
-  <BLANKLINE>
-  Int label
-  *
-  <BLANKLINE>
-  Required input is missing.
-  [ ]
-  []
   [Add]
   [Remove selected]
 
@@ -409,6 +409,7 @@ Let's remove some items:
   Bool key
   *
   <BLANKLINE>
+  Required input is missing.
   [true]
   yes
   [false]
@@ -417,6 +418,7 @@ Let's remove some items:
   Bool label
   *
   <BLANKLINE>
+  Required input is missing.
   [ ]
   [true]
   yes
@@ -454,16 +456,6 @@ Important is that we get a new input.
   Choice key
   *
   <BLANKLINE>
-  [key3]
-  <BLANKLINE>
-  Choice label
-  *
-  <BLANKLINE>
-  [ ]
-  [two]
-  Choice key
-  *
-  <BLANKLINE>
   [key1]
   <BLANKLINE>
   Choice label
@@ -471,6 +463,16 @@ Important is that we get a new input.
   <BLANKLINE>
   [ ]
   [three]
+  Choice key
+  *
+  <BLANKLINE>
+  [key3]
+  <BLANKLINE>
+  Choice label
+  *
+  <BLANKLINE>
+  [ ]
+  [two]
   Choice key
   *
   <BLANKLINE>
@@ -497,8 +499,8 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.dictOfChoice.0.remove'] = u'1'
   >>> submit['form.widgets.dictOfChoice.1.remove'] = u'1'
-  >>> submit['form.widgets.dictOfChoice.2.remove'] = u'1'
   >>> submit['form.widgets.dictOfChoice.buttons.remove'] = u'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_choice.html')
@@ -535,8 +537,8 @@ dictOfTextLine
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfTextLine.key.1'] = u'foo\nbar'
-  >>> submit['form.widgets.dictOfTextLine.1'] = u'foo\nbar'
+  >>> submit['form.widgets.dictOfTextLine.key.0'] = u'foo\nbar'
+  >>> submit['form.widgets.dictOfTextLine.0'] = u'foo\nbar'
 
   >>> submit['form.widgets.dictOfTextLine.buttons.add'] = u'Add'
 
@@ -553,6 +555,20 @@ for "foo\nbar" and a new input.
   TextLine key
   *
   <BLANKLINE>
+  Constraint not satisfied
+  [foo
+  bar]
+  <BLANKLINE>
+  TextLine label
+  *
+  <BLANKLINE>
+  Constraint not satisfied
+  [ ]
+  [foo
+  bar]
+  TextLine key
+  *
+  <BLANKLINE>
   [textkey2]
   <BLANKLINE>
   TextLine label
@@ -560,20 +576,6 @@ for "foo\nbar" and a new input.
   <BLANKLINE>
   [ ]
   [some txt two]
-  TextLine key
-  *
-  <BLANKLINE>
-  Constraint not satisfied
-  [foo
-  bar]
-  <BLANKLINE>
-  TextLine label
-  *
-  <BLANKLINE>
-  Constraint not satisfied
-  [ ]
-  [foo
-  bar]
   TextLine key
   *
   <BLANKLINE>
@@ -594,15 +596,15 @@ Submit again with the empty field:
   >>> content = getForm(request, 'MultiWidget_dict_edit_submit_textline2.html')
   >>> print(testing.plainText(content,
   ...     './/form/div[@id="row-form-widgets-dictOfTextLine"]//div[@class="error"]'))
-  Constraint not satisfied
-  Constraint not satisfied
   Required input is missing.
   Required input is missing.
+  Constraint not satisfied
+  Constraint not satisfied
 
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfTextLine.0.remove'] = u'1'
+  >>> submit['form.widgets.dictOfTextLine.2.remove'] = u'1'
   >>> submit['form.widgets.dictOfTextLine.buttons.remove'] = u'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_textline.html')
@@ -613,29 +615,29 @@ Let's remove some items:
   TextLine key
   *
   <BLANKLINE>
-  Constraint not satisfied
-  [foo
-  bar]
+  Required input is missing.
+  []
   <BLANKLINE>
   TextLine label
   *
   <BLANKLINE>
-  Constraint not satisfied
+  Required input is missing.
   [ ]
-  [foo
-  bar]
+  []
   TextLine key
   *
   <BLANKLINE>
-  Required input is missing.
-  []
+  Constraint not satisfied
+  [foo
+  bar]
   <BLANKLINE>
   TextLine label
   *
   <BLANKLINE>
-  Required input is missing.
+  Constraint not satisfied
   [ ]
-  []
+  [foo
+  bar]
   [Add]
   [Remove selected]
 
@@ -673,18 +675,6 @@ for "foobar" and a new input.
   Date key
   *
   <BLANKLINE>
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  [foobar]
-  <BLANKLINE>
-  Date label
-  *
-  <BLANKLINE>
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  [ ]
-  [foobar]
-  Date key
-  *
-  <BLANKLINE>
   [12/02/20]
   <BLANKLINE>
   Date label
@@ -692,6 +682,18 @@ for "foobar" and a new input.
   <BLANKLINE>
   [ ]
   [13/05/19]
+  Date key
+  *
+  <BLANKLINE>
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  [foobar]
+  <BLANKLINE>
+  Date label
+  *
+  <BLANKLINE>
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  [ ]
+  [foobar]
   Date key
   *
   <BLANKLINE>
@@ -712,34 +714,22 @@ Submit again with the empty field:
   >>> content = getForm(request, 'MultiWidget_dict_edit_submit_date2.html')
   >>> print(testing.plainText(content,
   ...     './/form/div[@id="row-form-widgets-dictOfDate"]//div[@class="error"]'))
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  The datetime string did not match the pattern 'yy/MM/dd'.
   Required input is missing.
   Required input is missing.
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  The datetime string did not match the pattern 'yy/MM/dd'.
 
 And fill in a valid value:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfDate.key.2'] = u'14/05/12'
-  >>> submit['form.widgets.dictOfDate.2'] = u'14/06/21'
+  >>> submit['form.widgets.dictOfDate.key.0'] = u'14/05/12'
+  >>> submit['form.widgets.dictOfDate.0'] = u'14/06/21'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_submit_date3.html')
   >>> print(testing.plainText(content,
   ...     './/form/div[@id="row-form-widgets-dictOfDate"]'))
   DictOfDate label
   <BLANKLINE>
-  Date key
-  *
-  <BLANKLINE>
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  [foobar]
-  <BLANKLINE>
-  Date label
-  *
-  <BLANKLINE>
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  [ ]
-  [foobar]
   Date key
   *
   <BLANKLINE>
@@ -760,13 +750,25 @@ And fill in a valid value:
   <BLANKLINE>
   [ ]
   [14/06/21]
+  Date key
+  *
+  <BLANKLINE>
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  [foobar]
+  <BLANKLINE>
+  Date label
+  *
+  <BLANKLINE>
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  [ ]
+  [foobar]
   [Add]
   [Remove selected]
 
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfDate.2.remove'] = u'1'
+  >>> submit['form.widgets.dictOfDate.1.remove'] = u'1'
   >>> submit['form.widgets.dictOfDate.buttons.remove'] = u'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_date.html')
@@ -777,18 +779,6 @@ Let's remove some items:
   Date key
   *
   <BLANKLINE>
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  [foobar]
-  <BLANKLINE>
-  Date label
-  *
-  <BLANKLINE>
-  The datetime string did not match the pattern 'yy/MM/dd'.
-  [ ]
-  [foobar]
-  Date key
-  *
-  <BLANKLINE>
   [12/02/20]
   <BLANKLINE>
   Date label
@@ -796,6 +786,18 @@ Let's remove some items:
   <BLANKLINE>
   [ ]
   [13/05/19]
+  Date key
+  *
+  <BLANKLINE>
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  [foobar]
+  <BLANKLINE>
+  Date label
+  *
+  <BLANKLINE>
+  The datetime string did not match the pattern 'yy/MM/dd'.
+  [ ]
+  [foobar]
   [Add]
   [Remove selected]
 
@@ -818,6 +820,7 @@ And apply
   >>> print(testing.plainText(content))
   There were some errors.
   * DictOfInt label: Wrong contained type
+  * DictOfBool label: Wrong contained type
   * DictOfTextLine label: Constraint not satisfied
   * DictOfDate label: The datetime string did not match the pattern u'yy/MM/dd'.
   ...
@@ -845,13 +848,17 @@ Let's fix the values
   >>> submit = testing.getSubmitValues(content)
   >>> submit['form.widgets.dictOfTextLine.key.0'] = 'lorem ipsum'
   >>> submit['form.widgets.dictOfTextLine.0'] = 'ipsum lorem'
-  >>> submit['form.widgets.dictOfDate.key.0'] = '14/06/25'
-  >>> submit['form.widgets.dictOfDate.0'] = '14/07/28'
+  >>> submit['form.widgets.dictOfDate.key.1'] = '14/06/25'
+  >>> submit['form.widgets.dictOfDate.1'] = '14/07/28'
+  >>> submit['form.widgets.dictOfInt.key.0'] = u'-101'
+  >>> submit['form.widgets.dictOfInt.0'] = u'-100'
+  >>> submit['form.widgets.dictOfBool.key.0'] = u'false'
+  >>> submit['form.widgets.dictOfBool.0'] = u'true'
 
   >>> submit['form.buttons.apply'] = u'Apply'
 
   >>> request = testing.TestRequest(form=submit)
-  >>> content = getForm(request)
+  >>> content = getForm(request, 'MultiWidget_dict_edit_fixit.html')
   >>> print(testing.plainText(content))
   Data successfully updated.
   ...
@@ -883,14 +890,14 @@ Change key values, item values must stick to the new values.
   >>> content = getForm(request, 'MultiWidget_dict_edit_twist.html')
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfInt.key.1'] = u'42'  # was 101:100
+  >>> submit['form.widgets.dictOfInt.key.2'] = u'42'  # was 101:100
   >>> submit['form.widgets.dictOfBool.key.0'] = u'true'  # was False:True
   >>> submit['form.widgets.dictOfBool.key.1'] = u'false'  # was True:False
-  >>> submit['form.widgets.dictOfChoice.key.0:list'] = u'key2'  # was key3: two
-  >>> submit['form.widgets.dictOfChoice.key.1:list'] = u'key3'  # was key1: three
-  >>> submit['form.widgets.dictOfTextLine.key.0'] = u'lorem'  # was textkey2: some txt two
-  >>> submit['form.widgets.dictOfTextLine.0'] = u'ipsum'  # was textkey2: some txt two
-  >>> submit['form.widgets.dictOfTextLine.key.1'] = u'foobar'  # was textkey1: some txt one
+  >>> submit['form.widgets.dictOfChoice.key.1:list'] = u'key2'  # was key3: two
+  >>> submit['form.widgets.dictOfChoice.key.0:list'] = u'key3'  # was key1: three
+  >>> submit['form.widgets.dictOfTextLine.key.1'] = u'lorem'  # was textkey2: some txt two
+  >>> submit['form.widgets.dictOfTextLine.1'] = u'ipsum'  # was textkey2: some txt two
+  >>> submit['form.widgets.dictOfTextLine.key.0'] = u'foobar'  # was textkey1: some txt one
   >>> submit['form.widgets.dictOfDate.key.0'] = u'14/06/25'  # 11/01/15: 14/06/20
 
   >>> submit['form.buttons.apply'] = u'Apply'

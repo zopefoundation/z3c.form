@@ -425,7 +425,15 @@ class MultiWidget(Widget):
         if self.value:
             if self.is_dict:
                 # mainly sorting for testing reasons
-                items = self.value
+                # and dict's have no order!, but
+                # XXX: this should be done in the converter... here we get
+                #      always strings as keys, sorting an str(int/date) is lame
+                #      also, newly added item should be the last...
+                try:
+                    items = sorted(self.value)
+                except:
+                    # just in case it's impossible to sort don't fail
+                    items = self.value
             else:
                 items = zip([None]*len(self.value), self.value)
             for key, v in items:

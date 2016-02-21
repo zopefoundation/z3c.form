@@ -54,9 +54,9 @@ All blank and empty values:
   []
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -95,9 +95,9 @@ Some valid default values
   [-100]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -159,9 +159,9 @@ We should get lots of errors:
   Bool label
   *
   <BLANKLINE>
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   <BLANKLINE>
   Choice label
@@ -216,9 +216,9 @@ Let's fix the values:
   [1,042]
   Bool label
   *
-  [true]
+  (O)
   yes
-  [false]
+  ( )
   no
   Choice label
   *

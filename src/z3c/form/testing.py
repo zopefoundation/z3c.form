@@ -510,19 +510,16 @@ def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
     if node is None:
         return None
 
-    if node.tag == 'div' and node.get('class') == 'tooltip' and not showTooltips:
-        # These are hidden via CSS
-        return ''
-
     if node.tag == 'br':
         return '\n'
     if node.tag == 'input':
         if addTitle:
-            #title = node.get('title') or node.get('name') or ''
             title = node.get('name') or ''
             title += ' '
         else:
             title = ''
+        if node.get('type') == 'radio':
+            return title + ('(O)' if node.get('checked') else '( )')
         if node.get('type') == 'checkbox':
             return title + ('[x]' if node.get('checked') else '[ ]')
         if node.get('type') == 'hidden':
@@ -531,13 +528,11 @@ def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
             return '%s[%s]' % (title, node.get('value') or '')
     if node.tag == 'textarea':
         if addTitle:
-            #title = node.get('title') or node.get('name') or ''
             title = node.get('name') or ''
             title += ' '
             text.append(title)
     if node.tag == 'select':
         if addTitle:
-            #title = node.get('title') or node.get('name') or ''
             title = node.get('name') or ''
             title += ' '
         else:
@@ -557,6 +552,7 @@ def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
         s = textOfWithOptionalTitle(child, addTitle, showTooltips)
         if s:
             text.append(s)
+        #if child.tail.strip():
         if child.tail:
             text.append(child.tail)
     text = ' '.join(text).strip()
@@ -564,9 +560,11 @@ def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
     text = text.replace(' \n', '\n').replace('\n ', '\n').replace('\n\n', '\n')
     if u'\xA0' in text:
         # don't just .replace, that'll sprinkle my tests with u''
-        text = text.replace(u'\xA0', ' ') # nbsp -> space
+        text = text.replace(u'\xA0', ' ')  # nbsp -> space
     if node.tag == 'li':
         text += '\n'
+    #if node.tag == 'div':
+    #    text += '\n'
     return text
 
 

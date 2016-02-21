@@ -110,29 +110,29 @@ Some valid default values
   <BLANKLINE>
   Bool key
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Bool label
   *
   [ ]
-  [true]
+  (O)
   yes
-  [false]
+  ( )
   no
   Bool key
   *
-  [true]
+  (O)
   yes
-  [false]
+  ( )
   no
   Bool label
   *
   [ ]
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   [Add]
   [Remove selected]
@@ -336,50 +336,50 @@ Important is that we get a new input.
   Bool key
   *
   <BLANKLINE>
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   <BLANKLINE>
   Bool label
   *
   <BLANKLINE>
   [ ]
-  [true]
+  (O)
   yes
-  [false]
+  ( )
   no
   Bool key
   *
   <BLANKLINE>
-  [true]
+  (O)
   yes
-  [false]
+  ( )
   no
   <BLANKLINE>
   Bool label
   *
   <BLANKLINE>
   [ ]
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Bool key
   *
   <BLANKLINE>
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   <BLANKLINE>
   Bool label
   *
   <BLANKLINE>
   [ ]
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   [Add]
   [Remove selected]
@@ -410,9 +410,9 @@ Let's remove some items:
   *
   <BLANKLINE>
   Required input is missing.
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   <BLANKLINE>
   Bool label
@@ -420,9 +420,9 @@ Let's remove some items:
   <BLANKLINE>
   Required input is missing.
   [ ]
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   [Add]
   [Remove selected]

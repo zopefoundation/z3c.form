@@ -101,9 +101,9 @@ Some valid default values
   [-100]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -127,9 +127,9 @@ Some valid default values
   [42]
   Bool label
   *
-  [true]
+  (O)
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -181,9 +181,9 @@ for "foobar" and a new input.
   [foobar]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -239,9 +239,9 @@ Submit again with the empty field:
   Bool label
   *
   Required input is missing.
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -271,9 +271,7 @@ Let's remove some items:
   <BLANKLINE>
   Object key
   *
-  <BLANKLINE>
   [subob1]
-  <BLANKLINE>
   Object label
   *
   The entered value is not a valid integer literal.
@@ -284,9 +282,9 @@ Let's remove some items:
   [foobar]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -357,9 +355,9 @@ for "foo\nbar" and a new input.
   [foobar]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -420,9 +418,9 @@ Let's remove some items:
   [foobar]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -492,9 +490,9 @@ for "foobar" and a new input.
   [foobar]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -521,9 +519,9 @@ for "foobar" and a new input.
   []
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -583,9 +581,9 @@ And fill in a valid value:
   Bool label
   *
   Required input is missing.
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -616,9 +614,9 @@ And fill in a valid value:
   Bool label
   *
   Required input is missing.
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -646,9 +644,9 @@ And fill in a valid value:
   [foobar]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -693,9 +691,9 @@ Let's remove some items:
   Bool label
   *
   Required input is missing.
-  [true]
+  ( )
   yes
-  [false]
+  ( )
   no
   Choice label
   *
@@ -724,9 +722,9 @@ Let's remove some items:
   [foobar]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -791,9 +789,9 @@ Fix values
   [1,042]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *
@@ -851,9 +849,9 @@ And apply
   [1,042]
   Bool label
   *
-  [true]
+  ( )
   yes
-  [false]
+  (O)
   no
   Choice label
   *

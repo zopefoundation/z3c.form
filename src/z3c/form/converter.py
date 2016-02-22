@@ -412,7 +412,7 @@ class DictMultiConverter(BaseDataConverter):
     def toWidgetValue(self, value):
         """Just dispatch it."""
         if value is self.field.missing_value:
-            return {}
+            return []
         converter = self._getConverter(self.field.value_type)
         key_converter = self._getConverter(self.field.key_type)
 

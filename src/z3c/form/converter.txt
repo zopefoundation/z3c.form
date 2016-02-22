@@ -1106,7 +1106,7 @@ representation:
 If the value is the missing value, an empty dict is returned:
 
   >>> conv.toWidgetValue(None)
-  {}
+  []
 
 Now, let's look at the reverse:
 
@@ -1115,5 +1115,5 @@ Now, let's look at the reverse:
 
 If the list is empty, the missing value is returned:
 
-  >>> conv.toFieldValue({}) is None
+  >>> conv.toFieldValue([]) is None
   True

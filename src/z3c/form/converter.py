@@ -91,7 +91,7 @@ class FieldDataConverter(BaseDataConverter):
             if field.__name__:
                 fieldName = '``%s`` ' % field.__name__
             raise TypeError(
-                'Field %sof type ``%s`` must provide ``IFromUnicode``.' %(
+                'Field %s of type ``%s`` must provide ``IFromUnicode``.' %(
                     fieldName, type(field).__name__))
 
 

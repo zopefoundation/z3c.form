@@ -25,6 +25,7 @@ import string
 import zope.interface
 import zope.contenttype
 import zope.schema
+from functools import total_ordering
 
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
@@ -65,6 +66,24 @@ def createId(name):
         return str(name).lower()
     id = binascii.hexlify(name.encode('utf-8'))
     return id.decode() if PY3 else id
+
+
+@total_ordering
+class MinType(object):
+    def __le__(self, other):
+        return True
+
+    def __eq__(self, other):
+        return (self is other)
+
+
+def sortedNone(items):
+    if PY3:
+        Min = MinType()
+        return sorted(items, key=lambda x: Min if x is None else x)
+    else:
+        return sorted(items)
+
 
 def createCSSId(name):
     return str(''.join([

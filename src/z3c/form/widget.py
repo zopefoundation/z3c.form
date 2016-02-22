@@ -430,7 +430,7 @@ class MultiWidget(Widget):
                 #      always strings as keys, sorting an str(int/date) is lame
                 #      also, newly added item should be the last...
                 try:
-                    items = sorted(self.value)
+                    items = util.sortedNone(self.value)
                 except:
                     # just in case it's impossible to sort don't fail
                     items = self.value

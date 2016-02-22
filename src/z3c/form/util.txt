@@ -557,3 +557,21 @@ Field and context is also overridable:
 
   >>> util.changedWidget(widget, 'foo', field=IPerson['login'], context=p2)
   False
+
+`sortedNone()` function
+------------------------
+
+  >>> util.sortedNone([None, 'a', 'b'])
+  [None, 'a', 'b']
+
+  >>> util.sortedNone([None, 1, 2])
+  [None, 1, 2]
+
+  >>> util.sortedNone([None, True, False])
+  [None, False, True]
+
+  >>> util.sortedNone([['true'], [], ['false']])
+  [[], ['false'], ['true']]
+
+  >>> util.sortedNone([('false',), ('true',), ()])
+  [(), ('false',), ('true',)]

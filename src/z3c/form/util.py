@@ -25,7 +25,6 @@ import string
 import zope.interface
 import zope.contenttype
 import zope.schema
-from functools import total_ordering
 
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
@@ -70,6 +69,7 @@ def createId(name):
 
 if PY3:
     # py26 has no total_ordering
+    from functools import total_ordering
     @total_ordering
     class MinType(object):
         def __le__(self, other):

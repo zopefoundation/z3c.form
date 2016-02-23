@@ -68,20 +68,21 @@ def createId(name):
     return id.decode() if PY3 else id
 
 
-@total_ordering
-class MinType(object):
-    def __le__(self, other):
-        return True
+if PY3:
+    # py26 has no total_ordering
+    @total_ordering
+    class MinType(object):
+        def __le__(self, other):
+            return True
 
-    def __eq__(self, other):
-        return (self is other)
+        def __eq__(self, other):
+            return (self is other)
 
-
-def sortedNone(items):
-    if PY3:
+    def sortedNone(items):
         Min = MinType()
         return sorted(items, key=lambda x: Min if x is None else x)
-    else:
+else:
+    def sortedNone(items):
         return sorted(items)
 
 

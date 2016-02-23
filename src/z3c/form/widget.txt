@@ -483,7 +483,7 @@ default value is returned:
 
   >>> seqWidget.request = TestRequest(form={'seq': ['v1']})
   >>> seqWidget.extract()
-  ['v1']
+  ('v1',)
 
   >>> seqWidget.request = TestRequest(form={'seq': ['v4']})
   >>> seqWidget.extract()
@@ -491,7 +491,7 @@ default value is returned:
 
   >>> seqWidget.request = TestRequest(form={'seq-empty-marker': '1'})
   >>> seqWidget.extract()
-  []
+  ()
 
 Note that we also support single values being returned outside a sequence. The
 extracted value is then wrapped by a tuple. This feature is useful when
@@ -507,7 +507,7 @@ verification:
 
   >>> seqWidget.request = TestRequest(form={'seq': [seqWidget.noValueToken]})
   >>> seqWidget.extract()
-  ['--NOVALUE--']
+  ('--NOVALUE--',)
 
 Since the value of the widget is a tuple of tokens, when displaying the
 values, they have to be converted to the title of the term:

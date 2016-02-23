@@ -241,6 +241,19 @@ Again, the error message, is customized to the floating point:
       (u'The entered value is not a valid decimal literal.', u'fff')
 
 
+Bool Data Converter
+---------------------
+
+  >>> yesno = zope.schema.Bool()
+  >>> yesnowidget = widget.Widget(TestRequest())
+  >>> conv = converter.FieldDataConverter(yesno, yesnowidget)
+  >>> conv.toWidgetValue(True)
+  'True'
+
+  >>> conv.toWidgetValue(False)
+  'False'
+
+
 Text Data Converters
 ----------------------
 

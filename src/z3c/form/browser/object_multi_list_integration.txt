@@ -483,7 +483,7 @@ for "foobar" and a new input.
   *
   [[    ]]
   ChoiceOpt label
-  [[    ]]
+  [No value]
   TextLine label
   *
   []

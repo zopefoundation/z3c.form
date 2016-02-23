@@ -94,7 +94,7 @@ Now let's try if we get widget values:
   >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
-  <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
+  <option id="widget-id-novalue" selected="selected" value="--NOVALUE--">No value</option>
   <option id="widget-id-0" value="0">bad</option>
   <option id="widget-id-1" value="1">okay</option>
   <option id="widget-id-2" value="2">good</option>
@@ -103,7 +103,7 @@ Now let's try if we get widget values:
 
 If we set the widget value to "x", then it should be present and selected:
 
-  >>> widget.value = ['x']
+  >>> widget.value = ('x',)
   >>> widget.context = person
   >>> widget.field = IPerson['rating']
   >>> zope.interface.alsoProvides(widget, interfaces.IContextAware)
@@ -148,21 +148,21 @@ Well, only of it matches the context's current value:
   >>> widget.request = TestRequest(form={'widget.name': ['x']})
   >>> widget.update()
   >>> widget.extract()
-  ['x']
+  ('x',)
 
 When "No value" is selected, then no verification against the terms is done:
 
   >>> widget.request = TestRequest(form={'widget.name': ['--NOVALUE--']})
   >>> widget.update()
   >>> widget.extract(default=1)
-  ['--NOVALUE--']
+  ('--NOVALUE--',)
 
 Let's now make sure that we can extract user entered missing data from a widget:
 
   >>> widget.request = TestRequest(form={'widget.name': ['x']})
   >>> widget.update()
   >>> widget.extract()
-  ['x']
+  ('x',)
 
   >>> widget.request = TestRequest(form={'widget.name': ['y']})
   >>> widget.update()
@@ -176,7 +176,7 @@ that:
   >>> widget.request = TestRequest(form={'widget.name-empty-marker': '1'})
   >>> widget.update()
   >>> widget.extract()
-  []
+  ()
 
 If nothing is found in the request, the default is returned:
 

@@ -322,17 +322,17 @@ If we want to generate json data to be consumed by the client all we need to do 
               'mode': 'input',
               'name': 'form.widgets.gender',
               'options': [{'content': 'No value',
-                            'id': 'form-widgets-gender-novalue',
-                            'selected': False,
-                            'value': '--NOVALUE--'},
-                           {'content': 'male',
-                            'id': 'form-widgets-gender-0',
-                            'selected': False,
-                            'value': 'male'},
-                           {'content': 'female',
-                            'id': 'form-widgets-gender-1',
-                            'selected': False,
-                            'value': 'female'}],
+                           'id': 'form-widgets-gender-novalue',
+                           'selected': True,
+                           'value': '--NOVALUE--'},
+                          {'content': 'male',
+                           'id': 'form-widgets-gender-0',
+                           'selected': False,
+                           'value': 'male'},
+                          {'content': 'female',
+                           'id': 'form-widgets-gender-1',
+                           'selected': False,
+                           'value': 'female'}],
               'required': False,
               'type': 'select',
               'value': []},
@@ -344,10 +344,10 @@ If we want to generate json data to be consumed by the client all we need to do 
               'required': False,
               'type': 'text',
               'value': '20'}],
- 'label': '',
- 'mode': 'input',
- 'prefix': 'form.',
- 'status': ''}
+  'label': '',
+  'mode': 'input',
+  'prefix': 'form.',
+  'status': ''}
 
 
 The other way we can render the form is using the render() method.
@@ -388,7 +388,7 @@ Let's now render the page:
           <label for="form-widgets-gender">Gender</label>
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
-            <option id="form-widgets-gender-novalue"
+            <option id="form-widgets-gender-novalue" selected="selected"
                     value="--NOVALUE--">No value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>
@@ -433,7 +433,7 @@ when it is published:
           <label for="form-widgets-gender">Gender</label>
           <select id="form-widgets-gender" name="form.widgets.gender:list"
                   class="select-widget choice-field" size="1">
-            <option id="form-widgets-gender-novalue"
+            <option id="form-widgets-gender-novalue" selected="selected"
                     value="--NOVALUE--">No value</option>
             <option id="form-widgets-gender-0" value="male">male</option>
             <option id="form-widgets-gender-1" value="female">female</option>

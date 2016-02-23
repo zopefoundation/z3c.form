@@ -63,7 +63,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
                 'id': self.id + '-novalue',
                 'value': self.noValueToken,
                 'content': message,
-                'selected': self.value == []
+                'selected': self.value in ((), [])
                 })
 
         ignored = set(self.value)

@@ -527,7 +527,7 @@ for "foobar" and a new input.
   *
   [[    ]]
   ChoiceOpt label
-  [[    ]]
+  [No value]
   TextLine label
   *
   []
@@ -550,55 +550,15 @@ Submit again with the empty field:
   Constraint not satisfied
   The datetime string did not match the pattern 'yy/MM/dd'.
 
-Add one more field:
+Fill in a valid value:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.buttons.add'] = u'Add'
-  >>> request = testing.TestRequest(form=submit)
-  >>> content = getForm(request)
-
-And fill in a valid value:
-
-  >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.2.widgets.multiDate'] = u'14/06/21'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = u'14/06/21'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_date2.html')
   >>> print(testing.plainText(content))
   DictOfObject label
   <BLANKLINE>
-  Object key
-  *
-  Required input is missing.
-  []
-  Object label
-  *
-  Wrong contained type
-  [ ]
-  Int label
-  *
-  Required input is missing.
-  []
-  Bool label
-  *
-  Required input is missing.
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
-  Required input is missing.
-  [[    ]]
-  ChoiceOpt label
-  [No value]
-  TextLine label
-  *
-  Required input is missing.
-  []
-  Date label
-  *
-  Required input is missing.
-  []
   Object key
   *
   Required input is missing.
@@ -669,46 +629,13 @@ And fill in a valid value:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.1.remove'] = u'1'
+  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
   >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_date.html')
   >>> print(testing.plainText(content))
   DictOfObject label
   <BLANKLINE>
-  Object key
-  *
-  Required input is missing.
-  []
-  Object label
-  *
-  Wrong contained type
-  [ ]
-  Int label
-  *
-  Required input is missing.
-  []
-  Bool label
-  *
-  Required input is missing.
-  ( )
-  yes
-  ( )
-  no
-  Choice label
-  *
-  Required input is missing.
-  [[    ]]
-  ChoiceOpt label
-  [No value]
-  TextLine label
-  *
-  Required input is missing.
-  []
-  Date label
-  *
-  Required input is missing.
-  []
   Object key
   *
   [subob1]
@@ -766,12 +693,9 @@ Fix values
 -----------
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.1.widgets.multiInt'] = u'1042'
-  >>> submit['form.widgets.dictOfObject.1.widgets.multiTextLine'] = u'moo900'
-  >>> submit['form.widgets.dictOfObject.1.widgets.multiDate'] = u'14/06/23'
-
-  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
-  >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiInt'] = u'1042'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiTextLine'] = u'moo900'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = u'14/06/23'
 
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_fix_values.html')

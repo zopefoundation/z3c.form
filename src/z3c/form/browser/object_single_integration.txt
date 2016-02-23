@@ -62,7 +62,7 @@ All blank and empty values:
   *
   [[    ]]
   ChoiceOpt label
-  [[    ]]
+  [No value]
   TextLine label
   *
   []

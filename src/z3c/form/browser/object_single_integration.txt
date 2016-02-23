@@ -235,3 +235,48 @@ Let's fix the values:
   *
   some R/O text
   [Apply]
+
+
+Bool was misbehaving
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.subobj.widgets.singleBool'] = u'false'
+  >>> submit['form.buttons.apply'] = 'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+
+  >>> content = getForm(request, 'ObjectWidget_single_edit_submit_bool1.html')
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj.subobj)
+  <ObjectWidgetSingleSubIntegration
+    singleBool: False
+    singleChoice: 'three'
+    singleChoiceOpt: 'four'
+    singleDate: datetime.date(2014, 6, 21)
+    singleInt: 1042
+    singleReadOnly: u'some R/O text'
+    singleTextLine: u'foobar'>
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.subobj.widgets.singleBool'] = u'true'
+  >>> submit['form.buttons.apply'] = 'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+
+  >>> content = getForm(request, 'ObjectWidget_single_edit_submit_bool2.html')
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj.subobj)
+  <ObjectWidgetSingleSubIntegration
+    singleBool: True
+    singleChoice: 'three'
+    singleChoiceOpt: 'four'
+    singleDate: datetime.date(2014, 6, 21)
+    singleInt: 1042
+    singleReadOnly: u'some R/O text'
+    singleTextLine: u'foobar'>

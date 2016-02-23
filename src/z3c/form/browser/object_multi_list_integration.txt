@@ -810,3 +810,46 @@ Now the object gets updated:
     multiDate: datetime.date(2014, 6, 23)
     multiInt: 1042
     multiTextLine: u'moo900'>]
+
+
+Bool was misbehaving
+---------------------
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.listOfObject.0.widgets.multiBool'] = u'true'
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj.listOfObject)
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: True
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 23)
+    multiInt: 1042
+    multiTextLine: u'moo900'>]
+
+
+  >>> submit = testing.getSubmitValues(content)
+  >>> submit['form.widgets.listOfObject.0.widgets.multiBool'] = u'false'
+  >>> submit['form.buttons.apply'] = u'Apply'
+
+  >>> request = testing.TestRequest(form=submit)
+  >>> content = getForm(request)
+  >>> print(testing.plainText(content))
+  Data successfully updated.
+  ...
+
+  >>> pprint(obj.listOfObject)
+  [<ObjectWidgetMultiSubIntegration
+    multiBool: False
+    multiChoice: 'two'
+    multiChoiceOpt: 'six'
+    multiDate: datetime.date(2014, 6, 23)
+    multiInt: 1042
+    multiTextLine: u'moo900'>]

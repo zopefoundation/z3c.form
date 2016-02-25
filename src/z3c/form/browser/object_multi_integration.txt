@@ -90,51 +90,39 @@ Some valid default values
   >>> print(testing.plainText(content))
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [-100]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [some text one]
-  Date label
-  *
+  Date label *
   [14/06/20]
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [42]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [one]
   ChoiceOpt label
   [four]
-  TextLine label
-  *
+  TextLine label *
   [second txt]
-  Date label
-  *
+  Date label *
   [11/03/15]
   [Add]
   [Remove selected]
@@ -158,32 +146,26 @@ for "foobar" and a new input.
   >>> content = getForm(request, 'ObjectMulti_list_edit_submit_int.html')
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-listOfObject-0-row"]'))
-  Object label
-  *
+  Object label *
   <BLANKLINE>
   The entered value is not a valid integer literal.
   <BLANKLINE>
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [some text one]
-  Date label
-  *
+  Date label *
   [14/06/20]
 
 Submit again with the empty field:
@@ -201,35 +183,29 @@ Submit again with the empty field:
 
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-listOfObject-2-row"]'))
-  Object label
-  *
+  Object label *
   <BLANKLINE>
   Wrong contained type
   <BLANKLINE>
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   Required input is missing.
   []
 
@@ -244,30 +220,24 @@ Let's remove some items:
   >>> print(testing.plainText(content))
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   The entered value is not a valid integer literal.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [some text one]
-  Date label
-  *
+  Date label *
   [14/06/20]
   [Add]
   [Remove selected]
@@ -310,34 +280,28 @@ for "foo\nbar" and a new input.
   >>> content = getForm(request, 'ObjectMulti_list_edit_submit_textline.html')
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-listOfObject-0-row"]'))
-  Object label
-  *
+  Object label *
   <BLANKLINE>
   The entered value is not a valid integer literal.
   <BLANKLINE>
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   [14/06/20]
 
 Submit again with the empty field:
@@ -370,32 +334,26 @@ Let's remove some items:
   >>> print(testing.plainText(content))
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   The entered value is not a valid integer literal.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   [14/06/20]
   [Add]
   [Remove selected]
@@ -439,56 +397,44 @@ for "foobar" and a new input.
   >>> print(testing.plainText(content))
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   The entered value is not a valid integer literal.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   The datetime string did not match the pattern u'yy/MM/dd'.
   [foobar]
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   []
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [[    ]]
   ChoiceOpt label
   [[    ]]
-  TextLine label
-  *
+  TextLine label *
   []
-  Date label
-  *
+  Date label *
   []
   [Add]
   [Remove selected]
@@ -522,90 +468,72 @@ And fill in a valid value:
   >>> print(testing.plainText(content))
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   The entered value is not a valid integer literal.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
-  Object label
-  *
+  Object label *
   Wrong contained type
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   Required input is missing.
   []
-  Object label
-  *
+  Object label *
   Wrong contained type
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   [14/06/21]
   [Add]
   [Remove selected]
@@ -621,61 +549,49 @@ Let's remove some items:
   >>> print(testing.plainText(content))
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   The entered value is not a valid integer literal.
   [ ]
-  Int label
-  *
+  Int label *
   The entered value is not a valid integer literal.
   [foobar]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   Constraint not satisfied
   [foo
   bar]
-  Date label
-  *
+  Date label *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
-  Object label
-  *
+  Object label *
   Wrong contained type
   [ ]
-  Int label
-  *
+  Int label *
   Required input is missing.
   []
-  Bool label
-  *
+  Bool label *
   Required input is missing.
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   Required input is missing.
   [[    ]]
   ChoiceOpt label
   [No value]
-  TextLine label
-  *
+  TextLine label *
   Required input is missing.
   []
-  Date label
-  *
+  Date label *
   Required input is missing.
   []
   [Add]
@@ -716,28 +632,22 @@ Fix values
   >>> print(testing.plainText(content))
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [1,042]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [moo900]
-  Date label
-  *
+  Date label *
   [14/06/23]
   [Add]
   [Remove selected]
@@ -773,28 +683,22 @@ And apply
   <BLANKLINE>
   ListOfObject label
   <BLANKLINE>
-  Object label
-  *
+  Object label *
   [ ]
-  Int label
-  *
+  Int label *
   [1,042]
-  Bool label
-  *
+  Bool label *
   [true]
   yes
   [false]
   no
-  Choice label
-  *
+  Choice label *
   [two]
   ChoiceOpt label
   [six]
-  TextLine label
-  *
+  TextLine label *
   [moo900]
-  Date label
-  *
+  Date label *
   [14/06/23]
   [Add]
   [Remove selected]

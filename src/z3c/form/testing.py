@@ -552,8 +552,7 @@ def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
         s = textOfWithOptionalTitle(child, addTitle, showTooltips)
         if s:
             text.append(s)
-        #if child.tail.strip():
-        if child.tail:
+        if child.tail and child.tail.strip():
             text.append(child.tail)
     text = ' '.join(text).strip()
     # 'foo<br>bar' ends up as 'foo \nbar' due to the algorithm used above
@@ -563,8 +562,8 @@ def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
         text = text.replace(u'\xA0', ' ')  # nbsp -> space
     if node.tag == 'li':
         text += '\n'
-    #if node.tag == 'div':
-    #    text += '\n'
+    if node.tag == 'div':
+        text += '\n'
     return text
 
 

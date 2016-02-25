@@ -36,7 +36,6 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
 
     klass = u'radio-widget'
     css = u'radio'
-    items = ()
 
     def isChecked(self, term):
         return term.token in self.value
@@ -60,14 +59,9 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
             IPageTemplate, name=self.mode + '_single')
         return template(self, item)
 
-    def update(self):
-        """See z3c.form.interfaces.IWidget."""
-        super(RadioWidget, self).update()
-        # XXX: this is to early for setup items. See select widget how this
-        # sould be done. Setup the items here doens't allow to override the
-        # widget.value in updateWidgets, ri
-        widget.addFieldClass(self)
-        self.items = []
+    def items(self):
+        if self.terms is None:
+            return
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
             id = '%s-%i' % (self.id, count)
@@ -76,15 +70,20 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
                                   default=term.title)
             else:
                 label = util.toUnicode(term.value)
-            self.items.append(
-                {'id':id, 'name':self.name, 'value':term.token,
-                 'label':label, 'checked':checked})
+            yield {'id': id, 'name': self.name, 'value': term.token,
+                   'label': label, 'checked': checked}
+
+    def update(self):
+        """See z3c.form.interfaces.IWidget."""
+        super(RadioWidget, self).update()
+        widget.addFieldClass(self)
 
     def json_data(self):
         data = super(RadioWidget, self).json_data()
-        data['options'] = self.items
+        data['options'] = list(self.items())
         data['type'] = 'radio'
         return data
+
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

@@ -7,6 +7,8 @@ CHANGES
 
 - RadioWidget items are better determined when they are needed [agroszer]
 
+- CheckBoxWidget items are better determined when they are needed [agroszer]
+
 
 3.2.9 (2016-02-01)
 ------------------

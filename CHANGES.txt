@@ -9,6 +9,9 @@ CHANGES
 
 - CheckBoxWidget items are better determined when they are needed [agroszer]
 
+- Bugfix: The ``ChoiceTerms`` adapter blindly assumed that the passed in field
+  is unbound, which is not necessarily the case in interesting ObjectWidget
+  scenarios. Not it checks for a non-None field context first. [srichter]
 
 3.2.9 (2016-02-01)
 ------------------

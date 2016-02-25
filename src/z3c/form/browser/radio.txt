@@ -240,7 +240,7 @@ the value (which is used as a backup label) contains non-ASCII characters:
   >>> terms = SimpleVocabulary.fromValues([b'yes\012', b'no\243'])
   >>> widget.terms = terms
   >>> widget.update()
-  >>> pprint(widget.items)
+  >>> pprint(list(widget.items()))
   [{'checked': False,
     'id': 'widget-id-0',
     'label': 'yes\n',

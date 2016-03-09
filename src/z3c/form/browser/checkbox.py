@@ -40,14 +40,10 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
     def isChecked(self, term):
         return term.token in self.value
 
-    def update(self):
-        """See z3c.form.interfaces.IWidget."""
-        super(CheckBoxWidget, self).update()
-        widget.addFieldClass(self)
-        # XXX: this is to early for setup items. See select widget how this
-        # sould be done. Setup the items here doens't allow to override the
-        # widget.value in updateWidgets, ri
-        self.items = []
+    def items(self):
+        if self.terms is None:
+            return ()
+        items = []
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
             id = '%s-%i' % (self.id, count)
@@ -56,15 +52,22 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
                                   default=term.title)
             else:
                 label = util.toUnicode(term.value)
-            self.items.append(
-                {'id':id, 'name':self.name + ':list', 'value':term.token,
-                 'label':label, 'checked':checked})
+            items.append(
+                {'id': id, 'name': self.name + ':list', 'value': term.token,
+                 'label': label, 'checked': checked})
+        return items
+
+    def update(self):
+        """See z3c.form.interfaces.IWidget."""
+        super(CheckBoxWidget, self).update()
+        widget.addFieldClass(self)
 
     def json_data(self):
         data = super(CheckBoxWidget, self).json_data()
-        data['options'] = self.items
+        data['options'] = list(self.items())
         data['type'] = 'check'
         return data
+
 
 @zope.component.adapter(zope.schema.interfaces.IField, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

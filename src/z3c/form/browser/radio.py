@@ -62,6 +62,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
     def items(self):
         if self.terms is None:
             return
+
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
             id = '%s-%i' % (self.id, count)

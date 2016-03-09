@@ -8,9 +8,4 @@
       factory=".object.ObjectConverter"
       />
 
-  <!-- Subform default factory -->
-  <adapter
-      factory=".object.SubformAdapter"
-      />
-
 </configure>

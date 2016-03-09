@@ -237,11 +237,16 @@ class SequenceWidget(Widget):
         """See z3c.form.interfaces.IWidget."""
         if (self.name not in self.request and
             self.name + '-empty-marker' in self.request):
-            return []
+            return ()
         value = self.request.get(self.name, default)
         if value != default:
             if not isinstance(value, (tuple, list)):
+                # this is here to make any single value a tuple
                 value = (value,)
+            if not isinstance(value, tuple):
+                # this is here to make a non-tuple (just a list at this point?)
+                # a tuple. the dance is about making return values uniform
+                value = tuple(value)
             # do some kind of validation, at least only use existing values
             for token in value:
                 if token == self.noValueToken:
@@ -425,7 +430,15 @@ class MultiWidget(Widget):
         if self.value:
             if self.is_dict:
                 # mainly sorting for testing reasons
-                items = self.value
+                # and dict's have no order!, but
+                # XXX: this should be done in the converter... here we get
+                #      always strings as keys, sorting an str(int/date) is lame
+                #      also, newly added item should be the last...
+                try:
+                    items = util.sortedNone(self.value)
+                except:
+                    # just in case it's impossible to sort don't fail
+                    items = self.value
             else:
                 items = zip([None]*len(self.value), self.value)
             for key, v in items:

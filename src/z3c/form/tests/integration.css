@@ -1,0 +1,16 @@
+div.error {
+    color: red;
+}
+
+div.multi-widget-checkbox {
+    float: left;
+}
+
+div.object-widget > div.label {
+    float: left;
+    padding-left: 20px;
+}
+
+div.object-widget > div.error {
+    float: left;
+}

@@ -241,6 +241,19 @@ Again, the error message, is customized to the floating point:
       (u'The entered value is not a valid decimal literal.', u'fff')
 
 
+Bool Data Converter
+---------------------
+
+  >>> yesno = zope.schema.Bool()
+  >>> yesnowidget = widget.Widget(TestRequest())
+  >>> conv = converter.FieldDataConverter(yesno, yesnowidget)
+  >>> conv.toWidgetValue(True)
+  'True'
+
+  >>> conv.toWidgetValue(False)
+  'False'
+
+
 Text Data Converters
 ----------------------
 
@@ -1106,7 +1119,7 @@ representation:
 If the value is the missing value, an empty dict is returned:
 
   >>> conv.toWidgetValue(None)
-  {}
+  []
 
 Now, let's look at the reverse:
 
@@ -1115,5 +1128,5 @@ Now, let's look at the reverse:
 
 If the list is empty, the missing value is returned:
 
-  >>> conv.toFieldValue({}) is None
+  >>> conv.toFieldValue([]) is None
   True

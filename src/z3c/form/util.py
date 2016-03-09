@@ -66,6 +66,26 @@ def createId(name):
     id = binascii.hexlify(name.encode('utf-8'))
     return id.decode() if PY3 else id
 
+
+if PY3:
+    # py26 has no total_ordering
+    from functools import total_ordering
+    @total_ordering
+    class MinType(object):
+        def __le__(self, other):
+            return True
+
+        def __eq__(self, other):
+            return (self is other)
+
+    def sortedNone(items):
+        Min = MinType()
+        return sorted(items, key=lambda x: Min if x is None else x)
+else:
+    def sortedNone(items):
+        return sorted(items)
+
+
 def createCSSId(name):
     return str(''.join([
                 (char if char in _acceptableChars else

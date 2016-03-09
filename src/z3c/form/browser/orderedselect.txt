@@ -170,7 +170,7 @@ Let's now make sure that we can extract user entered data from a widget:
   >>> widget.request = testing.TestRequest(form={'widget.name': ['c']})
   >>> widget.update()
   >>> widget.extract()
-  ['c']
+  ('c',)
 
 Unfortunately, when nothing is selected, we do not get an empty list sent into
 the request, but simply no entry at all. For this we have the empty marker, so
@@ -179,7 +179,7 @@ that:
   >>> widget.request = testing.TestRequest(form={'widget.name-empty-marker': '1'})
   >>> widget.update()
   >>> widget.extract()
-  []
+  ()
 
 If nothing is found in the request, the default is returned:
 

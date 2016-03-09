@@ -86,6 +86,13 @@ class OutputChecker(LHTMLOutputChecker, RENormalizing):
             self, example, got, optionflags)
         example.want = original
 
+        # repeat lines with a diff, otherwise it's wading through mud
+        difflines = [l for l in result.splitlines()
+                     if '(got:' in l]
+
+        if difflines:
+            result += '\nLines with differences:\n' + '\n'.join(difflines)
+
         return result
 
     def get_parser(self, want, got, optionflags):

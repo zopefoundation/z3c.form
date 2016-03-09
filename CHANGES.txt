@@ -2,10 +2,20 @@
 CHANGES
 =======
 
+3.3.0 (unreleased)
 3.2.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- *MAJOR* overhaul of ObjectWidget:
+
+  * low level unittests passed, but high level was not tops
+    basic rule is that widgets want RAW values and all conversion
+    must be done in ``ObjectConverter``
+
+  * ``ObjectSubForm`` and ``SubformAdapter`` is removed,
+    it was causing more problems than good
+
+  * added high level integration tests
 
 
 3.2.10 (2016-03-09)

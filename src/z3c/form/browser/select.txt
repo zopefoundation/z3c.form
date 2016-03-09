@@ -70,7 +70,7 @@ Now let's try if we get widget values:
   >>> print(widget.render())
   <select id="widget-id" name="widget.name:list"
           class="select-widget" size="1">
-  <option id="widget-id-novalue" value="--NOVALUE--">No value</option>
+  <option id="widget-id-novalue" selected="selected" value="--NOVALUE--">No value</option>
   <option id="widget-id-0" value="a">a</option>
   <option id="widget-id-1" value="b">b</option>
   <option id="widget-id-2" value="c">c</option>
@@ -87,7 +87,7 @@ Select json_data representation:
    'name': 'widget.name',
    'options': [{'content': 'No value',
                 'id': 'widget-id-novalue',
-                'selected': False,
+                'selected': True,
                 'value': '--NOVALUE--'},
                {'content': 'a',
                 'id': 'widget-id-0',
@@ -166,14 +166,14 @@ Let's now make sure that we can extract user entered data from a widget:
   >>> widget.request = TestRequest(form={'widget.name': ['c']})
   >>> widget.update()
   >>> widget.extract()
-  ['c']
+  ('c',)
 
 When "No value" is selected, then no verification against the terms is done:
 
   >>> widget.request = TestRequest(form={'widget.name': ['--NOVALUE--']})
   >>> widget.update()
   >>> widget.extract(default=1)
-  ['--NOVALUE--']
+  ('--NOVALUE--',)
 
 Unfortunately, when nothing is selected, we do not get an empty list sent into
 the request, but simply no entry at all. For this we have the empty marker, so
@@ -182,7 +182,7 @@ that:
   >>> widget.request = TestRequest(form={'widget.name-empty-marker': '1'})
   >>> widget.update()
   >>> widget.extract()
-  []
+  ()
 
 If nothing is found in the request, the default is returned:
 
@@ -251,7 +251,7 @@ Select json_data representation:
                 'value': 'c'}],
    'required': False,
    'type': 'select',
-   'value': []}
+   'value': ()}
 
 Explicit Selection Prompt
 -------------------------

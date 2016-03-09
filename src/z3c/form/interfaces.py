@@ -616,6 +616,10 @@ class IPasswordWidget(ITextWidget):
 class IObjectWidget(IWidget):
     """Object widget."""
 
+    def setupFields():
+        """setup fields on the widget, by default taking the fields of
+        self.schema"""
+
 class IWidgets(IManager):
     """A widget manager"""
 
@@ -683,6 +687,10 @@ class IWidgets(IManager):
 
     def extract():
         """Extract the values from the widgets and validate them.
+        """
+
+    def extractRaw():
+        """Extract the RAW/string values from the widgets and validate them.
         """
 
 

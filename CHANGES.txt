@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.2.10 (unreleased)
+3.2.10 (2016-03-09)
 -------------------
 
 - RadioWidget items are better determined when they are needed [agroszer]

@@ -2,8 +2,8 @@
 CHANGES
 =======
 
-3.3.0 (unreleased)
--------------------
+3.3.0 (2016-03-09)
+------------------
 
 - *MAJOR* overhaul of ObjectWidget:
 

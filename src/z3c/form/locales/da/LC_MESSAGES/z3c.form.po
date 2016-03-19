@@ -575,7 +575,7 @@ msgstr "Widget som blev oprettet til begivenheden"
 
 #: src/z3c/form/term.py:153
 msgid "Missing: ${value}"
-msgstr "Mangler: $(værdi)"
+msgstr "Mangler: ${value}"
 
 #: src/z3c/form/term.py:205
 msgid "yes"

@@ -270,8 +270,9 @@ really a part of z3c.form.
   'application/msword'
 
   >>> uploadForm.setFakeFileName('foo.zip')
-  >>> util.extractContentType(uploadForm, 'form.widgets.data')
-  'application/zip'
+  >>> (util.extractContentType(uploadForm, 'form.widgets.data')
+  ...     in ('application/zip', 'application/x-zip-compressed'))
+  True
 
   >>> uploadForm.setFakeFileName('foo.unknown')
   >>> util.extractContentType(uploadForm, 'form.widgets.data')

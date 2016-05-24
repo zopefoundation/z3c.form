@@ -266,7 +266,35 @@ class CollectionTermsVocabulary(Terms):
         self.terms = vocabulary
 
 
-class MissingCollectionTermsVocabulary(MissingTermsMixin,
+class MissingCollectionTermsMixin(MissingTermsMixin):
+    """`MissingTermsMixin` adapted to collections."""
+
+    def getTerm(self, value):
+        try:
+            return super(MissingCollectionTermsMixin, self).getTerm(value)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                if value in self._queryCurrentValue():
+                    return self._makeMissingTerm(value)
+            raise
+
+    def getTermByToken(self, token):
+        try:
+            return super(
+                MissingCollectionTermsMixin, self).getTermByToken(token)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                for value in self._queryCurrentValue():
+                    term = self._makeMissingTerm(value)
+                    if term.token == token:
+                        # check if the given token matches the value, if not
+                        # fall back on LookupError, otherwise we might accept
+                        # any crap coming from the request
+                        return term
+            raise LookupError(token)
+
+
+class MissingCollectionTermsVocabulary(MissingCollectionTermsMixin,
                                        CollectionTermsVocabulary):
     """ITerms adapter for zope.schema.ICollection based implementations using
     vocabulary with missing terms support."""
@@ -286,6 +314,7 @@ class CollectionTermsSource(SourceTerms):
         interfaces.IWidget)
 
 
-class MissingCollectionTermsSource(MissingTermsMixin, CollectionTermsSource):
+class MissingCollectionTermsSource(MissingCollectionTermsMixin,
+                                   CollectionTermsSource):
     """ITerms adapter for zope.schema.ICollection based implementations using
     source with missing terms support."""

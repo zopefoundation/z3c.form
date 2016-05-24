@@ -360,7 +360,7 @@ stored objects still has this value.
 
 The same goes with looking up a term by value:
 
-  >>> terms.getTerm('42')
+  >>> terms.getTerm(42)
   Traceback (most recent call last):
   ...
   LookupError: 42

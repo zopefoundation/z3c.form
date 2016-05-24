@@ -135,15 +135,21 @@ class MissingTermsMixin(object):
     """This can be used in case previous values/tokens get missing
     from the vocabulary and you still need to display/keep the values"""
 
+    def _canQueryCurrentValue(self):
+        return (interfaces.IContextAware.providedBy(self.widget) and
+                not self.widget.ignoreContext)
+
+    def _queryCurrentValue(self):
+        return zope.component.getMultiAdapter(
+            (self.widget.context, self.field),
+            interfaces.IDataManager).query()
+
     def getTerm(self, value):
         try:
             return super(MissingTermsMixin, self).getTerm(value)
         except LookupError:
-            if (interfaces.IContextAware.providedBy(self.widget) and
-                not self.widget.ignoreContext):
-                curValue = zope.component.getMultiAdapter(
-                    (self.widget.context, self.field),
-                    interfaces.IDataManager).query()
+            if self._canQueryCurrentValue():
+                curValue = self._queryCurrentValue()
                 if curValue == value:
                     return self._makeMissingTerm(value)
 
@@ -164,11 +170,8 @@ class MissingTermsMixin(object):
         try:
             return super(MissingTermsMixin, self).getTermByToken(token)
         except LookupError:
-            if (interfaces.IContextAware.providedBy(self.widget) and
-                not self.widget.ignoreContext):
-                value = zope.component.getMultiAdapter(
-                    (self.widget.context, self.field),
-                    interfaces.IDataManager).query()
+            if self._canQueryCurrentValue():
+                value = self._queryCurrentValue()
                 term = self._makeMissingTerm(value)
                 if term.token == token:
                     # check if the given token matches the value, if not

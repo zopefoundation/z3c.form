@@ -131,9 +131,8 @@ class ChoiceTermsVocabulary(Terms):
         self.terms = vocabulary
 
 
-class MissingTermsMixin(object):
-    """This can be used in case previous values/tokens get missing
-    from the vocabulary and you still need to display/keep the values"""
+class MissingTermsBase(object):
+    """Base class for MissingTermsMixin classes."""
 
     def _canQueryCurrentValue(self):
         return (interfaces.IContextAware.providedBy(self.widget) and
@@ -143,17 +142,6 @@ class MissingTermsMixin(object):
         return zope.component.getMultiAdapter(
             (self.widget.context, self.field),
             interfaces.IDataManager).query()
-
-    def getTerm(self, value):
-        try:
-            return super(MissingTermsMixin, self).getTerm(value)
-        except LookupError:
-            if self._canQueryCurrentValue():
-                curValue = self._queryCurrentValue()
-                if curValue == value:
-                    return self._makeMissingTerm(value)
-
-            raise
 
     def _makeToken(self, value):
         """create a unique valid ASCII token"""
@@ -165,6 +153,21 @@ class MissingTermsMixin(object):
         return vocabulary.SimpleTerm(
             value, self._makeToken(value),
             title=_(u'Missing: ${value}', mapping=dict(value=uvalue)))
+
+
+class MissingTermsMixin(MissingTermsBase):
+    """This can be used in case previous values/tokens get missing
+    from the vocabulary and you still need to display/keep the values"""
+
+    def getTerm(self, value):
+        try:
+            return super(MissingTermsMixin, self).getTerm(value)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                curValue = self._queryCurrentValue()
+                if curValue == value:
+                    return self._makeMissingTerm(value)
+            raise
 
     def getTermByToken(self, token):
         try:
@@ -266,7 +269,7 @@ class CollectionTermsVocabulary(Terms):
         self.terms = vocabulary
 
 
-class MissingCollectionTermsMixin(MissingTermsMixin):
+class MissingCollectionTermsMixin(MissingTermsBase):
     """`MissingTermsMixin` adapted to collections."""
 
     def getTerm(self, value):

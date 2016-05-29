@@ -80,7 +80,10 @@ class SourceTerms(Terms):
         raise LookupError(token)
 
     def getValue(self, token):
-        return self.terms.getValue(token)
+        try:
+            return self.terms.getValue(token)
+        except KeyError:
+            raise LookupError(token)
 
     def __iter__(self):
         for value in self.source:
@@ -294,7 +297,21 @@ class MissingCollectionTermsMixin(MissingTermsBase):
                         # fall back on LookupError, otherwise we might accept
                         # any crap coming from the request
                         return term
-            raise LookupError(token)
+            raise
+
+    def getValue(self, token):
+        try:
+            return super(MissingCollectionTermsMixin, self).getValue(token)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                for value in self._queryCurrentValue():
+                    term = self._makeMissingTerm(value)
+                    if term.token == token:
+                        # check if the given token matches the value, if not
+                        # fall back on LookupError, otherwise we might accept
+                        # any crap coming from the request
+                        return value
+            raise
 
 
 class MissingCollectionTermsVocabulary(MissingCollectionTermsMixin,

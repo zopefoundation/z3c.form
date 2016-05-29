@@ -555,6 +555,14 @@ The same goes with looking up a term by value:
   ...
   LookupError: 42
 
+The same goes with looking up a value by the token:
+
+  >>> terms.getValue('42')
+  Traceback (most recent call last):
+  ...
+  LookupError: 42
+
+
 Ooops, well this works only if the context has the right value for us.
 This is because we don't want to accept any crap that's coming from HTML.
 
@@ -597,6 +605,11 @@ Override ``makeMissingTerm`` if you want your own.
 
   >>> missingTerm.title
   u'Missing: ${value}'
+
+We can get the value for a missing term:
+
+  >>> terms.getValue('42')
+  42
 
 Still we raise LookupError if the token does not fit the context's value:
 

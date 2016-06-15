@@ -8,6 +8,8 @@ CHANGES
 - Fix handling of missing terms in collections. (See version 2.9 describing
   this feature.)
 
+- Fix `orderedselect_input.js` resource to be usable on browser layers which do
+  not extend ``zope.publisher.interfaces.browser.IDefaultBrowserLayer``.
 
 3.3.0 (2016-03-09)
 ------------------

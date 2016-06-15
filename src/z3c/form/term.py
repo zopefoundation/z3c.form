@@ -80,7 +80,10 @@ class SourceTerms(Terms):
         raise LookupError(token)
 
     def getValue(self, token):
-        return self.terms.getValue(token)
+        try:
+            return self.terms.getValue(token)
+        except KeyError:
+            raise LookupError(token)
 
     def __iter__(self):
         for value in self.source:
@@ -131,23 +134,17 @@ class ChoiceTermsVocabulary(Terms):
         self.terms = vocabulary
 
 
-class MissingTermsMixin(object):
-    """This can be used in case previous values/tokens get missing
-    from the vocabulary and you still need to display/keep the values"""
+class MissingTermsBase(object):
+    """Base class for MissingTermsMixin classes."""
 
-    def getTerm(self, value):
-        try:
-            return super(MissingTermsMixin, self).getTerm(value)
-        except LookupError:
-            if (interfaces.IContextAware.providedBy(self.widget) and
-                not self.widget.ignoreContext):
-                curValue = zope.component.getMultiAdapter(
-                    (self.widget.context, self.field),
-                    interfaces.IDataManager).query()
-                if curValue == value:
-                    return self._makeMissingTerm(value)
+    def _canQueryCurrentValue(self):
+        return (interfaces.IContextAware.providedBy(self.widget) and
+                not self.widget.ignoreContext)
 
-            raise
+    def _queryCurrentValue(self):
+        return zope.component.getMultiAdapter(
+            (self.widget.context, self.field),
+            interfaces.IDataManager).query()
 
     def _makeToken(self, value):
         """create a unique valid ASCII token"""
@@ -160,15 +157,27 @@ class MissingTermsMixin(object):
             value, self._makeToken(value),
             title=_(u'Missing: ${value}', mapping=dict(value=uvalue)))
 
+
+class MissingTermsMixin(MissingTermsBase):
+    """This can be used in case previous values/tokens get missing
+    from the vocabulary and you still need to display/keep the values"""
+
+    def getTerm(self, value):
+        try:
+            return super(MissingTermsMixin, self).getTerm(value)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                curValue = self._queryCurrentValue()
+                if curValue == value:
+                    return self._makeMissingTerm(value)
+            raise
+
     def getTermByToken(self, token):
         try:
             return super(MissingTermsMixin, self).getTermByToken(token)
         except LookupError:
-            if (interfaces.IContextAware.providedBy(self.widget) and
-                not self.widget.ignoreContext):
-                value = zope.component.getMultiAdapter(
-                    (self.widget.context, self.field),
-                    interfaces.IDataManager).query()
+            if self._canQueryCurrentValue():
+                value = self._queryCurrentValue()
                 term = self._makeMissingTerm(value)
                 if term.token == token:
                     # check if the given token matches the value, if not
@@ -263,7 +272,49 @@ class CollectionTermsVocabulary(Terms):
         self.terms = vocabulary
 
 
-class MissingCollectionTermsVocabulary(MissingTermsMixin,
+class MissingCollectionTermsMixin(MissingTermsBase):
+    """`MissingTermsMixin` adapted to collections."""
+
+    def getTerm(self, value):
+        try:
+            return super(MissingCollectionTermsMixin, self).getTerm(value)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                if value in self._queryCurrentValue():
+                    return self._makeMissingTerm(value)
+            raise
+
+    def getTermByToken(self, token):
+        try:
+            return super(
+                MissingCollectionTermsMixin, self).getTermByToken(token)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                for value in self._queryCurrentValue():
+                    term = self._makeMissingTerm(value)
+                    if term.token == token:
+                        # check if the given token matches the value, if not
+                        # fall back on LookupError, otherwise we might accept
+                        # any crap coming from the request
+                        return term
+            raise
+
+    def getValue(self, token):
+        try:
+            return super(MissingCollectionTermsMixin, self).getValue(token)
+        except LookupError:
+            if self._canQueryCurrentValue():
+                for value in self._queryCurrentValue():
+                    term = self._makeMissingTerm(value)
+                    if term.token == token:
+                        # check if the given token matches the value, if not
+                        # fall back on LookupError, otherwise we might accept
+                        # any crap coming from the request
+                        return value
+            raise
+
+
+class MissingCollectionTermsVocabulary(MissingCollectionTermsMixin,
                                        CollectionTermsVocabulary):
     """ITerms adapter for zope.schema.ICollection based implementations using
     vocabulary with missing terms support."""
@@ -283,6 +334,7 @@ class CollectionTermsSource(SourceTerms):
         interfaces.IWidget)
 
 
-class MissingCollectionTermsSource(MissingTermsMixin, CollectionTermsSource):
+class MissingCollectionTermsSource(MissingCollectionTermsMixin,
+                                   CollectionTermsSource):
     """ITerms adapter for zope.schema.ICollection based implementations using
     source with missing terms support."""

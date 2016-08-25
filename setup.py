@@ -107,7 +107,6 @@ setup(
         test=[
             'lxml >= 2.1.1',
             'persistent',
-            'z3c.coverage',
             'z3c.template >= 1.3',
             'zc.sourcefactory',
             'zope.container',

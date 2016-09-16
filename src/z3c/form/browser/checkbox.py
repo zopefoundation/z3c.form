@@ -40,6 +40,7 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
     def isChecked(self, term):
         return term.token in self.value
 
+    @property
     def items(self):
         if self.terms is None:
             return ()
@@ -64,7 +65,7 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
 
     def json_data(self):
         data = super(CheckBoxWidget, self).json_data()
-        data['options'] = list(self.items())
+        data['options'] = list(self.items)
         data['type'] = 'check'
         return data
 

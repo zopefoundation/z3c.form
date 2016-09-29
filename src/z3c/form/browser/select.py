@@ -51,6 +51,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         super(SelectWidget, self).update()
         widget.addFieldClass(self)
 
+    @property
     def items(self):
         if self.terms is None:  # update() has not been called yet
             return ()
@@ -98,7 +99,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
 
     def json_data(self):
         data = super(SelectWidget, self).json_data()
-        data['options'] = self.items()
+        data['options'] = self.items
         data['type'] = 'select'
         return data
 

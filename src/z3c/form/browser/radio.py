@@ -59,6 +59,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
             IPageTemplate, name=self.mode + '_single')
         return template(self, item)
 
+    @property
     def items(self):
         if self.terms is None:
             return
@@ -81,7 +82,7 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
 
     def json_data(self):
         data = super(RadioWidget, self).json_data()
-        data['options'] = list(self.items())
+        data['options'] = list(self.items)
         data['type'] = 'radio'
         return data
 

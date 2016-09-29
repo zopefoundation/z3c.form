@@ -2,6 +2,7 @@
      xmlns:tal="http://xml.zope.org/namespaces/tal"
      tal:omit-tag=""
      tal:define="items view/items;
+                 items python:list(items);
                  single_checkbox python:len(items) == 1">
 <span tal:attributes="id view/id"
       tal:omit-tag="single_checkbox"

@@ -5,6 +5,9 @@ CHANGES
 3.2.11 (unreleased)
 -------------------
 
+- Fix TypeError: object of type 'generator' has no ``len()``.
+  Happens with z3c.formwidget.query.  [maurits]
+
 - Turned ``items`` into a property again on all widgets.
   For the select widget it was a method since 2.9.0.
   For the radio and checkbox widgets it was a method since 3.2.10.

@@ -3,6 +3,7 @@
 __pycache__
 src/*.egg-info
 benchmark/*.egg-info
+.eggs/
 .project
 .pydevproject
 .installed.cfg

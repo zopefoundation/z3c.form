@@ -6,5 +6,5 @@ include buildout.cfg
 include dev.cfg
 include tox.ini
 include .travis.yml
-recursive-include src/z3c/form *.zcml *.pt *.js *.txt *.png *.dot *.ps *.po *.pot
+recursive-include src/z3c/form *.zcml *.pt *.js *.txt *.png *.dot *.ps *.po *.pot *.css
 recursive-include benchmark *.py

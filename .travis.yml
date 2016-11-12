@@ -3,14 +3,14 @@ cache:
   directories:
     - .tox
 language: python
-env:
-    - TOXENV=py27
-    - TOXENV=py33
-    - TOXENV=py34
-    - TOXENV=py35
+python:
+    - 2.7
+    - 3.3
+    - 3.4
+    - 3.5
 install:
     - travis_retry pip install tox
 script:
-    - tox
+    - tox -e py
 notifications:
     email: false

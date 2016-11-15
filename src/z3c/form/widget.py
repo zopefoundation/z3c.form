@@ -200,6 +200,13 @@ class SequenceWidget(Widget):
 
     noValueToken = '--NOVALUE--'
 
+    def get_label(self, term):
+        if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
+            return translate(term.title, context=self.request,
+                             default=term.title)
+        else:
+            return util.toUnicode(term.value)
+
     @property
     def displayValue(self):
         value = []
@@ -213,11 +220,7 @@ class SequenceWidget(Widget):
                 # silently ignore missing tokens, because INPUT_MODE and
                 # HIDDEN_MODE does that too
                 continue
-            if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                value.append(translate(
-                    term.title, context=self.request, default=term.title))
-            else:
-                value.append(term.value)
+            value.append(self.get_label(term))
         return value
 
     def updateTerms(self):

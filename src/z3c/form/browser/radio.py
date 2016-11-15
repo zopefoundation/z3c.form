@@ -65,14 +65,13 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
             return
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
-            id = '%s-%i' % (self.id, count)
-            if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                label = translate(term.title, context=self.request,
-                                  default=term.title)
-            else:
-                label = util.toUnicode(term.value)
-            yield {'id': id, 'name': self.name, 'value': term.token,
-                   'label': label, 'checked': checked}
+            item_id = '%s-%i' % (self.id, count)
+            label = self.get_label(term)
+            yield {'id': item_id,
+                   'name': self.name,
+                   'value': term.token,
+                   'label': label,
+                   'checked': checked}
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""

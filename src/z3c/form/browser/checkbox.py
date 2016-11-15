@@ -47,15 +47,14 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
         items = []
         for count, term in enumerate(self.terms):
             checked = self.isChecked(term)
-            id = '%s-%i' % (self.id, count)
-            if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                label = translate(term.title, context=self.request,
-                                  default=term.title)
-            else:
-                label = util.toUnicode(term.value)
+            item_id = '%s-%i' % (self.id, count)
+            label = self.get_label(term)
             items.append(
-                {'id': id, 'name': self.name + ':list', 'value': term.token,
-                 'label': label, 'checked': checked})
+                {'id': item_id,
+                 'name': self.name + ':list',
+                 'value': term.token,
+                 'label': label,
+                 'checked': checked})
         return items
 
     def update(self):
@@ -88,7 +87,7 @@ class SingleCheckBoxWidget(CheckBoxWidget):
             self.terms = term.Terms()
             self.terms.terms = vocabulary.SimpleVocabulary((
                 vocabulary.SimpleTerm('selected', 'selected',
-                                      self.label or self.field.title), ))
+                                      self.label or self.field.title),))
         return self.terms
 
 
@@ -97,5 +96,5 @@ class SingleCheckBoxWidget(CheckBoxWidget):
 def SingleCheckBoxFieldWidget(field, request):
     """IFieldWidget factory for CheckBoxWidget."""
     widget = FieldWidget(field, SingleCheckBoxWidget(request))
-    widget.label = u'' # don't show the label twice
+    widget.label = u''  # don't show the label twice
     return widget

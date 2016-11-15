@@ -5,6 +5,9 @@ CHANGES
 3.2.11 (unreleased)
 -------------------
 
+- Added a method get_label on sequence widgets to get label from term.
+  [thomasdesvenain]
+
 - Fix TypeError: object of type 'generator' has no ``len()``.
   Happens with z3c.formwidget.query.  [maurits]
 

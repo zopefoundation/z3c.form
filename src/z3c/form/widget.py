@@ -252,7 +252,14 @@ class SequenceWidget(Widget):
                 try:
                     self.terms.getTermByToken(token)
                 except LookupError:
-                    return default
+                    if hasattr(self, 'source'):
+                        try:
+                            self.source.getTermByToken(token)
+                        except LookupError:
+                            return default
+                    else:
+                        return default
+
         return value
 
     def json_data(self):

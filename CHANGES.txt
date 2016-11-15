@@ -5,6 +5,9 @@ CHANGES
 3.2.11 (unreleased)
 -------------------
 
+- Fix sequence default value was not displayed
+  when we use lazy source instead of vocabulary. [thomasdesvenain]
+
 - Added a method get_label on sequence widgets to get label from term.
   [thomasdesvenain]
 

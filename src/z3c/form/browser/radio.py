@@ -51,8 +51,13 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
             else:
                 raise
         checked = self.isChecked(term)
-        id = '%s-%i' % (self.id, terms.index(term))
-        item = {'id': id, 'name': self.name, 'value': term.token,
+        if len(terms) > 0:
+            item_id = '%s-%i' % (self.id, terms.index(term))
+        else:
+            # default value of dynamic vocabulary
+            item_id = '%s-%i' % (self.id, self.value.index(value))
+
+        item = {'id': item_id, 'name': self.name, 'value': term.token,
                 'checked': checked}
         template = zope.component.getMultiAdapter(
             (self.context, self.request, self.form, self.field, self),
@@ -61,9 +66,27 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
 
     @property
     def items(self):
-        if self.terms is None:
-            return
-        for count, term in enumerate(self.terms):
+        if self.terms is not None and len(self.terms) > 0:
+            # static terms list
+            terms = self.terms
+        elif hasattr(self, 'source'):
+            # terms source
+            terms = [self.source.getTermByToken(token)
+                     for token in self.value or []
+                     if token != self.noValueToken]
+        else:
+            terms = []
+            for token in self.value:
+                if token == self.noValueToken:
+                    continue
+                try:
+                    term = self.terms.getTermByToken(token)
+                except LookupError:
+                    continue
+                else:
+                    terms.append(term)
+
+        for count, term in enumerate(terms):
             checked = self.isChecked(term)
             item_id = '%s-%i' % (self.id, count)
             label = self.get_label(term)

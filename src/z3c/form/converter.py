@@ -309,7 +309,12 @@ class CollectionSequenceDataConverter(BaseDataConverter):
                 values.append(widget.terms.getTerm(entry).token)
             except LookupError:
                 # Swallow lookup errors, in case the options changed.
-                pass
+                if hasattr(widget, 'source'):
+                    try:
+                        values.append(widget.source.getTerm(entry).token)
+                    except LookupError:
+                        pass
+
         return values
 
     def toFieldValue(self, value):

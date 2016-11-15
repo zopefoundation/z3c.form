@@ -42,19 +42,34 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
 
     @property
     def items(self):
-        if self.terms is None:
-            return ()
+        if self.terms is not None and len(self.terms) > 0:
+            terms = self.terms
+        elif hasattr(self, 'source'):
+            terms = [self.source.getTermByToken(token)
+                     for token in self.value or []
+                     if token != self.noValueToken]
+        else:
+            terms = []
+            for token in self.value:
+                if token == self.noValueToken:
+                    return []
+                try:
+                    terms.append(self.terms.getTermByToken(token))
+                except LookupError:
+                    return []
+
         items = []
-        for count, term in enumerate(self.terms):
+        for count, term in enumerate(terms):
             checked = self.isChecked(term)
             item_id = '%s-%i' % (self.id, count)
             label = self.get_label(term)
-            items.append(
-                {'id': item_id,
-                 'name': self.name + ':list',
-                 'value': term.token,
-                 'label': label,
-                 'checked': checked})
+            items.append({
+                'id': item_id,
+                'name': self.name + ':list',
+                'value': term.token,
+                'label': label,
+                'checked': checked})
+
         return items
 
     def update(self):

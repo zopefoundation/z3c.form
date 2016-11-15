@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.2.11 (unreleased)
+3.2.11 (2016-11-15)
 -------------------
 
 - Fix TypeError: object of type 'generator' has no ``len()``.

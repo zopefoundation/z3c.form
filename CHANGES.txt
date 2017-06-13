@@ -5,7 +5,9 @@ CHANGES
 3.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Avoid duplicated IDs when using a non-required field with
+  ``z3c.formwidget.query.widget.QuerySourceRadioWidget``.
+  [pgrunewald]
 
 
 3.4.0 (2016-11-15)

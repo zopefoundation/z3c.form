@@ -5,7 +5,7 @@ CHANGES
 3.5 (unreleased)
 ----------------
 
-- Add support for Python 3.6.
+- Add support for Python 3.6 and PyPy2.
 
 - Drop support for Python 3.3.
 

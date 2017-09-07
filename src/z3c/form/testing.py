@@ -55,6 +55,7 @@ outputChecker = outputchecker.OutputChecker(
         (re.compile("u('.*?')"), r"\1"),
         (re.compile("b('.*?')"), r"\1"),
         (re.compile("__builtin__"), r"builtins"),
+        (re.compile("<builtins\."), r"<"),
         (re.compile("<type"), r"<class"),
         (re.compile("set\(\[(.*?)\]\)"), r"{\1}"),
     )

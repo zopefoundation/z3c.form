@@ -44,7 +44,6 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
         terms = list(self.terms)
         try:
             term = self.terms.getTermByToken(value)
-            id = '%s-%i' % (self.id, terms.index(term))
         except LookupError:
             if value == SequenceWidget.noValueToken:
                 term = SimpleTerm(value)
@@ -52,6 +51,8 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
                 id = '%s-novalue' % self.id
             else:
                 raise
+        else:
+            id = '%s-%i' % (self.id, terms.index(term))
         checked = self.isChecked(term)
         item = {'id': id, 'name': self.name, 'value': term.token,
                 'checked': checked}

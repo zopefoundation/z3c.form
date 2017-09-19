@@ -6,7 +6,6 @@ python:
     - 3.5
     - 3.6
     - pypy
-    - pypy3.5-5.8.0
 install:
     - pip install -U pip setuptools
     - pip install -U coverage coveralls zope.testrunner

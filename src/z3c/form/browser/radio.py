@@ -48,10 +48,12 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
             if value == SequenceWidget.noValueToken:
                 term = SimpleTerm(value)
                 terms.insert(0, term)
+                id = '%s-novalue' % self.id
             else:
                 raise
+        else:
+            id = '%s-%i' % (self.id, terms.index(term))
         checked = self.isChecked(term)
-        id = '%s-%i' % (self.id, terms.index(term))
         item = {'id': id, 'name': self.name, 'value': term.token,
                 'checked': checked}
         template = zope.component.getMultiAdapter(

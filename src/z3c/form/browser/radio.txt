@@ -57,7 +57,7 @@ If we render the widget we only get the empty marker:
   <input name="widget.name-empty-marker" type="hidden" value="1" />
 
 Let's provide some values for this widget. We can do this by defining a source
-providing ITerms. This source uses descriminators wich will fit for our setup.
+providing ITerms. This source uses discriminators which will fit for our setup.
 
   >>> import zope.schema.interfaces
   >>> import z3c.form.term
@@ -166,6 +166,15 @@ We can also render the input elements for each value separately:
    >>> print(widget.renderForValue('false'))
    <input id="widget-id-1" name="widget.name" class="radio-widget"
           value="false" type="radio" />
+
+Additionally we can render the "no value" input element used for non-required fields:
+
+  >>> from z3c.form.widget import SequenceWidget
+  >>> print(SequenceWidget.noValueToken)
+  --NOVALUE--
+  >>> print(widget.renderForValue(SequenceWidget.noValueToken))
+  <input id="widget-id-novalue" name="widget.name" class="radio-widget"
+          value="--NOVALUE--" type="radio" />
 
 Check HIDDEN_MODE:
 

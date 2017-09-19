@@ -2,8 +2,12 @@
 CHANGES
 =======
 
-3.4.1 (unreleased)
-------------------
+3.5 (unreleased)
+----------------
+
+- Add support for Python 3.6.
+
+- Drop support for Python 3.3.
 
 - Avoid duplicated IDs when using a non-required field with
   ``z3c.formwidget.query.widget.QuerySourceRadioWidget``.

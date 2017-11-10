@@ -129,7 +129,7 @@ faked form:
 
 Now we can setup the stub form. Note this form is just a fake it's not a real
 implementation. We just provide a form like class which simulates the
-FileUpload object in the a widget. See z3c.form.browser.file.txt for a real
+FileUpload object in the a widget. See `z3c/form/browser/file.rst` for a real
 file upload test uscase:
 
   >>> uploadForm = FileUploadFormStub()

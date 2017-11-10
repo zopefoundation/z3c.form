@@ -15,7 +15,7 @@ of the encoding desired.
   >>> from z3c.form import widget
   >>> from z3c.form import testing
 
-As in converter.txt, we want to test a file upload widget.
+As in converter.rst, we want to test a file upload widget.
 
   >>> filedata = zope.schema.Text(
   ...     __name__='data',

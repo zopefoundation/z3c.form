@@ -52,62 +52,62 @@ def test_suite():
 
     tests = ((
         doctest.DocFileSuite(
-            '../form.txt',
+            '../form.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../action.txt',
+            '../action.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../datamanager.txt',
+            '../datamanager.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../field.txt',
+            '../field.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../contentprovider.txt',
+            '../contentprovider.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../validator.txt',
+            '../validator.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../error.txt',
+            '../error.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../widget.txt',
+            '../widget.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../button.txt',
+            '../button.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../zcml.txt',
+            '../zcml.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../testing.txt',
+            '../testing.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../converter.txt',
+            '../converter.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=renormalizing.RENormalizing([
                 (re.compile(
@@ -119,27 +119,27 @@ def test_suite():
             ]) + testing.outputChecker
         ),
         doctest.DocFileSuite(
-            '../group.txt',
+            '../group.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../subform.txt',
+            '../subform.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../term.txt',
+            '../term.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../util.txt',
+            '../util.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ),
         doctest.DocFileSuite(
-            '../hint.txt',
+            '../hint.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
         ))
@@ -148,7 +148,7 @@ def test_suite():
     if ADDING_AVAILABLE:
         tests = itertools.chain(tests, ((
             doctest.DocFileSuite(
-                '../adding.txt',
+                '../adding.rst',
                 setUp=setUp, tearDown=testing.tearDown,
                 optionflags=flags, checker=testing.outputChecker,
             ),)

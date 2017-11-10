@@ -1,11 +1,12 @@
 global-include *.mo
 prune .tox
 include *.txt
+include *.rst
 include bootstrap.py
 include buildout.cfg
 include dev.cfg
 include tox.ini
 include .travis.yml
 include .coveragerc
-recursive-include src/z3c/form *.zcml *.pt *.js *.txt *.png *.dot *.ps *.po *.pot *.css
+recursive-include src/z3c/form *.zcml *.pt *.js *.rst *.png *.dot *.ps *.po *.pot *.css
 recursive-include benchmark *.py

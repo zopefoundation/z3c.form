@@ -1,3 +1,29 @@
-This package provides an implementation for HTML and JSON forms and widgets. The goal
+==========
+ z3c.form
+==========
+
+.. image:: https://img.shields.io/pypi/v/z3c.form.svg
+        :target: https://pypi.python.org/pypi/z3c.form/
+        :alt: Latest release
+
+.. image:: https://img.shields.io/pypi/pyversions/z3c.form.svg
+        :target: https://pypi.org/project/z3c.form/
+        :alt: Supported Python versions
+
+.. image:: https://travis-ci.org/zopefoundation/z3c.form.svg?branch=master
+        :target: https://travis-ci.org/zopefoundation/z3c.form
+
+.. image:: https://coveralls.io/repos/github/zopefoundation/z3c.form/badge.svg?branch=master
+        :target: https://coveralls.io/github/zopefoundation/z3c.form?branch=master
+
+.. image:: https://readthedocs.org/projects/z3cform/badge/?version=latest
+        :target: https://z3cform.readthedocs.io/en/latest/
+        :alt: Documentation Status
+
+
+``z3c.form`` provides an implementation for HTML and JSON forms and widgets. The goal
 is to provide a simple API but with the ability to easily customize any data or
 steps.
+
+Documentation on this implementation and its API can be found at
+https://z3cform.readthedocs.io/

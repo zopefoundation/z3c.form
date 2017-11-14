@@ -5,7 +5,7 @@ CHANGES
 3.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Host documentation at https://z3cform.readthedocs.io
 
 
 3.5 (2017-09-19)

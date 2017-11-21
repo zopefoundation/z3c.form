@@ -40,28 +40,6 @@ def alltests():
     suites = list(zope.testrunner.find.find_suites(options))
     return unittest.TestSuite(suites)
 
-
-chapters = '\n'.join(
-    [read('src', 'z3c', 'form', name)
-    for name in ('README.rst',
-                 'form.rst',
-                 'group.rst',
-                 'subform.rst',
-                 'field.rst',
-                 'button.rst',
-                 'zcml.rst',
-                 'validator.rst',
-                 'widget.rst',
-                 'contentprovider.rst',
-                 'action.rst',
-                 'value.rst',
-                 'datamanager.rst',
-                 'converter.rst',
-                 'term.rst',
-                 'util.rst',
-                 )])
-
-
 setup(
     name='z3c.form',
     version='3.6.dev0',
@@ -71,7 +49,7 @@ setup(
     long_description=(
         read('README.rst')
         + '\n\n' +
-        '.. contents:: \n\n' + chapters
+        '.. contents:: \n\n'
         + '\n\n'
         + read('CHANGES.rst')),
     license="ZPL 2.1",

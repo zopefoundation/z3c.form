@@ -1,6 +1,6 @@
-=====
-TODOS
-=====
+======================
+To-dos and help wanted
+======================
 
 Python 3
 --------
@@ -38,6 +38,9 @@ Widgets
 Documentation
 -------------
 
+- Proofread documentation
+
+- Extend API documentation
 
 Samples
 -------

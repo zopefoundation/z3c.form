@@ -1,6 +1,6 @@
 .. include:: ../README.rst
-.. include:: README.rst
 
+The documents are ordered in the way they should be read:
 
 .. toctree::
    :maxdepth: 2

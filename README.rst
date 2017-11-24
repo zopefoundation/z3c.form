@@ -21,7 +21,8 @@
         :alt: Documentation Status
 
 
-``z3c.form`` provides an implementation for HTML and JSON forms and widgets. The goal
+``z3c.form`` provides an implementation for both HTML and JSON forms and
+according widgets. Its goal
 is to provide a simple API but with the ability to easily customize any data or
 steps.
 

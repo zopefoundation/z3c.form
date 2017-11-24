@@ -1,6 +1,5 @@
-=============
 Button Widget
-=============
+-------------
 
 The button widget allows you to provide buttons whose actions are defined
 using Javascript scripts. The "button" type of the "INPUT" element is

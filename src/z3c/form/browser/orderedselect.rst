@@ -1,6 +1,6 @@
-=====================
+
 Ordered-Select Widget
-=====================
+---------------------
 
 The ordered select widget allows you to select one or more values from a set
 of given options and sort those options. Unfortunately, HTML does not provide

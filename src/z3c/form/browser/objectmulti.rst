@@ -1,6 +1,5 @@
-===================
 Multi+Object Widget
-===================
+-------------------
 
 The multi widget allows you to add and edit one or more values.
 
@@ -931,7 +930,7 @@ Let's see what we get on value extraction:
 
 
 Label
------
+#####
 
 There is an option which allows to disable the label for the (sub) widgets.
 You can set the `showLabel` option to `False` which will skip rendering the
@@ -1020,7 +1019,7 @@ if you like to skip the label rendering for all widgets.
   <input name="foo.count" type="hidden" value="2">
 
 In a form
----------
+#########
 
 Let's try a simple example in a form.
 

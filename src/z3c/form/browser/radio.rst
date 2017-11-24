@@ -1,6 +1,5 @@
-===========
-RadioWidget
-===========
+Radio Widget
+------------
 
 The RadioWidget renders a radio input type field e.g. <input type="radio" />
 
@@ -265,7 +264,7 @@ Note: The "\234" character is interpreted differently in Pytohn 2 and 3
 here. (This is mostly due to changes int he SimpleVocabulary code.)
 
 Term with non ascii __str__
----------------------------
+###########################
 
 Check if a term which __str__ returns non ascii string does not crash the update method
 

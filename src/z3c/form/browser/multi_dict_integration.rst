@@ -1,6 +1,5 @@
-===================================
 MultiWidget Dict integration tests
-===================================
+----------------------------------
 
 Checking components on the highest possible level.
 
@@ -33,7 +32,7 @@ In real life the form gets instantiated and destroyed with each request.
   ...     return content
 
 Empty
-------
+#####
 
 All blank and empty values:
 
@@ -58,7 +57,7 @@ All blank and empty values:
   [Apply]
 
 Some valid default values
---------------------------
+#########################
 
   >>> obj.dictOfInt = {-101: -100, -1:1, 101:100}
   >>> obj.dictOfBool = {True: False, False: True}
@@ -159,7 +158,7 @@ Some valid default values
   [Apply]
 
 dictOfInt
-----------
+#########
 
 Set a wrong value and add a new input:
 
@@ -272,7 +271,7 @@ Let's remove some items:
 
 
 dictOfBool
------------
+##########
 
 Add a new input:
 
@@ -360,7 +359,7 @@ Let's remove some items:
 
 
 dictOfChoice
--------------
+############
 
 Add a new input:
 
@@ -446,7 +445,7 @@ Let's remove some items:
 
 
 dictOfTextLine
----------------
+##############
 
 Set a wrong value and add a new input:
 
@@ -556,7 +555,7 @@ Let's remove some items:
 
 
 dictOfDate
------------
+##########
 
 Set a wrong value and add a new input:
 
@@ -761,7 +760,7 @@ Let's fix the values
     dictOfTextLine: {'lorem ipsum': 'ipsum lorem'}>
 
 Twisting some keys
--------------------
+##################
 
 Change key values, item values must stick to the new values.
 

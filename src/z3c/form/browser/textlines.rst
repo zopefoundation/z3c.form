@@ -1,6 +1,5 @@
-================
 TextLines Widget
-================
+----------------
 
 The text lines widget allows you to store a sequence of textline. This sequence
 is stored as a list or tuple. This depends on what you are using as sequence
@@ -57,7 +56,7 @@ Adding some more attributes to the widget will make it display more:
 
 
 TextLinesFieldWidget
---------------------
+####################
 
 The field widget needs a field:
 
@@ -80,7 +79,7 @@ The field widget needs a field:
 
 
 TextLinesFieldWidgetFactory
----------------------------
+###########################
 
   >>> widget = textlines.TextLinesFieldWidgetFactory(text, text.value_type,
   ...     request)

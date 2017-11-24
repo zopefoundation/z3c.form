@@ -1,6 +1,5 @@
-============
 Multi Widget
-============
+------------
 
 The multi widget allows you to add and edit one or more values.
 
@@ -737,7 +736,7 @@ no add button:
   <input type="hidden" name="widget.name.count" value="3" />
 
 Dictionaries
-------------
+############
 
 The multi widget also supports IDict schemas.
 
@@ -956,7 +955,7 @@ We will get an error if we try and set the same key twice
 
 
 Displaying
-----------
+##########
 
 The widget can be instantiated only using the request:
 
@@ -1117,7 +1116,7 @@ We can also use the multi widget with dictionaries
 
 
 Hidden mode
------------
+###########
 
 The widget can be instantiated only using the request:
 
@@ -1214,7 +1213,7 @@ We can also use the multi widget with dictionaries
 
 
 Label
------
+#####
 
 There is an option which allows to disable the label for the subwidgets.
 You can set the `showLabel` option to `False` which will skip rendering the
@@ -1337,9 +1336,7 @@ to set the ``showLabel``. Let's see.
 
 
 Coverage happiness
-------------------
-
-
+##################
 
   >>> field = zope.schema.List(
   ...     __name__=u'foo',

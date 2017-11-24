@@ -1,6 +1,5 @@
-==============
-CheckBoxWidget
-==============
+CheckBox Widget
+---------------
 
 Note: the checkbox widget isn't registered for a field by default. You can use
 the ``widgetFactory`` argument of a ``IField`` object if you construct fields
@@ -223,7 +222,7 @@ here. (This is mostly due to changes int he SimpleVocabulary code.)
 
 
 Single Checkbox Widget
-----------------------
+######################
 
 Instead of using the checkbox widget as an UI component to allow multiple
 selection from a list of choices, it can be also used by itself to toggle a
@@ -346,7 +345,7 @@ Check HIDDEN_MODE:
 
 
 Term with non ascii __str__
----------------------------
+###########################
 
 Check if a term which __str__ returns non ascii string does not crash the update method
 

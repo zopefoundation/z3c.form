@@ -1,6 +1,5 @@
-=====================================
-ObjectWidget single integration tests
-=====================================
+ObjectWidget single widgets integration tests
+---------------------------------------------
 
 Checking components on the highest possible level.
 
@@ -41,7 +40,7 @@ In real life the form gets instantiated and destroyed with each request.
   ...     return content
 
 Empty
-------
+#####
 
 All blank and empty values:
 
@@ -66,7 +65,7 @@ All blank and empty values:
   [Apply]
 
 Some valid default values
---------------------------
+#########################
 
   >>> obj.subobj = testing.ObjectWidgetSingleSubIntegration(
   ...     singleInt=-100,
@@ -99,7 +98,7 @@ Some valid default values
 
 
 Wrong values
--------------
+############
 
 Set wrong values:
 

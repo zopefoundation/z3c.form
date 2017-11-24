@@ -1,6 +1,5 @@
-==========
-TextWidget
-==========
+Text Widget
+-----------
 
 The widget can render a input field for a text line:
 

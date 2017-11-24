@@ -1,6 +1,5 @@
-=====================================
-ObjectWidget multi integration tests
-=====================================
+ObjectWidget integration with MultiWidget of list
+-------------------------------------------------
 
 a.k.a. list of objects widget
 
@@ -37,7 +36,7 @@ In real life the form gets instantiated and destroyed with each request.
   ...     return content
 
 Empty
-------
+#####
 
 All blank and empty values:
 
@@ -50,7 +49,7 @@ All blank and empty values:
   [Apply]
 
 Some valid default values
---------------------------
+#########################
 
   >>> sub1 = testing.ObjectWidgetMultiSubIntegration(
   ...     multiInt=-100,
@@ -123,7 +122,7 @@ Some valid default values
   [Apply]
 
 wrong input (Int)
-------------------
+#################
 
 Set a wrong value and add a new input:
 
@@ -248,7 +247,7 @@ The object is unchanged:
 
 
 wrong input (TextLine)
------------------------
+######################
 
 Set a wrong value and add a new input:
 
@@ -358,7 +357,7 @@ The object is unchanged:
 
 
 wrong input (Date)
---------------------
+##################
 
 Set a wrong value and add a new input:
 
@@ -575,7 +574,7 @@ The object is unchanged:
     multiTextLine: u'second txt'>]
 
 Fix values
------------
+##########
 
   >>> submit = testing.getSubmitValues(content)
   >>> submit['form.widgets.listOfObject.0.widgets.multiInt'] = u'1042'
@@ -669,7 +668,7 @@ Now the object gets updated:
 
 
 Bool was misbehaving
----------------------
+####################
 
   >>> submit = testing.getSubmitValues(content)
   >>> submit['form.widgets.listOfObject.0.widgets.multiBool'] = u'true'

@@ -1,6 +1,5 @@
-=============
 Submit Widget
-=============
+-------------
 
 The submit widget allows you to upload a new submit to the server. The
 "submit" type of the "INPUT" element is described here:

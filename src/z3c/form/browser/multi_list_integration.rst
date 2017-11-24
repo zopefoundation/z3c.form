@@ -1,6 +1,5 @@
-===================================
 MultiWidget List integration tests
-===================================
+----------------------------------
 
 Checking components on the highest possible level.
 
@@ -34,7 +33,7 @@ In real life the form gets instantiated and destroyed with each request.
   ...     return content
 
 Empty
-------
+#####
 
 All blank and empty values:
 
@@ -56,7 +55,7 @@ All blank and empty values:
   [Apply]
 
 Some valid default values
---------------------------
+#########################
 
   >>> obj.listOfInt = [-100, 1, 100]
   >>> obj.listOfBool = [True, False, True]
@@ -129,7 +128,7 @@ Some valid default values
     listOfTextLine: [u'some text one', u'some txt two']>
 
 listOfInt
-----------
+#########
 
 Set a wrong value and add a new input:
 
@@ -208,7 +207,7 @@ Let's remove some items:
 
 
 listOfBool
------------
+##########
 
 Add a new input:
 
@@ -285,7 +284,7 @@ Let's remove some items:
 
 
 listOfTextLine
----------------
+##############
 
 Set a wrong value and add a new input:
 
@@ -366,7 +365,7 @@ Let's remove some items:
 
 
 listOfDate
------------
+##########
 
 Set a wrong value and add a new input:
 

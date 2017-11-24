@@ -1,6 +1,5 @@
-============
 ObjectWidget
-============
+------------
 
 The `ObjectWidget` widget is about rendering a schema's fields as a single
 widget.
@@ -1240,7 +1239,7 @@ Now rendering the addform renders the subform as well:
 
 
 Coverage happiness
-------------------
+##################
 
 Converting interfaces.NO_VALUE holds None:
 

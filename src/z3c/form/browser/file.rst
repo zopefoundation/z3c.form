@@ -1,6 +1,5 @@
-===========
 File Widget
-===========
+-----------
 
 The file widget allows you to upload a new file to the server. The "file" type
 of the "INPUT" element is described here:

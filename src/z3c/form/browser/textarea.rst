@@ -1,6 +1,5 @@
-==============
-TextAreaWidget
-==============
+TextArea Widget
+---------------
 
 The widget can render a text area field for a text:
 

@@ -1,6 +1,5 @@
-=============
 Select Widget
-=============
+-------------
 
 The select widget allows you to select one or more values from a set of given
 options. The "SELECT" and "OPTION" elements are described here:
@@ -201,7 +200,7 @@ described by the interface:
 
 
 Custom No Value Messages
-------------------------
+########################
 
 Additionally to the standard dynamic attribute values, the select widget also
 allows dynamic values for the "No value message". Initially, we have the
@@ -254,7 +253,7 @@ Select json_data representation:
    'value': ()}
 
 Explicit Selection Prompt
--------------------------
+#########################
 
 In certain scenarios it is desirable to ask the user to select a value and
 display it as the first choice, such as "please select a value". In those
@@ -333,7 +332,7 @@ value provided by the adapter:
   True
 
 Display Widget
---------------
+##############
 
 The select widget comes with a template for ``DISPLAY_MODE``.  Let's
 register it first:
@@ -360,7 +359,7 @@ Let's see what happens if we have values that are not in the vocabulary:
   <span id="widget-id" class="select-widget required"></span>
 
 Hidden Widget
--------------
+#############
 
 The select widget comes with a template for ``HIDDEN_MODE``.  Let's
 register it first:

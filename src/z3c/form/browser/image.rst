@@ -1,6 +1,5 @@
-=============
 Image Widget
-=============
+------------
 
 The image widget allows you to submit a form to the server by clicking on an
 image. The "image" type of the "INPUT" element is described here:

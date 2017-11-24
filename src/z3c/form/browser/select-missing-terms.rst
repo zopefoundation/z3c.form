@@ -1,6 +1,5 @@
-============================
 Select Widget, missing terms
-============================
+----------------------------
 
 The select widget allows you to select one or more values from a set of given
 options. The "SELECT" and "OPTION" elements are described here:
@@ -194,7 +193,7 @@ described by the interface:
   1
 
 Display Widget
---------------
+##############
 
 The select widget comes with a template for ``DISPLAY_MODE``. Let's
 register it first:
@@ -218,7 +217,7 @@ Let's see what happens if we have values that are not in the vocabulary:
   </span>
 
 Hidden Widget
--------------
+#############
 
 The select widget comes with a template for ``HIDDEN_MODE``.  Let's
 register it first:

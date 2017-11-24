@@ -1,6 +1,5 @@
-=====================================
-ObjectWidget multi integration tests
-=====================================
+ObjectWidget integration with MultiWidget of dict
+-------------------------------------------------
 
 a.k.a. dict of objects widget
 
@@ -37,7 +36,7 @@ In real life the form gets instantiated and destroyed with each request.
   ...     return content
 
 Empty
-------
+#####
 
 All blank and empty values:
 
@@ -50,7 +49,7 @@ All blank and empty values:
   [Apply]
 
 Some valid default values
---------------------------
+#########################
 
   >>> sub1 = testing.ObjectWidgetMultiSubIntegration(
   ...     multiInt=-100,
@@ -127,7 +126,7 @@ Some valid default values
   [Apply]
 
 wrong input (Int)
-------------------
+#################
 
 Set a wrong value and add a new input:
 
@@ -271,7 +270,7 @@ The object is unchanged:
 
 
 wrong input (TextLine)
------------------------
+######################
 
 Set a wrong value and add a new input:
 
@@ -389,7 +388,7 @@ The object is unchanged:
 
 
 wrong input (Date)
---------------------
+##################
 
 Set a wrong value and add a new input:
 
@@ -570,7 +569,7 @@ The object is unchanged:
     multiTextLine: 'second txt'>}
 
 Fix values
------------
+##########
 
   >>> submit = testing.getSubmitValues(content)
   >>> submit['form.widgets.dictOfObject.0.widgets.multiInt'] = u'1042'
@@ -665,7 +664,7 @@ Now the object gets updated:
 
 
 Twisting some keys
--------------------
+##################
 
 Change key values, item values must stick to the new values.
 
@@ -743,7 +742,7 @@ Change key values, item values must stick to the new values.
     multiTextLine: u'some text one'>}
 
 Bool was misbehaving
----------------------
+####################
 
   >>> sub1 = testing.ObjectWidgetMultiSubIntegration(
   ...     multiInt=-100,

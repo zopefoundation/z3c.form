@@ -1,6 +1,5 @@
-===================
 File Testing Widget
-===================
+-------------------
 
 The File Testing widget is just like the file widget except it has
 another hidden field where the contents of a would be file can be

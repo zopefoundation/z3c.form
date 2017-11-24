@@ -1,6 +1,5 @@
-===============
 Password Widget
-===============
+---------------
 
 The password widget allows you to upload a new password to the server. The
 "password" type of the "INPUT" element is described here:

@@ -1,6 +1,5 @@
-=====================================
 Customizing widget lookup for IChoice
-=====================================
+-------------------------------------
 
 Widgets for fields implementing IChoice are looked up not only according to the
 field, but also according to the source used by the field.
@@ -60,7 +59,7 @@ If we now look up the widget for the field, we get the specialized widget:
   <class 'SampleSelectWidget'>
 
 Backwards compatibility
------------------------
+#######################
 
 To maintain backwards compatibility, SelectFieldWidget() still can be called
 without passing a source:

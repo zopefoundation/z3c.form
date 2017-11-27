@@ -11,72 +11,72 @@
     <apidoc:bookchapter
         id="z3c-form"
         title="z3c.form - Widgets and Forms"
-        doc_path="README.txt"
+        doc_path="README.rst"
         />
     <apidoc:bookchapter
         id="z3c-form-form"
         title="Forms"
-        doc_path="form.txt"
+        doc_path="form.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-subform"
         title="Sub-Forms"
-        doc_path="subform.txt"
+        doc_path="subform.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-field"
         title="Fields"
-        doc_path="field.txt"
+        doc_path="field.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-button"
         title="Buttons"
-        doc_path="button.txt"
+        doc_path="button.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-validator"
         title="Validators"
-        doc_path="validator.txt"
+        doc_path="validator.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-zcml"
         title="ZCML Directives"
-        doc_path="zcml.txt"
+        doc_path="zcml.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-widget"
         title="Widgets"
-        doc_path="widget.txt"
+        doc_path="widget.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-action"
         title="Actions"
-        doc_path="action.txt"
+        doc_path="action.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-value"
         title="Attribute Values"
-        doc_path="value.txt"
+        doc_path="value.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-datamanager"
         title="Data Managers"
-        doc_path="datamanager.txt"
+        doc_path="datamanager.rst"
         parent="z3c-form"
         />
     <apidoc:bookchapter
         id="z3c-form-converter"
         title="Data Converters"
-        doc_path="converter.txt"
+        doc_path="converter.rst"
         parent="z3c-form"
         />
   </configure>

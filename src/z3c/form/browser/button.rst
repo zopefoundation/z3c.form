@@ -1,0 +1,70 @@
+Button Widget
+-------------
+
+The button widget allows you to provide buttons whose actions are defined
+using Javascript scripts. The "button" type of the "INPUT" element is
+described here:
+
+http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#edef-INPUT
+
+As for all widgets, the button widget must provide the new ``IWidget``
+interface:
+
+  >>> from zope.interface.verify import verifyClass
+  >>> from z3c.form import interfaces
+  >>> from z3c.form.browser import button
+
+  >>> verifyClass(interfaces.IWidget, button.ButtonWidget)
+  True
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+
+  >>> widget = button.ButtonWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget.id'
+  >>> widget.name = 'widget.name'
+
+We also need to register the template for the widget:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('button_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IButtonWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+If we render the widget we get a simple input element:
+
+  >>> print(widget.render())
+  <input type="button" id="widget.id" name="widget.name"
+         class="button-widget" />
+
+Setting a value for the widget effectively changes the button label:
+
+  >>> widget.value = 'Button'
+  >>> print(widget.render())
+  <input type="button" id="widget.id" name="widget.name"
+         class="button-widget" value="Button" />
+
+
+Let's now make sure that we can extract user entered data from a widget:
+
+  >>> widget.request = TestRequest(form={'widget.name': 'button'})
+  >>> widget.update()
+  >>> widget.extract()
+  'button'
+
+If nothing is found in the request, the default is returned:
+
+  >>> widget.request = TestRequest()
+  >>> widget.update()
+  >>> widget.extract()
+  <NO_VALUE>

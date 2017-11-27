@@ -40,28 +40,6 @@ def alltests():
     suites = list(zope.testrunner.find.find_suites(options))
     return unittest.TestSuite(suites)
 
-
-chapters = '\n'.join(
-    [read('src', 'z3c', 'form', name)
-    for name in ('README.txt',
-                 'form.txt',
-                 'group.txt',
-                 'subform.txt',
-                 'field.txt',
-                 'button.txt',
-                 'zcml.txt',
-                 'validator.txt',
-                 'widget.txt',
-                 'contentprovider.txt',
-                 'action.txt',
-                 'value.txt',
-                 'datamanager.txt',
-                 'converter.txt',
-                 'term.txt',
-                 'util.txt',
-                 )])
-
-
 setup(
     name='z3c.form',
     version='3.6.dev0',
@@ -69,11 +47,11 @@ setup(
     author_email="zope-dev@zope.org",
     description="An advanced form and widget framework for Zope 3",
     long_description=(
-        read('README.txt')
+        read('README.rst')
         + '\n\n' +
-        '.. contents:: \n\n' + chapters
+        '.. contents:: \n\n'
         + '\n\n'
-        + read('CHANGES.txt')),
+        + read('CHANGES.rst')),
     license="ZPL 2.1",
     keywords="zope3 form widget",
     classifiers=[
@@ -114,7 +92,10 @@ setup(
             'zope.testing',
         ],
         adding=['zope.app.container >= 3.7'],
-        docs=['z3c.recipe.sphinxdoc'],
+        docs=[
+            'Sphinx',
+            'repoze.sphinx.autointerface',
+        ],
     ),
     install_requires=[
         'setuptools',

@@ -1,0 +1,80 @@
+Password Widget
+---------------
+
+The password widget allows you to upload a new password to the server. The
+"password" type of the "INPUT" element is described here:
+
+http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#edef-INPUT
+
+As for all widgets, the password widget must provide the new ``IWidget``
+interface:
+
+  >>> from zope.interface.verify import verifyClass
+  >>> from z3c.form import interfaces
+  >>> from z3c.form.browser import password
+
+  >>> verifyClass(interfaces.IWidget, password.PasswordWidget)
+  True
+
+The widget can be instantiated only using the request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+
+  >>> widget = password.PasswordWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+  >>> widget.id = 'widget.id'
+  >>> widget.name = 'widget.name'
+
+We also need to register the template for the widget:
+
+  >>> import zope.component
+  >>> from zope.pagetemplate.interfaces import IPageTemplate
+  >>> from z3c.form.testing import getPath
+  >>> from z3c.form.widget import WidgetTemplateFactory
+
+  >>> zope.component.provideAdapter(
+  ...     WidgetTemplateFactory(getPath('password_input.pt'), 'text/html'),
+  ...     (None, None, None, None, interfaces.IPasswordWidget),
+  ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+If we render the widget we get a simple input element:
+
+  >>> print(widget.render())
+  <input type="password" id="widget.id" name="widget.name"
+         class="password-widget" />
+
+Even when we set a value on the widget, it is not displayed for security
+reasons:
+
+  >>> widget.value = 'password'
+  >>> print(widget.render())
+  <input type="password" id="widget.id" name="widget.name"
+         class="password-widget" />
+
+Adding some more attributes to the widget will make it display more:
+
+  >>> widget.style = u'color: blue'
+  >>> widget.placeholder = u'Confirm password'
+  >>> widget.autocapitalize = u'off'
+
+  >>> print(widget.render())
+  <input type="password" id="widget.id" name="widget.name"
+         placeholder="Confirm password" autocapitalize="off"
+         style="color: blue" class="password-widget" />
+
+Let's now make sure that we can extract user entered data from a widget:
+
+  >>> widget.request = TestRequest(form={'widget.name': 'password'})
+  >>> widget.update()
+  >>> widget.extract()
+  'password'
+
+If nothing is found in the request, the default is returned:
+
+  >>> widget.request = TestRequest()
+  >>> widget.update()
+  >>> widget.extract()
+  <NO_VALUE>

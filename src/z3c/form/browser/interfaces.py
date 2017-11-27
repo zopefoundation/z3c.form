@@ -11,11 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Browser Widget Framework Interfaces
-
-$Id$
-"""
-__docformat__ = "reStructuredText"
+"""Browser Widget Framework Interfaces """
 import zope.interface
 import zope.schema
 
@@ -34,12 +30,12 @@ class IWidgetLayoutSupport(zope.interface.Interface):
         """Setup given css class (klass) with error and required postfix
 
         If no klass name is given the widget.wrapper class name/names get used.
-        It is also possible if more then one (empty space separated) names 
+        It is also possible if more then one (empty space separated) names
         are given as klass argument.
 
         This method can get used from your form or widget template or widget
         layout template without to re-implement the widget itself just because
-        you a different CSS class concept. 
+        you a different CSS class concept.
 
         """
 

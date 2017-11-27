@@ -387,7 +387,7 @@ Next we need a form that specifies the fields to be added:
   ...     fields = field.Fields(IPerson)
   >>> personForm = PersonForm()
 
-For more details on how to define fields within a form, see ``form.rst``. We
+For more details on how to define fields within a form, see :doc:`form`. We
 can now create the fields widget manager. Its discriminators are the form for
 which the widgets are created, the request, and the context that is being
 manipulated. In the simplest case the context is ``None`` and ignored, as it

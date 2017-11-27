@@ -5,7 +5,7 @@ Must read
    :numbered:
    :maxdepth: 1
 
-   Forms - Setup and usage of forms including structure of form components <forms>
+   Forms - Setup and usage of forms including structure of form components <form>
    Group Forms - Implementation and usage of widget groups <group>
    Sub-Forms - Introduction into sub-forms and the implemented two classes of thereof <subform>
    field

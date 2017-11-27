@@ -1,4 +1,4 @@
-CheckBox Widget
+Checkbox Widget
 ---------------
 
 Note: the checkbox widget isn't registered for a field by default. You can use

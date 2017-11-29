@@ -2,8 +2,13 @@
 Changelog
 =========
 
-3.6 (unreleased)
+4.0 (unreleased)
 ----------------
+
+- Upgrade the major version 4 to reflect the breaking changes in 3.3.0.
+  (Version 3.6 will be a re-release of 3.2.x not containing the changes since
+  3.3.0 besides cherry-picks.)
+  Fixes: https://github.com/zopefoundation/z3c.form/issues/41
 
 - Host documentation at https://z3cform.readthedocs.io
 

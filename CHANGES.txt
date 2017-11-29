@@ -9,6 +9,11 @@ CHANGES
   (This version does not contain any of the changes between 3.3.0 and 3.5.x
   besides the cherry-picks mentioned in the change log.)
 
+- Add support for Python 3.4, 3.5 and 3.6.
+
+- Drop support for Python 2.6 and 3.3.
+
+
 
 3.2.11 (2016-11-15)
 -------------------

@@ -4,9 +4,10 @@ cache:
     - .tox
 language: python
 env:
-    - TOXENV=py26
     - TOXENV=py27
-    - TOXENV=py33
+    - TOXENV=py34
+    - TOXENV=py35
+    - TOXENV=py36
 install:
     - travis_retry pip install tox
 script:

@@ -26,5 +26,13 @@ according widgets. Its goal
 is to provide a simple API but with the ability to easily customize any data or
 steps.
 
+There are currently two maintained branches:
+
+* `master <https://github.com/zopefoundation/z3c.form/tree/master>` with the
+  latest changes
+* `3.x <https://github.com/zopefoundation/z3c.form/tree/3.x>` without the
+  object widget overhaul and still including the ``ObjectSubForm`` and
+  the ``SubformAdapter``.
+
 Documentation on this implementation and its API can be found at
 https://z3cform.readthedocs.io/

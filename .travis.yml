@@ -1,15 +1,16 @@
 sudo: false
-cache:
-  directories:
-    - .tox
 language: python
-env:
-    - TOXENV=py26
-    - TOXENV=py27
-    - TOXENV=py33
+python:
+    - 2.7
+    - 3.4
+    - 3.5
+    - 3.6
 install:
-    - travis_retry pip install tox
+    - pip install -U pip setuptools
+    - pip install -U coverage coveralls zope.testrunner
+    - pip install -U -e .[test]
 script:
-    - tox
+    - zope-testrunner --test-path=src
 notifications:
     email: false
+cache: pip

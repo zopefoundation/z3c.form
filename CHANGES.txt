@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.6 (unreleased)
+3.6 (2017-12-20)
 ----------------
 
 - Re-release of 3.2.11 as 3.6 to get rid of the breaking changes in 3.3.0.

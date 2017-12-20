@@ -2,7 +2,7 @@
 Changelog
 =========
 
-4.0 (unreleased)
+4.0 (2017-12-20)
 ----------------
 
 - Upgrade the major version 4 to reflect the breaking changes in 3.3.0.

@@ -26,10 +26,7 @@ implement our simple action manager:
   ...
   ...     def append(self, name, action):
   ...         """See z3c.form.interfaces.IActions."""
-  ...         if not name in self:
-  ...             self._data_keys.append(name)
-  ...         self._data_values.append(action)
-  ...         self._data[name] = action
+  ...         self[name] = action
 
 Before we can initialise the action manager, we have to create instances for
 our three discriminators, just enough to get it working:

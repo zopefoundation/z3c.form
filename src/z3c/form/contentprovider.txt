@@ -127,7 +127,7 @@ Once the widget manager has been updated, it holds the content provider::
   >>> manager = FieldWidgetsAndProviders(personForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> widgets = manager._data
+  >>> widgets = manager
   >>> ids = sorted(widgets.keys())
   >>> ids
   ['fullname', 'id', 'longHelp']
@@ -174,7 +174,7 @@ After update, the widget manager refers to the content provider::
   >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> widgets = manager._data
+  >>> widgets = manager
   >>> ids = sorted(widgets.keys())
   >>> ids
   ['fullname', 'id', 'longHelp']
@@ -284,7 +284,7 @@ To enable form updating, all widget adapters must be registered::
 
   >>> personForm.update()
   >>> personForm.widgets
-  <z3c.form.contentprovider.FieldWidgetsAndProviders object at ...>
+  FieldWidgetsAndProviders([...])
 
 Let's render the form::
 

@@ -13,7 +13,6 @@
 ##############################################################################
 """Utilities helpful to the package.
 
-$Id$
 """
 __docformat__ = "reStructuredText"
 import binascii
@@ -26,6 +25,7 @@ import zope.interface
 import zope.contenttype
 import zope.schema
 
+from collections import OrderedDict
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
 
@@ -199,92 +199,27 @@ def changedWidget(widget, value, field=None, context=None):
     return True
 
 
-class UniqueOrderedKeys(object):
-    """Ensures that we only use unique keys in a list.
-
-    This is useful since we use the keys and values list only as ordered keys
-    and values addition for our data dict.
-
-    Note, this list is only used for Manager keys and not for values since we
-    can't really compare values if we will get new instances of widgets or
-    actions.
-    """
-
-    def __init__(self, values=[]):
-        self.data = []
-        # ensure that we not intialize a list with duplicated key values
-        [self.data.append(value) for value in values]
-
-    def append(self, value):
-        if value in self.data:
-            raise ValueError(value)
-        self.data.append(value)
-
-    def insert(self, position, value):
-        if value in self.data:
-            raise ValueError(value)
-        self.data.insert(position, value)
-
-    #XXX TODO: Inherit from list
-
-
 @zope.interface.implementer(interfaces.IManager)
-class Manager(object):
+class Manager(OrderedDict):
     """Non-persistent IManager implementation."""
 
-    def __init__(self, *args, **kw):
-        self.__data_keys = UniqueOrderedKeys()
-        self._data_values = []
-        self._data = {}
+    def create_according_to_list(self, d, l):
+        """ Arange elemnts of d according to sorting of l
+        """
+        # TODO: If we are on Python 3 only reimplement on top of `move_to_end`
+        self.clear()
+        for key in l:
+            if key in d:
+                self[key] = d[key]
 
-    @property
-    def _data_keys(self):
-        """Use a special ordered list which will check for duplicated keys."""
-        return self.__data_keys
-
-    @_data_keys.setter
-    def _data_keys(self, values):
-        if isinstance(values, UniqueOrderedKeys):
-            self.__data_keys = values
-        else:
-            self.__data_keys = UniqueOrderedKeys(values)
-
-    def __len__(self):
-        return len(self._data_values)
-
-    def __iter__(self):
-        return iter(self._data_keys.data)
-
-    def __getitem__(self, name):
-        return self._data[name]
-
-    def __delitem__(self, name):
-        if name not in self._data_keys.data:
-            raise KeyError(name)
-        del self._data_keys.data[self._data_keys.data.index(name)]
-        value = self._data[name]
-        del self._data_values[self._data_values.index(value)]
-        del self._data[name]
-
-    def get(self, name, default=None):
-        return self._data.get(name, default)
-
-    def keys(self):
-        return self._data_keys.data
-
-    def values(self):
-        return self._data_values
-
-    def items(self):
-        return [(i, self._data[i]) for i in self._data_keys.data]
-
-    def __contains__(self, name):
-        return bool(self.get(name))
-
-    #XXX TODO:
-    # Add __setitem__ that will add key, value at the end of both lists as in PEP0372
-    # Add insertBefore(key)
-    #     insertAfter(key)
+    def __getitem__(self, key):
+        if not key in self:
+            try:
+                return getattr(self, key)
+            except AttributeError:
+                # make sure an KeyError is raised later
+                pass
+        return super(Manager, self).__getitem__(key)
 
 @zope.interface.implementer(interfaces.ISelectionManager)
 class SelectionManager(Manager):

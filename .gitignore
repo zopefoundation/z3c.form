@@ -1,4 +1,4 @@
-*.pyc
+*.py[co]
 *.mo
 __pycache__
 src/*.egg-info
@@ -12,3 +12,9 @@ coverage
 develop-eggs
 docs
 parts
+htmls
+include/
+lib*
+pip-selfcheck.json
+pyvenv.cfg
+

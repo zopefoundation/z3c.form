@@ -163,7 +163,7 @@ The widget manager is then stored in the ``widgets`` attribute as promised by
 the ``IForm`` interface:
 
   >>> addForm.widgets
-  <z3c.form.field.FieldWidgets object at ...>
+  FieldWidgets([...])
 
 The widget manager will have four widgets, one for each field:
 

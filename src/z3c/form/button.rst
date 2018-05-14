@@ -442,7 +442,7 @@ First, you are able to add button managers:
   >>> bm2 = button.Buttons(button.Button('help', title=u'Help'))
 
   >>> bm1 + bm2
-  <z3c.form.button.Buttons object at ...>
+  Buttons([...])
   >>> list(bm1 + bm2)
   ['apply', 'cancel', 'help']
 

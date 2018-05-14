@@ -116,9 +116,7 @@ class Fields(util.SelectionManager):
             else:
                 raise TypeError("Unrecognized argument type", arg)
 
-        self._data_keys = []
-        self._data_values = []
-        self._data = {}
+        super(Fields, self).__init__()
         for name, field, iface in fields:
             if isinstance(field, Field):
                 form_field = field
@@ -132,12 +130,10 @@ class Fields(util.SelectionManager):
                 form_field = Field(field, **customDefaults)
                 name = form_field.__name__
 
-            if name in self._data:
+            if name in self:
                 raise ValueError("Duplicate name", name)
 
-            self._data_values.append(form_field)
-            self._data_keys.append(name)
-            self._data[name] = form_field
+            self[name] = form_field
 
     def select(self, *names, **kwargs):
         """See interfaces.IFields"""
@@ -223,7 +219,6 @@ class FieldWidgets(util.Manager):
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.prefix)
         # Walk through each field, making a widget out of it.
-        uniqueOrderedKeys = []
         for field in self.form.fields.values():
             # Step 0. Determine whether the context should be ignored.
             ignoreContext = self.ignoreContext
@@ -245,9 +240,9 @@ class FieldWidgets(util.Manager):
             # Step 2: Get the widget for the given field.
             shortName = field.__name__
             newWidget = True
-            if shortName in self._data:
+            if shortName in self:
                 # reuse existing widget
-                widget = self._data[shortName]
+                widget = self[shortName]
                 newWidget = False
             elif field.widgetFactory.get(mode) is not None:
                 factory = field.widgetFactory.get(mode)
@@ -279,14 +274,9 @@ class FieldWidgets(util.Manager):
             # Step 9: Add the widget to the manager
             if widget.required:
                 self.hasRequiredFields = True
-            uniqueOrderedKeys.append(shortName)
             if newWidget:
-                self._data_values.append(widget)
-                self._data[shortName] = widget
+                self[shortName] = widget
                 zope.location.locate(widget, self, shortName)
-            # always ensure that we add all keys and keep the order given from
-            # button items
-            self._data_keys = uniqueOrderedKeys
 
     def _extract(self, returnRaw=False):
         data = {}

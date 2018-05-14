@@ -279,28 +279,6 @@ really a part of z3c.form.
   'text/x-unknown-content-type'
 
 
-`UniqueOrderedKeys` object
---------------------------
-
-This object manages the keys of a dictionary. It ensures that no values are
-added multiple times and retains the original order of the keys.
-
-  >>> keys = util.UniqueOrderedKeys([1, 2])
-
-Let's now add another key:
-
-  >>> keys.append(3)
-  >>> keys.data
-  [1, 2, 3]
-
-Trying to add `3` again causes a `ValueError` exception:
-
-  >>> keys.append(3)
-  Traceback (most recent call last):
-  ...
-  ValueError: 3
-
-
 `Manager` object
 ----------------
 
@@ -317,13 +295,8 @@ Initially the manager is empty:
 Since this base class mainly defines a read-interface, we have to add the
 values manually:
 
-  >>> manager._data_values.append(2)
-  >>> manager._data_keys.append('b')
-  >>> manager._data['b'] = 2
-
-  >>> manager._data_values.append(1)
-  >>> manager._data_keys.append('a')
-  >>> manager._data['a'] = 1
+  >>> manager['b'] = 2
+  >>> manager['a'] = 1
 
 Let's iterate through the manager:
 
@@ -351,15 +324,6 @@ It also supports deletion:
   >>> manager.items()
   [('a', 1)]
 
-When the `_data_keys` is reset it will always produce a `UniqueOrderedKeys`:
-
-  >>> manager._data_keys = []
-  >>> manager._data_keys
-  <z3c.form.util.UniqueOrderedKeys ...>
-
-  >>> manager._data_keys = util.UniqueOrderedKeys()
-  >>> manager._data_keys
-  <z3c.form.util.UniqueOrderedKeys ...>
 
 
 `SelectionManager` object
@@ -381,9 +345,7 @@ sensible constructor:
   ...             if isinstance(arg, MySelectionManager):
   ...                 args += arg.values()
   ...                 continue
-  ...             self._data_values.append(arg)
-  ...             self._data_keys.append(str(arg))
-  ...             self._data[str(arg)] = arg
+  ...             self[str(arg)] = arg
 
 Let's now create two managers:
 

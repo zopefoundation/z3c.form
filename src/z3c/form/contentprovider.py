@@ -52,7 +52,7 @@ class FieldWidgetsAndProviders(FieldWidgets):
 
     def update(self):
         super(FieldWidgetsAndProviders, self).update()
-        uniqueOrderedKeys = self.keys()
+        uniqueOrderedKeys = list(self.keys())
         d = {}
         d.update(self)
         for name in self.form.contentProviders:

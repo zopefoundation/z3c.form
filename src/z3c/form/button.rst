@@ -63,7 +63,7 @@ in the ``button`` package:
 Once the action manager is updated, the buttons should be available as
 actions:
 
-  >>> actions.keys()
+  >>> list(actions.keys())
   ['apply', 'cancel']
 
   >>> actions['apply']
@@ -93,7 +93,7 @@ provided interface, he is also responsible for remove existing actions.
 As you can see we still will get the old button action if we only call update:
 
   >>> actions.update()
-  >>> actions.keys()
+  >>> list(actions.keys())
   ['apply', 'cancel']
 
   >>> actions['apply']
@@ -107,7 +107,7 @@ This means we have to remove the previous action before we call update:
 Make sure we do not append a button twice to the key and value lists by calling
 update twice:
 
-  >>> actions.keys()
+  >>> list(actions.keys())
   ['apply', 'cancel']
 
   >>> actions['apply']
@@ -332,7 +332,7 @@ hex-encoded string:
   ...     def apply(self, action):
   ...         print('successfully applied')
 
-  >>> Form.buttons.keys()
+  >>> list(Form.buttons.keys())
   ['4170706c7920616e64204e657874']
 
 Of course, you can use the ``__name__`` argument to specify a name
@@ -344,7 +344,7 @@ yourself. The decorator, however, also allows the keyword ``name``:
   ...     def apply(self, action):
   ...         print('successfully applied')
 
-  >>> Form.buttons.keys()
+  >>> list(Form.buttons.keys())
   ['applyNext']
 
 This helper function also supports a keyword argument ``provides``, which
@@ -389,16 +389,16 @@ is available as action:
   >>> myform = Form()
   >>> actions = button.ButtonActions(myform, TestRequest(), None)
   >>> actions.update()
-  >>> actions.keys()
+  >>> list(actions.keys())
   ['apply']
 
 If we set the show-apply attribute to false, the action will not be available.
 
   >>> myform.showApply = False
   >>> actions.update()
-  >>> actions.keys()
+  >>> list(actions.keys())
   []
-  >>> actions.values()
+  >>> list(actions.values())
   []
 
 This feature is very helpful in multi-forms and wizards.
@@ -488,9 +488,9 @@ When creating a new form derived from another, you often want to keep existing
 buttons and add new ones. In order not to change the super-form class, you need
 to copy the button manager:
 
-  >>> bm.keys()
+  >>> list(bm.keys())
   ['apply', 'cancel', 'help']
-  >>> bm.copy().keys()
+  >>> list(bm.copy().keys())
   ['apply', 'cancel', 'help']
 
 

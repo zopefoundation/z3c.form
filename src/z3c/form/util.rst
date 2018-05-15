@@ -302,11 +302,11 @@ Let's iterate through the manager:
 
   >>> tuple(iter(manager))
   ('b', 'a')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['b', 'a']
-  >>> manager.values()
+  >>> list(manager.values())
   [2, 1]
-  >>> manager.items()
+  >>> list(manager.items())
   [('b', 2), ('a', 1)]
 
 Let's ow look at item access:
@@ -321,9 +321,8 @@ Let's ow look at item access:
 It also supports deletion:
 
   >>> del manager['b']
-  >>> manager.items()
+  >>> list(manager.items())
   [('a', 1)]
-
 
 
 `SelectionManager` object
@@ -355,17 +354,17 @@ Let's now create two managers:
 You can add two managers:
 
   >>> manager = manager1 + manager2
-  >>> manager.values()
+  >>> list(manager.values())
   [1, 2, 3, 4]
 
 Next, you can select only certain names:
 
-  >>> manager.select('1', '2', '3').values()
+  >>> list(manager.select('1', '2', '3').values())
   [1, 2, 3]
 
 Or simply omit a value.
 
-  >>> manager.omit('2').values()
+  >>> list(manager.omit('2').values())
   [1, 3, 4]
 
 You can also easily copy a manager:

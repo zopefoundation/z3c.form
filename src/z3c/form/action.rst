@@ -66,7 +66,7 @@ Managing and Accessing Actions
 
 Initially there are no actions in the manager:
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   []
 
 Our simple implementation of has an additional ``append()`` method, which we
@@ -77,7 +77,7 @@ will use to add actions:
 
 The action is added immediately:
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['apply']
 
 However, you should not rely on it being added, and always update the manager
@@ -117,10 +117,10 @@ there are several API methods available:
   >>> 'foo' in manager
   False
 
-  >>> manager.values()
+  >>> list(manager.values())
   [<Action 'apply' u'Apply'>]
 
-  >>> manager.items()
+  >>> list(manager.items())
   [('apply', <Action 'apply' u'Apply'>)]
 
   >>> len(manager)

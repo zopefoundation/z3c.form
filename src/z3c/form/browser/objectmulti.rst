@@ -1089,9 +1089,9 @@ We create the form and try to update it:
 
 As usual, the form contains a widget manager with the expected widget
 
-  >>> myaddform.widgets.keys()
+  >>> list(myaddform.widgets.keys())
   ['listOfObject', 'name']
-  >>> myaddform.widgets.values()
+  >>> list(myaddform.widgets.values())
   [<MultiWidget 'form.widgets.listOfObject'>, <TextWidget 'form.widgets.name'>]
 
 If we want to render the addform, we must give it a template:

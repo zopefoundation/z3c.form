@@ -442,14 +442,14 @@ We create the form and try to update it:
 
 As usual, the form contains a widget manager with the expected widget
 
-  >>> myaddform.widgets.keys()
+  >>> list(myaddform.widgets.keys())
   ['subobject', 'name']
-  >>> myaddform.widgets.values()
+  >>> list(myaddform.widgets.values())
   [<ObjectWidget 'form.widgets.subobject'>, <TextWidget 'form.widgets.name'>]
 
 The widget has sub-widgets:
 
-  >>> myaddform.widgets['subobject'].widgets.keys()
+  >>> list(myaddform.widgets['subobject'].widgets.keys())
   ['foofield', 'barfield']
 
 If we want to render the addform, we must give it a template:
@@ -1151,17 +1151,17 @@ We create the form and try to update it:
 
 As usual, the form contains a widget manager with the expected widget
 
-  >>> myaddform.widgets.keys()
+  >>> list(myaddform.widgets.keys())
   ['subobject', 'name']
-  >>> myaddform.widgets.values()
+  >>> list(myaddform.widgets.values())
   [<ObjectWidget 'form.widgets.subobject'>, <TextWidget 'form.widgets.name'>]
 
 The addform has our ObjectWidget which in turn contains the sub-widgets:
 
-  >>> myaddform.widgets['subobject'].widgets.keys()
+  >>> list(myaddform.widgets['subobject'].widgets.keys())
   ['subfield', 'moofield']
 
-  >>> myaddform.widgets['subobject'].widgets['subfield'].widgets.keys()
+  >>> list(myaddform.widgets['subobject'].widgets['subfield'].widgets.keys())
   ['foofield', 'barfield']
 
 If we want to render the addform, we must give it a template:

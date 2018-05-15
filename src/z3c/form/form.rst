@@ -167,7 +167,7 @@ the ``IForm`` interface:
 
 The widget manager will have four widgets, one for each field:
 
-  >>> addForm.widgets.keys()
+  >>> list(addForm.widgets.keys())
   ['id', 'name', 'gender', 'age']
 
 When the widget manager updates itself, several sub-tasks are processed. The
@@ -1467,9 +1467,9 @@ demonstrate the problem:
   ...     def handleApply(self, action):
   ...         print('success')
 
-  >>> BaseForm.fields.keys()
+  >>> list(BaseForm.fields.keys())
   ['name']
-  >>> BaseForm.buttons.keys()
+  >>> list(BaseForm.buttons.keys())
   ['apply']
   >>> BaseForm.handlers
   <Handlers [<Handler for <Button 'apply' u'Apply'>>]>
@@ -1483,9 +1483,9 @@ Let's now derive a form from the base form:
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
-  >>> DerivedForm.fields.keys()
+  >>> list(DerivedForm.fields.keys())
   ['gender']
-  >>> DerivedForm.buttons.keys()
+  >>> list(DerivedForm.buttons.keys())
   ['cancel']
   >>> DerivedForm.handlers
   <Handlers [<Handler for <Button 'cancel' u'Cancel'>>]>
@@ -1504,9 +1504,9 @@ over:
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
-  >>> DerivedForm.fields.keys()
+  >>> list(DerivedForm.fields.keys())
   ['name', 'gender']
-  >>> DerivedForm.buttons.keys()
+  >>> list(DerivedForm.buttons.keys())
   ['apply', 'cancel']
   >>> DerivedForm.handlers
   <Handlers
@@ -1525,9 +1525,9 @@ method that will do the extending for you:
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
-  >>> DerivedForm.fields.keys()
+  >>> list(DerivedForm.fields.keys())
   ['name', 'gender']
-  >>> DerivedForm.buttons.keys()
+  >>> list(DerivedForm.buttons.keys())
   ['apply', 'cancel']
   >>> DerivedForm.handlers
   <Handlers
@@ -1545,9 +1545,9 @@ If you, for example do not want to extend the buttons, you can turn that off:
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
-  >>> DerivedForm.fields.keys()
+  >>> list(DerivedForm.fields.keys())
   ['name', 'gender']
-  >>> DerivedForm.buttons.keys()
+  >>> list(DerivedForm.buttons.keys())
   ['cancel']
   >>> DerivedForm.handlers
   <Handlers
@@ -1565,9 +1565,9 @@ If you, for example do not want to extend the handlers, you can turn that off:
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
-  >>> DerivedForm.fields.keys()
+  >>> list(DerivedForm.fields.keys())
   ['name', 'gender']
-  >>> DerivedForm.buttons.keys()
+  >>> list(DerivedForm.buttons.keys())
   ['apply', 'cancel']
   >>> DerivedForm.handlers
   <Handlers [<Handler for <Button 'cancel' u'Cancel'>>]>

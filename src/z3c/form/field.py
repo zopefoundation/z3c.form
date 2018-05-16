@@ -219,6 +219,8 @@ class FieldWidgets(util.Manager):
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.prefix)
         # Walk through each field, making a widget out of it.
+        d = {}
+        d.update(self)
         for field in self.form.fields.values():
             # Step 0. Determine whether the context should be ignored.
             ignoreContext = self.ignoreContext
@@ -242,7 +244,7 @@ class FieldWidgets(util.Manager):
             newWidget = True
             if shortName in self:
                 # reuse existing widget
-                widget = self[shortName]
+                widget = d[shortName]
                 newWidget = False
             elif field.widgetFactory.get(mode) is not None:
                 factory = field.widgetFactory.get(mode)
@@ -275,8 +277,9 @@ class FieldWidgets(util.Manager):
             if widget.required:
                 self.hasRequiredFields = True
             if newWidget:
-                self[shortName] = widget
+                d[shortName] = widget
                 zope.location.locate(widget, self, shortName)
+        self.create_according_to_list(d, self.form.fields.keys())
 
     def _extract(self, returnRaw=False):
         data = {}

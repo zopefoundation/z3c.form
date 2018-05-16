@@ -224,7 +224,7 @@ class Manager(OrderedDict):
     """Non-persistent IManager implementation."""
 
     def create_according_to_list(self, d, l):
-        """ Arange elemnts of d according to sorting of l
+        """ Arrange elemnts of d according to sorting of l
         """
         # TODO: If we are on Python 3 only reimplement on top of `move_to_end`
         self.clear()

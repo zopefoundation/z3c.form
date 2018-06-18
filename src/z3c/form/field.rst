@@ -53,16 +53,16 @@ Like all managers in this package, it provides the enumerable mapping API:
   >>> 'unknown' in manager
   False
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['id', 'name', 'country']
 
   >>> [key for key in manager]
   ['id', 'name', 'country']
 
-  >>> manager.values()
+  >>> list(manager.values())
   [<Field 'id'>, <Field 'name'>, <Field 'country'>]
 
-  >>> manager.items()
+  >>> list(manager.items())
   [('id', <Field 'id'>),
    ('name', <Field 'name'>),
    ('country', <Field 'country'>)]
@@ -73,13 +73,13 @@ Like all managers in this package, it provides the enumerable mapping API:
 You can also select the fields that you would like to have:
 
   >>> manager = manager.select('name', 'country')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['name', 'country']
 
 Changing the order is simply a matter of changing the selection order:
 
   >>> manager = manager.select('country', 'name')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['country', 'name']
 
 Selecting a field becomes a little bit more tricky when field names
@@ -95,13 +95,13 @@ overlap. For example, let's say that a person can be adapted to a pet:
 The pet field(s) can only be added to the fields manager with a prefix:
 
   >>> manager += field.Fields(IPet, prefix='pet')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['country', 'name', 'pet.id', 'pet.name']
 
 When selecting fields, this prefix has to be used:
 
   >>> manager = manager.select('name', 'pet.name')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['name', 'pet.name']
 
 However, sometimes it is tedious to specify the prefix together with the
@@ -109,7 +109,7 @@ field; for example here:
 
   >>> manager = field.Fields(IPerson).select('name')
   >>> manager += field.Fields(IPet, prefix='pet').select('pet.name', 'pet.id')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['name', 'pet.name', 'pet.id']
 
 It is easier to specify the prefix as an afterthought:
@@ -117,7 +117,7 @@ It is easier to specify the prefix as an afterthought:
   >>> manager = field.Fields(IPerson).select('name')
   >>> manager += field.Fields(IPet, prefix='pet').select(
   ...     'name', 'id', prefix='pet')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['name', 'pet.name', 'pet.id']
 
 Alternatively, you can specify the interface:
@@ -125,7 +125,7 @@ Alternatively, you can specify the interface:
   >>> manager = field.Fields(IPerson).select('name')
   >>> manager += field.Fields(IPet, prefix='pet').select(
   ...     'name', 'id', interface=IPet)
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['name', 'pet.name', 'pet.id']
 
 Sometimes it is easier to simply omit a set of fields instead of selecting all
@@ -133,35 +133,35 @@ the ones you want:
 
   >>> manager = field.Fields(IPerson)
   >>> manager = manager.omit('id')
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['name', 'country']
 
 Again, you can solve name conflicts using the full prefixed name, ...
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')
-  >>> manager.omit('pet.id').keys()
+  >>> list(manager.omit('pet.id').keys())
   ['id', 'name', 'pet.name']
 
 using the prefix keyword argument, ...
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')
-  >>> manager.omit('id', prefix='pet').keys()
+  >>> list(manager.omit('id', prefix='pet').keys())
   ['id', 'name', 'pet.name']
 
 or, using the interface:
 
   >>> manager = field.Fields(IPerson).omit('country')
   >>> manager += field.Fields(IPet, prefix='pet')
-  >>> manager.omit('id', interface=IPet).keys()
+  >>> list(manager.omit('id', interface=IPet).keys())
   ['id', 'name', 'pet.name']
 
 You can also add two field managers together:
 
   >>> manager = field.Fields(IPerson).select('name', 'country')
   >>> manager2 = field.Fields(IPerson).select('id')
-  >>> (manager + manager2).keys()
+  >>> list((manager + manager2).keys())
   ['name', 'country', 'id']
 
 Adding anything else to a field manager is not well defined:
@@ -182,9 +182,9 @@ When creating a new form derived from another, you often want to keep existing
 fields and add new ones. In order to not change the super-form class, you need
 to copy the field manager:
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['name', 'country']
-  >>> manager.copy().keys()
+  >>> list(manager.copy().keys())
   ['name', 'country']
 
 
@@ -194,7 +194,7 @@ More on the Constructor
 The constructor does not only accept schemas to be passed in; one can also
 just pass in schema fields:
 
-  >>> field.Fields(IPerson['name']).keys()
+  >>> list(field.Fields(IPerson['name']).keys())
   ['name']
 
 However, the schema field has to have a name:
@@ -208,19 +208,19 @@ However, the schema field has to have a name:
 Adding a name helps:
 
   >>> email.__name__ = 'email'
-  >>> field.Fields(email).keys()
+  >>> list(field.Fields(email).keys())
   ['email']
 
 Or, you can just pass in other field managers, which is the feature that the add
 mechanism uses:
 
-  >>> field.Fields(manager).keys()
+  >>> list(field.Fields(manager).keys())
   ['name', 'country']
 
 Last, but not least, the constructor also accepts form fields, which are used
 by ``select()`` and ``omit()``:
 
-  >>> field.Fields(manager['name'], manager2['id']).keys()
+  >>> list(field.Fields(manager['name'], manager2['id']).keys())
   ['name', 'id']
 
 If the constructor does not recognize any of the types above, it raises a
@@ -238,7 +238,7 @@ constructor that are used to set up the fields:
 
   When set to ``True`` all read-only fields are omitted.
 
-    >>> field.Fields(IPerson, omitReadOnly=True).keys()
+    >>> list(field.Fields(IPerson, omitReadOnly=True).keys())
     ['name', 'country']
 
 * ``keepReadOnly``
@@ -247,8 +247,8 @@ constructor that are used to set up the fields:
   in general you want to omit them. In this case you can specify the fields to
   keep:
 
-    >>> field.Fields(
-    ...     IPerson, omitReadOnly=True, keepReadOnly=('id',)).keys()
+    >>> list(field.Fields(
+    ...     IPerson, omitReadOnly=True, keepReadOnly=('id',)).keys())
     ['id', 'name', 'country']
 
 * ``prefix``
@@ -412,7 +412,7 @@ id to widget value, is empty:
   >>> IEnumerableMapping.providedBy(manager)
   True
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   []
 
 Only by "updating" the manager, will the widgets become available; before we can
@@ -437,14 +437,14 @@ for the ``ITextLine`` field:
 Other than usual mappings in Python, the widget manager's widgets are always
 in a particular order:
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['id', 'lastName', 'firstName']
 
 As you can see, if we call update twice, we still get the same amount and
 order of keys:
 
   >>> manager.update()
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['id', 'lastName', 'firstName']
 
 Let's make sure that all enumerable mapping functions work correctly:
@@ -471,12 +471,12 @@ Let's make sure that all enumerable mapping functions work correctly:
   >>> [key for key in manager]
   ['id', 'lastName', 'firstName']
 
-  >>> manager.values()
+  >>> list(manager.values())
   [<Widget 'form.widgets.id'>,
    <Widget 'form.widgets.lastName'>,
    <Widget 'form.widgets.firstName'>]
 
-  >>> manager.items()
+  >>> list(manager.items())
   [('id', <Widget 'form.widgets.id'>),
    ('lastName', <Widget 'form.widgets.lastName'>),
    ('firstName', <Widget 'form.widgets.firstName'>)]
@@ -489,11 +489,11 @@ It is also possible to delete widgets from the manager:
   >>> del manager['firstName']
   >>> len(manager)
   2
-  >>> manager.values()
+  >>> list(manager.values())
   [<Widget 'form.widgets.id'>, <Widget 'form.widgets.lastName'>]
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['id', 'lastName']
-  >>> manager.items()
+  >>> list(manager.items())
   [('id', <Widget 'form.widgets.id'>),
   ('lastName', <Widget 'form.widgets.lastName'>)]
 
@@ -515,7 +515,7 @@ When a widget is added to the widget manager, it is located:
   >>> lname.__name__
   'lastName'
   >>> lname.__parent__
-  <z3c.form.field.FieldWidgets object at ...>
+  FieldWidgets([...])
 
 All widgets created by this widget manager are context aware:
 

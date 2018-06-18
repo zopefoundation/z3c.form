@@ -1,5 +1,5 @@
+*.py[co]
 *.mo
-*.pyc
 .coverage
 .eggs/
 .installed.cfg
@@ -7,14 +7,16 @@
 .pydevproject
 .tox
 __pycache__
-benchmark/*.egg-info
 bin
 coverage
 docs/_build/
 develop-eggs
 htmls
 parts
-src/*.egg-info
+*.egg-info
 tags
+htmls
 include/
-lib/
+lib*
+pip-selfcheck.json
+pyvenv.cfg

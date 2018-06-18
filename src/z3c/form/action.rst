@@ -26,10 +26,7 @@ implement our simple action manager:
   ...
   ...     def append(self, name, action):
   ...         """See z3c.form.interfaces.IActions."""
-  ...         if not name in self:
-  ...             self._data_keys.append(name)
-  ...         self._data_values.append(action)
-  ...         self._data[name] = action
+  ...         self[name] = action
 
 Before we can initialise the action manager, we have to create instances for
 our three discriminators, just enough to get it working:
@@ -69,7 +66,7 @@ Managing and Accessing Actions
 
 Initially there are no actions in the manager:
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   []
 
 Our simple implementation of has an additional ``append()`` method, which we
@@ -80,7 +77,7 @@ will use to add actions:
 
 The action is added immediately:
 
-  >>> manager.keys()
+  >>> list(manager.keys())
   ['apply']
 
 However, you should not rely on it being added, and always update the manager
@@ -120,10 +117,10 @@ there are several API methods available:
   >>> 'foo' in manager
   False
 
-  >>> manager.values()
+  >>> list(manager.values())
   [<Action 'apply' u'Apply'>]
 
-  >>> manager.items()
+  >>> list(manager.items())
   [('apply', <Action 'apply' u'Apply'>)]
 
   >>> len(manager)

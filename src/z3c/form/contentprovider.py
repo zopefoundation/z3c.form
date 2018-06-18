@@ -52,7 +52,9 @@ class FieldWidgetsAndProviders(FieldWidgets):
 
     def update(self):
         super(FieldWidgetsAndProviders, self).update()
-        uniqueOrderedKeys = self._data_keys
+        uniqueOrderedKeys = list(self.keys())
+        d = {}
+        d.update(self)
         for name in self.form.contentProviders:
             factory = self.form.contentProviders[name]
             if factory.position is None:
@@ -62,12 +64,9 @@ class FieldWidgetsAndProviders(FieldWidgets):
             shortName = name
             contentProvider.update()
             uniqueOrderedKeys.insert(factory.position, shortName)
-            self._data_values.insert(factory.position, contentProvider)
-            self._data[shortName] = contentProvider
+            d[shortName] = contentProvider
             zope.location.locate(contentProvider, self, shortName)
-            # allways ensure that we add all keys and keep the order given from
-            # button items
-            self._data_keys = uniqueOrderedKeys
+        self.create_according_to_list(d, uniqueOrderedKeys)
 
     def extract(self):
         """See interfaces.IWidgets"""

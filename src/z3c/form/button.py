@@ -13,7 +13,6 @@
 ##############################################################################
 """Button and Button Manager implementation
 
-$Id$
 """
 __docformat__ = "reStructuredText"
 import sys
@@ -102,17 +101,7 @@ class Buttons(util.SelectionManager):
                 buttons.append((arg.__name__, arg))
             else:
                 raise TypeError("Unrecognized argument type", arg)
-        keys = []
-        seq = []
-        byname = {}
-        for name, button in buttons:
-            keys.append(name)
-            seq.append(button)
-            byname[name] = button
-
-        self._data_keys = keys
-        self._data_values = seq
-        self._data = byname
+        super(Buttons, self).__init__(buttons)
 
 
 @zope.interface.implementer(interfaces.IButtonHandlers)
@@ -254,20 +243,21 @@ class ButtonActions(action.Actions):
         prefix = util.expandPrefix(self.form.prefix)
         prefix += util.expandPrefix(self.form.buttons.prefix)
         # Walk through each field, making an action out of it.
-        uniqueOrderedKeys = []
+        d = {}
+        d.update(self)
         for name, button in self.form.buttons.items():
             # Step 1: Only create an action for the button, if the condition is
             #         fulfilled.
             if button.condition is not None and not button.condition(self.form):
                 # Step 1.1: If the action already existed, but now the
                 #           condition became false, remove the old action.
-                if name in self._data:
-                    del self._data[name]
+                if name in d:
+                    del d[name]
                 continue
             # Step 2: Get the action for the given button.
             newButton = True
-            if name in self._data:
-                buttonAction = self._data[name]
+            if name in self:
+                buttonAction = self[name]
                 newButton = False
             elif button.actionFactory is not None:
                 buttonAction = button.actionFactory(self.request, button)
@@ -290,15 +280,11 @@ class ButtonActions(action.Actions):
             buttonAction.update()
             zope.event.notify(AfterWidgetUpdateEvent(buttonAction))
             # Step 7: Add the widget to the manager
-            uniqueOrderedKeys.append(name)
             if newButton:
-                self._data[name] = buttonAction
+                d[name] = buttonAction
                 zope.location.locate(buttonAction, self, name)
-        # always ensure that we add all keys and keep the order given from
-        # button items
-        self._data_keys = uniqueOrderedKeys
-        self._data_values = [self._data[name] for name in uniqueOrderedKeys]
 
+        self.create_according_to_list(d, self.form.buttons.keys())
 
 class ButtonActionHandler(action.ActionHandlerBase):
     zope.component.adapts(

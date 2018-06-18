@@ -127,7 +127,7 @@ Once the widget manager has been updated, it holds the content provider::
   >>> manager = FieldWidgetsAndProviders(personForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> widgets = manager._data
+  >>> widgets = manager
   >>> ids = sorted(widgets.keys())
   >>> ids
   ['fullname', 'id', 'longHelp']
@@ -174,7 +174,7 @@ After update, the widget manager refers to the content provider::
   >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> widgets = manager._data
+  >>> widgets = manager
   >>> ids = sorted(widgets.keys())
   >>> ids
   ['fullname', 'id', 'longHelp']
@@ -220,21 +220,21 @@ Let's check positioning of content providers::
   >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager.values()
+  >>> list(manager.values())
   [<ExtendedHelp object at ...>, <TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>]
 
   >>> LookupPersonForm.contentProviders['longHelp'].position = 1
   >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager.values()
+  >>> list(manager.values())
   [<TextWidget 'form.widgets.id'>, <ExtendedHelp object at ...>, <TextWidget 'form.widgets.fullname'>]
 
   >>> LookupPersonForm.contentProviders['longHelp'].position = 2
   >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager.values()
+  >>> list(manager.values())
   [<TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>, <ExtendedHelp object at ...>]
 
 Using value larger than sequence length implies end of sequence::
@@ -243,7 +243,7 @@ Using value larger than sequence length implies end of sequence::
   >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager.values()
+  >>> list(manager.values())
   [<TextWidget 'form.widgets.id'>, <TextWidget 'form.widgets.fullname'>, <ExtendedHelp object at ...>]
 
 A negative value is interpreted same as ``insert`` method of Python lists::
@@ -252,7 +252,7 @@ A negative value is interpreted same as ``insert`` method of Python lists::
   >>> manager = FieldWidgetsAndProviders(lookupForm, request, person)
   >>> manager.ignoreContext = True
   >>> manager.update()
-  >>> manager.values()
+  >>> list(manager.values())
   [<TextWidget 'form.widgets.id'>, <ExtendedHelp object at ...>, <TextWidget 'form.widgets.fullname'>]
 
 Rendering the form
@@ -284,7 +284,7 @@ To enable form updating, all widget adapters must be registered::
 
   >>> personForm.update()
   >>> personForm.widgets
-  <z3c.form.contentprovider.FieldWidgetsAndProviders object at ...>
+  FieldWidgetsAndProviders([...])
 
 Let's render the form::
 

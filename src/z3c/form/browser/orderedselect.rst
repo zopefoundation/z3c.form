@@ -108,7 +108,8 @@ providing ``ITerms``. This source uses descriminators wich will fit our setup.
   ...         self.terms = SimpleVocabulary([
   ...              SimpleVocabulary.createTerm(1, 'a', u'A'),
   ...              SimpleVocabulary.createTerm(2, 'b', u'B'),
-  ...              SimpleVocabulary.createTerm(3, 'c', u'C')
+  ...              SimpleVocabulary.createTerm(3, 'c', u'C'),
+  ...              SimpleVocabulary.createTerm(4, 'd', u'A'),
   ...              ])
 
   >>> zope.component.provideAdapter(SelectionTerms,
@@ -125,6 +126,7 @@ Now let's try if we get widget values:
       <option value="a">A</option>
       <option value="b">B</option>
       <option value="c">C</option>
+      <option value="d">A</option>
     </select>
   </td>
 
@@ -138,6 +140,7 @@ If we select item "b", then it should be selected:
             size="5" multiple="multiple">
       <option value="a">A</option>
       <option value="c">C</option>
+      <option value="d">A</option>
     </select>
   </td>
 
@@ -156,10 +159,12 @@ The json data representing the oredered select widget:
    'mode': 'input',
    'name': 'widget.name',
    'notSelected': [{'content': 'A', 'id': 'widget-id-0', 'value': 'a'},
-                   {'content': 'C', 'id': 'widget-id-2', 'value': 'c'}],
+                   {'content': 'C', 'id': 'widget-id-2', 'value': 'c'},
+                   {'content': 'A', 'id': 'widget-id-3', 'value': 'd'}],
    'options': [{'content': 'A', 'id': 'widget-id-0', 'value': 'a'},
                {'content': 'B', 'id': 'widget-id-1', 'value': 'b'},
-               {'content': 'C', 'id': 'widget-id-2', 'value': 'c'}],
+               {'content': 'C', 'id': 'widget-id-2', 'value': 'c'},
+               {'content': 'A', 'id': 'widget-id-3', 'value': 'd'}],
    'required': False,
    'selected': [{'content': 'B', 'id': 'widget-id-0', 'value': 'b'}],
    'type': 'multiSelect',

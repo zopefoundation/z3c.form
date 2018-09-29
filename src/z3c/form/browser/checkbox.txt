@@ -218,8 +218,8 @@ the value (which is used as a backup label) contains non-ASCII characters:
     'name': 'widget.name:list',
     'value': 'no...'}]
 
-Note: The "\234" character is interpreted differently in Pytohn 2 and 3
-here. (This is mostly due to changes int he SimpleVocabulary code.)
+Note: The "\234" character is interpreted differently in Python 2 and 3
+here. (This is mostly due to changes in the SimpleVocabulary code.)
 
 
 Single Checkbox Widget

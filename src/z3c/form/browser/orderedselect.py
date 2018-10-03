@@ -61,9 +61,9 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         selecteditems = []
         notselecteditems = []
         for selecteditem in self.selectedItems:
-            selecteditems.append(selecteditem['content'])
+            selecteditems.append(selecteditem['value'])
         for item in self.items:
-            if not item['content'] in selecteditems:
+            if item['value'] not in selecteditems:
                 notselecteditems.append(item)
         return notselecteditems
 

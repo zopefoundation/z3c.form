@@ -5,6 +5,9 @@ Changelog
 4.1 (unreleased)
 ----------------
 
+- Deal with items with same name but different values in ordered field widget.
+  [rodfersou]
+
 - Move homegrown Manager implementation to OrderedDict
   [tomgross]
 

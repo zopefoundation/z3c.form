@@ -105,8 +105,7 @@ immediately:
   ... """ % unknownFile, context=context)
   Traceback (most recent call last):
   ...
-  ZopeXMLConfigurationError: File "<string>", line 4.2-7.8
-      ConfigurationError: ('No such file', '...unknown.pt')
+  ConfigurationError: ('No such file', '...unknown.pt')
 
 
 Object Widget template directive
@@ -210,8 +209,7 @@ immediately:
   ... """ % unknownFile, context=context)
   Traceback (most recent call last):
   ...
-  ZopeXMLConfigurationError: File "<string>", line 4.2-7.8
-      ConfigurationError: ('No such file', '...unknown.pt')
+  ConfigurationError: ('No such file', '...unknown.pt')
 
 
 Register a specific template for a schema:

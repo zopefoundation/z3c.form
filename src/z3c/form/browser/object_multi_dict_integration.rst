@@ -174,7 +174,7 @@ Submit again with the empty field:
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-dictOfObject-0-row"]//div[@class="error"]'))
   Required input is missing.
-  Wrong contained type
+  An object failed schema or invariant validation.
   Required input is missing.
   Required input is missing.
   Required input is missing.
@@ -196,7 +196,7 @@ Submit again with the empty field:
   <BLANKLINE>
   Object label *
   <BLANKLINE>
-  Wrong contained type
+  An object failed schema or invariant validation.
   <BLANKLINE>
   [ ]
   Int label *
@@ -321,7 +321,7 @@ Submit again with the empty field:
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-dictOfObject-0-row"]//div[@class="error"]'))
   Required input is missing.
-  Wrong contained type
+  An object failed schema or invariant validation.
   Required input is missing.
   Required input is missing.
   Required input is missing.
@@ -466,13 +466,11 @@ Fill in a valid value:
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_date2.html')
   >>> print(testing.plainText(content))
-  DictOfObject label
-  <BLANKLINE>
-  Object key *
+  DictOfObject label Object key *
   Required input is missing.
   []
   Object label *
-  Wrong contained type
+  An object failed schema or invariant validation.
   [ ]
   Int label *
   Required input is missing.
@@ -511,8 +509,7 @@ Fill in a valid value:
   Date label *
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 Let's remove some items:

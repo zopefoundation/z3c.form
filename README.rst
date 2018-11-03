@@ -28,9 +28,9 @@ steps.
 
 There are currently two maintained branches:
 
-* `master <https://github.com/zopefoundation/z3c.form/tree/master>` with the
+* `master <https://github.com/zopefoundation/z3c.form/tree/master>`_ with the
   latest changes
-* `3.x <https://github.com/zopefoundation/z3c.form/tree/3.x>` without the
+* `3.x <https://github.com/zopefoundation/z3c.form/tree/3.x>`_ without the
   object widget overhaul and still including the ``ObjectSubForm`` and
   the ``SubformAdapter``.
 

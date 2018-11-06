@@ -50,6 +50,8 @@ outputChecker = outputchecker.OutputChecker(
         (re.compile("__builtin__"), r"builtins"),
         (re.compile("<type"), r"<class"),
         (re.compile("set\(\[(.*?)\]\)"), r"{\1}"),
+        (re.compile("^ConfigurationError"),
+         "zope.configuration.exceptions.ConfigurationError"),
     )
 )
 

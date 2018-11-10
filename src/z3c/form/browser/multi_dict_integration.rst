@@ -408,8 +408,7 @@ Submit again with the empty field:
   >>> content = getForm(request, 'MultiWidget_dict_edit_submit_choice2.html')
   >>> print(testing.plainText(content,
   ...     './/form/div[@id="row-form-widgets-dictOfChoice"]//div[@class="error"]'))
-  Required input is missing.
-  Required input is missing.
+  Duplicate key
 
 Let's remove some items:
 

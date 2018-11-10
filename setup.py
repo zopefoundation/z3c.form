@@ -83,7 +83,7 @@ setup(
             'zope.pagetemplate >= 3.6.2',
         ],
         test=[
-            'lxml >= 2.1.1, <4.2',
+            'lxml >= 4.2',
             'persistent',
             'z3c.template >= 1.3',
             'zc.sourcefactory',
@@ -120,7 +120,7 @@ setup(
         'zope.traversing',
     ],
     tests_require=[
-        'lxml >= 2.1.1, <4.2',
+        'lxml >= 4.2',
         'persistent',
         'z3c.template >= 1.3',
         'zc.sourcefactory',

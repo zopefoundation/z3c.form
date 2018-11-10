@@ -185,8 +185,7 @@ Submit again with the empty field:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *
@@ -299,7 +298,6 @@ Submit again with the empty field:
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-listOfObject-1-row"]//div[@class="error"]'))
   An object failed schema or invariant validation.
-  Required input is missing.
   Required input is missing.
   Required input is missing.
   Required input is missing.
@@ -467,8 +465,7 @@ And fill in a valid value:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *
@@ -487,8 +484,7 @@ And fill in a valid value:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *
@@ -538,8 +534,7 @@ Let's remove some items:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *

@@ -104,7 +104,7 @@ setup(
         'zope.browserpage',
         'zope.browserresource',
         'zope.component',
-        'zope.configuration',
+        'zope.configuration >= 4.3',
         'zope.contentprovider',
         'zope.event',
         'zope.i18n',

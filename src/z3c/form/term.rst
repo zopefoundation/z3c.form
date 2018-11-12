@@ -117,7 +117,7 @@ Initially we get an error because the "Ratings" vocabulary is not defined:
   ...     None, request, None, ratingField2, widget)
   Traceback (most recent call last):
   ...
-  VocabularyRegistryError: unknown vocabulary: 'Ratings'
+  MissingVocabularyError: Can't validate value without vocabulary named 'Ratings'
 
 Let's now register the vocabulary under this name:
 

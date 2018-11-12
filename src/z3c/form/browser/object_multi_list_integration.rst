@@ -175,7 +175,7 @@ Submit again with the empty field:
   ...     './/div[@id="form-widgets-listOfObject-2-row"]'))
   Object label *
   <BLANKLINE>
-  Wrong contained type
+  An object failed schema or invariant validation.
   <BLANKLINE>
   [ ]
   Int label *
@@ -185,8 +185,7 @@ Submit again with the empty field:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *
@@ -298,8 +297,7 @@ Submit again with the empty field:
 
   >>> print(testing.plainText(content,
   ...     './/div[@id="form-widgets-listOfObject-1-row"]//div[@class="error"]'))
-  Wrong contained type
-  Required input is missing.
+  An object failed schema or invariant validation.
   Required input is missing.
   Required input is missing.
   Required input is missing.
@@ -438,9 +436,7 @@ And fill in a valid value:
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_list_edit_submit_date2.html')
   >>> print(testing.plainText(content))
-  ListOfObject label
-  <BLANKLINE>
-  Object label *
+  ListOfObject label Object label *
   The entered value is not a valid integer literal.
   [ ]
   Int label *
@@ -460,7 +456,7 @@ And fill in a valid value:
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
   Object label *
-  Wrong contained type
+  An object failed schema or invariant validation.
   [ ]
   Int label *
   Required input is missing.
@@ -469,8 +465,7 @@ And fill in a valid value:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *
@@ -480,7 +475,7 @@ And fill in a valid value:
   Required input is missing.
   []
   Object label *
-  Wrong contained type
+  An object failed schema or invariant validation.
   [ ]
   Int label *
   Required input is missing.
@@ -489,8 +484,7 @@ And fill in a valid value:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *
@@ -498,8 +492,7 @@ And fill in a valid value:
   []
   Date label *
   [14/06/21]
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 Let's remove some items:
@@ -532,7 +525,7 @@ Let's remove some items:
   The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
   Object label *
-  Wrong contained type
+  An object failed schema or invariant validation.
   [ ]
   Int label *
   Required input is missing.
@@ -541,8 +534,7 @@ Let's remove some items:
   Required input is missing.
   ( ) yes ( ) no
   Choice label *
-  Required input is missing.
-  [[    ]]
+  [one]
   ChoiceOpt label
   [No value]
   TextLine label *
@@ -551,8 +543,7 @@ Let's remove some items:
   Date label *
   Required input is missing.
   []
-  [Add]
-  [Remove selected]
+  [Add] [Remove selected]
   [Apply]
 
 The object is unchanged:

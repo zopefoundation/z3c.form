@@ -11,6 +11,9 @@ Changelog
 - Move homegrown Manager implementation to OrderedDict
   [tomgross]
 
+- Adapt tests to `lxml >= 4.2`, `zope.configuration >= 4.3` and
+  `zope.schema >= 4.7`.
+
 
 4.0 (2017-12-20)
 ----------------

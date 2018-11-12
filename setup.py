@@ -83,7 +83,7 @@ setup(
             'zope.pagetemplate >= 3.6.2',
         ],
         test=[
-            'lxml >= 2.1.1',
+            'lxml >= 4.2',
             'persistent',
             'z3c.template >= 1.3',
             'zc.sourcefactory',
@@ -104,7 +104,7 @@ setup(
         'zope.browserpage',
         'zope.browserresource',
         'zope.component',
-        'zope.configuration',
+        'zope.configuration >= 4.3',
         'zope.contentprovider',
         'zope.event',
         'zope.i18n',
@@ -114,13 +114,13 @@ setup(
         'zope.location',
         'zope.pagetemplate',  # >= 3.6.2 if z3c.pt is used
         'zope.publisher',
-        'zope.schema >= 3.6.0',
+        'zope.schema >= 4.7',
         'zope.security',
         'zope.site',
         'zope.traversing',
     ],
     tests_require=[
-        'lxml >= 2.1.1',
+        'lxml >= 4.2',
         'persistent',
         'z3c.template >= 1.3',
         'zc.sourcefactory',

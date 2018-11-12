@@ -8,7 +8,6 @@ python:
 install:
     - pip install -U pip setuptools
     - pip install -U coverage coveralls zope.testrunner
-    - pip install -r requirements.txt
     - pip install -U -e .[test]
 script:
     - coverage run -m zope.testrunner --test-path=src

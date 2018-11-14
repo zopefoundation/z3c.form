@@ -5,6 +5,8 @@ Changelog
 4.1 (unreleased)
 ----------------
 
+- Add support for Python 3.7.
+
 - Deal with items with same name but different values in ordered field widget.
   [rodfersou]
 

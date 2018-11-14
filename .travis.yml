@@ -5,9 +5,15 @@ python:
     - 3.4
     - 3.5
     - 3.6
-install:
+matrix:
+    include:
+        - python: "3.7"
+          dist: xenial
+          sudo: true
+before_install:
     - pip install -U pip setuptools
     - pip install -U coverage coveralls zope.testrunner
+install:
     - pip install -U -e .[test]
 script:
     - coverage run -m zope.testrunner --test-path=src

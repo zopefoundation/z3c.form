@@ -1,8 +1,6 @@
 global-include *.mo
-prune .tox
 include *.txt
 include *.rst
-include bootstrap.py
 include buildout.cfg
 include dev.cfg
 include tox.ini

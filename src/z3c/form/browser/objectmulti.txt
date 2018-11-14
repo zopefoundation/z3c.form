@@ -196,7 +196,7 @@ just cry about it in the HTML:
           <span class="required">*</span>
         </label>
       </div>
-      <div class="error">Wrong contained type</div>
+      <div class="error">An object failed schema or invariant validation.</div>
       <div class="widget">
         <div class="multi-widget-checkbox">
           <input class="multi-widget-checkbox checkbox-widget"

@@ -5,7 +5,7 @@ CHANGES
 3.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix tests for changes in zope.schema validation errors.
 
 
 3.6 (2017-12-20)

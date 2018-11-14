@@ -77,7 +77,7 @@ conversion error:
   >>> conv.toFieldValue('3.4')
   Traceback (most recent call last):
   ...
-  ValueError: invalid literal for int(): 3.4
+  InvalidIntLiteral: invalid literal for int(): 3.4
 
 Also, the conversion to the field value also validates the data; in this case
 negative values are not allowed:

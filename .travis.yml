@@ -14,5 +14,5 @@ script:
 after_success:
     - coveralls
 notifications:
-    email: false
+    email: icemac@gmx.net
 cache: pip

@@ -2,7 +2,7 @@
 Changelog
 =========
 
-4.1 (unreleased)
+4.1 (2018-11-15)
 ----------------
 
 - Add support for Python 3.7.

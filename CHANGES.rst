@@ -2,7 +2,7 @@
 Changelog
 =========
 
-4.1.1 (unreleased)
+4.1.1 (2018-11-26)
 ------------------
 
 - Fix ``FieldWidgets.copy()``. It was broken since ``SelectionManager`` was

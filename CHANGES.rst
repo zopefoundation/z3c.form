@@ -2,29 +2,30 @@
 Changelog
 =========
 
-4.2 (unreleased)
-----------------
+4.1.1 (unreleased)
+------------------
 
-- Nothing changed yet.
+- Fix ``FieldWidgets.copy()``. It was broken since ``SelectionManager`` was
+  reimplemented using ``OrderedDict``.
 
 
-4.1 (2018-11-15)
-----------------
+4.1.0 (2018-11-15)
+------------------
 
 - Add support for Python 3.7.
 
 - Deal with items with same name but different values in ordered field widget.
   [rodfersou]
 
-- Move homegrown Manager implementation to OrderedDict
+- Move homegrown Manager implementation to ``OrderedDict``.
   [tomgross]
 
 - Adapt tests to `lxml >= 4.2`, `zope.configuration >= 4.3` and
   `zope.schema >= 4.7`.
 
 
-4.0 (2017-12-20)
-----------------
+4.0.0 (2017-12-20)
+------------------
 
 - Upgrade the major version 4 to reflect the breaking changes in 3.3.0.
   (Version 3.6 will be a re-release of 3.2.x not containing the changes since
@@ -34,8 +35,8 @@ Changelog
 - Host documentation at https://z3cform.readthedocs.io
 
 
-3.5 (2017-09-19)
-----------------
+3.5.0 (2017-09-19)
+------------------
 
 - Add support for Python 3.6.
 

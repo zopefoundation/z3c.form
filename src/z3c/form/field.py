@@ -333,3 +333,9 @@ class FieldWidgets(util.Manager):
     def extractRaw(self):
         """See interfaces.IWidgets"""
         return self._extract(returnRaw=True)
+
+    def copy(self):
+        """See interfaces.ISelectionManager"""
+        clone = self.__class__(self.form, self.request, self.content)
+        super(self.__class__, clone).update(self)
+        return clone

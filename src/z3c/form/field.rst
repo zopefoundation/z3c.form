@@ -504,6 +504,20 @@ Note that deleting a non-existent widget causes a ``KeyError`` to be raised:
   ...
   KeyError: 'firstName'
 
+Also, the field widget manager, like any selection manager,  can be cloned:
+
+  >>> clone = manager.copy()
+  >>> clone is not manager
+  True
+  >>> clone.form == manager.form
+  True
+  >>> clone.request == manager.request
+  True
+  >>> clone.content == manager.content
+  True
+  >>> list(clone.items()) == list(manager.items())
+  True
+
 
 Properties of widgets within a manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -648,7 +662,7 @@ this selection for you:
 ``showDefault``
 ---------------
 
-``showDefault`` by default is True
+``showDefault`` by default is ``True``:
 
   >>> manager['firstName'].showDefault
   True
@@ -666,6 +680,7 @@ this selection for you:
   >>> manager.update()
   >>> manager['firstName'].showDefault
   True
+
 
 Required fields
 ---------------

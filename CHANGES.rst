@@ -5,7 +5,10 @@ Changelog
 4.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix an edge case when field `missing_value` is not `None` but a custom
+  value that works as `None`.
+  That ended up calling `zope.i18n` `NumberFormat.format` with `None` what
+  then failed.
 
 
 4.1.1 (2018-11-26)

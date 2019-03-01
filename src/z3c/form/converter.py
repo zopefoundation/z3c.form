@@ -56,7 +56,7 @@ class BaseDataConverter(object):
 
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
-        if value is self.field.missing_value:
+        if value == self.field.missing_value:
             return u''
         return util.toUnicode(value)
 
@@ -128,7 +128,7 @@ class NumberDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         """See interfaces.IDataConverter"""
-        if value is self.field.missing_value:
+        if value == self.field.missing_value:
             return u''
         return self.formatter.format(value)
 

@@ -62,5 +62,75 @@ class TestApplyChangesDictDatamanager(unittest.TestCase):
         self.assertEqual({'text': 'a'}, content)
 
 
+class Mock(object):
+    pass
+
+
+class MockNumberFormatter(object):
+    def format(self, value):
+        if value is None:
+            # execution should never get here
+            raise ValueError('Cannot format None')
+        return str(value)
+
+
+class MockLocale(object):
+    def getFormatter(self, category):
+        return MockNumberFormatter()
+
+
+class OurNone(object):
+    def __eq__(self, other):
+        return isinstance(other, (type(None), OurNone))
+
+
+OUR_NONE = OurNone()
+# OUR_NONE == None
+# but
+# OUR_NONE is not None
+
+
+class ConverterFixTests(unittest.TestCase):
+    # most of the time `==` and `is` works the same
+    # unless you have some custom or mutable values
+
+    def test_BaseDataConverter_toWidgetValue(self):
+        from z3c.form.converter import BaseDataConverter
+
+        field = Mock()
+        field.missing_value = None
+        bdc = BaseDataConverter(field, None)
+        self.assertEqual(bdc.toWidgetValue(u''), u'')
+        self.assertEqual(bdc.toWidgetValue(None), u'')
+        self.assertEqual(bdc.toWidgetValue([]), u'[]')
+
+        field.missing_value = []
+        self.assertEqual(bdc.toWidgetValue(u''), u'')
+        self.assertEqual(bdc.toWidgetValue(None), u'None')
+        self.assertEqual(bdc.toWidgetValue([]), u'')
+
+    def test_NumberDataConverter_toWidgetValue(self):
+        from z3c.form.converter import NumberDataConverter
+
+        field = Mock()
+        field.missing_value = None
+        widget = Mock()
+        widget.request = Mock()
+        widget.request.locale = Mock()
+        widget.request.locale.numbers = MockLocale()
+        ndc = NumberDataConverter(field, widget)
+        self.assertEqual(ndc.toWidgetValue(u''), u'')
+        self.assertEqual(ndc.toWidgetValue(None), u'')
+        # here is the real deal, OUR_NONE should be considered as None
+        self.assertEqual(ndc.toWidgetValue(OUR_NONE), u'')
+        self.assertEqual(ndc.toWidgetValue([]), u'[]')
+
+        field.missing_value = OUR_NONE
+        self.assertEqual(ndc.toWidgetValue(u''), u'')
+        self.assertEqual(ndc.toWidgetValue(None), u'')
+        self.assertEqual(ndc.toWidgetValue(OUR_NONE), u'')
+        self.assertEqual(ndc.toWidgetValue([]), u'[]')
+
+
 def test_suite():
-    return unittest.makeSuite(TestApplyChangesDictDatamanager)
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)

@@ -2,7 +2,7 @@
 Changelog
 =========
 
-4.1.2 (unreleased)
+4.1.2 (2019-03-04)
 ------------------
 
 - Fix an edge case when field `missing_value` is not `None` but a custom

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.6.1 (unreleased)
+3.7.0 (unreleased)
 ------------------
 
 - Fix tests for changes in zope.schema validation errors.

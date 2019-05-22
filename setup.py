@@ -134,7 +134,7 @@ setup(
         'zope.location',
         'zope.pagetemplate',  # >= 3.6.2 if z3c.pt is used
         'zope.publisher',
-        'zope.schema >= 3.6.0',
+        'zope.schema >= 4.6.0',
         'zope.security',
         'zope.site',
         'zope.traversing',

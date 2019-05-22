@@ -6,6 +6,7 @@ CHANGES
 ------------------
 
 - Fix tests for changes in zope.schema validation errors.
+  Requires zope.schema 4.6.0.
 
 
 3.6 (2017-12-20)

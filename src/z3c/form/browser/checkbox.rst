@@ -172,10 +172,8 @@ Check HIDDEN_MODE:
   <span class="option">
     <input type="hidden" id="widget-id-0" name="widget.name:list"
            class="checkbox-widget" value="true" />
-  </span><span class="option">
-    <input type="hidden" id="widget-id-1" name="widget.name:list"
-           class="checkbox-widget" value="false" />
   </span>
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
 
 The checkbox json_data representation:
   >>> from pprint import pprint
@@ -334,7 +332,7 @@ Check HIDDEN_MODE:
   ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
   ...     IPageTemplate, name='hidden')
 
-  >>> widget.value = 'true'
+  >>> widget.value = 'selected'
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> print(widget.render())
   <span class="option">
@@ -342,6 +340,7 @@ Check HIDDEN_MODE:
            name="widget.name:list"
            class="single-checkbox-widget" value="selected" />
   </span>
+  <input name="widget.name-empty-marker" type="hidden" value="1" />
 
 
 Term with non ascii __str__

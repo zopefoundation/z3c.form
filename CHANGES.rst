@@ -5,6 +5,9 @@ Changelog
 4.2 (unreleased)
 ----------------
 
+- Some fixes in spanish translation.
+  [erral]
+
 - Drop support for Python 3.4.
 
 - Add support for Python 3.8b4.

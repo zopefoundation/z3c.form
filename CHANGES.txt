@@ -6,6 +6,8 @@ CHANGES
 ------------------
 
 - Drop Python 3.4 support.  Add 3.7 and 3.8 support.
+- Fixed compatibility with changed repeat syntax.
+  Fixes `issue 94 <https://github.com/zopefoundation/z3c.form/issues/94>`_.
 
 
 3.7.0 (2019-05-22)

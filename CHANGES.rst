@@ -5,6 +5,9 @@ Changelog
 4.2 (unreleased)
 ----------------
 
+- Fixed compatibility with changed repeat syntax.
+  Fixes `issue 94 <https://github.com/zopefoundation/z3c.form/issues/94>`_.
+
 - Some fixes in spanish translation.
   [erral]
 

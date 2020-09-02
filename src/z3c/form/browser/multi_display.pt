@@ -22,7 +22,8 @@
   <tal:block repeat="widget view/widgets">
     <div id="" class="row"
          tal:attributes="id string:${widget/id}-row"
-         tal:define="key_widget python:view.key_widgets[repeat['widget'].index()];"
+         tal:define="index repeat/widget/index;
+                     key_widget python:view.key_widgets[index];"
          tal:condition="python:widget.mode != 'hidden'">
       <metal:block define-macro="widget-row">
         <tal:block condition="python: key_widget is not None">

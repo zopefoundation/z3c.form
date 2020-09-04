@@ -5,7 +5,11 @@ CHANGES
 3.7.1 (unreleased)
 ------------------
 
+- Fixed possible UnicodeDecodeError in setup.py on Python 3.6.
+  Put the long description in setup.cfg, without replacing characters.
+
 - Drop Python 3.4 support.  Add 3.7 and 3.8 support.
+
 - Fixed compatibility with changed repeat syntax.
   Fixes `issue 94 <https://github.com/zopefoundation/z3c.form/issues/94>`_.
 

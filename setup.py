@@ -13,16 +13,7 @@
 ##############################################################################
 """Setup
 """
-import os
 from setuptools import setup, find_packages
-
-
-def read(*rnames):
-    with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
-        text = f.read()
-    if isinstance(text, bytes):
-        text = text.decode('utf-8')
-    return text.encode('ascii', 'xmlcharrefreplace').decode()
 
 
 def alltests():
@@ -41,39 +32,12 @@ def alltests():
     return unittest.TestSuite(suites)
 
 
-chapters = '\n'.join(
-    [read('src', 'z3c', 'form', name)
-    for name in ('README.txt',
-                 'form.txt',
-                 'group.txt',
-                 'subform.txt',
-                 'field.txt',
-                 'button.txt',
-                 'zcml.txt',
-                 'validator.txt',
-                 'widget.txt',
-                 'contentprovider.txt',
-                 'action.txt',
-                 'value.txt',
-                 'datamanager.txt',
-                 'converter.txt',
-                 'term.txt',
-                 'util.txt',
-                 )])
-
-
 setup(
     name='z3c.form',
     version='3.7.1.dev0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="An advanced form and widget framework for Zope 3",
-    long_description=(
-        read('README.txt')
-        + '\n\n' +
-        '.. contents:: \n\n' + chapters
-        + '\n\n'
-        + read('CHANGES.txt')),
     license="ZPL 2.1",
     keywords="zope3 form widget",
     classifiers=[

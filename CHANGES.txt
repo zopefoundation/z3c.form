@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.7.1 (unreleased)
+3.7.1 (2020-09-21)
 ------------------
 
 - Fixed possible UnicodeDecodeError in setup.py on Python 3.6.

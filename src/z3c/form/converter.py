@@ -400,6 +400,8 @@ class MultiConverter(BaseDataConverter):
 
         # convert the field values to a tuple or list
         collectionType = self.field._type
+        if isinstance(collectionType, tuple):
+            collectionType = collectionType[-1]
         return collectionType(values)
 
 

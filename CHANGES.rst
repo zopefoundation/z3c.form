@@ -26,8 +26,8 @@ Changelog
 
 - Add support for Python 3.8b4.
 
-- Try to fix the buggy hidden mode behaviour of checkbox widgets
-  (`#89 <https://github.com/zopefoundation/z3c.form/issues/89`_).
+- Try to fix the buggy hidden mode behaviour of checkbox widgets.
+  Fixes `issue 89 <https://github.com/zopefoundation/z3c.form/issues/89>`_.
 
 
 4.1.2 (2019-03-04)

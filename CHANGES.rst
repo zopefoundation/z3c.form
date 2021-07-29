@@ -7,6 +7,8 @@ Changelog
 
 - Fixed tests for the `zope.schema.Bool` required default change.
 
+- Fixed tests for the `zope.interface` `repr()` change.
+
 - Fixed compatibility with changed repeat syntax.
   Fixes `issue 94 <https://github.com/zopefoundation/z3c.form/issues/94>`_.
 

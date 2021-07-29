@@ -1281,11 +1281,11 @@ Let's see our event log:
   >>> printEvents()
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  z3c.form.testing.IMySubObjectMulti
   ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  z3c.form.testing.IMySubObjectMulti
   ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...contained.ContainerModifiedEvent object at ...>
@@ -1420,14 +1420,14 @@ Let's see our event log:
   >>> printEvents()
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  z3c.form.testing.IMySubObjectMulti
   ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObjectMulti>
+  z3c.form.testing.IMySubObjectMulti
   ['barfield', 'foofield']
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMyMultiObject>
+  z3c.form.testing.IMyMultiObject
   ['listOfObject']
 
   >>> eventlog=[]

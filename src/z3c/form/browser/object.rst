@@ -558,7 +558,7 @@ Let's see our event log:
   >>> printEvents()
   <zope...ObjectCreatedEvent object at ...>
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObject>
+  z3c.form.testing.IMySubObject
   ['barfield', 'foofield']
   <zope...ObjectCreatedEvent object at ...>
   <zope...contained.ContainerModifiedEvent object at ...>
@@ -657,10 +657,10 @@ Let's see our event log:
 
   >>> printEvents()
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObject>
+  z3c.form.testing.IMySubObject
   ['barfield', 'foofield']
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMyObject>
+  z3c.form.testing.IMyObject
   ['subobject']
 
 
@@ -1113,10 +1113,10 @@ Until updating the form:
   2
   >>> printEvents()
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMySubObject>
+  z3c.form.testing.IMySubObject
   ['barfield', 'foofield']
   <zope...ObjectModifiedEvent object at ...>
-  <InterfaceClass z3c.form.testing.IMyObject>
+  z3c.form.testing.IMyObject
   ['name', 'subobject']
 
 
@@ -1304,7 +1304,7 @@ it just burps:
   Traceback (most recent call last):
   ...
   TypeError: ('Could not adapt', u'brutal',
-  <InterfaceClass z3c.form.testing.IMySubObject>)
+  z3c.form.testing.IMySubObject
 
   >>> context['subobject'] = None
 

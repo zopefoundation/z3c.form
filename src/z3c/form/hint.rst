@@ -126,11 +126,13 @@ Let's setup a simple vocabulary:
   ...     boolField = zope.schema.Bool(
   ...         title=u'Boolean',
   ...         description=u'This is a Bool field.',
+  ...         required=True,
   ...         default=True)
   ...
   ...     checkboxBoolField = zope.schema.Bool(
   ...         title=u'Boolean (Checkbox)',
   ...         description=u'This is a Bool field displayed suing a checkbox.',
+  ...         required=True,
   ...         default=True)
   ...
   ...     bytesLineField = zope.schema.BytesLine(

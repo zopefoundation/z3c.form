@@ -5,6 +5,9 @@ Changelog
 4.2 (unreleased)
 ----------------
 
+- Fixed `MultiConverter.toFieldValue` tuple typed field support
+  (when `field._type` is a tuple of types, not a single type).
+
 - Added Python 3.9 compatibility and testing.
 
 - Applied `zopefoundation.meta` config

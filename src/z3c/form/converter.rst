@@ -782,7 +782,7 @@ We now use the field and widget to instantiate the converter:
 
   >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
 
-The converter uses the latter type (tuple) to convert:
+The converter uses the last type (tuple in this case) to convert:
 
   >>> csdv.toFieldValue(['m'])
   (0,)
@@ -1009,7 +1009,7 @@ Just in case the field has sequence as its ``_type``:
   ...     value_type=zope.schema.Int(),
   ...     )
 
-The converter will use the latter one.
+The converter will use the last one, tuple in this case.
 
   >>> tlWidget.field = ids
   >>> tlc = converter.TextLinesConverter(ids, tlWidget)
@@ -1030,8 +1030,6 @@ What if we have a wrong number:
   Traceback (most recent call last):
   ...
   FormatterValidationError: ("invalid literal for int() with base 10: 'foo'", u'foo')
-
-
 
 
 Multi Data Converter
@@ -1082,6 +1080,42 @@ If the list is empty, the missing value is returned:
 
   >>> conv.toFieldValue([]) is None
   True
+
+Just in case the field has sequence as its ``_type``:
+
+  >>> @zope.interface.implementer(zope.schema.interfaces.IList)
+  ... class MySequence(zope.schema._field.AbstractCollection):
+  ...    _type = (list, tuple)
+
+  >>> numbers = MySequence(
+  ...     value_type=zope.schema.Int(),
+  ...     default=[],
+  ...     missing_value=None,
+  ...     )
+
+  >>> from z3c.form.browser import multi
+  >>> multiWidget = multi.MultiWidget(TestRequest())
+  >>> multiWidget.field = numbers
+
+We now use the field and widget to instantiate the converter:
+
+  >>> conv = converter.MultiConverter(numbers, multiWidget)
+
+We can now convert a list or tuple of integers to the multi-widget internal
+representation:
+
+  >>> conv.toWidgetValue([1, 2, 3, 4])
+  [u'1', u'2', u'3', u'4']
+
+  >>> conv.toWidgetValue((1, 2, 3, 4))
+  [u'1', u'2', u'3', u'4']
+
+Now, let's look at the reverse. We get a tuple because that's the last
+type in ``_type``:
+
+  >>> conv.toFieldValue([u'1', u'2', u'3', u'4'])
+  (1, 2, 3, 4)
+
 
 Dict Multi Data Converter
 -------------------------

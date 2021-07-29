@@ -606,7 +606,7 @@ def addTemplate(form, fname):
 
 
 def saveHtml(content, fname):
-    path = os.path.join(os.getcwd(), 'htmls')
+    path = os.path.join(os.getcwd(), 'var', 'htmls')
     if not os.path.exists(path):
         os.makedirs(path)
     fullfname = os.path.join(path, fname)

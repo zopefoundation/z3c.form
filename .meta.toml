@@ -1,0 +1,42 @@
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/pure-python
+[meta]
+template = "pure-python"
+commit-id = "81a3fca06e30c8fba7256352591a7a298d676a41"
+
+[python]
+with-windows = false
+with-pypy = false
+with-future-python = false
+with-legacy-python = true
+with-docs = true
+with-sphinx-doctests = false
+
+[tox]
+testenv-deps = [
+    "zope.testrunner",
+    ]
+use-flake8 = false
+
+[coverage]
+fail-under = 95
+
+[manifest]
+additional-rules = [
+    "recursive-include src *.rst",
+    "recursive-include src *.zcml",
+    "recursive-include src *.pt",
+    "recursive-include src *.js",
+    "recursive-include src *.png",
+    "recursive-include src *.dot",
+    "recursive-include src *.ps",
+    "recursive-include src *.po",
+    "recursive-include src *.pot",
+    "recursive-include src *.css",
+    "recursive-include benchmark *.py",
+    ]
+
+[check-manifest]
+additional-ignores = [
+    "docs/_build/**",
+    ]

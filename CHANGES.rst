@@ -2,7 +2,7 @@
 Changelog
 =========
 
-4.2 (unreleased)
+4.2 (2021-07-29)
 ----------------
 
 - Fixed `MultiConverter.toFieldValue` tuple typed field support

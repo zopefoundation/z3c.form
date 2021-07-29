@@ -1,13 +1,24 @@
-global-include *.mo
-include *.txt
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/pure-python
 include *.rst
+include *.txt
 include buildout.cfg
-include dev.cfg
 include tox.ini
-include .travis.yml
-include .coveragerc
-recursive-include src/z3c/form *.zcml *.pt *.js *.rst *.png *.dot *.ps *.po *.pot *.css
-recursive-include benchmark *.py
 
-recursive-include docs *.rst
 recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs *.txt
+recursive-include docs Makefile
+
+recursive-include src *.py
+recursive-include src *.rst
+recursive-include src *.zcml
+recursive-include src *.pt
+recursive-include src *.js
+recursive-include src *.png
+recursive-include src *.dot
+recursive-include src *.ps
+recursive-include src *.po
+recursive-include src *.pot
+recursive-include src *.css
+recursive-include benchmark *.py

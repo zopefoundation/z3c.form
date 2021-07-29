@@ -5,6 +5,10 @@ Changelog
 4.2 (unreleased)
 ----------------
 
+- Added Python 3.9 compatibility and testing.
+
+- Applied `zopefoundation.meta` config
+
 - Fixed tests for the `zope.schema.Bool` required default change.
 
 - Fixed tests for the `zope.interface` `repr()` change.

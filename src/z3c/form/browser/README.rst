@@ -148,7 +148,7 @@ Calling the widget will return the widget including the layout
 Bool
 ----
 
-  >>> field = zope.schema.Bool(default=True, title=u"Check me")
+  >>> field = zope.schema.Bool(default=True, title=u"Check me", required=True)
   >>> widget = setupWidget(field)
   >>> widget.update()
 

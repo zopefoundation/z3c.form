@@ -639,7 +639,8 @@ class IObjectWidgetSingleSubIntegration(zope.interface.Interface):
     singleInt = zope.schema.Int(
         title=u'Int label')
     singleBool = zope.schema.Bool(
-        title=u'Bool label')
+        title=u'Bool label',
+        required=True)
     singleChoice = zope.schema.Choice(
         title=u'Choice label',
         values=('one', 'two', 'three'))
@@ -688,7 +689,8 @@ class IObjectWidgetMultiSubIntegration(zope.interface.Interface):
     multiInt = zope.schema.Int(
         title=u'Int label')
     multiBool = zope.schema.Bool(
-        title=u'Bool label')
+        title=u'Bool label',
+        required=True)
     multiChoice = zope.schema.Choice(
         title=u'Choice label',
         values=('one', 'two', 'three'))
@@ -737,7 +739,8 @@ class IMultiWidgetListIntegration(zope.interface.Interface):
     listOfBool = zope.schema.List(
         title=u"ListOfBool label",
         value_type=zope.schema.Bool(
-            title=u'Bool label'),
+            title=u'Bool label',
+            required=True),
     )
     listOfChoice = zope.schema.List(
         title=u"ListOfChoice label",
@@ -786,9 +789,11 @@ class IMultiWidgetDictIntegration(zope.interface.Interface):
     dictOfBool = zope.schema.Dict(
         title=u"DictOfBool label",
         key_type=zope.schema.Bool(
-            title=u'Bool key'),
+            title=u'Bool key',
+            required=True),
         value_type=zope.schema.Bool(
-            title=u'Bool label'),
+            title=u'Bool label',
+            required=True),
     )
     dictOfChoice = zope.schema.Dict(
         title=u"DictOfChoice label",

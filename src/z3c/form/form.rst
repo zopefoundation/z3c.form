@@ -922,12 +922,12 @@ When the form renders, the label has now changed:
   >>> addForm = PersonAddForm(root, TestRequest())
   >>> addTemplate(addForm)
   >>> addForm.update()
-  >>> print(testing.render(addForm, './/xmlns:div[2][@class="row"]'))
+  >>> print(testing.render(addForm, './/xmlns:div[2][@class="row"]'))  # doctest: +NOPARSE_MARKUP
   <div class="row">
     <label for="form-widgets-name">Full Name</label>
-    <input class="text-widget required textline-field"
-           id="form-widgets-name" name="form.widgets.name" type="text" value="">
+      <input id="form-widgets-name" name="form.widgets.name" class="text-widget required textline-field" value="" type="text" />
   </div>
+  ...
 
 
 Adding a "Cancel" button
@@ -966,15 +966,14 @@ After registering the new action manager,
 the add form should display a cancel button:
 
   >>> addForm.update()
-  >>> print(testing.render(addForm, './/xmlns:div[@class="action"]'))
+  >>> print(testing.render(addForm, './/xmlns:div[@class="action"]'))  # doctest: +NOPARSE_MARKUP
   <div class="action">
-    <input type="submit" id="form-buttons-add" name="form.buttons.add"
-           class="submit-widget button-field" value="Add" />
+    <input id="form-buttons-add" name="form.buttons.add" class="submit-widget button-field" value="Add" type="submit" />
   </div>
   <div class="action">
-    <input type="submit" id="form-buttons-cancel" name="form.buttons.cancel"
-           class="submit-widget button-field" value="Cancel" />
+    <input id="form-buttons-cancel" name="form.buttons.cancel" class="submit-widget button-field" value="Cancel" type="submit" />
   </div>
+  ...
 
 But showing the button does not mean it does anything. So we also need a
 custom action handler to handle the cancel action:
@@ -1159,8 +1158,9 @@ Let's now resubmit the form with valid data, so the data should be updated.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print(testing.render(editForm, './/xmlns:i'))
-  <i>Data successfully updated.</i>
+  >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >Data successfully updated.</i>
+  ...
 
   >>> stephan = root[u'srichter']
   >>> stephan.name
@@ -1222,8 +1222,9 @@ When submitting the form without any changes, the form will tell you so.
   >>> editForm = PersonEditForm(root[u'srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print(testing.render(editForm, './/xmlns:i'))
-  <i>No changes were applied.</i>
+  >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >No changes were applied.</i>
+  ...
 
 
 Changing Status Messages
@@ -1247,8 +1248,9 @@ Let's now change the ``noChangesMessage``:
 
   >>> editForm.noChangesMessage = u'No changes were detected in the form data.'
   >>> editForm.update()
-  >>> print(testing.render(editForm, './/xmlns:i'))
-  <i>No changes were detected in the form data.</i>
+  >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >No changes were detected in the form data.</i>
+  ...
 
 When even more flexibility is required within a project, one could also
 implement these messages as properties looking up an attribute value. However,
@@ -1785,11 +1787,11 @@ The button will be available when context is not empty.
   >>> myForm = SequenceForm(context, request)
   >>> myForm.update()
   >>> addTemplate(myForm)
-  >>> print(testing.render(myForm, './/xmlns:div[@class="action"]'))
+  >>> print(testing.render(myForm, './/xmlns:div[@class="action"]'))  # doctest: +NOPARSE_MARKUP
   <div class="action">
-    <input type="submit" id="form-buttons-empty" name="form.buttons.empty"
-           class="submit-widget button-field" value="Empty" />
+    <input id="form-buttons-empty" name="form.buttons.empty" class="submit-widget button-field" value="Empty" type="submit" />
   </div>
+  ...
 
 The button will not be available when the context is empty.
 

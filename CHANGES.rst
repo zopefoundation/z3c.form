@@ -5,7 +5,8 @@ Changelog
 4.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Update tests to ``lxml > 4.7``, thus requiring at least that version.
+  (`#107 <https://github.com/zopefoundation/z3c.form/issues/107>`_)
 
 
 4.2 (2021-07-29)

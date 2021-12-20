@@ -200,15 +200,17 @@ Let's now submit the form, but forgetting to enter the address:
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print(testing.render(add, './/xmlns:i'))
-  <i>There were some errors.</i>
+  >>> print(testing.render(add, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >There were some errors.</i>
+  ...
 
-  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))
-  <ul>
+  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  <ul >
     <li>
       Address: <div class="error">Required input is missing.</div>
     </li>
   </ul>
+  ...
 
 As you can see, the template is clever enough to just report the errors at the
 top of the form, but still report the actual problem within the group.
@@ -233,29 +235,33 @@ So what happens, if errors happen inside and outside a group?
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print(testing.render(add, './/xmlns:i'))
-  <i>There were some errors.</i>
+  >>> print(testing.render(add, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >There were some errors.</i>
+  ...
 
-  >>> print(testing.render(add, './/xmlns:ul'))
-  <ul>
+  >>> print(testing.render(add, './/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  <ul >
     <li>
     Last Name:
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
-  <ul>
+  ...
+  <ul >
     <li>
     Address:
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
+  ...
 
-  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))
-  <ul>
+  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  <ul >
     <li>
       Address: <div class="error">Required input is missing.</div>
     </li>
   </ul>
+  ...
 
 Let's now successfully complete the add form.
 
@@ -393,23 +399,26 @@ The behavior when an error occurs is identical to that of the add form:
 
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
-  >>> print(testing.render(edit, './/xmlns:i'))
-  <i>There were some errors.</i>
+  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >There were some errors.</i>
+  ...
 
-  >>> print(testing.render(edit, './/xmlns:ul'))
-  <ul>
+  >>> print(testing.render(edit, './/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  <ul >
     <li>
     Address:
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
+  ...
 
-  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
-  <ul>
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  <ul >
     <li>
       Address: <div class="error">Required input is missing.</div>
     </li>
   </ul>
+  ...
 
 When an edit form with groups is successfully committed, a detailed
 object-modified event is sent out telling the system about the changes.
@@ -441,8 +450,9 @@ Let's now complete the form successfully:
 
 The success message will be shown on the form, ...
 
-  >>> print(testing.render(edit, './/xmlns:i'))
-  <i>Data successfully updated.</i>
+  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >Data successfully updated.</i>
+  ...
 
 and the data are correctly updated:
 
@@ -727,8 +737,9 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print(testing.render(edit, './/xmlns:i'))
-  <i>Data successfully updated.</i>
+  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >Data successfully updated.</i>
+  ...
 
 Now the owner object should have updated fields.
 
@@ -806,8 +817,9 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print(testing.render(edit, './/xmlns:i'))
-  <i>Data successfully updated.</i>
+  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  <i >Data successfully updated.</i>
+  ...
 
 Now the owner object should have updated fields.
 
@@ -845,11 +857,12 @@ invalid object for the test missing input errors:
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
   >>> data, errors = edit.extractData()
-  >>> print(testing.render(edit, './/xmlns:i'))
+  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
   <i >There were some errors.</i>
+  ...
 
-  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
-  <ul>
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  <ul >
     <li>
     License:
       <div class="error">Required input is missing.</div>
@@ -871,7 +884,8 @@ invalid object for the test missing input errors:
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
-  <ul>
+  ...
+  <ul >
     <li>
     First Name:
       <div class="error">Required input is missing.</div>
@@ -881,7 +895,7 @@ invalid object for the test missing input errors:
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
-
+  ...
 
 Group instance in nested group
 ------------------------------
@@ -1002,16 +1016,18 @@ Now test the error handling if just one missing value is given in a group:
 
   >>> edit.update()
   >>> data, errors = edit.extractData()
-  >>> print(testing.render(edit, './/xmlns:i'))
+  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
   <i >There were some errors.</i>
+  ...
 
-  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
-  <ul>
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  <ul >
     <li>
     Last Name:
       <div class="error">Required input is missing.</div>
     </li>
   </ul>
+  ...
 
 Just check whether we fully support the interface:
 

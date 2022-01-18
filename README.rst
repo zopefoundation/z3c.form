@@ -10,8 +10,8 @@
         :target: https://pypi.org/project/z3c.form/
         :alt: Supported Python versions
 
-.. image:: https://travis-ci.com/zopefoundation/z3c.form.svg?branch=master
-        :target: https://travis-ci.com/zopefoundation/z3c.form
+.. image:: https://github.com/zopefoundation/z3c.form/actions/workflows/tests.yml/badge.svg
+        :target: https://github.com/zopefoundation/z3c.form/actions/workflows/tests.yml
 
 .. image:: https://coveralls.io/repos/github/zopefoundation/z3c.form/badge.svg?branch=master
         :target: https://coveralls.io/github/zopefoundation/z3c.form?branch=master

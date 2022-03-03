@@ -23,13 +23,13 @@ many places:
 
 * Action Validation
 
-  ``zope.formlib`` supports the notion of action validatos. Actions have a
+  ``zope.formlib`` supports the notion of action validators. Actions have a
   success and failure handler. If the validation succeeds, the success handler
   is called, otherwise the failure handler is chosen. We believe that this
   design was ill-conceived, especially the default, which required the data to
   completely validate in order for the action to successful. There are many
   actions that do not even care about the data in the form, such as "Help",
-  "Cancel" and "Reset" buttons. Thus validation should be part of the data
+  "Cancel" and "Reset" buttons. Thus, validation should be part of the data
   retrieval process and not the action.
 
 For me, the primary goals of the validator framework are as follows:
@@ -39,7 +39,7 @@ For me, the primary goals of the validator framework are as follows:
 
   There are several use cases for this. Sometimes clients desire additional
   restrictions on data for their particular version of the software. It is not
-  always desireable to adjust the model for this client, since the framework
+  always desirable to adjust the model for this client, since the framework
   knows how to handle the less restrictive case anyways. In another case,
   additional restrictions might be applied to a particular form due to limited
   restrictions.
@@ -59,12 +59,12 @@ For me, the primary goals of the validator framework are as follows:
 
 * Provide good defaults that behave sensibly.
 
-  Good defaults are, like in anywhere in this pacakge, very important. We have
+  Good defaults are, like in anywhere in this package, very important. We have
   chosen to implement the ``zope.formlib`` behavior as the default, since it
   worked very well -- with exception of action validation, of course.
 
 For this package, we have decided to support validators at the widget and
-widget manager level. By default the framework only supports field widgets,
+widget manager level. By default, the framework only supports field widgets,
 since the validation of field-absent widgets is generally not
 well-defined. Thus, we first need to create a schema.
 
@@ -281,7 +281,7 @@ No widget
 If there is no widget or the widget does not provide
 ``interfaces.IContextAware``, no value is looked up from the
 context. So the not required field validates successfully but the
-required one has an required missing error, as the default value of
+required one has a required missing error, as the default value of
 the field is looked up on the field:
 
   >>> simple_thumb = validator.StrictSimpleFieldValidator(

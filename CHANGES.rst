@@ -5,6 +5,8 @@ Changelog
 4.3 (unreleased)
 ----------------
 
+- Add support for Python 3.10.
+
 - Update tests to ``lxml > 4.7``, thus requiring at least that version.
   (`#107 <https://github.com/zopefoundation/z3c.form/issues/107>`_)
 

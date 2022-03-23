@@ -8,6 +8,10 @@ Changelog
 - Update tests to ``lxml > 4.7``, thus requiring at least that version.
   (`#107 <https://github.com/zopefoundation/z3c.form/issues/107>`_)
 
+- Remove unused ``ISubformFactory```.
+  (`#110 <https://github.com/zopefoundation/z3c.form/issues/110>`_)
+  [petschki]
+
 
 4.2 (2021-07-29)
 ----------------

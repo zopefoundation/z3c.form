@@ -42,7 +42,7 @@ def alltests():
 
 setup(
     name='z3c.form',
-    version='4.3.dev0',
+    version='4.3',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.org",
     description="An advanced form and widget framework for Zope 3",

@@ -5,6 +5,8 @@ Changelog
 4.3 (unreleased)
 ----------------
 
+- Add support for Python 3.10.
+
 - Update tests to ``lxml > 4.7``, thus requiring at least that version.
   (`#107 <https://github.com/zopefoundation/z3c.form/issues/107>`_)
 
@@ -16,18 +18,18 @@ Changelog
 4.2 (2021-07-29)
 ----------------
 
-- Fixed `MultiConverter.toFieldValue` tuple typed field support
-  (when `field._type` is a tuple of types, not a single type).
+- Fix ``MultiConverter.toFieldValue`` tuple typed field support
+  (when ``field._type`` is a tuple of types, not a single type).
 
-- Added Python 3.9 compatibility and testing.
+- Add Python 3.9 compatibility and testing.
 
-- Applied `zopefoundation.meta` config
+- Apply ``zopefoundation.meta`` config
 
-- Fixed tests for the `zope.schema.Bool` required default change.
+- Fix tests for the ``zope.schema.Bool`` required default change.
 
-- Fixed tests for the `zope.interface` `repr()` change.
+- Fix tests for the ``zope.interface repr()`` change.
 
-- Fixed compatibility with changed repeat syntax.
+- Fix compatibility with changed repeat syntax.
   Fixes `issue 94 <https://github.com/zopefoundation/z3c.form/issues/94>`_.
 
 - Some fixes in spanish translation.
@@ -44,9 +46,9 @@ Changelog
 4.1.2 (2019-03-04)
 ------------------
 
-- Fix an edge case when field `missing_value` is not `None` but a custom
-  value that works as `None`.
-  That ended up calling `zope.i18n` `NumberFormat.format` with `None` what
+- Fix an edge case when field ``missing_value`` is not ```None``` but a custom
+  value that works as ``None``.
+  That ended up calling ``zope.i18n NumberFormat.format`` with ``None`` what
   then failed.
 
 
@@ -68,8 +70,8 @@ Changelog
 - Move homegrown Manager implementation to ``OrderedDict``.
   [tomgross]
 
-- Adapt tests to `lxml >= 4.2`, `zope.configuration >= 4.3` and
-  `zope.schema >= 4.7`.
+- Adapt tests to ``lxml >= 4.2``, ``zope.configuration >= 4.3`` and
+  ``zope.schema >= 4.7``.
 
 
 4.0.0 (2017-12-20)
@@ -115,8 +117,8 @@ Changelog
 - Fix handling of missing terms in collections. (See version 2.9 describing
   this feature.)
 
-- Fix `orderedselect_input.js` resource to be usable on browser layers which do
-  not extend ``zope.publisher.interfaces.browser.IDefaultBrowserLayer``.
+- Fix ``orderedselect_input.js`` resource to be usable on browser layers which
+  do not extend ``zope.publisher.interfaces.browser.IDefaultBrowserLayer``.
 
 3.3.0 (2016-03-09)
 ------------------
@@ -167,7 +169,7 @@ Changelog
 3.2.8 (2015-11-09)
 ------------------
 
-- Standardized namespace __init__.  [agroszer]
+- Standardized namespace ``__init__``.  [agroszer]
 
 
 3.2.7 (2015-09-20)
@@ -185,7 +187,7 @@ Changelog
 ------------------
 
 - Fixed warnings in headers of locales files.
-  Checked with `msgfmt -c`.
+  Checked with ``msgfmt -c``.
   [maurits]
 
 - Added Finnish translation.
@@ -421,17 +423,17 @@ Changelog
 
 - Feature: Implemented widget layout concept similar to z3c.pagelet. The new
   layout concept allows to register layout templates additional to the widget
-  templates. Such a layout template only get used if a widget get called.
-  This enhacement is optional and compatible with all previous z3c.form
-  versions and doesn't affect existing code and custom implementations
-  except if you implemented a own __call__ method for widgets which
-  wasn't implemented in previous versions. The new __call__ method will lookup
-  and return a layout template which supports additional HTML code used as
-  a wrapper for the HTML code returned from the widget render method.
-  This concept allows to define additional HTML construct provided for all
-  widget and render specific CSS classes arround the widget per context, view,
-  request, etc discriminators. Such a HTML constuct was normaly supported in
-  form macros which can't get customized on a per widget, view or context base.
+  templates. Such a layout template only get used if a widget get called. This
+  enhacement is optional and compatible with all previous z3c.form versions and
+  doesn't affect existing code and custom implementations except if you
+  implemented a own ``__call__`` method for widgets which wasn't implemented in
+  previous versions. The new ``__call__`` method will lookup and return a
+  layout template which supports additional HTML code used as a wrapper for the
+  HTML code returned from the widget render method. This concept allows to
+  define additional HTML construct provided for all widget and render specific
+  CSS classes arround the widget per context, view, request, etc
+  discriminators. Such a HTML constuct was normaly supported in form macros
+  which can't get customized on a per widget, view or context base.
 
   Summary; the new layout concept allows us to define a wrapper CSS elements
   for the widget element (label, widget, error) on a per widgte base and skip
@@ -441,7 +443,8 @@ Changelog
   to prefix them with ``nocall:`` e.g. tal:define="widget view/widgets/foo"
   Just add a nocall like tal:define="widget nocall:view/widgets/foo" if your
   rendering engine calls the __call__method by default. Also note that the
-  following will also call the __call__ method tal:define="widget myWidget".
+  following will also call the ``__call__`` method ``tal:define="widget
+  myWidget"``.
 
 - Fixed content type extraction test which returned different values. This
   probably depends on a newer version of guess_content_type. Just allow
@@ -451,7 +454,7 @@ Changelog
 2.7.0 (2012-07-11)
 ------------------
 
-- Remove `zope34` extra, use an older version of z3c.form if you need to
+- Remove ``zope34`` extra, use an older version of z3c.form if you need to
   support pre-ZTK versions.
 
 - Require at least zope.app.container 3.7 for adding support.
@@ -509,7 +512,7 @@ Changelog
 
 - Added \*.mo files missing in version 2.5.0.
 
-- Pinned minimum version of test dependency `z3c.template`.
+- Pinned minimum version of test dependency ``z3c.template``.
 
 2.5.0 (2011-10-29)
 ------------------
@@ -698,9 +701,9 @@ Refactoring
 
 - Removed deprecated zpkg slug and ZCML slugs.
 
-- Adapted tests to `zope.schema` 3.6.0.
+- Adapted tests to ``zope.schema`` 3.6.0.
 
-- Avoid to use `zope.testing.doctestunit` as it is now deprecated.
+- Avoid to use ``zope.testing.doctestunit`` as it is now deprecated.
 
 Update
 ~~~~~~
@@ -729,7 +732,7 @@ Update
 2.1.0 (2009-07-22)
 ------------------
 
-- Feature: The `DictionaryFieldManager` now allows all mappings
+- Feature: The ``DictionaryFieldManager`` now allows all mappings
   (``zope.interface.common.mapping.IMapping``), even
   ``persistent.mapping.PersistentMapping`` and
   ``persistent.dict.PersistentDict``. By default, however, the field
@@ -751,67 +754,69 @@ Update
 Features
 ~~~~~~~~
 
-- KGS 3.4 compatibility. This is a real hard thing, because `z3c.form` tests
-  use `lxml` >= 2.1.1 to check test output, but KGS 3.4 has `lxml`
-  1.3.6. Therefore we agree on that if tests pass with all package versions
-  nailed by KGS 3.4 but `lxml` overridden to 2.1.1 then the `z3c.form` package
-  works with a plain KGS 3.4.
+- KGS 3.4 compatibility. This is a real hard thing, because ``z3c.form`` tests
+  use ``lxml`` >= 2.1.1 to check test output, but KGS 3.4 has ``lxml` 1.3.6.
+  Therefore we agree on that if tests pass with all package versions nailed by
+  KGS 3.4 but ``lxml`` overridden to 2.1.1 then the ``z3c.form`` package works
+  with a plain KGS 3.4.
 
-- Removed hard `z3c.ptcompat` and thus `z3c.pt` dependency.  If you have
-  `z3c.ptcompat` on the Python path it will be used.
+- Removed hard ``z3c.ptcompat`` and thus ``z3c.pt`` dependency.  If you have
+  ``z3c.ptcompat`` on the Python path it will be used.
 
 - Added nested group support. Groups are rendered as fieldsets.  Nested
   fieldsets are very useful when designing forms.
 
-  WARNING: If your group did have an `applyChanges()` (or any added(?)) method
-  the new one added by this change might not match the signature.
+  WARNING: If your group did have an ``applyChanges()`` (or any added(?))
+  method the new one added by this change might not match the signature.
 
-- Added `labelRequired` and `requiredInfo` form attributes. This is useful for
-  conditional rendering a required info legend in form templates.  The
-  `requiredInfo` label depends by default on a given `labelRequired` message
-  id and will only return the label if at least one widget field is required.
+- Added ``labelRequired`` and ``requiredInfo`` form attributes. This is useful
+  for conditional rendering a required info legend in form templates.  The
+  ``requiredInfo`` label depends by default on a given ``labelRequired``
+  message id and will only return the label if at least one widget field is
+  required.
 
 - Add support for refreshing actions after their execution. This is useful
   when button action conditions are changing as a result of action
-  execution. All you need is to set the `refreshActions` flag of the form to
-  `True` in your action handler.
+  execution. All you need is to set the ``refreshActions`` flag of the form to
+  ``True`` in your action handler.
 
 - Added support for using sources. Where it was previosly possible to use a
   vocabulary it is now also possible to use a source. This works both for
   basic and contextual sources.
 
-  **IMPORTANT:** The `ChoiceTerms` and `CollectionTerms` in `z3c.form.term`
-  are now simple functions that query for real `ITerms` adapters for field's
-  `source` or `value_type` respectively. So if your code inherits the old
-  `ChoiceTerms` and `CollectionTerms` classes, you'll need to review and adapt
-  it. See the `z3c.form.term` module and its documentation.
+  **IMPORTANT:** The ``ChoiceTerms`` and ``CollectionTerms`` in
+  ``z3c.form.term` are now simple functions that query for real ``ITerms``
+  adapters for field's ``source`` or ``value_type`` respectively. So if your
+  code inherits the old ``ChoiceTerms`` and ``CollectionTerms`` classes, you'll
+  need to review and adapt it. See the ``z3c.form.term`` module and its
+  documentation.
 
-- The new `z3c.form.interfaces.NOT_CHANGED` special value is available to
+- The new ``z3c.form.interfaces.NOT_CHANGED`` special value is available to
   signal that the current value should be left as is.  It's currently handled
-  in the `z3c.form.form.applyChanges()` function.
+  in the ``z3c.form.form.applyChanges()`` function.
 
 - When no file is specified in the file upload widget, instead of overwriting
   the value with a missing one, the old data is retained.  This is done by
-  returning the new `NOT_CHANGED` special value from the
-  `FileUploadDataConvereter`.
+  returning the new ``NOT_CHANGED`` special value from the
+  ``FileUploadDataConvereter``.
 
-- Preliminary support for widgets for the `schema.IObject` field has been
+- Preliminary support for widgets for the ``schema.IObject`` field has been
   added. However, there is a big caveat, please read the ``object-caveat.txt``
   document inside the package.
 
-  A new `objectWidgetTemplate` ZCML directive is provided to register widget
+  A new ``objectWidgetTemplate`` ZCML directive is provided to register widget
   templates for specific object field schemas.
 
-- Implemented the `MultiWidget` widget. This widget allows you to use simple
-  fields like `ITextLine`, `IInt`, `IPassword`, etc. in a `IList` or `ITuple`
-  sequence.
+- Implemented the ``MultiWidget`` widget. This widget allows you to use simple
+  fields like ``ITextLine``, ``IInt``, ``IPassword``, etc. in a ``IList`` or
+  ``ITuple`` sequence.
 
-- Implemented `TextLinesWidget` widget. This widget offers a text area element
-  and splits lines in sequence items. This is usfull for power user
-  interfaces.  The widget can be used for sequence fields (e.g. `IList`) that
-  specify a simple value type field (e.g. `ITextLine` or `IInt`).
+- Implemented ``TextLinesWidget`` widget. This widget offers a text area
+  element and splits lines in sequence items. This is usfull for power user
+  interfaces.  The widget can be used for sequence fields (e.g. ``IList``) that
+  specify a simple value type field (e.g. ``ITextLine`` or ``IInt``).
 
-- Added a new flag `ignoreContext` to the form field, so that one can
+- Added a new flag ``ignoreContext`` to the form field, so that one can
   individually select which fields should and which ones should not ignore the
   context.
 
@@ -822,11 +827,11 @@ Features
   'base64'-encoded strings in the hidden text area, so that binary data can be
   uploaded as well.
 
-- Allow overriding the `required` widget attribute using `IValue` adapter just
-  like it's done for `label` and `name` attributes.
+- Allow overriding the ``required`` widget attribute using ``IValue`` adapter
+  just like it's done for ``label`` and ``name`` attributes.
 
-- Add the `prompt` attribute of the `SequenceWidget` to the list of adaptable
-  attributes.
+- Add the ``prompt`` attribute of the ``SequenceWidget`` to the list of
+  adaptable attributes.
 
 - Added benchmarking suite demonstrating performance gain when using
   ``z3c.pt``.
@@ -834,21 +839,21 @@ Features
 - Added support for ``z3c.pt``. Usage is switched on via the "PREFER_Z3C_PT"
   environment variable or via ``z3c.ptcompat.config.[enable/diable]()``.
 
-- The `TypeError` message used when a field does not provide `IFormUnicode`
+- The ``TypeError`` message used when a field does not provide ``IFormUnicode``
   now also contains the type of the field.
 
-- Add support for internationalization of `z3c.form` messages.  Added Russian,
-  French, German and Chinese translations.
+- Add support for internationalization of ``z3c.form`` messages.  Added
+  Russian, French, German and Chinese translations.
 
-- Sphinx documentation for the package can now be created using the new `docs`
-  script.
+- Sphinx documentation for the package can now be created using the new
+  ``docs`` script.
 
-- The widget for fields implementing `IChoice` is now looked up by querying
+- The widget for fields implementing ``IChoice`` is now looked up by querying
   for an adapter for ``(field, field.vocabulary, request)`` so it can be
   differentiated according to the type of the source used for the field.
 
-- Move `formErrorsMessage` attribute from `AddForm` and `EditForm` to the
-  `z3c.form.form.Form` base class as it's very common validation status
+- Move ``formErrorsMessage`` attribute from ``AddForm`` and ``EditForm`` to the
+  ``z3c.form.form.Form`` base class as it's very common validation status
   message and can be easily reused (especially when translations are
   provided).
 
@@ -860,60 +865,60 @@ Refactoring
 - Templates now declare XML namespaces.
 
 - HTML output is now compared using a modified version of the XML-aware output
-  checker provided by `lxml`.
+  checker provided by ``lxml``.
 
-- Remove unused imports, adjust buildout dependencies in `setup.py`.
+- Remove unused imports, adjust buildout dependencies in ``setup.py``.
 
-- Use the `z3c.ptcompat` template engine compatibility layer.
+- Use the ``z3c.ptcompat`` template engine compatibility layer.
 
 Fixed Bugs
 ~~~~~~~~~~
 
-- **IMPORTANT** - The signature of `z3c.form.util.extractFileName` function
+- **IMPORTANT** - The signature of ``z3c.form.util.extractFileName`` function
   changed because of spelling mistake fix in argument name. The
-  `allowEmtpyPostFix` is now called `allowEmptyPostfix` (note `Empty` instead
-  of `Emtpy` and `Postfix` instead of `PostFix`).
+  ``allowEmtpyPostFix`` is now called ``allowEmptyPostfix`` (note ``Empty``
+  instead of ``Emtpy`` and ``Postfix`` instead of ``PostFix``).
 
-- **IMPORTANT** - The `z3c.form.interfaces.NOVALUE` special value has been
-  renamed to `z3c.form.interfaces.NO_VALUE` to follow the common naming
-  style. The backward-compatibility `NOVALUE` name is still in place, but the
-  `repr` output of the object has been also changed, thus it may break your
+- **IMPORTANT** - The ``z3c.form.interfaces.NOVALUE`` special value has been
+  renamed to ``z3c.form.interfaces.NO_VALUE`` to follow the common naming
+  style. The backward-compatibility ``NOVALUE`` name is still in place, but the
+  ``repr`` output of the object has been also changed, thus it may break your
   doctests.
 
-- When dealing with `Bytes` fields, we should do a null conversion when going
+- When dealing with ``Bytes`` fields, we should do a null conversion when going
   to its widget value.
 
-- `FieldWidgets` update method were appending keys and values within each
-  update call. Now the `util.Manager` uses a `UniqueOrderedKeys`
+- ``FieldWidgets`` update method were appending keys and values within each
+  update call. Now the ``util.Manager`` uses a ``UniqueOrderedKeys``
   implementation which will ensure that we can't add duplicated manager
   keys. The implementation also ensures that we can't override the
-  `UniqueOrderedKeys` instance with a new list by using a decorator. If this
-  `UniqueOrderedKeys` implementation doesn't fit for all use cases, we should
-  probably use a customized `UserList` implementation. Now we can call
+  ``UniqueOrderedKeys`` instance with a new list by using a decorator. If this
+  ``UniqueOrderedKeys`` implementation doesn't fit for all use cases, we should
+  probably use a customized ``UserList`` implementation. Now we can call
   ``widgets.update()`` more then one time without any side effect.
 
-- `ButtonActions` update where appending keys and values within each update
+- ``ButtonActions`` update where appending keys and values within each update
   call. Now we can call ``actions.update()`` more then one time without any
   side effect.
 
-- The `CollectionSequenceDataConverter` no longer throws a ``TypeError:
+- The ``CollectionSequenceDataConverter`` no longer throws a ``TypeError:
   'NoneType' object is not iterable`` when passed the value of a non-required
-  field (which in the case of a `List` field is `None`).
+  field (which in the case of a ``List`` field is ``None``).
 
-- The `SequenceDataConverter` and `CollectionSequenceDataConverter` converter
-  classes now ignore values that are not present in the terms when converting
-  to a widget value.
+- The ``SequenceDataConverter`` and ``CollectionSequenceDataConverter``
+  converter classes now ignore values that are not present in the terms when
+  converting to a widget value.
 
-- Use ``nocall:`` modifier in `orderedselect_input.pt` to avoid calling list
+- Use ``nocall:`` modifier in ``orderedselect_input.pt`` to avoid calling list
   entry if it is callable.
 
-- `SingleCheckBoxFieldWidget` doesn't repeat the label twice (once in ``<div
+- ``SingleCheckBoxFieldWidget`` doesn't repeat the label twice (once in ``<div
   class="label">``, and once in the ``<label>`` next to the checkbox).
 
 - Don't cause warnings in Python 2.6.
 
-- `validator.SimpleFieldValidator` is now able to handle
-  `interfaces.NOT_CHANGED`. This value is set for file uploads when the user
+- ``validator.SimpleFieldValidator`` is now able to handle
+  ``interfaces.NOT_CHANGED``. This value is set for file uploads when the user
   does not choose a file for upload.
 
 
@@ -931,8 +936,8 @@ Fixed Bugs
 
 - Feature: Deletion of widgets from field widget managers is now possible.
 
-- Feature: Groups now produce detailed `ObjectModifiedEvent` descriptions like
-  regular edit forms do. (Thanks to Carsten Senger for providing a patch.)
+- Feature: Groups now produce detailed ``ObjectModifiedEvent`` descriptions
+  like regular edit forms do. (Thanks to Carsten Senger for providing a patch.)
 
 - Feature: The widget manager's ``extract()`` method now supports an optional
   ``setErrors`` (default value: True) flag that allows one to not set errors
@@ -1049,8 +1054,8 @@ Fixed Bugs
 
 - Bug: When an error occurred during processing of the request the
   widget ended up being security proxied and the system started
-  throwing `TraversalError`-'s trying to access the `label` attribute of
-  the widget. Declared that the widgets require the `zope.Public`
+  throwing ``TraversalError``-'s trying to access the ``label`` attribute of
+  the widget. Declared that the widgets require the ``zope.Public``
   permission in order to access these attributes.
 
 - Bug: When rendering a widget the ``style`` attribute was not honored. Thanks

@@ -583,7 +583,7 @@ msgstr "Valore mancante: ${value}"
 
 #: src/z3c/form/term.py:205
 msgid "yes"
-msgstr "si"
+msgstr "sì"
 
 #: src/z3c/form/term.py:206
 msgid "no"

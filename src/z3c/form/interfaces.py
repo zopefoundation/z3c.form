@@ -20,25 +20,33 @@ import zope.schema
 from zope.interface.common import mapping
 from zope.location.interfaces import ILocation
 
+
 MessageFactory = _ = zope.i18nmessageid.MessageFactory('z3c.form')
 
 INPUT_MODE = 'input'
 DISPLAY_MODE = 'display'
 HIDDEN_MODE = 'hidden'
 
+
 class NOT_CHANGED(object):
     def __repr__(self):
         return '<NOT_CHANGED>'
+
+
 NOT_CHANGED = NOT_CHANGED()
+
 
 class NO_VALUE(object):
     def __repr__(self):
         return '<NO_VALUE>'
+
+
 NO_VALUE = NO_VALUE()
 # BBB: the object was renamed to follow common naming style
 NOVALUE = NO_VALUE
 
 # ----[ Layer Declaration ]--------------------------------------------------
+
 
 class IFormLayer(zope.interface.Interface):
     """A layer that contains all registrations of this package.
@@ -64,6 +72,7 @@ class IManager(mapping.IEnumerableMapping):
     API. Oftentimes, managers are populated during initialization or while
     updating.
     """
+
 
 class ISelectionManager(IManager):
     """Managers that support item selection and management.
@@ -109,6 +118,7 @@ class IData(zope.interface.Interface):
         description=_('The context in which the data are validated.'),
         required=True)
 
+
 class IValidator(zope.interface.Interface):
     """A validator for a particular value."""
 
@@ -117,6 +127,7 @@ class IValidator(zope.interface.Interface):
 
         If successful, return ``None``. Otherwise raise an ``Invalid`` error.
         """
+
 
 class IManagerValidator(zope.interface.Interface):
     """A validator that validates a set of data."""
@@ -146,9 +157,9 @@ class IErrorViewSnippet(zope.interface.Interface):
     """A view providing a view for an error"""
 
     widget = zope.schema.Field(
-        title = _("Widget"),
-        description = _("The widget that the view is on"),
-        required = True)
+        title=_("Widget"),
+        description=_("The widget that the view is on"),
+        required=True)
 
     error = zope.schema.Field(
         title=_('Error'),
@@ -161,12 +172,14 @@ class IErrorViewSnippet(zope.interface.Interface):
     def render():
         """Render view."""
 
+
 class IMultipleErrors(zope.interface.Interface):
     """An error that contains many errors"""
 
     errors = zope.interface.Attribute("List of errors")
 
 # ----[ Fields ]--------------------------------------------------------------
+
 
 class IField(zope.interface.Interface):
     """Field wrapping a schema field used in the form."""
@@ -236,12 +249,14 @@ class IFields(ISelectionManager):
         specification.
         """
 
+
 class IContentProviders(IManager):
     """
     A content provider manager
     """
 
 # ----[ Data Managers ]------------------------------------------------------
+
 
 class IDataManager(zope.interface.Interface):
     """Data manager."""
@@ -379,6 +394,7 @@ class IWidgetLayoutTemplate(zope.interface.Interface):
     """
 
 # ----[ Widgets ]------------------------------------------------------------
+
 
 class IWidget(ILocation):
     """A widget within a form"""
@@ -523,7 +539,8 @@ class ISequenceWidget(IWidget):
 class IMultiWidget(IWidget):
     """None Term based sequence widget base.
 
-    The multi widget is used for ITuple, IList or IDict if no other widget is defined.
+    The multi widget is used for ITuple, IList or IDict if no other widget is
+    defined.
 
     Some IList or ITuple are using another specialized widget if they can
     choose from a collection. e.g. a IList of IChoice. The base class of such
@@ -560,14 +577,18 @@ class ISelectWidget(ISequenceWidget):
         description=_('A human-readable text that is displayed to refer the '
                       'missing value.'))
 
+
 class IOrderedSelectWidget(ISequenceWidget):
     """Ordered Select widget with ITerms option."""
+
 
 class ICheckBoxWidget(ISequenceWidget):
     """Checbox widget."""
 
+
 class ISingleCheckBoxWidget(ICheckBoxWidget):
     """Single Checbox widget."""
+
 
 class IRadioWidget(ISequenceWidget):
     """Radio widget."""
@@ -579,29 +600,38 @@ class IRadioWidget(ISequenceWidget):
         words it is a term token.
         """
 
+
 class ISubmitWidget(IWidget):
     """Submit widget."""
+
 
 class IImageWidget(IWidget):
     """Submit widget."""
 
+
 class IButtonWidget(IWidget):
     """Button widget."""
+
 
 class ITextAreaWidget(IWidget):
     """Text widget."""
 
+
 class ITextLinesWidget(IWidget):
     """Text lines widget."""
+
 
 class ITextWidget(IWidget):
     """Text widget."""
 
+
 class IFileWidget(ITextWidget):
     """File widget."""
 
+
 class IPasswordWidget(ITextWidget):
     """Password widget."""
+
 
 class IObjectWidget(IWidget):
     """Object widget."""
@@ -609,6 +639,7 @@ class IObjectWidget(IWidget):
     def setupFields():
         """setup fields on the widget, by default taking the fields of
         self.schema"""
+
 
 class IWidgets(IManager):
     """A widget manager"""
@@ -652,8 +683,9 @@ class IWidgets(IManager):
 
     ignoreRequiredOnExtract = zope.schema.Bool(
         title=_('Ignore Required validation on extract'),
-        description=_("If set then required fields will pass validation "
-                      "on extract regardless whether they're filled in or not"),
+        description=_(
+            "If set then required fields will pass validation "
+            "on extract regardless whether they're filled in or not"),
         default=False,
         required=True)
 
@@ -664,7 +696,7 @@ class IWidgets(IManager):
         default=False,
         required=False)
 
-    #ugly thing to remove setErrors parameter from extract
+    # ugly thing to remove setErrors parameter from extract
     setErrors = zope.schema.Bool(
         title=_('Set errors'),
         description=_('A flag, when set, the contained widgets set error '
@@ -698,6 +730,7 @@ class IFieldWidget(zope.interface.Interface):
 
 # ----[ Actions ]------------------------------------------------------------
 
+
 class ActionExecutionError(Exception):
     """An error that occurs during the execution of an action handler."""
 
@@ -705,7 +738,7 @@ class ActionExecutionError(Exception):
         self.error = error
 
     def __repr__(self):
-        return '<%s wrapping %r>' %(self.__class__.__name__, self.error)
+        return '<%s wrapping %r>' % (self.__class__.__name__, self.error)
 
 
 class WidgetActionExecutionError(ActionExecutionError):
@@ -926,8 +959,9 @@ class IForm(zope.interface.Interface):
 
     ignoreRequiredOnExtract = zope.schema.Bool(
         title=_('Ignore Required validation on extract'),
-        description=_("If set then required fields will pass validation "
-                      "on extract regardless whether they're filled in or not"),
+        description=_(
+            "If set then required fields will pass validation "
+            "on extract regardless whether they're filled in or not"),
         default=False,
         required=True)
 
@@ -986,6 +1020,7 @@ class IForm(zope.interface.Interface):
 
     def json():
         '''Returns the form in json format'''
+
 
 class ISubForm(IForm):
     """A subform."""
@@ -1078,14 +1113,15 @@ class IFieldsForm(IForm):
                       'the form.'),
         schema=IFields)
 
+
 class IFieldsAndContentProvidersForm(IForm):
     """A form that is based upon defined fields and content providers"""
 
     contentProviders = zope.schema.Object(
-        title=_('Content providers'),
-        description=_('A manager describing the content providers to be used for '
-                      'the form.'),
-        schema=IContentProviders)
+        title=_('Content providers'), description=_(
+            'A manager describing the content providers to be used for '
+            'the form.'), schema=IContentProviders)
+
 
 class IButtonForm(IForm):
     """A form that is based upon defined buttons."""
@@ -1096,8 +1132,10 @@ class IButtonForm(IForm):
                       'the form.'),
         schema=IButtons)
 
+
 class IGroup(IForm):
     """A group of fields/widgets within a form."""
+
 
 class IGroupForm(IForm):
     """A form that supports groups."""

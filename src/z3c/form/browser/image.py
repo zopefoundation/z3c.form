@@ -19,13 +19,14 @@ __docformat__ = "reStructuredText"
 import zope.component
 import zope.interface
 import zope.traversing.api
-from zope.schema.fieldproperty import FieldProperty
 from zope.component import hooks
+from zope.schema.fieldproperty import FieldProperty
 
-from z3c.form import interfaces, util
-from z3c.form.widget import FieldWidget
+from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.browser import button
 from z3c.form.browser.interfaces import IHTMLImageWidget
+from z3c.form.widget import FieldWidget
 
 
 @zope.interface.implementer_only(interfaces.IImageWidget)
@@ -50,6 +51,7 @@ class ImageWidget(button.ButtonWidget):
         data = super(ImageWidget, self).json_data()
         data['type'] = 'image'
         return data
+
 
 @zope.component.adapter(interfaces.IImageButton, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)

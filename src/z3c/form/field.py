@@ -21,7 +21,8 @@ import zope.interface
 import zope.location
 import zope.schema.interfaces
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.error import MultipleErrors
 from z3c.form.widget import AfterWidgetUpdateEvent
 
@@ -108,7 +109,8 @@ class Fields(util.SelectionManager):
             elif self.managerInterface.providedBy(arg):
                 for form_field in arg.values():
                     fields.append(
-                        (form_field.__name__, form_field, form_field.interface))
+                        (form_field.__name__, form_field,
+                         form_field.interface))
 
             elif isinstance(arg, Field):
                 fields.append((arg.__name__, arg, arg.interface))
@@ -160,7 +162,7 @@ class Fields(util.SelectionManager):
             *[field for name, field in self.items()
               if not ((name in names and interface is None) or
                       (field.field.interface is interface and
-                       field.field.__name__ in names)) ])
+                       field.field.__name__ in names))])
 
 
 @zope.interface.implementer_only(interfaces.IWidgets)
@@ -168,7 +170,9 @@ class FieldWidgets(util.Manager):
     """Widget manager for IFieldWidget."""
 
     zope.component.adapts(
-        interfaces.IFieldsForm, interfaces.IFormLayer, zope.interface.Interface)
+        interfaces.IFieldsForm,
+        interfaces.IFormLayer,
+        zope.interface.Interface)
 
     prefix = 'widgets.'
     mode = interfaces.INPUT_MODE
@@ -293,7 +297,8 @@ class FieldWidgets(util.Manager):
                 raw = widget.extract()
                 if raw is not interfaces.NO_VALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
-                widget.ignoreRequiredOnValidation = self.ignoreRequiredOnExtract
+                widget.ignoreRequiredOnValidation = (
+                    self.ignoreRequiredOnExtract)
                 zope.component.getMultiAdapter(
                     (self.content,
                      self.request,

@@ -17,8 +17,8 @@ $Id:$
 """
 __docformat__ = "reStructuredText"
 
-import zope.interface
 import zope.component
+import zope.interface
 import zope.schema.interfaces
 
 from z3c.form import interfaces
@@ -27,8 +27,12 @@ from z3c.form import interfaces
 @zope.interface.implementer(interfaces.IValue)
 class FieldDescriptionAsHint(object):
     """Schema field description as widget ``title`` IValue adapter."""
-    zope.component.adapts(zope.interface.Interface, interfaces.IFormLayer,
-        interfaces.IForm, zope.schema.interfaces.IField, interfaces.IWidget)
+    zope.component.adapts(
+        zope.interface.Interface,
+        interfaces.IFormLayer,
+        interfaces.IForm,
+        zope.schema.interfaces.IField,
+        interfaces.IWidget)
 
     def __init__(self, context, request, form, field, widget):
         self.context = context

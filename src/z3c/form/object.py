@@ -16,18 +16,20 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.interface
 import zope.component
-import zope.schema
 import zope.event
+import zope.interface
 import zope.lifecycleevent
+import zope.schema
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-from zope.security.proxy import removeSecurityProxy
 from zope.pagetemplate.interfaces import IPageTemplate
+from zope.security.proxy import removeSecurityProxy
 
+from z3c.form import field
+from z3c.form import interfaces
+from z3c.form import util
+from z3c.form import widget
 from z3c.form.converter import BaseDataConverter
-
-from z3c.form import interfaces, util, widget, field
 from z3c.form.error import MultipleErrors
 
 
@@ -39,6 +41,7 @@ def getIfName(iface):
 class ObjectWidget_NO_VALUE(object):
     def __repr__(self):
         return '<ObjectWidget_NO_VALUE>'
+
 
 ObjectWidget_NO_VALUE = ObjectWidget_NO_VALUE()
 
@@ -61,29 +64,29 @@ class ObjectConverter(BaseDataConverter):
         retval = ObjectWidgetValue()
         retval.originalValue = value
 
-        for name, field in zope.schema.getFieldsInOrder(self.field.schema):
+        for name, field_ in zope.schema.getFieldsInOrder(self.field.schema):
             dm = zope.component.getMultiAdapter(
-                (value, field), interfaces.IDataManager)
+                (value, field_), interfaces.IDataManager)
             subv = dm.query()
 
             if subv is interfaces.NO_VALUE:
                 # look up default value
-                subv = field.default
+                subv = field_.default
                 # XXX: too many discriminators
-                #adapter = zope.component.queryMultiAdapter(
+                # adapter = zope.component.queryMultiAdapter(
                 #    (context, self.request, self.view, field, widget),
                 #    interfaces.IValue, name='default')
-                #if adapter:
+                # if adapter:
                 #    value = adapter.get()
 
-            widget = zope.component.getMultiAdapter((field, self.widget.request),
-                interfaces.IFieldWidget)
+            widget = zope.component.getMultiAdapter(
+                (field_, self.widget.request), interfaces.IFieldWidget)
             if interfaces.IFormAware.providedBy(self.widget):
                 # form property required by objectwidget
                 widget.form = self.widget.form
                 zope.interface.alsoProvides(widget, interfaces.IFormAware)
-            converter = zope.component.getMultiAdapter((field, widget),
-                interfaces.IDataConverter)
+            converter = zope.component.getMultiAdapter(
+                (field_, widget), interfaces.IDataConverter)
 
             retval[name] = converter.toWidgetValue(subv)
 
@@ -102,31 +105,32 @@ class ObjectConverter(BaseDataConverter):
         obj = self.adapted_obj(obj)
 
         names = []
-        for name, field in zope.schema.getFieldsInOrder(self.field.schema):
-            if not field.readonly:
+        for name, field_ in zope.schema.getFieldsInOrder(self.field.schema):
+            if not field_.readonly:
                 try:
                     newvalRaw = value[name]
                 except KeyError:
                     continue
 
                 widget = zope.component.getMultiAdapter(
-                    (field, self.widget.request), interfaces.IFieldWidget)
+                    (field_, self.widget.request), interfaces.IFieldWidget)
                 converter = zope.component.getMultiAdapter(
-                    (field, widget), interfaces.IDataConverter)
+                    (field_, widget), interfaces.IDataConverter)
                 newval = converter.toFieldValue(newvalRaw)
 
                 dm = zope.component.getMultiAdapter(
-                    (obj, field), interfaces.IDataManager)
+                    (obj, field_), interfaces.IDataManager)
                 oldval = dm.query()
                 if (oldval != newval
-                        or zope.schema.interfaces.IObject.providedBy(field)):
+                        or zope.schema.interfaces.IObject.providedBy(field_)):
                     dm.set(newval)
                     names.append(name)
 
         if names:
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(obj,
-                    zope.lifecycleevent.Attributes(self.field.schema, *names)))
+                zope.lifecycleevent.ObjectModifiedEvent(
+                    obj, zope.lifecycleevent.Attributes(
+                        self.field.schema, *names)))
 
         # Commonly the widget context is security proxied. This method,
         # however, should return a bare object, so let's remove the
@@ -217,7 +221,9 @@ class ObjectWidget(widget.Widget):
 
     def updateWidgets(self, setErrors=True):
         if self.field is None:
-            raise ValueError("%r .field is None, that's a blocking point" % self)
+            raise ValueError(
+                "%r .field is None, that's a blocking point" %
+                self)
 
         self.setupWidgets()
 
@@ -225,15 +231,15 @@ class ObjectWidget(widget.Widget):
             # XXX: maybe readonly fields/widgets should be reset here to
             #      widget.mode = INPUT_MODE
             pass
-            for name, widget in self.widgets.items():
-                if widget.field.readonly:
-                    widget.mode = interfaces.INPUT_MODE
-                    widget.update()
+            for name, widget_ in self.widgets.items():
+                if widget_.field.readonly:
+                    widget_.mode = interfaces.INPUT_MODE
+                    widget_.update()
         else:
             rawvalue = None
 
-            for name, widget in self.widgets.items():
-                if widget.mode == interfaces.DISPLAY_MODE:
+            for name, widget_ in self.widgets.items():
+                if widget_.mode == interfaces.DISPLAY_MODE:
                     if rawvalue is None:
                         # lazy evaluation
                         converter = zope.component.getMultiAdapter(
@@ -242,14 +248,14 @@ class ObjectWidget(widget.Widget):
                         obj = self.getObject(self._value)
                         rawvalue = converter.toWidgetValue(obj)
 
-                    self.applyValue(widget, rawvalue[name])
+                    self.applyValue(widget_, rawvalue[name])
                 else:
                     try:
                         v = self._value[name]
                     except KeyError:
                         pass
                     else:
-                        self.applyValue(widget, v)
+                        self.applyValue(widget_, v)
 
     def applyValue(self, widget, value):
         """Validate and apply value to given widget.
@@ -289,7 +295,8 @@ class ObjectWidget(widget.Widget):
                 widget.value = value
 
     def update(self):
-        #very-very-nasty: skip raising exceptions in extract while we're updating
+        # very-very-nasty: skip raising exceptions in extract while we're
+        # updating
         self._updating = True
         try:
             super(ObjectWidget, self).update()
@@ -310,16 +317,16 @@ class ObjectWidget(widget.Widget):
                 # send back the original object
                 value.originalValue = self._value.originalValue
 
-            for name, widget in self.widgets.items():
-                if widget.mode != interfaces.DISPLAY_MODE:
-                    value[name] = widget.value
+            for name, widget_ in self.widgets.items():
+                if widget_.mode != interfaces.DISPLAY_MODE:
+                    value[name] = widget_.value
             return value
 
     @value.setter
     def value(self, value):
         # This invokes updateWidgets on any value change e.g. update/extract.
         if (not isinstance(value, ObjectWidgetValue)
-            and value is not interfaces.NO_VALUE):
+                and value is not interfaces.NO_VALUE):
             value = ObjectWidgetValue(value)
         self._value = value
 
@@ -329,7 +336,7 @@ class ObjectWidget(widget.Widget):
     def extractRaw(self, setErrors=True):
         '''See interfaces.IForm'''
         self.widgets.setErrors = setErrors
-        #self.widgets.ignoreRequiredOnExtract = self.ignoreRequiredOnExtract
+        # self.widgets.ignoreRequiredOnExtract = self.ignoreRequiredOnExtract
         data, errors = self.widgets.extractRaw()
         value = ObjectWidgetValue()
         if self._value is not interfaces.NO_VALUE:
@@ -353,9 +360,9 @@ class ObjectWidget(widget.Widget):
                 # is updated and update calls extract()
                 if self._updating:
                     # don't rebind value, send back the original object
-                    for name, widget in self.widgets.items():
-                        if widget.mode != interfaces.DISPLAY_MODE:
-                            value[name] = widget.value
+                    for name, widget_ in self.widgets.items():
+                        if widget_.mode != interfaces.DISPLAY_MODE:
+                            value[name] = widget_.value
                     return value
                 raise MultipleErrors(errors)
             return value
@@ -376,8 +383,8 @@ class ObjectWidget(widget.Widget):
         return template(self)
 
 
-######## make dummy objects providing a given interface to support
-######## discriminating on field.schema
+# make dummy objects providing a given interface to support
+# discriminating on field.schema
 
 def makeDummyObject(iface):
     if iface is not None:
@@ -393,8 +400,8 @@ def makeDummyObject(iface):
     return dummy
 
 
-######## special template factory that takes the field.schema into account
-######## used by zcml.py
+# special template factory that takes the field.schema into account
+# used by zcml.py
 
 class ObjectWidgetTemplateFactory(object):
     """Widget template factory."""
@@ -402,7 +409,8 @@ class ObjectWidgetTemplateFactory(object):
     def __init__(self, filename, contentType='text/html',
                  context=None, request=None, view=None,
                  field=None, widget=None, schema=None):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = ViewPageTemplateFile(
+            filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(context),
             util.getSpecification(request),
@@ -416,16 +424,17 @@ class ObjectWidgetTemplateFactory(object):
         return self.template
 
 
-######## default adapters
+# default adapters
 
 @zope.interface.implementer(interfaces.IObjectFactory)
 class FactoryAdapter(object):
     """Most basic-default object factory adapter"""
     zope.component.adapts(
-        zope.interface.Interface, #context
-        interfaces.IFormLayer,    #request
-        zope.interface.Interface, #form -- but can become None easily (in tests)
-        interfaces.IWidget)       #widget
+        zope.interface.Interface,  # context
+        interfaces.IFormLayer,  # request
+        zope.interface.Interface,
+        # form -- but can become None easily (in tests)
+        interfaces.IWidget)  # widget
 
     factory = None
 
@@ -436,7 +445,7 @@ class FactoryAdapter(object):
         self.widget = widget
 
     def __call__(self, value):
-        #value is the extracted data from the form
+        # value is the extracted data from the form
         obj = self.factory()
         zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(obj))
         return obj
@@ -448,6 +457,7 @@ class FactoryAdapter(object):
 def registerFactoryAdapter(for_, klass):
     """register the basic FactoryAdapter for a given interface and class"""
     name = getIfName(for_)
+
     class temp(FactoryAdapter):
         factory = klass
     zope.component.provideAdapter(temp, name=name)

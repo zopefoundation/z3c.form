@@ -19,9 +19,10 @@ __docformat__ = "reStructuredText"
 import zope.component
 import zope.interface
 
-from z3c.form import interfaces, widget
-from z3c.form.widget import Widget, FieldWidget
+from z3c.form import interfaces
 from z3c.form.browser import widget
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import Widget
 
 
 @zope.interface.implementer_only(interfaces.IButtonWidget)

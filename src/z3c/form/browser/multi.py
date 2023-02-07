@@ -21,11 +21,11 @@ from operator import attrgetter
 import zope.component
 import zope.interface
 
-from z3c.form.i18n import MessageFactory as _
+from z3c.form import button
 from z3c.form import interfaces
 from z3c.form import widget
-from z3c.form import button
 from z3c.form.browser.widget import HTMLFormElement
+from z3c.form.i18n import MessageFactory as _
 
 
 @zope.interface.implementer(interfaces.IButtonForm, interfaces.IHandlerForm)

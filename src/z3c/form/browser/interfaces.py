@@ -20,13 +20,13 @@ class IWidgetLayoutSupport(zope.interface.Interface):
 
     css = zope.schema.TextLine(
         title=u'Widget layout CSS class name(s)',
-        description=(u'This attribute defines one or more layout class names.'),
+        description=('This attribute defines one or more layout class names.'),
         default=u'row',
         required=False)
 
     def getCSSClass(klass=None, error=None, required=None,
-        classPattern='%(class)s', errorPattern='%(class)s-error',
-        requiredPattern='%(class)s-required'):
+                    classPattern='%(class)s', errorPattern='%(class)s-error',
+                    requiredPattern='%(class)s-required'):
         """Setup given css class (klass) with error and required postfix
 
         If no klass name is given the widget.wrapper class name/names get used.
@@ -86,7 +86,7 @@ class IHTMLEventsAttributes(zope.interface.Interface):
     onclick = zope.schema.TextLine(
         title=u'On Click',
         description=(u'The ``onclick`` event occurs when the pointing device '
-                    u'button is clicked over an element.'),
+                     u'button is clicked over an element.'),
         required=False)
 
     ondblclick = zope.schema.TextLine(

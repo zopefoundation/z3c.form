@@ -20,7 +20,8 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
-from z3c.form import interfaces, widget
+from z3c.form import interfaces
+from z3c.form import widget
 from z3c.form.browser import text
 
 
@@ -31,8 +32,8 @@ class FileWidget(text.TextWidget):
     klass = u'file-widget'
     css = u'file'
 
-    # Filename and headers attribute get set by ``IDataConverter`` to the widget
-    # provided by the FileUpload object of the form.
+    # Filename and headers attribute get set by ``IDataConverter`` to the
+    # widget provided by the FileUpload object of the form.
     headers = None
     filename = None
 

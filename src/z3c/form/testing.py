@@ -13,19 +13,23 @@
 ##############################################################################
 """Common z3c.form test setups"""
 from __future__ import print_function
+
 import base64
-import pprint
 import os
+import pprint
 import re
-import six
 import shutil
+from doctest import register_optionflag
+
+import six
+
+import lxml.doctestcompare
+import lxml.html
 import zope.browserresource
 import zope.component
 import zope.configuration.xmlconfig
 import zope.interface
 import zope.schema
-
-from doctest import register_optionflag
 from zope.browserpage.viewpagetemplatefile import BoundPageTemplate
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.pagetemplate.interfaces import IPageTemplate
@@ -36,29 +40,40 @@ from zope.security.interfaces import IInteraction
 from zope.security.interfaces import ISecurityPolicy
 
 import z3c.form
-from z3c.form import browser, button, converter, datamanager, error, field
-from z3c.form import form, interfaces, term, validator, widget
+from z3c.form import browser
+from z3c.form import button
 from z3c.form import contentprovider
+from z3c.form import converter
+from z3c.form import datamanager
+from z3c.form import error
+from z3c.form import field
+from z3c.form import form
+from z3c.form import interfaces
 from z3c.form import outputchecker
+from z3c.form import term
 from z3c.form import tests
-from z3c.form.browser import radio, select, text, textarea
+from z3c.form import validator
+from z3c.form import widget
+from z3c.form.browser import radio
+from z3c.form.browser import select
+from z3c.form.browser import text
+from z3c.form.browser import textarea
 
-import lxml.html
-import lxml.doctestcompare
 
 # register lxml doctest option flags
 lxml.doctestcompare.NOPARSE_MARKUP = register_optionflag('NOPARSE_MARKUP')
 
 outputChecker = outputchecker.OutputChecker(
-    patterns =(
+    patterns=(
         # Py3 compatibility.
         (re.compile("u('.*?')"), r"\1"),
         (re.compile("b('.*?')"), r"\1"),
         (re.compile("__builtin__"), r"builtins"),
         (re.compile("<type"), r"<class"),
-        (re.compile("set\(\[(.*?)\]\)"), r"{\1}"),
+        (re.compile("set\\(\\[(.*?)\\]\\)"), r"{\1}"),
     )
 )
+
 
 class TestingFileUploadDataConverter(converter.FileUploadDataConverter):
     """A special file upload data converter that works with testing."""
@@ -233,16 +248,16 @@ def setUp(test):
     from zope.traversing.testing import setUp
     setUp()
 
+    from zope.i18n.interfaces import IUserPreferredLanguages
     from zope.publisher.browser import BrowserLanguages
     from zope.publisher.interfaces.http import IHTTPRequest
-    from zope.i18n.interfaces import IUserPreferredLanguages
     zope.component.provideAdapter(BrowserLanguages, [IHTTPRequest],
-                   IUserPreferredLanguages)
+                                  IUserPreferredLanguages)
 
     from zope.site.folder import rootFolder
     site = rootFolder()
-    from zope.site.site import LocalSiteManager
     from zope.component.interfaces import ISite
+    from zope.site.site import LocalSiteManager
     if not ISite.providedBy(site):
         site.setSiteManager(LocalSiteManager(site))
     hooks.setSite(site)
@@ -334,7 +349,8 @@ def setupFormDefaults():
         (None, None, None, None, interfaces.IWidget),
         interfaces.IWidgetLayoutTemplate, name=interfaces.DISPLAY_MODE)
     zope.component.provideAdapter(
-        widget.WidgetLayoutFactory(getPath('widget_layout_hidden.pt'), 'text/html'),
+        widget.WidgetLayoutFactory(
+            getPath('widget_layout_hidden.pt'), 'text/html'),
         (None, None, None, None, interfaces.IWidget),
         interfaces.IWidgetLayoutTemplate, name=interfaces.HIDDEN_MODE)
 
@@ -360,11 +376,13 @@ def setupFormDefaults():
         textarea.TextAreaFieldWidget,
         adapts=(zope.schema.interfaces.IText, interfaces.IFormLayer))
     zope.component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('textarea_input.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(
+            getPath('textarea_input.pt'), 'text/html'),
         (None, None, None, None, interfaces.ITextAreaWidget),
         IPageTemplate, name=interfaces.INPUT_MODE)
     zope.component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('textarea_display.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(
+            getPath('textarea_display.pt'), 'text/html'),
         (None, None, None, None, interfaces.ITextAreaWidget),
         IPageTemplate, name=interfaces.DISPLAY_MODE)
 
@@ -397,7 +415,8 @@ def setupFormDefaults():
         (None, None, None, None, interfaces.ISelectWidget),
         IPageTemplate, name=interfaces.INPUT_MODE)
     zope.component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('select_display.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(
+            getPath('select_display.pt'), 'text/html'),
         (None, None, None, None, interfaces.ISelectWidget),
         IPageTemplate, name=interfaces.DISPLAY_MODE)
     zope.component.provideAdapter(
@@ -407,12 +426,13 @@ def setupFormDefaults():
 
     # Checkbox Field Widget; register only templates
     zope.component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('checkbox_input.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(
+            getPath('checkbox_input.pt'), 'text/html'),
         (None, None, None, None, interfaces.ICheckBoxWidget),
         IPageTemplate, name=interfaces.INPUT_MODE)
     zope.component.provideAdapter(
         widget.WidgetTemplateFactory(
-        getPath('checkbox_display.pt'), 'text/html'),
+            getPath('checkbox_display.pt'), 'text/html'),
         (None, None, None, None, interfaces.ICheckBoxWidget),
         IPageTemplate, name=interfaces.DISPLAY_MODE)
     # Submit Field Widget
@@ -460,8 +480,8 @@ def setupFormDefaults():
 
 
 def tearDown(test):
-    from zope.testing import cleanup
     from zope.component import hooks
+    from zope.testing import cleanup
     cleanup.cleanUp()
     hooks.resetHooks()
     hooks.setSite()
@@ -484,7 +504,7 @@ def render(view, xpath='.'):
 
     output = ""
     for node in root.xpath(
-        xpath, namespaces={'xmlns': 'http://www.w3.org/1999/xhtml'}):
+            xpath, namespaces={'xmlns': 'http://www.w3.org/1999/xhtml'}):
         s = lxml.etree.tounicode(node, pretty_print=True)
         s = s.replace(' xmlns="http://www.w3.org/1999/xhtml"', ' ')
         output += s
@@ -539,7 +559,7 @@ def textOfWithOptionalTitle(node, addTitle=False, showTooltips=False):
             title = ''
         option = node.find('option[@selected]')
         return '%s[%s]' % (title, option.text if option is not None
-                                  else '[    ]')
+                           else '[    ]')
     if node.tag == 'li':
         text.append('*')
     if node.tag == 'script':
@@ -587,7 +607,7 @@ def plainText(content, xpath=None):
         nodes = root
         joinon = ''
     text = joinon.join(map(textOf, nodes))
-    lines = [l.strip() for l in text.splitlines()]
+    lines = [line.strip() for line in text.splitlines()]
     text = '\n'.join(lines)
     return text
 
@@ -628,11 +648,10 @@ class IntegrationBase(object):
             setattr(self, k, v)
 
     def __repr__(self):
-        items = list(self.__dict__.items())
-        items.sort()
-        return ("<" + self.__class__.__name__+"\n  "
-            + "\n  ".join(["%s: %s" % (key, pprint.pformat(value))
-            for key, value in items]) + ">")
+        items = sorted(self.__dict__.items())
+        return ("<" + self.__class__.__name__ + "\n  "
+                + "\n  ".join(["%s: %s" % (key, pprint.pformat(value))
+                               for key, value in items]) + ">")
 
 
 class IObjectWidgetSingleSubIntegration(zope.interface.Interface):
@@ -662,7 +681,8 @@ class ObjectWidgetSingleSubIntegration(IntegrationBase):
 
     singleInt = FieldProperty(IObjectWidgetSingleSubIntegration['singleInt'])
     singleBool = FieldProperty(IObjectWidgetSingleSubIntegration['singleBool'])
-    singleChoice = FieldProperty(IObjectWidgetSingleSubIntegration['singleChoice'])
+    singleChoice = FieldProperty(
+        IObjectWidgetSingleSubIntegration['singleChoice'])
     singleChoiceOpt = FieldProperty(
         IObjectWidgetSingleSubIntegration['singleChoiceOpt'])
     singleTextLine = FieldProperty(
@@ -709,7 +729,8 @@ class ObjectWidgetMultiSubIntegration(IntegrationBase):
 
     multiInt = FieldProperty(IObjectWidgetMultiSubIntegration['multiInt'])
     multiBool = FieldProperty(IObjectWidgetMultiSubIntegration['multiBool'])
-    multiChoice = FieldProperty(IObjectWidgetMultiSubIntegration['multiChoice'])
+    multiChoice = FieldProperty(
+        IObjectWidgetMultiSubIntegration['multiChoice'])
     multiChoiceOpt = FieldProperty(
         IObjectWidgetMultiSubIntegration['multiChoiceOpt'])
     multiTextLine = FieldProperty(
@@ -747,7 +768,7 @@ class IMultiWidgetListIntegration(zope.interface.Interface):
         value_type=zope.schema.Choice(
             title=u'Choice label',
             values=('one', 'two', 'three')
-            ),
+        ),
     )
     listOfTextLine = zope.schema.List(
         title=u"ListOfTextLine label",
@@ -773,7 +794,8 @@ class MultiWidgetListIntegration(IntegrationBase):
     listOfInt = FieldProperty(IMultiWidgetListIntegration['listOfInt'])
     listOfBool = FieldProperty(IMultiWidgetListIntegration['listOfBool'])
     listOfChoice = FieldProperty(IMultiWidgetListIntegration['listOfChoice'])
-    listOfTextLine = FieldProperty(IMultiWidgetListIntegration['listOfTextLine'])
+    listOfTextLine = FieldProperty(
+        IMultiWidgetListIntegration['listOfTextLine'])
     listOfDate = FieldProperty(IMultiWidgetListIntegration['listOfDate'])
     listOfObject = FieldProperty(IMultiWidgetListIntegration['listOfObject'])
 
@@ -800,11 +822,11 @@ class IMultiWidgetDictIntegration(zope.interface.Interface):
         key_type=zope.schema.Choice(
             title=u'Choice key',
             values=('key1', 'key2', 'key3')
-            ),
+        ),
         value_type=zope.schema.Choice(
             title=u'Choice label',
             values=('one', 'two', 'three')
-            ),
+        ),
     )
     dictOfTextLine = zope.schema.Dict(
         title=u"DictOfTextLine label",
@@ -836,6 +858,7 @@ class MultiWidgetDictIntegration(IntegrationBase):
     dictOfInt = FieldProperty(IMultiWidgetDictIntegration['dictOfInt'])
     dictOfBool = FieldProperty(IMultiWidgetDictIntegration['dictOfBool'])
     dictOfChoice = FieldProperty(IMultiWidgetDictIntegration['dictOfChoice'])
-    dictOfTextLine = FieldProperty(IMultiWidgetDictIntegration['dictOfTextLine'])
+    dictOfTextLine = FieldProperty(
+        IMultiWidgetDictIntegration['dictOfTextLine'])
     dictOfDate = FieldProperty(IMultiWidgetDictIntegration['dictOfDate'])
     dictOfObject = FieldProperty(IMultiWidgetDictIntegration['dictOfObject'])

@@ -16,20 +16,21 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 
-from doctest import DocFileSuite
 import doctest
 import itertools
-import re
 import unittest
+from doctest import DocFileSuite
 
 from z3c.form import testing
+
 
 Z3CPT_AVAILABLE = False
 try:
     import z3c.pt
-    import z3c.ptcompat
+    import z3c.ptcompat  # noqa: F401 imported but unused
 except ImportError:
     Z3CPT_AVAILABLE = False
+
 
 def test_suite():
     flags = \
@@ -146,6 +147,6 @@ def test_suite():
                      setUp=testing.setUpIntegration, tearDown=testing.tearDown,
                      optionflags=flags, checker=testing.outputChecker,
                      ),
-        )
+    )
 
     return unittest.TestSuite(tuple(itertools.chain(*tests)) + integtests)

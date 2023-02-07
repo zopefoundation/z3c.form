@@ -15,6 +15,7 @@
 
 import unittest
 
+
 class TestApplyChangesDictDatamanager(unittest.TestCase):
     # z3c.form.form.applyChanges could not write a value into an empty
     # content dict it got an AttributeError while accessing
@@ -27,6 +28,7 @@ class TestApplyChangesDictDatamanager(unittest.TestCase):
     def setUp(self):
         import zope.component
         import zope.interface
+
         import z3c.form.datamanager
 
         zope.component.provideAdapter(
@@ -35,6 +37,7 @@ class TestApplyChangesDictDatamanager(unittest.TestCase):
 
     def tearDown(self):
         import zope.component.globalregistry
+
         import z3c.form.datamanager
 
         zope.component.globalregistry.getGlobalSiteManager().unregisterAdapter(
@@ -42,10 +45,11 @@ class TestApplyChangesDictDatamanager(unittest.TestCase):
             (dict, zope.interface.Interface))
 
     def test_applyChanges(self):
+        import zope.interface
+        import zope.schema
+
         import z3c.form.field
         import z3c.form.form
-        import zope.schema
-        import zope.interface
 
         class TestInterface(zope.interface.Interface):
             text = zope.schema.TextLine(title=u'text')

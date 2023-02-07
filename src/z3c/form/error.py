@@ -17,6 +17,7 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 import os
+
 import zope.component
 import zope.interface
 import zope.schema
@@ -24,21 +25,29 @@ from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.pagetemplate.interfaces import IPageTemplate
 
 import z3c.form
-from z3c.form import interfaces, util, value
+from z3c.form import interfaces
+from z3c.form import util
+from z3c.form import value
 from z3c.form.i18n import MessageFactory as _
 
+
 ErrorViewMessage = value.StaticValueCreator(
-    discriminators = ('error', 'request', 'widget', 'field', 'form', 'content')
-    )
+    discriminators=('error', 'request', 'widget', 'field', 'form', 'content')
+)
 
 ComputedErrorViewMessage = value.ComputedValueCreator(
-    discriminators = ('error', 'request', 'widget', 'field', 'form', 'content')
-    )
+    discriminators=('error', 'request', 'widget', 'field', 'form', 'content')
+)
 
 
 def ErrorViewDiscriminators(
-    errorView,
-    error=None, request=None, widget=None, field=None, form=None, content=None):
+        errorView,
+        error=None,
+        request=None,
+        widget=None,
+        field=None,
+        form=None,
+        content=None):
     zope.component.adapter(
         util.getSpecification(error),
         util.getSpecification(request),
@@ -81,7 +90,7 @@ class ErrorViewSnippet(object):
         return template(self)
 
     def __repr__(self):
-        return '<%s for %s>' %(
+        return '<%s for %s>' % (
             self.__class__.__name__, self.error.__class__.__name__)
 
 
@@ -131,10 +140,12 @@ class ErrorViewTemplateFactory(object):
     template = None
 
     def __init__(self, filename, contentType='text/html'):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = ViewPageTemplateFile(
+            filename, content_type=contentType)
 
     def __call__(self, errorView, request):
         return self.template
+
 
 # Create the standard error view template
 StandardErrorViewTemplate = ErrorViewTemplateFactory(

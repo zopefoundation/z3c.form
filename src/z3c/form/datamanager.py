@@ -17,21 +17,24 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 
-import zope.interface
 import zope.component
+import zope.interface
 import zope.schema
 from zope.interface.common import mapping
+from zope.security.checker import Proxy
+from zope.security.checker import canAccess
+from zope.security.checker import canWrite
 from zope.security.interfaces import ForbiddenAttribute
-from zope.security.checker import canAccess, canWrite, Proxy
 
 from z3c.form import interfaces
+
 
 _marker = []
 
 ALLOWED_DATA_CLASSES = [dict]
 try:
-    import persistent.mapping
     import persistent.dict
+    import persistent.mapping
     ALLOWED_DATA_CLASSES.append(persistent.mapping.PersistentMapping)
     ALLOWED_DATA_CLASSES.append(persistent.dict.PersistentDict)
 except ImportError:
@@ -41,6 +44,7 @@ except ImportError:
 @zope.interface.implementer(interfaces.IDataManager)
 class DataManager(object):
     """Data manager base class."""
+
 
 class AttributeField(DataManager):
     """Attribute field."""
@@ -56,12 +60,12 @@ class AttributeField(DataManager):
         # get the right adapter or context
         context = self.context
         # NOTE: zope.schema fields defined in inherited interfaces will point
-        # to the inherited interface. This could end in adapting the wrong item.
-        # This is very bad because the widget field offers an explicit interface
-        # argument which doesn't get used in Widget setup during IDataManager
-        # lookup. We should find a concept which allows to adapt the
-        # IDataManager use the widget field interface instead of the zope.schema
-        # field.interface, ri
+        # to the inherited interface. This could end in adapting the wrong
+        # item. This is very bad because the widget field offers an explicit
+        # interface argument which doesn't get used in Widget setup during
+        # IDataManager lookup. We should find a concept which allows to adapt
+        # the IDataManager use the widget field interface instead of the
+        # zope.schema field.interface, ri
         if self.field.interface is not None:
             context = self.field.interface(context)
         return context
@@ -104,6 +108,7 @@ class AttributeField(DataManager):
             return canWrite(context, self.field.__name__)
         return True
 
+
 class DictionaryField(DataManager):
     """Dictionary field.
 
@@ -122,8 +127,8 @@ class DictionaryField(DataManager):
 
     def __init__(self, data, field):
         if (not isinstance(data, self._allowed_data_classes) and
-            not mapping.IMapping.providedBy(data)):
-            raise ValueError("Data are not a dictionary: %s" %type(data))
+                not mapping.IMapping.providedBy(data)):
+            raise ValueError("Data are not a dictionary: %s" % type(data))
         self.data = data
         self.field = field
 
@@ -152,4 +157,3 @@ class DictionaryField(DataManager):
     def canWrite(self):
         """See z3c.form.interfaces.IDataManager"""
         return True
-

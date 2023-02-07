@@ -16,10 +16,11 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.interface
 import zope.component
+import zope.interface
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
 
 
 @zope.interface.implementer(interfaces.IActionEvent)
@@ -29,7 +30,7 @@ class ActionEvent(object):
         self.action = action
 
     def __repr__(self):
-        return '<%s for %r>' %(self.__class__.__name__, self.action)
+        return '<%s for %r>' % (self.__class__.__name__, self.action)
 
 
 @zope.interface.implementer(interfaces.IActionErrorEvent)

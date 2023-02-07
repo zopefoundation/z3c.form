@@ -22,12 +22,14 @@ import zope.interface
 import zope.schema
 import zope.schema.interfaces
 from zope.i18n import translate
-from zope.schema.vocabulary import SimpleTerm
 from zope.pagetemplate.interfaces import IPageTemplate
+from zope.schema.vocabulary import SimpleTerm
 
-from z3c.form import interfaces, util
-from z3c.form.widget import SequenceWidget, FieldWidget
+from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.browser import widget
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import SequenceWidget
 
 
 @zope.interface.implementer_only(interfaces.IRadioWidget)

@@ -23,7 +23,8 @@ import zope.component
 import zope.interface
 import zope.schema
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
 
 
 @zope.interface.implementer(interfaces.IValidator)
@@ -58,7 +59,7 @@ class StrictSimpleFieldValidator(object):
             field = field.bind(context)
         if value is interfaces.NOT_CHANGED:
             if (interfaces.IContextAware.providedBy(widget) and
-                not widget.ignoreContext):
+                    not widget.ignoreContext):
                 # get value from context
                 value = zope.component.getMultiAdapter(
                     (context, field),
@@ -76,7 +77,7 @@ class StrictSimpleFieldValidator(object):
         return field.validate(value)
 
     def __repr__(self):
-        return "<%s for %s['%s']>" %(
+        return "<%s for %s['%s']>" % (
             self.__class__.__name__,
             self.field.interface.getName(),
             self.field.__name__)
@@ -100,7 +101,8 @@ class SimpleFieldValidator(StrictSimpleFieldValidator):
                 return
 
             if self.widget and not util.changedWidget(
-                self.widget, value, field=self.field, context=self.context):
+                    self.widget, value, field=self.field,
+                    context=self.context):
                 # if new value == old value, no need to validate
                 return
 
@@ -123,7 +125,12 @@ class FileUploadValidator(StrictSimpleFieldValidator):
 
 
 def WidgetValidatorDiscriminators(
-    validator, context=None, request=None, view=None, field=None, widget=None):
+        validator,
+        context=None,
+        request=None,
+        view=None,
+        field=None,
+        widget=None):
     zope.component.adapter(
         util.getSpecification(context),
         util.getSpecification(request),
@@ -205,18 +212,18 @@ class InvariantsValidator(object):
         try:
             self.schema.validateInvariants(object, errors)
         except zope.interface.Invalid:
-            pass # Just collect the errors
+            pass  # Just collect the errors
 
         return tuple([error for error in errors
                       if not isinstance(error, NoInputData)])
 
     def __repr__(self):
-        return '<%s for %s>' %(self.__class__.__name__, self.schema.getName())
+        return '<%s for %s>' % (self.__class__.__name__, self.schema.getName())
 
 
 def WidgetsValidatorDiscriminators(
-    validator,
-    context=None, request=None, view=None, schema=None, manager=None):
+        validator,
+        context=None, request=None, view=None, schema=None, manager=None):
     zope.component.adapter(
         util.getSpecification(context),
         util.getSpecification(request),

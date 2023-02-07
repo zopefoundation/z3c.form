@@ -52,7 +52,7 @@ class Terms(object):
 
 @zope.interface.implementer(interfaces.ITerms)
 class SourceTerms(Terms):
-    """Base implementation for ITerms using a source instead of a vocabulary."""
+    """Base implementation for ITerms using source instead of vocabulary."""
 
     def __init__(self, context, request, form, field, source, widget):
         self.context = context
@@ -195,7 +195,8 @@ class MissingChoiceTermsVocabulary(MissingTermsMixin, ChoiceTermsVocabulary):
 
 @zope.interface.implementer(interfaces.ITerms)
 class ChoiceTermsSource(SourceTerms):
-    "ITerms adapter for zope.schema.IChoice based implementations using source."
+    """ITerms adapter for zope.schema.IChoice based implementations using
+    source."""
 
     zope.component.adapts(
         zope.interface.Interface,
@@ -207,8 +208,8 @@ class ChoiceTermsSource(SourceTerms):
 
 
 class MissingChoiceTermsSource(MissingTermsMixin, ChoiceTermsSource):
-    """ITerms adapter for zope.schema.IChoice based implementations using source
-       with missing terms support."""
+    """ITerms adapter for zope.schema.IChoice based implementations using
+    source with missing terms support."""
 
 
 @zope.interface.implementer_only(interfaces.IBoolTerms)

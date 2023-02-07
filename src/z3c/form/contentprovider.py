@@ -1,16 +1,17 @@
 import zope.component
 import zope.interface
 import zope.location
-from z3c.form.error import MultipleErrors
 from zope.contentprovider.interfaces import IContentProvider
 
-from z3c.form.field import FieldWidgets
 from z3c.form import interfaces
+from z3c.form.error import MultipleErrors
+from z3c.form.field import FieldWidgets
 from z3c.form.interfaces import IContentProviders
 
 
 class BaseProvider(object):
     __slots__ = ('position')
+
 
 lookup_ = BaseProvider()
 
@@ -38,17 +39,21 @@ class ContentProviderFactory(object):
 
     def __call__(self, manager):
         if self.factory != lookup_:
-            contentProvider = self.factory(manager.content, manager.request, manager.form)
+            contentProvider = self.factory(
+                manager.content, manager.request, manager.form)
         else:
-            contentProvider = zope.component.getMultiAdapter((manager.content, manager.request, manager.form),
-                                                             IContentProvider, self.name)
+            contentProvider = zope.component.getMultiAdapter(
+                (manager.content, manager.request, manager.form),
+                IContentProvider, self.name)
         return contentProvider
 
 
 @zope.interface.implementer_only(interfaces.IWidgets)
 class FieldWidgetsAndProviders(FieldWidgets):
     zope.component.adapts(
-        interfaces.IFieldsAndContentProvidersForm, interfaces.IFormLayer, zope.interface.Interface)
+        interfaces.IFieldsAndContentProvidersForm,
+        interfaces.IFormLayer,
+        zope.interface.Interface)
 
     def update(self):
         super(FieldWidgetsAndProviders, self).update()
@@ -58,8 +63,10 @@ class FieldWidgetsAndProviders(FieldWidgets):
         for name in self.form.contentProviders:
             factory = self.form.contentProviders[name]
             if factory.position is None:
-                raise ValueError("Position of the following"
-                 " content provider should be an integer: '%s'." % name)
+                raise ValueError(
+                    "Position of the following"
+                    " content provider should be an integer: '%s'." %
+                    name)
             contentProvider = factory(self)
             shortName = name
             contentProvider.update()

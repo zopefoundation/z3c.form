@@ -21,8 +21,10 @@ import zope.interface
 import zope.schema.interfaces
 
 from z3c.form import interfaces
-from z3c.form.widget import Widget, FieldWidget
 from z3c.form.browser import widget
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import Widget
+
 
 @zope.interface.implementer_only(interfaces.ITextWidget)
 class TextWidget(widget.HTMLTextInputWidget, Widget):

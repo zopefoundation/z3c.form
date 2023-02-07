@@ -18,15 +18,18 @@ $Id$
 __docformat__ = "reStructuredText"
 import datetime
 import decimal
+
 import six
+
+import zope.component
 import zope.i18n.format
 import zope.interface
-import zope.component
-import zope.schema
 import zope.publisher.browser
+import zope.schema
 
+from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.i18n import MessageFactory as _
-from z3c.form import interfaces, util
 
 
 @zope.interface.implementer(interfaces.IDataConverter)
@@ -45,7 +48,7 @@ class BaseDataConverter(object):
         # register your own converter which will get the right widget for the
         # used value_type.
         widget = zope.component.getMultiAdapter((field, self.widget.request),
-            interfaces.IFieldWidget)
+                                                interfaces.IFieldWidget)
         if interfaces.IFormAware.providedBy(self.widget):
             # form property required by objectwidget
             widget.form = self.widget.form
@@ -73,7 +76,7 @@ class BaseDataConverter(object):
         return self.field.fromUnicode(value)
 
     def __repr__(self):
-        return '<%s converts from %s to %s>' %(
+        return '<%s converts from %s to %s>' % (
             self.__class__.__name__,
             self.field.__class__.__name__,
             self.widget.__class__.__name__)
@@ -91,7 +94,7 @@ class FieldDataConverter(BaseDataConverter):
             if field.__name__:
                 fieldName = '``%s`` ' % field.__name__
             raise TypeError(
-                'Field %s of type ``%s`` must provide ``IFromUnicode``.' %(
+                'Field %s of type ``%s`` must provide ``IFromUnicode``.' % (
                     fieldName, type(field).__name__))
 
 
@@ -105,7 +108,7 @@ def FieldWidgetDataConverter(widget):
 
 class FormatterValidationError(zope.schema.ValidationError):
 
-    message = None # redefine here, so Python 2.6 won't raise warning
+    message = None  # redefine here, so Python 2.6 won't raise warning
 
     def __init__(self, message, value):
         zope.schema.ValidationError.__init__(self, message, value)
@@ -113,6 +116,7 @@ class FormatterValidationError(zope.schema.ValidationError):
 
     def doc(self):
         return self.message
+
 
 class NumberDataConverter(BaseDataConverter):
     """A general data converter for numbers."""
@@ -141,6 +145,7 @@ class NumberDataConverter(BaseDataConverter):
         except zope.i18n.format.NumberParseError:
             raise FormatterValidationError(self.errorMessage, value)
 
+
 class IntegerDataConverter(NumberDataConverter):
     """A data converter for integers."""
     zope.component.adapts(
@@ -148,12 +153,14 @@ class IntegerDataConverter(NumberDataConverter):
     type = int
     errorMessage = _('The entered value is not a valid integer literal.')
 
+
 class FloatDataConverter(NumberDataConverter):
     """A data converter for integers."""
     zope.component.adapts(
         zope.schema.interfaces.IFloat, interfaces.IWidget)
     type = float
     errorMessage = _('The entered value is not a valid decimal literal.')
+
 
 class DecimalDataConverter(NumberDataConverter):
     """A data converter for integers."""
@@ -196,11 +203,13 @@ class DateDataConverter(CalendarDataConverter):
         zope.schema.interfaces.IDate, interfaces.IWidget)
     type = 'date'
 
+
 class TimeDataConverter(CalendarDataConverter):
     """A special data converter for times."""
     zope.component.adapts(
         zope.schema.interfaces.ITime, interfaces.IWidget)
     type = 'time'
+
 
 class DatetimeDataConverter(CalendarDataConverter):
     """A special data converter for datetimes."""
@@ -229,7 +238,7 @@ class TimedeltaDataConverter(FieldDataConverter):
             days = 0
         else:
             days = int(daysString)
-        seconds = [int(part)*60**(2-n)
+        seconds = [int(part) * 60**(2 - n)
                    for n, part in enumerate(timeString.split(':'))]
         return datetime.timedelta(days, sum(seconds))
 
@@ -336,7 +345,8 @@ class CollectionSequenceDataConverter(BaseDataConverter):
         collectionType = self.field._type
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]
-        return collectionType([widget.terms.getValue(token) for token in value])
+        return collectionType([widget.terms.getValue(token)
+                              for token in value])
 
 
 class TextLinesConverter(BaseDataConverter):
@@ -362,8 +372,8 @@ class TextLinesConverter(BaseDataConverter):
         valueType = self.field.value_type._type
         if isinstance(valueType, tuple):
             valueType = valueType[0]
-        # having a blank line at the end matters, one might want to have a blank
-        # entry at the end, resp. do not eat it once we have one
+        # having a blank line at the end matters, one might want to have a
+        # blank entry at the end, resp. do not eat it once we have one
         # splitlines ate that, so need to use split now
         value = value.replace('\r\n', '\n')
         items = []

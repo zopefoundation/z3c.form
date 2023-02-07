@@ -21,12 +21,15 @@ import zope.component
 import zope.interface
 import zope.schema
 import zope.schema.interfaces
-from zope.schema import vocabulary
 from zope.i18n import translate
+from zope.schema import vocabulary
 
-from z3c.form import interfaces, term, util
-from z3c.form.widget import SequenceWidget, FieldWidget
+from z3c.form import interfaces
+from z3c.form import term
+from z3c.form import util
 from z3c.form.browser import widget
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import SequenceWidget
 
 
 @zope.interface.implementer_only(interfaces.ICheckBoxWidget)
@@ -45,16 +48,16 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
         if self.terms is None:
             return ()
         items = []
-        for count, term in enumerate(self.terms):
-            checked = self.isChecked(term)
+        for count, term_ in enumerate(self.terms):
+            checked = self.isChecked(term_)
             id = '%s-%i' % (self.id, count)
-            if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
-                label = translate(term.title, context=self.request,
-                                  default=term.title)
+            if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term_):
+                label = translate(term_.title, context=self.request,
+                                  default=term_.title)
             else:
-                label = util.toUnicode(term.value)
+                label = util.toUnicode(term_.value)
             items.append(
-                {'id': id, 'name': self.name + ':list', 'value': term.token,
+                {'id': id, 'name': self.name + ':list', 'value': term_.token,
                  'label': label, 'checked': checked})
         return items
 
@@ -97,5 +100,5 @@ class SingleCheckBoxWidget(CheckBoxWidget):
 def SingleCheckBoxFieldWidget(field, request):
     """IFieldWidget factory for CheckBoxWidget."""
     widget = FieldWidget(field, SingleCheckBoxWidget(request))
-    widget.label = u'' # don't show the label twice
+    widget.label = u''  # don't show the label twice
     return widget

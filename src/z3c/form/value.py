@@ -16,10 +16,12 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.interface
 import zope.component
+import zope.interface
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
+
 
 @zope.interface.implementer(interfaces.IValue)
 class StaticValue(object):

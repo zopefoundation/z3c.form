@@ -20,8 +20,8 @@ import zope.component
 import zope.interface
 
 from z3c.form import interfaces
-from z3c.form.widget import FieldWidget
 from z3c.form.browser import button
+from z3c.form.widget import FieldWidget
 
 
 @zope.interface.implementer_only(interfaces.ISubmitWidget)
@@ -36,7 +36,7 @@ class SubmitWidget(button.ButtonWidget):
         data['type'] = 'submit'
         return data
 
-    
+
 @zope.component.adapter(interfaces.IButton, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def SubmitFieldWidget(field, request):

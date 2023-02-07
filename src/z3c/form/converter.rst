@@ -962,18 +962,18 @@ An empty string will also cause the missing value to be returned:
   True
 
 It also should work for schema fields that define their type as tuple,
-for instance zope.schema.Int declares its type as (int, long).
+in former times zope.schema.Int declared its type as (int, long).
 
+  >>> class MyField(zope.schema.Int):
+  ...     _type = (int, float)
   >>> ids = zope.schema.List(
-  ...     value_type=zope.schema.Int(),
+  ...     value_type=MyField(),
   ...     )
 
 Let's illustrate the problem:
 
-  >>> zope.schema.Int._type == zope.schema._compat.integer_types
+  >>> MyField._type == (int, float)
   True
-
-  Note: Should be int and long in Python 2.
 
 The converter will use the first one.
 

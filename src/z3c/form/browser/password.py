@@ -20,8 +20,10 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
-from z3c.form import interfaces, widget
+from z3c.form import interfaces
+from z3c.form import widget
 from z3c.form.browser import text
+
 
 @zope.interface.implementer_only(interfaces.IPasswordWidget)
 class PasswordWidget(text.TextWidget):
@@ -31,7 +33,8 @@ class PasswordWidget(text.TextWidget):
     css = u'password'
 
 
-@zope.component.adapter(zope.schema.interfaces.IPassword, interfaces.IFormLayer)
+@zope.component.adapter(zope.schema.interfaces.IPassword,
+                        interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def PasswordFieldWidget(field, request):
     """IFieldWidget factory for IPasswordWidget."""

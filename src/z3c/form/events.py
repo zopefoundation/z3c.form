@@ -1,5 +1,6 @@
-from z3c.form.interfaces import IDataExtractedEvent
 import zope.interface
+
+from z3c.form.interfaces import IDataExtractedEvent
 
 
 @zope.interface.implementer(IDataExtractedEvent)

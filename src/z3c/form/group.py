@@ -17,12 +17,13 @@ $Id$
 """
 __docformat__ = "reStructuredText"
 
-from z3c.form import form, interfaces
-from zope.interface import implementer
-from z3c.form.events import DataExtractedEvent
-
 import zope.component
 import zope.event
+from zope.interface import implementer
+
+from z3c.form import form
+from z3c.form import interfaces
+from z3c.form.events import DataExtractedEvent
 
 
 @implementer(interfaces.IGroup)

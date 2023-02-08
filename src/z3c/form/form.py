@@ -228,7 +228,7 @@ class Form(BaseForm):
         self.actions.update()
 
     def update(self):
-        super(Form, self).update()
+        super().update()
         self.updateActions()
         self.actions.execute()
         if self.refreshActions:
@@ -240,7 +240,7 @@ class Form(BaseForm):
         # Don't render anything if we are doing a redirect
         if self.request.response.getStatus() in (
                 300, 301, 302, 303, 304, 305, 307,):
-            return u''
+            return ''
 
         return self.render()
 
@@ -284,7 +284,7 @@ class AddForm(Form):
         if self._finishedAdd:
             self.request.response.redirect(self.nextURL())
             return ""
-        return super(AddForm, self).render()
+        return super().render()
 
 
 @zope.interface.implementer(interfaces.IEditForm)
@@ -323,7 +323,7 @@ class EditForm(Form):
             self.status = self.noChangesMessage
 
 
-class FormTemplateFactory(object):
+class FormTemplateFactory:
     """Form template factory."""
 
     def __init__(self, filename, contentType='text/html', form=None,

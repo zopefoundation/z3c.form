@@ -28,7 +28,7 @@ DISPLAY_MODE = 'display'
 HIDDEN_MODE = 'hidden'
 
 
-class NOT_CHANGED(object):
+class NOT_CHANGED:
     def __repr__(self):
         return '<NOT_CHANGED>'
 
@@ -36,7 +36,7 @@ class NOT_CHANGED(object):
 NOT_CHANGED = NOT_CHANGED()
 
 
-class NO_VALUE(object):
+class NO_VALUE:
     def __repr__(self):
         return '<NO_VALUE>'
 
@@ -738,7 +738,7 @@ class ActionExecutionError(Exception):
         self.error = error
 
     def __repr__(self):
-        return '<%s wrapping %r>' % (self.__class__.__name__, self.error)
+        return '<{} wrapping {!r}>'.format(self.__class__.__name__, self.error)
 
 
 class WidgetActionExecutionError(ActionExecutionError):
@@ -1141,10 +1141,10 @@ class IGroupForm(IForm):
     """A form that supports groups."""
 
     groups = zope.schema.Tuple(
-        title=u'Groups',
-        description=(u'Initially a collection of group classes, which are '
-                     u'converted to group instances when the form is '
-                     u'updated.'))
+        title='Groups',
+        description=('Initially a collection of group classes, which are '
+                     'converted to group instances when the form is '
+                     'updated.'))
 
 
 # ----[ Events ]--------------------------------------------------------------

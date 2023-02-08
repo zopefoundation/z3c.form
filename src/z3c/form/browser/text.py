@@ -30,12 +30,12 @@ from z3c.form.widget import Widget
 class TextWidget(widget.HTMLTextInputWidget, Widget):
     """Input type text widget implementation."""
 
-    klass = u'text-widget'
-    css = u'text'
-    value = u''
+    klass = 'text-widget'
+    css = 'text'
+    value = ''
 
     def update(self):
-        super(TextWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
 
 

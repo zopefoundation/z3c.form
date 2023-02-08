@@ -72,9 +72,9 @@ Some valid default values
   ...     singleBool=False,
   ...     singleChoice='two',
   ...     singleChoiceOpt='six',
-  ...     singleTextLine=u'some text one',
+  ...     singleTextLine='some text one',
   ...     singleDate=date(2014, 6, 20),
-  ...     singleReadOnly=u'some R/O text')
+  ...     singleReadOnly='some R/O text')
 
   >>> content = getForm(request, 'ObjectWidget_single_edit_simple.html')
 
@@ -103,9 +103,9 @@ Wrong values
 Set wrong values:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.subobj.widgets.singleInt'] = u'foobar'
-  >>> submit['form.widgets.subobj.widgets.singleTextLine'] = u'foo\nbar'
-  >>> submit['form.widgets.subobj.widgets.singleDate'] = u'foobar'
+  >>> submit['form.widgets.subobj.widgets.singleInt'] = 'foobar'
+  >>> submit['form.widgets.subobj.widgets.singleTextLine'] = 'foo\nbar'
+  >>> submit['form.widgets.subobj.widgets.singleDate'] = 'foobar'
 
   >>> submit['form.buttons.apply'] = 'Apply'
 
@@ -130,7 +130,7 @@ We should get lots of errors:
   ...     './/div[@id="row-form-widgets-subobj"]'))
   The entered value is not a valid integer literal.
   Constraint not satisfied
-  The datetime string did not match the pattern u'yy/MM/dd'. Object label
+  The datetime string did not match the pattern 'yy/MM/dd'. Object label
   Int label *
   <BLANKLINE>
   The entered value is not a valid integer literal.
@@ -156,7 +156,7 @@ We should get lots of errors:
   <BLANKLINE>
   Date label *
   <BLANKLINE>
-  The datetime string did not match the pattern u'yy/MM/dd'.
+  The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
   <BLANKLINE>
   ReadOnly label *
@@ -167,12 +167,12 @@ Let's fix the values:
 
   >>> submit = testing.getSubmitValues(content)
 
-  >>> submit['form.widgets.subobj.widgets.singleInt'] = u'1042'
-  >>> submit['form.widgets.subobj.widgets.singleBool'] = u'true'
-  >>> submit['form.widgets.subobj.widgets.singleChoice:list'] = u'three'
-  >>> submit['form.widgets.subobj.widgets.singleChoiceOpt:list'] = u'four'
-  >>> submit['form.widgets.subobj.widgets.singleTextLine'] = u'foobar'
-  >>> submit['form.widgets.subobj.widgets.singleDate'] = u'14/06/21'
+  >>> submit['form.widgets.subobj.widgets.singleInt'] = '1042'
+  >>> submit['form.widgets.subobj.widgets.singleBool'] = 'true'
+  >>> submit['form.widgets.subobj.widgets.singleChoice:list'] = 'three'
+  >>> submit['form.widgets.subobj.widgets.singleChoiceOpt:list'] = 'four'
+  >>> submit['form.widgets.subobj.widgets.singleTextLine'] = 'foobar'
+  >>> submit['form.widgets.subobj.widgets.singleDate'] = '14/06/21'
 
   >>> submit['form.buttons.apply'] = 'Apply'
 
@@ -203,7 +203,7 @@ Let's fix the values:
 Bool was misbehaving
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.subobj.widgets.singleBool'] = u'false'
+  >>> submit['form.widgets.subobj.widgets.singleBool'] = 'false'
   >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
@@ -220,11 +220,11 @@ Bool was misbehaving
     singleChoiceOpt: 'four'
     singleDate: datetime.date(2014, 6, 21)
     singleInt: 1042
-    singleReadOnly: u'some R/O text'
-    singleTextLine: u'foobar'>
+    singleReadOnly: 'some R/O text'
+    singleTextLine: 'foobar'>
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.subobj.widgets.singleBool'] = u'true'
+  >>> submit['form.widgets.subobj.widgets.singleBool'] = 'true'
   >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
@@ -241,5 +241,5 @@ Bool was misbehaving
     singleChoiceOpt: 'four'
     singleDate: datetime.date(2014, 6, 21)
     singleInt: 1042
-    singleReadOnly: u'some R/O text'
-    singleTextLine: u'foobar'>
+    singleReadOnly: 'some R/O text'
+    singleTextLine: 'foobar'>

@@ -18,15 +18,15 @@ Thus, the first step is to create a schema:
 
   >>> class IPerson(zope.interface.Interface):
   ...      id = zope.schema.Int(
-  ...          title=u'Id',
+  ...          title='Id',
   ...          readonly=True)
   ...
   ...      name = zope.schema.TextLine(
-  ...          title=u'Name')
+  ...          title='Name')
   ...
   ...      country = zope.schema.Choice(
-  ...          title=u'Country',
-  ...          values=(u'Germany', u'Switzerland', u'USA'),
+  ...          title='Country',
+  ...          values=('Germany', 'Switzerland', 'USA'),
   ...          required=False)
 
 We can now create the field manager:
@@ -87,10 +87,10 @@ overlap. For example, let's say that a person can be adapted to a pet:
 
   >>> class IPet(zope.interface.Interface):
   ...      id = zope.schema.TextLine(
-  ...          title=u'Id')
+  ...          title='Id')
   ...
   ...      name = zope.schema.TextLine(
-  ...          title=u'Name')
+  ...          title='Name')
 
 The pet field(s) can only be added to the fields manager with a prefix:
 
@@ -199,7 +199,7 @@ just pass in schema fields:
 
 However, the schema field has to have a name:
 
-  >>> email = zope.schema.TextLine(title=u'E-Mail')
+  >>> email = zope.schema.TextLine(title='E-Mail')
   >>> field.Fields(email)
   Traceback (most recent call last):
   ...
@@ -275,7 +275,7 @@ constructor that are used to set up the fields:
 
     >>> manager = field.Fields(email, interface=IMyPerson)
     >>> manager['email'].interface
-    <InterfaceClass __builtin__.IMyPerson>
+    <InterfaceClass builtins.IMyPerson>
 
 * ``mode``
 
@@ -353,22 +353,22 @@ definitions and create widgets for them. Thus, let's create a schema first:
 
   >>> class IPerson(zope.interface.Interface):
   ...     id = zope.schema.TextLine(
-  ...         title=u'ID',
+  ...         title='ID',
   ...         description=u"The person's ID.",
   ...         readonly=True,
   ...         required=True)
   ...
   ...     lastName = zope.schema.TextLine(
-  ...         title=u'Last Name',
+  ...         title='Last Name',
   ...         description=u"The person's last name.",
-  ...         default=u'',
+  ...         default='',
   ...         required=True,
   ...         constraint=lastNameConstraint)
   ...
   ...     firstName = zope.schema.TextLine(
-  ...         title=u'First Name',
+  ...         title='First Name',
   ...         description=u"The person's first name.",
-  ...         default=u'-- unknown --',
+  ...         default='-- unknown --',
   ...         required=False)
   ...
   ...     @zope.interface.invariant
@@ -611,7 +611,7 @@ security declarations:
   ...     )
 
   >>> srichter = checker.ProxyFactory(
-  ...     Person(u'Stephan', u'Richter'), PersonChecker)
+  ...     Person('Stephan', 'Richter'), PersonChecker)
 
 In this case the last name is always editable, but for the first name the user
 will need the edit ("test.Edit") permission.
@@ -710,7 +710,7 @@ Before we can use the method, we have to register a "manager validator":
   >>> manager.update()
 
   >>> manager.validate(
-  ...     {'firstName': u'Stephan', 'lastName': u'Richter'})
+  ...     {'firstName': 'Stephan', 'lastName': 'Richter'})
   ()
 
 The result of this method is a tuple of errors that occurred during the
@@ -718,7 +718,7 @@ validation. An empty tuple means the validation succeeded. Let's now make the
 validation fail:
 
   >>> errors = manager.validate(
-  ...     {'firstName': u'Stephan', 'lastName': u'Richter-Richter'})
+  ...     {'firstName': 'Stephan', 'lastName': 'Richter-Richter'})
 
   >>> [error.doc() for error in errors]
   ['The last name is too short.']
@@ -738,7 +738,7 @@ interface:
 In this case, the widget manager's ``validate()`` method should simply ignore
 the field and not try to look up any invariants:
 
-  >>> manager.validate({'name': u'Stephan'})
+  >>> manager.validate({'name': 'Stephan'})
   ()
 
 Let's now have a look at the widget manager's ``extract()``, which returns a
@@ -751,18 +751,18 @@ When all goes well, the data dictionary is complete and the error collection
 empty:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.id': u'srichter',
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.lastName': u'Richter'})
+  ...     'form.widgets.id': 'srichter',
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.lastName': 'Richter'})
   >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
 
   >>> data, errors = manager.extract()
   >>> data['firstName']
-  u'Stephan'
+  'Stephan'
   >>> data['lastName']
-  u'Richter'
+  'Richter'
   >>> errors
   ()
 
@@ -777,17 +777,17 @@ Let's now cause a widget-level error by not submitting the required last
 name:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan', 'form.widgets.id': u'srichter'})
+  ...     'form.widgets.firstName': 'Stephan', 'form.widgets.id': 'srichter'})
   >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
   >>> manager.extract()
-  ({'firstName': u'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
+  ({'firstName': 'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
 
 We can also turn off ``required`` checking for data extraction:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan', 'form.widgets.id': u'srichter'})
+  ...     'form.widgets.firstName': 'Stephan', 'form.widgets.id': 'srichter'})
   >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.ignoreRequiredOnExtract = True
@@ -796,7 +796,7 @@ We can also turn off ``required`` checking for data extraction:
 Here we get the required field as ``None`` and no errors:
 
   >>> pprint(manager.extract())
-  ({'firstName': u'Stephan', 'lastName': None}, ())
+  ({'firstName': 'Stephan', 'lastName': None}, ())
 
   >>> manager.ignoreRequiredOnExtract = False
 
@@ -805,25 +805,25 @@ a convenient way to raise errors where we mainly care about providing a custom
 error message.
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.lastName': u'richter',
-  ...     'form.widgets.id': u'srichter'})
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.lastName': 'richter',
+  ...     'form.widgets.id': 'srichter'})
   >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
   >>> extracted = manager.extract()
   >>> extracted
-  ({'firstName': u'Stephan'}, (<InvalidErrorViewSnippet for Invalid>,))
+  ({'firstName': 'Stephan'}, (<InvalidErrorViewSnippet for Invalid>,))
 
   >>> extracted[1][0].createMessage()
-  u'Name must have at least one capital letter'
+  'Name must have at least one capital letter'
 
 Finally, let's ensure that invariant failures are also caught:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.id': u'srichter',
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.lastName': u'Richter-Richter'})
+  ...     'form.widgets.id': 'srichter',
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.lastName': 'Richter-Richter'})
   >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
@@ -845,7 +845,7 @@ This behavior can be turned off. To demonstrate, let's make a new request that
 causes a widget-level error:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan', 'form.widgets.id': u'srichter'})
+  ...     'form.widgets.firstName': 'Stephan', 'form.widgets.id': 'srichter'})
   >>> manager = field.FieldWidgets(personForm, request, context)
   >>> manager.ignoreContext = True
   >>> manager.update()
@@ -855,7 +855,7 @@ we still get the same result from the method call, ...
 
   >>> manager.setErrors = False
   >>> manager.extract()
-  ({'firstName': u'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
+  ({'firstName': 'Stephan'}, (<ErrorViewSnippet for RequiredMissing>,))
 
 but there are no side effects on the manager and the widgets:
 

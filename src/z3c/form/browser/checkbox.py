@@ -36,8 +36,8 @@ from z3c.form.widget import SequenceWidget
 class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
     """Input type checkbox widget implementation."""
 
-    klass = u'checkbox-widget'
-    css = u'checkbox'
+    klass = 'checkbox-widget'
+    css = 'checkbox'
     items = ()
 
     def isChecked(self, term):
@@ -63,11 +63,11 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(CheckBoxWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
 
     def json_data(self):
-        data = super(CheckBoxWidget, self).json_data()
+        data = super().json_data()
         data['options'] = list(self.items)
         data['type'] = 'check'
         return data
@@ -84,7 +84,7 @@ def CheckBoxFieldWidget(field, request):
 class SingleCheckBoxWidget(CheckBoxWidget):
     """Single Input type checkbox widget implementation."""
 
-    klass = u'single-checkbox-widget'
+    klass = 'single-checkbox-widget'
 
     def updateTerms(self):
         if self.terms is None:
@@ -100,5 +100,5 @@ class SingleCheckBoxWidget(CheckBoxWidget):
 def SingleCheckBoxFieldWidget(field, request):
     """IFieldWidget factory for CheckBoxWidget."""
     widget = FieldWidget(field, SingleCheckBoxWidget(request))
-    widget.label = u''  # don't show the label twice
+    widget.label = ''  # don't show the label twice
     return widget

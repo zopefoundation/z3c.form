@@ -72,7 +72,7 @@ This schema is specified by the field:
   >>> import zope.schema
   >>> field = zope.schema.Object(
   ...     __name__='subobject',
-  ...     title=u'my object widget',
+  ...     title='my object widget',
   ...     schema=IMySubObject)
 
 Apply the field nicely with the helper:
@@ -187,9 +187,9 @@ The widget's value is NO_VALUE until it gets a request:
 
 Let's fill in some values via the request:
 
-  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'2',
-  ...                                    'subobject.widgets.barfield':u'999',
-  ...                                    'subobject-empty-marker':u'1'})
+  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':'2',
+  ...                                    'subobject.widgets.barfield':'999',
+  ...                                    'subobject-empty-marker':'1'})
   >>> widget.update()
   >>> print(widget.render())
   <html>
@@ -323,9 +323,9 @@ I'm tempted to leave it out as no widgets seem to do this.
 #Error handling is next. Let's use the value "bad" (an invalid integer literal)
 #as input for our internal (sub) widget.
 #
-#  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':u'55',
-#  ...                                    'subobject.widgets.barfield':u'bad',
-#  ...                                    'subobject-empty-marker':u'1'})
+#  >>> widget.request = TestRequest(form={'subobject.widgets.foofield':'55',
+#  ...                                    'subobject.widgets.barfield':'bad',
+#  ...                                    'subobject-empty-marker':'1'})
 #
 #
 #  >>> widget.update()
@@ -523,16 +523,16 @@ We don't have the object (yet) in the root:
 Let's try to add an object:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.subobject.widgets.foofield':u'66',
-  ...     'form.widgets.subobject.widgets.barfield':u'99',
-  ...     'form.widgets.name':u'first',
-  ...     'form.widgets.subobject-empty-marker':u'1',
+  ...     'form.widgets.subobject.widgets.foofield':'66',
+  ...     'form.widgets.subobject.widgets.barfield':'99',
+  ...     'form.widgets.name':'first',
+  ...     'form.widgets.subobject-empty-marker':'1',
   ...     'form.buttons.add':'Add'})
   >>> myaddform.request = request
 
   >>> myaddform.update()
   MyAddForm.create
-  {'name': u'first',
+  {'name': 'first',
    'subobject': <z3c.form.testing.MySubObject object at ...>}
 
 Wow, it got added:
@@ -627,10 +627,10 @@ Watch for the widget values in the HTML:
 Let's modify the values:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.subobject.widgets.foofield':u'43',
-  ...     'form.widgets.subobject.widgets.barfield':u'55',
-  ...     'form.widgets.name':u'first',
-  ...     'form.widgets.subobject-empty-marker':u'1',
+  ...     'form.widgets.subobject.widgets.foofield':'43',
+  ...     'form.widgets.subobject.widgets.barfield':'55',
+  ...     'form.widgets.name':'first',
+  ...     'form.widgets.subobject-empty-marker':'1',
   ...     'form.buttons.apply':'Apply'})
 
 They are still the same:
@@ -733,10 +733,10 @@ We add a special property to keep track of the object:
 Let's modify the values:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.subobject.widgets.foofield':u'666',
-  ...     'form.widgets.subobject.widgets.barfield':u'999',
-  ...     'form.widgets.name':u'first',
-  ...     'form.widgets.subobject-empty-marker':u'1',
+  ...     'form.widgets.subobject.widgets.foofield':'666',
+  ...     'form.widgets.subobject.widgets.barfield':'999',
+  ...     'form.widgets.name':'first',
+  ...     'form.widgets.subobject-empty-marker':'1',
   ...     'form.buttons.apply':'Apply'})
 
   >>> editform.request = request
@@ -756,10 +756,10 @@ Let's check what are ther esults of the update:
 Let's make a nasty error, by typing 'bad' instead of an integer:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.subobject.widgets.foofield':u'99',
-  ...     'form.widgets.subobject.widgets.barfield':u'bad',
-  ...     'form.widgets.name':u'first',
-  ...     'form.widgets.subobject-empty-marker':u'1',
+  ...     'form.widgets.subobject.widgets.foofield':'99',
+  ...     'form.widgets.subobject.widgets.barfield':'bad',
+  ...     'form.widgets.name':'first',
+  ...     'form.widgets.subobject-empty-marker':'1',
   ...     'form.buttons.apply':'Apply'})
 
   >>> editform.request = request
@@ -843,10 +843,10 @@ Let's make more errors:
 Now we enter 'bad' and '999999', where '999999' hits the upper limit of the field.
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.subobject.widgets.foofield':u'999999',
-  ...     'form.widgets.subobject.widgets.barfield':u'bad',
-  ...     'form.widgets.name':u'first',
-  ...     'form.widgets.subobject-empty-marker':u'1',
+  ...     'form.widgets.subobject.widgets.foofield':'999999',
+  ...     'form.widgets.subobject.widgets.barfield':'bad',
+  ...     'form.widgets.name':'first',
+  ...     'form.widgets.subobject-empty-marker':'1',
   ...     'form.buttons.apply':'Apply'})
 
   >>> editform.request = request
@@ -1026,7 +1026,7 @@ Editforms might use dicts as context:
   >>> class MyEditFormDict(form.EditForm):
   ...     fields = field.Fields(IMyObject)
   ...     def getContent(self):
-  ...         return {'subobject': newsub, 'name': u'blooki'}
+  ...         return {'subobject': newsub, 'name': 'blooki'}
 
   >>> editform = MyEditFormDict(None, TestRequest())
   >>> addTemplate(editform)
@@ -1084,10 +1084,10 @@ Watch for the widget values in the HTML:
 Let's modify the values:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.subobject.widgets.foofield':u'43',
-  ...     'form.widgets.subobject.widgets.barfield':u'55',
-  ...     'form.widgets.name':u'first',
-  ...     'form.widgets.subobject-empty-marker':u'1',
+  ...     'form.widgets.subobject.widgets.foofield':'43',
+  ...     'form.widgets.subobject.widgets.barfield':'55',
+  ...     'form.widgets.name':'first',
+  ...     'form.widgets.subobject-empty-marker':'1',
   ...     'form.buttons.apply':'Apply'})
 
 They are still the same:
@@ -1257,7 +1257,7 @@ All the story the create a widget:
 
   >>> field = zope.schema.Object(
   ...     __name__='subobject',
-  ...     title=u'my object widget',
+  ...     title='my object widget',
   ...     schema=IMySubObject)
 
   >>> wv = z3c.form.object.ObjectWidgetValue(
@@ -1299,11 +1299,11 @@ In case there is something that cannot be adapted to the right interface,
 it just burps:
 (might be an idea to create in this case also a new blank object)
 
-  >>> context['subobject'] = u'brutal'
+  >>> context['subobject'] = 'brutal'
   >>> converter.toFieldValue(wv)
   Traceback (most recent call last):
   ...
-  TypeError: ('Could not adapt', u'brutal',
+  TypeError: ('Could not adapt', 'brutal',
   z3c.form.testing.IMySubObject
 
   >>> context['subobject'] = None

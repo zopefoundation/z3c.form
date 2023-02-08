@@ -18,10 +18,8 @@ __docformat__ = "reStructuredText"
 import binascii
 import re
 import string
-import sys
 from collections import OrderedDict
-
-import six
+from functools import total_ordering
 
 import zope.contenttype
 import zope.interface
@@ -32,36 +30,22 @@ from z3c.form.i18n import MessageFactory as _
 
 
 _identifier = re.compile('[A-Za-z][a-zA-Z0-9_]*$')
-classTypes = six.class_types
+classTypes = (type,)
 _acceptableChars = string.ascii_letters + string.digits + '_-'
-
-PY3 = sys.version_info[0] >= 3
-
-try:
-    unicode
-except NameError:
-    # Py3: Define unicode.
-    unicode = str
 
 
 def toUnicode(obj):
     if isinstance(obj, bytes):
         return obj.decode('utf-8', 'ignore')
-    if PY3:
-        return str(obj)
-    else:
-        return unicode(obj)
+    return str(obj)
 
 
 def toBytes(obj):
     if isinstance(obj, bytes):
         return obj
-    if isinstance(obj, unicode):
+    if isinstance(obj, str):
         return obj.encode('utf-8')
-    if PY3:
-        return str(obj).encode('utf-8')
-    else:
-        return str(obj)
+    return str(obj).encode('utf-8')
 
 
 def createId(name):
@@ -69,27 +53,21 @@ def createId(name):
     if _identifier.match(name):
         return str(name).lower()
     id = binascii.hexlify(name.encode('utf-8'))
-    return id.decode() if PY3 else id
+    return id.decode()
 
 
-if PY3:
-    # py26 has no total_ordering
-    from functools import total_ordering
+@total_ordering
+class MinType:
+    def __le__(self, other):
+        return True
 
-    @total_ordering
-    class MinType(object):
-        def __le__(self, other):
-            return True
+    def __eq__(self, other):
+        return (self is other)
 
-        def __eq__(self, other):
-            return (self is other)
 
-    def sortedNone(items):
-        Min = MinType()
-        return sorted(items, key=lambda x: Min if x is None else x)
-else:
-    def sortedNone(items):
-        return sorted(items)
+def sortedNone(items):
+    Min = MinType()
+    return sorted(items, key=lambda x: Min if x is None else x)
 
 
 def createCSSId(name):
@@ -151,7 +129,7 @@ def getWidgetById(form, id):
     name = id.replace('-', '.')
     prefix = form.prefix + form.widgets.prefix
     if not name.startswith(prefix):
-        raise ValueError("Name %r must start with prefix %r" % (name, prefix))
+        raise ValueError(f"Name {name!r} must start with prefix {prefix!r}")
     shortName = name[len(prefix):]
     return form.widgets.get(shortName, None)
 
@@ -245,7 +223,7 @@ class Manager(OrderedDict):
             except AttributeError:
                 # make sure an KeyError is raised later
                 pass
-        return super(Manager, self).__getitem__(key)
+        return super().__getitem__(key)
 
 
 @zope.interface.implementer(interfaces.ISelectionManager)

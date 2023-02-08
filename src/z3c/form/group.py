@@ -65,7 +65,7 @@ class Group(form.BaseForm):
 
     def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
-        data, errors = super(Group, self).extractData(setErrors=setErrors)
+        data, errors = super().extractData(setErrors=setErrors)
         for group in self.groups:
             groupData, groupErrors = group.extractData(setErrors=setErrors)
             data.update(groupData)
@@ -89,14 +89,14 @@ class Group(form.BaseForm):
 
 
 @implementer(interfaces.IGroupForm)
-class GroupForm(object):
+class GroupForm:
     """A mix-in class for add and edit forms to support groups."""
 
     groups = ()
 
     def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
-        data, errors = super(GroupForm, self).extractData(setErrors=setErrors)
+        data, errors = super().extractData(setErrors=setErrors)
         for group in self.groups:
             groupData, groupErrors = group.extractData(setErrors=setErrors)
             data.update(groupData)

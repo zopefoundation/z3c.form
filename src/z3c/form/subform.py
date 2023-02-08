@@ -53,7 +53,7 @@ class EditSubForm(form.BaseForm):
             self.status = self.noChangesMessage
 
     def update(self):
-        super(EditSubForm, self).update()
+        super().update()
         for action in self.parentForm.actions.executedActions:
             adapter = zope.component.queryMultiAdapter(
                 (self, self.request, self.getContent(), action),

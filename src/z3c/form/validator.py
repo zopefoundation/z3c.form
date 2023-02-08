@@ -28,7 +28,7 @@ from z3c.form import util
 
 
 @zope.interface.implementer(interfaces.IValidator)
-class StrictSimpleFieldValidator(object):
+class StrictSimpleFieldValidator:
     """Strict Simple Field Validator
 
     validates all incoming values"""
@@ -77,7 +77,7 @@ class StrictSimpleFieldValidator(object):
         return field.validate(value)
 
     def __repr__(self):
-        return "<%s for %s['%s']>" % (
+        return "<{} for {}['{}']>".format(
             self.__class__.__name__,
             self.field.interface.getName(),
             self.field.__name__)
@@ -93,7 +93,7 @@ class SimpleFieldValidator(StrictSimpleFieldValidator):
         if value is self.field.missing_value:
             # let missing values run into stricter validation
             # most important case is not let required fields pass
-            return super(SimpleFieldValidator, self).validate(value, force)
+            return super().validate(value, force)
 
         if not force:
             if value is interfaces.NOT_CHANGED:
@@ -107,7 +107,7 @@ class SimpleFieldValidator(StrictSimpleFieldValidator):
                 return
 
         # otherwise StrictSimpleFieldValidator will do the job
-        return super(SimpleFieldValidator, self).validate(value, force)
+        return super().validate(value, force)
 
 
 class FileUploadValidator(StrictSimpleFieldValidator):
@@ -154,7 +154,7 @@ class NoInputData(zope.interface.Invalid):
 
 
 @zope.interface.implementer(interfaces.IData)
-class Data(object):
+class Data:
 
     def __init__(self, schema, data, context):
         self._Data_data___ = data
@@ -187,7 +187,7 @@ class Data(object):
 
 
 @zope.interface.implementer(interfaces.IManagerValidator)
-class InvariantsValidator(object):
+class InvariantsValidator:
     """Simple Field Validator"""
     zope.component.adapts(
         zope.interface.Interface,
@@ -218,7 +218,7 @@ class InvariantsValidator(object):
                       if not isinstance(error, NoInputData)])
 
     def __repr__(self):
-        return '<%s for %s>' % (self.__class__.__name__, self.schema.getName())
+        return f'<{self.__class__.__name__} for {self.schema.getName()}>'
 
 
 def WidgetsValidatorDiscriminators(

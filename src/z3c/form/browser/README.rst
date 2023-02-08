@@ -88,7 +88,7 @@ we render a widget with an error view assinged:
 
   >>> class DummyErrorView(object):
   ...    def render(self):
-  ...        return u'Dummy Error'
+  ...        return 'Dummy Error'
   >>> widget.error = (DummyErrorView())
   >>> print(widget())
   <div id="foo-row" class="row-error row-required row">
@@ -269,7 +269,7 @@ We can also have a single checkbox button for the boolean.
 Note that the widget label is not repeated twice:
 
   >>> widget.label
-  u''
+  ''
 
 Calling the widget will return the widget including the layout
 
@@ -291,7 +291,7 @@ Button
 ------
 
   >>> from z3c.form import button
-  >>> field = button.Button(title=u'Press me!')
+  >>> field = button.Button(title='Press me!')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -346,7 +346,7 @@ Bytes
 
   >>> widget.mode = interfaces.DISPLAY_MODE
   >>> widget.render().strip('\r\n')
-  u'<span id="foo" class="file-widget required bytes-field"></span>'
+  '<span id="foo" class="file-widget required bytes-field"></span>'
 
 Calling the widget will return the widget including the layout
 
@@ -731,8 +731,8 @@ Let's say we have a simple image field that uses the ``pressme.png`` image.
 
   >>> from z3c.form import button
   >>> field = button.ImageButton(
-  ...     image=u'pressme.png',
-  ...     title=u'Press me!')
+  ...     image='pressme.png',
+  ...     title='Press me!')
 
 When the widget is created, the system converts the relative image path to an
 absolute image path by looking up the resource. For this to work, we have to
@@ -808,7 +808,7 @@ List - ASCII
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.ASCII(
-  ...         title=u'ASCII',
+  ...         title='ASCII',
   ...         default='This is\n ASCII.'),
   ...     default=['foo\nfoo', 'bar\nbar'])
   >>> widget = setupWidget(field)
@@ -877,7 +877,7 @@ List - ASCIILine
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.ASCIILine(
-  ...         title=u'ASCIILine',
+  ...         title='ASCIILine',
   ...         default='An ASCII line.'),
   ...     default=['foo', 'bar'])
   >>> widget = setupWidget(field)
@@ -1011,7 +1011,7 @@ List - Date
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Date(
-  ...         title=u'Date',
+  ...         title='Date',
   ...         default=datetime.date(2007, 4, 1)),
   ...     default=[datetime.date(2008, 9, 27), datetime.date(2008, 9, 28)])
   >>> widget = setupWidget(field)
@@ -1080,7 +1080,7 @@ List - Datetime
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Datetime(
-  ...         title=u'Datetime',
+  ...         title='Datetime',
   ...         default=datetime.datetime(2007, 4, 1, 12)),
   ...     default=[datetime.datetime(2008, 9, 27, 12),
   ...              datetime.datetime(2008, 9, 28, 12)])
@@ -1150,7 +1150,7 @@ List - Decimal
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Decimal(
-  ...         title=u'Decimal',
+  ...         title='Decimal',
   ...         default=decimal.Decimal('1265.87')),
   ...     default=[decimal.Decimal('123.456'), decimal.Decimal('1')])
   >>> widget = setupWidget(field)
@@ -1218,9 +1218,9 @@ List - DottedName
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.DottedName(
-  ...         title=u'DottedName',
+  ...         title='DottedName',
   ...         default='z3c.form'),
-  ...     default=[u'z3c.form', u'z3c.wizard'])
+  ...     default=['z3c.form', 'z3c.wizard'])
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -1287,7 +1287,7 @@ List - Float
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Float(
-  ...         title=u'Float',
+  ...         title='Float',
   ...         default=123.456),
   ...     default=[1234.5, 1])
   >>> widget = setupWidget(field)
@@ -1355,7 +1355,7 @@ List - Id
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Id(
-  ...         title=u'Id',
+  ...         title='Id',
   ...         default='z3c.form'),
   ...     default=['z3c.form', 'z3c.wizard'])
   >>> widget = setupWidget(field)
@@ -1424,7 +1424,7 @@ List - Int
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Int(
-  ...         title=u'Int',
+  ...         title='Int',
   ...         default=666),
   ...     default=[42, 43])
   >>> widget = setupWidget(field)
@@ -1491,8 +1491,8 @@ List - Password
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Password(
-  ...         title=u'Password',
-  ...         default=u'mypwd'),
+  ...         title='Password',
+  ...         default='mypwd'),
   ...     default=['pwd', 'pass'])
   >>> widget = setupWidget(field)
   >>> widget.update()
@@ -1558,9 +1558,9 @@ List - SourceText
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.SourceText(
-  ...         title=u'SourceText',
-  ...         default=u'<source />'),
-  ...     default=[u'<html></body>foo</body></html>', u'<h1>bar</h1>'] )
+  ...         title='SourceText',
+  ...         default='<source />'),
+  ...     default=['<html></body>foo</body></html>', '<h1>bar</h1>'] )
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -1625,9 +1625,9 @@ List - Text
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Text(
-  ...         title=u'Text',
-  ...         default=u'Some\n Text.'),
-  ...     default=[u'foo\nfoo', u'bar\nbar'] )
+  ...         title='Text',
+  ...         default='Some\n Text.'),
+  ...     default=['foo\nfoo', 'bar\nbar'] )
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -1694,9 +1694,9 @@ List - TextLine
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.TextLine(
-  ...         title=u'TextLine',
-  ...         default=u'Some Text line.'),
-  ...     default=[u'foo', u'bar'] )
+  ...         title='TextLine',
+  ...         default='Some Text line.'),
+  ...     default=['foo', 'bar'] )
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -1763,7 +1763,7 @@ List - Time
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Time(
-  ...         title=u'Time',
+  ...         title='Time',
   ...         default=datetime.time(12, 0)),
   ...     default=[datetime.time(13, 0), datetime.time(14, 0)] )
   >>> widget = setupWidget(field)
@@ -1830,7 +1830,7 @@ List - Timedelta
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.Timedelta(
-  ...         title=u'Timedelta',
+  ...         title='Timedelta',
   ...         default=datetime.timedelta(days=3)),
   ...     default=[datetime.timedelta(days=4), datetime.timedelta(days=5)] )
   >>> widget = setupWidget(field)
@@ -1899,7 +1899,7 @@ List - URI
 
   >>> field = zope.schema.List(
   ...     value_type=zope.schema.URI(
-  ...         title=u'URI',
+  ...         title='URI',
   ...         default='http://zope.org'),
   ...     default=['http://www.python.org', 'http://www.zope.com'] )
   >>> widget = setupWidget(field)
@@ -1973,7 +1973,7 @@ believe this is better done using sub-forms.
 Password
 --------
 
-  >>> field = zope.schema.Password(default=u'mypwd')
+  >>> field = zope.schema.Password(default='mypwd')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -2027,7 +2027,7 @@ Set
 SourceText
 ----------
 
-  >>> field = zope.schema.SourceText(default=u'<source />')
+  >>> field = zope.schema.SourceText(default='<source />')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -2049,7 +2049,7 @@ SourceText
 Text
 ----
 
-  >>> field = zope.schema.Text(default=u'Some\n Text.')
+  >>> field = zope.schema.Text(default='Some\n Text.')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -2072,7 +2072,7 @@ Text
 TextLine
 --------
 
-  >>> field = zope.schema.TextLine(default=u'Some Text line.')
+  >>> field = zope.schema.TextLine(default='Some Text line.')
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -2141,7 +2141,7 @@ Tuple - ASCII
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.ASCII(
-  ...         title=u'ASCII',
+  ...         title='ASCII',
   ...         default='This is\n ASCII.'),
   ...     default=('foo\nfoo', 'bar\nbar'))
   >>> widget = setupWidget(field)
@@ -2210,7 +2210,7 @@ Tuple - ASCIILine
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.ASCIILine(
-  ...         title=u'ASCIILine',
+  ...         title='ASCIILine',
   ...         default='An ASCII line.'),
   ...     default=('foo', 'bar'))
   >>> widget = setupWidget(field)
@@ -2344,7 +2344,7 @@ Tuple - Date
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Date(
-  ...         title=u'Date',
+  ...         title='Date',
   ...         default=datetime.date(2007, 4, 1)),
   ...     default=(datetime.date(2008, 9, 27), datetime.date(2008, 9, 28)))
   >>> widget = setupWidget(field)
@@ -2413,7 +2413,7 @@ Tuple - Datetime
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Datetime(
-  ...         title=u'Datetime',
+  ...         title='Datetime',
   ...         default=datetime.datetime(2007, 4, 1, 12)),
   ...     default=(datetime.datetime(2008, 9, 27, 12),
   ...              datetime.datetime(2008, 9, 28, 12)))
@@ -2483,7 +2483,7 @@ Tuple - Decimal
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Decimal(
-  ...         title=u'Decimal',
+  ...         title='Decimal',
   ...         default=decimal.Decimal('1265.87')),
   ...     default=(decimal.Decimal('123.456'), decimal.Decimal('1')))
   >>> widget = setupWidget(field)
@@ -2551,9 +2551,9 @@ Tuple - DottedName
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.DottedName(
-  ...         title=u'DottedName',
+  ...         title='DottedName',
   ...         default='z3c.form'),
-  ...     default=(u'z3c.form', u'z3c.wizard'))
+  ...     default=('z3c.form', 'z3c.wizard'))
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -2620,7 +2620,7 @@ Tuple - Float
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Float(
-  ...         title=u'Float',
+  ...         title='Float',
   ...         default=123.456),
   ...     default=(1234.5, 1))
   >>> widget = setupWidget(field)
@@ -2688,7 +2688,7 @@ Tuple - Id
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Id(
-  ...         title=u'Id',
+  ...         title='Id',
   ...         default='z3c.form'),
   ...     default=('z3c.form', 'z3c.wizard'))
   >>> widget = setupWidget(field)
@@ -2757,7 +2757,7 @@ Tuple - Int
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Int(
-  ...         title=u'Int',
+  ...         title='Int',
   ...         default=666),
   ...     default=(42, 43))
   >>> widget = setupWidget(field)
@@ -2824,8 +2824,8 @@ Tuple - Password
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Password(
-  ...         title=u'Password',
-  ...         default=u'mypwd'),
+  ...         title='Password',
+  ...         default='mypwd'),
   ...     default=('pwd', 'pass'))
   >>> widget = setupWidget(field)
   >>> widget.update()
@@ -2891,9 +2891,9 @@ Tuple - SourceText
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.SourceText(
-  ...         title=u'SourceText',
-  ...         default=u'<source />'),
-  ...     default=(u'<html></body>foo</body></html>', u'<h1>bar</h1>'))
+  ...         title='SourceText',
+  ...         default='<source />'),
+  ...     default=('<html></body>foo</body></html>', '<h1>bar</h1>'))
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -2958,9 +2958,9 @@ Tuple - Text
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Text(
-  ...         title=u'Text',
-  ...         default=u'Some\n Text.'),
-  ...     default=(u'foo\nfoo', u'bar\nbar'))
+  ...         title='Text',
+  ...         default='Some\n Text.'),
+  ...     default=('foo\nfoo', 'bar\nbar'))
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -3027,9 +3027,9 @@ Tuple - TextLine
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.TextLine(
-  ...         title=u'TextLine',
-  ...         default=u'Some Text line.'),
-  ...     default=(u'foo', u'bar'))
+  ...         title='TextLine',
+  ...         default='Some Text line.'),
+  ...     default=('foo', 'bar'))
   >>> widget = setupWidget(field)
   >>> widget.update()
 
@@ -3096,7 +3096,7 @@ Tuple - Time
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Time(
-  ...         title=u'Time',
+  ...         title='Time',
   ...         default=datetime.time(12, 0)),
   ...     default=(datetime.time(13, 0), datetime.time(14, 0)))
   >>> widget = setupWidget(field)
@@ -3163,7 +3163,7 @@ Tuple - Timedelta
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.Timedelta(
-  ...         title=u'Timedelta',
+  ...         title='Timedelta',
   ...         default=datetime.timedelta(days=3)),
   ...     default=(datetime.timedelta(days=4), datetime.timedelta(days=5)))
   >>> widget = setupWidget(field)
@@ -3232,7 +3232,7 @@ Tuple - URI
 
   >>> field = zope.schema.Tuple(
   ...     value_type=zope.schema.URI(
-  ...         title=u'URI',
+  ...         title='URI',
   ...         default='http://zope.org'),
   ...     default=('http://www.python.org', 'http://www.zope.com'))
   >>> widget = setupWidget(field)

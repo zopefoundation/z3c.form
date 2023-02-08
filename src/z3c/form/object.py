@@ -38,7 +38,7 @@ def getIfName(iface):
 
 
 # our own placeholder instead of a simple None
-class ObjectWidget_NO_VALUE(object):
+class ObjectWidget_NO_VALUE:
     def __repr__(self):
         return '<ObjectWidget_NO_VALUE>'
 
@@ -299,7 +299,7 @@ class ObjectWidget(widget.Widget):
         # updating
         self._updating = True
         try:
-            super(ObjectWidget, self).update()
+            super().update()
             # create the subwidgets and set their values
             self.updateWidgets(setErrors=False)
         finally:
@@ -379,7 +379,7 @@ class ObjectWidget(widget.Widget):
                  makeDummyObject(self.field.schema)),
                 IPageTemplate, name=self.mode)
             if template is None:
-                return super(ObjectWidget, self).render()
+                return super().render()
         return template(self)
 
 
@@ -389,11 +389,11 @@ class ObjectWidget(widget.Widget):
 def makeDummyObject(iface):
     if iface is not None:
         @zope.interface.implementer(iface)
-        class DummyObject(object):
+        class DummyObject:
             pass
     else:
         @zope.interface.implementer(zope.interface.Interface)
-        class DummyObject(object):
+        class DummyObject:
             pass
 
     dummy = DummyObject()
@@ -403,7 +403,7 @@ def makeDummyObject(iface):
 # special template factory that takes the field.schema into account
 # used by zcml.py
 
-class ObjectWidgetTemplateFactory(object):
+class ObjectWidgetTemplateFactory:
     """Widget template factory."""
 
     def __init__(self, filename, contentType='text/html',
@@ -427,7 +427,7 @@ class ObjectWidgetTemplateFactory(object):
 # default adapters
 
 @zope.interface.implementer(interfaces.IObjectFactory)
-class FactoryAdapter(object):
+class FactoryAdapter:
     """Most basic-default object factory adapter"""
     zope.component.adapts(
         zope.interface.Interface,  # context

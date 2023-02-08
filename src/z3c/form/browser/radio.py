@@ -36,8 +36,8 @@ from z3c.form.widget import SequenceWidget
 class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
     """Input type radio widget implementation."""
 
-    klass = u'radio-widget'
-    css = u'radio'
+    klass = 'radio-widget'
+    css = 'radio'
 
     def isChecked(self, term):
         return term.token in self.value
@@ -81,11 +81,11 @@ class RadioWidget(widget.HTMLInputWidget, SequenceWidget):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(RadioWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
 
     def json_data(self):
-        data = super(RadioWidget, self).json_data()
+        data = super().json_data()
         data['options'] = list(self.items)
         data['type'] = 'radio'
         return data

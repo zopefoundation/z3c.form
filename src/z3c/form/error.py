@@ -58,7 +58,7 @@ def ErrorViewDiscriminators(
 
 
 @zope.interface.implementer(interfaces.IErrorViewSnippet)
-class ErrorViewSnippet(object):
+class ErrorViewSnippet:
     """Error view snippet."""
     zope.component.adapts(
         zope.schema.ValidationError, None, None, None, None, None)
@@ -90,7 +90,7 @@ class ErrorViewSnippet(object):
         return template(self)
 
     def __repr__(self):
-        return '<%s for %s>' % (
+        return '<{} for {}>'.format(
             self.__class__.__name__, self.error.__class__.__name__)
 
 
@@ -134,7 +134,7 @@ class MultipleErrors(Exception):
         self.errors = errors
 
 
-class ErrorViewTemplateFactory(object):
+class ErrorViewTemplateFactory:
     """Error view template factory."""
 
     template = None

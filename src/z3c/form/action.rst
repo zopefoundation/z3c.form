@@ -72,7 +72,7 @@ Initially there are no actions in the manager:
 Our simple implementation of has an additional ``append()`` method, which we
 will use to add actions:
 
-  >>> apply = action.Action(request, u'Apply')
+  >>> apply = action.Action(request, 'Apply')
   >>> manager.append(apply.name, apply)
 
 The action is added immediately:
@@ -89,7 +89,7 @@ Note: If the title of the action is a more complex unicode string and no name
 is specified for the action, then a hexadecimal name is created from the
 title:
 
-  >>> action.Action(request, u'Apply Now!').name
+  >>> action.Action(request, 'Apply Now!').name
   '4170706c79204e6f7721'
 
 Since the action manager is an enumerable mapping, ...
@@ -101,14 +101,14 @@ Since the action manager is an enumerable mapping, ...
 there are several API methods available:
 
   >>> manager['apply']
-  <Action 'apply' u'Apply'>
+  <Action 'apply' 'Apply'>
   >>> manager['foo']
   Traceback (most recent call last):
   ...
   KeyError: 'foo'
 
   >>> manager.get('apply')
-  <Action 'apply' u'Apply'>
+  <Action 'apply' 'Apply'>
   >>> manager.get('foo', 'default')
   'default'
 
@@ -118,10 +118,10 @@ there are several API methods available:
   False
 
   >>> list(manager.values())
-  [<Action 'apply' u'Apply'>]
+  [<Action 'apply' 'Apply'>]
 
   >>> list(manager.items())
-  [('apply', <Action 'apply' u'Apply'>)]
+  [('apply', <Action 'apply' 'Apply'>)]
 
   >>> len(manager)
   1
@@ -140,17 +140,17 @@ button:
 We also want to have two buttons in this case, so that we can ensure that only
 one is executed:
 
-  >>> apply = action.Action(request, u'Apply')
+  >>> apply = action.Action(request, 'Apply')
   >>> manager.append(apply.name, apply)
 
-  >>> cancel = action.Action(request, u'Cancel')
+  >>> cancel = action.Action(request, 'Cancel')
   >>> manager.append(cancel.name, cancel)
   >>> manager.update()
 
 Now that the manager is updated, we can ask it for the "executed" actions:
 
   >>> manager.executedActions
-  [<Action 'apply' u'Apply'>]
+  [<Action 'apply' 'Apply'>]
 
 Executing the actions does nothing, because there are no handlers yet:
 
@@ -203,7 +203,7 @@ Let's now execute the "Apply" action again:
   successfully applied
 
   >>> eventlog[-1]
-  <ActionSuccessful for <Action 'apply' u'Apply'>>
+  <ActionSuccessful for <Action 'apply' 'Apply'>>
 
 Action handlers, however, can also raise action errors. These action errors
 are caught and an event is created notifying the system of the problem. The
@@ -232,8 +232,7 @@ Executing the "Cancel" action now produces the action error event:
   >>> manager.execute()
 
   >>> eventlog[-1]
-  <ActionErrorOccurred for <Action 'cancel' u'Cancel'>>
+  <ActionErrorOccurred for <Action 'cancel' 'Cancel'>>
 
   >>> eventlog[-1].error
   <ActionExecutionError wrapping ...Invalid...>
-

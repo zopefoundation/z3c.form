@@ -18,15 +18,15 @@ multiple groups:
   >>> import zope.schema
 
   >>> class IVehicleRegistration(zope.interface.Interface):
-  ...     firstName = zope.schema.TextLine(title=u'First Name')
-  ...     lastName = zope.schema.TextLine(title=u'Last Name')
+  ...     firstName = zope.schema.TextLine(title='First Name')
+  ...     lastName = zope.schema.TextLine(title='Last Name')
   ...
-  ...     license = zope.schema.TextLine(title=u'License')
-  ...     address = zope.schema.TextLine(title=u'Address')
+  ...     license = zope.schema.TextLine(title='License')
+  ...     address = zope.schema.TextLine(title='Address')
   ...
-  ...     model = zope.schema.TextLine(title=u'Model')
-  ...     make = zope.schema.TextLine(title=u'Make')
-  ...     year = zope.schema.TextLine(title=u'Year')
+  ...     model = zope.schema.TextLine(title='Model')
+  ...     make = zope.schema.TextLine(title='Make')
+  ...     year = zope.schema.TextLine(title='Year')
 
   >>> @zope.interface.implementer(IVehicleRegistration)
   ... class VehicleRegistration(object):
@@ -42,12 +42,12 @@ groups:
   >>> from z3c.form import field, group
 
   >>> class LicenseGroup(group.Group):
-  ...     label = u'License'
+  ...     label = 'License'
   ...     fields = field.Fields(IVehicleRegistration).select(
   ...         'license', 'address')
 
   >>> class CarGroup(group.Group):
-  ...     label = u'Car'
+  ...     label = 'Car'
   ...     fields = field.Fields(IVehicleRegistration).select(
   ...         'model', 'make', 'year')
 
@@ -189,13 +189,13 @@ Registering a custom event handler for the DataExtractedEvent
 Let's now submit the form, but forgetting to enter the address:
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.lastName': u'Richter',
-  ...     'form.widgets.license': u'MA 40387',
-  ...     'form.widgets.model': u'BMW',
-  ...     'form.widgets.make': u'325',
-  ...     'form.widgets.year': u'2005',
-  ...     'form.buttons.add': u'Add'
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.lastName': 'Richter',
+  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.model': 'BMW',
+  ...     'form.widgets.make': '325',
+  ...     'form.widgets.year': '2005',
+  ...     'form.buttons.add': 'Add'
   ...     })
 
   >>> add = RegistrationAddForm(None, request)
@@ -225,12 +225,12 @@ Check, if DataExtractedEvent was thrown:
 So what happens, if errors happen inside and outside a group?
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.license': u'MA 40387',
-  ...     'form.widgets.model': u'BMW',
-  ...     'form.widgets.make': u'325',
-  ...     'form.widgets.year': u'2005',
-  ...     'form.buttons.add': u'Add'
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.model': 'BMW',
+  ...     'form.widgets.make': '325',
+  ...     'form.widgets.year': '2005',
+  ...     'form.buttons.add': 'Add'
   ...     })
 
   >>> add = RegistrationAddForm(None, request)
@@ -269,14 +269,14 @@ Let's now successfully complete the add form.
   >>> context = btree.BTreeContainer()
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.lastName': u'Richter',
-  ...     'form.widgets.license': u'MA 40387',
-  ...     'form.widgets.address': u'10 Main St, Maynard, MA',
-  ...     'form.widgets.model': u'BMW',
-  ...     'form.widgets.make': u'325',
-  ...     'form.widgets.year': u'2005',
-  ...     'form.buttons.add': u'Add'
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.lastName': 'Richter',
+  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.address': '10 Main St, Maynard, MA',
+  ...     'form.widgets.model': 'BMW',
+  ...     'form.widgets.make': '325',
+  ...     'form.widgets.year': '2005',
+  ...     'form.buttons.add': 'Add'
   ...     })
 
   >>> add = RegistrationAddForm(context, request)
@@ -286,19 +286,19 @@ The object is now added to the container and all attributes should be set:
 
   >>> reg = context['obj1']
   >>> reg.firstName
-  u'Stephan'
+  'Stephan'
   >>> reg.lastName
-  u'Richter'
+  'Richter'
   >>> reg.license
-  u'MA 40387'
+  'MA 40387'
   >>> reg.address
-  u'10 Main St, Maynard, MA'
+  '10 Main St, Maynard, MA'
   >>> reg.model
-  u'BMW'
+  'BMW'
   >>> reg.make
-  u'325'
+  '325'
   >>> reg.year
-  u'2005'
+  '2005'
 
 Let's now have a look at an edit form for the vehicle registration:
 
@@ -388,13 +388,13 @@ After updating the form, we can render the HTML:
 The behavior when an error occurs is identical to that of the add form:
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.lastName': u'Richter',
-  ...     'form.widgets.license': u'MA 40387',
-  ...     'form.widgets.model': u'BMW',
-  ...     'form.widgets.make': u'325',
-  ...     'form.widgets.year': u'2005',
-  ...     'form.buttons.apply': u'Apply'
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.lastName': 'Richter',
+  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.model': 'BMW',
+  ...     'form.widgets.make': '325',
+  ...     'form.widgets.year': '2005',
+  ...     'form.buttons.apply': 'Apply'
   ...     })
 
   >>> edit = RegistrationEditForm(reg, request)
@@ -435,14 +435,14 @@ To see the error, let's create an event subscriber for object-modified events:
 Let's now complete the form successfully:
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.firstName': u'Stephan',
-  ...     'form.widgets.lastName': u'Richter',
-  ...     'form.widgets.license': u'MA 4038765',
-  ...     'form.widgets.address': u'11 Main St, Maynard, MA',
-  ...     'form.widgets.model': u'Ford',
-  ...     'form.widgets.make': u'F150',
-  ...     'form.widgets.year': u'2006',
-  ...     'form.buttons.apply': u'Apply'
+  ...     'form.widgets.firstName': 'Stephan',
+  ...     'form.widgets.lastName': 'Richter',
+  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.address': '11 Main St, Maynard, MA',
+  ...     'form.widgets.model': 'Ford',
+  ...     'form.widgets.make': 'F150',
+  ...     'form.widgets.year': '2006',
+  ...     'form.buttons.apply': 'Apply'
   ...     })
 
   >>> edit = RegistrationEditForm(reg, request)
@@ -457,19 +457,19 @@ The success message will be shown on the form, ...
 and the data are correctly updated:
 
   >>> reg.firstName
-  u'Stephan'
+  'Stephan'
   >>> reg.lastName
-  u'Richter'
+  'Richter'
   >>> reg.license
-  u'MA 4038765'
+  'MA 4038765'
   >>> reg.address
-  u'11 Main St, Maynard, MA'
+  '11 Main St, Maynard, MA'
   >>> reg.model
-  u'Ford'
+  'Ford'
   >>> reg.make
-  u'F150'
+  'F150'
   >>> reg.year
-  u'2006'
+  '2006'
 
 Let's look at the event:
 
@@ -482,7 +482,7 @@ all changed fields, even if they where in different groups:
 
   >>> attrs = event.descriptions[0]
   >>> attrs.interface
-  <InterfaceClass __builtin__.IVehicleRegistration>
+  <InterfaceClass builtins.IVehicleRegistration>
   >>> attrs.attributes
   ('license', 'address', 'model', 'make', 'year')
 
@@ -584,22 +584,22 @@ vehicle owner's information in a separate class than the vehicle.  We
 might have an ``IVehicleOwner`` interface like so.
 
   >>> class IVehicleOwner(zope.interface.Interface):
-  ...     firstName = zope.schema.TextLine(title=u'First Name')
-  ...     lastName = zope.schema.TextLine(title=u'Last Name')
+  ...     firstName = zope.schema.TextLine(title='First Name')
+  ...     lastName = zope.schema.TextLine(title='Last Name')
 
 Then out ``IVehicleRegistration`` interface would include an object
 field for the owner instead of the ``firstName`` and ``lastName``
 fields.
 
   >>> class IVehicleRegistration(zope.interface.Interface):
-  ...     owner = zope.schema.Object(title=u'Owner', schema=IVehicleOwner)
+  ...     owner = zope.schema.Object(title='Owner', schema=IVehicleOwner)
   ...
-  ...     license = zope.schema.TextLine(title=u'License')
-  ...     address = zope.schema.TextLine(title=u'Address')
+  ...     license = zope.schema.TextLine(title='License')
+  ...     address = zope.schema.TextLine(title='Address')
   ...
-  ...     model = zope.schema.TextLine(title=u'Model')
-  ...     make = zope.schema.TextLine(title=u'Make')
-  ...     year = zope.schema.TextLine(title=u'Year')
+  ...     model = zope.schema.TextLine(title='Model')
+  ...     make = zope.schema.TextLine(title='Make')
+  ...     year = zope.schema.TextLine(title='Year')
 
 Now let's create simple implementations of these two interfaces.
 
@@ -622,7 +622,7 @@ Now we can create a group just for the owner with its own
 of the ``VehicleRegistration`` instance.
 
   >>> class OwnerGroup(group.Group):
-  ...     label = u'Owner'
+  ...     label = 'Owner'
   ...     fields = field.Fields(IVehicleOwner, prefix='owner')
   ...
   ...     def getContent(self):
@@ -640,13 +640,13 @@ field which is taken care of with the group.
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(
-  ...               license=u'MA 40387',
-  ...               address=u'10 Main St, Maynard, MA',
-  ...               model=u'BMW',
-  ...               make=u'325',
-  ...               year=u'2005',
-  ...               owner=VehicleOwner(firstName=u'Stephan',
-  ...                                  lastName=u'Richter'))
+  ...               license='MA 40387',
+  ...               address='10 Main St, Maynard, MA',
+  ...               model='BMW',
+  ...               make='325',
+  ...               year='2005',
+  ...               owner=VehicleOwner(firstName='Stephan',
+  ...                                  lastName='Richter'))
   >>> request = testing.TestRequest()
 
   >>> edit = RegistrationEditForm(reg, request)
@@ -723,14 +723,14 @@ Now let's try and edit the owner.  For example, suppose that Stephan
 Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.owner.firstName': u'Paul',
-  ...     'form.widgets.owner.lastName': u'Carduner',
-  ...     'form.widgets.license': u'MA 4038765',
-  ...     'form.widgets.address': u'Berkeley',
-  ...     'form.widgets.model': u'BMW',
-  ...     'form.widgets.make': u'325',
-  ...     'form.widgets.year': u'2005',
-  ...     'form.buttons.apply': u'Apply'
+  ...     'form.widgets.owner.firstName': 'Paul',
+  ...     'form.widgets.owner.lastName': 'Carduner',
+  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.address': 'Berkeley',
+  ...     'form.widgets.model': 'BMW',
+  ...     'form.widgets.make': '325',
+  ...     'form.widgets.year': '2005',
+  ...     'form.buttons.apply': 'Apply'
   ...     })
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
@@ -744,19 +744,19 @@ We'll see if everything worked on the form side.
 Now the owner object should have updated fields.
 
   >>> reg.owner.firstName
-  u'Paul'
+  'Paul'
   >>> reg.owner.lastName
-  u'Carduner'
+  'Carduner'
   >>> reg.license
-  u'MA 4038765'
+  'MA 4038765'
   >>> reg.address
-  u'Berkeley'
+  'Berkeley'
   >>> reg.model
-  u'BMW'
+  'BMW'
   >>> reg.make
-  u'325'
+  '325'
   >>> reg.year
-  u'2005'
+  '2005'
 
 
 Nested Groups
@@ -765,14 +765,14 @@ Nested Groups
 The group can contains groups. Let's adapt the previous RegistrationEditForm:
 
   >>> class OwnerGroup(group.Group):
-  ...     label = u'Owner'
+  ...     label = 'Owner'
   ...     fields = field.Fields(IVehicleOwner, prefix='owner')
   ...
   ...     def getContent(self):
   ...         return self.context.owner
 
   >>> class VehicleRegistrationGroup(group.Group):
-  ...     label = u'Registration'
+  ...     label = 'Registration'
   ...     fields = field.Fields(IVehicleRegistration).omit(
   ...         'owner')
   ...     groups = (OwnerGroup,)
@@ -787,13 +787,13 @@ The group can contains groups. Let's adapt the previous RegistrationEditForm:
   ...         'simple_nested_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(
-  ...               license=u'MA 40387',
-  ...               address=u'10 Main St, Maynard, MA',
-  ...               model=u'BMW',
-  ...               make=u'325',
-  ...               year=u'2005',
-  ...               owner=VehicleOwner(firstName=u'Stephan',
-  ...                                  lastName=u'Richter'))
+  ...               license='MA 40387',
+  ...               address='10 Main St, Maynard, MA',
+  ...               model='BMW',
+  ...               make='325',
+  ...               year='2005',
+  ...               owner=VehicleOwner(firstName='Stephan',
+  ...                                  lastName='Richter'))
   >>> request = testing.TestRequest()
 
   >>> edit = RegistrationEditForm(reg, request)
@@ -803,14 +803,14 @@ Now let's try and edit the owner.  For example, suppose that Stephan
 Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.owner.firstName': u'Paul',
-  ...     'form.widgets.owner.lastName': u'Carduner',
-  ...     'form.widgets.license': u'MA 4038765',
-  ...     'form.widgets.address': u'Berkeley',
-  ...     'form.widgets.model': u'BMW',
-  ...     'form.widgets.make': u'325',
-  ...     'form.widgets.year': u'2005',
-  ...     'form.buttons.apply': u'Apply'
+  ...     'form.widgets.owner.firstName': 'Paul',
+  ...     'form.widgets.owner.lastName': 'Carduner',
+  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.address': 'Berkeley',
+  ...     'form.widgets.model': 'BMW',
+  ...     'form.widgets.make': '325',
+  ...     'form.widgets.year': '2005',
+  ...     'form.buttons.apply': 'Apply'
   ...     })
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
@@ -824,19 +824,19 @@ We'll see if everything worked on the form side.
 Now the owner object should have updated fields.
 
   >>> reg.owner.firstName
-  u'Paul'
+  'Paul'
   >>> reg.owner.lastName
-  u'Carduner'
+  'Carduner'
   >>> reg.license
-  u'MA 4038765'
+  'MA 4038765'
   >>> reg.address
-  u'Berkeley'
+  'Berkeley'
   >>> reg.model
-  u'BMW'
+  'BMW'
   >>> reg.make
-  u'325'
+  '325'
   >>> reg.year
-  u'2005'
+  '2005'
 
 So what happens, if errors happen inside a nested group? Let's use an empty
 invalid object for the test missing input errors:
@@ -844,14 +844,14 @@ invalid object for the test missing input errors:
   >>> reg = VehicleRegistration(owner=VehicleOwner())
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.owner.firstName': u'',
-  ...     'form.widgets.owner.lastName': u'',
-  ...     'form.widgets.license': u'',
-  ...     'form.widgets.address': u'',
-  ...     'form.widgets.model': u'',
-  ...     'form.widgets.make': u'',
-  ...     'form.widgets.year': u'',
-  ...     'form.buttons.apply': u'Apply'
+  ...     'form.widgets.owner.firstName': '',
+  ...     'form.widgets.owner.lastName': '',
+  ...     'form.widgets.license': '',
+  ...     'form.widgets.address': '',
+  ...     'form.widgets.model': '',
+  ...     'form.widgets.make': '',
+  ...     'form.widgets.year': '',
+  ...     'form.buttons.apply': 'Apply'
   ...     })
 
   >>> edit = RegistrationEditForm(reg, request)
@@ -903,13 +903,13 @@ Group instance in nested group
 Let's also test if the Group class can handle group objects as instances:
 
   >>> reg = VehicleRegistration(
-  ...               license=u'MA 40387',
-  ...               address=u'10 Main St, Maynard, MA',
-  ...               model=u'BMW',
-  ...               make=u'325',
-  ...               year=u'2005',
-  ...               owner=VehicleOwner(firstName=u'Stephan',
-  ...                                  lastName=u'Richter'))
+  ...               license='MA 40387',
+  ...               address='10 Main St, Maynard, MA',
+  ...               model='BMW',
+  ...               make='325',
+  ...               year='2005',
+  ...               owner=VehicleOwner(firstName='Stephan',
+  ...                                  lastName='Richter'))
   >>> request = testing.TestRequest()
 
   >>> edit = RegistrationEditForm(reg, request)
@@ -998,14 +998,14 @@ Update and render:
 Now test the error handling if just one missing value is given in a group:
 
   >>> request = testing.TestRequest(form={
-  ...     'form.widgets.owner.firstName': u'Paul',
-  ...     'form.widgets.owner.lastName': u'',
-  ...     'form.widgets.license': u'MA 4038765',
-  ...     'form.widgets.address': u'Berkeley',
-  ...     'form.widgets.model': u'BMW',
-  ...     'form.widgets.make': u'325',
-  ...     'form.widgets.year': u'2005',
-  ...     'form.buttons.apply': u'Apply'
+  ...     'form.widgets.owner.firstName': 'Paul',
+  ...     'form.widgets.owner.lastName': '',
+  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.address': 'Berkeley',
+  ...     'form.widgets.model': 'BMW',
+  ...     'form.widgets.make': '325',
+  ...     'form.widgets.year': '2005',
+  ...     'form.buttons.apply': 'Apply'
   ...     })
 
   >>> edit = RegistrationEditForm(reg, request)

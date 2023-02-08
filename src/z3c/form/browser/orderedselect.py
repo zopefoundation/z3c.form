@@ -33,7 +33,7 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Ordered-Select widget implementation."""
 
     size = 5
-    multiple = u'multiple'
+    multiple = 'multiple'
     items = ()
     selectedItems = ()
     notselectedItems = ()
@@ -48,7 +48,7 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(OrderedSelectWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
         self.items = [
             self.getItem(term, count)
@@ -69,7 +69,7 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         return notselecteditems
 
     def json_data(self):
-        data = super(OrderedSelectWidget, self).json_data()
+        data = super().json_data()
         data['options'] = self.items
         data['selected'] = self.selectedItems
         data['notSelected'] = self.notselectedItems

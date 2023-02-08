@@ -20,8 +20,8 @@ objects, so they behave identical within a schema:
 
   >>> import zope.interface
   >>> class IButtons(zope.interface.Interface):
-  ...     apply = button.Button(title=u'Apply')
-  ...     cancel = button.Button(title=u'Cancel')
+  ...     apply = button.Button(title='Apply')
+  ...     cancel = button.Button(title='Cancel')
 
 In reality, only the title and name is relevant. Let's now create a form that
 provides those buttons.
@@ -67,7 +67,7 @@ actions:
   ['apply', 'cancel']
 
   >>> actions['apply']
-  <ButtonAction 'form.buttons.apply' u'Apply'>
+  <ButtonAction 'form.buttons.apply' 'Apply'>
 
 It is possible to customize how a button is transformed into an action
 by registering an adapter for the request and the button that provides
@@ -97,7 +97,7 @@ As you can see we still will get the old button action if we only call update:
   ['apply', 'cancel']
 
   >>> actions['apply']
-  <ButtonAction 'form.buttons.apply' u'Apply'>
+  <ButtonAction 'form.buttons.apply' 'Apply'>
 
 This means we have to remove the previous action before we call update:
 
@@ -111,7 +111,7 @@ update twice:
   ['apply', 'cancel']
 
   >>> actions['apply']
-  <CustomButtonAction 'form.buttons.apply' u'Apply'>
+  <CustomButtonAction 'form.buttons.apply' 'Apply'>
 
 Alternatively, customize an individual button by setting its
 actionFactory attribute.
@@ -243,7 +243,7 @@ manager:
   ...     interfaces.IButtonForm, interfaces.IHandlerForm)
   ... class Form(object):
   ...     buttons = button.Buttons(
-  ...         button.Button('apply', title=u'Apply'))
+  ...         button.Button('apply', title='Apply'))
   ...     prefix = 'form.'
   ...
   ...     @button.handler(buttons['apply'])
@@ -260,14 +260,14 @@ button. Optionally, this can also be one of the following keyword arguments:
 
 If no name is specified, the button will not have a name immediately, ...
 
-  >>> button.Button(title=u'Apply').__name__
+  >>> button.Button(title='Apply').__name__
   ''
 
 because if the button is created within an interface, the name is assigned
 later:
 
   >>> class IActions(zope.interface.Interface):
-  ...    apply = button.Button(title=u'Apply')
+  ...    apply = button.Button(title='Apply')
 
   >>> IActions['apply'].__name__
   'apply'
@@ -275,11 +275,11 @@ later:
 However, once the button is added to a button manager, a name will be
 assigned:
 
-  >>> btns = button.Buttons(button.Button(title=u'Apply'))
+  >>> btns = button.Buttons(button.Button(title='Apply'))
   >>> btns['apply'].__name__
   'apply'
 
-  >>> btns = button.Buttons(button.Button(title=u'Apply and more'))
+  >>> btns = button.Buttons(button.Button(title='Apply and more'))
   >>> btns['4170706c7920616e64206d6f7265'].__name__
   '4170706c7920616e64206d6f7265'
 
@@ -308,7 +308,7 @@ to create the button and handler at the same time:
   ... class Form(object):
   ...     prefix = 'form.'
   ...
-  ...     @button.buttonAndHandler(u'Apply')
+  ...     @button.buttonAndHandler('Apply')
   ...     def apply(self, action):
   ...         print('successfully applied')
 
@@ -328,7 +328,7 @@ hex-encoded string:
 
   >>> class Form(object):
   ...
-  ...     @button.buttonAndHandler(u'Apply and Next')
+  ...     @button.buttonAndHandler('Apply and Next')
   ...     def apply(self, action):
   ...         print('successfully applied')
 
@@ -340,7 +340,7 @@ yourself. The decorator, however, also allows the keyword ``name``:
 
   >>> class Form(object):
   ...
-  ...     @button.buttonAndHandler(u'Apply and Next', name='applyNext')
+  ...     @button.buttonAndHandler('Apply and Next', name='applyNext')
   ...     def apply(self, action):
   ...         print('successfully applied')
 
@@ -357,7 +357,7 @@ multitude of things, including handler discrimination and UI layout:
 
   >>> class Form(object):
   ...
-  ...     @button.buttonAndHandler(u'Apply', provides=(IMyButton,))
+  ...     @button.buttonAndHandler('Apply', provides=(IMyButton,))
   ...     def apply(self, action):
   ...         print('successfully applied')
 
@@ -379,7 +379,7 @@ be converted to an action:
   ...     showApply = True
   ...
   ...     @button.buttonAndHandler(
-  ...         u'Apply', condition=lambda form: form.showApply)
+  ...         'Apply', condition=lambda form: form.showApply)
   ...     def apply(self, action):
   ...         print('successfully applied')
 
@@ -415,19 +415,19 @@ value adapters to complete the task. Originally, our title is as follows:
   >>> actions = button.ButtonActions(myform, TestRequest(), None)
   >>> actions.update()
   >>> actions['apply'].title
-  u'Apply'
+  'Apply'
 
 Let's now create a custom label for the action:
 
   >>> ApplyLabel = button.StaticButtonActionAttribute(
-  ...     u'Apply now', button=myform.buttons['apply'])
+  ...     'Apply now', button=myform.buttons['apply'])
   >>> zope.component.provideAdapter(ApplyLabel, name='title')
 
 Once the button action manager is updated, the new title is chosen:
 
   >>> actions.update()
   >>> actions['apply'].title
-  u'Apply now'
+  'Apply now'
 
 
 The Button Manager
@@ -439,7 +439,7 @@ management of buttons easy.
 First, you are able to add button managers:
 
   >>> bm1 = button.Buttons(IButtons)
-  >>> bm2 = button.Buttons(button.Button('help', title=u'Help'))
+  >>> bm2 = button.Buttons(button.Button('help', title='Help'))
 
   >>> bm1 + bm2
   Buttons([...])
@@ -503,7 +503,7 @@ All handlers of a form are collected in the ``handlers`` attribute, which is a
   >>> isinstance(form.handlers, button.Handlers)
   True
   >>> form.handlers
-  <Handlers [<Handler for <Button 'apply' u'Apply'>>]>
+  <Handlers [<Handler for <Button 'apply' 'Apply'>>]>
 
 Internally the object uses an adapter registry to manage the handlers for
 buttons. If a handler is registered for a button, it simply behaves as an
@@ -513,7 +513,7 @@ The object itself is pretty simple. You can get a handler as follows:
 
   >>> apply = form.buttons['apply']
   >>> form.handlers.getHandler(apply)
-  <Handler for <Button 'apply' u'Apply'>>
+  <Handler for <Button 'apply' 'Apply'>>
 
 But you can also register handlers for groups of buttons, either by interface
 or class:
@@ -529,13 +529,13 @@ or class:
 
   >>> form.handlers
   <Handlers
-      [<Handler for <Button 'apply' u'Apply'>>,
+      [<Handler for <Button 'apply' 'Apply'>>,
        <Handler for <class 'SpecialButton'>>]>
 
 Now all special buttons should use that handler:
 
-  >>> button1 = SpecialButton(name='button1', title=u'Button 1')
-  >>> button2 = SpecialButton(name='button2', title=u'Button 2')
+  >>> button1 = SpecialButton(name='button1', title='Button 1')
+  >>> button2 = SpecialButton(name='button2', title='Button 2')
 
   >>> form.handlers.getHandler(button1)(form, None)
   'Special button action'
@@ -560,16 +560,16 @@ You can also add handlers objects:
 
   >>> handlers2 = button.Handlers()
 
-  >>> button3 = SpecialButton(name='button3', title=u'Button 3')
+  >>> button3 = SpecialButton(name='button3', title='Button 3')
   >>> handlers2.addHandler(
   ...     button3, button.Handler(button3, None))
 
   >>> form.handlers + handlers2
   <Handlers
-      [<Handler for <Button 'apply' u'Apply'>>,
+      [<Handler for <Button 'apply' 'Apply'>>,
        <Handler for <class 'SpecialButton'>>,
-       <Handler for <SpecialButton 'button1' u'Button 1'>>,
-       <Handler for <SpecialButton 'button3' u'Button 3'>>]>
+       <Handler for <SpecialButton 'button1' 'Button 1'>>,
+       <Handler for <SpecialButton 'button3' 'Button 3'>>]>
 
 However, adding other components is not supported:
 
@@ -598,10 +598,10 @@ simple extension of a button, requiring an `image` argument to the constructor:
 
   >>> imgSubmit = button.ImageButton(
   ...     name='submit',
-  ...     title=u'Submit',
-  ...     image=u'submit.png')
+  ...     title='Submit',
+  ...     image='submit.png')
   >>> imgSubmit
-  <ImageButton 'submit' u'submit.png'>
+  <ImageButton 'submit' 'submit.png'>
 
 Some browsers do not submit the value of the input, but only the coordinates
 of the image where the mouse click occurred. Thus we also need a special
@@ -612,7 +612,7 @@ button action:
 
   >>> imgSubmitAction = button.ImageButtonAction(request, imgSubmit)
   >>> imgSubmitAction
-  <ImageButtonAction 'submit' u'Submit'>
+  <ImageButtonAction 'submit' 'Submit'>
 
 Initially, we did not click on the image:
 
@@ -656,4 +656,4 @@ image must be available as a resource, so let's do that now:
 Now the attribute can be called:
 
   >>> imgSubmitAction.src
-  u'http://127.0.0.1/@@/submit.png'
+  'http://127.0.0.1/@@/submit.png'

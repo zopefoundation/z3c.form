@@ -30,8 +30,8 @@ from z3c.form.widget import FieldWidget
 @zope.interface.implementer(interfaces.IObjectWidget)
 class ObjectWidget(widget.HTMLFormElement, object.ObjectWidget):
 
-    klass = u'object-widget'
-    css = u'object'
+    klass = 'object-widget'
+    css = 'object'
 
 
 @zope.component.adapter(zope.schema.interfaces.IObject, interfaces.IFormLayer)

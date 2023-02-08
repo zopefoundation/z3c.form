@@ -27,28 +27,11 @@ def read(*rnames):
     return text.encode('ascii', 'xmlcharrefreplace').decode()
 
 
-def alltests():
-    import os
-    import sys
-    import unittest
-
-    # use the zope.testrunner machinery to find all the
-    # test suites we've put under ourselves
-    import zope.testrunner.find
-    import zope.testrunner.options
-    here = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
-    args = sys.argv[:]
-    defaults = ["--test-path", here]
-    options = zope.testrunner.options.get_options(args, defaults)
-    suites = list(zope.testrunner.find.find_suites(options))
-    return unittest.TestSuite(suites)
-
-
 setup(
     name='z3c.form',
     version='5.0.dev0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
-    author_email="zope-dev@zope.org",
+    author_email="zope-dev@zope.dev",
     description="An advanced form and widget framework for Zope 3",
     long_description=(
         read('README.rst')
@@ -81,6 +64,7 @@ setup(
     include_package_data=True,
     package_dir={'': 'src'},
     namespace_packages=['z3c'],
+    python_requires='>=3.7',
     extras_require=dict(
         extra=[
             'z3c.pt >= 2.1',
@@ -104,7 +88,6 @@ setup(
     ),
     install_requires=[
         'setuptools',
-        'six',
         'zope.browser',
         'zope.browserpage',
         'zope.browserresource',
@@ -124,16 +107,5 @@ setup(
         'zope.site',
         'zope.traversing',
     ],
-    tests_require=[
-        'lxml >= 4.2',
-        'persistent',
-        'z3c.template >= 1.3',
-        'zc.sourcefactory',
-        'zope.container',
-        'zope.password',
-        'zope.testing',
-        'zope.testrunner',
-    ],
-    test_suite='__main__.alltests',
     zip_safe=False,
 )

@@ -48,10 +48,7 @@ If we render the widget we get a simple input element:
 
 Let's now make sure that we can extract user entered data from a widget:
 
-  >>> try:
-  ...     from StringIO import StringIO as BytesIO
-  ... except ImportError:
-  ...     from io import BytesIO
+  >>> from io import BytesIO
   >>> myfile = BytesIO(b'My file contents.')
 
   >>> widget.request = TestRequest(form={'widget.name': myfile})

@@ -56,7 +56,7 @@ Some valid default values
   ...     multiBool=False,
   ...     multiChoice='two',
   ...     multiChoiceOpt='six',
-  ...     multiTextLine=u'some text one',
+  ...     multiTextLine='some text one',
   ...     multiDate=date(2014, 6, 20))
 
   >>> sub2 = testing.ObjectWidgetMultiSubIntegration(
@@ -64,10 +64,10 @@ Some valid default values
   ...     multiBool=True,
   ...     multiChoice='one',
   ...     multiChoiceOpt='four',
-  ...     multiTextLine=u'second txt',
+  ...     multiTextLine='second txt',
   ...     multiDate=date(2011, 3, 15))
 
-  >>> obj.dictOfObject = {u'subob1': sub1, u'subob2': sub2}
+  >>> obj.dictOfObject = {'subob1': sub1, 'subob2': sub2}
 
   >>> pprint(obj.dictOfObject)
   {'subob1': <ObjectWidgetMultiSubIntegration
@@ -131,9 +131,9 @@ wrong input (Int)
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiInt'] = u'foobar'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiInt'] = 'foobar'
 
-  >>> submit['form.widgets.dictOfObject.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfObject.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -218,9 +218,9 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
-  >>> submit['form.widgets.dictOfObject.2.remove'] = u'1'
-  >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfObject.0.remove'] = '1'
+  >>> submit['form.widgets.dictOfObject.2.remove'] = '1'
+  >>> submit['form.widgets.dictOfObject.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_int.html')
   >>> print(testing.plainText(content))
@@ -273,9 +273,9 @@ wrong input (TextLine)
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiTextLine'] = u'foo\nbar'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiTextLine'] = 'foo\nbar'
 
-  >>> submit['form.widgets.dictOfObject.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfObject.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -334,8 +334,8 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
-  >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfObject.0.remove'] = '1'
+  >>> submit['form.widgets.dictOfObject.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_textline.html')
   >>> print(testing.plainText(content))
@@ -390,9 +390,9 @@ wrong input (Date)
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = u'foobar'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = 'foobar'
 
-  >>> submit['form.widgets.dictOfObject.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfObject.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -422,7 +422,7 @@ for "foobar" and a new input.
   [foo
   bar]
   Date label *
-  The datetime string did not match the pattern u'yy/MM/dd'.
+  The datetime string did not match the pattern 'yy/MM/dd'.
   [foobar]
   Object key *
   []
@@ -459,7 +459,7 @@ Submit again with the empty field:
 Fill in a valid value:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = u'14/06/21'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = '14/06/21'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_submit_date2.html')
   >>> print(testing.plainText(content))
@@ -511,8 +511,8 @@ Fill in a valid value:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.remove'] = u'1'
-  >>> submit['form.widgets.dictOfObject.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfObject.0.remove'] = '1'
+  >>> submit['form.widgets.dictOfObject.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_remove_date.html')
   >>> print(testing.plainText(content))
@@ -565,9 +565,9 @@ Fix values
 ##########
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiInt'] = u'1042'
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiTextLine'] = u'moo900'
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = u'14/06/23'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiInt'] = '1042'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiTextLine'] = 'moo900'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiDate'] = '14/06/23'
 
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'ObjectMulti_dict_edit_fix_values.html')
@@ -615,7 +615,7 @@ The object is unchanged:
 And apply
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request)
@@ -653,7 +653,7 @@ Now the object gets updated:
     multiChoiceOpt: 'six'
     multiDate: datetime.date(2014, 6, 23)
     multiInt: 1042
-    multiTextLine: u'moo900'>}
+    multiTextLine: 'moo900'>}
 
 
 Twisting some keys
@@ -666,7 +666,7 @@ Change key values, item values must stick to the new values.
   ...     multiBool=False,
   ...     multiChoice='two',
   ...     multiChoiceOpt='six',
-  ...     multiTextLine=u'some text one',
+  ...     multiTextLine='some text one',
   ...     multiDate=date(2014, 6, 20))
 
   >>> sub2 = testing.ObjectWidgetMultiSubIntegration(
@@ -674,18 +674,18 @@ Change key values, item values must stick to the new values.
   ...     multiBool=True,
   ...     multiChoice='one',
   ...     multiChoiceOpt='four',
-  ...     multiTextLine=u'second txt',
+  ...     multiTextLine='second txt',
   ...     multiDate=date(2011, 3, 15))
 
-  >>> obj.dictOfObject = {u'subob1': sub1, u'subob2': sub2}
+  >>> obj.dictOfObject = {'subob1': sub1, 'subob2': sub2}
 
   >>> request = testing.TestRequest()
   >>> content = getForm(request, 'ObjectMulti_dict_edit_twist.html')
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.key.0'] = u'twisted'  # was subob1
+  >>> submit['form.widgets.dictOfObject.key.0'] = 'twisted'  # was subob1
 
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -709,30 +709,30 @@ Change key values, item values must stick to the new values.
 
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.key.1'] = u'subob2'  # was twisted
-  >>> submit['form.widgets.dictOfObject.key.0'] = u'subob1'  # was subob2
+  >>> submit['form.widgets.dictOfObject.key.1'] = 'subob2'  # was twisted
+  >>> submit['form.widgets.dictOfObject.key.0'] = 'subob1'  # was subob2
 
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
 
   >>> content = getForm(request, 'ObjectMulti_dict_edit_twist2.html')
 
   >>> pprint(obj.dictOfObject)
-  {u'subob1': <ObjectWidgetMultiSubIntegration
+  {'subob1': <ObjectWidgetMultiSubIntegration
     multiBool: True
     multiChoice: 'one'
     multiChoiceOpt: 'four'
     multiDate: datetime.date(2011, 3, 15)
     multiInt: 42
-    multiTextLine: u'second txt'>,
-   u'subob2': <ObjectWidgetMultiSubIntegration
+    multiTextLine: 'second txt'>,
+   'subob2': <ObjectWidgetMultiSubIntegration
     multiBool: False
     multiChoice: 'two'
     multiChoiceOpt: 'six'
     multiDate: datetime.date(2014, 6, 20)
     multiInt: -100
-    multiTextLine: u'some text one'>}
+    multiTextLine: 'some text one'>}
 
 Bool was misbehaving
 ####################
@@ -742,7 +742,7 @@ Bool was misbehaving
   ...     multiBool=False,
   ...     multiChoice='two',
   ...     multiChoiceOpt='six',
-  ...     multiTextLine=u'some text one',
+  ...     multiTextLine='some text one',
   ...     multiDate=date(2014, 6, 20))
 
   >>> sub2 = testing.ObjectWidgetMultiSubIntegration(
@@ -750,17 +750,17 @@ Bool was misbehaving
   ...     multiBool=True,
   ...     multiChoice='one',
   ...     multiChoiceOpt='four',
-  ...     multiTextLine=u'second txt',
+  ...     multiTextLine='second txt',
   ...     multiDate=date(2011, 3, 15))
 
-  >>> obj.dictOfObject = {u'subob1': sub1, u'subob2': sub2}
+  >>> obj.dictOfObject = {'subob1': sub1, 'subob2': sub2}
 
   >>> request = testing.TestRequest()
   >>> content = getForm(request)
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiBool'] = u'true'
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiBool'] = 'true'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -770,25 +770,25 @@ Bool was misbehaving
   ...
 
   >>> pprint(obj.dictOfObject)
-  {u'subob1': <ObjectWidgetMultiSubIntegration
+  {'subob1': <ObjectWidgetMultiSubIntegration
     multiBool: True
     multiChoice: 'two'
     multiChoiceOpt: 'six'
     multiDate: datetime.date(2014, 6, 20)
     multiInt: -100
-    multiTextLine: u'some text one'>,
-   u'subob2': <ObjectWidgetMultiSubIntegration
+    multiTextLine: 'some text one'>,
+   'subob2': <ObjectWidgetMultiSubIntegration
     multiBool: True
     multiChoice: 'one'
     multiChoiceOpt: 'four'
     multiDate: datetime.date(2011, 3, 15)
     multiInt: 42
-    multiTextLine: u'second txt'>}
+    multiTextLine: 'second txt'>}
 
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfObject.0.widgets.multiBool'] = u'false'
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.widgets.dictOfObject.0.widgets.multiBool'] = 'false'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -798,18 +798,17 @@ Bool was misbehaving
   ...
 
   >>> pprint(obj.dictOfObject)
-  {u'subob1': <ObjectWidgetMultiSubIntegration
+  {'subob1': <ObjectWidgetMultiSubIntegration
     multiBool: False
     multiChoice: 'two'
     multiChoiceOpt: 'six'
     multiDate: datetime.date(2014, 6, 20)
     multiInt: -100
-    multiTextLine: u'some text one'>,
-   u'subob2': <ObjectWidgetMultiSubIntegration
+    multiTextLine: 'some text one'>,
+   'subob2': <ObjectWidgetMultiSubIntegration
     multiBool: True
     multiChoice: 'one'
     multiChoiceOpt: 'four'
     multiDate: datetime.date(2011, 3, 15)
     multiInt: 42
-    multiTextLine: u'second txt'>}
-
+    multiTextLine: 'second txt'>}

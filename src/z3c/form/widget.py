@@ -174,7 +174,7 @@ class Widget(zope.location.Location):
         return layout(self)
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.name)
+        return '<{} {!r}>'.format(self.__class__.__name__, self.name)
 
 
 @zope.interface.implementer(interfaces.ISequenceWidget)
@@ -230,7 +230,7 @@ class SequenceWidget(Widget):
         """See z3c.form.interfaces.IWidget."""
         # Create terms first, since we need them for the generic update.
         self.updateTerms()
-        super(SequenceWidget, self).update()
+        super().update()
 
     def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""
@@ -257,7 +257,7 @@ class SequenceWidget(Widget):
         return value
 
     def json_data(self):
-        data = super(SequenceWidget, self).json_data()
+        data = super().json_data()
         data['type'] = 'sequence'
         return data
 
@@ -297,7 +297,7 @@ class MultiWidget(Widget):
     _mode = FieldProperty(interfaces.IWidget['mode'])
 
     def __init__(self, request):
-        super(MultiWidget, self).__init__(request)
+        super().__init__(request)
         self.widgets = []
         self.key_widgets = []
         self._value = []
@@ -453,7 +453,7 @@ class MultiWidget(Widget):
                     widget = self.getWidget(idx, "key", "key_type")
                     self.applyValue(widget, key)
                     if hash_key in keys and widget.error is None:
-                        error = zope.interface.Invalid(u'Duplicate key')
+                        error = zope.interface.Invalid('Duplicate key')
                         view = zope.component.getMultiAdapter(
                             (error, self.request, widget, widget.field,
                              self.form, self.context),
@@ -509,7 +509,7 @@ class MultiWidget(Widget):
     def update(self):
         """See z3c.form.interfaces.IWidget."""
         # Ensure that updateWidgets is called.
-        super(MultiWidget, self).update()
+        super().update()
         if not self._widgets_updated:
             self.updateWidgets()
 
@@ -539,7 +539,7 @@ class MultiWidget(Widget):
         return values
 
     def json_data(self):
-        data = super(MultiWidget, self).json_data()
+        data = super().json_data()
         data['widgets'] = [widget.json_data() for widget in self.widgets]
         data['type'] = 'multi'
         return data
@@ -559,7 +559,7 @@ def FieldWidget(field, widget):
     return widget
 
 
-class WidgetTemplateFactory(object):
+class WidgetTemplateFactory:
     """Widget template factory."""
 
     def __init__(self, filename, contentType='text/html',
@@ -579,7 +579,7 @@ class WidgetTemplateFactory(object):
         return self.template
 
 
-class WidgetLayoutFactory(object):
+class WidgetLayoutFactory:
     """Widget layout template factory."""
 
     def __init__(self, filename, contentType='text/html',
@@ -600,13 +600,13 @@ class WidgetLayoutFactory(object):
 
 
 @zope.interface.implementer(interfaces.IWidgetEvent)
-class WidgetEvent(object):
+class WidgetEvent:
 
     def __init__(self, widget):
         self.widget = widget
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.widget)
+        return '<{} {!r}>'.format(self.__class__.__name__, self.widget)
 
 
 @zope.interface.implementer_only(interfaces.IAfterWidgetUpdateEvent)

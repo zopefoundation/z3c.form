@@ -62,8 +62,8 @@ Some valid default values
   >>> obj.dictOfInt = {-101: -100, -1:1, 101:100}
   >>> obj.dictOfBool = {True: False, False: True}
   >>> obj.dictOfChoice = {'key1': 'three', 'key3': 'two'}
-  >>> obj.dictOfTextLine = {u'textkey1': u'some text one',
-  ...     u'textkey2': u'some txt two'}
+  >>> obj.dictOfTextLine = {'textkey1': 'some text one',
+  ...     'textkey2': 'some txt two'}
   >>> obj.dictOfDate = {
   ...     date(2011, 1, 15): date(2014, 6, 20),
   ...     date(2012, 2, 20): date(2013, 5, 19)}
@@ -163,10 +163,10 @@ dictOfInt
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfInt.key.2'] = u'foobar'
-  >>> submit['form.widgets.dictOfInt.2'] = u'foobar'
+  >>> submit['form.widgets.dictOfInt.key.2'] = 'foobar'
+  >>> submit['form.widgets.dictOfInt.2'] = 'foobar'
 
-  >>> submit['form.widgets.dictOfInt.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfInt.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -230,9 +230,9 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfInt.1.remove'] = u'1'
-  >>> submit['form.widgets.dictOfInt.3.remove'] = u'1'
-  >>> submit['form.widgets.dictOfInt.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfInt.1.remove'] = '1'
+  >>> submit['form.widgets.dictOfInt.3.remove'] = '1'
+  >>> submit['form.widgets.dictOfInt.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_int.html')
   >>> print(testing.plainText(content,
@@ -276,7 +276,7 @@ dictOfBool
 Add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfBool.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfBool.buttons.add'] = 'Add'
   >>> request = testing.TestRequest(form=submit)
 
 Important is that we get a new input.
@@ -326,9 +326,9 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfBool.1.remove'] = u'1'
-  >>> submit['form.widgets.dictOfBool.2.remove'] = u'1'
-  >>> submit['form.widgets.dictOfBool.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfBool.1.remove'] = '1'
+  >>> submit['form.widgets.dictOfBool.2.remove'] = '1'
+  >>> submit['form.widgets.dictOfBool.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_bool.html')
   >>> print(testing.plainText(content,
@@ -364,7 +364,7 @@ dictOfChoice
 Add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfChoice.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfChoice.buttons.add'] = 'Add'
   >>> request = testing.TestRequest(form=submit)
 
 Important is that we get a new input.
@@ -413,9 +413,9 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfChoice.0.remove'] = u'1'
-  >>> submit['form.widgets.dictOfChoice.1.remove'] = u'1'
-  >>> submit['form.widgets.dictOfChoice.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfChoice.0.remove'] = '1'
+  >>> submit['form.widgets.dictOfChoice.1.remove'] = '1'
+  >>> submit['form.widgets.dictOfChoice.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_choice.html')
   >>> print(testing.plainText(content,
@@ -449,10 +449,10 @@ dictOfTextLine
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfTextLine.key.0'] = u'foo\nbar'
-  >>> submit['form.widgets.dictOfTextLine.0'] = u'foo\nbar'
+  >>> submit['form.widgets.dictOfTextLine.key.0'] = 'foo\nbar'
+  >>> submit['form.widgets.dictOfTextLine.0'] = 'foo\nbar'
 
-  >>> submit['form.widgets.dictOfTextLine.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfTextLine.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -510,8 +510,8 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfTextLine.2.remove'] = u'1'
-  >>> submit['form.widgets.dictOfTextLine.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfTextLine.2.remove'] = '1'
+  >>> submit['form.widgets.dictOfTextLine.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_textline.html')
   >>> print(testing.plainText(content,
@@ -559,10 +559,10 @@ dictOfDate
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfDate.key.0'] = u'foobar'
-  >>> submit['form.widgets.dictOfDate.0'] = u'foobar'
+  >>> submit['form.widgets.dictOfDate.key.0'] = 'foobar'
+  >>> submit['form.widgets.dictOfDate.0'] = 'foobar'
 
-  >>> submit['form.widgets.dictOfDate.buttons.add'] = u'Add'
+  >>> submit['form.widgets.dictOfDate.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -618,8 +618,8 @@ Submit again with the empty field:
 And fill in a valid value:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfDate.key.0'] = u'14/05/12'
-  >>> submit['form.widgets.dictOfDate.0'] = u'14/06/21'
+  >>> submit['form.widgets.dictOfDate.key.0'] = '14/05/12'
+  >>> submit['form.widgets.dictOfDate.0'] = '14/06/21'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_submit_date3.html')
   >>> print(testing.plainText(content,
@@ -658,8 +658,8 @@ And fill in a valid value:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfDate.1.remove'] = u'1'
-  >>> submit['form.widgets.dictOfDate.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.dictOfDate.1.remove'] = '1'
+  >>> submit['form.widgets.dictOfDate.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_remove_date.html')
   >>> print(testing.plainText(content,
@@ -699,7 +699,7 @@ Let's remove some items:
 And apply
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request)
@@ -708,7 +708,7 @@ And apply
   * DictOfInt label: Wrong contained type
   * DictOfBool label: Wrong contained type
   * DictOfTextLine label: Constraint not satisfied
-  * DictOfDate label: The datetime string did not match the pattern u'yy/MM/dd'.
+  * DictOfDate label: The datetime string did not match the pattern 'yy/MM/dd'.
   ...
 
   >>> pprint(obj)
@@ -736,12 +736,12 @@ Let's fix the values
   >>> submit['form.widgets.dictOfTextLine.0'] = 'ipsum lorem'
   >>> submit['form.widgets.dictOfDate.key.1'] = '14/06/25'
   >>> submit['form.widgets.dictOfDate.1'] = '14/07/28'
-  >>> submit['form.widgets.dictOfInt.key.0'] = u'-101'
-  >>> submit['form.widgets.dictOfInt.0'] = u'-100'
-  >>> submit['form.widgets.dictOfBool.key.0'] = u'false'
-  >>> submit['form.widgets.dictOfBool.0'] = u'true'
+  >>> submit['form.widgets.dictOfInt.key.0'] = '-101'
+  >>> submit['form.widgets.dictOfInt.0'] = '-100'
+  >>> submit['form.widgets.dictOfBool.key.0'] = 'false'
+  >>> submit['form.widgets.dictOfBool.0'] = 'true'
 
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_dict_edit_fixit.html')
@@ -766,8 +766,8 @@ Change key values, item values must stick to the new values.
   >>> obj.dictOfInt = {-101: -100, -1:1, 101:100}
   >>> obj.dictOfBool = {True: False, False: True}
   >>> obj.dictOfChoice = {'key1': 'three', 'key3': 'two'}
-  >>> obj.dictOfTextLine = {u'textkey1': u'some text one',
-  ...     u'textkey2': u'some txt two'}
+  >>> obj.dictOfTextLine = {'textkey1': 'some text one',
+  ...     'textkey2': 'some txt two'}
   >>> obj.dictOfDate = {
   ...     date(2011, 1, 15): date(2014, 6, 20),
   ...     date(2012, 2, 20): date(2013, 5, 19)}
@@ -776,17 +776,17 @@ Change key values, item values must stick to the new values.
   >>> content = getForm(request, 'MultiWidget_dict_edit_twist.html')
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.dictOfInt.key.2'] = u'42'  # was 101:100
-  >>> submit['form.widgets.dictOfBool.key.0'] = u'true'  # was False:True
-  >>> submit['form.widgets.dictOfBool.key.1'] = u'false'  # was True:False
-  >>> submit['form.widgets.dictOfChoice.key.1:list'] = u'key2'  # was key3: two
-  >>> submit['form.widgets.dictOfChoice.key.0:list'] = u'key3'  # was key1: three
-  >>> submit['form.widgets.dictOfTextLine.key.1'] = u'lorem'  # was textkey2: some txt two
-  >>> submit['form.widgets.dictOfTextLine.1'] = u'ipsum'  # was textkey2: some txt two
-  >>> submit['form.widgets.dictOfTextLine.key.0'] = u'foobar'  # was textkey1: some txt one
-  >>> submit['form.widgets.dictOfDate.key.0'] = u'14/06/25'  # 11/01/15: 14/06/20
+  >>> submit['form.widgets.dictOfInt.key.2'] = '42'  # was 101:100
+  >>> submit['form.widgets.dictOfBool.key.0'] = 'true'  # was False:True
+  >>> submit['form.widgets.dictOfBool.key.1'] = 'false'  # was True:False
+  >>> submit['form.widgets.dictOfChoice.key.1:list'] = 'key2'  # was key3: two
+  >>> submit['form.widgets.dictOfChoice.key.0:list'] = 'key3'  # was key1: three
+  >>> submit['form.widgets.dictOfTextLine.key.1'] = 'lorem'  # was textkey2: some txt two
+  >>> submit['form.widgets.dictOfTextLine.1'] = 'ipsum'  # was textkey2: some txt two
+  >>> submit['form.widgets.dictOfTextLine.key.0'] = 'foobar'  # was textkey1: some txt one
+  >>> submit['form.widgets.dictOfDate.key.0'] = '14/06/25'  # 11/01/15: 14/06/20
 
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
 

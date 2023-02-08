@@ -11,10 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Widget Framework Implementation
-
-$Id$
-"""
+"""Widget Framework Implementation."""
 __docformat__ = "reStructuredText"
 import zope.interface
 from zope.schema.fieldproperty import FieldProperty
@@ -24,14 +21,7 @@ from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import IFieldWidget
 
 
-try:
-    unicode
-except NameError:
-    # Py3: Define unicode.
-    unicode = str
-
-
-class WidgetLayoutSupport(object):
+class WidgetLayoutSupport:
     """Widget layout support"""
 
     def wrapCSSClass(self, klass, pattern='%(class)s'):
@@ -155,10 +145,10 @@ class HTMLFormElement(WidgetLayoutSupport):
     def addClass(self, klass):
         """See interfaces.IHTMLFormElement"""
         if not self.klass:
-            self.klass = unicode(klass)
+            self.klass = str(klass)
         else:
             # make sure items are not repeated
-            parts = self.klass.split() + [unicode(klass)]
+            parts = self.klass.split() + [str(klass)]
             seen = {}
             unique = []
             for item in parts:
@@ -166,11 +156,11 @@ class HTMLFormElement(WidgetLayoutSupport):
                     continue
                 seen[item] = 1
                 unique.append(item)
-            self.klass = u' '.join(unique)
+            self.klass = ' '.join(unique)
 
     def update(self):
         """See z3c.form.interfaces.IWidget"""
-        super(HTMLFormElement, self).update()
+        super().update()
         if self.mode == INPUT_MODE and self.required:
             self.addClass('required')
 
@@ -217,5 +207,5 @@ def addFieldClass(widget):
     If the widget does not have field, then nothing is done.
     """
     if IFieldWidget.providedBy(widget):
-        klass = unicode(widget.field.__class__.__name__.lower() + '-field')
+        klass = str(widget.field.__class__.__name__.lower() + '-field')
         widget.addClass(klass)

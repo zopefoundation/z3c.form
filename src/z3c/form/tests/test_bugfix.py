@@ -52,7 +52,7 @@ class TestApplyChangesDictDatamanager(unittest.TestCase):
         import z3c.form.form
 
         class TestInterface(zope.interface.Interface):
-            text = zope.schema.TextLine(title=u'text')
+            text = zope.schema.TextLine(title='text')
 
         class TestForm(z3c.form.form.BaseForm):
             fields = z3c.form.field.Fields(TestInterface)
@@ -66,11 +66,11 @@ class TestApplyChangesDictDatamanager(unittest.TestCase):
         self.assertEqual({'text': 'a'}, content)
 
 
-class Mock(object):
+class Mock:
     pass
 
 
-class MockNumberFormatter(object):
+class MockNumberFormatter:
     def format(self, value):
         if value is None:
             # execution should never get here
@@ -78,12 +78,12 @@ class MockNumberFormatter(object):
         return str(value)
 
 
-class MockLocale(object):
+class MockLocale:
     def getFormatter(self, category):
         return MockNumberFormatter()
 
 
-class OurNone(object):
+class OurNone:
     def __eq__(self, other):
         return isinstance(other, (type(None), OurNone))
 
@@ -104,14 +104,14 @@ class ConverterFixTests(unittest.TestCase):
         field = Mock()
         field.missing_value = None
         bdc = BaseDataConverter(field, None)
-        self.assertEqual(bdc.toWidgetValue(u''), u'')
-        self.assertEqual(bdc.toWidgetValue(None), u'')
-        self.assertEqual(bdc.toWidgetValue([]), u'[]')
+        self.assertEqual(bdc.toWidgetValue(''), '')
+        self.assertEqual(bdc.toWidgetValue(None), '')
+        self.assertEqual(bdc.toWidgetValue([]), '[]')
 
         field.missing_value = []
-        self.assertEqual(bdc.toWidgetValue(u''), u'')
-        self.assertEqual(bdc.toWidgetValue(None), u'None')
-        self.assertEqual(bdc.toWidgetValue([]), u'')
+        self.assertEqual(bdc.toWidgetValue(''), '')
+        self.assertEqual(bdc.toWidgetValue(None), 'None')
+        self.assertEqual(bdc.toWidgetValue([]), '')
 
     def test_NumberDataConverter_toWidgetValue(self):
         from z3c.form.converter import NumberDataConverter
@@ -123,17 +123,17 @@ class ConverterFixTests(unittest.TestCase):
         widget.request.locale = Mock()
         widget.request.locale.numbers = MockLocale()
         ndc = NumberDataConverter(field, widget)
-        self.assertEqual(ndc.toWidgetValue(u''), u'')
-        self.assertEqual(ndc.toWidgetValue(None), u'')
+        self.assertEqual(ndc.toWidgetValue(''), '')
+        self.assertEqual(ndc.toWidgetValue(None), '')
         # here is the real deal, OUR_NONE should be considered as None
-        self.assertEqual(ndc.toWidgetValue(OUR_NONE), u'')
-        self.assertEqual(ndc.toWidgetValue([]), u'[]')
+        self.assertEqual(ndc.toWidgetValue(OUR_NONE), '')
+        self.assertEqual(ndc.toWidgetValue([]), '[]')
 
         field.missing_value = OUR_NONE
-        self.assertEqual(ndc.toWidgetValue(u''), u'')
-        self.assertEqual(ndc.toWidgetValue(None), u'')
-        self.assertEqual(ndc.toWidgetValue(OUR_NONE), u'')
-        self.assertEqual(ndc.toWidgetValue([]), u'[]')
+        self.assertEqual(ndc.toWidgetValue(''), '')
+        self.assertEqual(ndc.toWidgetValue(None), '')
+        self.assertEqual(ndc.toWidgetValue(OUR_NONE), '')
+        self.assertEqual(ndc.toWidgetValue([]), '[]')
 
 
 def test_suite():

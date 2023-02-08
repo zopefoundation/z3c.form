@@ -207,12 +207,12 @@ allows dynamic values for the "No value message". Initially, we have the
 default message:
 
   >>> widget.noValueMessage
-  u'No value'
+  'No value'
 
 Let's now register an attribute value:
 
   >>> from z3c.form.widget import StaticWidgetAttribute
-  >>> NoValueMessage = StaticWidgetAttribute(u'- nothing -')
+  >>> NoValueMessage = StaticWidgetAttribute('- nothing -')
 
   >>> import zope.component
   >>> zope.component.provideAdapter(NoValueMessage, name='noValueMessage')
@@ -222,7 +222,7 @@ by the adapter:
 
   >>> widget.update()
   >>> widget.noValueMessage
-  u'- nothing -'
+  '- nothing -'
 
 Select json_data representation:
   >>> from pprint import pprint
@@ -296,18 +296,18 @@ behavior is identical to selecting "No value". As for the no-value message,
 the prompt message, which is available under
 
   >>> widget.promptMessage
-  u'Select a value ...'
+  'Select a value ...'
 
 can also be changed using an attribute value adapter:
 
-  >>> PromptMessage = StaticWidgetAttribute(u'Please select a value')
+  >>> PromptMessage = StaticWidgetAttribute('Please select a value')
   >>> zope.component.provideAdapter(PromptMessage, name='promptMessage')
 
 So after updating the widget you have the custom value:
 
   >>> widget.update()
   >>> widget.promptMessage
-  u'Please select a value'
+  'Please select a value'
 
 Additionally, the select widget also allows dynamic value for the ``prompt``
 attribute . Initially, value is ``False``:

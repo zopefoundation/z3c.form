@@ -15,20 +15,20 @@ This function converts an arbitrary unicode string into a valid Python
 identifier. If the name is a valid identifier, then it is just returned, but
 all upper case letters are lowered:
 
-  >>> util.createId(u'Change')
+  >>> util.createId('Change')
   'change'
 
-  >>> util.createId(u'Change_2')
+  >>> util.createId('Change_2')
   'change_2'
 
 If a name is not a valid identifier, a hex code of the string is created:
 
-  >>> util.createId(u'Change 3')
+  >>> util.createId('Change 3')
   '4368616e67652033'
 
 The function can also handle non-ASCII characters:
 
-  >>> id = util.createId(u'Ändern')
+  >>> id = util.createId('Ändern')
 
 Since the output depends on how Python is compiled (UCS-2 or 4), we only check
 that we have a valid id:
@@ -45,12 +45,12 @@ can be easily referenced by CSS selectors.  Characters that are in the
 ascii alphabet, are numbers, or are '-' or '_' will be left the same.
 All other characters will be converted to ordinal numbers:
 
-  >>> util.createCSSId(u'NormalId')
+  >>> util.createCSSId('NormalId')
   'NormalId'
-  >>> id = util.createCSSId(u'عَرَ')
+  >>> id = util.createCSSId('عَرَ')
   >>> util._identifier.match(id) is not None
   True
-  >>> util.createCSSId(u'This has spaces')
+  >>> util.createCSSId('This has spaces')
   'This20has20spaces'
 
   >>> util.createCSSId(str([(1, 'x'), ('foobar', 42)]))
@@ -67,7 +67,7 @@ we need to create a properly developed form:
   >>> import zope.schema
 
   >>> class IPerson(zope.interface.Interface):
-  ...     name = zope.schema.TextLine(title=u'Name')
+  ...     name = zope.schema.TextLine(title='Name')
 
   >>> from z3c.form import form, field
   >>> class AddPerson(form.AddForm):
@@ -104,7 +104,7 @@ If the widget is not found but the prefix is correct, ``None`` is returned:
 Test the filename extraction method:
 
   >>> class IDocument(zope.interface.Interface):
-  ...     data = zope.schema.Bytes(title=u'Data')
+  ...     data = zope.schema.Bytes(title='Data')
 
 Define a widgets stub and a upload widget stub class and setup them as a
 faked form:
@@ -142,67 +142,67 @@ And extract the filename
 
 Test a unicode filename:
 
-  >>> uploadForm.setFakeFileName(u'foo.txt')
+  >>> uploadForm.setFakeFileName('foo.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
-  u'foo.txt'
+  'foo.txt'
 
 Test a windows IE uploaded filename:
 
-  >>> uploadForm.setFakeFileName(u'D:\\some\\folder\\foo.txt')
+  >>> uploadForm.setFakeFileName('D:\\some\\folder\\foo.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
-  u'foo.txt'
+  'foo.txt'
 
 Test another filename:
 
-  >>> uploadForm.setFakeFileName(u'D:/some/folder/foo.txt')
+  >>> uploadForm.setFakeFileName('D:/some/folder/foo.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
-  u'foo.txt'
+  'foo.txt'
 
 Test another filename:
 
-  >>> uploadForm.setFakeFileName(u'/tmp/folder/foo.txt')
+  >>> uploadForm.setFakeFileName('/tmp/folder/foo.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
-  u'foo.txt'
+  'foo.txt'
 
 Test special characters in filename, e.g. dots:
 
-  >>> uploadForm.setFakeFileName(u'/tmp/foo.bar.txt')
+  >>> uploadForm.setFakeFileName('/tmp/foo.bar.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
-  u'foo.bar.txt'
+  'foo.bar.txt'
 
 Test some other special characters in filename:
 
-  >>> uploadForm.setFakeFileName(u'/tmp/foo-bar.v.0.1.txt')
+  >>> uploadForm.setFakeFileName('/tmp/foo-bar.v.0.1.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
-  u'foo-bar.v.0.1.txt'
+  'foo-bar.v.0.1.txt'
 
 Test special characters in file path of filename:
 
-  >>> uploadForm.setFakeFileName(u'/tmp-v.1.0/foo-bar.v.0.1.txt')
+  >>> uploadForm.setFakeFileName('/tmp-v.1.0/foo-bar.v.0.1.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
-  u'foo-bar.v.0.1.txt'
+  'foo-bar.v.0.1.txt'
 
 Test optional keyword arguments. But remember it's hard for Zope to guess the
 content type for filenames without extensions:
 
-  >>> uploadForm.setFakeFileName(u'minimal')
+  >>> uploadForm.setFakeFileName('minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
   ...     allowEmptyPostfix=True)
-  u'minimal'
+  'minimal'
 
-  >>> uploadForm.setFakeFileName(u'/tmp/minimal')
+  >>> uploadForm.setFakeFileName('/tmp/minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
   ...     allowEmptyPostfix=True)
-  u'minimal'
+  'minimal'
 
-  >>> uploadForm.setFakeFileName(u'D:\\some\\folder\\minimal')
+  >>> uploadForm.setFakeFileName('D:\\some\\folder\\minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True,
   ...     allowEmptyPostfix=True)
-  u'minimal'
+  'minimal'
 
 There will be a ValueError if we get a empty filename by default:
 
-  >>> uploadForm.setFakeFileName(u'/tmp/minimal')
+  >>> uploadForm.setFakeFileName('/tmp/minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=True)
   Traceback (most recent call last):
   ...
@@ -211,22 +211,22 @@ There will be a ValueError if we get a empty filename by default:
 We also can skip removing a path from a upload. Note only IE will upload a
 path in a upload ``<input type="file" ...>`` field:
 
-  >>> uploadForm.setFakeFileName(u'/tmp/foo.txt')
+  >>> uploadForm.setFakeFileName('/tmp/foo.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
-  u'/tmp/foo.txt'
+  '/tmp/foo.txt'
 
-  >>> uploadForm.setFakeFileName(u'/tmp-v.1.0/foo-bar.v.0.1.txt')
+  >>> uploadForm.setFakeFileName('/tmp-v.1.0/foo-bar.v.0.1.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
-  u'/tmp-v.1.0/foo-bar.v.0.1.txt'
+  '/tmp-v.1.0/foo-bar.v.0.1.txt'
 
-  >>> uploadForm.setFakeFileName(u'D:\\some\\folder\\foo.txt')
+  >>> uploadForm.setFakeFileName('D:\\some\\folder\\foo.txt')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
-  u'D:\\some\\folder\\foo.txt'
+  'D:\\some\\folder\\foo.txt'
 
 And missing filename extensions are also not allowed by deafault if we skip
 the filename:
 
-  >>> uploadForm.setFakeFileName(u'/tmp/minimal')
+  >>> uploadForm.setFakeFileName('/tmp/minimal')
   >>> util.extractFileName(uploadForm, 'form.widgets.data', cleanup=False)
   Traceback (most recent call last):
   ...
@@ -428,7 +428,7 @@ Decide whether a field was changed/modified.
 
   >>> class IPerson(zope.interface.Interface):
   ...     login = zope.schema.TextLine(
-  ...         title=u'Login')
+  ...         title='Login')
   ...     address = zope.schema.Object(
   ...         schema=zope.interface.Interface)
 

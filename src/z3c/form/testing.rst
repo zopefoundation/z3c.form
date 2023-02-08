@@ -29,7 +29,7 @@ Lets try passing a simple string, and not specify any encoding.
 
   >>> conv = testing.TestingFileUploadDataConverter(filedata, dataWidget)
   >>> conv.toFieldValue('')
-  'haha'
+  b'haha'
 
 And now, specify a encoded string
 
@@ -41,4 +41,4 @@ And now, specify a encoded string
 
   >>> conv = testing.TestingFileUploadDataConverter(filedata, dataWidget)
   >>> conv.toFieldValue('')
-  'hoohoo'
+  b'hoohoo'

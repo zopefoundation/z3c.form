@@ -62,10 +62,10 @@ class Button(zope.schema.Field):
         self.accessKey = kwargs.pop('accessKey', None)
         self.condition = kwargs.pop('condition', None)
         # Initialize the button
-        super(Button, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __repr__(self):
-        return '<%s %r %r>' % (
+        return '<{} {!r} {!r}>'.format(
             self.__class__.__name__, self.__name__, self.title)
 
 
@@ -77,10 +77,10 @@ class ImageButton(Button):
 
     def __init__(self, image=None, *args, **kwargs):
         self.image = image
-        super(ImageButton, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __repr__(self):
-        return '<%s %r %r>' % (
+        return '<{} {!r} {!r}>'.format(
             self.__class__.__name__, self.__name__, self.image)
 
 
@@ -106,11 +106,11 @@ class Buttons(util.SelectionManager):
                 buttons.append((arg.__name__, arg))
             else:
                 raise TypeError("Unrecognized argument type", arg)
-        super(Buttons, self).__init__(buttons)
+        super().__init__(buttons)
 
 
 @zope.interface.implementer(interfaces.IButtonHandlers)
-class Handlers(object):
+class Handlers:
     """Action Handlers for a Button-based form."""
 
     def __init__(self):
@@ -157,7 +157,7 @@ class Handlers(object):
 
 
 @zope.interface.implementer(interfaces.IButtonHandler)
-class Handler(object):
+class Handler:
 
     def __init__(self, button, func):
         self.button = button
@@ -167,7 +167,7 @@ class Handler(object):
         return self.func(form, action)
 
     def __repr__(self):
-        return '<%s for %r>' % (self.__class__.__name__, self.button)
+        return '<{} for {!r}>'.format(self.__class__.__name__, self.button)
 
 
 def handler(button):

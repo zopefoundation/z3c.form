@@ -9,7 +9,7 @@ from z3c.form.field import FieldWidgets
 from z3c.form.interfaces import IContentProviders
 
 
-class BaseProvider(object):
+class BaseProvider:
     __slots__ = ('position')
 
 
@@ -20,17 +20,17 @@ lookup_ = BaseProvider()
 class ContentProviders(dict):
 
     def __init__(self, names=None):
-        super(ContentProviders, self).__init__()
+        super().__init__()
         if names is not None:
             for position, name in enumerate(names):
                 self[name] = lookup_
 
     def __setitem__(self, key, value):
         factory = ContentProviderFactory(factory=value, name=key)
-        super(ContentProviders, self).__setitem__(key, factory)
+        super().__setitem__(key, factory)
 
 
-class ContentProviderFactory(object):
+class ContentProviderFactory:
 
     def __init__(self, factory, name):
         self.factory = factory
@@ -56,7 +56,7 @@ class FieldWidgetsAndProviders(FieldWidgets):
         zope.interface.Interface)
 
     def update(self):
-        super(FieldWidgetsAndProviders, self).update()
+        super().update()
         uniqueOrderedKeys = list(self.keys())
         d = {}
         d.update(self)

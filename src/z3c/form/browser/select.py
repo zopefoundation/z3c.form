@@ -33,8 +33,8 @@ from z3c.form.widget import SequenceWidget
 class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Select widget implementation."""
 
-    klass = u'select-widget'
-    css = u'select'
+    klass = 'select-widget'
+    css = 'select'
     prompt = False
 
     noValueMessage = _('No value')
@@ -49,7 +49,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(SelectWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
 
     @property
@@ -100,7 +100,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         return items
 
     def json_data(self):
-        data = super(SelectWidget, self).json_data()
+        data = super().json_data()
         data['options'] = self.items
         data['type'] = 'select'
         return data

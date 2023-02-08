@@ -35,8 +35,8 @@ class ImageWidget(button.ButtonWidget):
 
     src = FieldProperty(IHTMLImageWidget['src'])
 
-    klass = u'image-widget'
-    css = u'image'
+    klass = 'image-widget'
+    css = 'image'
 
     def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""
@@ -48,7 +48,7 @@ class ImageWidget(button.ButtonWidget):
             'value': self.request[self.name]}
 
     def json_data(self):
-        data = super(ImageWidget, self).json_data()
+        data = super().json_data()
         data['type'] = 'image'
         return data
 

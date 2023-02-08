@@ -42,7 +42,7 @@ except ImportError:
 
 
 @zope.interface.implementer(interfaces.IDataManager)
-class DataManager(object):
+class DataManager:
     """Data manager base class."""
 
 

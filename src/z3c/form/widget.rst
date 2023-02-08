@@ -62,7 +62,7 @@ helper components are around to fill the attributes of the widget, we have to
 do it by hand:
 
   >>> age.name = 'age'
-  >>> age.label = u'Age'
+  >>> age.label = 'Age'
   >>> age.value = '39'
 
 The most important attributes are the "name" and the "value". The name is used
@@ -170,7 +170,7 @@ widget's properties. Let's create a field first:
 
   >>> ageField = zope.schema.Int(
   ...     __name__ = 'age',
-  ...     title = u'Age',
+  ...     title = 'Age',
   ...     min = 0,
   ...     max = 130)
 
@@ -252,7 +252,7 @@ value:
   >>> ageWidget.update()
   Traceback (most recent call last):
   ...
-  ComponentLookupError: ((...), <InterfaceClass ...IDataManager>, u'')
+  ComponentLookupError: ((...), <InterfaceClass ...IDataManager>, '')
 
 This call fails because the widget does not know how to extract the value from
 the context. Registering a data manager for the widget does the trick:
@@ -355,7 +355,7 @@ the custom value.
 We can create a custom label for the age widget:
 
   >>> AgeLabel = widget.StaticWidgetAttribute(
-  ...     u'Current Age',
+  ...     'Current Age',
   ...     context=None, request=None, view=None, field=ageField, widget=None)
 
 Clearly, this code does not require us to touch the orginal form and widget
@@ -363,12 +363,12 @@ code, given that we have enough control over the selection. In the example
 above, all the selection discriminators are listed for demonstration
 purposes. Of course, the label in this case can be created as follows:
 
-  >>> AgeLabel = widget.StaticWidgetAttribute(u'Current Age', field=ageField)
+  >>> AgeLabel = widget.StaticWidgetAttribute('Current Age', field=ageField)
 
 Much better, isn't it? Initially the label is the title of the field:
 
   >>> ageWidget.label
-  u'Age'
+  'Age'
 
 Let's now simply register the label as a named adapter; the name is the name
 of the attribute to change:
@@ -379,7 +379,7 @@ Asking the widget for the label now will return the newly registered label:
 
   >>> ageWidget.update()
   >>> ageWidget.label
-  u'Current Age'
+  'Current Age'
 
 Of course, simply setting the label or changing the label extraction via a
 sub-class are other options you might want to consider. Furthermore, you
@@ -465,9 +465,9 @@ default implementation, so we have to provide one ourselves:
   ...         return self.getTermByToken(token).value
 
   >>> terms = Terms(
-  ...   [Terms.createTerm(1, 'v1', u'Value 1'),
-  ...    Terms.createTerm(2, 'v2', u'Value 2'),
-  ...    Terms.createTerm(3, 'v3', u'Value 3')])
+  ...   [Terms.createTerm(1, 'v1', 'Value 1'),
+  ...    Terms.createTerm(2, 'v2', 'Value 2'),
+  ...    Terms.createTerm(3, 'v3', 'Value 3')])
   >>> seqWidget.terms = terms
 
 Once the ``terms`` attribute is set, updating the widgets does not change the
@@ -514,13 +514,13 @@ values, they have to be converted to the title of the term:
 
   >>> seqWidget.value = ('v1', 'v2')
   >>> seqWidget.displayValue
-  [u'Value 1', u'Value 2']
+  ['Value 1', 'Value 2']
 
 Unknown values/terms get silently ignored.
 
   >>> seqWidget.value = ('v3', 'v4')
   >>> seqWidget.displayValue
-  [u'Value 3']
+  ['Value 3']
 
 When input forms are directly switched to display forms within the same
 request, it can happen that the value contains the "--NOVALUE--" token
@@ -534,7 +534,7 @@ To demonstrate how the terms is automatically chosen by a widget, we should
 instantiate a field widget. Let's do this with a choice field:
 
   >>> seqField = zope.schema.Choice(
-  ...     title=u'Sequence Field',
+  ...     title='Sequence Field',
   ...     vocabulary=terms)
 
 Let's now create the field widget:
@@ -547,7 +547,7 @@ The terms should be available as soon as the widget is updated:
   >>> seqWidget.update()
   Traceback (most recent call last):
   ...
-  ComponentLookupError: ((...), <InterfaceClass ...ITerms>, u'')
+  ComponentLookupError: ((...), <InterfaceClass ...ITerms>, '')
 
 This failed, because we did not register an adapter for the terms yet. After
 the adapter is registered, everything should work as expected:
@@ -626,18 +626,18 @@ is <NO_VALUE> and an empty ('') request value is ''.
 If we provide real values within the request, we will get it back:
 
   >>> multiWidget.request = TestRequest(form={'multi.name.count':'2',
-  ...                                         'multi.name.0':u'42',
-  ...                                         'multi.name.1':u'43'})
+  ...                                         'multi.name.0':'42',
+  ...                                         'multi.name.1':'43'})
   >>> multiWidget.extract()
-  [u'42', u'43']
+  ['42', '43']
 
 If we provide a bad value we will get the bad value within the extract method.
 Our widget update process will validate this bad value later:
 
   >>> multiWidget.request = TestRequest(form={'multi.name.count':'1',
-  ...                                         'multi.name.0':u'bad'})
+  ...                                         'multi.name.0':'bad'})
   >>> multiWidget.extract()
-  [u'bad']
+  ['bad']
 
 Storing a widget value forces to update the (sub) widgets. This forces also to
 validate the (sub) widget values. To show this we need to register a
@@ -650,11 +650,11 @@ Since the value of the widget is a list of (widget) value items, when
 displaying the values, they can be used as they are:
 
   >>> multiWidget.request = TestRequest(form={'multi.name.count':'2',
-  ...                                         'multi.name.0':u'42',
-  ...                                         'multi.name.1':u'43'})
+  ...                                         'multi.name.0':'42',
+  ...                                         'multi.name.1':'43'})
   >>> multiWidget.value = multiWidget.extract()
   >>> multiWidget.value
-  [u'42', u'43']
+  ['42', '43']
 
 Each widget normally gets first processed by it's update method call after
 initialization. This update call forces to call extract, which first will get
@@ -672,8 +672,8 @@ is called. At any time if we change the multi widget value the (sub) widgets
 get updated within the new relevant value.
 
   >>> multiRequest = TestRequest(form={'multi.name.count':'2',
-  ...                                  'multi.name.0':u'42',
-  ...                                  'multi.name.1':u'43'})
+  ...                                  'multi.name.0':'42',
+  ...                                  'multi.name.1':'43'})
 
   >>> multiWidget = widget.FieldWidget(multiField, widget.MultiWidget(
   ...     multiRequest))
@@ -684,13 +684,13 @@ get updated within the new relevant value.
   >>> multiWidget.update()
 
   >>> multiWidget.widgets[0].value
-  u'42'
+  '42'
 
   >>> multiWidget.widgets[1].value
-  u'43'
+  '43'
 
   >>> multiWidget.value
-  [u'42', u'43']
+  ['42', '43']
 
 MultiWidget also declares the ``allowAdding`` and ``allowRemoving``
 attributes that can be used in browser presentation to control add/remove
@@ -727,28 +727,28 @@ No value:
 
 Minimum length:
 
-  >>> multiWidget.value = [u'3', u'5']
+  >>> multiWidget.value = ['3', '5']
   >>> multiWidget.updateAllowAddRemove()
   >>> multiWidget.allowAdding, multiWidget.allowRemoving
   (True, False)
 
 Some allowed length:
 
-  >>> multiWidget.value = [u'3', u'5', u'8', u'6']
+  >>> multiWidget.value = ['3', '5', '8', '6']
   >>> multiWidget.updateAllowAddRemove()
   >>> multiWidget.allowAdding, multiWidget.allowRemoving
   (True, True)
 
 Maximum length:
 
-  >>> multiWidget.value = [u'3', u'5', u'8', u'6', u'42']
+  >>> multiWidget.value = ['3', '5', '8', '6', '42']
   >>> multiWidget.updateAllowAddRemove()
   >>> multiWidget.allowAdding, multiWidget.allowRemoving
   (False, True)
 
 Over maximum length:
 
-  >>> multiWidget.value = [u'3', u'5', u'8', u'6', u'42', u'45']
+  >>> multiWidget.value = ['3', '5', '8', '6', '42', '45']
   >>> multiWidget.updateAllowAddRemove()
   >>> multiWidget.allowAdding, multiWidget.allowRemoving
   (False, True)
@@ -843,24 +843,24 @@ We can also use a multiWidget in Dict mode by just using a field which a Dict:
 
 Now if we set the value to a list we get an error:
 
-  >>> multiWidget.value = [u'3', u'5', u'8', u'6', u'42', u'45']
+  >>> multiWidget.value = ['3', '5', '8', '6', '42', '45']
   Traceback (most recent call last):
   ...
   ValueError: need more than 1 value to unpack
 
 but a dictionary is good.
 
-  >>> multiWidget.value = [(u'1', u'3'), (u'2', u'5'), (u'3', u'8'), (u'4', u'6'), (u'5', u'42'), (u'6', u'45')]
+  >>> multiWidget.value = [('1', '3'), ('2', '5'), ('3', '8'), ('4', '6'), ('5', '42'), ('6', '45')]
 
 and our requests now have to include keys as well as values
 
   >>> multiWidget.request = TestRequest(form={'multi.name.count':'2',
-  ...                                         'multi.name.key.0':u'1',
-  ...                                         'multi.name.0':u'42',
-  ...                                         'multi.name.key.1':u'2',
-  ...                                         'multi.name.1':u'43'})
+  ...                                         'multi.name.key.0':'1',
+  ...                                         'multi.name.0':'42',
+  ...                                         'multi.name.key.1':'2',
+  ...                                         'multi.name.1':'43'})
   >>> multiWidget.extract()
-  [(u'1', u'42'), (u'2', u'43')]
+  [('1', '42'), ('2', '43')]
 
 Let's define a field with min and max length constraints and create
 a widget for it.

@@ -9,6 +9,8 @@ Changelog
 
 - Drop support for Python 2.7, 3.5, 3.6.
 
+- Drop deprecated support for ``python setup.py test``.
+
 
 4.3 (2022-03-24)
 ----------------

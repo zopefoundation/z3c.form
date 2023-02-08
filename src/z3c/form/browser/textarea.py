@@ -30,16 +30,16 @@ from z3c.form.widget import Widget
 class TextAreaWidget(widget.HTMLTextAreaWidget, Widget):
     """Textarea widget implementation."""
 
-    klass = u'textarea-widget'
-    css = u'textarea'
-    value = u''
+    klass = 'textarea-widget'
+    css = 'textarea'
+    value = ''
 
     def update(self):
-        super(TextAreaWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
 
     def json_data(self):
-        data = super(TextAreaWidget, self).json_data()
+        data = super().json_data()
         data['type'] = 'textarea'
         return data
 

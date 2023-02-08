@@ -29,7 +29,7 @@ from z3c.form.i18n import MessageFactory as _
 
 
 @zope.interface.implementer(interfaces.IButtonForm, interfaces.IHandlerForm)
-class FormMixin(object):
+class FormMixin:
     pass
 
 
@@ -40,8 +40,8 @@ class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
     buttons = button.Buttons()
 
     prefix = 'widget'
-    klass = u'multi-widget'
-    css = u'multi'
+    klass = 'multi-widget'
+    css = 'multi'
     items = ()
 
     showLabel = True  # show labels for item subwidgets or not
@@ -60,7 +60,7 @@ class MultiWidget(HTMLFormElement, widget.MultiWidget, FormMixin):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(MultiWidget, self).update()
+        super().update()
         self.updateActions()
         self.actions.execute()
         self.updateActions()  # Update again, as conditions may change

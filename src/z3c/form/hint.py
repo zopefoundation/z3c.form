@@ -25,7 +25,7 @@ from z3c.form import interfaces
 
 
 @zope.interface.implementer(interfaces.IValue)
-class FieldDescriptionAsHint(object):
+class FieldDescriptionAsHint:
     """Schema field description as widget ``title`` IValue adapter."""
     zope.component.adapts(
         zope.interface.Interface,

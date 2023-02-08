@@ -28,11 +28,11 @@ from z3c.form.widget import FieldWidget
 class SubmitWidget(button.ButtonWidget):
     """A submit button of a form."""
 
-    klass = u'submit-widget'
-    css = u'submit'
+    klass = 'submit-widget'
+    css = 'submit'
 
     def json_data(self):
-        data = super(SubmitWidget, self).json_data()
+        data = super().json_data()
         data['type'] = 'submit'
         return data
 

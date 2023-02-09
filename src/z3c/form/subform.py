@@ -18,12 +18,14 @@ $Id$
 __docformat__ = "reStructuredText"
 import zope.interface
 
-from z3c.form import action, button, form, interfaces
+from z3c.form import button
+from z3c.form import form
+from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
 
 
 @zope.interface.implementer(
-        interfaces.ISubForm, interfaces.IHandlerForm)
+    interfaces.ISubForm, interfaces.IHandlerForm)
 class EditSubForm(form.BaseForm):
 
     formErrorsMessage = _('There were some errors.')
@@ -50,9 +52,8 @@ class EditSubForm(form.BaseForm):
         else:
             self.status = self.noChangesMessage
 
-
     def update(self):
-        super(EditSubForm, self).update()
+        super().update()
         for action in self.parentForm.actions.executedActions:
             adapter = zope.component.queryMultiAdapter(
                 (self, self.request, self.getContent(), action),

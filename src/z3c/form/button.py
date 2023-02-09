@@ -16,26 +16,31 @@
 """
 __docformat__ = "reStructuredText"
 import sys
+
 import zope.event
 import zope.interface
 import zope.location
 import zope.schema
 import zope.traversing.api
-
 from zope.component import hooks
 from zope.interface import adapter
 from zope.schema.fieldproperty import FieldProperty
-from z3c.form import action, interfaces, util, value
-from z3c.form.browser import image, submit
+
+from z3c.form import action
+from z3c.form import interfaces
+from z3c.form import util
+from z3c.form import value
+from z3c.form.browser import image
+from z3c.form.browser import submit
 from z3c.form.widget import AfterWidgetUpdateEvent
 
 
 StaticButtonActionAttribute = value.StaticValueCreator(
-    discriminators = ('form', 'request', 'content', 'button', 'manager')
-    )
+    discriminators=('form', 'request', 'content', 'button', 'manager')
+)
 ComputedButtonActionAttribute = value.ComputedValueCreator(
-    discriminators = ('form', 'request', 'content', 'button', 'manager')
-    )
+    discriminators=('form', 'request', 'content', 'button', 'manager')
+)
 
 
 @zope.interface.implementer(interfaces.IButton)
@@ -57,10 +62,10 @@ class Button(zope.schema.Field):
         self.accessKey = kwargs.pop('accessKey', None)
         self.condition = kwargs.pop('condition', None)
         # Initialize the button
-        super(Button, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __repr__(self):
-        return '<%s %r %r>' %(
+        return '<{} {!r} {!r}>'.format(
             self.__class__.__name__, self.__name__, self.title)
 
 
@@ -72,10 +77,10 @@ class ImageButton(Button):
 
     def __init__(self, image=None, *args, **kwargs):
         self.image = image
-        super(ImageButton, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __repr__(self):
-        return '<%s %r %r>' %(
+        return '<{} {!r} {!r}>'.format(
             self.__class__.__name__, self.__name__, self.image)
 
 
@@ -101,11 +106,11 @@ class Buttons(util.SelectionManager):
                 buttons.append((arg.__name__, arg))
             else:
                 raise TypeError("Unrecognized argument type", arg)
-        super(Buttons, self).__init__(buttons)
+        super().__init__(buttons)
 
 
 @zope.interface.implementer(interfaces.IButtonHandlers)
-class Handlers(object):
+class Handlers:
     """Action Handlers for a Button-based form."""
 
     def __init__(self):
@@ -126,7 +131,8 @@ class Handlers(object):
     def getHandler(self, button):
         """See interfaces.IButtonHandlers"""
         buttonProvided = zope.interface.providedBy(button)
-        return self._registry.lookup1(buttonProvided, interfaces.IButtonHandler)
+        return self._registry.lookup1(
+            buttonProvided, interfaces.IButtonHandler)
 
     def copy(self):
         """See interfaces.IButtonHandlers"""
@@ -145,11 +151,13 @@ class Handlers(object):
         return handlers
 
     def __repr__(self):
-        return '<Handlers %r>' %[handler for button, handler in self._handlers]
+        return '<Handlers %r>' % [
+            handler for button,
+            handler in self._handlers]
 
 
 @zope.interface.implementer(interfaces.IButtonHandler)
-class Handler(object):
+class Handler:
 
     def __init__(self, button, func):
         self.button = button
@@ -159,7 +167,7 @@ class Handler(object):
         return self.func(form, action)
 
     def __repr__(self):
-        return '<%s for %r>' %(self.__class__.__name__, self.button)
+        return '<{} for {!r}>'.format(self.__class__.__name__, self.button)
 
 
 def handler(button):
@@ -184,7 +192,7 @@ def buttonAndHandler(title, **kwargs):
     zope.interface.alsoProvides(button, provides)
     frame = sys._getframe(1)
     f_locals = frame.f_locals
-    buttons = f_locals.setdefault('buttons', Buttons())
+    f_locals.setdefault('buttons', Buttons())
     f_locals['buttons'] += Buttons(button)
     # Return the handler decorator
     return handler(button)
@@ -248,7 +256,8 @@ class ButtonActions(action.Actions):
         for name, button in self.form.buttons.items():
             # Step 1: Only create an action for the button, if the condition is
             #         fulfilled.
-            if button.condition is not None and not button.condition(self.form):
+            if button.condition is not None and not button.condition(
+                    self.form):
                 # Step 1.1: If the action already existed, but now the
                 #           condition became false, remove the old action.
                 if name in d:
@@ -275,7 +284,8 @@ class ButtonActions(action.Actions):
             # Step 5: Set the form
             buttonAction.form = self.form
             if not interfaces.IFormAware.providedBy(buttonAction):
-                zope.interface.alsoProvides(buttonAction, interfaces.IFormAware)
+                zope.interface.alsoProvides(
+                    buttonAction, interfaces.IFormAware)
             # Step 6: Update the new action
             buttonAction.update()
             zope.event.notify(AfterWidgetUpdateEvent(buttonAction))
@@ -285,6 +295,7 @@ class ButtonActions(action.Actions):
                 zope.location.locate(buttonAction, self, name)
 
         self.create_according_to_list(d, self.form.buttons.keys())
+
 
 class ButtonActionHandler(action.ActionHandlerBase):
     zope.component.adapts(

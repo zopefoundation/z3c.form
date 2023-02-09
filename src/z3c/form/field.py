@@ -21,7 +21,8 @@ import zope.interface
 import zope.location
 import zope.schema.interfaces
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.error import MultipleErrors
 from z3c.form.widget import AfterWidgetUpdateEvent
 
@@ -33,21 +34,21 @@ def _initkw(keepReadOnly=(), omitReadOnly=False, **defaults):
 class WidgetFactories(dict):
 
     def __init__(self):
-        super(WidgetFactories, self).__init__()
+        super().__init__()
         self.default = None
 
     def __getitem__(self, key):
         if key not in self and self.default:
             return self.default
-        return super(WidgetFactories, self).__getitem__(key)
+        return super().__getitem__(key)
 
     def get(self, key, default=None):
         if key not in self and self.default:
             return self.default
-        return super(WidgetFactories, self).get(key, default)
+        return super().get(key, default)
 
 
-class WidgetFactoryProperty(object):
+class WidgetFactoryProperty:
 
     def __get__(self, inst, klass):
         if not hasattr(inst, '_widgetFactories'):
@@ -61,7 +62,7 @@ class WidgetFactoryProperty(object):
 
 
 @zope.interface.implementer(interfaces.IField)
-class Field(object):
+class Field:
     """Field implementation."""
 
     widgetFactory = WidgetFactoryProperty()
@@ -82,7 +83,7 @@ class Field(object):
         self.showDefault = showDefault
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.__name__)
+        return '<{} {!r}>'.format(self.__class__.__name__, self.__name__)
 
 
 @zope.interface.implementer(interfaces.IFields)
@@ -108,7 +109,8 @@ class Fields(util.SelectionManager):
             elif self.managerInterface.providedBy(arg):
                 for form_field in arg.values():
                     fields.append(
-                        (form_field.__name__, form_field, form_field.interface))
+                        (form_field.__name__, form_field,
+                         form_field.interface))
 
             elif isinstance(arg, Field):
                 fields.append((arg.__name__, arg, arg.interface))
@@ -116,7 +118,7 @@ class Fields(util.SelectionManager):
             else:
                 raise TypeError("Unrecognized argument type", arg)
 
-        super(Fields, self).__init__()
+        super().__init__()
         for name, field, iface in fields:
             if isinstance(field, Field):
                 form_field = field
@@ -144,9 +146,9 @@ class Fields(util.SelectionManager):
             names = [util.expandPrefix(prefix) + name for name in names]
         mapping = self
         if interface is not None:
-            mapping = dict([(field.field.__name__, field)
-                            for field in self.values()
-                            if field.field.interface is interface])
+            mapping = {field.field.__name__: field
+                       for field in self.values()
+                       if field.field.interface is interface}
         return self.__class__(*[mapping[name] for name in names])
 
     def omit(self, *names, **kwargs):
@@ -160,7 +162,7 @@ class Fields(util.SelectionManager):
             *[field for name, field in self.items()
               if not ((name in names and interface is None) or
                       (field.field.interface is interface and
-                       field.field.__name__ in names)) ])
+                       field.field.__name__ in names))])
 
 
 @zope.interface.implementer_only(interfaces.IWidgets)
@@ -168,7 +170,9 @@ class FieldWidgets(util.Manager):
     """Widget manager for IFieldWidget."""
 
     zope.component.adapts(
-        interfaces.IFieldsForm, interfaces.IFormLayer, zope.interface.Interface)
+        interfaces.IFieldsForm,
+        interfaces.IFormLayer,
+        zope.interface.Interface)
 
     prefix = 'widgets.'
     mode = interfaces.INPUT_MODE
@@ -181,7 +185,7 @@ class FieldWidgets(util.Manager):
     setErrors = True
 
     def __init__(self, form, request, content):
-        super(FieldWidgets, self).__init__()
+        super().__init__()
         self.form = form
         self.request = request
         self.content = content
@@ -293,7 +297,8 @@ class FieldWidgets(util.Manager):
                 raw = widget.extract()
                 if raw is not interfaces.NO_VALUE:
                     value = interfaces.IDataConverter(widget).toFieldValue(raw)
-                widget.ignoreRequiredOnValidation = self.ignoreRequiredOnExtract
+                widget.ignoreRequiredOnValidation = (
+                    self.ignoreRequiredOnExtract)
                 zope.component.getMultiAdapter(
                     (self.content,
                      self.request,

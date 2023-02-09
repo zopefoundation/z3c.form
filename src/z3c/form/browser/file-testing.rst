@@ -47,10 +47,7 @@ input element, but also with a text area:
 
 Let's now make sure that we can extract user entered data from a widget:
 
-  >>> try:
-  ...   from cStringIO import cStringIO as BytesIO
-  ... except ImportError:
-  ...     from io import BytesIO
+  >>> from io import BytesIO
   >>> myfile = BytesIO(b'My file contents.')
 
   >>> widget.request = TestRequest(form={'widget.name': myfile})
@@ -116,4 +113,4 @@ using the data converter.
   >>> conv
   <TestingFileUploadDataConverter converts from Bytes to FileWidget>
   >>> conv.toFieldValue("")
-  'File upload contents.'
+  b'File upload contents.'

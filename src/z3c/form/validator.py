@@ -23,11 +23,12 @@ import zope.component
 import zope.interface
 import zope.schema
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
 
 
 @zope.interface.implementer(interfaces.IValidator)
-class StrictSimpleFieldValidator(object):
+class StrictSimpleFieldValidator:
     """Strict Simple Field Validator
 
     validates all incoming values"""
@@ -58,7 +59,7 @@ class StrictSimpleFieldValidator(object):
             field = field.bind(context)
         if value is interfaces.NOT_CHANGED:
             if (interfaces.IContextAware.providedBy(widget) and
-                not widget.ignoreContext):
+                    not widget.ignoreContext):
                 # get value from context
                 value = zope.component.getMultiAdapter(
                     (context, field),
@@ -76,7 +77,7 @@ class StrictSimpleFieldValidator(object):
         return field.validate(value)
 
     def __repr__(self):
-        return "<%s for %s['%s']>" %(
+        return "<{} for {}['{}']>".format(
             self.__class__.__name__,
             self.field.interface.getName(),
             self.field.__name__)
@@ -92,7 +93,7 @@ class SimpleFieldValidator(StrictSimpleFieldValidator):
         if value is self.field.missing_value:
             # let missing values run into stricter validation
             # most important case is not let required fields pass
-            return super(SimpleFieldValidator, self).validate(value, force)
+            return super().validate(value, force)
 
         if not force:
             if value is interfaces.NOT_CHANGED:
@@ -100,12 +101,13 @@ class SimpleFieldValidator(StrictSimpleFieldValidator):
                 return
 
             if self.widget and not util.changedWidget(
-                self.widget, value, field=self.field, context=self.context):
+                    self.widget, value, field=self.field,
+                    context=self.context):
                 # if new value == old value, no need to validate
                 return
 
         # otherwise StrictSimpleFieldValidator will do the job
-        return super(SimpleFieldValidator, self).validate(value, force)
+        return super().validate(value, force)
 
 
 class FileUploadValidator(StrictSimpleFieldValidator):
@@ -123,7 +125,12 @@ class FileUploadValidator(StrictSimpleFieldValidator):
 
 
 def WidgetValidatorDiscriminators(
-    validator, context=None, request=None, view=None, field=None, widget=None):
+        validator,
+        context=None,
+        request=None,
+        view=None,
+        field=None,
+        widget=None):
     zope.component.adapter(
         util.getSpecification(context),
         util.getSpecification(request),
@@ -147,7 +154,7 @@ class NoInputData(zope.interface.Invalid):
 
 
 @zope.interface.implementer(interfaces.IData)
-class Data(object):
+class Data:
 
     def __init__(self, schema, data, context):
         self._Data_data___ = data
@@ -180,7 +187,7 @@ class Data(object):
 
 
 @zope.interface.implementer(interfaces.IManagerValidator)
-class InvariantsValidator(object):
+class InvariantsValidator:
     """Simple Field Validator"""
     zope.component.adapts(
         zope.interface.Interface,
@@ -205,18 +212,18 @@ class InvariantsValidator(object):
         try:
             self.schema.validateInvariants(object, errors)
         except zope.interface.Invalid:
-            pass # Just collect the errors
+            pass  # Just collect the errors
 
         return tuple([error for error in errors
                       if not isinstance(error, NoInputData)])
 
     def __repr__(self):
-        return '<%s for %s>' %(self.__class__.__name__, self.schema.getName())
+        return f'<{self.__class__.__name__} for {self.schema.getName()}>'
 
 
 def WidgetsValidatorDiscriminators(
-    validator,
-    context=None, request=None, view=None, schema=None, manager=None):
+        validator,
+        context=None, request=None, view=None, schema=None, manager=None):
     zope.component.adapter(
         util.getSpecification(context),
         util.getSpecification(request),

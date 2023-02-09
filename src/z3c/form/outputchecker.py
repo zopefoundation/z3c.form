@@ -16,8 +16,8 @@
 import doctest as pythondoctest
 import re
 
-import lxml.etree
 import lxml.doctestcompare
+import lxml.etree
 from lxml.doctestcompare import LHTMLOutputChecker
 from zope.testing.renormalizing import RENormalizing
 
@@ -55,7 +55,8 @@ class OutputChecker(LHTMLOutputChecker, RENormalizing):
             got = ""
         checker = self.doctest.OutputChecker()
         return checker.check_output(
-            want, got, self.doctest.ELLIPSIS|self.doctest.NORMALIZE_WHITESPACE)
+            want, got,
+            self.doctest.ELLIPSIS | self.doctest.NORMALIZE_WHITESPACE)
 
     def check_output(self, want, got, optionflags):
         if got == want:
@@ -87,8 +88,8 @@ class OutputChecker(LHTMLOutputChecker, RENormalizing):
         example.want = original
 
         # repeat lines with a diff, otherwise it's wading through mud
-        difflines = [l for l in result.splitlines()
-                     if '(got:' in l]
+        difflines = [line for line in result.splitlines()
+                     if '(got:' in line]
 
         if difflines:
             result += '\nLines with differences:\n' + '\n'.join(difflines)

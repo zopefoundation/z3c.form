@@ -16,20 +16,21 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.interface
 import zope.component
+import zope.interface
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
 
 
 @zope.interface.implementer(interfaces.IActionEvent)
-class ActionEvent(object):
+class ActionEvent:
 
     def __init__(self, action):
         self.action = action
 
     def __repr__(self):
-        return '<%s for %r>' %(self.__class__.__name__, self.action)
+        return '<{} for {!r}>'.format(self.__class__.__name__, self.action)
 
 
 @zope.interface.implementer(interfaces.IActionErrorEvent)
@@ -38,7 +39,7 @@ class ActionErrorOccurred(ActionEvent):
     execution."""
 
     def __init__(self, action, error):
-        super(ActionErrorOccurred, self).__init__(action)
+        super().__init__(action)
         self.error = error
 
 
@@ -47,7 +48,7 @@ class ActionSuccessful(ActionEvent):
 
 
 @zope.interface.implementer(interfaces.IAction)
-class Action(object):
+class Action:
     """Action class."""
 
     __name__ = __parent__ = None
@@ -63,7 +64,7 @@ class Action(object):
         return self.name in self.request
 
     def __repr__(self):
-        return '<%s %r %r>' % (self.__class__.__name__, self.name, self.title)
+        return f'<{self.__class__.__name__} {self.name!r} {self.title!r}>'
 
 
 @zope.interface.implementer_only(interfaces.IActions)
@@ -73,7 +74,7 @@ class Actions(util.Manager):
     __name__ = __parent__ = None
 
     def __init__(self, form, request, content):
-        super(Actions, self).__init__()
+        super().__init__()
         self.form = form
         self.request = request
         self.content = content
@@ -103,11 +104,11 @@ class Actions(util.Manager):
                     return result
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.__name__)
+        return '<{} {!r}>'.format(self.__class__.__name__, self.__name__)
 
 
 @zope.interface.implementer(interfaces.IActionHandler)
-class ActionHandlerBase(object):
+class ActionHandlerBase:
     """Action handler base adapter."""
 
     def __init__(self, form, request, content, action):

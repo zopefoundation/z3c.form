@@ -17,80 +17,65 @@
 __docformat__ = "reStructuredText"
 import binascii
 import re
-import six
-import sys
-import types
 import string
-import zope.interface
+from collections import OrderedDict
+from functools import total_ordering
+
 import zope.contenttype
+import zope.interface
 import zope.schema
 
-from collections import OrderedDict
 from z3c.form import interfaces
 from z3c.form.i18n import MessageFactory as _
 
+
 _identifier = re.compile('[A-Za-z][a-zA-Z0-9_]*$')
-classTypes = six.class_types
+classTypes = (type,)
 _acceptableChars = string.ascii_letters + string.digits + '_-'
 
-PY3 = sys.version_info[0] >= 3
-
-try:
-    unicode
-except NameError:
-    # Py3: Define unicode.
-    unicode = str
 
 def toUnicode(obj):
     if isinstance(obj, bytes):
         return obj.decode('utf-8', 'ignore')
-    if PY3:
-        return str(obj)
-    else:
-        return unicode(obj)
+    return str(obj)
+
 
 def toBytes(obj):
     if isinstance(obj, bytes):
         return obj
-    if isinstance(obj, unicode):
+    if isinstance(obj, str):
         return obj.encode('utf-8')
-    if PY3:
-        return str(obj).encode('utf-8')
-    else:
-        return str(obj)
+    return str(obj).encode('utf-8')
+
 
 def createId(name):
     """Returns a *native* string as id of the given name."""
     if _identifier.match(name):
         return str(name).lower()
     id = binascii.hexlify(name.encode('utf-8'))
-    return id.decode() if PY3 else id
+    return id.decode()
 
 
-if PY3:
-    # py26 has no total_ordering
-    from functools import total_ordering
-    @total_ordering
-    class MinType(object):
-        def __le__(self, other):
-            return True
+@total_ordering
+class MinType:
+    def __le__(self, other):
+        return True
 
-        def __eq__(self, other):
-            return (self is other)
+    def __eq__(self, other):
+        return (self is other)
 
-    def sortedNone(items):
-        Min = MinType()
-        return sorted(items, key=lambda x: Min if x is None else x)
-else:
-    def sortedNone(items):
-        return sorted(items)
+
+def sortedNone(items):
+    Min = MinType()
+    return sorted(items, key=lambda x: Min if x is None else x)
 
 
 def createCSSId(name):
     return str(''.join([
-                (char if char in _acceptableChars else
-                      binascii.hexlify(char.encode('utf-8')).decode())
-                for char in name]))
+        (char if char in _acceptableChars else
+         binascii.hexlify(char.encode('utf-8')).decode())
+        for char in name]))
+
 
 def getSpecification(spec, force=False):
     """Get the specification of the given object.
@@ -106,16 +91,16 @@ def getSpecification(spec, force=False):
     if (force or
         (spec is not None and
          not zope.interface.interfaces.ISpecification.providedBy(spec)
-         and not isinstance(spec, classTypes)) ):
+         and not isinstance(spec, classTypes))):
 
         # Step 1: Calculate an interface name
-        ifaceName = 'IGeneratedForObject_%i' %id(spec)
+        ifaceName = 'IGeneratedForObject_%i' % id(spec)
 
         # Step 2: Find out if we already have such an interface
         existingInterfaces = [
-                i for i in zope.interface.directlyProvidedBy(spec)
-                    if i.__name__ == ifaceName
-            ]
+            i for i in zope.interface.directlyProvidedBy(spec)
+            if i.__name__ == ifaceName
+        ]
 
         # Step 3a: Return an existing interface if there is one
         if len(existingInterfaces) > 0:
@@ -144,7 +129,7 @@ def getWidgetById(form, id):
     name = id.replace('-', '.')
     prefix = form.prefix + form.widgets.prefix
     if not name.startswith(prefix):
-        raise ValueError("Name %r must start with prefix %r" %(name, prefix))
+        raise ValueError(f"Name {name!r} must start with prefix {prefix!r}")
     shortName = name[len(prefix):]
     return form.widgets.get(shortName, None)
 
@@ -208,7 +193,7 @@ def changedWidget(widget, value, field=None, context=None):
 
     Comparing the value of the widget context attribute and the given value"""
     if (interfaces.IContextAware.providedBy(widget)
-        and not widget.ignoreContext):
+            and not widget.ignoreContext):
         # if the widget is context aware, figure if it's field changed
         if field is None:
             field = widget.field
@@ -223,23 +208,23 @@ def changedWidget(widget, value, field=None, context=None):
 class Manager(OrderedDict):
     """Non-persistent IManager implementation."""
 
-    def create_according_to_list(self, d, l):
-        """ Arrange elemnts of d according to sorting of l
-        """
+    def create_according_to_list(self, d, l_):
+        """Arrange elements of d according to sorting of l_."""
         # TODO: If we are on Python 3 only reimplement on top of `move_to_end`
         self.clear()
-        for key in l:
+        for key in l_:
             if key in d:
                 self[key] = d[key]
 
     def __getitem__(self, key):
-        if not key in self:
+        if key not in self:
             try:
                 return getattr(self, key)
             except AttributeError:
                 # make sure an KeyError is raised later
                 pass
-        return super(Manager, self).__getitem__(key)
+        return super().__getitem__(key)
+
 
 @zope.interface.implementer(interfaces.ISelectionManager)
 class SelectionManager(Manager):

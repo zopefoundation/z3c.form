@@ -23,17 +23,18 @@ import zope.schema.interfaces
 from zope.i18n import translate
 
 from z3c.form import interfaces
-from z3c.form.i18n import MessageFactory as _
-from z3c.form.widget import SequenceWidget, FieldWidget
 from z3c.form.browser import widget
+from z3c.form.i18n import MessageFactory as _
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import SequenceWidget
 
 
 @zope.interface.implementer_only(interfaces.ISelectWidget)
 class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Select widget implementation."""
 
-    klass = u'select-widget'
-    css = u'select'
+    klass = 'select-widget'
+    css = 'select'
     prompt = False
 
     noValueMessage = _('No value')
@@ -48,7 +49,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(SelectWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
 
     @property
@@ -65,7 +66,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
                 'value': self.noValueToken,
                 'content': message,
                 'selected': self.value in ((), [])
-                })
+            })
 
         ignored = set(self.value)
 
@@ -86,7 +87,8 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
             addItem(idx, term)
 
         if ignored:
-            # some values are not displayed, probably they went away from the vocabulary
+            # some values are not displayed, probably they went away from the
+            # vocabulary
             for idx, token in enumerate(sorted(ignored)):
                 try:
                     term = self.terms.getTermByToken(token)
@@ -98,7 +100,7 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         return items
 
     def json_data(self):
-        data = super(SelectWidget, self).json_data()
+        data = super().json_data()
         data['options'] = self.items
         data['type'] = 'select'
         return data
@@ -132,7 +134,7 @@ def SelectFieldWidget(field, source, request=None):
 def CollectionSelectFieldWidget(field, request):
     """IFieldWidget factory for SelectWidget."""
     widget = zope.component.getMultiAdapter((field, field.value_type, request),
-        interfaces.IFieldWidget)
+                                            interfaces.IFieldWidget)
     widget.size = 5
     widget.multiple = 'multiple'
     return widget

@@ -41,18 +41,18 @@ field it is managing the data for.
   >>> import zope.schema
   >>> class IPerson(zope.interface.Interface):
   ...     name = zope.schema.TextLine(
-  ...         title=u'Name',
-  ...         default=u'<no name>')
+  ...         title='Name',
+  ...         default='<no name>')
   ...     phone = zope.schema.TextLine(
-  ...         title=u'Phone')
+  ...         title='Phone')
 
   >>> @zope.interface.implementer(IPerson)
   ... class Person(object):
-  ...     name = u''
+  ...     name = ''
   ...     def __init__(self, name):
   ...         self.name = name
 
-  >>> stephan = Person(u'Stephan Richter')
+  >>> stephan = Person('Stephan Richter')
 
 We can now instantiate the data manager for Stephan's name:
 
@@ -62,19 +62,19 @@ The data manager consists of a few simple methods to accomplish its
 purpose. Getting the value is done using the ``get()`` or ``query()`` method:
 
   >>> nameDm.get()
-  u'Stephan Richter'
+  'Stephan Richter'
 
   >>> nameDm.query()
-  u'Stephan Richter'
+  'Stephan Richter'
 
 The value can be set using ``set()``:
 
-  >>> nameDm.set(u'Stephan "Caveman" Richter')
+  >>> nameDm.set('Stephan "Caveman" Richter')
 
   >>> nameDm.get()
-  u'Stephan "Caveman" Richter'
+  'Stephan "Caveman" Richter'
   >>> stephan.name
-  u'Stephan "Caveman" Richter'
+  'Stephan "Caveman" Richter'
 
 If an attribute is not available, ``get()`` fails and ``query()`` returns a
 default value:
@@ -138,7 +138,7 @@ Clearly, this also means that ``get()`` and ``set()`` are also shut off:
   ...
   Unauthorized: (<Person object at ...>, 'name', 'Edit')
 
-  >>> nameDm.set(u'Stephan')
+  >>> nameDm.set('Stephan')
   Traceback (most recent call last):
   ...
   ForbiddenAttribute: ('name', <Person object at ...>)
@@ -159,9 +159,9 @@ attribute:
 Thus only the ``get()`` method is allowed:
 
   >>> nameDm.get()
-  u'Stephan "Caveman" Richter'
+  'Stephan "Caveman" Richter'
 
-  >>> nameDm.set(u'Stephan')
+  >>> nameDm.set('Stephan')
   Traceback (most recent call last):
   ...
   ForbiddenAttribute: ('name', <Person object at ...>)
@@ -170,7 +170,7 @@ If field's schema is not directly provided by the context, the datamanager
 will attempt to find an adapter. Let's give the person an address for example:
 
   >>> class IAddress(zope.interface.Interface):
-  ...     city = zope.schema.TextLine(title=u'City')
+  ...     city = zope.schema.TextLine(title='City')
 
   >>> @zope.interface.implementer(IAddress)
   ... class Address(object):
@@ -201,14 +201,14 @@ Initially there is no value, but of course we can create one:
 
   >>> cityDm.get()
 
-  >>> cityDm.set(u'Maynard')
+  >>> cityDm.set('Maynard')
   >>> cityDm.get()
-  u'Maynard'
+  'Maynard'
 
 The value can be accessed through the adapter itself as well:
 
   >>> IAddress(stephan).city
-  u'Maynard'
+  'Maynard'
 
 While we think that implicitly looking up an adapter is not the cleanest
 solution, it allows us to mimic the behavior of ``zope.formlib``. We think
@@ -222,7 +222,7 @@ If we try to set a value that is read-only, a type error is raised:
   ...     readonly=True)
 
   >>> nameDm = datamanager.AttributeField(stephan, readOnlyName)
-  >>> nameDm.set(u'Stephan')
+  >>> nameDm.set('Stephan')
   Traceback (most recent call last):
   ...
   TypeError: Can't set values on read-only fields
@@ -239,13 +239,13 @@ field. And we can access the different methods like before.
   True
 
   >>> nameDm.get()
-  u'Stephan "Caveman" Richter'
+  'Stephan "Caveman" Richter'
   >>> nameDm.query()
-  u'Stephan "Caveman" Richter'
+  'Stephan "Caveman" Richter'
 
-  >>> nameDm.set(u'Stephan Richter')
+  >>> nameDm.set('Stephan Richter')
   >>> nameDm.get()
-  u'Stephan Richter'
+  'Stephan Richter'
 
 Dictionary Field Manager
 ------------------------
@@ -296,12 +296,12 @@ field, the missing value is returned.
 
 Now we set a value and it should be available:
 
-  >>> nameDm.set(u'Roger Ineichen')
+  >>> nameDm.set('Roger Ineichen')
 
   >>> nameDm.get()
-  u'Roger Ineichen'
+  'Roger Ineichen'
   >>> personDict
-  {'name': u'Roger Ineichen'}
+  {'name': 'Roger Ineichen'}
 
 Since this dictionary is not security proxied, any field can be accessed and
 written to:
@@ -314,7 +314,7 @@ written to:
 As with the attribute data manager, readonly fields cannot be set:
 
   >>> nameDm = datamanager.DictionaryField(personDict, readOnlyName)
-  >>> nameDm.set(u'Stephan')
+  >>> nameDm.set('Stephan')
   Traceback (most recent call last):
   ...
   TypeError: Can't set values on read-only fields name=name

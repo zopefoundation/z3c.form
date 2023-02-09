@@ -37,13 +37,13 @@ In this example, we would like to describe a car and its owner:
   >>> import zope.schema
 
   >>> class IOwner(zope.interface.Interface):
-  ...     name = zope.schema.TextLine(title=u'Name')
-  ...     license = zope.schema.TextLine(title=u'License')
+  ...     name = zope.schema.TextLine(title='Name')
+  ...     license = zope.schema.TextLine(title='License')
 
   >>> class ICar(zope.interface.Interface):
-  ...     model = zope.schema.TextLine(title=u'Model')
-  ...     make = zope.schema.TextLine(title=u'Make')
-  ...     owner = zope.schema.Object(title=u'Owner', schema=IOwner)
+  ...     model = zope.schema.TextLine(title='Model')
+  ...     make = zope.schema.TextLine(title='Make')
+  ...     owner = zope.schema.Object(title='Owner', schema=IOwner)
 
 Let's now implement the two interfaces and create instances, so that we can
 create edit forms for it:
@@ -61,8 +61,8 @@ create edit forms for it:
   ...         self.make = make
   ...         self.owner = owner
 
-  >>> me = Owner(u'Stephan Richter', u'MA-1231FW97')
-  >>> mycar = Car(u'Nissan', u'Sentra', me)
+  >>> me = Owner('Stephan Richter', 'MA-1231FW97')
+  >>> mycar = Car('Nissan', 'Sentra', me)
 
 We define the owner sub-form as we would any other form. The only difference
 is the template, which should not render a form-tag:
@@ -152,25 +152,25 @@ I can now submit the owner form, which should not submit any car changes I
 might have made in the form:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'BMW',
-  ...     'car.widgets.make': u'325',
-  ...     'owner.widgets.name': u'Stephan Richter',
-  ...     'owner.widgets.license': u'MA-97097A87',
-  ...     'owner.buttons.apply': u'Apply'
+  ...     'car.widgets.model': 'BMW',
+  ...     'car.widgets.make': '325',
+  ...     'owner.widgets.name': 'Stephan Richter',
+  ...     'owner.widgets.license': 'MA-97097A87',
+  ...     'owner.buttons.apply': 'Apply'
   ...     })
 
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
 
   >>> mycar.model
-  u'Nissan'
+  'Nissan'
   >>> mycar.make
-  u'Sentra'
+  'Sentra'
 
   >>> me.name
-  u'Stephan Richter'
+  'Stephan Richter'
   >>> me.license
-  u'MA-97097A87'
+  'MA-97097A87'
 
 Also, the form should say that the data of the owner has changed:
 
@@ -230,25 +230,25 @@ The same is true the other way around as well. Submitting the overall form
 does not submit the owner form:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'BMW',
-  ...     'car.widgets.make': u'325',
-  ...     'car.buttons.apply': u'Apply',
-  ...     'owner.widgets.name': u'Claudia Richter',
-  ...     'owner.widgets.license': u'MA-123403S2',
+  ...     'car.widgets.model': 'BMW',
+  ...     'car.widgets.make': '325',
+  ...     'car.buttons.apply': 'Apply',
+  ...     'owner.widgets.name': 'Claudia Richter',
+  ...     'owner.widgets.license': 'MA-123403S2',
   ...     })
 
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
 
   >>> mycar.model
-  u'BMW'
+  'BMW'
   >>> mycar.make
-  u'325'
+  '325'
 
   >>> me.name
-  u'Stephan Richter'
+  'Stephan Richter'
   >>> me.license
-  u'MA-97097A87'
+  'MA-97097A87'
 
 
 Class II: The logical unit
@@ -340,47 +340,47 @@ The interesting part of this setup is that the "Apply" button calls the action
 handlers for both, the main and the sub-form:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'Ford',
-  ...     'car.widgets.make': u'F150',
-  ...     'car.buttons.apply': u'Apply',
-  ...     'owner.widgets.name': u'Claudia Richter',
-  ...     'owner.widgets.license': u'MA-991723FDG',
+  ...     'car.widgets.model': 'Ford',
+  ...     'car.widgets.make': 'F150',
+  ...     'car.buttons.apply': 'Apply',
+  ...     'owner.widgets.name': 'Claudia Richter',
+  ...     'owner.widgets.license': 'MA-991723FDG',
   ...     })
 
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
 
   >>> mycar.model
-  u'Ford'
+  'Ford'
   >>> mycar.make
-  u'F150'
+  'F150'
   >>> me.name
-  u'Claudia Richter'
+  'Claudia Richter'
   >>> me.license
-  u'MA-991723FDG'
+  'MA-991723FDG'
 
 Let's now have a look at cases where an error happens. If an error occurs in
 the parent form, the sub-form is still submitted:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'Volvo\n~',
-  ...     'car.widgets.make': u'450',
-  ...     'car.buttons.apply': u'Apply',
-  ...     'owner.widgets.name': u'Stephan Richter',
-  ...     'owner.widgets.license': u'MA-991723FDG',
+  ...     'car.widgets.model': 'Volvo\n~',
+  ...     'car.widgets.make': '450',
+  ...     'car.buttons.apply': 'Apply',
+  ...     'owner.widgets.name': 'Stephan Richter',
+  ...     'owner.widgets.license': 'MA-991723FDG',
   ...     })
 
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
 
   >>> mycar.model
-  u'Ford'
+  'Ford'
   >>> mycar.make
-  u'F150'
+  'F150'
   >>> me.name
-  u'Stephan Richter'
+  'Stephan Richter'
   >>> me.license
-  u'MA-991723FDG'
+  'MA-991723FDG'
 
 Let's look at the rendered form:
 
@@ -446,24 +446,24 @@ Let's now create an error in the sub-form, ensuring that an error message
 occurs:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'Volvo',
-  ...     'car.widgets.make': u'450',
-  ...     'car.buttons.apply': u'Apply',
-  ...     'owner.widgets.name': u'Claudia\n Richter',
-  ...     'owner.widgets.license': u'MA-991723F12',
+  ...     'car.widgets.model': 'Volvo',
+  ...     'car.widgets.make': '450',
+  ...     'car.buttons.apply': 'Apply',
+  ...     'owner.widgets.name': 'Claudia\n Richter',
+  ...     'owner.widgets.license': 'MA-991723F12',
   ...     })
 
   >>> carForm = CarForm(mycar, request)
   >>> carForm.update()
 
   >>> mycar.model
-  u'Volvo'
+  'Volvo'
   >>> mycar.make
-  u'450'
+  '450'
   >>> me.name
-  u'Stephan Richter'
+  'Stephan Richter'
   >>> me.license
-  u'MA-991723FDG'
+  'MA-991723FDG'
 
   >>> print(carForm.render()) # doctest: +NOPARSE_MARKUP
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -486,11 +486,11 @@ occurs:
 If the data did not change, it is also locally reported:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'Ford',
-  ...     'car.widgets.make': u'F150',
-  ...     'car.buttons.apply': u'Apply',
-  ...     'owner.widgets.name': u'Stephan Richter',
-  ...     'owner.widgets.license': u'MA-991723FDG',
+  ...     'car.widgets.model': 'Ford',
+  ...     'car.widgets.make': 'F150',
+  ...     'car.buttons.apply': 'Apply',
+  ...     'owner.widgets.name': 'Stephan Richter',
+  ...     'owner.widgets.license': 'MA-991723FDG',
   ...     })
 
   >>> carForm = CarForm(mycar, request)
@@ -625,10 +625,10 @@ Let's show how we can extract the input values of the form and the subform.
 First give them some input:
 
   >>> request = TestRequest(form={
-  ...     'car.widgets.model': u'Ford',
-  ...     'car.widgets.make': u'F150',
-  ...     'owner.widgets.name': u'Stephan Richter',
-  ...     'owner.widgets.license': u'MA-991723FDG',
+  ...     'car.widgets.model': 'Ford',
+  ...     'car.widgets.make': 'F150',
+  ...     'owner.widgets.name': 'Stephan Richter',
+  ...     'owner.widgets.license': 'MA-991723FDG',
   ...     })
   >>> carForm = CarAddForm(container, request)
   >>> carForm.update()
@@ -636,7 +636,7 @@ First give them some input:
 Now get the form values. This is normally done in a action handler:
 
   >>> pprint(carForm.widgets.extract())
-  ({'make': u'F150', 'model': u'Ford'}, ())
+  ({'make': 'F150', 'model': 'Ford'}, ())
 
   >>> pprint(carForm.owner.widgets.extract())
-  ({'license': u'MA-991723FDG', 'name': u'Stephan Richter'}, ())
+  ({'license': 'MA-991723FDG', 'name': 'Stephan Richter'}, ())

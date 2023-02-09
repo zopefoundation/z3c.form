@@ -13,9 +13,9 @@ Thus, let's create a vocabulary first:
 
   >>> from zope.schema import vocabulary
   >>> ratings = vocabulary.SimpleVocabulary([
-  ...     vocabulary.SimpleVocabulary.createTerm(0, '0', u'bad'),
-  ...     vocabulary.SimpleVocabulary.createTerm(1, '1', u'okay'),
-  ...     vocabulary.SimpleVocabulary.createTerm(2, '2', u'good')
+  ...     vocabulary.SimpleVocabulary.createTerm(0, '0', 'bad'),
+  ...     vocabulary.SimpleVocabulary.createTerm(1, '1', 'okay'),
+  ...     vocabulary.SimpleVocabulary.createTerm(2, '2', 'good')
   ...     ])
 
 Terms
@@ -30,7 +30,7 @@ Now we can create the terms object:
 Getting a term from a given value is simple:
 
   >>> terms.getTerm(0).title
-  u'bad'
+  'bad'
   >>> terms.getTerm(3)
   Traceback (most recent call last):
   ...
@@ -40,7 +40,7 @@ When converting values from their Web representation back to the internal
 representation, we have to be able to look up a term by its token:
 
   >>> terms.getTermByToken('0').title
-  u'bad'
+  'bad'
   >>> terms.getTerm('3')
   Traceback (most recent call last):
   ...
@@ -59,7 +59,7 @@ represented by a token saves usually one line of code:
 You can also iterate through all terms:
 
   >>> [entry.title for entry in terms]
-  [u'bad', u'okay', u'good']
+  ['bad', 'okay', 'good']
 
 Or ask how many terms you have in the first place:
 
@@ -96,19 +96,19 @@ Let's have a look a the vocabulary first:
   >>> import zope.schema
 
   >>> ratingField = zope.schema.Choice(
-  ...     title=u'Rating',
+  ...     title='Rating',
   ...     vocabulary=ratings)
 
   >>> terms = term.ChoiceTerms(
   ...     None, request, None, ratingField, widget)
   >>> [entry.title for entry in terms]
-  [u'bad', u'okay', u'good']
+  ['bad', 'okay', 'good']
 
 Sometimes choice fields only specify a vocabulary name and the actual
 vocabulary is looked up at run time.
 
   >>> ratingField2 = zope.schema.Choice(
-  ...     title=u'Rating',
+  ...     title='Rating',
   ...     vocabulary='Ratings')
 
 Initially we get an error because the "Ratings" vocabulary is not defined:
@@ -133,7 +133,7 @@ We should now be able to get all terms as before:
   >>> terms = term.ChoiceTerms(
   ...     None, request, None, ratingField, widget)
   >>> [entry.title for entry in terms]
-  [u'bad', u'okay', u'good']
+  ['bad', 'okay', 'good']
 
 
 Missing terms
@@ -162,13 +162,13 @@ Ooops, well this works only if the context has the right value for us.
 This is because we don't want to accept any crap that's coming from HTML.
 
   >>> class IPerson(zope.interface.Interface):
-  ...     gender = zope.schema.Choice(title=u'Gender', vocabulary='Genders')
+  ...     gender = zope.schema.Choice(title='Gender', vocabulary='Genders')
   >>> @zope.interface.implementer(IPerson)
   ... class Person(object):
   ...     gender = None
   >>> gendersVocabulary = vocabulary.SimpleVocabulary([
-  ...     vocabulary.SimpleVocabulary.createTerm(1, 'male', u'Male'),
-  ...     vocabulary.SimpleVocabulary.createTerm(2, 'female', u'Female'),
+  ...     vocabulary.SimpleVocabulary.createTerm(1, 'male', 'Male'),
+  ...     vocabulary.SimpleVocabulary.createTerm(2, 'female', 'Female'),
   ...     ])
   >>> def GendersVocabulary(obj):
   ...     return ratings
@@ -202,7 +202,7 @@ We cannot figure the title, so we construct one.
 Override ``makeMissingTerm`` if you want your own.
 
   >>> missingTerm.title
-  u'Missing: ${value}'
+  'Missing: ${value}'
 
 Still we raise LookupError if the token does not fit the context's value:
 
@@ -235,18 +235,18 @@ A similar terms implementation exists for a ``Bool`` field:
 
   >>> terms = term.BoolTerms(None, None, None, truthField, None)
   >>> [entry.title for entry in terms]
-  [u'yes', u'no']
+  ['yes', 'no']
 
 In case you don't like the choice of 'yes' and 'no' for the labels, we
 can subclass the ``BoolTerms`` class to control the display labels.
 
   >>> class MyBoolTerms(term.BoolTerms):
-  ...   trueLabel = u'True'
-  ...   falseLabel = u'False'
+  ...   trueLabel = 'True'
+  ...   falseLabel = 'False'
 
   >>> terms = MyBoolTerms(None, None, None, truthField, None)
   >>> [entry.title for entry in terms]
-  [u'True', u'False']
+  ['True', 'False']
 
 
 Collections
@@ -261,13 +261,13 @@ register some adapters before using it:
   >>> zope.component.provideAdapter(term.CollectionTermsSource)
 
   >>> ratingsField = zope.schema.List(
-  ...     title=u'Ratings',
+  ...     title='Ratings',
   ...     value_type=ratingField)
 
   >>> terms = term.CollectionTerms(
   ...     None, request, None, ratingsField, widget)
   >>> [entry.title for entry in terms]
-  [u'bad', u'okay', u'good']
+  ['bad', 'okay', 'good']
 
 
 Sources
@@ -281,7 +281,7 @@ source first:
 
   >>> from zc.sourcefactory.basic import BasicSourceFactory
   >>> class RatingSourceFactory(BasicSourceFactory):
-  ...     _mapping = {10: u'ugly', 20: u'nice', 30: u'great'}
+  ...     _mapping = {10: 'ugly', 20: 'nice', 30: 'great'}
   ...     def getValues(self):
   ...         return self._mapping.keys()
   ...     def getTitle(self, value):
@@ -307,7 +307,7 @@ Sources can be used with ``Choice`` fields like vocabularies.  First
 we create a field based on the source:
 
   >>> sourceRatingField = zope.schema.Choice(
-  ...     title=u'Sourced Rating',
+  ...     title='Sourced Rating',
   ...     source=RatingSourceFactory())
 
 We connect the field to a widget to see the ITerms adapter for sources
@@ -327,12 +327,12 @@ Iterating over the terms adapter returnes the term objects:
   >>> [entry.token for entry in terms]
   ['10', '20', '30']
   >>> [entry.title for entry in terms]
-  [u'ugly', u'nice', u'great']
+  ['ugly', 'nice', 'great']
 
 Using a token it is possible to look up the term and the value:
 
   >>> terms.getTermByToken('20').title
-  u'nice'
+  'nice'
   >>> terms.getValue('30')
   30
 
@@ -369,7 +369,7 @@ Ooops, well this works only if the context has the right value for us.
 This is because we don't want to accept any crap that's coming from HTML.
 
   >>> class IRating(zope.interface.Interface):
-  ...     rating = zope.schema.Choice(title=u'Sourced Rating',
+  ...     rating = zope.schema.Choice(title='Sourced Rating',
   ...                                 source=RatingSourceFactory())
   >>> @zope.interface.implementer(IRating)
   ... class Rating(object):
@@ -403,7 +403,7 @@ We cannot figure the title, so we construct one.
 Override ``makeMissingTerm`` if you want your own.
 
   >>> missingTerm.title
-  u'Missing: ${value}'
+  'Missing: ${value}'
 
 Still we raise LookupError if the token does not fit the context's value:
 
@@ -433,13 +433,13 @@ Collections
 Finally, there are terms adapters for all collections:
 
   >>> sourceRatingsField = zope.schema.List(
-  ...     title=u'Sourced Ratings',
+  ...     title='Sourced Ratings',
   ...     value_type=sourceRatingField)
 
   >>> terms = term.CollectionTerms(
   ...     None, request, None, sourceRatingsField, widget)
   >>> [entry.title for entry in terms]
-  [u'ugly', u'nice', u'great']
+  ['ugly', 'nice', 'great']
 
 
 Contextual sources
@@ -452,7 +452,7 @@ create a context and a contextual source:
   >>> class RatingContext(object):
   ...     base_value = 10
   >>> class ContextualRatingSourceFactory(BasicContextualSourceFactory):
-  ...     _mapping = {10: u'ugly', 20: u'nice', 30: u'great'}
+  ...     _mapping = {10: 'ugly', 20: 'nice', 30: 'great'}
   ...     def getValues(self, context):
   ...         return [context.base_value + x for x in self._mapping.keys()]
   ...     def getTitle(self, context, value):
@@ -478,7 +478,7 @@ Contextual sources can be used with ``Choice`` fields like
 vocabularies.  First we create a field based on the source:
 
   >>> contextualSourceRatingField = zope.schema.Choice(
-  ...     title=u'Context Sourced Rating',
+  ...     title='Context Sourced Rating',
   ...     source=ContextualRatingSourceFactory())
 
 We create an context object and connect the field to a widget to see
@@ -500,12 +500,12 @@ Iterating over the terms adapter returnes the term objects:
   >>> [entry.token for entry in terms]
   ['110', '120', '130']
   >>> [entry.title for entry in terms]
-  [u'ugly', u'nice', u'great']
+  ['ugly', 'nice', 'great']
 
 Using a token, it is possible to look up the term and the value:
 
   >>> terms.getTermByToken('120').title
-  u'nice'
+  'nice'
   >>> terms.getValue('130')
   130
 
@@ -522,13 +522,13 @@ Collections
 Finally, there are terms adapters for all collections:
 
   >>> contextualSourceRatingsField = zope.schema.List(
-  ...     title=u'Contextual Sourced Ratings',
+  ...     title='Contextual Sourced Ratings',
   ...     value_type=contextualSourceRatingField)
 
   >>> terms = term.CollectionTerms(
   ...     rating_context, request, None, contextualSourceRatingsField, widget)
   >>> [entry.title for entry in terms]
-  [u'ugly', u'nice', u'great']
+  ['ugly', 'nice', 'great']
 
 
 Missing terms in collections
@@ -568,7 +568,7 @@ This is because we don't want to accept any crap that's coming from HTML.
 
   >>> class IRatings(zope.interface.Interface):
   ...     ratings = zope.schema.List(
-  ...         title=u'Contextual Sourced Ratings',
+  ...         title='Contextual Sourced Ratings',
   ...         value_type=contextualSourceRatingField)
   >>> @zope.interface.implementer(IRatings)
   ... class Ratings(object):
@@ -604,7 +604,7 @@ We cannot figure the title, so we construct one.
 Override ``makeMissingTerm`` if you want your own.
 
   >>> missingTerm.title
-  u'Missing: ${value}'
+  'Missing: ${value}'
 
 We can get the value for a missing term:
 

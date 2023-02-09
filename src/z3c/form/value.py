@@ -16,13 +16,15 @@
 $Id$
 """
 __docformat__ = "reStructuredText"
-import zope.interface
 import zope.component
+import zope.interface
 
-from z3c.form import interfaces, util
+from z3c.form import interfaces
+from z3c.form import util
+
 
 @zope.interface.implementer(interfaces.IValue)
-class StaticValue(object):
+class StaticValue:
     """Static value adapter."""
 
     def __init__(self, value):
@@ -32,11 +34,11 @@ class StaticValue(object):
         return self.value
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.value)
+        return '<{} {!r}>'.format(self.__class__.__name__, self.value)
 
 
 @zope.interface.implementer(interfaces.IValue)
-class ComputedValue(object):
+class ComputedValue:
     """Static value adapter."""
 
     def __init__(self, func):
@@ -46,10 +48,10 @@ class ComputedValue(object):
         return self.func(self)
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.get())
+        return '<{} {!r}>'.format(self.__class__.__name__, self.get())
 
 
-class ValueFactory(object):
+class ValueFactory:
     """Computed value factory."""
 
     def __init__(self, value, valueClass, discriminators):
@@ -64,7 +66,7 @@ class ValueFactory(object):
         return sv
 
 
-class ValueCreator(object):
+class ValueCreator:
     """Base class for value creator"""
 
     valueClass = StaticValue

@@ -14,7 +14,9 @@
 """Setup
 """
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 def read(*rnames):
@@ -25,26 +27,11 @@ def read(*rnames):
     return text.encode('ascii', 'xmlcharrefreplace').decode()
 
 
-def alltests():
-    import os
-    import sys
-    import unittest
-    # use the zope.testrunner machinery to find all the
-    # test suites we've put under ourselves
-    import zope.testrunner.find
-    import zope.testrunner.options
-    here = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
-    args = sys.argv[:]
-    defaults = ["--test-path", here]
-    options = zope.testrunner.options.get_options(args, defaults)
-    suites = list(zope.testrunner.find.find_suites(options))
-    return unittest.TestSuite(suites)
-
 setup(
     name='z3c.form',
-    version='4.4.dev0',
+    version='5.0.dev0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
-    author_email="zope-dev@zope.org",
+    author_email="zope-dev@zope.dev",
     description="An advanced form and widget framework for Zope 3",
     long_description=(
         read('README.rst')
@@ -60,25 +47,24 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: Implementation :: CPython',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope :: 3'],
+        'Framework :: Zope :: 3',
+    ],
     url='https://github.com/zopefoundation/z3c.form',
     packages=find_packages('src'),
     include_package_data=True,
     package_dir={'': 'src'},
     namespace_packages=['z3c'],
+    python_requires='>=3.7',
     extras_require=dict(
         extra=[
             'z3c.pt >= 2.1',
@@ -102,7 +88,6 @@ setup(
     ),
     install_requires=[
         'setuptools',
-        'six',
         'zope.browser',
         'zope.browserpage',
         'zope.browserresource',
@@ -122,16 +107,5 @@ setup(
         'zope.site',
         'zope.traversing',
     ],
-    tests_require=[
-        'lxml >= 4.2',
-        'persistent',
-        'z3c.template >= 1.3',
-        'zc.sourcefactory',
-        'zope.container',
-        'zope.password',
-        'zope.testing',
-        'zope.testrunner',
-    ],
-    test_suite='__main__.alltests',
     zip_safe=False,
 )

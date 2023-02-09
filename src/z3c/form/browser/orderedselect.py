@@ -23,8 +23,9 @@ import zope.schema.interfaces
 from zope.i18n import translate
 
 from z3c.form import interfaces
-from z3c.form.widget import SequenceWidget, FieldWidget
 from z3c.form.browser import widget
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import SequenceWidget
 
 
 @zope.interface.implementer_only(interfaces.IOrderedSelectWidget)
@@ -32,7 +33,7 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     """Ordered-Select widget implementation."""
 
     size = 5
-    multiple = u'multiple'
+    multiple = 'multiple'
     items = ()
     selectedItems = ()
     notselectedItems = ()
@@ -43,11 +44,11 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         if zope.schema.interfaces.ITitledTokenizedTerm.providedBy(term):
             content = translate(
                 term.title, context=self.request, default=term.title)
-        return {'id':id, 'value':term.token, 'content':content}
+        return {'id': id, 'value': term.token, 'content': content}
 
     def update(self):
         """See z3c.form.interfaces.IWidget."""
-        super(OrderedSelectWidget, self).update()
+        super().update()
         widget.addFieldClass(self)
         self.items = [
             self.getItem(term, count)
@@ -68,18 +69,21 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         return notselecteditems
 
     def json_data(self):
-        data = super(OrderedSelectWidget, self).json_data()
+        data = super().json_data()
         data['options'] = self.items
         data['selected'] = self.selectedItems
         data['notSelected'] = self.notselectedItems
         data['type'] = 'multiSelect'
         return data
 
-@zope.component.adapter(zope.schema.interfaces.ISequence, interfaces.IFormLayer)
+
+@zope.component.adapter(zope.schema.interfaces.ISequence,
+                        interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def OrderedSelectFieldWidget(field, request):
     """IFieldWidget factory for SelectWidget."""
     return FieldWidget(field, OrderedSelectWidget(request))
+
 
 @zope.component.adapter(
     zope.schema.interfaces.ISequence, interfaces.IFormLayer)

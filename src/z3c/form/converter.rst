@@ -16,7 +16,7 @@ Let's look at the ``Int`` field to ``TextWidget`` converter as an example:
   >>> import zope.schema
   >>> age = zope.schema.Int(
   ...     __name__='age',
-  ...     title=u'Age',
+  ...     title='Age',
   ...     min=0)
 
   >>> from z3c.form.testing import TestRequest
@@ -52,12 +52,12 @@ The converter can now convert any integer to a the value the test widget deals
 with, which is an ASCII string:
 
   >>> conv.toWidgetValue(34)
-  u'34'
+  '34'
 
 When the missing value is passed in, an empty string should be returned:
 
   >>> conv.toWidgetValue(age.missing_value)
-  u''
+  ''
 
 Of course, values can also be converted from a widget value to field value:
 
@@ -133,54 +133,54 @@ those data converters support full localization of the number formatting.
 Since the age is so small, the formatting is trivial:
 
   >>> intdc.toWidgetValue(34)
-  u'34'
+  '34'
 
 But if we increase the number, the grouping seprator will be used:
 
   >>> intdc.toWidgetValue(3400)
-  u'3,400'
+  '3,400'
 
 An empty string is returned, if the missing value is passed in:
 
   >>> intdc.toWidgetValue(None)
-  u''
+  ''
 
 Of course, parsing these outputs again, works as well:
 
-  >>> intdc.toFieldValue(u'34')
+  >>> intdc.toFieldValue('34')
   34
 
 But if we increase the number, the grouping seprator will be used:
 
-  >>> intdc.toFieldValue(u'3,400')
+  >>> intdc.toFieldValue('3,400')
   3400
 
 Luckily our parser is somewhat forgiving, and even allows for missing group
 characters:
 
-  >>> intdc.toFieldValue(u'3400')
+  >>> intdc.toFieldValue('3400')
   3400
 
 If an empty string is passed in, the missing value of the field is returned:
 
-  >>> intdc.toFieldValue(u'')
+  >>> intdc.toFieldValue('')
 
 Finally, if the input does not match at all, then a validation error is
 returned:
 
-  >>> intdc.toFieldValue(u'fff')
+  >>> intdc.toFieldValue('fff')
   Traceback (most recent call last):
   ...
   FormatterValidationError:
-      (u'The entered value is not a valid integer literal.', u'fff')
+      ('The entered value is not a valid integer literal.', 'fff')
 
 The formatter validation error derives from the regular validation error, but
 allows you to specify the message that is output when asked for the
 documentation:
 
-  >>> err = converter.FormatterValidationError(u'Something went wrong.', None)
+  >>> err = converter.FormatterValidationError('Something went wrong.', None)
   >>> err.doc()
-  u'Something went wrong.'
+  'Something went wrong.'
 
 Let's now look at the float data converter.
 
@@ -192,24 +192,24 @@ Let's now look at the float data converter.
 Again, you can format and parse values:
 
   >>> floatdc.toWidgetValue(7.43)
-  u'7.43'
+  '7.43'
   >>> floatdc.toWidgetValue(10239.43)
-  u'10,239.43'
+  '10,239.43'
 
-  >>> floatdc.toFieldValue(u'7.43') == 7.43
+  >>> floatdc.toFieldValue('7.43') == 7.43
   True
-  >>> type(floatdc.toFieldValue(u'7.43'))
-  <type 'float'>
-  >>> floatdc.toFieldValue(u'10,239.43')
+  >>> type(floatdc.toFieldValue('7.43'))
+  <class 'float'>
+  >>> floatdc.toFieldValue('10,239.43')
   10239.43
 
 The error message, however, is customized to the floating point:
 
-  >>> floatdc.toFieldValue(u'fff')
+  >>> floatdc.toFieldValue('fff')
   Traceback (most recent call last):
   ...
   FormatterValidationError:
-      (u'The entered value is not a valid decimal literal.', u'fff')
+      ('The entered value is not a valid decimal literal.', 'fff')
 
 The decimal converter works like the other two before.
 
@@ -223,22 +223,22 @@ Formatting and parsing should work just fine:
   >>> import decimal
 
   >>> decimaldc.toWidgetValue(decimal.Decimal('7.43'))
-  u'7.43'
+  '7.43'
   >>> decimaldc.toWidgetValue(decimal.Decimal('10239.43'))
-  u'10,239.43'
+  '10,239.43'
 
-  >>> decimaldc.toFieldValue(u'7.43')
+  >>> decimaldc.toFieldValue('7.43')
   Decimal("7.43")
-  >>> decimaldc.toFieldValue(u'10,239.43')
+  >>> decimaldc.toFieldValue('10,239.43')
   Decimal("10239.43")
 
 Again, the error message, is customized to the floating point:
 
-  >>> floatdc.toFieldValue(u'fff')
+  >>> floatdc.toFieldValue('fff')
   Traceback (most recent call last):
   ...
   FormatterValidationError:
-      (u'The entered value is not a valid decimal literal.', u'fff')
+      ('The entered value is not a valid decimal literal.', 'fff')
 
 
 Bool Data Converter
@@ -263,7 +263,7 @@ into the form.
   >>> name = zope.schema.TextLine()
   >>> namewidget = widget.Widget(TestRequest())
   >>> conv = converter.FieldDataConverter(name, namewidget)
-  >>> conv.toFieldValue(u'Einstein ')
+  >>> conv.toFieldValue('Einstein ')
   'Einstein'
 
 
@@ -286,32 +286,32 @@ Dates are simply converted to ISO format:
   >>> bday = datetime.date(1980, 1, 25)
 
   >>> ddc.toWidgetValue(bday)
-  u'80/01/25'
+  '80/01/25'
 
 If the date is the missing value, an empty string is returned:
 
   >>> ddc.toWidgetValue(None)
-  u''
+  ''
 
 The converter only knows how to convert this particular format back to a
 datetime value:
 
-  >>> ddc.toFieldValue(u'80/01/25')
+  >>> ddc.toFieldValue('80/01/25')
   datetime.date(1980, 1, 25)
 
 By default the converter converts missing input to missin_input value:
 
-  >>> ddc.toFieldValue(u'') is None
+  >>> ddc.toFieldValue('') is None
   True
 
 If the passed in string cannot be parsed, a formatter validation error is
 raised:
 
-  >>> ddc.toFieldValue(u'8.6.07')
+  >>> ddc.toFieldValue('8.6.07')
   Traceback (most recent call last):
   ...
   FormatterValidationError: ("The datetime string did not match the pattern
-                              u'yy/MM/dd'.", u'8.6.07')
+                              'yy/MM/dd'.", '8.6.07')
 
 Time Data Converter
 -------------------
@@ -331,17 +331,17 @@ Dates are simply converted to ISO format:
   >>> noon = datetime.time(12, 0, 0)
 
   >>> tdc.toWidgetValue(noon)
-  u'12:00'
+  '12:00'
 
 The converter only knows how to convert this particular format back to a
 datetime value:
 
-  >>> tdc.toFieldValue(u'12:00')
+  >>> tdc.toFieldValue('12:00')
   datetime.time(12, 0)
 
 By default the converter converts missing input to missin_input value:
 
-  >>> tdc.toFieldValue(u'') is None
+  >>> tdc.toFieldValue('') is None
   True
 
 
@@ -363,17 +363,17 @@ Dates are simply converted to ISO format:
   >>> bdayNoon = datetime.datetime(1980, 1, 25, 12, 0, 0)
 
   >>> dtdc.toWidgetValue(bdayNoon)
-  u'80/01/25 12:00'
+  '80/01/25 12:00'
 
 The converter only knows how to convert this particular format back to a
 datetime value:
 
-  >>> dtdc.toFieldValue(u'80/01/25 12:00')
+  >>> dtdc.toFieldValue('80/01/25 12:00')
   datetime.datetime(1980, 1, 25, 12, 0)
 
 By default the converter converts missing input to missin_input value:
 
-  >>> dtdc.toFieldValue(u'') is None
+  >>> dtdc.toFieldValue('') is None
   True
 
 
@@ -395,12 +395,12 @@ Dates are simply converted to ISO format:
   >>> allOnes = datetime.timedelta(1, 3600+60+1)
 
   >>> tddc.toWidgetValue(allOnes)
-  u'1 day, 1:01:01'
+  '1 day, 1:01:01'
 
 The converter only knows how to convert this particular format back to a
 datetime value:
 
-  >>> fv = tddc.toFieldValue(u'1 day, 1:01:01')
+  >>> fv = tddc.toFieldValue('1 day, 1:01:01')
   >>> (fv.days, fv.seconds)
   (1, 3661)
 
@@ -408,17 +408,17 @@ If no day is available, the following short form is used:
 
   >>> noDay = datetime.timedelta(0, 3600+60+1)
   >>> tddc.toWidgetValue(noDay)
-  u'1:01:01'
+  '1:01:01'
 
 And now back to the field value:
 
-  >>> fv = tddc.toFieldValue(u'1:01:01')
+  >>> fv = tddc.toFieldValue('1:01:01')
   >>> (fv.days, fv.seconds)
   (0, 3661)
 
 By default the converter converts missing input to missin_input value:
 
-  >>> tddc.toFieldValue(u'') is None
+  >>> tddc.toFieldValue('') is None
   True
 
 
@@ -441,7 +441,7 @@ provides a string:
 
   >>> simple = 'foobar'
   >>> fudc.toFieldValue(simple)
-  'foobar'
+  b'foobar'
 
 The converter can also convert ``FileUpload`` objects. So we need to setup a
 fields storage stub ...
@@ -454,10 +454,7 @@ fields storage stub ...
 
 and a ``FileUpload`` component:
 
-  >>> try:
-  ...     from cStringIO import StringIO as BytesIO
-  ... except ImportError:
-  ...     from io import BytesIO
+  >>> from io import BytesIO
   >>> from zope.publisher.browser import FileUpload
   >>> myfile = BytesIO(b'File upload contents.')
   >>> aFieldStorage = FieldStorageStub(myfile)
@@ -466,7 +463,7 @@ and a ``FileUpload`` component:
 Let's try to convert the input now:
 
   >>> fudc.toFieldValue(myUpload)
-  'File upload contents.'
+  b'File upload contents.'
 
 By default the converter converts missing input to the ``NOT_CHANGED`` value:
 
@@ -504,7 +501,7 @@ There is also a ``ValueError`` if we don't get a seekable file from the
   >>> fudc.toFieldValue(myUpload) is None
   Traceback (most recent call last):
   ...
-  ValueError: (u'Bytes data are not a file object', ...AttributeError...)
+  ValueError: ('Bytes data are not a file object', ...AttributeError...)
 
 When converting to the widget value, not conversion should be done, since
 bytes are not convertable in that sense.
@@ -547,8 +544,8 @@ Let's now create a choice field (using a vocabulary) and a widget:
 
   >>> gender = zope.schema.Choice(
   ...     vocabulary = SimpleVocabulary([
-  ...              SimpleVocabulary.createTerm(0, 'm', u'male'),
-  ...              SimpleVocabulary.createTerm(1, 'f', u'female'),
+  ...              SimpleVocabulary.createTerm(0, 'm', 'male'),
+  ...              SimpleVocabulary.createTerm(1, 'f', 'female'),
   ...              ]) )
 
   >>> from z3c.form import widget
@@ -590,7 +587,7 @@ missing:
 If "no value" has been specified in the widget, the missing value
 of the field is returned:
 
-  >>> sdv.toFieldValue([u'--NOVALUE--'])
+  >>> sdv.toFieldValue(['--NOVALUE--'])
   'missing'
 
 An empty list will also cause the missing value to be returned:
@@ -605,7 +602,7 @@ Let's now create a choice field (using a source) and a widget:
 
   >>> from zc.sourcefactory.basic import BasicSourceFactory
   >>> class GenderSourceFactory(BasicSourceFactory):
-  ...     _mapping = {0: u'male', 1: u'female'}
+  ...     _mapping = {0: 'male', 1: 'female'}
   ...     def getValues(self):
   ...         return self._mapping.keys()
   ...     def getTitle(self, value):
@@ -645,7 +642,7 @@ selected:
 If "no value" has been specified in the widget, the missing value
 of the field is returned:
 
-  >>> sdv.toFieldValue([u'--NOVALUE--'])
+  >>> sdv.toFieldValue(['--NOVALUE--'])
   'missing'
 
 An empty list will also cause the missing value to be returned:
@@ -727,11 +724,11 @@ these cases we use the last entry in the tuple as the type to use:
 
   >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
 
-  >>> csdv.toWidgetValue(set([0]))
+  >>> csdv.toWidgetValue({0})
   ['m']
 
   >>> csdv.toFieldValue(['m'])
-  set([0])
+  {0}
 
 Getting Terms
 +++++++++++++
@@ -763,7 +760,7 @@ The same is true when getting the field value:
 
   >>> csdv = converter.CollectionSequenceDataConverter(genders, seqWidget)
   >>> csdv.toFieldValue(['m'])
-  set([0])
+  {0}
 
   >>> seqWidget.terms
   <z3c.form.term.CollectionTermsVocabulary object ...>
@@ -825,11 +822,11 @@ these cases we use the last entry in the tuple as the type to use:
   >>> csdv = converter.CollectionSequenceDataConverter(
   ...     genders_source, seqWidget)
 
-  >>> csdv.toWidgetValue(set([0]))
+  >>> csdv.toWidgetValue({0})
   ['0']
 
   >>> csdv.toFieldValue(['0'])
-  set([0])
+  {0}
 
 Getting Terms
 +++++++++++++
@@ -863,7 +860,7 @@ The same is true when getting the field value:
   >>> csdv = converter.CollectionSequenceDataConverter(
   ...     genders_source, seqWidget)
   >>> csdv.toFieldValue(['0'])
-  set([0])
+  {0}
 
   >>> seqWidget.terms
   <z3c.form.term.CollectionTermsSource object ...>
@@ -924,13 +921,13 @@ We now use the field and widget to instantiate the converter:
 
 We can now convert a real value to a widget value:
 
-  >>> tlc.toWidgetValue([u'de', u'fr', u'en'])
-  u'de\nfr\nen'
+  >>> tlc.toWidgetValue(['de', 'fr', 'en'])
+  'de\nfr\nen'
 
 Empty entries are significant:
 
-  >>> tlc.toWidgetValue([u'de', u'fr', u'en', u''])
-  u'de\nfr\nen\n'
+  >>> tlc.toWidgetValue(['de', 'fr', 'en', ''])
+  'de\nfr\nen\n'
 
 
 The result is always a string, since text lines widgets only deal with textarea
@@ -938,22 +935,22 @@ as input field. Of course, we can convert the widget value back to an internal
 value:
 
   >>> tlc.toFieldValue('de\nfr\nen')
-  [u'de', u'fr', u'en']
+  ['de', 'fr', 'en']
 
 Each line should be one item:
 
   >>> tlc.toFieldValue('this morning\ntomorrow evening\nyesterday')
-  [u'this morning', u'tomorrow evening', u'yesterday']
+  ['this morning', 'tomorrow evening', 'yesterday']
 
 Empty lines are significant:
 
   >>> tlc.toFieldValue('de\n\nfr\nen')
-  [u'de', u'', u'fr', u'en']
+  ['de', '', 'fr', 'en']
 
 Empty lines are also significant at the end:
 
   >>> tlc.toFieldValue('de\nfr\nen\n')
-  [u'de', u'fr', u'en', u'']
+  ['de', 'fr', 'en', '']
 
 
 An empty string will also cause the missing value to be returned:
@@ -962,18 +959,18 @@ An empty string will also cause the missing value to be returned:
   True
 
 It also should work for schema fields that define their type as tuple,
-for instance zope.schema.Int declares its type as (int, long).
+in former times zope.schema.Int declared its type as (int, long).
 
+  >>> class MyField(zope.schema.Int):
+  ...     _type = (int, float)
   >>> ids = zope.schema.List(
-  ...     value_type=zope.schema.Int(),
+  ...     value_type=MyField(),
   ...     )
 
 Let's illustrate the problem:
 
-  >>> zope.schema.Int._type == zope.schema._compat.integer_types
+  >>> MyField._type == (int, float)
   True
-
-  Note: Should be int and long in Python 2.
 
 The converter will use the first one.
 
@@ -983,11 +980,11 @@ The converter will use the first one.
 Of course, it still can convert to the widget value:
 
   >>> tlc.toWidgetValue([1,2,3])
-  u'1\n2\n3'
+  '1\n2\n3'
 
 And back:
 
-  >>> tlc.toFieldValue(u'1\n2\n3')
+  >>> tlc.toFieldValue('1\n2\n3')
   [1, 2, 3]
 
 An empty string will also cause the missing value to be returned:
@@ -998,7 +995,7 @@ An empty string will also cause the missing value to be returned:
 Converting Missing value to Widget value returns '':
 
   >>> tlc.toWidgetValue(tlc.field.missing_value)
-  u''
+  ''
 
 Just in case the field has sequence as its ``_type``:
 
@@ -1017,19 +1014,19 @@ The converter will use the last one, tuple in this case.
 Of course, it still can convert to the widget value:
 
   >>> tlc.toWidgetValue([1,2,3])
-  u'1\n2\n3'
+  '1\n2\n3'
 
 And back:
 
-  >>> tlc.toFieldValue(u'1\n2\n3')
+  >>> tlc.toFieldValue('1\n2\n3')
   (1, 2, 3)
 
 What if we have a wrong number:
 
-  >>> tlc.toFieldValue(u'1\n2\n3\nfoo')
+  >>> tlc.toFieldValue('1\n2\n3\nfoo')
   Traceback (most recent call last):
   ...
-  FormatterValidationError: ("invalid literal for int() with base 10: 'foo'", u'foo')
+  FormatterValidationError: ("invalid literal for int() with base 10: 'foo'", 'foo')
 
 
 Multi Data Converter
@@ -1064,7 +1061,7 @@ We can now convert a list of integers to the multi-widget internal
 representation:
 
   >>> conv.toWidgetValue([1, 2, 3])
-  [u'1', u'2', u'3']
+  ['1', '2', '3']
 
 If the value is the missing value, an empty list is returned:
 
@@ -1073,7 +1070,7 @@ If the value is the missing value, an empty list is returned:
 
 Now, let's look at the reverse:
 
-  >>> conv.toFieldValue([u'1', u'2', u'3'])
+  >>> conv.toFieldValue(['1', '2', '3'])
   [1, 2, 3]
 
 If the list is empty, the missing value is returned:
@@ -1105,15 +1102,15 @@ We can now convert a list or tuple of integers to the multi-widget internal
 representation:
 
   >>> conv.toWidgetValue([1, 2, 3, 4])
-  [u'1', u'2', u'3', u'4']
+  ['1', '2', '3', '4']
 
   >>> conv.toWidgetValue((1, 2, 3, 4))
-  [u'1', u'2', u'3', u'4']
+  ['1', '2', '3', '4']
 
 Now, let's look at the reverse. We get a tuple because that's the last
 type in ``_type``:
 
-  >>> conv.toFieldValue([u'1', u'2', u'3', u'4'])
+  >>> conv.toFieldValue(['1', '2', '3', '4'])
   (1, 2, 3, 4)
 
 
@@ -1150,7 +1147,7 @@ We can now convert a dict of integers to the multi-widget internal
 representation:
 
   >>> sorted(conv.toWidgetValue({1:1, 2:4, 3:9}))
-  [(u'1', u'1'), (u'2', u'4'), (u'3', u'9')]
+  [('1', '1'), ('2', '4'), ('3', '9')]
 
 If the value is the missing value, an empty dict is returned:
 
@@ -1159,7 +1156,7 @@ If the value is the missing value, an empty dict is returned:
 
 Now, let's look at the reverse:
 
-  >>> conv.toFieldValue([(u'1',u'1'), (u'2',u'4'), (u'3',u'9')])
+  >>> conv.toFieldValue([('1','1'), ('2','4'), ('3','9')])
   {1: 1, 2: 4, 3: 9}
 
 If the list is empty, the missing value is returned:

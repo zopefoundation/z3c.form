@@ -11,15 +11,11 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Widget Framework Implementation
-
-$Id$
-"""
+"""Widget Framework Implementation."""
 __docformat__ = "reStructuredText"
-import json
 
-import zope.interface
 import zope.component
+import zope.interface
 import zope.location
 import zope.schema.interfaces
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
@@ -27,16 +23,19 @@ from zope.i18n import translate
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.schema.fieldproperty import FieldProperty
 
-from z3c.form import interfaces, util, value
+from z3c.form import interfaces
+from z3c.form import util
+from z3c.form import value
+
 
 PLACEHOLDER = object()
 
 StaticWidgetAttribute = value.StaticValueCreator(
     discriminators=('context', 'request', 'view', 'field', 'widget')
-    )
+)
 ComputedWidgetAttribute = value.ComputedValueCreator(
     discriminators=('context', 'request', 'view', 'field', 'widget')
-    )
+)
 
 
 @zope.interface.implementer(interfaces.IWidget)
@@ -82,8 +81,8 @@ class Widget(zope.location.Location):
         lookForDefault = False
         # Step 1.1: If possible, get a value from the request
         if not self.ignoreRequest:
-            #at this turn we do not need errors to be set on widgets
-            #errors will be set when extract gets called from form.extractData
+            # at this turn we do not need errors to be set on widgets
+            # errors will be set when extract gets called from form.extractData
             self.setErrors = False
             widget_value = self.extract()
             if widget_value is not interfaces.NO_VALUE:
@@ -95,12 +94,12 @@ class Widget(zope.location.Location):
         #           we have some more possible locations to get the value
         if (interfaces.IFieldWidget.providedBy(self) and
             value is interfaces.NO_VALUE and
-            value is not PLACEHOLDER):
+                value is not PLACEHOLDER):
             # Step 1.2.1: If the widget knows about its context and the
             #              context is to be used to extract a value, get
             #              it now via a data manager.
             if (interfaces.IContextAware.providedBy(self) and
-                not self.ignoreContext):
+                    not self.ignoreContext):
                 value = zope.component.getMultiAdapter(
                     (self.context, self.field),
                     interfaces.IDataManager).query()
@@ -120,7 +119,7 @@ class Widget(zope.location.Location):
         # Step 1.3: If we still have not found a value, then we try to get it
         #           from an attribute value
         if ((value is interfaces.NO_VALUE or lookForDefault)
-            and self.showDefault):
+                and self.showDefault):
             adapter = zope.component.queryMultiAdapter(
                 (self.context, self.request, self.form, self.field, self),
                 interfaces.IValue, name='default')
@@ -175,7 +174,7 @@ class Widget(zope.location.Location):
         return layout(self)
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.name)
+        return '<{} {!r}>'.format(self.__class__.__name__, self.name)
 
 
 @zope.interface.implementer(interfaces.ISequenceWidget)
@@ -231,12 +230,12 @@ class SequenceWidget(Widget):
         """See z3c.form.interfaces.IWidget."""
         # Create terms first, since we need them for the generic update.
         self.updateTerms()
-        super(SequenceWidget, self).update()
+        super().update()
 
     def extract(self, default=interfaces.NO_VALUE):
         """See z3c.form.interfaces.IWidget."""
         if (self.name not in self.request and
-            self.name + '-empty-marker' in self.request):
+                self.name + '-empty-marker' in self.request):
             return ()
         value = self.request.get(self.name, default)
         if value != default:
@@ -258,7 +257,7 @@ class SequenceWidget(Widget):
         return value
 
     def json_data(self):
-        data = super(SequenceWidget, self).json_data()
+        data = super().json_data()
         data['type'] = 'sequence'
         return data
 
@@ -270,9 +269,9 @@ class MultiWidget(Widget):
     The multi widget is used for ITuple, IList or IDict if no other widget is
     defined.
 
-    Some IList, ITuple or IDict are using another specialized widget if they can
-    choose from a collection. e.g. a IList of IChoice. The base class of such
-    widget is the ISequenceWidget.
+    Some IList, ITuple or IDict are using another specialized widget if they
+    can choose from a collection. e.g. a IList of IChoice. The base class of
+    such widget is the ISequenceWidget.
 
     This widget can handle none collection based sequences and offers add or
     remove values to or from the sequence. Each sequence value get rendered by
@@ -298,7 +297,7 @@ class MultiWidget(Widget):
     _mode = FieldProperty(interfaces.IWidget['mode'])
 
     def __init__(self, request):
-        super(MultiWidget, self).__init__(request)
+        super().__init__(request)
         self.widgets = []
         self.key_widgets = []
         self._value = []
@@ -340,7 +339,7 @@ class MultiWidget(Widget):
             (valueType, self.request), interfaces.IFieldWidget)
         self.setName(widget, idx, prefix)
         widget.mode = self.mode
-        #set widget.form (objectwidget needs this)
+        # set widget.form (objectwidget needs this)
         if interfaces.IFormAware.providedBy(self):
             widget.form = self.form
             zope.interface.alsoProvides(
@@ -349,9 +348,10 @@ class MultiWidget(Widget):
         return widget
 
     def setName(self, widget, idx, prefix=None):
-        names = lambda id: [str(n) for n in [id]+[prefix, idx] if n is not None]
-        widget.name = '.'.join([str(self.name)]+names(None))
-        widget.id = '-'.join([str(self.id)]+names(None))
+        def names(id): return [str(n)
+                               for n in [id] + [prefix, idx] if n is not None]
+        widget.name = '.'.join([str(self.name)] + names(None))
+        widget.id = '-'.join([str(self.id)] + names(None))
 
     def appendAddingWidget(self):
         """Simply append a new empty widget with correct (counter) name."""
@@ -421,7 +421,7 @@ class MultiWidget(Widget):
         # Ensure at least min_length widgets are shown
         if (zope.schema.interfaces.IMinMaxLen.providedBy(self.field) and
             self.mode == interfaces.INPUT_MODE and self.allowAdding and
-            oldLen < self.field.min_length):
+                oldLen < self.field.min_length):
             oldLen = self.field.min_length
         self.widgets = []
         self.key_widgets = []
@@ -436,11 +436,11 @@ class MultiWidget(Widget):
                 #      also, newly added item should be the last...
                 try:
                     items = util.sortedNone(self.value)
-                except:
+                except BaseException:
                     # just in case it's impossible to sort don't fail
                     items = self.value
             else:
-                items = zip([None]*len(self.value), self.value)
+                items = zip([None] * len(self.value), self.value)
             for key, v in items:
                 widget = self.getWidget(idx)
                 self.applyValue(widget, v)
@@ -453,7 +453,7 @@ class MultiWidget(Widget):
                     widget = self.getWidget(idx, "key", "key_type")
                     self.applyValue(widget, key)
                     if hash_key in keys and widget.error is None:
-                        error = zope.interface.Invalid(u'Duplicate key')
+                        error = zope.interface.Invalid('Duplicate key')
                         view = zope.component.getMultiAdapter(
                             (error, self.request, widget, widget.field,
                              self.form, self.context),
@@ -463,7 +463,7 @@ class MultiWidget(Widget):
                     self.key_widgets.append(widget)
                     keys.add(hash_key)
                 else:
-                    #makes the template easier to have this the same length
+                    # makes the template easier to have this the same length
                     self.key_widgets.append(None)
                 idx += 1
         missing = oldLen - len(self.widgets)
@@ -494,7 +494,10 @@ class MultiWidget(Widget):
 
     @property
     def value(self):
-        """This invokes updateWidgets on any value change e.g. update/extract."""
+        """This invokes updateWidgets on any value change.
+
+        e. g. update/extract.
+        """
         return self._value
 
     @value.setter
@@ -506,7 +509,7 @@ class MultiWidget(Widget):
     def update(self):
         """See z3c.form.interfaces.IWidget."""
         # Ensure that updateWidgets is called.
-        super(MultiWidget, self).update()
+        super().update()
         if not self._widgets_updated:
             self.updateWidgets()
 
@@ -536,10 +539,11 @@ class MultiWidget(Widget):
         return values
 
     def json_data(self):
-        data = super(MultiWidget, self).json_data()
+        data = super().json_data()
         data['widgets'] = [widget.json_data() for widget in self.widgets]
         data['type'] = 'multi'
         return data
+
 
 def FieldWidget(field, widget):
     """Set the field for the widget."""
@@ -555,13 +559,14 @@ def FieldWidget(field, widget):
     return widget
 
 
-class WidgetTemplateFactory(object):
+class WidgetTemplateFactory:
     """Widget template factory."""
 
     def __init__(self, filename, contentType='text/html',
                  context=None, request=None, view=None,
                  field=None, widget=None):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = ViewPageTemplateFile(
+            filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(context),
             util.getSpecification(request),
@@ -574,13 +579,14 @@ class WidgetTemplateFactory(object):
         return self.template
 
 
-class WidgetLayoutFactory(object):
+class WidgetLayoutFactory:
     """Widget layout template factory."""
 
     def __init__(self, filename, contentType='text/html',
                  context=None, request=None, view=None,
                  field=None, widget=None):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+        self.template = ViewPageTemplateFile(
+            filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(context),
             util.getSpecification(request),
@@ -594,13 +600,13 @@ class WidgetLayoutFactory(object):
 
 
 @zope.interface.implementer(interfaces.IWidgetEvent)
-class WidgetEvent(object):
+class WidgetEvent:
 
     def __init__(self, widget):
         self.widget = widget
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, self.widget)
+        return '<{} {!r}>'.format(self.__class__.__name__, self.widget)
 
 
 @zope.interface.implementer_only(interfaces.IAfterWidgetUpdateEvent)

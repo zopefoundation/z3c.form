@@ -19,17 +19,18 @@ __docformat__ = "reStructuredText"
 import zope.component
 import zope.interface
 
-from z3c.form import interfaces, widget
-from z3c.form.widget import Widget, FieldWidget
+from z3c.form import interfaces
 from z3c.form.browser import widget
+from z3c.form.widget import FieldWidget
+from z3c.form.widget import Widget
 
 
 @zope.interface.implementer_only(interfaces.IButtonWidget)
 class ButtonWidget(widget.HTMLInputWidget, Widget):
     """A simple button of a form."""
 
-    klass = u'button-widget'
-    css = u'button'
+    klass = 'button-widget'
+    css = 'button'
 
     def update(self):
         # We do not need to use the widget's update method, because it is

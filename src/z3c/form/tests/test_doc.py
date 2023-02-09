@@ -19,20 +19,22 @@ import re
 import unittest
 
 from zope.testing import renormalizing
+
 from z3c.form import testing
+
 
 # This package will allways provide z3c.pt for it's test setup.
 # The Z3CPT_AVAILABLE hickup is usefull if someone will run the z3c.form tests
 # in his own project and doesn't use z3c.pt.
 try:
     import z3c.pt
-    import z3c.ptcompat  # nopep8
+    import z3c.ptcompat  # noqa: F401 imported but unused
     Z3CPT_AVAILABLE = True
 except ImportError:
     Z3CPT_AVAILABLE = False
 
 try:
-    import zope.app.container  # nopep8
+    import zope.app.container  # noqa: F401 imported but unused
 except ImportError:
     ADDING_AVAILABLE = False
 else:

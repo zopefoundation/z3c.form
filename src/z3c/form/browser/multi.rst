@@ -101,8 +101,8 @@ It's still the same. Since the widget doesn't provide a field nothing useful
 gets rendered. Now let's define a field for this widget and check it again:
 
   >>> field = zope.schema.List(
-  ...     __name__=u'foo',
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     )
   >>> widget.field = field
   >>> widget.update()
@@ -127,7 +127,7 @@ for our multi widget and the data converter dispatcher adapter:
   >>> zope.component.provideAdapter(FieldWidgetDataConverter)
   >>> zope.component.provideAdapter(SimpleFieldValidator)
 
-  >>> widget.value = [u'42', u'43']
+  >>> widget.value = ['42', '43']
   >>> widget.update()
   >>> print(widget.render())
   <div class="multi-widget">
@@ -185,14 +185,14 @@ for our multi widget and the data converter dispatcher adapter:
 If we now click on the ``Add`` button, we will get a new input field for enter
 a new value:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.1':u'43',
+  >>> widget.request = TestRequest(form={'widget.name.count':'2',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.1':'43',
   ...                                    'widget.name.buttons.add':'Add'})
   >>> widget.update()
 
   >>> widget.extract()
-  [u'42', u'43']
+  ['42', '43']
 
   >>> print(widget.render())
   <div class="multi-widget">
@@ -269,14 +269,14 @@ a new value:
 
 Now let's store the new value:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'3',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.1':u'43',
-  ...                                    'widget.name.2':u'44'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'3',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.1':'43',
+  ...                                    'widget.name.2':'44'})
   >>> widget.update()
 
   >>> widget.extract()
-  [u'42', u'43', u'44']
+  ['42', '43', '44']
 
   >>> print(widget.render())
   <div class="multi-widget">
@@ -355,18 +355,18 @@ As you can see in the above sample, the new stored value get rendered as a
 real value and the new adding value input field is gone. Now let's try to
 remove an existing value:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'3',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.1':u'43',
-  ...                                    'widget.name.2':u'44',
-  ...                                    'widget.name.1.remove':u'1',
+  >>> widget.request = TestRequest(form={'widget.name.count':'3',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.1':'43',
+  ...                                    'widget.name.2':'44',
+  ...                                    'widget.name.1.remove':'1',
   ...                                    'widget.name.buttons.remove':'Remove selected'})
   >>> widget.update()
 
 This is good so, because the Remove selected is an widget-internal submit action
 
   >>> widget.extract()
-  [u'42', u'43', u'44']
+  ['42', '43', '44']
 
   >>> print(widget.render())
   <div class="multi-widget">
@@ -423,9 +423,9 @@ This is good so, because the Remove selected is an widget-internal submit action
 
 Change again a value after delete:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.1':u'45'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'2',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.1':'45'})
   >>> widget.update()
 
   >>> print(widget.render())
@@ -485,13 +485,13 @@ as input for our internal (sub) widget.
   >>> zope.component.provideAdapter(ErrorViewSnippet)
   >>> zope.component.provideAdapter(StandardErrorViewTemplate)
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.1':u'bad'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'2',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.1':'bad'})
   >>> widget.update()
 
   >>> widget.extract()
-  [u'42', u'bad']
+  ['42', 'bad']
 
   >>> print(widget.render())
   <div class="multi-widget">
@@ -554,8 +554,8 @@ no remove button for empty value. Now, let's check rendering with
 minimum and maximum lengths defined in the field constraints.
 
   >>> field = zope.schema.List(
-  ...     __name__=u'foo',
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     min_length=1,
   ...     max_length=3
   ...     )
@@ -565,8 +565,8 @@ minimum and maximum lengths defined in the field constraints.
 
 Let's test with minimum sequence, there should be no remove button:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'1',
-  ...                                    'widget.name.0':u'42'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'1',
+  ...                                    'widget.name.0':'42'})
   >>> widget.update()
   >>> print(widget.render())
   <div class="multi-widget">
@@ -600,9 +600,9 @@ Let's test with minimum sequence, there should be no remove button:
 
 Now, with middle-length sequence. All buttons should be there.
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.1':u'43'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'2',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.1':'43'})
   >>> widget.update()
   >>> print(widget.render())
   <div class="multi-widget">
@@ -660,10 +660,10 @@ Now, with middle-length sequence. All buttons should be there.
 Okay, now let's check the maximum-length sequence. There should be
 no add button:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'3',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.1':u'43',
-  ...                                    'widget.name.2':u'44'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'3',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.1':'43',
+  ...                                    'widget.name.2':'44'})
   >>> widget.update()
   >>> print(widget.render())
   <div class="multi-widget">
@@ -741,13 +741,13 @@ Dictionaries
 The multi widget also supports IDict schemas.
 
   >>> field = zope.schema.Dict(
-  ...     __name__=u'foo',
-  ...     key_type=zope.schema.Int(title=u'Number'),
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     key_type=zope.schema.Int(title='Number'),
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     )
   >>> widget.field = field
   >>> widget.widgets = []
-  >>> widget.value = [(u'1',u'42')]
+  >>> widget.value = [('1','42')]
   >>> print(widget.render())
     <div class="multi-widget">
         <div id="widget-id-0-row" class="row">
@@ -786,9 +786,9 @@ The multi widget also supports IDict schemas.
 If we now click on the ``Add`` button, we will get a new input field for entering
 a new value:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'1',
-  ...                                    'widget.name.key.0':u'1',
-  ...                                    'widget.name.0':u'42',
+  >>> widget.request = TestRequest(form={'widget.name.count':'1',
+  ...                                    'widget.name.key.0':'1',
+  ...                                    'widget.name.0':'42',
   ...                                    'widget.name.buttons.add':'Add'})
   >>> widget.update()
 
@@ -864,11 +864,11 @@ a new value:
 
 Now let's store the new value:
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
-  ...                                    'widget.name.key.0':u'1',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.key.1':u'2',
-  ...                                    'widget.name.1':u'43'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'2',
+  ...                                    'widget.name.key.0':'1',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.key.1':'2',
+  ...                                    'widget.name.1':'43'})
   >>> widget.update()
 
   >>> widget.extract()
@@ -879,11 +879,11 @@ We will get an error if we try and set the same key twice
   >>> from z3c.form.error import InvalidErrorViewSnippet
   >>> zope.component.provideAdapter(InvalidErrorViewSnippet)
 
-  >>> widget.request = TestRequest(form={'widget.name.count':u'2',
-  ...                                    'widget.name.key.0':u'1',
-  ...                                    'widget.name.0':u'42',
-  ...                                    'widget.name.key.1':u'1',
-  ...                                    'widget.name.1':u'43'})
+  >>> widget.request = TestRequest(form={'widget.name.count':'2',
+  ...                                    'widget.name.key.0':'1',
+  ...                                    'widget.name.0':'42',
+  ...                                    'widget.name.key.1':'1',
+  ...                                    'widget.name.1':'43'})
   >>> widget.update()
 
   >>> widget.extract()
@@ -1009,8 +1009,8 @@ It's still the same. Since the widget doesn't provide a field nothing useful
 gets rendered. Now let's define a field for this widget and check it again:
 
   >>> field = zope.schema.List(
-  ...     __name__=u'foo',
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     )
   >>> widget.field = field
   >>> widget.update()
@@ -1022,7 +1022,7 @@ this widget. Before we can do that, we will need to register a data converter
 for our multi widget and the data converter dispatcher adapter:
 
   >>> widget.update()
-  >>> widget.value = [u'42', u'43']
+  >>> widget.value = ['42', '43']
   >>> print(widget.render())
   <div class="multi-widget" id="widget-id">
     <div class="row" id="widget-id-0-row">
@@ -1056,12 +1056,12 @@ for our multi widget and the data converter dispatcher adapter:
 We can also use the multi widget with dictionaries
 
   >>> field = zope.schema.Dict(
-  ...     __name__=u'foo',
-  ...     key_type=zope.schema.Int(title=u'Number'),
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     key_type=zope.schema.Int(title='Number'),
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     )
   >>> widget.field = field
-  >>> widget.value = [(u'1', u'42'), (u'2', u'43')]
+  >>> widget.value = [('1', '42'), ('2', '43')]
   >>> print(widget.render())
   <div class="multi-widget" id="widget-id">
     <div class="row" id="widget-id-0-row">
@@ -1170,8 +1170,8 @@ It's still the same. Since the widget doesn't provide a field nothing useful
 gets rendered. Now let's define a field for this widget and check it again:
 
   >>> field = zope.schema.List(
-  ...     __name__=u'foo',
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     )
   >>> widget.field = field
   >>> widget.update()
@@ -1183,7 +1183,7 @@ this widget. Before we can do that, we will need to register a data converter
 for our multi widget and the data converter dispatcher adapter:
 
   >>> widget.update()
-  >>> widget.value = [u'42', u'43']
+  >>> widget.value = ['42', '43']
   >>> print(widget.render())
   <input class="hidden-widget"
          id="widget-id-0" name="widget.name.0" type="hidden" value="42">
@@ -1194,12 +1194,12 @@ for our multi widget and the data converter dispatcher adapter:
 We can also use the multi widget with dictionaries
 
   >>> field = zope.schema.Dict(
-  ...     __name__=u'foo',
-  ...     key_type=zope.schema.Int(title=u'Number'),
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     key_type=zope.schema.Int(title='Number'),
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     )
   >>> widget.field = field
-  >>> widget.value = [(u'1', u'42'), (u'2', u'43')]
+  >>> widget.value = [('1', '42'), ('2', '43')]
   >>> print(widget.render())
   <input class="hidden-widget"
          id="widget-id-key-0" name="widget.name.key.0" type="hidden" value="1">
@@ -1223,14 +1223,14 @@ is to register an attribute adapter for specific field/widget/layer/etc.
 See below for an example.
 
   >>> field = zope.schema.List(
-  ...     __name__=u'foo',
+  ...     __name__='foo',
   ...     value_type=zope.schema.Int(
-  ...         title=u'Ignored'),
+  ...         title='Ignored'),
   ...     )
   >>> request = TestRequest()
   >>> widget = multi.MultiWidget(request)
   >>> widget.field = field
-  >>> widget.value = [u'42', u'43']
+  >>> widget.value = ['42', '43']
   >>> widget.showLabel = False
   >>> widget.update()
   >>> print(widget.render())
@@ -1339,8 +1339,8 @@ Coverage happiness
 ##################
 
   >>> field = zope.schema.List(
-  ...     __name__=u'foo',
-  ...     value_type=zope.schema.Int(title=u'Number'),
+  ...     __name__='foo',
+  ...     value_type=zope.schema.Int(title='Number'),
   ...     )
   >>> request = TestRequest()
   >>> widget = multi.MultiWidget(request)
@@ -1353,8 +1353,8 @@ Coverage happiness
   >>> widget.request = TestRequest()
   >>> widget.update()
 
-  >>> widget.value = [u'42', u'43', u'44']
-  >>> widget.value = [u'99']
+  >>> widget.value = ['42', '43', '44']
+  >>> widget.value = ['99']
 
   >>> print(widget.render())
     <html>

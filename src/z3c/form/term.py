@@ -28,7 +28,7 @@ from z3c.form.i18n import MessageFactory as _
 
 
 @zope.interface.implementer(interfaces.ITerms)
-class Terms(object):
+class Terms:
     """Base implementation for custom ITerms."""
 
     def getTerm(self, value):
@@ -52,7 +52,7 @@ class Terms(object):
 
 @zope.interface.implementer(interfaces.ITerms)
 class SourceTerms(Terms):
-    """Base implementation for ITerms using a source instead of a vocabulary."""
+    """Base implementation for ITerms using source instead of vocabulary."""
 
     def __init__(self, context, request, form, field, source, widget):
         self.context = context
@@ -67,7 +67,7 @@ class SourceTerms(Terms):
 
     def getTerm(self, value):
         try:
-            return super(SourceTerms, self).getTerm(value)
+            return super().getTerm(value)
         except KeyError:
             raise LookupError(value)
 
@@ -134,7 +134,7 @@ class ChoiceTermsVocabulary(Terms):
         self.terms = vocabulary
 
 
-class MissingTermsBase(object):
+class MissingTermsBase:
     """Base class for MissingTermsMixin classes."""
 
     def _canQueryCurrentValue(self):
@@ -155,7 +155,7 @@ class MissingTermsBase(object):
         uvalue = util.toUnicode(value)
         return vocabulary.SimpleTerm(
             value, self._makeToken(value),
-            title=_(u'Missing: ${value}', mapping=dict(value=uvalue)))
+            title=_('Missing: ${value}', mapping=dict(value=uvalue)))
 
 
 class MissingTermsMixin(MissingTermsBase):
@@ -164,7 +164,7 @@ class MissingTermsMixin(MissingTermsBase):
 
     def getTerm(self, value):
         try:
-            return super(MissingTermsMixin, self).getTerm(value)
+            return super().getTerm(value)
         except LookupError:
             if self._canQueryCurrentValue():
                 curValue = self._queryCurrentValue()
@@ -174,7 +174,7 @@ class MissingTermsMixin(MissingTermsBase):
 
     def getTermByToken(self, token):
         try:
-            return super(MissingTermsMixin, self).getTermByToken(token)
+            return super().getTermByToken(token)
         except LookupError:
             if self._canQueryCurrentValue():
                 value = self._queryCurrentValue()
@@ -195,7 +195,8 @@ class MissingChoiceTermsVocabulary(MissingTermsMixin, ChoiceTermsVocabulary):
 
 @zope.interface.implementer(interfaces.ITerms)
 class ChoiceTermsSource(SourceTerms):
-    "ITerms adapter for zope.schema.IChoice based implementations using source."
+    """ITerms adapter for zope.schema.IChoice based implementations using
+    source."""
 
     zope.component.adapts(
         zope.interface.Interface,
@@ -207,8 +208,8 @@ class ChoiceTermsSource(SourceTerms):
 
 
 class MissingChoiceTermsSource(MissingTermsMixin, ChoiceTermsSource):
-    """ITerms adapter for zope.schema.IChoice based implementations using source
-       with missing terms support."""
+    """ITerms adapter for zope.schema.IChoice based implementations using
+    source with missing terms support."""
 
 
 @zope.interface.implementer_only(interfaces.IBoolTerms)
@@ -277,7 +278,7 @@ class MissingCollectionTermsMixin(MissingTermsBase):
 
     def getTerm(self, value):
         try:
-            return super(MissingCollectionTermsMixin, self).getTerm(value)
+            return super().getTerm(value)
         except LookupError:
             if self._canQueryCurrentValue():
                 if value in self._queryCurrentValue():
@@ -286,8 +287,7 @@ class MissingCollectionTermsMixin(MissingTermsBase):
 
     def getTermByToken(self, token):
         try:
-            return super(
-                MissingCollectionTermsMixin, self).getTermByToken(token)
+            return super().getTermByToken(token)
         except LookupError:
             if self._canQueryCurrentValue():
                 for value in self._queryCurrentValue():
@@ -301,7 +301,7 @@ class MissingCollectionTermsMixin(MissingTermsBase):
 
     def getValue(self, token):
         try:
-            return super(MissingCollectionTermsMixin, self).getValue(token)
+            return super().getValue(token)
         except LookupError:
             if self._canQueryCurrentValue():
                 for value in self._queryCurrentValue():

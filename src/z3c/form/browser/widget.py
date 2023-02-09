@@ -11,25 +11,17 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Widget Framework Implementation
-
-$Id$
-"""
+"""Widget Framework Implementation."""
 __docformat__ = "reStructuredText"
 import zope.interface
 from zope.schema.fieldproperty import FieldProperty
 
+from z3c.form.browser import interfaces
 from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import IFieldWidget
-from z3c.form.browser import interfaces
 
-try:
-    unicode
-except NameError:
-    # Py3: Define unicode.
-    unicode = str
 
-class WidgetLayoutSupport(object):
+class WidgetLayoutSupport:
     """Widget layout support"""
 
     def wrapCSSClass(self, klass, pattern='%(class)s'):
@@ -40,8 +32,8 @@ class WidgetLayoutSupport(object):
             return []
 
     def getCSSClass(self, klass=None, error=None, required=None,
-        classPattern='%(class)s', errorPattern='%(class)s-error',
-        requiredPattern='%(class)s-required'):
+                    classPattern='%(class)s', errorPattern='%(class)s-error',
+                    requiredPattern='%(class)s-required'):
         """Setup given css class (klass) with error and required postfix
 
         If no klass name is given the widget.wrapper class name/names get used.
@@ -153,22 +145,22 @@ class HTMLFormElement(WidgetLayoutSupport):
     def addClass(self, klass):
         """See interfaces.IHTMLFormElement"""
         if not self.klass:
-            self.klass = unicode(klass)
+            self.klass = str(klass)
         else:
-            #make sure items are not repeated
-            parts = self.klass.split()+[unicode(klass)]
+            # make sure items are not repeated
+            parts = self.klass.split() + [str(klass)]
             seen = {}
             unique = []
             for item in parts:
                 if item in seen:
                     continue
-                seen[item]=1
+                seen[item] = 1
                 unique.append(item)
-            self.klass = u' '.join(unique)
+            self.klass = ' '.join(unique)
 
     def update(self):
         """See z3c.form.interfaces.IWidget"""
-        super(HTMLFormElement, self).update()
+        super().update()
         if self.mode == INPUT_MODE and self.required:
             self.addClass('required')
 
@@ -188,7 +180,8 @@ class HTMLTextInputWidget(HTMLInputWidget):
     size = FieldProperty(interfaces.IHTMLTextInputWidget['size'])
     maxlength = FieldProperty(interfaces.IHTMLTextInputWidget['maxlength'])
     placeholder = FieldProperty(interfaces.IHTMLTextInputWidget['placeholder'])
-    autocapitalize = FieldProperty(interfaces.IHTMLTextInputWidget['autocapitalize'])
+    autocapitalize = FieldProperty(
+        interfaces.IHTMLTextInputWidget['autocapitalize'])
 
 
 @zope.interface.implementer(interfaces.IHTMLTextAreaWidget)
@@ -214,5 +207,5 @@ def addFieldClass(widget):
     If the widget does not have field, then nothing is done.
     """
     if IFieldWidget.providedBy(widget):
-        klass = unicode(widget.field.__class__.__name__.lower() + '-field')
+        klass = str(widget.field.__class__.__name__.lower() + '-field')
         widget.addClass(klass)

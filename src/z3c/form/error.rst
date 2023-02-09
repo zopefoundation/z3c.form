@@ -29,7 +29,7 @@ field, form, and content. After updating the view, a test message is available:
 
   >>> view.update()
   >>> view.message
-  u'Value is too small'
+  'Value is too small'
 
 And after registering a template for the error view, we can also render the
 view:
@@ -59,9 +59,9 @@ let's create somewhat more interesting setup:
   >>> import zope.interface
   >>> import zope.schema
   >>> class IPerson(zope.interface.Interface):
-  ...     name = zope.schema.TextLine(title=u'Name')
+  ...     name = zope.schema.TextLine(title='Name')
   ...     age = zope.schema.Int(
-  ...         title=u'Age',
+  ...         title='Age',
   ...         min=0)
 
 You must agree, that the follwoing message is pretty dull when entering a
@@ -73,7 +73,7 @@ negative age:
 So let's register a better message for this particular situation:
 
   >>> NegativeAgeMessage = error.ErrorViewMessage(
-  ...     u'A negative age is not sensible.',
+  ...     'A negative age is not sensible.',
   ...     error=TooSmall, field=IPerson['age'])
 
   >>> zope.component.provideAdapter(NegativeAgeMessage, name='message')
@@ -96,7 +96,7 @@ get an error. For example, we have an IAdult interface that have minimal age of
 18:
 
   >>> class IAdult(zope.interface.Interface):
-  ...     age = zope.schema.Int(title=u'Age', min=18)
+  ...     age = zope.schema.Int(title='Age', min=18)
 
 Now, let's create a function that will be called by a message value adapter,
 it receives one argument, a special ``z3c.form.value.ComputedValue`` object
@@ -104,7 +104,7 @@ that will have all needed attributes: error, request, widget, field, form and
 content. Let's use one of them:
 
   >>> def getAgeTooSmallErrorMessage(value):
-  ...     return u'Given age is smaller than %d, you are not adult.' % (
+  ...     return 'Given age is smaller than %d, you are not adult.' % (
   ...         value.field.min)
 
 Now, register the computed view message:
@@ -188,7 +188,7 @@ value error, since it cannot be localized well enough. Thus we provide our own
 message. Of course, the message can be overridden:
 
   >>> CustomMessage = error.ErrorViewMessage(
-  ...     u'The entered value is not valid.', error=ValueError)
+  ...     'The entered value is not valid.', error=ValueError)
   >>> zope.component.provideAdapter(CustomMessage, name='message')
 
 Let's now render the snippet again:
@@ -206,7 +206,7 @@ When invariants are used, commonly the ``Invalid`` exception (from the
 invariant finds a problem. We need a special error view snippet for this class
 of errors:
 
-  >>> invalidError = zope.interface.Invalid(u'The data was invalid.')
+  >>> invalidError = zope.interface.Invalid('The data was invalid.')
   >>> errorView = error.InvalidErrorViewSnippet(
   ...     invalidError, TestRequest(), None, None, None, None)
 

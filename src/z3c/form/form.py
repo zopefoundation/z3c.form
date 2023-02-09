@@ -18,23 +18,27 @@ $Id$
 __docformat__ = "reStructuredText"
 import json
 import sys
-import zope.interface
+
 import zope.component
 import zope.event
+import zope.interface
 import zope.lifecycleevent
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-from zope.publisher import browser
 from zope.pagetemplate.interfaces import IPageTemplate
+from zope.publisher import browser
 from zope.schema.fieldproperty import FieldProperty
 
-from z3c.form import button, field, interfaces, util
+from z3c.form import button
+from z3c.form import field
+from z3c.form import interfaces
+from z3c.form import util
 from z3c.form.events import DataExtractedEvent
 from z3c.form.i18n import MessageFactory as _
 
 
 def applyChanges(form, content, data):
     changes = {}
-    for name, field in form.fields.items():
+    for name, field_ in form.fields.items():
         # If the field is not in the data, then go on to the next one
         try:
             newValue = data[name]
@@ -44,10 +48,10 @@ def applyChanges(form, content, data):
         # sent a strong message not to do so.
         if newValue is interfaces.NOT_CHANGED:
             continue
-        if util.changedField(field.field, newValue, context=content):
+        if util.changedField(field_.field, newValue, context=content):
             # Only update the data, if it is different
             dm = zope.component.getMultiAdapter(
-                (content, field.field), interfaces.IDataManager)
+                (content, field_.field), interfaces.IDataManager)
             dm.set(newValue)
             # Record the change using information required later
             changes.setdefault(dm.field.interface, []).append(name)
@@ -138,8 +142,9 @@ class BaseForm(browser.BrowserPage):
     @property
     def requiredInfo(self):
         if self.labelRequired is not None and self.widgets is not None \
-            and self.widgets.hasRequiredFields:
-            return zope.i18n.translate(self.labelRequired, context=self.request)
+                and self.widgets.hasRequiredFields:
+            return zope.i18n.translate(
+                self.labelRequired, context=self.request)
 
     def extractData(self, setErrors=True):
         '''See interfaces.IForm'''
@@ -158,7 +163,7 @@ class BaseForm(browser.BrowserPage):
         # render content template
         if self.template is None:
             template = zope.component.getMultiAdapter((self, self.request),
-                IPageTemplate)
+                                                      IPageTemplate)
             return template(self)
         return self.template()
 
@@ -185,8 +190,8 @@ class DisplayForm(BaseForm):
 
 
 @zope.interface.implementer(
-        interfaces.IInputForm, interfaces.IButtonForm,
-        interfaces.IHandlerForm, interfaces.IActionForm)
+    interfaces.IInputForm, interfaces.IButtonForm,
+    interfaces.IHandlerForm, interfaces.IActionForm)
 class Form(BaseForm):
     """The Form."""
 
@@ -223,7 +228,7 @@ class Form(BaseForm):
         self.actions.update()
 
     def update(self):
-        super(Form, self).update()
+        super().update()
         self.updateActions()
         self.actions.execute()
         if self.refreshActions:
@@ -233,8 +238,9 @@ class Form(BaseForm):
         self.update()
 
         # Don't render anything if we are doing a redirect
-        if self.request.response.getStatus() in (300, 301, 302, 303, 304, 305, 307,):
-            return u''
+        if self.request.response.getStatus() in (
+                300, 301, 302, 303, 304, 305, 307,):
+            return ''
 
         return self.render()
 
@@ -278,7 +284,7 @@ class AddForm(Form):
         if self._finishedAdd:
             self.request.response.redirect(self.nextURL())
             return ""
-        return super(AddForm, self).render()
+        return super().render()
 
 
 @zope.interface.implementer(interfaces.IEditForm)
@@ -300,7 +306,8 @@ class EditForm(Form):
                     zope.lifecycleevent.Attributes(interface, *names))
             # Send out a detailed object-modified event
             zope.event.notify(
-                zope.lifecycleevent.ObjectModifiedEvent(content, *descriptions))
+                zope.lifecycleevent.ObjectModifiedEvent(
+                    content, *descriptions))
         return changes
 
     @button.buttonAndHandler(_('Apply'), name='apply')
@@ -316,12 +323,13 @@ class EditForm(Form):
             self.status = self.noChangesMessage
 
 
-class FormTemplateFactory(object):
+class FormTemplateFactory:
     """Form template factory."""
 
     def __init__(self, filename, contentType='text/html', form=None,
-        request=None):
-        self.template = ViewPageTemplateFile(filename, content_type=contentType)
+                 request=None):
+        self.template = ViewPageTemplateFile(
+            filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(form),
             util.getSpecification(request))(self)

@@ -33,21 +33,21 @@ Before we can start writing forms, we must have the content to work with:
   >>> class IPerson(zope.interface.Interface):
   ...
   ...     id = zope.schema.TextLine(
-  ...         title=u'ID',
+  ...         title='ID',
   ...         readonly=True,
   ...         required=True)
   ...
   ...     name = zope.schema.TextLine(
-  ...         title=u'Name',
+  ...         title='Name',
   ...         required=True)
   ...
   ...     gender = zope.schema.Choice(
-  ...         title=u'Gender',
+  ...         title='Gender',
   ...         values=('male', 'female'),
   ...         required=False)
   ...
   ...     age = zope.schema.Int(
-  ...         title=u'Age',
+  ...         title='Age',
   ...         description=u"The person's age.",
   ...         min=0,
   ...         default=20,
@@ -197,7 +197,7 @@ transferred from the field to the widget:
   # field.title -> age.label
 
   >>> age.label
-  u'Age'
+  'Age'
 
   # field.required -> age.required
 
@@ -225,7 +225,7 @@ default value, or be empty. In this case the field provides a default
 value:
 
   >>> age.value
-  u'20'
+  '20'
 
 While the default of the age field is actually the integer ``20``, the
 widget has converted the value to the output-ready string ``'20'``
@@ -280,9 +280,9 @@ The add button is an action and a widget at the same time:
 
   >>> addAction = addForm.actions['add']
   >>> addAction.title
-  u'Add'
+  'Add'
   >>> addAction.value
-  u'Add'
+  'Add'
 
 After everything is set up, all pressed buttons are executed. Once a submitted
 action is detected, a special action handler adapter is used to determine the
@@ -489,23 +489,23 @@ Let's now fill the request with all the right values so that upon submitting
 the form with the "Add" button, the person should be added to the root folder:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.id': u'srichter',
-  ...     'form.widgets.name': u'Stephan Richter',
+  ...     'form.widgets.id': 'srichter',
+  ...     'form.widgets.name': 'Stephan Richter',
   ...     'form.widgets.gender': ['male'],
-  ...     'form.widgets.age': u'20',
-  ...     'form.buttons.add': u'Add'}
+  ...     'form.widgets.age': '20',
+  ...     'form.buttons.add': 'Add'}
   ...     )
 
   >>> addForm = PersonAddForm(root, request)
   >>> addForm.update()
 
   >>> sorted(root)
-  [u'srichter']
-  >>> stephan = root[u'srichter']
+  ['srichter']
+  >>> stephan = root['srichter']
   >>> stephan.id
-  u'srichter'
+  'srichter'
   >>> stephan.name
-  u'Stephan Richter'
+  'Stephan Richter'
   >>> stephan.gender
   'male'
   >>> stephan.age
@@ -534,10 +534,10 @@ add form should not complete with the addition, but return with the add form
 pointing out the error.
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.id': u'srichter',
+  ...     'form.widgets.id': 'srichter',
   ...     'form.widgets.gender': ['male'],
-  ...     'form.widgets.age': u'23',
-  ...     'form.buttons.add': u'Add'}
+  ...     'form.widgets.age': '23',
+  ...     'form.buttons.add': 'Add'}
   ...     )
 
   >>> addForm = PersonAddForm(root, request)
@@ -680,11 +680,11 @@ schema. In our case, the id and name cannot be the same. So let's provoke the
 error now:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.id': u'Stephan',
-  ...     'form.widgets.name': u'Stephan',
+  ...     'form.widgets.id': 'Stephan',
+  ...     'form.widgets.name': 'Stephan',
   ...     'form.widgets.gender': ['male'],
-  ...     'form.widgets.age': u'23',
-  ...     'form.buttons.add': u'Add'}
+  ...     'form.widgets.age': '23',
+  ...     'form.buttons.add': 'Add'}
   ...     )
 
   >>> addForm = PersonAddForm(root, request)
@@ -764,18 +764,18 @@ and through as json:
 Let's try to provide a negative age, which is not possible either:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.id': u'srichter',
+  ...     'form.widgets.id': 'srichter',
   ...     'form.widgets.gender': ['male'],
-  ...     'form.widgets.age': u'-5',
-  ...     'form.buttons.add': u'Add'}
+  ...     'form.widgets.age': '-5',
+  ...     'form.buttons.add': 'Add'}
   ...     )
 
   >>> addForm = PersonAddForm(root, request)
   >>> addForm.update()
 
   >>> [(view.widget.label, view) for view in addForm.widgets.errors]
-  [(u'Name', <ErrorViewSnippet for RequiredMissing>),
-   (u'Age', <ErrorViewSnippet for TooSmall>)]
+  [('Name', <ErrorViewSnippet for RequiredMissing>),
+   ('Age', <ErrorViewSnippet for TooSmall>)]
 
 But the error message for a negative age is too generic:
 
@@ -794,7 +794,7 @@ register a new error view snippet for the ``TooSmall`` error:
   ...     def update(self):
   ...         super(TooSmallView, self).update()
   ...         if self.field.min == 0:
-  ...             self.message = u'The value cannot be a negative number.'
+  ...             self.message = 'The value cannot be a negative number.'
 
   >>> zope.component.provideAdapter(TooSmallView)
 
@@ -854,7 +854,7 @@ fails:
   >>> addForm.render()
   Traceback (most recent call last):
   ...
-  ComponentLookupError: ((...), <InterfaceClass ...IPageTemplate>, u'')
+  ComponentLookupError: ((...), <InterfaceClass ...IPageTemplate>, '')
 
 The form module provides a simple component to create adapter
 factories from templates:
@@ -889,7 +889,7 @@ info depends by default on the given requiredInfo label and if at least one
 field is required:
 
   >>> addForm.requiredInfo
-  u'<span class="required">*</span>&ndash; required'
+  '<span class="required">*</span>&ndash; required'
 
 If we set the labelRequired to None, we do not get a requiredInfo label:
 
@@ -914,7 +914,7 @@ from "Name" to "Full Name":
 
   >>> from z3c.form import widget
   >>> NameLabel = widget.StaticWidgetAttribute(
-  ...     u'Full Name', field=IPerson['name'])
+  ...     'Full Name', field=IPerson['name'])
   >>> zope.component.provideAdapter(NameLabel, name='label')
 
 When the form renders, the label has now changed:
@@ -956,7 +956,7 @@ cancel action:
   ...     def update(self):
   ...         self.form.buttons = button.Buttons(
   ...             self.form.buttons,
-  ...             button.Button('cancel', u'Cancel'))
+  ...             button.Button('cancel', 'Cancel'))
   ...         super(AddActions, self).update()
 
 After registering the new action manager,
@@ -997,7 +997,7 @@ After registering the action handler,
 
 we can press the cancel button and we will be forwarded:
 
-  >>> request = TestRequest(form={'form.buttons.cancel': u'Cancel'})
+  >>> request = TestRequest(form={'form.buttons.cancel': 'Cancel'})
 
   >>> addForm = PersonAddForm(root, request)
   >>> addTemplate(addForm)
@@ -1028,7 +1028,7 @@ since all actions are completely automatic:
 
 We can use the created person from the successful addition above.
 
-  >>> editForm = PersonEditForm(root[u'srichter'], TestRequest())
+  >>> editForm = PersonEditForm(root['srichter'], TestRequest())
 
 After adding a template, we can look at the form:
 
@@ -1085,13 +1085,13 @@ Failure Upon Submission of Edit Form
 Let's now submit the form having some invalid data.
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.name': u'Claudia Richter',
+  ...     'form.widgets.name': 'Claudia Richter',
   ...     'form.widgets.gender': ['female'],
-  ...     'form.widgets.age': u'-1',
-  ...     'form.buttons.apply': u'Apply'}
+  ...     'form.widgets.age': '-1',
+  ...     'form.buttons.apply': 'Apply'}
   ...     )
 
-  >>> editForm = PersonEditForm(root[u'srichter'], request)
+  >>> editForm = PersonEditForm(root['srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print(editForm.render())
@@ -1149,22 +1149,22 @@ Successfully Editing Content
 Let's now resubmit the form with valid data, so the data should be updated.
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.name': u'Claudia Richter',
+  ...     'form.widgets.name': 'Claudia Richter',
   ...     'form.widgets.gender': ['female'],
-  ...     'form.widgets.age': u'27',
-  ...     'form.buttons.apply': u'Apply'}
+  ...     'form.widgets.age': '27',
+  ...     'form.buttons.apply': 'Apply'}
   ...     )
 
-  >>> editForm = PersonEditForm(root[u'srichter'], request)
+  >>> editForm = PersonEditForm(root['srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
   <i >Data successfully updated.</i>
   ...
 
-  >>> stephan = root[u'srichter']
+  >>> stephan = root['srichter']
   >>> stephan.name
-  u'Claudia Richter'
+  'Claudia Richter'
   >>> stephan.gender
   'female'
   >>> stephan.age
@@ -1184,13 +1184,13 @@ create an event subscriber for object-modified events:
 Let's now submit the form again, successfully changing the age:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.name': u'Claudia Richter',
+  ...     'form.widgets.name': 'Claudia Richter',
   ...     'form.widgets.gender': ['female'],
-  ...     'form.widgets.age': u'29',
-  ...     'form.buttons.apply': u'Apply'}
+  ...     'form.widgets.age': '29',
+  ...     'form.buttons.apply': 'Apply'}
   ...     )
 
-  >>> editForm = PersonEditForm(root[u'srichter'], request)
+  >>> editForm = PersonEditForm(root['srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
 
@@ -1202,7 +1202,7 @@ We can now look at the event:
 
   >>> attrs = event.descriptions[0]
   >>> attrs.interface
-  <InterfaceClass __builtin__.IPerson>
+  <InterfaceClass builtins.IPerson>
   >>> attrs.attributes
   ('age',)
 
@@ -1213,13 +1213,13 @@ Successful Action with No Changes
 When submitting the form without any changes, the form will tell you so.
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.name': u'Claudia Richter',
+  ...     'form.widgets.name': 'Claudia Richter',
   ...     'form.widgets.gender': ['female'],
-  ...     'form.widgets.age': u'29',
-  ...     'form.buttons.apply': u'Apply'}
+  ...     'form.widgets.age': '29',
+  ...     'form.buttons.apply': 'Apply'}
   ...     )
 
-  >>> editForm = PersonEditForm(root[u'srichter'], request)
+  >>> editForm = PersonEditForm(root['srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
   >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
@@ -1246,7 +1246,7 @@ There are three messages for the edit form:
 
 Let's now change the ``noChangesMessage``:
 
-  >>> editForm.noChangesMessage = u'No changes were detected in the form data.'
+  >>> editForm.noChangesMessage = 'No changes were detected in the form data.'
   >>> editForm.update()
   >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
   <i >No changes were detected in the form data.</i>
@@ -1271,7 +1271,7 @@ data manager for dictionaries is available:
 The only step the developer has to complete is to re-implement the form's
 ``getContent()`` method to return the dictionary:
 
-  >>> personDict = {'id': u'rineichen', 'name': u'Roger Ineichen',
+  >>> personDict = {'id': 'rineichen', 'name': 'Roger Ineichen',
   ...               'gender': None, 'age': None}
   >>> class PersonDictEditForm(PersonEditForm):
   ...     def getContent(self):
@@ -1330,10 +1330,10 @@ dictionary. Let's now submit a form to ensure that the data are also written to
 the dictionary:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.name': u'Jesse Ineichen',
+  ...     'form.widgets.name': 'Jesse Ineichen',
   ...     'form.widgets.gender': ['male'],
-  ...     'form.widgets.age': u'5',
-  ...     'form.buttons.apply': u'Apply'}
+  ...     'form.widgets.age': '5',
+  ...     'form.buttons.apply': 'Apply'}
   ...     )
   >>> editForm = PersonDictEditForm(None, request)
   >>> editForm.update()
@@ -1345,9 +1345,9 @@ the dictionary:
   >>> personDict['gender']
   'male'
   >>> personDict['id']
-  u'rineichen'
+  'rineichen'
   >>> personDict['name']
-  u'Jesse Ineichen'
+  'Jesse Ineichen'
 
 
 Creating a Display Form
@@ -1465,7 +1465,7 @@ demonstrate the problem:
   >>> class BaseForm(form.Form):
   ...     fields = field.Fields(IPerson).select('name')
   ...
-  ...     @button.buttonAndHandler(u'Apply')
+  ...     @button.buttonAndHandler('Apply')
   ...     def handleApply(self, action):
   ...         print('success')
 
@@ -1474,14 +1474,14 @@ demonstrate the problem:
   >>> list(BaseForm.buttons.keys())
   ['apply']
   >>> BaseForm.handlers
-  <Handlers [<Handler for <Button 'apply' u'Apply'>>]>
+  <Handlers [<Handler for <Button 'apply' 'Apply'>>]>
 
 Let's now derive a form from the base form:
 
   >>> class DerivedForm(BaseForm):
   ...     fields = field.Fields(IPerson).select('gender')
   ...
-  ...     @button.buttonAndHandler(u'Cancel')
+  ...     @button.buttonAndHandler('Cancel')
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
@@ -1490,7 +1490,7 @@ Let's now derive a form from the base form:
   >>> list(DerivedForm.buttons.keys())
   ['cancel']
   >>> DerivedForm.handlers
-  <Handlers [<Handler for <Button 'cancel' u'Cancel'>>]>
+  <Handlers [<Handler for <Button 'cancel' 'Cancel'>>]>
 
 The obvious method to "inherit" the base form's information is to copy it
 over:
@@ -1502,7 +1502,7 @@ over:
   ...
   ...     fields += field.Fields(IPerson).select('gender')
   ...
-  ...     @button.buttonAndHandler(u'Cancel')
+  ...     @button.buttonAndHandler('Cancel')
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
@@ -1512,8 +1512,8 @@ over:
   ['apply', 'cancel']
   >>> DerivedForm.handlers
   <Handlers
-      [<Handler for <Button 'apply' u'Apply'>>,
-       <Handler for <Button 'cancel' u'Cancel'>>]>
+      [<Handler for <Button 'apply' 'Apply'>>,
+       <Handler for <Button 'cancel' 'Cancel'>>]>
 
 But this is pretty clumsy. Instead, the ``form`` module provides a helper
 method that will do the extending for you:
@@ -1523,7 +1523,7 @@ method that will do the extending for you:
   ...
   ...     fields += field.Fields(IPerson).select('gender')
   ...
-  ...     @button.buttonAndHandler(u'Cancel')
+  ...     @button.buttonAndHandler('Cancel')
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
@@ -1533,8 +1533,8 @@ method that will do the extending for you:
   ['apply', 'cancel']
   >>> DerivedForm.handlers
   <Handlers
-      [<Handler for <Button 'apply' u'Apply'>>,
-       <Handler for <Button 'cancel' u'Cancel'>>]>
+      [<Handler for <Button 'apply' 'Apply'>>,
+       <Handler for <Button 'cancel' 'Cancel'>>]>
 
 If you, for example do not want to extend the buttons, you can turn that off:
 
@@ -1543,7 +1543,7 @@ If you, for example do not want to extend the buttons, you can turn that off:
   ...
   ...     fields += field.Fields(IPerson).select('gender')
   ...
-  ...     @button.buttonAndHandler(u'Cancel')
+  ...     @button.buttonAndHandler('Cancel')
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
@@ -1553,8 +1553,8 @@ If you, for example do not want to extend the buttons, you can turn that off:
   ['cancel']
   >>> DerivedForm.handlers
   <Handlers
-      [<Handler for <Button 'apply' u'Apply'>>,
-       <Handler for <Button 'cancel' u'Cancel'>>]>
+      [<Handler for <Button 'apply' 'Apply'>>,
+       <Handler for <Button 'cancel' 'Cancel'>>]>
 
 If you, for example do not want to extend the handlers, you can turn that off:
 
@@ -1563,7 +1563,7 @@ If you, for example do not want to extend the handlers, you can turn that off:
   ...
   ...     fields += field.Fields(IPerson).select('gender')
   ...
-  ...     @button.buttonAndHandler(u'Cancel')
+  ...     @button.buttonAndHandler('Cancel')
   ...     def handleCancel(self, action):
   ...         print('cancel')
 
@@ -1572,7 +1572,7 @@ If you, for example do not want to extend the handlers, you can turn that off:
   >>> list(DerivedForm.buttons.keys())
   ['apply', 'cancel']
   >>> DerivedForm.handlers
-  <Handlers [<Handler for <Button 'cancel' u'Cancel'>>]>
+  <Handlers [<Handler for <Button 'cancel' 'Cancel'>>]>
 
 
 Custom widget factories
@@ -1587,7 +1587,7 @@ Let's show a sample and define a custom widget:
   >>> from z3c.form.browser import text
   >>> class MyWidget(text.TextWidget):
   ...     """My new widget."""
-  ...     klass = u'MyCSS'
+  ...     klass = 'MyCSS'
 
 Now we can define a field widget factory:
 
@@ -1604,7 +1604,7 @@ We register the ``MyWidget`` in a form like:
 
 We can see that the custom widget gets used in the rendered form:
 
-  >>> myEdit = MyEditForm(root[u'srichter'], TestRequest())
+  >>> myEdit = MyEditForm(root['srichter'], TestRequest())
   >>> addTemplate(myEdit)
   >>> myEdit.update()
   >>> print(testing.render(myEdit, './/xmlns:input[@id="form-widgets-name"]'))
@@ -1631,7 +1631,7 @@ setUpWidgets method.
 
 We can see that the widget gets rendered as hidden:
 
-  >>> hiddenEdit = HiddenFieldEditForm(root[u'srichter'], TestRequest())
+  >>> hiddenEdit = HiddenFieldEditForm(root['srichter'], TestRequest())
   >>> addTemplate(hiddenEdit)
   >>> hiddenEdit.update()
   >>> print(testing.render(hiddenEdit, './/xmlns:input[@id="form-widgets-age"]'))
@@ -1651,7 +1651,7 @@ special action execution error can be raised that wraps the original error.
   ...
   ...     fields = field.Fields(IPerson).select('id')
   ...
-  ...     @button.buttonAndHandler(u'Check')
+  ...     @button.buttonAndHandler('Check')
   ...     def handleCheck(self, action):
   ...         data, errors = self.extractData()
   ...         if data['id'] in self.getContent():
@@ -1662,8 +1662,8 @@ In this case the action execution error is specific to a widget. The framework
 will attach a proper error view to the widget and the widget manager:
 
   >>> request = TestRequest(form={
-  ...     'form.widgets.id': u'srichter',
-  ...     'form.buttons.check': u'Check'}
+  ...     'form.widgets.id': 'srichter',
+  ...     'form.buttons.check': 'Check'}
   ...     )
 
   >>> addForm = PersonAddForm(root, request)
@@ -1674,7 +1674,7 @@ will attach a proper error view to the widget and the widget manager:
   >>> addForm.widgets['id'].error
   <InvalidErrorViewSnippet for Invalid>
   >>> addForm.status
-  u'There were some errors.'
+  'There were some errors.'
 
 If the error is non-widget specific, then we can simply use the generic action
 execution error:
@@ -1683,7 +1683,7 @@ execution error:
   ...
   ...     fields = field.Fields(IPerson).select('id')
   ...
-  ...     @button.buttonAndHandler(u'Check')
+  ...     @button.buttonAndHandler('Check')
   ...     def handleCheck(self, action):
   ...         raise interfaces.ActionExecutionError(
   ...             zope.interface.Invalid('Some problem occurred.'))
@@ -1696,7 +1696,7 @@ Let's have a look at the result:
   >>> addForm.widgets.errors
   (<InvalidErrorViewSnippet for Invalid>,)
   >>> addForm.status
-  u'There were some errors.'
+  'There were some errors.'
 
 **Note**:
 
@@ -1708,7 +1708,7 @@ Let's have a look at the result:
 
     >>> from z3c.form import action
 
-    >>> cancel = action.Action(request, u'Cancel')
+    >>> cancel = action.Action(request, 'Cancel')
     >>> event = action.ActionErrorOccurred(cancel, ValueError(3))
 
     >>> form.handleActionError(event)
@@ -1722,19 +1722,19 @@ When applying the data of a form to a content component, the function
 form and uses the data managers to store the values. The output of the
 function is a list of changes:
 
-  >>> roger = Person(u'roger', u'Roger')
+  >>> roger = Person('roger', 'Roger')
   >>> roger
-  <Person u'Roger'>
+  <Person 'Roger'>
 
   >>> class BaseForm(form.Form):
   ...     fields = field.Fields(IPerson).select('name')
   >>> myForm = BaseForm(roger, TestRequest())
 
-  >>> form.applyChanges(myForm, roger, {'name': u'Roger Ineichen'})
-  {<InterfaceClass __builtin__.IPerson>: ['name']}
+  >>> form.applyChanges(myForm, roger, {'name': 'Roger Ineichen'})
+  {<InterfaceClass builtins.IPerson>: ['name']}
 
   >>> roger
-  <Person u'Roger Ineichen'>
+  <Person 'Roger Ineichen'>
 
 When a field is missing from the data, it is simply skipped:
 
@@ -1743,7 +1743,7 @@ When a field is missing from the data, it is simply skipped:
 
 If the new and old value are identical, storing the data is skipped as well:
 
-  >>> form.applyChanges(myForm, roger, {'name': u'Roger Ineichen'})
+  >>> form.applyChanges(myForm, roger, {'name': 'Roger Ineichen'})
   {}
 
 In some cases the data converter for a field-widget pair returns the
@@ -1753,7 +1753,7 @@ In some cases the data converter for a field-widget pair returns the
   {}
 
   >>> roger
-  <Person u'Roger Ineichen'>
+  <Person 'Roger Ineichen'>
 
 
 Refreshing actions
@@ -1774,7 +1774,7 @@ sequence.
 
   >>> class SequenceForm(form.Form):
   ...
-  ...     @button.buttonAndHandler(u'Empty', condition=lambda form:bool(form.context))
+  ...     @button.buttonAndHandler('Empty', condition=lambda form:bool(form.context))
   ...     def handleEmpty(self, action):
   ...         self.context[:] = []
   ...         self.refreshActions = True
@@ -1811,7 +1811,7 @@ be updated to new conditions.
 
   >>> context = [1, 2, 3, 4, 5]
   >>> request = TestRequest(form={
-  ...     'form.buttons.empty': u'Empty'}
+  ...     'form.buttons.empty': 'Empty'}
   ...     )
   >>> myForm = SequenceForm(context, request)
   >>> myForm.update()

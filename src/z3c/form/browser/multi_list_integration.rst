@@ -60,7 +60,7 @@ Some valid default values
   >>> obj.listOfInt = [-100, 1, 100]
   >>> obj.listOfBool = [True, False, True]
   >>> obj.listOfChoice = ['two', 'three']
-  >>> obj.listOfTextLine = [u'some text one', u'some txt two']
+  >>> obj.listOfTextLine = ['some text one', 'some txt two']
   >>> obj.listOfDate = [date(2014, 6, 20)]
 
   >>> pprint(obj)
@@ -69,7 +69,7 @@ Some valid default values
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 20)]
     listOfInt: [-100, 1, 100]
-    listOfTextLine: [u'some text one', u'some txt two']>
+    listOfTextLine: ['some text one', 'some txt two']>
 
   >>> content = getForm(request, 'MultiWidget_list_edit_simple.html')
 
@@ -125,7 +125,7 @@ Some valid default values
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 20)]
     listOfInt: [-100, 1, 100]
-    listOfTextLine: [u'some text one', u'some txt two']>
+    listOfTextLine: ['some text one', 'some txt two']>
 
 listOfInt
 #########
@@ -133,9 +133,9 @@ listOfInt
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfInt.1'] = u'foobar'
+  >>> submit['form.widgets.listOfInt.1'] = 'foobar'
 
-  >>> submit['form.widgets.listOfInt.buttons.add'] = u'Add'
+  >>> submit['form.widgets.listOfInt.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -176,9 +176,9 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfInt.1.remove'] = u'1'
-  >>> submit['form.widgets.listOfInt.2.remove'] = u'1'
-  >>> submit['form.widgets.listOfInt.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.listOfInt.1.remove'] = '1'
+  >>> submit['form.widgets.listOfInt.2.remove'] = '1'
+  >>> submit['form.widgets.listOfInt.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_list_edit_remove_int.html')
   >>> print(testing.plainText(content,
@@ -203,7 +203,7 @@ Let's remove some items:
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 20)]
     listOfInt: [-100, 1, 100]
-    listOfTextLine: [u'some text one', u'some txt two']>
+    listOfTextLine: ['some text one', 'some txt two']>
 
 
 listOfBool
@@ -212,7 +212,7 @@ listOfBool
 Add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfBool.buttons.add'] = u'Add'
+  >>> submit['form.widgets.listOfBool.buttons.add'] = 'Add'
   >>> request = testing.TestRequest(form=submit)
 
 Important is that we get a new input.
@@ -253,9 +253,9 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfBool.1.remove'] = u'1'
-  >>> submit['form.widgets.listOfBool.2.remove'] = u'1'
-  >>> submit['form.widgets.listOfBool.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.listOfBool.1.remove'] = '1'
+  >>> submit['form.widgets.listOfBool.2.remove'] = '1'
+  >>> submit['form.widgets.listOfBool.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_list_edit_remove_bool.html')
   >>> print(testing.plainText(content,
@@ -280,7 +280,7 @@ Let's remove some items:
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 20)]
     listOfInt: [-100, 1, 100]
-    listOfTextLine: [u'some text one', u'some txt two']>
+    listOfTextLine: ['some text one', 'some txt two']>
 
 
 listOfTextLine
@@ -289,9 +289,9 @@ listOfTextLine
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfTextLine.1'] = u'foo\nbar'
+  >>> submit['form.widgets.listOfTextLine.1'] = 'foo\nbar'
 
-  >>> submit['form.widgets.listOfTextLine.buttons.add'] = u'Add'
+  >>> submit['form.widgets.listOfTextLine.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -333,8 +333,8 @@ Submit again with the empty field:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfTextLine.0.remove'] = u'1'
-  >>> submit['form.widgets.listOfTextLine.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.listOfTextLine.0.remove'] = '1'
+  >>> submit['form.widgets.listOfTextLine.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_list_edit_remove_textline.html')
   >>> print(testing.plainText(content,
@@ -361,7 +361,7 @@ Let's remove some items:
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 20)]
     listOfInt: [-100, 1, 100]
-    listOfTextLine: [u'some text one', u'some txt two']>
+    listOfTextLine: ['some text one', 'some txt two']>
 
 
 listOfDate
@@ -370,9 +370,9 @@ listOfDate
 Set a wrong value and add a new input:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfDate.0'] = u'foobar'
+  >>> submit['form.widgets.listOfDate.0'] = 'foobar'
 
-  >>> submit['form.widgets.listOfDate.buttons.add'] = u'Add'
+  >>> submit['form.widgets.listOfDate.buttons.add'] = 'Add'
 
   >>> request = testing.TestRequest(form=submit)
 
@@ -386,7 +386,7 @@ for "foobar" and a new input.
   <BLANKLINE>
   Date label *
   <BLANKLINE>
-  The datetime string did not match the pattern u'yy/MM/dd'.
+  The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
   [foobar]
   Date label *
@@ -403,20 +403,20 @@ Submit again with the empty field:
   >>> content = getForm(request)
   >>> print(testing.plainText(content,
   ...     './/form/div[@id="row-form-widgets-listOfDate"]//div[@class="error"]'))
-  The datetime string did not match the pattern u'yy/MM/dd'.
+  The datetime string did not match the pattern 'yy/MM/dd'.
   Required input is missing.
 
 Add one more field:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfDate.buttons.add'] = u'Add'
+  >>> submit['form.widgets.listOfDate.buttons.add'] = 'Add'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request)
 
 And fill in a valid value:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfDate.2'] = u'14/06/21'
+  >>> submit['form.widgets.listOfDate.2'] = '14/06/21'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_list_edit_submit_date2.html')
   >>> print(testing.plainText(content,
@@ -425,7 +425,7 @@ And fill in a valid value:
   <BLANKLINE>
   Date label *
   <BLANKLINE>
-  The datetime string did not match the pattern u'yy/MM/dd'.
+  The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
   [foobar]
   Date label *
@@ -443,8 +443,8 @@ And fill in a valid value:
 Let's remove some items:
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.widgets.listOfDate.2.remove'] = u'1'
-  >>> submit['form.widgets.listOfDate.buttons.remove'] = u'Remove selected'
+  >>> submit['form.widgets.listOfDate.2.remove'] = '1'
+  >>> submit['form.widgets.listOfDate.buttons.remove'] = 'Remove selected'
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request, 'MultiWidget_list_edit_remove_date.html')
   >>> print(testing.plainText(content,
@@ -453,7 +453,7 @@ Let's remove some items:
   <BLANKLINE>
   Date label *
   <BLANKLINE>
-  The datetime string did not match the pattern u'yy/MM/dd'.
+  The datetime string did not match the pattern 'yy/MM/dd'.
   [ ]
   [foobar]
   Date label *
@@ -470,13 +470,13 @@ Let's remove some items:
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 20)]
     listOfInt: [-100, 1, 100]
-    listOfTextLine: [u'some text one', u'some txt two']>
+    listOfTextLine: ['some text one', 'some txt two']>
 
 
 And apply
 
   >>> submit = testing.getSubmitValues(content)
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request)
@@ -494,7 +494,7 @@ And apply
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 20)]
     listOfInt: [-100, 1, 100]
-    listOfTextLine: [u'some text one', u'some txt two']>
+    listOfTextLine: ['some text one', 'some txt two']>
 
 Let's fix the values
 
@@ -505,7 +505,7 @@ Let's fix the values
   >>> submit['form.widgets.listOfTextLine.1'] = 'lorem ipsum'
   >>> submit['form.widgets.listOfDate.0'] = '14/06/25'
   >>> submit['form.widgets.listOfDate.1'] = '14/06/24'
-  >>> submit['form.buttons.apply'] = u'Apply'
+  >>> submit['form.buttons.apply'] = 'Apply'
 
   >>> request = testing.TestRequest(form=submit)
   >>> content = getForm(request)
@@ -519,4 +519,4 @@ Let's fix the values
     listOfChoice: ['two', 'three']
     listOfDate: [datetime.date(2014, 6, 25), datetime.date(2014, 6, 24)]
     listOfInt: [-100, 42]
-    listOfTextLine: [u'ipsum lorem', u'lorem ipsum']>
+    listOfTextLine: ['ipsum lorem', 'lorem ipsum']>

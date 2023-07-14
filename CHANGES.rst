@@ -11,6 +11,8 @@ Changelog
 
 - Drop deprecated support for ``python setup.py test``.
 
+- HTMLFormElement.attributes: Allow to extend HTML attributes programmatically.
+
 
 4.3 (2022-03-24)
 ----------------

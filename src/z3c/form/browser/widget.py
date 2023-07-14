@@ -142,21 +142,20 @@ class HTMLFormElement(WidgetLayoutSupport):
     # layout support
     css = FieldProperty(interfaces.IHTMLFormElement['css'])
 
-    def addClass(self, klass):
-        """See interfaces.IHTMLFormElement"""
+    def addClass(self, klass: str):
+        """Add a class to the HTML element.
+
+        See interfaces.IHTMLFormElement.
+        """
         if not self.klass:
             self.klass = str(klass)
         else:
             # make sure items are not repeated
-            parts = self.klass.split() + [str(klass)]
-            seen = {}
-            unique = []
-            for item in parts:
-                if item in seen:
-                    continue
-                seen[item] = 1
-                unique.append(item)
-            self.klass = ' '.join(unique)
+            parts = self.klass.split() + klass.split()
+            # Remove duplicates and keep order.
+            # Dictionaries are ordered in Python 3.7+
+            parts = list(dict.fromkeys(parts))
+            self.klass = " ".join(parts)
 
     def update(self):
         """See z3c.form.interfaces.IWidget"""

@@ -163,6 +163,58 @@ class HTMLFormElement(WidgetLayoutSupport):
         if self.mode == INPUT_MODE and self.required:
             self.addClass('required')
 
+    @property
+    def _html_attributes(self):
+        """Return a list of HTML attributes managed by this class."""
+        # This is basically a list of all the FieldProperty names except for
+        # the `css` property, which is not an HTML attribute.
+        return [
+            "id",
+            "klass",  # will be changed to `class`
+            "style",
+            "title",
+            "lang",
+            "onclick",
+            "ondblclick",
+            "onmousedown",
+            "onmouseup",
+            "onmouseover",
+            "onmousemove",
+            "onmouseout",
+            "onkeypress",
+            "onkeydown",
+            "onkeyup",
+            "disabled",
+            "tabindex",
+            "onfocus",
+            "onblur",
+            "onchange",
+        ]
+
+    _attributes = None
+
+    @property
+    def attributes(self) -> dict:
+        # If `attributes` were explicitly set, return them.
+        if isinstance(self._attributes, dict):
+            return self._attributes
+
+        # Otherwise return the default set of non-empty HTML attributes.
+        attributes_items = map(
+            lambda attr: (
+                attr if attr != "klass" else "class",
+                getattr(self, attr, None),
+            ),
+            self._html_attributes,
+        )
+        self._attributes = {key: val for key, val in attributes_items if val}
+        return self._attributes
+
+    @attributes.setter
+    def attributes(self, value: dict):
+        # Store the explicitly set attributes.
+        self._attributes = value
+
 
 @zope.interface.implementer(interfaces.IHTMLInputWidget)
 class HTMLInputWidget(HTMLFormElement):
@@ -171,6 +223,19 @@ class HTMLInputWidget(HTMLFormElement):
     alt = FieldProperty(interfaces.IHTMLInputWidget['alt'])
     accesskey = FieldProperty(interfaces.IHTMLInputWidget['accesskey'])
     onselect = FieldProperty(interfaces.IHTMLInputWidget['onselect'])
+
+    @property
+    def _html_attributes(self):
+        attributes = super()._html_attributes
+        attributes.extend(
+            [
+                "readonly",
+                "alt",
+                "accesskey",
+                "onselect",
+            ]
+        )
+        return attributes
 
 
 @zope.interface.implementer(interfaces.IHTMLTextInputWidget)
@@ -182,6 +247,19 @@ class HTMLTextInputWidget(HTMLInputWidget):
     autocapitalize = FieldProperty(
         interfaces.IHTMLTextInputWidget['autocapitalize'])
 
+    @property
+    def _html_attributes(self):
+        attributes = super()._html_attributes
+        attributes.extend(
+            [
+                "size",
+                "maxlength",
+                "placeholder",
+                "autocapitalize",
+            ]
+        )
+        return attributes
+
 
 @zope.interface.implementer(interfaces.IHTMLTextAreaWidget)
 class HTMLTextAreaWidget(HTMLFormElement):
@@ -192,12 +270,37 @@ class HTMLTextAreaWidget(HTMLFormElement):
     accesskey = FieldProperty(interfaces.IHTMLTextAreaWidget['accesskey'])
     onselect = FieldProperty(interfaces.IHTMLTextAreaWidget['onselect'])
 
+    @property
+    def _html_attributes(self):
+        attributes = super()._html_attributes
+        attributes.extend(
+            [
+                "rows",
+                "cols",
+                "readonly",
+                "accesskey",
+                "onselect",
+            ]
+        )
+        return attributes
+
 
 @zope.interface.implementer(interfaces.IHTMLSelectWidget)
 class HTMLSelectWidget(HTMLFormElement):
 
     multiple = FieldProperty(interfaces.IHTMLSelectWidget['multiple'])
     size = FieldProperty(interfaces.IHTMLSelectWidget['size'])
+
+    @property
+    def _html_attributes(self):
+        attributes = super()._html_attributes
+        attributes.extend(
+            [
+                "multiple",
+                "size",
+            ]
+        )
+        return attributes
 
 
 def addFieldClass(widget):

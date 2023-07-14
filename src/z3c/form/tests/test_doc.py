@@ -144,6 +144,11 @@ def test_suite():
             '../hint.rst',
             setUp=setUp, tearDown=testing.tearDown,
             optionflags=flags, checker=testing.outputChecker,
+        ),
+        doctest.DocFileSuite(
+            '../browser/widget.rst',
+            setUp=setUp, tearDown=testing.tearDown,
+            optionflags=flags, checker=testing.outputChecker,
         ))
         for setUp in setups)
 

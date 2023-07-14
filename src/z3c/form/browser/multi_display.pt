@@ -3,22 +3,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       tal:omit-tag="">
-<div id="" class=""
-      tal:attributes="id view/id;
-                      class view/klass;
-                      style view/style;
-                      title view/title;
-                      lang view/lang;
-                      onclick view/onclick;
-                      ondblclick view/ondblclick;
-                      onmousedown view/onmousedown;
-                      onmouseup view/onmouseup;
-                      onmouseover view/onmouseover;
-                      onmousemove view/onmousemove;
-                      onmouseout view/onmouseout;
-                      onkeypress view/onkeypress;
-                      onkeydown view/onkeydown;
-                      onkeyup view/onkeyup">
+<div  tal:attributes="view/attributes">
   <tal:block repeat="widget view/widgets">
     <div id="" class="row"
          tal:attributes="id string:${widget/id}-row"

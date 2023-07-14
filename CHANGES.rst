@@ -11,6 +11,10 @@ Changelog
 
 - Drop deprecated support for ``python setup.py test``.
 
+- HTMLFormElement.addClass: Improve removal of duplicates. It's now possible to
+  add multiple classes as whitespace separated string and still detect class
+  duplicates.
+
 
 4.3 (2022-03-24)
 ----------------

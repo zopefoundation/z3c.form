@@ -5,7 +5,9 @@ Changelog
 5.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Don't set the boolean required attribute as required.
+  Boolean attributes with a default value which do not have to be set to true
+  should not be marked as required attributes.
 
 
 5.0 (2023-07-17)

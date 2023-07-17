@@ -427,7 +427,7 @@ class IWidget(ILocation):
         description=_('If true the widget should be displayed as required '
                       'input.'),
         default=False,
-        required=True)
+        required=False)
 
     error = zope.schema.Field(
         title=_('Error'),

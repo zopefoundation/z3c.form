@@ -164,7 +164,7 @@ class HTMLFormElement(WidgetLayoutSupport):
             self.addClass('required')
 
     @property
-    def _html_attributes(self):
+    def _html_attributes(self) -> list:
         """Return a list of HTML attributes managed by this class."""
         # This is basically a list of all the FieldProperty names except for
         # the `css` property, which is not an HTML attribute.
@@ -200,13 +200,10 @@ class HTMLFormElement(WidgetLayoutSupport):
             return self._attributes
 
         # Otherwise return the default set of non-empty HTML attributes.
-        attributes_items = map(
-            lambda attr: (
-                attr if attr != "klass" else "class",
-                getattr(self, attr, None),
-            ),
-            self._html_attributes,
-        )
+        attributes_items = [
+            ("class" if attr == "klass" else attr, getattr(self, attr, None))
+            for attr in self._html_attributes
+        ]
         self._attributes = {key: val for key, val in attributes_items if val}
         return self._attributes
 
@@ -225,7 +222,7 @@ class HTMLInputWidget(HTMLFormElement):
     onselect = FieldProperty(interfaces.IHTMLInputWidget['onselect'])
 
     @property
-    def _html_attributes(self):
+    def _html_attributes(self) -> list:
         attributes = super()._html_attributes
         attributes.extend(
             [
@@ -248,7 +245,7 @@ class HTMLTextInputWidget(HTMLInputWidget):
         interfaces.IHTMLTextInputWidget['autocapitalize'])
 
     @property
-    def _html_attributes(self):
+    def _html_attributes(self) -> list:
         attributes = super()._html_attributes
         attributes.extend(
             [
@@ -271,7 +268,7 @@ class HTMLTextAreaWidget(HTMLFormElement):
     onselect = FieldProperty(interfaces.IHTMLTextAreaWidget['onselect'])
 
     @property
-    def _html_attributes(self):
+    def _html_attributes(self) -> list:
         attributes = super()._html_attributes
         attributes.extend(
             [
@@ -292,7 +289,7 @@ class HTMLSelectWidget(HTMLFormElement):
     size = FieldProperty(interfaces.IHTMLSelectWidget['size'])
 
     @property
-    def _html_attributes(self):
+    def _html_attributes(self) -> list:
         attributes = super()._html_attributes
         attributes.extend(
             [

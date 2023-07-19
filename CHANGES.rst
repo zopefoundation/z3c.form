@@ -2,7 +2,7 @@
 Changelog
 =========
 
-5.1 (unreleased)
+5.1 (2023-07-19)
 ----------------
 
 - HTMLFormElement.attributes: Allow to extend HTML attributes programmatically.

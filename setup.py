@@ -29,7 +29,7 @@ def read(*rnames):
 
 setup(
     name='z3c.form',
-    version='5.1.dev0',
+    version='5.1',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.dev",
     description="An advanced form and widget framework for Zope 3",

@@ -38,7 +38,6 @@ class CheckBoxWidget(widget.HTMLInputWidget, SequenceWidget):
 
     klass = 'checkbox-widget'
     css = 'checkbox'
-    items = ()
 
     def isChecked(self, term):
         return term.token in self.value

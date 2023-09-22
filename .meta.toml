@@ -2,7 +2,7 @@
 # https://github.com/zopefoundation/meta/tree/master/config/pure-python
 [meta]
 template = "pure-python"
-commit-id = "552fe384"
+commit-id = "b21fbbf2"
 
 [python]
 with-windows = false
@@ -23,6 +23,7 @@ fail-under = 95
 
 [manifest]
 additional-rules = [
+    "include *.yaml",
     "recursive-include src *.rst",
     "recursive-include src *.zcml",
     "recursive-include src *.pt",

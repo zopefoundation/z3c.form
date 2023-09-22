@@ -1,2 +1,0 @@
-# This file is used by ReadTheDocs to generate the documentation.
-.[docs]

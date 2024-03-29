@@ -203,7 +203,7 @@ msgstr "Label per il valore false"
 
 #: src/z3c/form/interfaces.py:355
 msgid "The label for a false value of the Bool field."
-msgstr "Il label per il valore false di un campo booleano"
+msgstr "La label per il valore false di un campo booleano"
 
 #: src/z3c/form/interfaces.py:399
 #: src/z3c/form/interfaces.py:718

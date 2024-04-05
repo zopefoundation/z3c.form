@@ -5,7 +5,7 @@ Changelog
 5.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add basque (eu) translation.
 
 
 5.1 (2023-07-19)

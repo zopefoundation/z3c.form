@@ -203,7 +203,7 @@ msgstr "Label per il valore false"
 
 #: src/z3c/form/interfaces.py:355
 msgid "The label for a false value of the Bool field."
-msgstr "Il labelr pr il valore false di un campo booleano"
+msgstr "La label per il valore false di un campo booleano"
 
 #: src/z3c/form/interfaces.py:399
 #: src/z3c/form/interfaces.py:718
@@ -269,11 +269,11 @@ msgstr "Quando viene impostato questo flag il widget non cerca il proprio valore
 #: src/z3c/form/interfaces.py:451
 #: src/z3c/form/interfaces.py:667
 msgid "Set errors"
-msgstr ""
+msgstr "Imposta errori"
 
 #: src/z3c/form/interfaces.py:452
 msgid "A flag, when set, the widget sets error messages on calling extract()."
-msgstr "Quando viene impostato questo flag il widget imposta gli errori al call di extract()"
+msgstr "Quando viene impostato questo flag il widget imposta gli errori alla chiamata di extract()"
 
 #: src/z3c/form/interfaces.py:460
 msgid "Ignore Required validation"
@@ -285,53 +285,53 @@ msgstr ""
 
 #: src/z3c/form/interfaces.py:516
 msgid "NO_VALUE Token"
-msgstr ""
+msgstr "Elemento NO_VALUE"
 
 #: src/z3c/form/interfaces.py:517
 msgid "The token to be used, if no value has been selected."
-msgstr ""
+msgstr "L'elemento da utilizzare, se non è stato selezionato alcun valore."
 
 #: src/z3c/form/interfaces.py:520
 msgid "Terms"
-msgstr ""
+msgstr "Termini"
 
 #: src/z3c/form/interfaces.py:521
 msgid "A component that provides the options for selection."
-msgstr ""
+msgstr "Un componente che fornisce le opzioni di selezione."
 
 #: src/z3c/form/interfaces.py:551
 msgid "Prompt"
-msgstr ""
+msgstr "Richiesta"
 
 #: src/z3c/form/interfaces.py:552
 msgid "A flag, when set, enables a choice explicitely requesting the user to choose a value."
-msgstr ""
+msgstr "Un flag che, se impostato, abilita una scelta, chiedendo esplicitamente all'utente di scegliere un valore."
 
 #: src/z3c/form/interfaces.py:557
 msgid "Items"
-msgstr ""
+msgstr "Elementi"
 
 #: src/z3c/form/interfaces.py:558
 msgid "A collection of dictionaries containing all pieces of information for rendering. The following keys must be in each dictionary: id, value, content, selected"
-msgstr ""
+msgstr "Un insieme di dizionari contenenti tutte le informazioni per il rendering. In ogni dizionario devono essere presenti le seguenti chiavi: id, valore, contenuto, selezionato"
 
 #: src/z3c/form/interfaces.py:563
 msgid "No-Value Message"
-msgstr ""
+msgstr "Messaggio per il valore mancante"
 
 #: src/z3c/form/interfaces.py:564
 #: src/z3c/form/interfaces.py:569
 msgid "A human-readable text that is displayed to refer the missing value."
-msgstr ""
+msgstr "Un testo leggibile che viene visualizzato per indicare il valore mancante."
 
 #: src/z3c/form/interfaces.py:568
 msgid "Prompt Message"
-msgstr ""
+msgstr "Messaggio di richiesta"
 
 #: src/z3c/form/interfaces.py:616
 #: src/z3c/form/interfaces.py:622
 msgid "The prefix of the widgets."
-msgstr ""
+msgstr "Il prefisso dei widgets."
 
 #: src/z3c/form/interfaces.py:627
 msgid "Errors"
@@ -339,27 +339,27 @@ msgstr "Errori"
 
 #: src/z3c/form/interfaces.py:628
 msgid "The collection of errors that occured during validation."
-msgstr ""
+msgstr "L'insieme di errori occorsi durante la validazione"
 
 #: src/z3c/form/interfaces.py:635
 #: src/z3c/form/interfaces.py:905
 msgid "If set the context is ignored to retrieve a value."
-msgstr ""
+msgstr "Se attivato, il contesto è ignorato per il recupero del valore."
 
 #: src/z3c/form/interfaces.py:641
 #: src/z3c/form/interfaces.py:911
 msgid "If set the request is ignored to retrieve a value."
-msgstr ""
+msgstr "Se attivato, la request è ignorata per il recupero del valore."
 
 #: src/z3c/form/interfaces.py:646
 #: src/z3c/form/interfaces.py:916
 msgid "Ignore Readonly"
-msgstr ""
+msgstr "Mostra i campi di sola lettura."
 
 #: src/z3c/form/interfaces.py:647
 #: src/z3c/form/interfaces.py:917
 msgid "If set then readonly fields will also be shown."
-msgstr ""
+msgstr "Se impostato, verranno mostrati anche i campi di sola lettura."
 
 #: src/z3c/form/interfaces.py:652
 #: src/z3c/form/interfaces.py:922
@@ -369,19 +369,19 @@ msgstr ""
 #: src/z3c/form/interfaces.py:653
 #: src/z3c/form/interfaces.py:923
 msgid "If set then required fields will pass validation on extract regardless whether they're filled in or not"
-msgstr ""
+msgstr "Se impostato, i campi obbligatori passeranno la validazione nella fase di estrazione indipendentemente dal fatto che siano compilati o meno."
 
 #: src/z3c/form/interfaces.py:659
 msgid "Has required fields"
-msgstr ""
+msgstr "Ha dei campi obbligatori"
 
 #: src/z3c/form/interfaces.py:660
 msgid "A flag set when at least one field is marked as required"
-msgstr ""
+msgstr "Vero se almeno un campo è obbligatorio"
 
 #: src/z3c/form/interfaces.py:668
 msgid "A flag, when set, the contained widgets set error messages on calling extract()."
-msgstr ""
+msgstr "Quando viene impostato questo flag i widget impostano gli errori alla chiamata di extract()"
 
 #: src/z3c/form/interfaces.py:689
 #: src/z3c/form/zcml.py:71
@@ -390,15 +390,15 @@ msgstr "Campo"
 
 #: src/z3c/form/interfaces.py:690
 msgid "The schema field which the widget is representing."
-msgstr ""
+msgstr "Il campo dello schema che il widget sta rappresentando."
 
 #: src/z3c/form/interfaces.py:719
 msgid "The object name."
-msgstr ""
+msgstr "Il nome dell'oggetto."
 
 #: src/z3c/form/interfaces.py:725
 msgid "The action title."
-msgstr ""
+msgstr "Il titolo dell'azione."
 
 #: src/z3c/form/interfaces.py:740
 #: src/z3c/form/interfaces.py:990
@@ -407,19 +407,19 @@ msgstr "Azione"
 
 #: src/z3c/form/interfaces.py:741
 msgid "The action for which the event is created."
-msgstr ""
+msgstr "L'azione per la quale l'evento è creato."
 
 #: src/z3c/form/interfaces.py:751
 msgid "The error that occurred during the action."
-msgstr ""
+msgstr "L'errore che si è verificato durante l'azione."
 
 #: src/z3c/form/interfaces.py:777
 msgid "Access Key"
-msgstr ""
+msgstr "Chiave d'accesso"
 
 #: src/z3c/form/interfaces.py:778
 msgid "The key when pressed causes the button to be pressed."
-msgstr ""
+msgstr "Il tasto da premere o la combinazione che causa la pressione del bottone."
 
 #: src/z3c/form/interfaces.py:784
 msgid "Action Factory"
@@ -431,7 +431,7 @@ msgstr ""
 
 #: src/z3c/form/interfaces.py:795
 msgid "Image Path"
-msgstr ""
+msgstr "Percorso dell'immagine"
 
 #: src/z3c/form/interfaces.py:796
 msgid "A relative image path to the root of the resources."

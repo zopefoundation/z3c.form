@@ -200,11 +200,11 @@ Let's now submit the form, but forgetting to enter the address:
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print(testing.render(add, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(add, './/xmlns:i'))
   <i >There were some errors.</i>
   ...
 
-  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))
   <ul >
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -235,11 +235,11 @@ So what happens, if errors happen inside and outside a group?
 
   >>> add = RegistrationAddForm(None, request)
   >>> add.update()
-  >>> print(testing.render(add, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(add, './/xmlns:i'))
   <i >There were some errors.</i>
   ...
 
-  >>> print(testing.render(add, './/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(add, './/xmlns:ul'))
   <ul >
     <li>
     Last Name:
@@ -255,7 +255,7 @@ So what happens, if errors happen inside and outside a group?
   </ul>
   ...
 
-  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(add, './/xmlns:fieldset[1]/xmlns:ul'))
   <ul >
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -399,11 +399,11 @@ The behavior when an error occurs is identical to that of the add form:
 
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
-  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >There were some errors.</i>
   ...
 
-  >>> print(testing.render(edit, './/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:ul'))
   <ul >
     <li>
     Address:
@@ -412,7 +412,7 @@ The behavior when an error occurs is identical to that of the add form:
   </ul>
   ...
 
-  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
   <ul >
     <li>
       Address: <div class="error">Required input is missing.</div>
@@ -450,7 +450,7 @@ Let's now complete the form successfully:
 
 The success message will be shown on the form, ...
 
-  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >Data successfully updated.</i>
   ...
 
@@ -737,7 +737,7 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >Data successfully updated.</i>
   ...
 
@@ -817,7 +817,7 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
 
 We'll see if everything worked on the form side.
 
-  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >Data successfully updated.</i>
   ...
 
@@ -857,11 +857,11 @@ invalid object for the test missing input errors:
   >>> edit = RegistrationEditForm(reg, request)
   >>> edit.update()
   >>> data, errors = edit.extractData()
-  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >There were some errors.</i>
   ...
 
-  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
   <ul >
     <li>
     License:
@@ -1016,11 +1016,11 @@ Now test the error handling if just one missing value is given in a group:
 
   >>> edit.update()
   >>> data, errors = edit.extractData()
-  >>> print(testing.render(edit, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:i'))
   <i >There were some errors.</i>
   ...
 
-  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(edit, './/xmlns:fieldset/xmlns:ul'))
   <ul >
     <li>
     Last Name:

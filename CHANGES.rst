@@ -7,6 +7,11 @@ Changelog
 
 - Add basque (eu) translation.
 
+- Fix tests to run with ``lxml >= 5.3``, thus requiring at least that version.
+
+- Drop support for deprecated ``persistent.dict.PersistentDict``, as a
+  replacement please use ``persistent.mapping.PersistentMapping`` instead.
+
 
 5.1 (2023-07-19)
 ----------------

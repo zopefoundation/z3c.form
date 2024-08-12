@@ -922,7 +922,7 @@ When the form renders, the label has now changed:
   >>> addForm = PersonAddForm(root, TestRequest())
   >>> addTemplate(addForm)
   >>> addForm.update()
-  >>> print(testing.render(addForm, './/xmlns:div[2][@class="row"]'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(addForm, './/xmlns:div[2][@class="row"]'))
   <div class="row">
     <label for="form-widgets-name">Full Name</label>
       <input id="form-widgets-name" name="form.widgets.name" class="text-widget required textline-field" value="" type="text" />
@@ -966,7 +966,7 @@ After registering the new action manager,
 the add form should display a cancel button:
 
   >>> addForm.update()
-  >>> print(testing.render(addForm, './/xmlns:div[@class="action"]'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(addForm, './/xmlns:div[@class="action"]'))
   <div class="action">
     <input id="form-buttons-add" name="form.buttons.add" class="submit-widget button-field" value="Add" type="submit" />
   </div>
@@ -1158,7 +1158,7 @@ Let's now resubmit the form with valid data, so the data should be updated.
   >>> editForm = PersonEditForm(root['srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(editForm, './/xmlns:i'))
   <i >Data successfully updated.</i>
   ...
 
@@ -1222,7 +1222,7 @@ When submitting the form without any changes, the form will tell you so.
   >>> editForm = PersonEditForm(root['srichter'], request)
   >>> addTemplate(editForm)
   >>> editForm.update()
-  >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(editForm, './/xmlns:i'))
   <i >No changes were applied.</i>
   ...
 
@@ -1248,7 +1248,7 @@ Let's now change the ``noChangesMessage``:
 
   >>> editForm.noChangesMessage = 'No changes were detected in the form data.'
   >>> editForm.update()
-  >>> print(testing.render(editForm, './/xmlns:i'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(editForm, './/xmlns:i'))
   <i >No changes were detected in the form data.</i>
   ...
 
@@ -1787,7 +1787,7 @@ The button will be available when context is not empty.
   >>> myForm = SequenceForm(context, request)
   >>> myForm.update()
   >>> addTemplate(myForm)
-  >>> print(testing.render(myForm, './/xmlns:div[@class="action"]'))  # doctest: +NOPARSE_MARKUP
+  >>> print(testing.render(myForm, './/xmlns:div[@class="action"]'))
   <div class="action">
     <input id="form-buttons-empty" name="form.buttons.empty" class="submit-widget button-field" value="Empty" type="submit" />
   </div>

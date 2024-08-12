@@ -33,10 +33,8 @@ _marker = []
 
 ALLOWED_DATA_CLASSES = [dict]
 try:
-    import persistent.dict
     import persistent.mapping
     ALLOWED_DATA_CLASSES.append(persistent.mapping.PersistentMapping)
-    ALLOWED_DATA_CLASSES.append(persistent.dict.PersistentDict)
 except ImportError:
     pass
 
@@ -120,8 +118,7 @@ class DictionaryField(DataManager):
 
     """
 
-    zope.component.adapts(
-        dict, zope.schema.interfaces.IField)
+    zope.component.adapts(dict, zope.schema.interfaces.IField)
 
     _allowed_data_classes = tuple(ALLOWED_DATA_CLASSES)
 

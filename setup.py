@@ -72,7 +72,7 @@ setup(
             'zope.pagetemplate >= 3.6.2',
         ],
         test=[
-            'lxml >= 4.7.1',
+            'lxml >= 5.3',
             'persistent',
             'z3c.template >= 1.3',
             'zc.sourcefactory',

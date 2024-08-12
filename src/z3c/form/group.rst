@@ -191,7 +191,7 @@ Let's now submit the form, but forgetting to enter the address:
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.firstName': 'Stephan',
   ...     'form.widgets.lastName': 'Richter',
-  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.license': 'MA 40487',
   ...     'form.widgets.model': 'BMW',
   ...     'form.widgets.make': '325',
   ...     'form.widgets.year': '2005',
@@ -226,7 +226,7 @@ So what happens, if errors happen inside and outside a group?
 
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.firstName': 'Stephan',
-  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.license': 'MA 40487',
   ...     'form.widgets.model': 'BMW',
   ...     'form.widgets.make': '325',
   ...     'form.widgets.year': '2005',
@@ -271,7 +271,7 @@ Let's now successfully complete the add form.
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.firstName': 'Stephan',
   ...     'form.widgets.lastName': 'Richter',
-  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.license': 'MA 40487',
   ...     'form.widgets.address': '10 Main St, Maynard, MA',
   ...     'form.widgets.model': 'BMW',
   ...     'form.widgets.make': '325',
@@ -290,7 +290,7 @@ The object is now added to the container and all attributes should be set:
   >>> reg.lastName
   'Richter'
   >>> reg.license
-  'MA 40387'
+  'MA 40487'
   >>> reg.address
   '10 Main St, Maynard, MA'
   >>> reg.model
@@ -342,7 +342,7 @@ After updating the form, we can render the HTML:
             <input type="text" id="form-widgets-license"
                    name="form.widgets.license"
                    class="text-widget required textline-field"
-                   value="MA 40387" />
+                   value="MA 40487" />
           </div>
           <div class="row">
             <label for="form-widgets-address">Address</label>
@@ -390,7 +390,7 @@ The behavior when an error occurs is identical to that of the add form:
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.firstName': 'Stephan',
   ...     'form.widgets.lastName': 'Richter',
-  ...     'form.widgets.license': 'MA 40387',
+  ...     'form.widgets.license': 'MA 40487',
   ...     'form.widgets.model': 'BMW',
   ...     'form.widgets.make': '325',
   ...     'form.widgets.year': '2005',
@@ -437,7 +437,7 @@ Let's now complete the form successfully:
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.firstName': 'Stephan',
   ...     'form.widgets.lastName': 'Richter',
-  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.license': 'MA 4048765',
   ...     'form.widgets.address': '11 Main St, Maynard, MA',
   ...     'form.widgets.model': 'Ford',
   ...     'form.widgets.make': 'F150',
@@ -461,7 +461,7 @@ and the data are correctly updated:
   >>> reg.lastName
   'Richter'
   >>> reg.license
-  'MA 4038765'
+  'MA 4048765'
   >>> reg.address
   '11 Main St, Maynard, MA'
   >>> reg.model
@@ -534,7 +534,7 @@ Instanciate the form and use a group class and a group instance:
           <input id="form-widgets-license"
                  name="form.widgets.license"
                  class="text-widget required textline-field"
-                 value="MA 4038765" type="text" />
+                 value="MA 4048765" type="text" />
         </div>
         <div class="row">
           <label for="form-widgets-address">Address</label>
@@ -640,7 +640,7 @@ field which is taken care of with the group.
   ...         'simple_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(
-  ...               license='MA 40387',
+  ...               license='MA 40487',
   ...               address='10 Main St, Maynard, MA',
   ...               model='BMW',
   ...               make='325',
@@ -664,7 +664,7 @@ the ``owner`` prefix for the fields.
           <input type="text" id="form-widgets-license"
                  name="form.widgets.license"
                  class="text-widget required textline-field"
-                 value="MA 40387" />
+                 value="MA 40487" />
         </div>
         <div class="row">
           <label for="form-widgets-address">Address</label>
@@ -725,7 +725,7 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.owner.firstName': 'Paul',
   ...     'form.widgets.owner.lastName': 'Carduner',
-  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.license': 'MA 4048765',
   ...     'form.widgets.address': 'Berkeley',
   ...     'form.widgets.model': 'BMW',
   ...     'form.widgets.make': '325',
@@ -748,7 +748,7 @@ Now the owner object should have updated fields.
   >>> reg.owner.lastName
   'Carduner'
   >>> reg.license
-  'MA 4038765'
+  'MA 4048765'
   >>> reg.address
   'Berkeley'
   >>> reg.model
@@ -787,7 +787,7 @@ The group can contains groups. Let's adapt the previous RegistrationEditForm:
   ...         'simple_nested_groupedit.pt', os.path.dirname(tests.__file__))
 
   >>> reg = VehicleRegistration(
-  ...               license='MA 40387',
+  ...               license='MA 40487',
   ...               address='10 Main St, Maynard, MA',
   ...               model='BMW',
   ...               make='325',
@@ -805,7 +805,7 @@ Richter gave his BMW to Paul Carduner because he is such a nice guy.
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.owner.firstName': 'Paul',
   ...     'form.widgets.owner.lastName': 'Carduner',
-  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.license': 'MA 4048765',
   ...     'form.widgets.address': 'Berkeley',
   ...     'form.widgets.model': 'BMW',
   ...     'form.widgets.make': '325',
@@ -828,7 +828,7 @@ Now the owner object should have updated fields.
   >>> reg.owner.lastName
   'Carduner'
   >>> reg.license
-  'MA 4038765'
+  'MA 4048765'
   >>> reg.address
   'Berkeley'
   >>> reg.model
@@ -903,7 +903,7 @@ Group instance in nested group
 Let's also test if the Group class can handle group objects as instances:
 
   >>> reg = VehicleRegistration(
-  ...               license='MA 40387',
+  ...               license='MA 40487',
   ...               address='10 Main St, Maynard, MA',
   ...               model='BMW',
   ...               make='325',
@@ -940,7 +940,7 @@ Update and render:
           <input id="form-widgets-license"
                  name="form.widgets.license"
                  class="text-widget required textline-field"
-                 value="MA 40387" type="text" />
+                 value="MA 40487" type="text" />
         </div>
         <div class="row">
           <label for="form-widgets-address">Address</label>
@@ -1000,7 +1000,7 @@ Now test the error handling if just one missing value is given in a group:
   >>> request = testing.TestRequest(form={
   ...     'form.widgets.owner.firstName': 'Paul',
   ...     'form.widgets.owner.lastName': '',
-  ...     'form.widgets.license': 'MA 4038765',
+  ...     'form.widgets.license': 'MA 4048765',
   ...     'form.widgets.address': 'Berkeley',
   ...     'form.widgets.model': 'BMW',
   ...     'form.widgets.make': '325',

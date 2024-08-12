@@ -442,7 +442,7 @@ First, you are able to add button managers:
   >>> bm2 = button.Buttons(button.Button('help', title='Help'))
 
   >>> bm1 + bm2
-  Buttons([...])
+  Buttons(...)
   >>> list(bm1 + bm2)
   ['apply', 'cancel', 'help']
 

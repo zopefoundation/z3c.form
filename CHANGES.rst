@@ -5,7 +5,8 @@ Changelog
 5.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Improve Italian translation
+  (`#121 <https://github.com/zopefoundation/z3c.form/pull/121>`_)
 
 
 5.1 (2023-07-19)

@@ -34,7 +34,7 @@ class StaticValue:
         return self.value
 
     def __repr__(self):
-        return '<{} {!r}>'.format(self.__class__.__name__, self.value)
+        return f'<{self.__class__.__name__} {self.value!r}>'
 
 
 @zope.interface.implementer(interfaces.IValue)
@@ -48,7 +48,7 @@ class ComputedValue:
         return self.func(self)
 
     def __repr__(self):
-        return '<{} {!r}>'.format(self.__class__.__name__, self.get())
+        return f'<{self.__class__.__name__} {self.get()!r}>'
 
 
 class ValueFactory:

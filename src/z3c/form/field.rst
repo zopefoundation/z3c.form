@@ -529,7 +529,7 @@ When a widget is added to the widget manager, it is located:
   >>> lname.__name__
   'lastName'
   >>> lname.__parent__
-  FieldWidgets([...])
+  FieldWidgets(...)
 
 All widgets created by this widget manager are context aware:
 

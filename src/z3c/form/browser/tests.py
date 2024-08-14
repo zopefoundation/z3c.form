@@ -11,11 +11,6 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-$Id$
-"""
-__docformat__ = "reStructuredText"
-
 import doctest
 import itertools
 import unittest
@@ -28,7 +23,7 @@ Z3CPT_AVAILABLE = False
 try:
     import z3c.pt
     import z3c.ptcompat  # noqa: F401 imported but unused
-except ImportError:
+except ModuleNotFoundError:
     Z3CPT_AVAILABLE = False
 
 

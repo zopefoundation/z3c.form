@@ -5,6 +5,10 @@ Changelog
 5.2 (unreleased)
 ----------------
 
+- Add support for Python 3.12.
+
+- Drop support for Python 3.7.
+
 - Add basque (eu) translation.
 
 - Fix tests to run with ``lxml >= 5.3``, thus requiring at least that version.

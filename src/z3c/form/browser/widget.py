@@ -153,7 +153,6 @@ class HTMLFormElement(WidgetLayoutSupport):
             # make sure items are not repeated
             parts = self.klass.split() + klass.split()
             # Remove duplicates and keep order.
-            # Dictionaries are ordered in Python 3.7+
             parts = list(dict.fromkeys(parts))
             self.klass = " ".join(parts)
 
@@ -224,14 +223,12 @@ class HTMLInputWidget(HTMLFormElement):
     @property
     def _html_attributes(self) -> list:
         attributes = super()._html_attributes
-        attributes.extend(
-            [
-                "readonly",
-                "alt",
-                "accesskey",
-                "onselect",
-            ]
-        )
+        attributes.extend([
+            "readonly",
+            "alt",
+            "accesskey",
+            "onselect",
+        ])
         return attributes
 
 
@@ -247,14 +244,12 @@ class HTMLTextInputWidget(HTMLInputWidget):
     @property
     def _html_attributes(self) -> list:
         attributes = super()._html_attributes
-        attributes.extend(
-            [
-                "size",
-                "maxlength",
-                "placeholder",
-                "autocapitalize",
-            ]
-        )
+        attributes.extend([
+            "size",
+            "maxlength",
+            "placeholder",
+            "autocapitalize",
+        ])
         return attributes
 
 
@@ -270,15 +265,13 @@ class HTMLTextAreaWidget(HTMLFormElement):
     @property
     def _html_attributes(self) -> list:
         attributes = super()._html_attributes
-        attributes.extend(
-            [
-                "rows",
-                "cols",
-                "readonly",
-                "accesskey",
-                "onselect",
-            ]
-        )
+        attributes.extend([
+            "rows",
+            "cols",
+            "readonly",
+            "accesskey",
+            "onselect",
+        ])
         return attributes
 
 
@@ -291,12 +284,10 @@ class HTMLSelectWidget(HTMLFormElement):
     @property
     def _html_attributes(self) -> list:
         attributes = super()._html_attributes
-        attributes.extend(
-            [
-                "multiple",
-                "size",
-            ]
-        )
+        attributes.extend([
+            "multiple",
+            "size",
+        ])
         return attributes
 
 

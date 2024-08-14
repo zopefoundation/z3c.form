@@ -30,7 +30,7 @@ class ActionEvent:
         self.action = action
 
     def __repr__(self):
-        return '<{} for {!r}>'.format(self.__class__.__name__, self.action)
+        return f'<{self.__class__.__name__} for {self.action!r}>'
 
 
 @zope.interface.implementer(interfaces.IActionErrorEvent)
@@ -104,7 +104,7 @@ class Actions(util.Manager):
                     return result
 
     def __repr__(self):
-        return '<{} {!r}>'.format(self.__class__.__name__, self.__name__)
+        return f'<{self.__class__.__name__} {self.__name__!r}>'
 
 
 @zope.interface.implementer(interfaces.IActionHandler)

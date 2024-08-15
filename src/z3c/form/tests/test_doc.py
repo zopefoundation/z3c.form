@@ -30,12 +30,12 @@ try:
     import z3c.pt
     import z3c.ptcompat  # noqa: F401 imported but unused
     Z3CPT_AVAILABLE = True
-except ImportError:
+except ModuleNotFoundError:
     Z3CPT_AVAILABLE = False
 
 try:
     import zope.app.container  # noqa: F401 imported but unused
-except ImportError:
+except ModuleNotFoundError:
     ADDING_AVAILABLE = False
 else:
     ADDING_AVAILABLE = True

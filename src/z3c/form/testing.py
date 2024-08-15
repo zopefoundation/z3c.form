@@ -637,7 +637,7 @@ class IntegrationBase:
     def __repr__(self):
         items = sorted(self.__dict__.items())
         return ("<" + self.__class__.__name__ + "\n  "
-                + "\n  ".join(["{}: {}".format(key, pprint.pformat(value))
+                + "\n  ".join([f"{key}: {pprint.pformat(value)}"
                                for key, value in items]) + ">")
 
 

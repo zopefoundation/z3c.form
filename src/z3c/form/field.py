@@ -83,7 +83,7 @@ class Field:
         self.showDefault = showDefault
 
     def __repr__(self):
-        return '<{} {!r}>'.format(self.__class__.__name__, self.__name__)
+        return f'<{self.__class__.__name__} {self.__name__!r}>'
 
 
 @zope.interface.implementer(interfaces.IFields)

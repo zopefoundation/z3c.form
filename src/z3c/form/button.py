@@ -167,7 +167,7 @@ class Handler:
         return self.func(form, action)
 
     def __repr__(self):
-        return '<{} for {!r}>'.format(self.__class__.__name__, self.button)
+        return f'<{self.__class__.__name__} for {self.button!r}>'
 
 
 def handler(button):

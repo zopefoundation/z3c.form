@@ -284,7 +284,7 @@ To enable form updating, all widget adapters must be registered::
 
   >>> personForm.update()
   >>> personForm.widgets
-  FieldWidgetsAndProviders([...])
+  FieldWidgetsAndProviders(...)
 
 Let's render the form::
 

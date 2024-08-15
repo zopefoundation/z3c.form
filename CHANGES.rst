@@ -5,6 +5,9 @@ Changelog
 5.2 (unreleased)
 ----------------
 
+- Improve Italian translation
+  (`#121 <https://github.com/zopefoundation/z3c.form/pull/121>`_)
+
 - Add support for Python 3.12.
 
 - Drop support for Python 3.7.

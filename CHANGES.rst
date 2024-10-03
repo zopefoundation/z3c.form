@@ -19,6 +19,8 @@ Changelog
 - Drop support for deprecated ``persistent.dict.PersistentDict``, as a
   replacement please use ``persistent.mapping.PersistentMapping`` instead.
 
+- Added Romanian translations.
+
 
 5.1 (2023-07-19)
 ----------------

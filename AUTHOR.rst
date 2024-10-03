@@ -32,3 +32,4 @@ Contributors
 * Paul Carduner
 * Dylan Jay
 * Chris Calloway
+* Jean-Paul Ladage

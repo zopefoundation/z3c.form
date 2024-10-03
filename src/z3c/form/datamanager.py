@@ -11,11 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Widget Framework Implementation
-
-$Id$
-"""
-__docformat__ = "reStructuredText"
+"""Widget Framework Implementation."""
 
 import zope.component
 import zope.interface
@@ -35,7 +31,7 @@ ALLOWED_DATA_CLASSES = [dict]
 try:
     import persistent.mapping
     ALLOWED_DATA_CLASSES.append(persistent.mapping.PersistentMapping)
-except ImportError:
+except ModuleNotFoundError:
     pass
 
 

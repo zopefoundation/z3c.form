@@ -174,7 +174,7 @@ class Widget(zope.location.Location):
         return layout(self)
 
     def __repr__(self):
-        return '<{} {!r}>'.format(self.__class__.__name__, self.name)
+        return f'<{self.__class__.__name__} {self.name!r}>'
 
 
 @zope.interface.implementer(interfaces.ISequenceWidget)
@@ -606,7 +606,7 @@ class WidgetEvent:
         self.widget = widget
 
     def __repr__(self):
-        return '<{} {!r}>'.format(self.__class__.__name__, self.widget)
+        return f'<{self.__class__.__name__} {self.widget!r}>'
 
 
 @zope.interface.implementer_only(interfaces.IAfterWidgetUpdateEvent)

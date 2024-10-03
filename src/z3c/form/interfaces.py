@@ -738,7 +738,7 @@ class ActionExecutionError(Exception):
         self.error = error
 
     def __repr__(self):
-        return '<{} wrapping {!r}>'.format(self.__class__.__name__, self.error)
+        return f'<{self.__class__.__name__} wrapping {self.error!r}>'
 
 
 class WidgetActionExecutionError(ActionExecutionError):

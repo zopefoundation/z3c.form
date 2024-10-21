@@ -12,7 +12,7 @@ msgstr ""
 
 #: src/z3c/form/browser/multi.py:67 src/z3c/form/form.py:232
 msgid "Add"
-msgstr "Adăuga"
+msgstr "Adaugă"
 
 #: src/z3c/form/browser/multi.py:72
 msgid "Remove selected"
@@ -28,15 +28,15 @@ msgstr "Selectați o valoare..."
 
 #: src/z3c/form/converter.py:125
 msgid "The entered value is not a valid integer literal."
-msgstr "Valoarea introdusă nu este un literal întreg valid."
+msgstr "Valoarea introdusă nu este un număr întreg valid."
 
 #: src/z3c/form/converter.py:132 src/z3c/form/converter.py:139
 msgid "The entered value is not a valid decimal literal."
-msgstr "Valoarea introdusă nu este un literal zecimal valid."
+msgstr "Valoarea introdusă nu este un număr zecimal valid."
 
 #: src/z3c/form/converter.py:245
 msgid "Bytes data are not a file object"
-msgstr "Datele octeților nu sunt un obiect fișier"
+msgstr "Datele în format bytes nu reprezintă un fișier."
 
 #: src/z3c/form/error.py:93
 msgid "The system could not process the given value."

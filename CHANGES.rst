@@ -5,14 +5,12 @@ Changelog
 5.2 (unreleased)
 ----------------
 
-- Add support for Python 3.13.
+- Drop support for Python 3.7.
+
+- Add support for Python 3.12, 3.13.
 
 - Improve Italian translation
   (`#121 <https://github.com/zopefoundation/z3c.form/pull/121>`_)
-
-- Add support for Python 3.12.
-
-- Drop support for Python 3.7.
 
 - Add basque (eu) translation.
 

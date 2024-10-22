@@ -1,0 +1,680 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: z3c.form\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: ro_RO\n"
+"X-Source-Language: C\n"
+
+#: src/z3c/form/browser/multi.py:67 src/z3c/form/form.py:232
+msgid "Add"
+msgstr "Adaugă"
+
+#: src/z3c/form/browser/multi.py:72
+msgid "Remove selected"
+msgstr "Eliminați valoarea selectată"
+
+#: src/z3c/form/browser/select.py:39
+msgid "No value"
+msgstr "Nicio valoare"
+
+#: src/z3c/form/browser/select.py:40
+msgid "Select a value ..."
+msgstr "Selectați o valoare..."
+
+#: src/z3c/form/converter.py:125
+msgid "The entered value is not a valid integer literal."
+msgstr "Valoarea introdusă nu este un număr întreg valid."
+
+#: src/z3c/form/converter.py:132 src/z3c/form/converter.py:139
+msgid "The entered value is not a valid decimal literal."
+msgstr "Valoarea introdusă nu este un număr zecimal valid."
+
+#: src/z3c/form/converter.py:245
+msgid "Bytes data are not a file object"
+msgstr "Datele în format bytes nu reprezintă un fișier."
+
+#: src/z3c/form/error.py:93
+msgid "The system could not process the given value."
+msgstr "Sistemul nu a putut procesa valoarea dată."
+
+#: src/z3c/form/form.py:108
+msgid "<span class=\"required\">*</span>&ndash; required"
+msgstr "<span class=\"required\">*</span>&ndash; necesar"
+
+#: src/z3c/form/form.py:185 src/z3c/form/subform.py:29
+msgid "There were some errors."
+msgstr "Au fost unele erori."
+
+#: src/z3c/form/form.py:269 src/z3c/form/subform.py:30
+msgid "Data successfully updated."
+msgstr "Datele au fost actualizate cu succes."
+
+#: src/z3c/form/form.py:270 src/z3c/form/subform.py:31
+msgid "No changes were applied."
+msgstr "Nu au fost aplicate modificări."
+
+#: src/z3c/form/form.py:287
+msgid "Apply"
+msgstr "Aplică"
+
+#: src/z3c/form/interfaces.py:110 src/z3c/form/interfaces.py:873
+msgid "Context"
+msgstr "Context"
+
+#: src/z3c/form/interfaces.py:111
+msgid "The context in which the data are validated."
+msgstr "Contextul în care datele sunt validate."
+
+#: src/z3c/form/interfaces.py:151 src/z3c/form/interfaces.py:1107
+msgid "Widget"
+msgstr "Widget"
+
+#: src/z3c/form/interfaces.py:152
+msgid "The widget that the view is on"
+msgstr "Widgetul pe care este activată vizualizarea"
+
+#: src/z3c/form/interfaces.py:156 src/z3c/form/interfaces.py:429
+#: src/z3c/form/interfaces.py:750
+msgid "Error"
+msgstr "Eroare"
+
+#: src/z3c/form/interfaces.py:157
+msgid "Error the view is for."
+msgstr "Eroare pentru vizualizarea."
+
+#: src/z3c/form/interfaces.py:177 src/z3c/form/interfaces.py:724
+msgid "Title"
+msgstr "Titlu"
+
+#: src/z3c/form/interfaces.py:178
+msgid "The name of the field within the form."
+msgstr "Numele câmpului din formular."
+
+#: src/z3c/form/interfaces.py:182
+msgid "Schema Field"
+msgstr "Câmp definit în schemă"
+
+#: src/z3c/form/interfaces.py:183
+msgid "The schema field that is to be rendered."
+msgstr "Câmpul definit în schemă care urmează să fie redat."
+
+#: src/z3c/form/interfaces.py:187 src/z3c/form/interfaces.py:615
+#: src/z3c/form/interfaces.py:621 src/z3c/form/interfaces.py:947
+msgid "Prefix"
+msgstr "Prefix"
+
+#: src/z3c/form/interfaces.py:188
+msgid "The prefix of the field used to avoid name clashes."
+msgstr "Prefixul câmpului folosit pentru a evita conflictele de nume."
+
+#: src/z3c/form/interfaces.py:192 src/z3c/form/interfaces.py:416
+#: src/z3c/form/interfaces.py:899
+msgid "Mode"
+msgstr "Mod"
+
+#: src/z3c/form/interfaces.py:193
+msgid "The mode in which to render the widget for the field."
+msgstr "Modul în care se redă widgetul pentru câmp."
+
+#: src/z3c/form/interfaces.py:197
+msgid "Interface"
+msgstr "Interfață"
+
+#: src/z3c/form/interfaces.py:198
+msgid "The interface from which the field is coming."
+msgstr "Interfața din care provine câmpul."
+
+#: src/z3c/form/interfaces.py:202 src/z3c/form/interfaces.py:634
+#: src/z3c/form/interfaces.py:878 src/z3c/form/interfaces.py:904
+msgid "Ignore Context"
+msgstr "Ignorați contextul"
+
+#: src/z3c/form/interfaces.py:203 src/z3c/form/interfaces.py:879
+msgid ""
+"A flag, when set, forces the widget not to look at the context for a value."
+msgstr ""
+"Când este setat, forțează widgetul să nu se uite la context pentru "
+"o valoare."
+
+#: src/z3c/form/interfaces.py:208
+msgid "Widget Factory"
+msgstr "Fabrica widgetului"
+
+#: src/z3c/form/interfaces.py:209
+msgid "The widget factory."
+msgstr "Fabrica widgetului."
+
+#: src/z3c/form/interfaces.py:215 src/z3c/form/interfaces.py:467
+msgid "Show default value"
+msgstr "Afișați valoarea implicită"
+
+#: src/z3c/form/interfaces.py:216 src/z3c/form/interfaces.py:468
+msgid ""
+"A flag, when set, makes the widget to displayfield|adapter provided default "
+"values."
+msgstr ""
+"Atunci când este setat, face ca widgetul să afișeze valorile implicite ale câmpului|adaptorului"
+
+#: src/z3c/form/interfaces.py:349
+msgid "True-value Label"
+msgstr "Etichetă cu valoare adevărată"
+
+#: src/z3c/form/interfaces.py:350
+msgid "The label for a true value of the Bool field."
+msgstr "Eticheta pentru o valoare adevărată a câmpului Bool."
+
+#: src/z3c/form/interfaces.py:354
+msgid "False-value Label"
+msgstr "Etichetă cu valoare falsă"
+
+#: src/z3c/form/interfaces.py:355
+msgid "The label for a false value of the Bool field."
+msgstr "Eticheta pentru o valoare falsă a câmpului Bool."
+
+#: src/z3c/form/interfaces.py:399 src/z3c/form/interfaces.py:718
+#: src/z3c/form/interfaces.py:996
+msgid "Name"
+msgstr "Nume"
+
+#: src/z3c/form/interfaces.py:400
+msgid "The name the widget is known under."
+msgstr "Numele sub care este cunoscut widgetul."
+
+#: src/z3c/form/interfaces.py:404 src/z3c/form/interfaces.py:935
+msgid "Label"
+msgstr "Eticheta"
+
+#: src/z3c/form/interfaces.py:405
+msgid ""
+"\n"
+"        The widget label.\n"
+"\n"
+"        Label may be translated for the request.\n"
+"\n"
+"        The attribute may be implemented as either a read-write or "
+"read-only\n"
+"        property, depending on the requirements for a specific "
+"implementation.\n"
+"        "
+msgstr ""
+"\n"
+"        Eticheta widgetului.\n"
+"\n"
+"        Eticheta poate fi tradusă pentru cerere.\n"
+"\n"
+"        Atributul poate fi implementat fie ca citire-scriere, fie ca doar "
+"citire\n"
+"        proprietate, în funcție de cerințele pentru o anumită implementare.\n"
+"        "
+
+#: src/z3c/form/interfaces.py:417
+msgid "A widget mode."
+msgstr "Mod redare widget."
+
+#: src/z3c/form/interfaces.py:422
+msgid "Required"
+msgstr "Necesar"
+
+#: src/z3c/form/interfaces.py:423
+msgid "If true the widget should be displayed as required input."
+msgstr ""
+"Dacă este adevărat, widget-ul ar trebui să fie afișat ca intrare necesară."
+
+#: src/z3c/form/interfaces.py:430
+msgid "If an error occurred during any step, the error view stored here."
+msgstr ""
+"Dacă a apărut o eroare în timpul oricărui pas, vizualizarea erorilor este "
+"stocată aici."
+
+#: src/z3c/form/interfaces.py:435
+msgid "Value"
+msgstr "Valoare"
+
+#: src/z3c/form/interfaces.py:436
+msgid "The value that the widget represents."
+msgstr "Valoarea pe care o reprezintă widget-ul."
+
+#: src/z3c/form/interfaces.py:443 src/z3c/form/interfaces.py:640
+#: src/z3c/form/interfaces.py:910
+msgid "Ignore Request"
+msgstr "Ignorați cererea"
+
+#: src/z3c/form/interfaces.py:444
+msgid ""
+"A flag, when set, forces the widget not to look at the request for a value."
+msgstr ""
+"Atunci când este setat, forțează widget-ul să nu se uite la cererea "
+"pentru o valoare."
+
+#: src/z3c/form/interfaces.py:451 src/z3c/form/interfaces.py:667
+msgid "Set errors"
+msgstr "Setați erori"
+
+#: src/z3c/form/interfaces.py:452
+msgid "A flag, when set, the widget sets error messages on calling extract()."
+msgstr ""
+"Atunci când este setat, widget-ul setează mesaje de eroare la apelarea "
+"extract()."
+
+#: src/z3c/form/interfaces.py:460
+msgid "Ignore Required validation"
+msgstr "Ignorați Validarea necesară"
+
+#: src/z3c/form/interfaces.py:461
+msgid ""
+"If set then required fields will pass validation regardless whether they're "
+"filled in or not"
+msgstr ""
+"Dacă se setează, câmpurile obligatorii vor trece validarea, indiferent dacă "
+"sunt completate sau nu"
+
+#: src/z3c/form/interfaces.py:516
+msgid "NO_VALUE Token"
+msgstr "NO_VALUE Token"
+
+#: src/z3c/form/interfaces.py:517
+msgid "The token to be used, if no value has been selected."
+msgstr "Token-ul care trebuie utilizat, dacă nu a fost selectată nicio valoare."
+
+#: src/z3c/form/interfaces.py:520
+msgid "Terms"
+msgstr "Termeni"
+
+#: src/z3c/form/interfaces.py:521
+msgid "A component that provides the options for selection."
+msgstr "O componentă care oferă opțiuni de selecție."
+
+#: src/z3c/form/interfaces.py:551
+msgid "Prompt"
+msgstr "Prompt"
+
+#: src/z3c/form/interfaces.py:552
+msgid ""
+"A flag, when set, enables a choice explicitely requesting the user to choose "
+"a value."
+msgstr ""
+"Atunci când este setat, permite o alegere solicitând în mod "
+"explicit utilizatorului să aleagă o valoare."
+
+#: src/z3c/form/interfaces.py:557
+msgid "Items"
+msgstr "Articole"
+
+#: src/z3c/form/interfaces.py:558
+msgid ""
+"A collection of dictionaries containing all pieces of information for "
+"rendering. The following keys must be in each dictionary: id, value, "
+"content, selected"
+msgstr ""
+"O colecție de dicționare care conțin toate informațiile pentru redare. "
+"Următoarele chei trebuie să fie în fiecare dicționar: id, value, "
+"content, selected"
+
+#: src/z3c/form/interfaces.py:563
+msgid "No-Value Message"
+msgstr "Mesaj lipsă valoare"
+
+#: src/z3c/form/interfaces.py:564 src/z3c/form/interfaces.py:569
+msgid "A human-readable text that is displayed to refer the missing value."
+msgstr ""
+"Un text care poate fi citit de om, care este afișat pentru a se referi la "
+"valoarea lipsă."
+
+#: src/z3c/form/interfaces.py:568
+msgid "Prompt Message"
+msgstr "Mesaj prompt"
+
+#: src/z3c/form/interfaces.py:616 src/z3c/form/interfaces.py:622
+msgid "The prefix of the widgets."
+msgstr "Prefixul widget-urilor."
+
+#: src/z3c/form/interfaces.py:627
+msgid "Errors"
+msgstr "Erori"
+
+#: src/z3c/form/interfaces.py:628
+msgid "The collection of errors that occured during validation."
+msgstr "Colecția de erori care au apărut în timpul validării."
+
+#: src/z3c/form/interfaces.py:635 src/z3c/form/interfaces.py:905
+msgid "If set the context is ignored to retrieve a value."
+msgstr "Dacă este setat, contextul este ignorat pentru a prelua o valoare."
+
+#: src/z3c/form/interfaces.py:641 src/z3c/form/interfaces.py:911
+msgid "If set the request is ignored to retrieve a value."
+msgstr "Dacă este setată, cererea este ignorată pentru a prelua o valoare."
+
+#: src/z3c/form/interfaces.py:646 src/z3c/form/interfaces.py:916
+msgid "Ignore Readonly"
+msgstr "Ignorați numai în citire"
+
+#: src/z3c/form/interfaces.py:647 src/z3c/form/interfaces.py:917
+msgid "If set then readonly fields will also be shown."
+msgstr "Dacă este setat, vor fi afișate și câmpuri numai în citire."
+
+#: src/z3c/form/interfaces.py:652 src/z3c/form/interfaces.py:922
+msgid "Ignore Required validation on extract"
+msgstr "Ignorați Validarea necesară pentru extragere"
+
+#: src/z3c/form/interfaces.py:653 src/z3c/form/interfaces.py:923
+msgid ""
+"If set then required fields will pass validation on extract regardless "
+"whether they're filled in or not"
+msgstr ""
+"Dacă se setează, câmpurile obligatorii vor trece validarea extrasului, "
+"indiferent dacă sunt completate sau nu"
+
+#: src/z3c/form/interfaces.py:659
+msgid "Has required fields"
+msgstr "Are câmpuri obligatorii"
+
+#: src/z3c/form/interfaces.py:660
+msgid "A flag set when at least one field is marked as required"
+msgstr ""
+"Setat atunci când cel puțin un câmp este marcat ca fiind obligatoriu"
+
+#: src/z3c/form/interfaces.py:668
+msgid ""
+"A flag, when set, the contained widgets set error messages on calling "
+"extract()."
+msgstr ""
+"Un indicator, atunci când este setat, widget-urile conținute setează mesaje "
+"de eroare la apelarea extract()."
+
+#: src/z3c/form/interfaces.py:689 src/z3c/form/zcml.py:71
+msgid "Field"
+msgstr "Câmp"
+
+#: src/z3c/form/interfaces.py:690
+msgid "The schema field which the widget is representing."
+msgstr "Câmpul de schemă pe care îl reprezintă widget-ul."
+
+#: src/z3c/form/interfaces.py:719
+msgid "The object name."
+msgstr "Numele obiectului."
+
+#: src/z3c/form/interfaces.py:725
+msgid "The action title."
+msgstr "Titlul acțiunii."
+
+#: src/z3c/form/interfaces.py:740 src/z3c/form/interfaces.py:990
+msgid "Action"
+msgstr "Acţiune"
+
+#: src/z3c/form/interfaces.py:741
+msgid "The action for which the event is created."
+msgstr "Acțiunea pentru care este creat evenimentul."
+
+#: src/z3c/form/interfaces.py:751
+msgid "The error that occurred during the action."
+msgstr "Eroarea care a apărut în timpul acțiunii."
+
+#: src/z3c/form/interfaces.py:777
+msgid "Access Key"
+msgstr "Cheie de acces"
+
+#: src/z3c/form/interfaces.py:778
+msgid "The key when pressed causes the button to be pressed."
+msgstr "Tasta atunci când este apăsată face ca butonul să fie apăsat."
+
+#: src/z3c/form/interfaces.py:784
+msgid "Action Factory"
+msgstr "Fabrica acțiunii"
+
+#: src/z3c/form/interfaces.py:785
+msgid "The action factory."
+msgstr "Fabrica acțiunii."
+
+#: src/z3c/form/interfaces.py:795
+msgid "Image Path"
+msgstr "Calea imaginii"
+
+#: src/z3c/form/interfaces.py:796
+msgid "A relative image path to the root of the resources."
+msgstr "O cale relativă a imaginii către rădăcina resurselor."
+
+#: src/z3c/form/interfaces.py:842
+msgid "Handlers"
+msgstr "Manipulatorii"
+
+#: src/z3c/form/interfaces.py:843
+msgid "A list of action handlers defined on the form."
+msgstr "O listă de gestionari de acțiuni definiți în formular."
+
+#: src/z3c/form/interfaces.py:852
+msgid "Actions"
+msgstr "Acțiuni"
+
+#: src/z3c/form/interfaces.py:853
+msgid "A list of actions defined on the form"
+msgstr "O listă de acțiuni definite în formular"
+
+#: src/z3c/form/interfaces.py:858
+msgid "Refresh actions"
+msgstr "Acțiuni de reîmprospătare"
+
+#: src/z3c/form/interfaces.py:859
+msgid ""
+"A flag, when set, causes form actions to be updated again after their "
+"execution."
+msgstr ""
+"Un indicator, atunci când este setat, face ca acțiunile din formular să fie "
+"actualizate din nou după executarea lor."
+
+#: src/z3c/form/interfaces.py:874
+msgid "The context in which the widget is displayed."
+msgstr "Contextul în care este afișat widgetul."
+
+#: src/z3c/form/interfaces.py:900
+msgid "The mode in which to render the widgets."
+msgstr "Modul în care să redați widget-urile."
+
+#: src/z3c/form/interfaces.py:929
+msgid "Widgets"
+msgstr "Widgeturi"
+
+#: src/z3c/form/interfaces.py:930
+msgid "A widget manager containing the widgets to be used in the form."
+msgstr ""
+"Un manager de widget-uri care conține widget-urile care vor fi utilizate în "
+"formular."
+
+#: src/z3c/form/interfaces.py:936
+msgid "A human readable text describing the form that can be used in the UI."
+msgstr ""
+"Un text care poate fi citit de om care descrie forma care poate fi utilizată "
+"în UI."
+
+#: src/z3c/form/interfaces.py:941
+msgid "Label required"
+msgstr "Eticheta necesară"
+
+#: src/z3c/form/interfaces.py:942
+msgid ""
+"A human readable text describing the form that can be used in the UI for "
+"rendering a required info legend."
+msgstr ""
+"Un text care poate fi citit de om care descrie formularul care poate fi "
+"utilizat în interfața de utilizare pentru a reda o legendă a informațiilor "
+"necesare."
+
+#: src/z3c/form/interfaces.py:948
+msgid "The prefix of the form used to uniquely identify it."
+msgstr "Prefixul formei folosit pentru a o identifica în mod unic."
+
+#: src/z3c/form/interfaces.py:952
+msgid "Status"
+msgstr "Stare"
+
+#: src/z3c/form/interfaces.py:953
+msgid "The status message of the form."
+msgstr "Mesajul de stare al formularului."
+
+#: src/z3c/form/interfaces.py:991
+msgid "The action defines the URI to which the form data are sent."
+msgstr "Acțiunea definește URI-ul către care sunt trimise datele din formular."
+
+#: src/z3c/form/interfaces.py:997
+msgid "The name of the form used to identify it."
+msgstr "Numele formularului folosit pentru a-l identifica."
+
+#: src/z3c/form/interfaces.py:1001
+msgid "Id"
+msgstr "Id"
+
+#: src/z3c/form/interfaces.py:1002
+msgid "The id of the form used to identify it."
+msgstr "Id-ul formularului folosit pentru a-l identifica."
+
+#: src/z3c/form/interfaces.py:1006
+msgid "Method"
+msgstr "Metodă"
+
+#: src/z3c/form/interfaces.py:1007
+msgid "The HTTP method used to submit the form."
+msgstr "Metoda HTTP utilizată pentru trimiterea formularului."
+
+#: src/z3c/form/interfaces.py:1013
+msgid "Encoding Type"
+msgstr "Tip de codificare"
+
+#: src/z3c/form/interfaces.py:1014
+msgid "The data encoding used to submit the data safely."
+msgstr "Codificarea datelor folosită pentru a trimite datele în siguranță."
+
+#: src/z3c/form/interfaces.py:1019
+msgid "Accepted Character Sets"
+msgstr "Seturi de caractere acceptate"
+
+#: src/z3c/form/interfaces.py:1020
+msgid ""
+"This is a list of character sets the server accepts. By default this is "
+"unknown."
+msgstr ""
+"Aceasta este o listă de seturi de caractere pe care serverul le acceptă. În "
+"mod implicit, acest lucru este necunoscut."
+
+#: src/z3c/form/interfaces.py:1025
+msgid "Accepted Content Types"
+msgstr "Tipuri de conținut acceptate"
+
+#: src/z3c/form/interfaces.py:1026
+msgid "This is a list of content types the server can safely handle."
+msgstr ""
+"Aceasta este o listă de tipuri de conținut pe care serverul le poate "
+"gestiona în siguranță."
+
+#: src/z3c/form/interfaces.py:1064
+msgid "Fields"
+msgstr "Câmpuri"
+
+#: src/z3c/form/interfaces.py:1065
+msgid "A field manager describing the fields to be used for the form."
+msgstr ""
+"Un manager de câmp care descrie câmpurile care vor fi utilizate pentru "
+"formular."
+
+#: src/z3c/form/interfaces.py:1073
+msgid "Content providers"
+msgstr "Furnizorii de conținut"
+
+#: src/z3c/form/interfaces.py:1074
+msgid "A manager describing the content providers to be used for the form."
+msgstr ""
+"Un manager care descrie furnizorii de conținut care vor fi utilizați pentru "
+"formular."
+
+#: src/z3c/form/interfaces.py:1082
+msgid "Buttons"
+msgstr "Butoane"
+
+#: src/z3c/form/interfaces.py:1083
+msgid "A button manager describing the buttons to be used for the form."
+msgstr ""
+"Un manager de butoane care descrie butoanele care vor fi utilizate pentru "
+"formular."
+
+#: src/z3c/form/interfaces.py:1108
+msgid "The widget for which the event was created."
+msgstr "Widgetul pentru care a fost creat evenimentul."
+
+#: src/z3c/form/term.py:153
+msgid "Missing: ${value}"
+msgstr "Lipsește: ${value}"
+
+#: src/z3c/form/term.py:205
+msgid "yes"
+msgstr "da"
+
+#: src/z3c/form/term.py:206
+msgid "no"
+msgstr "nu"
+
+#: src/z3c/form/util.py:131
+msgid "Missing filename extension."
+msgstr "Lipsește extensia fișierului."
+
+#: src/z3c/form/zcml.py:40
+msgid "Layout template."
+msgstr "Șablon pentru aranjare."
+
+#: src/z3c/form/zcml.py:41
+msgid ""
+"Refers to a file containing a page template (should end in extension ``.pt`` "
+"or ``.html``)."
+msgstr ""
+"Se referă la un fișier care conține un șablon de pagină (ar trebui să se "
+"termine cu extensia ``.pt`` sau ``.html``)."
+
+#: src/z3c/form/zcml.py:46
+msgid "The mode of the template."
+msgstr "Modul șablonului."
+
+#: src/z3c/form/zcml.py:47
+msgid "The mode is used to define input and display templates"
+msgstr "Modul este utilizat pentru a defini șabloane de intrare și afișare"
+
+#: src/z3c/form/zcml.py:53 src/z3c/form/zcml.py:65 src/z3c/form/zcml.py:77
+msgid "View"
+msgstr "Vizualizare"
+
+#: src/z3c/form/zcml.py:54 src/z3c/form/zcml.py:66
+msgid "The view for which the template should be available"
+msgstr "Vizualizarea pentru care șablonul ar trebui să fie disponibil"
+
+#: src/z3c/form/zcml.py:59
+msgid "Layer"
+msgstr "Strat"
+
+#: src/z3c/form/zcml.py:60
+msgid "The layer for which the template should be available"
+msgstr "Stratul pentru care șablonul ar trebui să fie disponibil"
+
+#: src/z3c/form/zcml.py:72
+msgid "The field for which the template should be available"
+msgstr "Câmpul pentru care șablonul ar trebui să fie disponibil"
+
+#: src/z3c/form/zcml.py:78
+msgid "The widget for which the template should be available"
+msgstr "Widgetul pentru care șablonul ar trebui să fie disponibil"
+
+#: src/z3c/form/zcml.py:83
+msgid "Content Type"
+msgstr "Tipul conținutului"
+
+#: src/z3c/form/zcml.py:84
+msgid "The content type identifies the type of data."
+msgstr "Tipul de conținut identifică tipul de date."
+
+#: src/z3c/form/zcml.py:90
+msgid "Schema"
+msgstr "Schemă"
+
+#: src/z3c/form/zcml.py:91
+msgid "The schema of the field for which the template should be available"
+msgstr "Schema câmpului pentru care șablonul ar trebui să fie disponibil"

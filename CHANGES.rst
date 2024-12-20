@@ -25,6 +25,10 @@ Changelog
 5.1 (2023-07-19)
 ----------------
 
+- Don't set the boolean required attribute as required.
+  Boolean attributes with a default value which do not have to be set to true
+  should not be marked as required attributes.
+
 - HTMLFormElement.attributes: Allow to extend HTML attributes programmatically.
 
 

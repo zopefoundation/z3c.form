@@ -39,7 +39,7 @@ setup(
         '.. contents:: \n\n'
         + '\n\n'
         + read('CHANGES.rst')),
-    license="ZPL 2.1",
+    license="ZPL-2.1",
     keywords="zope3 form widget",
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -48,7 +48,6 @@ setup(
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
@@ -65,7 +64,7 @@ setup(
     include_package_data=True,
     package_dir={'': 'src'},
     namespace_packages=['z3c'],
-    python_requires='>=3.8',
+    python_requires='>=3.9',
     extras_require=dict(
         extra=[
             'z3c.pt >= 2.1',

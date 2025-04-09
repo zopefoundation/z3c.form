@@ -5,13 +5,9 @@ Changelog
 5.2 (unreleased)
 ----------------
 
-- Drop support for Python 3.8.
-
-- Drop support for Python 3.7.
-
 - Add support for Python 3.12, 3.13.
 
-- Improve Italian translation
+- Improve Italian translation.
   (`#121 <https://github.com/zopefoundation/z3c.form/pull/121>`_)
 
 - Add basque (eu) translation.
@@ -21,7 +17,9 @@ Changelog
 - Drop support for deprecated ``persistent.dict.PersistentDict``, as a
   replacement please use ``persistent.mapping.PersistentMapping`` instead.
 
-- Added Romanian translations.
+- Add Romanian translations.
+
+- Drop support for Python 3.7, 3.8.
 
 
 5.1 (2023-07-19)

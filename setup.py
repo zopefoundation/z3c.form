@@ -15,7 +15,6 @@
 """
 import os
 
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -29,7 +28,7 @@ def read(*rnames):
 
 setup(
     name='z3c.form',
-    version='5.3.dev0',
+    version='6.0.dev0',
     author="Stephan Richter, Roger Ineichen and the Zope Community",
     author_email="zope-dev@zope.dev",
     description="An advanced form and widget framework for Zope 3",
@@ -60,10 +59,7 @@ setup(
         'Framework :: Zope :: 3',
     ],
     url='https://github.com/zopefoundation/z3c.form',
-    packages=find_packages('src'),
     include_package_data=True,
-    package_dir={'': 'src'},
-    namespace_packages=['z3c'],
     python_requires='>=3.9',
     extras_require=dict(
         extra=[

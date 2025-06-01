@@ -34,6 +34,30 @@ class TextWidget(widget.HTMLTextInputWidget, Widget):
     css = 'text'
     value = ''
 
+    @property
+    def step(self):
+        if zope.schema.interfaces.IInt.providedBy(self.field):
+            return 1
+        elif (
+            zope.schema.interfaces.IFloat.providedBy(self.field)
+            or zope.schema.interfaces.IDecimal.providedBy(self.field)
+        ):
+            return 'any'
+
+        # Default - if no number type - is to not include the step attribute
+        return None
+
+    @property
+    def type(self):
+        if (
+            zope.schema.interfaces.IInt.providedBy(self.field)
+            or zope.schema.interfaces.IFloat.providedBy(self.field)
+            or zope.schema.interfaces.IDecimal.providedBy(self.field)
+        ):
+            return 'number'
+        else:
+            return 'text'
+
     def update(self):
         super().update()
         widget.addFieldClass(self)

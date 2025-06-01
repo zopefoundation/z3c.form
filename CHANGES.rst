@@ -5,7 +5,9 @@ Changelog
 6.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add support for input type "number" for zope.schema.Int, zope.schema.Float
+  and zope.schema.Decimal fields.
+  [thet]
 
 
 6.0.1 (2025-07-02)

@@ -86,3 +86,48 @@ Check HIDDEN_MODE:
   >>> widget.mode = interfaces.HIDDEN_MODE
   >>> print(widget.render())
   <input id="id" name="name" value="foobar" class="hidden-widget" type="hidden" />
+
+
+Number widgets - Integer
+------------------------
+
+Let's create a new widget for integer fields
+
+  >>> integer_widget = text.TextWidget(request)
+  >>> integer_widget.name = 'integer-name'
+  >>> integer_widget.field = zope.schema.Int()
+
+  >>> print(integer_widget.render())
+  <input
+      class="text-widget"
+      name="integer-name"
+      step="1"
+      type="number"
+      value=""
+      >
+
+  >>> float_widget = text.TextWidget(request)
+  >>> float_widget.name = 'float-name'
+  >>> float_widget.field = zope.schema.Float()
+
+  >>> print(float_widget.render())
+  <input
+      class="text-widget"
+      name="float-name"
+      step="any"
+      type="number"
+      value=""
+      >
+
+  >>> decimal_widget = text.TextWidget(request)
+  >>> decimal_widget.name = 'decimal-name'
+  >>> decimal_widget.field = zope.schema.Float()
+
+  >>> print(decimal_widget.render())
+  <input
+      class="text-widget"
+      name="decimal-name"
+      step="any"
+      type="number"
+      value=""
+      >

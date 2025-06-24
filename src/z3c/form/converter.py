@@ -295,14 +295,15 @@ class SequenceDataConverter(BaseDataConverter):
             return []
         # Look up the term in the terms
         terms = self.widget.updateTerms()
-        term = terms.getTerm(value)
-        if term is None:
-            return []
+        term = None
         try:
-            return [term.token]
+            term = terms.getTerm(value)
         except LookupError:
             # Swallow lookup errors, in case the options changed.
             return []
+        if term is None:
+            return []
+        return [term.token]
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
@@ -328,13 +329,14 @@ class CollectionSequenceDataConverter(BaseDataConverter):
             widget.updateTerms()
         values = []
         for entry in value:
-            term = widget.terms.getTerm(entry)
+            term = None
+            try:
+                term = widget.terms.getTerm(entry)
+            except LookupError:
+                # Swallow lookup errors, in case the options changed.
+                pass
             if term is not None:
-                try:
-                    values.append(term.token)
-                except LookupError:
-                    # Swallow lookup errors, in case the options changed.
-                    pass
+                values.append(term.token)
         return values
 
     def toFieldValue(self, value):

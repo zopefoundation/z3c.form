@@ -295,7 +295,6 @@ class SequenceDataConverter(BaseDataConverter):
             return []
         # Look up the term in the terms
         terms = self.widget.updateTerms()
-        term = None
         try:
             term = terms.getTerm(value)
         except LookupError:

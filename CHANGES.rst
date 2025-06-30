@@ -5,7 +5,7 @@ Changelog
 6.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fixed Converter error: avoid attribute error in case term is None. refs #127 
 
 
 6.0 (2025-04-14)

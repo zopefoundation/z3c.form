@@ -2,8 +2,8 @@
 Changelog
 =========
 
-6.1 (unreleased)
-----------------
+6.0.1 (2025-07-02)
+------------------
 
 - Fix converter error: avoid ``AttributeError`` in case term is ``None``.
   (`#127 <https://github.com/zopefoundation/z3c.form/issues/127>`_)

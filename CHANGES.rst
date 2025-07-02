@@ -5,7 +5,8 @@ Changelog
 6.1 (unreleased)
 ----------------
 
-- Fixed Converter error: avoid attribute error in case term is None. refs #127 
+- Fix converter error: avoid ``AttributeError`` in case term is ``None``.
+  (`#127 <https://github.com/zopefoundation/z3c.form/issues/127>`_)
 
 
 6.0 (2025-04-14)

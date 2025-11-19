@@ -1,0 +1,106 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="z3c.form">
+
+  <class class=".text.TextWidget">
+    <require
+        permission="zope.Public"
+        interface="z3c.form.interfaces.ITextWidget"
+        />
+  </class>
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IBytesLine
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IASCIILine
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.ITextLine
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IId
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IInt
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IFloat
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IDecimal
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IDate
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IDatetime
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.ITime
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.ITimedelta
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory=".text.TextFieldWidget"
+      for="zope.schema.interfaces.IURI
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      mode="display"
+      widget="z3c.form.interfaces.ITextWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="text_display.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ITextWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="text_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="hidden"
+      widget="z3c.form.interfaces.ITextWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="text_hidden.pt"
+      />
+
+</configure>

@@ -5,7 +5,7 @@ Changelog
 6.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Drop support for Python 3.9.
 
 
 6.0.1 (2025-07-02)

@@ -1,13 +1,92 @@
-# 
-# Generated from:
-# https://github.com/zopefoundation/meta/tree/master/config/pure-python
-
+# Generated with zope.meta (https://zopemeta.readthedocs.io/) from:
+# https://github.com/zopefoundation/meta/tree/master/src/zope/meta/pure-python
 [build-system]
 requires = [
-    "setuptools == 75.8.2",
+    "setuptools >= 78.1.1,< 81",
     "wheel",
 ]
 build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "z3c.form"
+version = "6.1.dev0"
+description = "An advanced form and widget framework for Zope 3"
+license = "ZPL-2.1"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: WWW/HTTP",
+    "Framework :: Zope :: 3",
+]
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "Stephan Richter, Roger Ineichen and the Zope Community",email = "zope-dev@zope.dev"},
+]
+maintainers = [
+    {name = "Plone Foundation and contributors",email = "zope-dev@zope.dev"},
+]
+dependencies = [
+    "zope.browser",
+    "zope.browserpage",
+    "zope.browserresource",
+    "zope.component",
+    "zope.configuration >= 4.3",
+    "zope.contentprovider",
+    "zope.event",
+    "zope.i18n",
+    "zope.i18nmessageid",
+    "zope.interface",
+    "zope.lifecycleevent",
+    "zope.location",
+    "zope.pagetemplate",
+    "zope.publisher",
+    "zope.schema >= 4.7",
+    "zope.security",
+    "zope.site",
+    "zope.traversing",
+]
+
+[project.optional-dependencies]
+extra = [
+    'z3c.pt >= 2.1',
+    'z3c.ptcompat>=1.0',
+    'zope.pagetemplate >= 3.6.2',
+]
+test = [
+    'lxml >= 5.3',
+    'persistent',
+    'z3c.template >= 1.3',
+    'zc.sourcefactory',
+    'zope.container',
+    'zope.password',
+    'zope.testing',
+]
+adding = ['zope.app.container >= 3.7']
+docs = [
+    'Sphinx',
+    'repoze.sphinx.autointerface',
+]
+
+keywords = ["zope3", "form", "widget"]
+
+[project.urls]
+Source = "https://github.com/zopefoundation/z3c.form"
+Documentation = "https://z3cform.readthedocs.io/"
+Issues = "https://github.com/zopefoundation/z3c.form/issues"
+Changelog = "https://raw.githubusercontent.com/zopefoundation/z3c.form/master/CHANGES.rst"
 
 [tool.coverage.run]
 branch = true
@@ -31,3 +110,7 @@ exclude_lines = [
 
 [tool.coverage.html]
 directory = "parts/htmlcov"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "CHANGES.rst"]}
+

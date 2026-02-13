@@ -69,6 +69,8 @@ class SelectWidget(widget.HTMLSelectWidget, SequenceWidget):
             })
 
         ignored = set(self.value)
+        if self.noValueToken in ignored:
+            ignored.remove(self.noValueToken)
 
         def addItem(idx, term, prefix=''):
             selected = self.isSelected(term)

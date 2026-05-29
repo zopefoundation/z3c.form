@@ -475,6 +475,72 @@ No access:
 
   >>> z3c.form.datamanager.AttributeField.canAccess = save
 
+Datetime and timezone comparison:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  >>> from datetime import datetime
+  >>> from zoneinfo import ZoneInfo
+
+Create a schema and a object with a datetime field:
+
+  >>> class IEvent(zope.interface.Interface):
+  ...     start = zope.schema.Datetime(title='start')
+
+  >>> @zope.interface.implementer(IEvent)
+  ... class Event(object):
+  ...     start = None
+  >>> event = Event()
+
+  >>> dt_fld = IEvent['start'].bind(event)
+
+Set up some timezones. tz1 and tz2 have the same offsets.
+
+  >>> tz1 = ZoneInfo("Europe/Vienna")
+  >>> tz2 = ZoneInfo("Europe/Berlin")
+  >>> tz3 = ZoneInfo("America/Los_Angeles")
+
+Set up some dates with these timezones. dt1 and dt2 have the same
+offset.
+
+  >>> dt1 = datetime(2026, 9, 26, 12, 10, tzinfo=tz1)
+  >>> dt2 = datetime(2026, 9, 26, 12, 10, tzinfo=tz2)
+  >>> dt3 = datetime(2026, 9, 26, 12, 10, tzinfo=tz3)
+
+Different timezones with the same offset are not equal ...:
+
+  >>> tz1 == tz2
+  False
+
+  >>> tz1 == tz3
+  False
+
+... but dates are:
+
+  >>> dt1 == dt2
+  True
+
+  >>> dt1 == dt3
+  False
+
+For saving we want a timezone change to be saved, even
+if the timezone offset is the same. util.changedField
+handles that.
+
+Set the start date of the object:
+  >>> event.start = dt1
+
+Now compare against different dates in different timezones, where dt1
+and dt2 have the same offset.
+
+  >>> util.changedField(dt_fld, dt1)
+  False
+
+  >>> util.changedField(dt_fld, dt2)
+  True
+
+  >>> util.changedField(dt_fld, dt3)
+  True
+
 
 `changedWidget()` function
 ---------------------------

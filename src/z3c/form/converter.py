@@ -347,7 +347,8 @@ class CollectionSequenceDataConverter(BaseDataConverter):
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]
         return collectionType([widget.terms.getValue(token)
-                              for token in value])
+                              for token in value
+                              if token != widget.noValueToken])
 
 
 class TextLinesConverter(BaseDataConverter):

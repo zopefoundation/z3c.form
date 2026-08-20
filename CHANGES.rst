@@ -11,6 +11,9 @@ Changelog
 
 - Drop support for Python 3.9.
 
+- Correctly handle the ``noValueToken`` in ``CollectionSequenceDataConverter``.
+  (`#132 <https://github.com/zopefoundation/z3c.form/pull/132>`_)
+
 
 6.0.1 (2025-07-02)
 ------------------

@@ -715,6 +715,16 @@ given:
   >>> csdv.toWidgetValue(genders.missing_value)
   []
 
+When the field is not required, the widget renders a "no value" option. If the
+user picks it, its token is submitted and reaches the converter. The token is
+not part of the terms, so it is ignored:
+
+  >>> csdv.toFieldValue([seqWidget.noValueToken])
+  []
+
+  >>> csdv.toFieldValue(['m', seqWidget.noValueToken])
+  [0]
+
 For some field, like the ``Set``, the collection type is a tuple. Sigh. In
 these cases we use the last entry in the tuple as the type to use:
 

@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "z3c.form"
-version = "6.1.dev0"
+version = "6.1"
 description = "An advanced form and widget framework for Zope 3"
 license = "ZPL-2.1"
 classifiers = [

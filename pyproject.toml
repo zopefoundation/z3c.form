@@ -2,15 +2,14 @@
 # https://github.com/zopefoundation/meta/tree/master/src/zope/meta/pure-python
 [build-system]
 requires = [
-    "setuptools >= 78.1.1,< 81",
+    "setuptools >= 78.1.1,< 82",
     "wheel",
 ]
 build-backend = "setuptools.build_meta"
 
-
 [project]
 name = "z3c.form"
-version = "6.1.dev0"
+version = "6.2.dev0"
 description = "An advanced form and widget framework for Zope 3"
 license = "ZPL-2.1"
 classifiers = [
@@ -114,3 +113,7 @@ directory = "parts/htmlcov"
 [tool.setuptools.dynamic]
 readme = {file = ["README.rst", "CHANGES.rst"]}
 
+[tool.zest-releaser]
+create-wheel = false
+extra-message = ""
+upload-pypi = false

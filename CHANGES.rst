@@ -2,18 +2,23 @@
 Changelog
 =========
 
-6.1 (unreleased)
+6.2 (unreleased)
 ----------------
 
-- Move package metadata from setup.py to pyproject.toml.
+- Nothing changed yet.
 
-- Add support for Python 3.14.
+
+6.1 (2026-08-21)
+----------------
 
 - Drop support for Python 3.9.
+
+- Add support for Python 3.14.
 
 - Correctly handle the ``noValueToken`` in ``CollectionSequenceDataConverter``.
   (`#132 <https://github.com/zopefoundation/z3c.form/pull/132>`_)
 
+- Move package metadata from setup.py to pyproject.toml.
 
 6.0.1 (2025-07-02)
 ------------------

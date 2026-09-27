@@ -182,10 +182,13 @@ def changedField(field, value, context=None):
     # now figure value chaged status
     # Or we can not get the original value, in which case we can not check
     # Or it is an Object, in case we'll never know
-    if (not dm.canAccess() or dm.query() != value):
+    if not dm.canAccess():
         return True
-    else:
-        return False
+    old_value = dm.query()
+    if old_value != value:
+        return True
+    # Check for timezone equality, if it exists.
+    return getattr(old_value, "tzinfo", None) != getattr(value, "tzinfo", None)
 
 
 def changedWidget(widget, value, field=None, context=None):

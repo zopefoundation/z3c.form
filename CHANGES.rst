@@ -5,7 +5,13 @@ Changelog
 6.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- utils changedField: Compare also for timezone equality.
+  When saving a new value for a datetime field with a different timezone but
+  the same offset, ``utils.changedField`` was preventing to recognize the
+  change. Now it is - datetime values which resolve to the same date, time and
+  UTC offset but are in a different timezone are now considered not the same
+  value.
+  (`#136 <https://github.com/zopefoundation/z3c.form/issues/136>`_)
 
 
 6.1 (2026-08-21)

@@ -18,6 +18,7 @@ import decimal
 
 import zope.component
 import zope.i18n.format
+import zope.i18n.locales
 import zope.interface
 import zope.publisher.browser
 import zope.schema
@@ -25,6 +26,29 @@ import zope.schema
 from z3c.form import interfaces
 from z3c.form import util
 from z3c.form.i18n import MessageFactory as _
+
+
+def getRequestLocale(request):
+    """Return a locale object for the given request.
+
+    ``request.locale`` is usually lazily negotiated by the publisher and
+    is an object with ``numbers``/``dates`` attributes. However, some
+    request implementations (notably ``ZPublisher.HTTPRequest``) look up
+    plain request data, such as a form field, a query string parameter or
+    a cookie, before falling back to the negotiated locale. If the request
+    happens to carry a value called ``locale`` for unrelated reasons,
+    ``request.locale`` then returns that plain string verbatim instead of
+    the expected locale object, which cannot be used to look up a
+    formatter.
+
+    Guard against that mix-up by falling back to the default locale
+    whenever ``request.locale`` turns out to be a plain string rather than
+    a real locale object.
+    """
+    locale = request.locale
+    if isinstance(locale, str):
+        locale = zope.i18n.locales.locales.getLocale(None, None, None)
+    return locale
 
 
 @zope.interface.implementer(interfaces.IDataConverter)
@@ -121,7 +145,7 @@ class NumberDataConverter(BaseDataConverter):
 
     def __init__(self, field, widget):
         super().__init__(field, widget)
-        locale = self.widget.request.locale
+        locale = getRequestLocale(self.widget.request)
         self.formatter = locale.numbers.getFormatter('decimal')
         self.formatter.type = self.type
 
@@ -173,7 +197,7 @@ class CalendarDataConverter(BaseDataConverter):
 
     def __init__(self, field, widget):
         super().__init__(field, widget)
-        locale = self.widget.request.locale
+        locale = getRequestLocale(self.widget.request)
         self.formatter = locale.dates.getFormatter(self.type, self.length)
 
     def toWidgetValue(self, value):

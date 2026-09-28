@@ -5,7 +5,12 @@ Changelog
 6.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix ``NumberDataConverter`` and ``CalendarDataConverter`` raising an
+  ``AttributeError`` when ``request.locale`` is shadowed by a plain string
+  (for example a ``locale`` cookie or form value on ``ZPublisher.HTTPRequest``,
+  which is looked up before the negotiated locale), instead of falling back to
+  the default locale.
+  (`#134 <https://github.com/zopefoundation/z3c.form/issues/134>`_)
 
 
 6.1 (2026-08-21)

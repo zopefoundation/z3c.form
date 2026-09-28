@@ -135,6 +135,27 @@ class ConverterFixTests(unittest.TestCase):
         self.assertEqual(ndc.toWidgetValue(OUR_NONE), '')
         self.assertEqual(ndc.toWidgetValue([]), '[]')
 
+    def test_NumberDataConverter_shadowed_request_locale(self):
+        # Some request implementations (ZPublisher.HTTPRequest in
+        # particular) resolve plain request data, such as a cookie, a
+        # query string parameter or a form field, before falling back to
+        # the negotiated locale. If such a request happens to carry a
+        # value named "locale" for unrelated reasons, `request.locale`
+        # then yields that plain string instead of a real locale object,
+        # and NumberDataConverter (as well as its Integer/Float/Decimal
+        # subclasses and CalendarDataConverter) used to blow up with an
+        # AttributeError while trying to look up a formatter on it.
+        from z3c.form.converter import NumberDataConverter
+
+        field = Mock()
+        field.missing_value = None
+        widget = Mock()
+        widget.request = Mock()
+        # a stray request value shadows the negotiated locale
+        widget.request.locale = 'de'
+        ndc = NumberDataConverter(field, widget)
+        self.assertEqual(ndc.toWidgetValue(1234), '1,234')
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

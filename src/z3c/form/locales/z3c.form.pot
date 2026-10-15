@@ -646,4 +646,3 @@ msgstr ""
 #: src/z3c/form/zcml.py:91
 msgid "The schema of the field for which the template should be available"
 msgstr ""
-

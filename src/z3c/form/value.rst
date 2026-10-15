@@ -10,9 +10,9 @@ were representing. Thus, wanting to change the label of a widget meant
 implementing a custom schema and re-registering the form in question for the
 custom schema. It is needless to say that this was very annoying.
 
-For this form framework, we are providing multiple levels of customization. 
-The user has the choice to change the value of an attribute through attribute 
-assignment or adapter lookup. The chronological order of an attribute value 
+For this form framework, we are providing multiple levels of customization.
+The user has the choice to change the value of an attribute through attribute
+assignment or adapter lookup. The chronological order of an attribute value
 assignment is as follows:
 
 1. During initialization or right thereafter, the attribute value can be set

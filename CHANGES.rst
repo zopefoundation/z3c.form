@@ -5,7 +5,9 @@ Changelog
 6.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- ``OrderedSelectWidget`` now shows the selected items of its current value,
+  even when the value is set after ``update()``. Inside an ``ObjectWidget``
+  the saved selection was not displayed.
 
 
 6.1 (2026-08-21)

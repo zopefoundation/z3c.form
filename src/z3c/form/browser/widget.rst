@@ -137,4 +137,3 @@ Note: This only works if you use Chameleon templates. It does not work with the 
 This is how you would write your Chameleon template::
 
   <input type="text" tal:attributes="view/attributes" />
-

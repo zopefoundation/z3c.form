@@ -35,8 +35,6 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
     size = 5
     multiple = 'multiple'
     items = ()
-    selectedItems = ()
-    notselectedItems = ()
 
     def getItem(self, term, count=0):
         id = '%s-%i' % (self.id, count)
@@ -53,10 +51,23 @@ class OrderedSelectWidget(widget.HTMLSelectWidget, SequenceWidget):
         self.items = [
             self.getItem(term, count)
             for count, term in enumerate(self.terms)]
-        self.selectedItems = [
+
+    # The selection is computed from the current value, not in ``update()``:
+    # the value can be set after ``update()``, as ``ObjectWidget`` does for
+    # its subwidgets.
+    @property
+    def selectedItems(self):
+        if self.terms is None:
+            return ()
+        return [
             self.getItem(self.terms.getTermByToken(token), count)
             for count, token in enumerate(self.value)]
-        self.notselectedItems = self.deselect()
+
+    @property
+    def notselectedItems(self):
+        if self.terms is None:
+            return ()
+        return self.deselect()
 
     def deselect(self):
         selecteditems = []

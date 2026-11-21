@@ -170,6 +170,24 @@ The json data representing the oredered select widget:
    'type': 'multiSelect',
    'value': ['b']}
 
+The selection follows the value even when the value is set after
+``update()``, as ``ObjectWidget`` does for its subwidgets:
+
+  >>> widget.value = ['c', 'a']
+  >>> print(testing.render(widget, './/table//select[@id="widget-id-to"]'))
+  <select id="widget-id-to" name="widget.name.to"
+          size="5" multiple="multiple">
+    <option value="c">C</option>
+    <option value="a">A</option>
+  </select>
+
+  >>> print(testing.render(widget, './/table//select[@id="widget-id-from"]'))
+  <select id="widget-id-from" name="widget.name.from"
+          size="5" multiple="multiple">
+    <option value="b">B</option>
+    <option value="d">A</option>
+  </select>
+
 Let's now make sure that we can extract user entered data from a widget:
 
   >>> widget.request = testing.TestRequest(form={'widget.name': ['c']})

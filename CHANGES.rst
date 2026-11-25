@@ -5,6 +5,14 @@ Changelog
 6.2 (unreleased)
 ----------------
 
+- utils changedField: Compare also for timezone equality.
+  When saving a new value for a datetime field with a different timezone but
+  the same offset, ``utils.changedField`` was preventing to recognize the
+  change. Now it is - datetime values which resolve to the same date, time and
+  UTC offset but are in a different timezone are now considered not the same
+  value.
+  (`#136 <https://github.com/zopefoundation/z3c.form/issues/136>`_)
+
 - ``OrderedSelectWidget`` now shows the selected items of its current value,
   even when the value is set after ``update()``. Inside an ``ObjectWidget``
   the saved selection was not displayed.

@@ -2,7 +2,7 @@
 Changelog
 =========
 
-6.2 (unreleased)
+6.2 (2026-11-25)
 ----------------
 
 - utils changedField: Compare also for timezone equality.

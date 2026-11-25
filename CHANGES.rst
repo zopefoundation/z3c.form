@@ -5,6 +5,10 @@ Changelog
 6.2 (unreleased)
 ----------------
 
+- ``OrderedSelectWidget`` now shows the selected items of its current value,
+  even when the value is set after ``update()``. Inside an ``ObjectWidget``
+  the saved selection was not displayed.
+
 - Add support for Python 3.15.
 
 - Drop support for Python 3.10.

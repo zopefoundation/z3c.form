@@ -12,6 +12,14 @@ Changelog
   UTC offset but are in a different timezone are now considered not the same
   value.
   (`#136 <https://github.com/zopefoundation/z3c.form/issues/136>`_)
+  
+- ``OrderedSelectWidget`` now shows the selected items of its current value,
+  even when the value is set after ``update()``. Inside an ``ObjectWidget``
+  the saved selection was not displayed.
+
+- Add support for Python 3.15.
+
+- Drop support for Python 3.10.
 
 
 6.1 (2026-08-21)
@@ -832,7 +840,7 @@ Features
 ~~~~~~~~
 
 - KGS 3.4 compatibility. This is a real hard thing, because ``z3c.form`` tests
-  use ``lxml`` >= 2.1.1 to check test output, but KGS 3.4 has ``lxml` 1.3.6.
+  use ``lxml`` >= 2.1.1 to check test output, but KGS 3.4 has ``lxml`` 1.3.6.
   Therefore we agree on that if tests pass with all package versions nailed by
   KGS 3.4 but ``lxml`` overridden to 2.1.1 then the ``z3c.form`` package works
   with a plain KGS 3.4.
@@ -862,7 +870,7 @@ Features
   basic and contextual sources.
 
   **IMPORTANT:** The ``ChoiceTerms`` and ``CollectionTerms`` in
-  ``z3c.form.term` are now simple functions that query for real ``ITerms``
+  ``z3c.form.term`` are now simple functions that query for real ``ITerms``
   adapters for field's ``source`` or ``value_type`` respectively. So if your
   code inherits the old ``ChoiceTerms`` and ``CollectionTerms`` classes, you'll
   need to review and adapt it. See the ``z3c.form.term`` module and its

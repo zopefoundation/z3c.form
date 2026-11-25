@@ -12,7 +12,7 @@ Changelog
   UTC offset but are in a different timezone are now considered not the same
   value.
   (`#136 <https://github.com/zopefoundation/z3c.form/issues/136>`_)
-  
+
 - ``OrderedSelectWidget`` now shows the selected items of its current value,
   even when the value is set after ``update()``. Inside an ``ObjectWidget``
   the saved selection was not displayed.
